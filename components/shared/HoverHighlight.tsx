@@ -85,7 +85,7 @@ export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>(
 
   const pathD = useTransform(
     [left, top, width, height, bendX],
-    ([l, t, w, h, bx]) => {
+    ([l, t, w, h, bx]: number[]) => {
       if (w <= 0 || h <= 0) return "";
       return rubberRectPath(l, t, w, h, bx, bendScale, cornerRadius);
     },
