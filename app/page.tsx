@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import {
   getAllCaseStudies,
+  getAllFaqs,
   getAllIndustries,
   getAllProducts,
   getAllServices,
@@ -16,13 +17,15 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/components/shared/Button";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { ServicesShowcaseGrid } from "@/components/sections/ServicesShowcaseGrid";
-import { IndustryCard } from "@/components/shared/IndustryCard";
+import { IndustryShowcaseGrid } from "@/components/sections/IndustryShowcaseGrid";
 import { ProductCard } from "@/components/shared/ProductCard";
 import { LogoTicker } from "@/components/sections/LogoTicker";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StatsRow } from "@/components/sections/StatsRow";
+import { BenefitsGrid } from "@/components/sections/BenefitsGrid";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { TestimonialSlider } from "@/components/sections/TestimonialSlider";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { DarkCTA } from "@/components/sections/DarkCTA";
 
 export const metadata: Metadata = {
@@ -40,21 +43,24 @@ const PROCESS_STEPS = [
 
 const PILLARS = [
   {
+    tagline: "Infrastructure",
     title: "We build the infrastructure",
     body: "Websites, AI agents, and automations that run 24/7 without anyone watching them.",
   },
   {
+    tagline: "Revenue",
     title: "We wire it to your revenue",
     body: "Everything connects. CRM, lead capture, follow-up, and reporting move as one system.",
   },
   {
+    tagline: "Ownership",
     title: "We hand you the controls",
     body: "Dashboards and SOPs so you own what we build, long after launch.",
   },
 ];
 
 export default async function HomePage() {
-  const [services, industries, featuredCases, allCases, testimonials, products, settings] =
+  const [services, industries, featuredCases, allCases, testimonials, products, settings, faqs] =
     await Promise.all([
       getAllServices(),
       getAllIndustries(),
@@ -63,9 +69,16 @@ export default async function HomePage() {
       getFeaturedTestimonials(),
       getAllProducts(),
       getSiteSettings(),
+      getAllFaqs(),
     ]);
 
   const serviceCovers = services.map((_, i) => ({
+    image: allCases[i % allCases.length]?.image ?? "",
+    accent: allCases[i % allCases.length]?.accent,
+  }));
+
+  const benefits = PILLARS.map((pillar, i) => ({
+    ...pillar,
     image: allCases[i % allCases.length]?.image ?? "",
     accent: allCases[i % allCases.length]?.accent,
   }));
@@ -88,16 +101,9 @@ export default async function HomePage() {
             text="Not an agency. A systems partner."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
-          <Stagger className="mt-14 grid gap-10 md:grid-cols-3">
-            {PILLARS.map((pillar) => (
-              <div key={pillar.title} className="border-t border-zn-border pt-6">
-                <h3 className="font-sans text-lg font-normal tracking-tight text-zn-text">
-                  {pillar.title}
-                </h3>
-                <p className="mt-3 leading-relaxed text-zn-text-2">{pillar.body}</p>
-              </div>
-            ))}
-          </Stagger>
+        </div>
+        <div className="zn-container-guides relative mt-14">
+          <BenefitsGrid items={benefits} />
         </div>
       </section>
 
@@ -126,19 +132,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section data-theme="light" className="relative zn-section">
+      {/* Stats — hand off into sage */}
+      <section
+        data-theme="light"
+        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-bg to-zn-sage-mid"
+      >
         <BlueprintGrid />
-        <div className="zn-container relative">
+        <div className="zn-container-guides relative">
           <StatsRow stats={settings.stats} />
         </div>
       </section>
 
-      {/* Process — sage gradient from site background */}
+      {/* Process — full sage */}
       <section
         data-theme="light"
-        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-bg via-zn-sage-mid to-zn-sage"
+        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage-mid via-zn-sage-mid to-zn-sage"
       >
+        <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
         <BlueprintGrid />
         <div className="zn-container relative">
           <Reveal>
@@ -155,11 +165,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Industries */}
+      {/* Industries — sage fading back to site background */}
       <section
         data-theme="light"
-        className="relative zn-section bg-gradient-to-b from-zn-sage to-zn-bg"
+        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage to-zn-bg"
       >
+        <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
         <BlueprintGrid />
         <div className="zn-container relative">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
@@ -179,24 +190,20 @@ export default async function HomePage() {
               </Button>
             </Reveal>
           </div>
-          <Stagger
-            className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5"
-            stagger={0.04}
-          >
-            {industries.map((industry) => (
-              <IndustryCard key={industry.slug} industry={industry} />
-            ))}
-          </Stagger>
         </div>
+        <IndustryShowcaseGrid industries={industries} />
       </section>
 
-      {/* Testimonials (dark) */}
+      {/* Testimonials */}
       <section data-theme="dark" data-bg="dark" className="zn-section bg-zn-dark text-zn-inv">
         <div className="zn-container">
-          <div className="flex justify-center">
+          <div className="max-w-xl">
             <SectionLabel className="text-zn-inv-2" withRule={false}>
               What clients say
             </SectionLabel>
+            <h2 className="mt-6 zn-h2 font-sans font-normal text-zn-inv">
+              Proof from the field
+            </h2>
           </div>
           <div className="mt-12">
             <TestimonialSlider testimonials={testimonials} />
@@ -219,7 +226,7 @@ export default async function HomePage() {
                 className="mt-6 zn-h2 font-sans font-normal"
               />
               <Reveal delay={0.1}>
-                <p className="mt-5 max-w-md leading-relaxed text-zn-text-2">
+                <p className="zn-prose mt-5 max-w-md">
                   Beyond client work, we ship software and tools for the
                   ecosystems we work in.
                 </p>
@@ -240,6 +247,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <FaqSection faqs={faqs} />
 
       <DarkCTA />
     </>

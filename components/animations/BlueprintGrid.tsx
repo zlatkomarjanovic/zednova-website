@@ -14,7 +14,6 @@ export function BlueprintGrid({ className, immediate = false }: BlueprintGridPro
     <BlueprintGuides
       className={cn(className)}
       reveal={immediate ? "immediate" : "scroll"}
-      showTicks
       showEdgeCrosses={false}
     />
   );

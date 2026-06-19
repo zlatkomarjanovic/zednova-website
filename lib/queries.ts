@@ -151,3 +151,10 @@ export async function getTeamMember(slug: string): Promise<TeamMember | null> {
 export async function getSiteSettings(): Promise<SiteSettings> {
   return siteSettings;
 }
+
+/* ----------------------------- FAQ ----------------------------- */
+
+export async function getAllFaqs() {
+  const { faqs } = await import("@/lib/content/faq");
+  return [...faqs].sort(byOrder);
+}

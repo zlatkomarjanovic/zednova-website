@@ -79,7 +79,7 @@ export function MegaMenu({
 
   return (
     <div ref={panelRef} className="relative bg-zn-bg">
-      <BlueprintGuides reveal="none" showTicks={false} showEdgeCrosses={false} />
+      <BlueprintGuides reveal="none" showEdgeCrosses={false} />
 
       <div className="zn-container-guides relative">
         <div

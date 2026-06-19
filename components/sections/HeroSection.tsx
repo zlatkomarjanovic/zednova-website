@@ -18,12 +18,11 @@ export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
   return (
     <section
       data-theme="light"
-      className="relative flex min-h-dvh flex-col overflow-hidden bg-zn-bg"
+      className="relative flex min-h-dvh flex-col overflow-hidden bg-gradient-to-b from-zn-bg via-zn-bg to-zn-sage-mid"
     >
-      <div className="zn-grain absolute inset-0" aria-hidden="true" />
+      <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
       <BlueprintGrid immediate />
 
-      {/* Single guide column — text inset, gallery flush between vertical lines */}
       <div className="zn-container-guides relative flex min-h-0 flex-1 flex-col pb-8 lg:pb-10">
         <div className="zn-container-inset flex shrink-0 flex-col pt-28 pb-0 lg:pt-32">
           <Reveal start="top bottom">
@@ -49,7 +48,7 @@ export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
           </h1>
 
           <Reveal delay={0.08} start="top bottom">
-            <p className="mt-4 max-w-md text-[0.9375rem] leading-relaxed text-zn-text-2 sm:text-base">
+            <p className="zn-prose mt-4 max-w-md sm:max-w-lg">
               Revenue infrastructure for American businesses. Lead capture,
               automation, CRM, and AI agents that compound.
             </p>

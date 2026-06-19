@@ -1,4 +1,5 @@
 import { CountUp } from "@/components/animations/CountUp";
+import { BlueprintGridCrosses } from "@/components/shared/BlueprintGridCrosses";
 import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -21,40 +22,46 @@ export function StatsRow({
   theme?: "light" | "dark";
   className?: string;
 }) {
+  const dark = theme === "dark";
+
   return (
-    <div
-      className={cn(
-        "grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4",
-        className,
-      )}
-    >
-      {stats.map((stat) => {
-        const { prefix, num, suffix } = parseStat(stat.value);
-        return (
-          <div key={stat.label}>
-            <div
-              className={cn(
-                "font-mono text-5xl tracking-tight lg:text-6xl",
-                theme === "dark" ? "text-zn-inv" : "text-zn-text",
-              )}
-            >
-              {num !== null ? (
-                <CountUp value={num} prefix={prefix} suffix={suffix} />
-              ) : (
-                stat.value
-              )}
+    <div className={cn("relative border-y border-zn-border", className)}>
+      <div className="pointer-events-none absolute inset-0 md:hidden">
+        <BlueprintGridCrosses columns={2} rows={2} />
+      </div>
+      <div className="pointer-events-none absolute inset-0 hidden md:block">
+        <BlueprintGridCrosses columns={4} rows={1} />
+      </div>
+
+      <div className="grid grid-cols-2 divide-x divide-y divide-zn-border md:grid-cols-4 md:divide-y-0">
+        {stats.map((stat) => {
+          const { prefix, num, suffix } = parseStat(stat.value);
+          return (
+            <div key={stat.label} className="px-6 py-10 md:px-8 md:py-12">
+              <div
+                className={cn(
+                  "font-mono text-4xl tracking-tight lg:text-5xl",
+                  dark ? "text-zn-inv" : "text-zn-text",
+                )}
+              >
+                {num !== null ? (
+                  <CountUp value={num} prefix={prefix} suffix={suffix} />
+                ) : (
+                  stat.value
+                )}
+              </div>
+              <div
+                className={cn(
+                  "mt-3 zn-prose",
+                  dark ? "text-zn-inv-2" : undefined,
+                )}
+              >
+                {stat.label}
+              </div>
             </div>
-            <div
-              className={cn(
-                "mt-3 text-sm",
-                theme === "dark" ? "text-zn-inv-2" : "text-zn-text-2",
-              )}
-            >
-              {stat.label}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

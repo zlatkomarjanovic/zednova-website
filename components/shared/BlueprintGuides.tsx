@@ -8,14 +8,11 @@ import { useGSAP } from "@gsap/react";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { cn } from "@/lib/utils";
 
-export const BLUEPRINT_TICK_POSITIONS = [18, 42, 66, 88] as const;
-
 export type BlueprintReveal = "immediate" | "scroll" | "mount" | "none";
 
 type BlueprintGuidesProps = {
   className?: string;
   reveal?: BlueprintReveal;
-  showTicks?: boolean;
   showEdgeCrosses?: boolean;
   /** Internal vertical divider positions as % of the guide column. */
   columnDividers?: number[];
@@ -70,7 +67,6 @@ export function useBlueprintReveal(
 export function BlueprintGuides({
   className,
   reveal = "scroll",
-  showTicks = true,
   showEdgeCrosses = false,
   columnDividers = [],
 }: BlueprintGuidesProps) {
@@ -126,22 +122,6 @@ export function BlueprintGuides({
             />
           </>
         )}
-
-        {showTicks &&
-          BLUEPRINT_TICK_POSITIONS.map((top) => (
-            <div key={`ticks-${top}`}>
-              <div
-                data-blueprint-line
-                className="absolute left-0 h-px w-6 bg-zn-border/60"
-                style={{ top: `${top}%` }}
-              />
-              <div
-                data-blueprint-line
-                className="absolute right-0 h-px w-6 bg-zn-border/60"
-                style={{ top: `${top}%` }}
-              />
-            </div>
-          ))}
 
         {showEdgeCrosses &&
           edgeCrosses.map(({ anchor, edge }) => (
