@@ -1,26 +1,236 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------- Overused Grotesk (self-hosted variable) ---------------- */
+@font-face {
+  font-family: "Overused Grotesk";
+  src: url("/fonts/OverusedGrotesk-VF.woff2") format("woff2-variations");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
 }
 
+/* ============================================================
+   ZEDNOVA STUDIOS — Design System (Tailwind v4)
+   Overused Grotesk, light/regular weights, soft-black on off-white.
+   ============================================================ */
+
+@theme {
+  /* Surfaces */
+  --color-zn-bg: #f5f5f4; /* off-white — primary page background */
+  --color-zn-bg-2: #ffffff; /* pure white — cards, panels */
+  --color-zn-bg-3: #ebebea; /* muted gray boxes on off-white sections */
+  --color-zn-dark: #0a0a0a; /* near-black — dark sections */
+  --color-zn-dark-2: #151515; /* slightly lighter dark — dark cards */
+
+  /* Text (soft black, muted via neutral grays — never harsh) */
+  --color-zn-text: #2a2a2a; /* primary text on light */
+  --color-zn-text-2: #6e6e6b; /* secondary text */
+  --color-zn-text-3: #a1a09c; /* muted / labels */
+  --color-zn-inv: #fafaf8; /* text on dark sections */
+  --color-zn-inv-2: #9a9a96; /* secondary text on dark */
+
+  /* Borders */
+  --color-zn-border: #d8d7d1; /* light section borders */
+  --color-zn-border-dk: #232323; /* dark section borders */
+
+  /* Accent */
+  --color-zn-accent: #2a2a2a;
+  --color-zn-live: #4ade80;
+
+  /* Sage accent (workflow sections) */
+  --color-zn-sage: #dde6d8;
+  --color-zn-sage-mid: #e9ede4;
+
+  /* Radii */
+  --radius-sharp: 2px;
+  --radius-ui: 6px;
+  --radius-card: 10px;
+
+  /* Easing */
+  --ease-zn: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-flip: cubic-bezier(0.62, 0, 0.1, 1);
+
+  /* Layout — 90vw capped at 1920px */
+  --zn-container-max: 1920px;
+  --zn-container-width: min(90vw, 1920px);
+}
+
+/* Overused Grotesk site-wide. Serif accents use Instrument Serif. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: "Overused Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Overused Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif);
+  --font-editorial: var(--font-instrument-serif);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------------- Base ---------------- */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: var(--color-zn-bg);
+    color: var(--color-zn-text);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-zn-text);
+    color: var(--color-zn-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-zn-text);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+
+  /* Headings: regular weight — never bold by default. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 2.35vw, 1.9125rem);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------- Layout helpers ---------------- */
+@utility zn-container {
+  width: var(--zn-container-width);
+  max-width: var(--zn-container-max);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/** Same width as zn-container — blueprint guide column (no horizontal padding). */
+@utility zn-container-guides {
+  width: var(--zn-container-width);
+  max-width: var(--zn-container-max);
+  margin-inline: auto;
+}
+
+/** Horizontal inset matching zn-container padding — for text inside the guide column. */
+@utility zn-container-inset {
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+@utility zn-section {
+  padding-block: clamp(4rem, 8vw, 8rem);
+}
+
+/** Section h2 scale (~15% smaller than prior 3xl/4xl pairing). */
+@utility zn-h2 {
+  font-size: clamp(1.5rem, 2.35vw, 1.9125rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+/** Instrument Serif italic for highlighted phrases and pull quotes. */
+@utility zn-accent-italic {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+@utility zn-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+@utility zn-grain {
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+@utility zn-chip-tag {
+  border-radius: 6px;
+  border: 1px solid var(--color-zn-border);
+  background-color: var(--color-zn-bg-2);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+@utility zn-card-ref {
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--color-zn-border) 92%, transparent);
+  background-color: var(--color-zn-bg-2);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+}
+
+@utility zn-pill-tag {
+  border-radius: 9999px;
+  background-color: var(--color-zn-bg-3);
+  padding: 0.25rem 0.75rem;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+@utility zn-skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--color-zn-text);
+  color: var(--color-zn-bg);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+@utility zn-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size 0.35s var(--ease-zn);
+}
+
+/* ---------------- Component helpers ---------------- */
+@layer components {
+  .zn-skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+
+  .group\/flip:hover .zn-underline {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------------- Reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

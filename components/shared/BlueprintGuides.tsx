@@ -1,0 +1,167 @@
+"use client";
+
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+import { BlueprintCross } from "@/components/shared/BlueprintCross";
+import { cn } from "@/lib/utils";
+
+export const BLUEPRINT_TICK_POSITIONS = [18, 42, 66, 88] as const;
+
+export type BlueprintReveal = "immediate" | "scroll" | "mount" | "none";
+
+type BlueprintGuidesProps = {
+  className?: string;
+  reveal?: BlueprintReveal;
+  showTicks?: boolean;
+  showEdgeCrosses?: boolean;
+  /** Internal vertical divider positions as % of the guide column. */
+  columnDividers?: number[];
+};
+
+export function useBlueprintReveal(
+  scope: React.RefObject<HTMLElement | null>,
+  reveal: BlueprintReveal,
+) {
+  useGSAP(
+    () => {
+      if (reveal === "none" || !scope.current) return;
+
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const lines = scope.current.querySelectorAll<HTMLElement>("[data-blueprint-line]");
+      const crosses = scope.current.querySelectorAll<HTMLElement>("[data-blueprint-cross]");
+
+      if (reduce) {
+        gsap.set([...lines, ...crosses], { opacity: 1 });
+        return;
+      }
+
+      gsap.set([...lines, ...crosses], { opacity: 0 });
+
+      const fadeIn = () => {
+        gsap.to([...lines, ...crosses], {
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.035,
+          ease: "power2.out",
+        });
+      };
+
+      if (reveal === "immediate" || reveal === "mount") {
+        fadeIn();
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+      ScrollTrigger.create({
+        trigger: scope.current,
+        start: "top 90%",
+        once: true,
+        onEnter: fadeIn,
+      });
+    },
+    { scope },
+  );
+}
+
+/** Vertical container guides with optional ticks, panel dividers, and + markers. */
+export function BlueprintGuides({
+  className,
+  reveal = "scroll",
+  showTicks = true,
+  showEdgeCrosses = false,
+  columnDividers = [],
+}: BlueprintGuidesProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  useBlueprintReveal(ref, reveal);
+
+  const dividerCrosses = columnDividers.flatMap((pct) => [
+    { key: `${pct}-top`, pct, edge: "top" as const },
+    { key: `${pct}-bottom`, pct, edge: "bottom" as const },
+  ]);
+
+  const edgeCrosses = [
+    { anchor: "left" as const, edge: "top" as const },
+    { anchor: "right" as const, edge: "top" as const },
+    { anchor: "left" as const, edge: "bottom" as const },
+    { anchor: "right" as const, edge: "bottom" as const },
+  ];
+
+  return (
+    <div
+      ref={ref}
+      className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}
+      aria-hidden="true"
+    >
+      <div className="zn-container-guides relative h-full">
+        <div
+          data-blueprint-line
+          className="absolute bottom-0 top-0 left-0 w-px bg-zn-border/80"
+        />
+        <div
+          data-blueprint-line
+          className="absolute bottom-0 top-0 right-0 w-px bg-zn-border/80"
+        />
+
+        {columnDividers.map((pct) => (
+          <div
+            key={pct}
+            data-blueprint-line
+            className="absolute bottom-0 top-0 w-px -translate-x-1/2 bg-zn-border"
+            style={{ left: `${pct}%` }}
+          />
+        ))}
+
+        {columnDividers.length > 0 && (
+          <>
+            <div
+              data-blueprint-line
+              className="absolute left-0 right-0 top-0 h-px bg-zn-border"
+            />
+            <div
+              data-blueprint-line
+              className="absolute bottom-0 left-0 right-0 h-px bg-zn-border"
+            />
+          </>
+        )}
+
+        {showTicks &&
+          BLUEPRINT_TICK_POSITIONS.map((top) => (
+            <div key={`ticks-${top}`}>
+              <div
+                data-blueprint-line
+                className="absolute left-0 h-px w-6 bg-zn-border/60"
+                style={{ top: `${top}%` }}
+              />
+              <div
+                data-blueprint-line
+                className="absolute right-0 h-px w-6 bg-zn-border/60"
+                style={{ top: `${top}%` }}
+              />
+            </div>
+          ))}
+
+        {showEdgeCrosses &&
+          edgeCrosses.map(({ anchor, edge }) => (
+            <BlueprintCross
+              key={`${anchor}-${edge}`}
+              anchor={anchor}
+              data-blueprint-cross
+              className={edge === "top" ? "top-0 -translate-y-1/2" : "bottom-0 translate-y-1/2"}
+            />
+          ))}
+
+        {dividerCrosses.map(({ key, pct, edge }) => (
+          <BlueprintCross
+            key={key}
+            anchor={pct}
+            data-blueprint-cross
+            className={edge === "top" ? "top-0 -translate-y-1/2" : "bottom-0 translate-y-1/2"}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
