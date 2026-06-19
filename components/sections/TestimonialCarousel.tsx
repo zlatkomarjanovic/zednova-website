@@ -21,15 +21,17 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         &ldquo;{testimonial.quote}&rdquo;
       </p>
 
-      <div className="mt-6 flex items-center gap-3 border-t border-zn-border-dk pt-4">
-        <TestimonialAvatar name={testimonial.authorName} image={testimonial.image} />
-        <div className="min-w-0">
-          <p className="font-sans text-sm font-medium text-zn-inv">
-            {testimonial.authorName}
-          </p>
-          <p className="mt-0.5 text-xs leading-snug text-zn-inv-2">
-            {testimonial.authorTitle}
-          </p>
+      <div className="-mx-6 mt-6 border-t border-zn-border-dk px-6 pt-4">
+        <div className="flex items-center gap-3">
+          <TestimonialAvatar name={testimonial.authorName} image={testimonial.image} />
+          <div className="min-w-0">
+            <p className="font-sans text-sm font-medium text-zn-inv">
+              {testimonial.authorName}
+            </p>
+            <p className="mt-0.5 text-xs leading-snug text-zn-inv-2">
+              {testimonial.authorTitle}
+            </p>
+          </div>
         </div>
       </div>
     </article>
