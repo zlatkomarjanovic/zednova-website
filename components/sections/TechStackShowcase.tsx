@@ -1,31 +1,35 @@
 "use client";
 
 import {
-  HoverHighlightSurface,
-  useHoverHighlight,
+  RubberHoverHighlightLayer,
+  useRubberHoverHighlight,
 } from "@/components/shared/HoverHighlight";
 import type { TechStackGroup } from "@/lib/content/tech-stack";
 
-const HIGHLIGHT =
-  "pointer-events-none absolute z-0 bg-white/90 transition-[top,left,width,height,opacity] duration-250 ease-out";
-
 export function TechStackShowcase({ groups }: { groups: TechStackGroup[] }) {
-  const highlight = useHoverHighlight<HTMLDivElement>();
+  const highlight = useRubberHoverHighlight();
 
   return (
     <div className="zn-container-guides relative mt-14">
       <div
         ref={highlight.rootRef}
         className="relative border-y border-zn-border"
-        onMouseLeave={highlight.reset}
+        {...highlight.pointerHandlers}
       >
-        <HoverHighlightSurface rect={highlight.rect} className={HIGHLIGHT} />
+        <RubberHoverHighlightLayer
+          pathD={highlight.pathD}
+          opacity={highlight.opacity}
+          fill="white"
+          fillOpacity={0.9}
+          stroke="var(--color-zn-border)"
+        />
 
         <ul className="relative z-[1] divide-y divide-zn-border">
           {groups.map((group) => (
             <li
               key={group.category}
-              onMouseEnter={(e) => highlight.moveTo(e.currentTarget)}
+              data-hover-cell
+              onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
               className="grid grid-cols-1 gap-4 px-6 py-5 sm:grid-cols-[6.5rem_1fr] sm:items-center sm:gap-6 md:px-8 md:py-6"
             >
               <p className="zn-label text-zn-text-3 sm:pt-0">{group.category}</p>

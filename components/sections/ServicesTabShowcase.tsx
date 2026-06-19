@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -87,68 +87,20 @@ export function ServicesTabShowcase({ services, className }: ServicesTabShowcase
 
   const flat = useMemo(() => grouped.flatMap((g) => g.services), [grouped]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   const active = flat[activeIndex];
 
-  const updateScrollState = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft < maxScroll - 4);
+  const selectTab = useCallback((index: number) => {
+    setActiveIndex(index);
   }, []);
 
-  const scrollTabs = useCallback((direction: "left" | "right") => {
-    const el = scrollRef.current;
-    if (!el) return;
+  const goPrev = useCallback(() => {
+    setActiveIndex((i) => (i - 1 + flat.length) % flat.length);
+  }, [flat.length]);
 
-    el.scrollBy({
-      left: direction === "left" ? -el.clientWidth * 0.55 : el.clientWidth * 0.55,
-      behavior: "smooth",
-    });
-  }, []);
-
-  const selectTab = useCallback(
-    (index: number, slug: string) => {
-      setActiveIndex(index);
-      tabRefs.current.get(slug)?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
-    },
-    [],
-  );
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    updateScrollState();
-
-    const onScroll = () => updateScrollState();
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
-    };
-
-    el.addEventListener("scroll", onScroll, { passive: true });
-    el.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("resize", updateScrollState);
-
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      el.removeEventListener("wheel", onWheel);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [updateScrollState, flat.length]);
+  const goNext = useCallback(() => {
+    setActiveIndex((i) => (i + 1) % flat.length);
+  }, [flat.length]);
 
   if (!active) return null;
 
@@ -162,30 +114,23 @@ export function ServicesTabShowcase({ services, className }: ServicesTabShowcase
       <div className="relative flex items-stretch border-b border-zn-border">
         <button
           type="button"
-          onClick={() => scrollTabs("left")}
-          disabled={!canScrollLeft}
-          aria-label="Scroll services tabs left"
-          className={cn(
-            "hidden shrink-0 items-center justify-center border-r border-zn-border bg-white px-3 transition-opacity sm:flex",
-            canScrollLeft
-              ? "text-zn-text hover:opacity-70"
-              : "cursor-default opacity-40",
-          )}
+          onClick={goPrev}
+          aria-label="Previous service"
+          className="hidden shrink-0 items-center justify-center border-r border-zn-border bg-white px-3 text-zn-text transition-opacity hover:opacity-70 sm:flex"
         >
           <ChevronLeft className="size-4" aria-hidden="true" />
         </button>
 
         <div
-          ref={scrollRef}
           role="tablist"
           aria-label="Services"
-          className="flex min-w-0 flex-1 overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zn-border"
+          className="flex min-w-0 flex-1"
         >
           {grouped.map(({ group, services: groupServices }, groupIndex) => (
-            <div key={group} className="flex shrink-0">
+            <div key={group} className="flex min-w-0 flex-1">
               <div
                 className={cn(
-                  "zn-label flex max-w-[9rem] shrink-0 items-center border-r border-zn-border bg-white px-4 py-3.5 leading-snug text-zn-text md:max-w-[11rem] md:px-5",
+                  "zn-label flex max-w-[8rem] shrink-0 items-center border-r border-zn-border bg-white px-3 py-3 text-[0.625rem] leading-snug text-zn-text md:max-w-[9.5rem] md:px-4",
                   groupIndex > 0 && "border-l border-zn-border",
                 )}
               >
@@ -199,27 +144,23 @@ export function ServicesTabShowcase({ services, className }: ServicesTabShowcase
                 return (
                   <button
                     key={service.slug}
-                    ref={(node) => {
-                      if (node) tabRefs.current.set(service.slug, node);
-                      else tabRefs.current.delete(service.slug);
-                    }}
                     type="button"
                     role="tab"
                     id={`service-tab-${service.slug}`}
                     aria-selected={isActive}
                     aria-controls={`service-panel-${service.slug}`}
-                    onClick={() => selectTab(index, service.slug)}
+                    onClick={() => selectTab(index)}
                     className={cn(
-                      "shrink-0 border-r border-zn-border px-5 py-3.5 text-left transition-colors last:border-r-0 md:px-6",
+                      "min-w-0 flex-1 border-r border-zn-border px-3 py-3 text-left transition-colors last:border-r-0 md:px-4",
                       isActive
                         ? "bg-white text-zn-text"
                         : "text-zn-text-3 hover:bg-white/50 hover:text-zn-text",
                     )}
                   >
-                    <span className="block font-mono text-[10px] uppercase tracking-[0.12em]">
+                    <span className="block font-mono text-[9px] uppercase tracking-[0.12em]">
                       {service.number}
                     </span>
-                    <span className="mt-1 block max-w-[11rem] font-sans text-sm font-normal tracking-tight md:max-w-[14rem] md:text-[0.95rem]">
+                    <span className="mt-0.5 block truncate font-sans text-xs font-normal tracking-tight md:text-[0.8125rem]">
                       {service.title}
                     </span>
                   </button>
@@ -231,15 +172,9 @@ export function ServicesTabShowcase({ services, className }: ServicesTabShowcase
 
         <button
           type="button"
-          onClick={() => scrollTabs("right")}
-          disabled={!canScrollRight}
-          aria-label="Scroll services tabs right"
-          className={cn(
-            "hidden shrink-0 items-center justify-center border-l border-zn-border bg-white px-3 transition-opacity sm:flex",
-            canScrollRight
-              ? "text-zn-text hover:opacity-70"
-              : "cursor-default opacity-40",
-          )}
+          onClick={goNext}
+          aria-label="Next service"
+          className="hidden shrink-0 items-center justify-center border-l border-zn-border bg-white px-3 text-zn-text transition-opacity hover:opacity-70 sm:flex"
         >
           <ChevronRight className="size-4" aria-hidden="true" />
         </button>

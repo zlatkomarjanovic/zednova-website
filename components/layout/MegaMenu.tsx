@@ -11,8 +11,8 @@ import {
   useBlueprintReveal,
 } from "@/components/shared/BlueprintGuides";
 import {
-  HoverHighlightSurface,
-  useHoverHighlight,
+  RubberHoverHighlightLayer,
+  useRubberHoverHighlight,
 } from "@/components/shared/HoverHighlight";
 import type { CaseStudy, Industry, Service, ServiceGroup } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -26,11 +26,10 @@ type MegaMenuProps = {
   onNavigate: () => void;
 };
 
-const HIGHLIGHT_LIGHT =
-  "pointer-events-none absolute z-0 bg-zn-bg-3/70 transition-[top,left,width,height,opacity] duration-250 ease-out";
-
-const HIGHLIGHT_DARK =
-  "pointer-events-none absolute z-0 bg-zn-dark-2/90 transition-[top,left,width,height,opacity] duration-250 ease-out";
+const HIGHLIGHT_LIGHT_FILL = "var(--color-zn-bg-3)";
+const HIGHLIGHT_LIGHT_FILL_OPACITY = 0.7;
+const HIGHLIGHT_DARK_FILL = "var(--color-zn-dark-2)";
+const HIGHLIGHT_DARK_FILL_OPACITY = 0.9;
 
 function GridEdgeCrosses({
   columns,
@@ -99,7 +98,7 @@ export function MegaMenu({
   onNavigate,
 }: MegaMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
-  const highlight = useHoverHighlight<HTMLDivElement>();
+  const highlight = useRubberHoverHighlight();
   useBlueprintReveal(panelRef, "mount");
 
   const isDark = theme === "dark";
@@ -122,7 +121,7 @@ export function MegaMenu({
         <div
           ref={highlight.rootRef}
           className="relative"
-          onMouseLeave={highlight.reset}
+          {...highlight.pointerHandlers}
         >
           <div
             data-blueprint-line
@@ -164,9 +163,11 @@ export function MegaMenu({
             className="bottom-0 translate-y-1/2"
           />
 
-          <HoverHighlightSurface
-            rect={highlight.rect}
-            className={isDark ? HIGHLIGHT_DARK : HIGHLIGHT_LIGHT}
+          <RubberHoverHighlightLayer
+            pathD={highlight.pathD}
+            opacity={highlight.opacity}
+            fill={isDark ? HIGHLIGHT_DARK_FILL : HIGHLIGHT_LIGHT_FILL}
+            fillOpacity={isDark ? HIGHLIGHT_DARK_FILL_OPACITY : HIGHLIGHT_LIGHT_FILL_OPACITY}
           />
 
           {type === "services" ? (
@@ -191,7 +192,8 @@ export function MegaMenu({
                       <li
                         key={service.slug}
                         className="relative"
-                        onMouseEnter={(e) => highlight.moveTo(e.currentTarget)}
+                        data-hover-cell
+                        onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
                       >
                         <Link
                           href={`/services/${service.slug}`}
@@ -233,7 +235,8 @@ export function MegaMenu({
                     <Link
                       href={`/work/${featured.slug}`}
                       onClick={onNavigate}
-                      onMouseEnter={(e) => highlight.moveTo(e.currentTarget)}
+                      data-hover-cell
+                      onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
                       className="group relative z-[1] block px-6 py-4"
                     >
                       <div
@@ -292,7 +295,8 @@ export function MegaMenu({
                   key={industry.slug}
                   href={`/industries/${industry.slug}`}
                   onClick={onNavigate}
-                  onMouseEnter={(e) => highlight.moveTo(e.currentTarget)}
+                  data-hover-cell
+                  onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
                   className="relative z-[1] flex flex-col gap-3 px-6 py-6"
                 >
                   <Icon name={industry.icon} className={cn("size-6", iconClass)} />

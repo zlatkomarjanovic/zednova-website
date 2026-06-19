@@ -18,9 +18,8 @@ export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
   return (
     <section
       data-theme="light"
-      className="relative flex min-h-dvh flex-col overflow-hidden bg-gradient-to-b from-zn-bg via-zn-bg to-zn-sage-mid"
+      className="relative flex min-h-dvh flex-col overflow-hidden bg-zn-bg"
     >
-      <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
       <BlueprintGrid immediate />
 
       <div className="zn-container-guides relative flex min-h-0 flex-1 flex-col pb-8 lg:pb-10">

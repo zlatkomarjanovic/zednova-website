@@ -10,8 +10,8 @@ import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { Button } from "@/components/shared/Button";
 import { HoverFlip } from "@/components/shared/HoverFlip";
 import {
-  HoverHighlightSurface,
-  useHoverHighlight,
+  RubberHoverHighlightLayer,
+  useRubberHoverHighlight,
 } from "@/components/shared/HoverHighlight";
 import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
@@ -35,11 +35,10 @@ const LINKS = [
 
 const MENU_EASE = [0.22, 1, 0.36, 1] as const;
 
-const NAV_HIGHLIGHT_LIGHT =
-  "pointer-events-none absolute z-0 rounded-[4px] bg-zn-bg-3/75 transition-[top,left,width,height,opacity] duration-250 ease-out";
-
-const NAV_HIGHLIGHT_DARK =
-  "pointer-events-none absolute z-0 rounded-[4px] bg-zn-dark-2/90 transition-[top,left,width,height,opacity] duration-250 ease-out";
+const NAV_HIGHLIGHT_LIGHT_FILL = "var(--color-zn-bg-3)";
+const NAV_HIGHLIGHT_LIGHT_FILL_OPACITY = 0.75;
+const NAV_HIGHLIGHT_DARK_FILL = "var(--color-zn-dark-2)";
+const NAV_HIGHLIGHT_DARK_FILL_OPACITY = 0.9;
 
 const panelSlide = {
   initial: (direction: number) => ({
@@ -123,7 +122,10 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const navHighlight = useHoverHighlight<HTMLElement>();
+  const navHighlight = useRubberHoverHighlight<HTMLElement>({
+    bendScale: 0.45,
+    cornerRadius: 4,
+  });
 
   const services = serviceGroups.flatMap((g) => g.services);
 
@@ -261,11 +263,15 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
             ref={navHighlight.rootRef}
             aria-label="Main"
             className="relative hidden items-center gap-0.5 lg:flex"
-            onMouseLeave={navHighlight.reset}
+            {...navHighlight.pointerHandlers}
           >
-            <HoverHighlightSurface
-              rect={navHighlight.rect}
-              className={isDark ? NAV_HIGHLIGHT_DARK : NAV_HIGHLIGHT_LIGHT}
+            <RubberHoverHighlightLayer
+              pathD={navHighlight.pathD}
+              opacity={navHighlight.opacity}
+              fill={isDark ? NAV_HIGHLIGHT_DARK_FILL : NAV_HIGHLIGHT_LIGHT_FILL}
+              fillOpacity={
+                isDark ? NAV_HIGHLIGHT_DARK_FILL_OPACITY : NAV_HIGHLIGHT_LIGHT_FILL_OPACITY
+              }
             />
 
             <MegaTrigger
@@ -273,22 +279,23 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
               isOpen={openMenu === "services"}
               onEnter={() => openPanel("services")}
               onClick={() => togglePanel("services")}
-              onHighlight={navHighlight.moveTo}
+              onHighlight={navHighlight.snapTo}
             />
             <MegaTrigger
               label="Industries"
               isOpen={openMenu === "industries"}
               onEnter={() => openPanel("industries")}
               onClick={() => togglePanel("industries")}
-              onHighlight={navHighlight.moveTo}
+              onHighlight={navHighlight.snapTo}
             />
             {LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
+                data-hover-cell
                 onMouseEnter={(e) => {
                   scheduleClose();
-                  navHighlight.moveTo(e.currentTarget);
+                  navHighlight.snapTo(e.currentTarget);
                 }}
                 className="group/flip relative z-[1] rounded-[4px] px-3 py-2 text-sm font-medium"
               >
@@ -379,6 +386,7 @@ function MegaTrigger({
 }) {
   return (
     <button
+      data-hover-cell
       onMouseEnter={(e) => {
         onEnter();
         onHighlight(e.currentTarget);

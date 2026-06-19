@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/shared/Logo";
+import { BlueprintGuides } from "@/components/shared/BlueprintGuides";
+import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import type { Service, SiteSettings } from "@/lib/types";
 
 const COMPANY_LINKS = [
@@ -21,18 +23,14 @@ export function Footer({
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      data-theme="dark"
-      className="bg-zn-dark text-zn-inv"
-    >
-      <div className="zn-container py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+    <footer data-theme="dark" className="relative overflow-hidden bg-zn-dark text-zn-inv">
+      <div className="zn-grain absolute inset-0 opacity-[0.05]" aria-hidden="true" />
+      <BlueprintGuides theme="dark" reveal="none" className="z-10" />
+
+      <div className="zn-container-guides relative">
+        <div className="zn-container-inset grid gap-12 py-14 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10 lg:py-16">
           <div className="flex flex-col gap-6">
             <Logo variant="light" />
-            <p className="max-w-xs text-sm leading-relaxed text-zn-inv-2">
-              AI systems that compound revenue for American businesses. Built end
-              to end. Documented and handed over.
-            </p>
             <div className="flex items-center gap-3">
               <Social href={settings.socialLinks.linkedin} label="LinkedIn">
                 <LinkedInIcon />
@@ -74,29 +72,29 @@ export function Footer({
             </li>
             <li className="text-sm text-zn-inv-2">{settings.responseTime}</li>
             <li className="text-sm text-zn-inv-2">CST (Texas) · We work async</li>
-            <li className="pt-2 text-sm text-zn-inv-2">
-              ZedNova Studios, a Texas LLC
-            </li>
+            <li className="pt-1 text-sm text-zn-inv-2">ZedNova Studios, a Texas LLC</li>
           </FooterCol>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-zn-border-dk pt-8 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="border-t border-zn-border-dk" />
+
+        <div className="zn-container-inset flex flex-col gap-4 py-8 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} ZedNova Studios. Texas LLC. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link
               href="/legal/privacy-policy"
-              className="transition-opacity hover:opacity-70"
+              className="transition-opacity hover:text-zn-inv"
             >
               Privacy Policy
             </Link>
-            <Link
-              href="/legal/terms"
-              className="transition-opacity hover:opacity-70"
-            >
+            <Link href="/legal/terms" className="transition-opacity hover:text-zn-inv">
               Terms
             </Link>
           </div>
         </div>
+
+        <BlueprintCross anchor="left" theme="dark" className="bottom-0 translate-y-1/2" />
+        <BlueprintCross anchor="right" theme="dark" className="bottom-0 translate-y-1/2" />
       </div>
     </footer>
   );
@@ -151,7 +149,7 @@ function Social({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex size-9 items-center justify-center rounded-[2px] border border-zn-border-dk text-zn-inv-2 transition-colors hover:border-zn-inv hover:text-zn-inv"
+      className="flex size-9 items-center justify-center border border-zn-border-dk text-zn-inv-2 transition-colors hover:border-zn-inv hover:text-zn-inv"
     >
       {children}
     </a>

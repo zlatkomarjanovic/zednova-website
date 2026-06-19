@@ -12,14 +12,14 @@ import {
 } from "@/lib/queries";
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
-import { Reveal, Stagger } from "@/components/animations/Reveal";
+import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/components/shared/Button";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { CaseStudiesShowcaseGrid } from "@/components/sections/CaseStudiesShowcaseGrid";
 import { ServicesTabShowcase } from "@/components/sections/ServicesTabShowcase";
 import { IndustryShowcaseGrid } from "@/components/sections/IndustryShowcaseGrid";
-import { ProductCard } from "@/components/shared/ProductCard";
+import { ProductsShowcase } from "@/components/sections/ProductSlider";
 import { LogoTicker } from "@/components/sections/LogoTicker";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StatsRow } from "@/components/sections/StatsRow";
@@ -265,20 +265,23 @@ export default async function HomePage() {
       <section data-theme="light" className="relative zn-section">
         <BlueprintGrid />
         <div className="zn-container relative">
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-            <div>
-              <Reveal>
-                <SectionLabel withRule={false}>ZedNova Labs</SectionLabel>
-              </Reveal>
-              <TextReveal
-                as="h2"
-                text="We also build products"
-                className="mt-6 zn-h2 font-sans font-normal"
-              />
+          <Reveal>
+            <SectionLabel withRule={false}>ZedNova Labs</SectionLabel>
+          </Reveal>
+          <TextReveal
+            as="h2"
+            text="We also build products"
+            className="mt-6 zn-h2 font-sans font-normal"
+          />
+        </div>
+        <ProductsShowcase
+          products={products}
+          intro={
+            <>
               <Reveal delay={0.1}>
-                <p className="zn-prose mt-5 max-w-md">
-                  Beyond client work, we ship software and tools for the
-                  ecosystems we work in.
+                <p className="zn-prose max-w-md">
+                  Beyond client work, we ship software and tools for the ecosystems
+                  we work in.
                 </p>
               </Reveal>
               <Reveal delay={0.15}>
@@ -288,14 +291,9 @@ export default async function HomePage() {
                   </Button>
                 </div>
               </Reveal>
-            </div>
-            <Stagger className="grid gap-6 sm:grid-cols-2">
-              {products.slice(0, 2).map((product) => (
-                <ProductCard key={product.slug} product={product} />
-              ))}
-            </Stagger>
-          </div>
-        </div>
+            </>
+          }
+        />
       </section>
 
       <FaqSection faqs={faqs} />
