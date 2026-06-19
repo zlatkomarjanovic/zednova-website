@@ -87,7 +87,18 @@ export function Footer({
           </FooterCol>
         </div>
 
-        <div className="border-t border-zn-border-dk" />
+        <div className="relative border-t border-zn-border-dk">
+          <BlueprintCross
+            anchor="left"
+            theme="dark"
+            className="top-0 z-30 -translate-y-1/2"
+          />
+          <BlueprintCross
+            anchor="right"
+            theme="dark"
+            className="top-0 z-30 -translate-y-1/2"
+          />
+        </div>
 
         <div className="zn-container-inset flex flex-col gap-4 py-8 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} ZedNova Studios. Texas LLC. All rights reserved.</p>
