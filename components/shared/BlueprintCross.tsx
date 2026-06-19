@@ -34,7 +34,7 @@ export function BlueprintCross({
       {...props}
       style={anchorStyle}
       className={cn(
-        "pointer-events-none absolute z-[2] size-2.5",
+        "pointer-events-none absolute z-[30] size-2.5",
         anchorClass,
         className,
       )}

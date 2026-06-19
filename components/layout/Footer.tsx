@@ -26,21 +26,24 @@ export function Footer({
   const year = new Date().getFullYear();
 
   return (
-    <footer data-theme="dark" className="relative overflow-hidden bg-zn-dark text-zn-inv">
-      <div className="zn-grain absolute inset-0 opacity-[0.05]" aria-hidden="true" />
+    <footer data-theme="dark" className="relative bg-zn-dark pb-px text-zn-inv">
+      <div className="zn-grain pointer-events-none absolute inset-0 overflow-hidden opacity-[0.05]" aria-hidden="true" />
       <BlueprintGuides theme="dark" reveal="none" className="z-10" />
 
-      <div className="zn-container-guides relative">
-        <BlueprintCross
-          anchor="left"
-          theme="dark"
-          className={`top-0 -translate-y-1/2 ${FOOTER_CROSS}`}
-        />
-        <BlueprintCross
-          anchor="right"
-          theme="dark"
-          className={`top-0 -translate-y-1/2 ${FOOTER_CROSS}`}
-        />
+      <div className="zn-container-guides relative overflow-visible pb-2">
+        <div className="relative">
+          <div className="border-t border-zn-border-dk" aria-hidden="true" />
+          <BlueprintCross
+            anchor="left"
+            theme="dark"
+            className={`top-0 -translate-y-1/2 ${FOOTER_CROSS}`}
+          />
+          <BlueprintCross
+            anchor="right"
+            theme="dark"
+            className={`top-0 -translate-y-1/2 ${FOOTER_CROSS}`}
+          />
+        </div>
 
         <div className="zn-container-inset grid gap-12 py-14 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10 lg:py-16">
           <div className="flex flex-col gap-6">
