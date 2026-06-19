@@ -160,7 +160,7 @@ export default async function CaseStudyPage({
               </blockquote>
               <figcaption className="mt-6 text-sm text-zn-text-2">
                 <span className="font-sans font-medium text-zn-text">
-                  {testimonial.authorTitle}
+                  {testimonial.authorName}
                 </span>
                 <span className="mx-1.5" aria-hidden="true">
                   ·

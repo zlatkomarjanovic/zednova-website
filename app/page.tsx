@@ -7,7 +7,7 @@ import {
   getAllProducts,
   getAllServices,
   getFeaturedCaseStudies,
-  getFeaturedTestimonials,
+  getPlatformTestimonials,
   getSiteSettings,
 } from "@/lib/queries";
 
@@ -16,15 +16,18 @@ import { Reveal, Stagger } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/components/shared/Button";
 import { SectionLabel } from "@/components/shared/SectionLabel";
-import { ServicesShowcaseGrid } from "@/components/sections/ServicesShowcaseGrid";
+import { CaseStudiesShowcaseGrid } from "@/components/sections/CaseStudiesShowcaseGrid";
+import { ServicesTabShowcase } from "@/components/sections/ServicesTabShowcase";
 import { IndustryShowcaseGrid } from "@/components/sections/IndustryShowcaseGrid";
 import { ProductCard } from "@/components/shared/ProductCard";
 import { LogoTicker } from "@/components/sections/LogoTicker";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StatsRow } from "@/components/sections/StatsRow";
 import { BenefitsGrid } from "@/components/sections/BenefitsGrid";
-import { ProcessSteps } from "@/components/sections/ProcessSteps";
-import { TestimonialSlider } from "@/components/sections/TestimonialSlider";
+import { TechStackShowcase } from "@/components/sections/TechStackShowcase";
+import { techStackGroups } from "@/lib/content/tech-stack";
+import { BlueprintGuides } from "@/components/shared/BlueprintGuides";
+import { TestimonialCarousel } from "@/components/sections/TestimonialCarousel";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { DarkCTA } from "@/components/sections/DarkCTA";
 
@@ -34,12 +37,6 @@ export const metadata: Metadata = {
     "We build end-to-end revenue infrastructure for American businesses: lead capture, automation, CRM, and AI agents that compound results over time.",
 };
 
-const PROCESS_STEPS = [
-  { step: 1, title: "Audit", description: "We map your current stack and find where revenue leaks." },
-  { step: 2, title: "Strategy", description: "We design a system architecture specific to your business." },
-  { step: 3, title: "Build", description: "We execute fast. No committees, no delays." },
-  { step: 4, title: "Handoff", description: "We document everything and train your team." },
-];
 
 const PILLARS = [
   {
@@ -60,22 +57,17 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [services, industries, featuredCases, allCases, testimonials, products, settings, faqs] =
+  const [industries, featuredCases, allCases, services, platformTestimonials, products, settings, faqs] =
     await Promise.all([
-      getAllServices(),
       getAllIndustries(),
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
-      getFeaturedTestimonials(),
+      getAllServices(),
+      getPlatformTestimonials(),
       getAllProducts(),
       getSiteSettings(),
       getAllFaqs(),
     ]);
-
-  const serviceCovers = services.map((_, i) => ({
-    image: allCases[i % allCases.length]?.image ?? "",
-    accent: allCases[i % allCases.length]?.accent,
-  }));
 
   const benefits = PILLARS.map((pillar, i) => ({
     ...pillar,
@@ -107,28 +99,28 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Services */}
+      {/* Case studies */}
       <section data-theme="light" className="relative zn-section bg-zn-bg">
         <BlueprintGrid />
         <div className="zn-container relative">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <Reveal>
-                <SectionLabel withRule={false}>What we do</SectionLabel>
+                <SectionLabel withRule={false}>Our work</SectionLabel>
               </Reveal>
               <TextReveal
                 as="h2"
-                text="Ten ways we compound your revenue"
+                text="Systems that moved the needle"
                 className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
               />
             </div>
             <Reveal delay={0.1}>
-              <Button href="/services" variant="link" withArrow>
-                All services
+              <Button href="/work" variant="link" withArrow>
+                All case studies
               </Button>
             </Reveal>
           </div>
-          <ServicesShowcaseGrid services={services} covers={serviceCovers} />
+          <CaseStudiesShowcaseGrid caseStudies={allCases} industries={industries} />
         </div>
       </section>
 
@@ -139,11 +131,16 @@ export default async function HomePage() {
       >
         <BlueprintGrid />
         <div className="zn-container-guides relative">
+          <div className="border-t border-zn-border">
+            <p className="zn-container-inset py-4 text-center zn-label text-zn-text-3">
+              Our work summarized over the years.
+            </p>
+          </div>
           <StatsRow stats={settings.stats} />
         </div>
       </section>
 
-      {/* Process — full sage */}
+      {/* Services — sage wash */}
       <section
         data-theme="light"
         className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage-mid via-zn-sage-mid to-zn-sage"
@@ -151,18 +148,60 @@ export default async function HomePage() {
         <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
         <BlueprintGrid />
         <div className="zn-container relative">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div className="max-w-2xl">
+              <Reveal>
+                <SectionLabel withRule={false}>Services</SectionLabel>
+              </Reveal>
+              <TextReveal
+                as="h2"
+                text="What we build for you"
+                className="mt-6 zn-h2 font-sans font-normal"
+              />
+              <Reveal delay={0.08}>
+                <p className="zn-prose mt-5 max-w-lg">
+                  Ten interconnected systems — from AI-cited lead gen sites to CRM
+                  automation and custom agents — designed to capture revenue and
+                  compound over time.
+                </p>
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <Button href="/services" variant="link" withArrow>
+                All services
+              </Button>
+            </Reveal>
+          </div>
+        </div>
+        <div className="zn-container-guides relative">
+          <ServicesTabShowcase services={services} />
+        </div>
+      </section>
+
+      {/* Tech stack — continues sage */}
+      <section
+        data-theme="light"
+        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage via-zn-sage-mid to-zn-sage"
+      >
+        <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
+        <BlueprintGrid />
+        <div className="zn-container relative">
           <Reveal>
-            <SectionLabel withRule={false}>How we work</SectionLabel>
+            <SectionLabel withRule={false}>Tech stack</SectionLabel>
           </Reveal>
           <TextReveal
             as="h2"
-            text="From first call to live system in weeks, not months"
+            text="The tools we wire together for you"
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
-          <div className="mt-16">
-            <ProcessSteps steps={PROCESS_STEPS} />
-          </div>
+          <Reveal delay={0.08}>
+            <p className="zn-prose mt-5 max-w-lg">
+              The platforms we build on, connect, and deploy — picked per project,
+              not forced into one playbook.
+            </p>
+          </Reveal>
         </div>
+        <TechStackShowcase groups={techStackGroups} />
       </section>
 
       {/* Industries — sage fading back to site background */}
@@ -195,19 +234,30 @@ export default async function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section data-theme="dark" data-bg="dark" className="zn-section bg-zn-dark text-zn-inv">
-        <div className="zn-container">
-          <div className="max-w-xl">
-            <SectionLabel className="text-zn-inv-2" withRule={false}>
-              What clients say
-            </SectionLabel>
-            <h2 className="mt-6 zn-h2 font-sans font-normal text-zn-inv">
-              Proof from the field
+      <section
+        data-theme="dark"
+        data-bg="dark"
+        className="relative overflow-hidden bg-zn-dark pb-[clamp(4rem,8vw,8rem)] pt-28 text-zn-inv"
+      >
+        <BlueprintGuides theme="dark" reveal="immediate" className="z-10" />
+        <div className="zn-container relative">
+          <div className="mx-auto max-w-2xl pb-28 text-center">
+            <h2 className="zn-h2 font-sans font-normal text-zn-inv">
+              What{" "}
+              <span className="zn-accent-italic">the people</span>
+              <br />
+              have to say
             </h2>
+            <Reveal delay={0.08}>
+              <p className="zn-prose mx-auto mt-5 max-w-md text-zn-inv-2">
+                All testimonials are sourced from Contra, Fiverr, Upwork, and
+                LinkedIn — you can verify every review on those platforms.
+              </p>
+            </Reveal>
           </div>
-          <div className="mt-12">
-            <TestimonialSlider testimonials={testimonials} />
-          </div>
+        </div>
+        <div className="zn-container-guides relative">
+          <TestimonialCarousel testimonials={platformTestimonials} />
         </div>
       </section>
 

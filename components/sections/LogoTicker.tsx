@@ -34,9 +34,9 @@ export function LogoTicker({
       if (reduce || !track) return;
 
       const half = track.scrollWidth / 2;
-      gsap.set(track, { x: -half });
+      gsap.set(track, { x: 0 });
       const tween = gsap.to(track, {
-        x: 0,
+        x: -half,
         duration: 52,
         ease: "none",
         repeat: -1,

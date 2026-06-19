@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/components/animations/LenisProvider";
+import { CustomCursor } from "@/components/animations/CustomCursor";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -71,11 +72,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${geistMono.variable} ${instrumentSerif.variable}`}>
-      <body className="flex min-h-dvh flex-col bg-zn-bg font-sans text-zn-text">
+      <body
+        className="flex min-h-dvh flex-col bg-zn-bg font-sans text-zn-text"
+        suppressHydrationWarning
+      >
         <a href="#main" className="zn-skip-link">
           Skip to content
         </a>
         <LenisProvider>
+          <CustomCursor />
           <Navbar
             serviceGroups={serviceGroups}
             industries={industries}

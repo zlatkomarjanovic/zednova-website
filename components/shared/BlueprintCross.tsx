@@ -5,6 +5,7 @@ type BlueprintCrossProps = {
   anchor?: "left" | "right" | number;
   className?: string;
   style?: React.CSSProperties;
+  theme?: "light" | "dark";
 } & React.ComponentPropsWithoutRef<"span">;
 
 /** Small + marker for blueprint guide intersections. */
@@ -12,8 +13,10 @@ export function BlueprintCross({
   anchor = "left",
   className,
   style,
+  theme = "light",
   ...props
 }: BlueprintCrossProps) {
+  const strokeClass = "bg-zn-text-3/65";
   const anchorClass =
     anchor === "left"
       ? "left-0 -translate-x-1/2"
@@ -35,8 +38,18 @@ export function BlueprintCross({
         className,
       )}
     >
-      <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-zn-text-3/65" />
-      <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-zn-text-3/65" />
+      <span
+        className={cn(
+          "absolute left-1/2 top-0 h-full w-px -translate-x-1/2",
+          strokeClass,
+        )}
+      />
+      <span
+        className={cn(
+          "absolute left-0 top-1/2 h-px w-full -translate-y-1/2",
+          strokeClass,
+        )}
+      />
     </span>
   );
 }

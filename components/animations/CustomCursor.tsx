@@ -1,95 +1,97 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-type CursorVariant = "default" | "link" | "media";
+const TRAIL_LENGTH = 6;
+const TRAIL_EASE = 0.14;
 
 /**
- * Dot cursor that lags the pointer and grows over interactive elements.
- * White fill + mix-blend-difference so it auto-inverts on dark sections.
- * Not rendered on touch devices or under prefers-reduced-motion.
+ * Smooth trailing dot that follows the pointer. The system cursor stays visible —
+ * this is a decorative lag layer only.
  */
 export function CustomCursor() {
-  const outerRef = useRef<HTMLDivElement>(null);
-  const [enabled, setEnabled] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [variant, setVariant] = useState<CursorVariant>("default");
+  const dotsRef = useRef<HTMLSpanElement[]>([]);
+  const enabledRef = useRef(false);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const noHover = window.matchMedia("(hover: none)").matches;
     if (reduce || noHover) return;
 
-    setEnabled(true);
-    document.documentElement.classList.add("zn-cursor-on");
+    enabledRef.current = true;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let curX = mouseX;
-    let curY = mouseY;
+    const positions = Array.from({ length: TRAIL_LENGTH }, () => ({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    }));
+
+    let mouseX = positions[0].x;
+    let mouseY = positions[0].y;
+    let visible = false;
     let raf = 0;
 
     const render = () => {
-      curX += (mouseX - curX) * 0.2;
-      curY += (mouseY - curY) * 0.2;
-      if (outerRef.current) {
-        outerRef.current.style.transform = `translate3d(${curX}px, ${curY}px, 0)`;
+      positions[0].x += (mouseX - positions[0].x) * 0.28;
+      positions[0].y += (mouseY - positions[0].y) * 0.28;
+
+      for (let i = 1; i < TRAIL_LENGTH; i++) {
+        positions[i].x += (positions[i - 1].x - positions[i].x) * TRAIL_EASE;
+        positions[i].y += (positions[i - 1].y - positions[i].y) * TRAIL_EASE;
       }
+
+      dotsRef.current.forEach((dot, i) => {
+        if (!dot) return;
+        const scale = 1 - i * 0.12;
+        const opacity = visible ? Math.max(0.08, 0.42 - i * 0.06) : 0;
+        dot.style.transform = `translate3d(${positions[i].x}px, ${positions[i].y}px, 0) translate(-50%, -50%) scale(${scale})`;
+        dot.style.opacity = String(opacity);
+      });
+
       raf = requestAnimationFrame(render);
     };
+
     raf = requestAnimationFrame(render);
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      setVisible(true);
+      visible = true;
     };
-    const onOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      if (target.closest("[data-cursor='media']")) setVariant("media");
-      else if (target.closest("a, button, [role='button'], input, textarea, select, label, [data-cursor='link']"))
-        setVariant("link");
-      else setVariant("default");
+
+    const onLeave = () => {
+      visible = false;
     };
-    const onLeave = () => setVisible(false);
 
     window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseover", onOver, { passive: true });
     document.addEventListener("mouseleave", onLeave);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseleave", onLeave);
-      document.documentElement.classList.remove("zn-cursor-on");
+      enabledRef.current = false;
     };
   }, []);
 
-  if (!enabled) return null;
-
-  const size = variant === "media" ? 64 : variant === "link" ? 36 : 8;
-
   return (
     <div
-      ref={outerRef}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-[9999]"
-      style={{ opacity: visible ? 1 : 0, transition: "opacity 0.25s ease" }}
+      className="pointer-events-none fixed inset-0 z-[9998] hidden lg:block"
     >
-      <div
-        className="flex items-center justify-center rounded-full bg-white text-[10px] font-medium uppercase tracking-wider text-black"
-        style={{
-          width: size,
-          height: size,
-          transform: "translate(-50%, -50%)",
-          mixBlendMode: "difference",
-          transition: "width 0.25s cubic-bezier(0.22,1,0.36,1), height 0.25s cubic-bezier(0.22,1,0.36,1)",
-        }}
-      >
-        {variant === "media" ? "View" : ""}
-      </div>
+      {Array.from({ length: TRAIL_LENGTH }, (_, i) => (
+        <span
+          key={i}
+          ref={(el) => {
+            if (el) dotsRef.current[i] = el;
+          }}
+          className="absolute left-0 top-0 rounded-full bg-zn-text/25 will-change-transform"
+          style={{
+            width: i === 0 ? 6 : 5,
+            height: i === 0 ? 6 : 5,
+            opacity: 0,
+          }}
+        />
+      ))}
     </div>
   );
 }

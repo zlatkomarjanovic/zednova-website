@@ -34,7 +34,7 @@ export function BenefitsGrid({
         )}
       >
         {items.map((item) => (
-          <article key={item.title} className="flex flex-col bg-zn-bg-2">
+          <article key={item.title} className="flex flex-col">
             <div className="relative aspect-[16/10] overflow-hidden border-b border-zn-border">
               {item.image ? (
                 <Image

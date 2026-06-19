@@ -132,6 +132,10 @@ export async function getFeaturedTestimonials(): Promise<Testimonial[]> {
   return testimonials.filter((t) => t.featured);
 }
 
+export async function getPlatformTestimonials(): Promise<Testimonial[]> {
+  return testimonials.filter((t) => t.platform);
+}
+
 export async function getTestimonialById(
   id: string,
 ): Promise<Testimonial | null> {

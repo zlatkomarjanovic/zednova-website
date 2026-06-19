@@ -8,12 +8,16 @@ import { useGSAP } from "@gsap/react";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { cn } from "@/lib/utils";
 
+/** Shared dark blueprint stroke — matches testimonial grid borders. */
+export const blueprintDarkLineClass = "bg-zn-border-dk";
+
 export type BlueprintReveal = "immediate" | "scroll" | "mount" | "none";
 
 type BlueprintGuidesProps = {
   className?: string;
   reveal?: BlueprintReveal;
   showEdgeCrosses?: boolean;
+  theme?: "light" | "dark";
   /** Internal vertical divider positions as % of the guide column. */
   columnDividers?: number[];
 };
@@ -68,10 +72,16 @@ export function BlueprintGuides({
   className,
   reveal = "scroll",
   showEdgeCrosses = false,
+  theme = "light",
   columnDividers = [],
 }: BlueprintGuidesProps) {
   const ref = useRef<HTMLDivElement>(null);
   useBlueprintReveal(ref, reveal);
+
+  const lineClass =
+    theme === "dark" ? blueprintDarkLineClass : "bg-zn-border/80";
+  const lineClassSolid =
+    theme === "dark" ? blueprintDarkLineClass : "bg-zn-border";
 
   const dividerCrosses = columnDividers.flatMap((pct) => [
     { key: `${pct}-top`, pct, edge: "top" as const },
@@ -94,18 +104,18 @@ export function BlueprintGuides({
       <div className="zn-container-guides relative h-full">
         <div
           data-blueprint-line
-          className="absolute bottom-0 top-0 left-0 w-px bg-zn-border/80"
+          className={cn("absolute bottom-0 top-0 left-0 w-px", lineClass)}
         />
         <div
           data-blueprint-line
-          className="absolute bottom-0 top-0 right-0 w-px bg-zn-border/80"
+          className={cn("absolute bottom-0 top-0 right-0 w-px", lineClass)}
         />
 
         {columnDividers.map((pct) => (
           <div
             key={pct}
             data-blueprint-line
-            className="absolute bottom-0 top-0 w-px -translate-x-1/2 bg-zn-border"
+            className={cn("absolute bottom-0 top-0 w-px -translate-x-1/2", lineClassSolid)}
             style={{ left: `${pct}%` }}
           />
         ))}
@@ -114,11 +124,11 @@ export function BlueprintGuides({
           <>
             <div
               data-blueprint-line
-              className="absolute left-0 right-0 top-0 h-px bg-zn-border"
+              className={cn("absolute left-0 right-0 top-0 h-px", lineClassSolid)}
             />
             <div
               data-blueprint-line
-              className="absolute bottom-0 left-0 right-0 h-px bg-zn-border"
+              className={cn("absolute bottom-0 left-0 right-0 h-px", lineClassSolid)}
             />
           </>
         )}
@@ -128,6 +138,7 @@ export function BlueprintGuides({
             <BlueprintCross
               key={`${anchor}-${edge}`}
               anchor={anchor}
+              theme={theme}
               data-blueprint-cross
               className={edge === "top" ? "top-0 -translate-y-1/2" : "bottom-0 translate-y-1/2"}
             />
@@ -137,6 +148,7 @@ export function BlueprintGuides({
           <BlueprintCross
             key={key}
             anchor={pct}
+            theme={theme}
             data-blueprint-cross
             className={edge === "top" ? "top-0 -translate-y-1/2" : "bottom-0 translate-y-1/2"}
           />

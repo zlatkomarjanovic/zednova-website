@@ -5,7 +5,11 @@ import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { Icon } from "@/components/shared/Icon";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
-import { BlueprintGuides, useBlueprintReveal } from "@/components/shared/BlueprintGuides";
+import {
+  BlueprintGuides,
+  blueprintDarkLineClass,
+  useBlueprintReveal,
+} from "@/components/shared/BlueprintGuides";
 import {
   HoverHighlightSurface,
   useHoverHighlight,
@@ -18,13 +22,23 @@ type MegaMenuProps = {
   serviceGroups: { group: ServiceGroup; services: Service[] }[];
   industries: Industry[];
   featured: CaseStudy | null;
+  theme?: "light" | "dark";
   onNavigate: () => void;
 };
 
-const HIGHLIGHT_CLASS =
-  "pointer-events-none absolute z-0 bg-white transition-[top,left,width,height,opacity] duration-250 ease-out";
+const HIGHLIGHT_LIGHT =
+  "pointer-events-none absolute z-0 bg-zn-bg-3/70 transition-[top,left,width,height,opacity] duration-250 ease-out";
 
-function GridEdgeCrosses({ columns }: { columns: number }) {
+const HIGHLIGHT_DARK =
+  "pointer-events-none absolute z-0 bg-zn-dark-2/90 transition-[top,left,width,height,opacity] duration-250 ease-out";
+
+function GridEdgeCrosses({
+  columns,
+  theme,
+}: {
+  columns: number;
+  theme: "light" | "dark";
+}) {
   const stops = Array.from({ length: columns + 1 }, (_, i) => (i / columns) * 100);
 
   return (
@@ -33,11 +47,13 @@ function GridEdgeCrosses({ columns }: { columns: number }) {
         <span key={pct}>
           <BlueprintCross
             anchor={pct === 0 ? "left" : pct === 100 ? "right" : pct}
+            theme={theme}
             data-blueprint-cross
             className="top-0 -translate-y-1/2"
           />
           <BlueprintCross
             anchor={pct === 0 ? "left" : pct === 100 ? "right" : pct}
+            theme={theme}
             data-blueprint-cross
             className="bottom-0 translate-y-1/2"
           />
@@ -47,18 +63,26 @@ function GridEdgeCrosses({ columns }: { columns: number }) {
   );
 }
 
-function ColumnCrosses({ showTop = true }: { showTop?: boolean }) {
+function ColumnCrosses({
+  showTop = true,
+  theme,
+}: {
+  showTop?: boolean;
+  theme: "light" | "dark";
+}) {
   return (
     <>
       {showTop && (
         <BlueprintCross
           anchor="left"
+          theme={theme}
           data-blueprint-cross
           className="top-0 -translate-y-1/2"
         />
       )}
       <BlueprintCross
         anchor="left"
+        theme={theme}
         data-blueprint-cross
         className="bottom-0 translate-y-1/2"
       />
@@ -71,15 +95,28 @@ export function MegaMenu({
   serviceGroups,
   industries,
   featured,
+  theme = "light",
   onNavigate,
 }: MegaMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const highlight = useHoverHighlight<HTMLDivElement>();
   useBlueprintReveal(panelRef, "mount");
 
+  const isDark = theme === "dark";
+  const borderClass = isDark ? "border-zn-border-dk" : "border-zn-border";
+  const divideClass = isDark ? "divide-zn-border-dk" : "divide-zn-border";
+  const lineClass = isDark ? blueprintDarkLineClass : "bg-zn-border";
+  const labelClass = isDark ? "text-zn-inv-2" : "text-zn-text-3";
+  const titleClass = isDark ? "text-zn-inv" : "text-zn-text";
+  const bodyClass = isDark ? "text-zn-inv-2" : "text-zn-text-2";
+  const iconClass = isDark ? "text-zn-inv" : "text-zn-text";
+
   return (
-    <div ref={panelRef} className="relative bg-zn-bg">
-      <BlueprintGuides reveal="none" showEdgeCrosses={false} />
+    <div
+      ref={panelRef}
+      className={cn("relative", isDark ? "bg-zn-dark text-zn-inv" : "bg-zn-bg text-zn-text")}
+    >
+      <BlueprintGuides reveal="none" showEdgeCrosses={false} theme={theme} />
 
       <div className="zn-container-guides relative">
         <div
@@ -89,51 +126,65 @@ export function MegaMenu({
         >
           <div
             data-blueprint-line
-            className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-zn-border"
+            className={cn(
+              "pointer-events-none absolute left-0 right-0 top-0 h-px",
+              lineClass,
+            )}
           />
           <div
             data-blueprint-line
-            className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-zn-border"
+            className={cn(
+              "pointer-events-none absolute bottom-0 left-0 right-0 h-px",
+              lineClass,
+            )}
           />
 
           <BlueprintCross
             anchor="left"
+            theme={theme}
             data-blueprint-cross
             className="top-0 -translate-y-1/2"
           />
           <BlueprintCross
             anchor="right"
+            theme={theme}
             data-blueprint-cross
             className="top-0 -translate-y-1/2"
           />
           <BlueprintCross
             anchor="left"
+            theme={theme}
             data-blueprint-cross
             className="bottom-0 translate-y-1/2"
           />
           <BlueprintCross
             anchor="right"
+            theme={theme}
             data-blueprint-cross
             className="bottom-0 translate-y-1/2"
           />
 
-          <HoverHighlightSurface rect={highlight.rect} className={HIGHLIGHT_CLASS} />
+          <HoverHighlightSurface
+            rect={highlight.rect}
+            className={isDark ? HIGHLIGHT_DARK : HIGHLIGHT_LIGHT}
+          />
 
           {type === "services" ? (
             <div className="relative grid lg:grid-cols-[1fr_1fr_22rem]">
               {serviceGroups.map((group, index) => (
                 <div
                   key={group.group}
-                  className={cn("relative", index > 0 && "border-l border-zn-border")}
+                  className={cn("relative", index > 0 && cn("border-l", borderClass))}
                 >
-                  {index > 0 && <ColumnCrosses />}
-                  <div className="relative border-b border-zn-border">
+                  {index > 0 && <ColumnCrosses theme={theme} />}
+                  <div className={cn("relative border-b", borderClass)}>
                     <BlueprintCross
                       anchor="left"
+                      theme={theme}
                       data-blueprint-cross
                       className="bottom-0 translate-y-1/2"
                     />
-                    <p className="zn-label px-6 py-4 text-zn-text-3">{group.group}</p>
+                    <p className={cn("zn-label px-6 py-4", labelClass)}>{group.group}</p>
                   </div>
                   <ul>
                     {group.services.map((service) => (
@@ -149,13 +200,13 @@ export function MegaMenu({
                         >
                           <Icon
                             name={service.icon}
-                            className="mt-0.5 size-5 shrink-0 text-zn-text"
+                            className={cn("mt-0.5 size-5 shrink-0", iconClass)}
                           />
                           <span>
-                            <span className="block text-[0.95rem] font-medium text-zn-text">
+                            <span className={cn("block text-[0.95rem] font-medium", titleClass)}>
                               {service.title}
                             </span>
-                            <span className="block text-[0.8rem] leading-snug text-zn-text-2">
+                            <span className={cn("block text-[0.8rem] leading-snug", bodyClass)}>
                               {service.shortDescription}
                             </span>
                           </span>
@@ -166,15 +217,16 @@ export function MegaMenu({
                 </div>
               ))}
 
-              <div className="relative border-l border-zn-border">
-                <ColumnCrosses />
-                <div className="relative border-b border-zn-border">
+              <div className={cn("relative border-l", borderClass)}>
+                <ColumnCrosses theme={theme} />
+                <div className={cn("relative border-b", borderClass)}>
                   <BlueprintCross
                     anchor="left"
+                    theme={theme}
                     data-blueprint-cross
                     className="bottom-0 translate-y-1/2"
                   />
-                  <p className="zn-label px-6 py-4 text-zn-text-3">Featured work</p>
+                  <p className={cn("zn-label px-6 py-4", labelClass)}>Featured work</p>
                 </div>
                 <div className="relative">
                   {featured && (
@@ -198,11 +250,21 @@ export function MegaMenu({
                           </div>
                         </div>
                       </div>
-                      <div className="mt-3 flex items-center justify-between gap-3 border-t border-zn-border pt-3">
-                        <span className="text-sm font-medium text-zn-text">
+                      <div
+                        className={cn(
+                          "mt-3 flex items-center justify-between gap-3 border-t pt-3",
+                          borderClass,
+                        )}
+                      >
+                        <span className={cn("text-sm font-medium", titleClass)}>
                           {featured.client}
                         </span>
-                        <ArrowUpRight className="size-4 text-zn-text transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        <ArrowUpRight
+                          className={cn(
+                            "size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5",
+                            iconClass,
+                          )}
+                        />
                       </div>
                     </Link>
                   )}
@@ -210,15 +272,20 @@ export function MegaMenu({
               </div>
             </div>
           ) : (
-            <div className="relative grid grid-cols-2 divide-x divide-y divide-zn-border md:grid-cols-3 lg:grid-cols-5 lg:divide-y-0">
+            <div
+              className={cn(
+                "relative grid grid-cols-2 divide-x divide-y md:grid-cols-3 lg:grid-cols-5",
+                divideClass,
+              )}
+            >
               <div className="pointer-events-none absolute inset-0 grid md:hidden">
-                <GridEdgeCrosses columns={2} />
+                <GridEdgeCrosses columns={2} theme={theme} />
               </div>
               <div className="pointer-events-none absolute inset-0 hidden md:grid lg:hidden">
-                <GridEdgeCrosses columns={3} />
+                <GridEdgeCrosses columns={3} theme={theme} />
               </div>
               <div className="pointer-events-none absolute inset-0 hidden lg:grid">
-                <GridEdgeCrosses columns={5} />
+                <GridEdgeCrosses columns={5} theme={theme} />
               </div>
               {industries.map((industry) => (
                 <Link
@@ -226,11 +293,16 @@ export function MegaMenu({
                   href={`/industries/${industry.slug}`}
                   onClick={onNavigate}
                   onMouseEnter={(e) => highlight.moveTo(e.currentTarget)}
-                  className="relative z-[1] flex flex-col gap-3 px-6 py-5"
+                  className="relative z-[1] flex flex-col gap-3 px-6 py-6"
                 >
-                  <Icon name={industry.icon} className="size-6 text-zn-text" />
-                  <span className="text-sm font-medium leading-snug text-zn-text">
-                    {industry.title}
+                  <Icon name={industry.icon} className={cn("size-6", iconClass)} />
+                  <span>
+                    <span className={cn("block text-sm font-medium leading-snug", titleClass)}>
+                      {industry.title}
+                    </span>
+                    <span className={cn("mt-1.5 block text-[0.8rem] leading-snug", bodyClass)}>
+                      {industry.shortDescription}
+                    </span>
                   </span>
                 </Link>
               ))}

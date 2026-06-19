@@ -32,12 +32,12 @@ export function TestimonialCard({
       </blockquote>
       <figcaption className={cn("text-sm", metaColor)}>
         <span className={cn("font-sans font-medium not-italic", quoteColor)}>
-          {testimonial.authorTitle}
+          {testimonial.authorName}
         </span>
         <span className="mx-1.5" aria-hidden="true">
           ·
         </span>
-        {testimonial.company}
+        {testimonial.authorTitle}
       </figcaption>
     </figure>
   );

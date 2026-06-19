@@ -11,14 +11,19 @@ function anchorAt(pct: number) {
 export function BlueprintGridCrosses({
   columns,
   rows = 1,
+  omitEdgeRows = false,
   className,
 }: {
   columns: number;
   rows?: number;
+  omitEdgeRows?: boolean;
   className?: string;
 }) {
   const colStops = Array.from({ length: columns + 1 }, (_, i) => (i / columns) * 100);
-  const rowStops = Array.from({ length: rows + 1 }, (_, i) => (i / rows) * 100);
+  const rowStops = Array.from(
+    { length: rows + 1 },
+    (_, i) => (i / rows) * 100,
+  ).filter((pct) => !omitEdgeRows || (pct > 0 && pct < 100));
 
   return (
     <div className={cn("pointer-events-none absolute inset-0", className)} aria-hidden="true">

@@ -12,13 +12,18 @@ export function ProcessSteps({
   const dark = theme === "dark";
 
   return (
-    <div className="grid gap-px bg-zn-border md:grid-cols-4">
+    <div
+      className={cn(
+        "grid border border-zn-border md:grid-cols-4 md:divide-x md:divide-y-0 divide-y divide-zn-border",
+        !dark && "divide-zn-border",
+      )}
+    >
       {steps.map((step) => (
         <div
           key={step.step}
           className={cn(
-            "flex flex-col bg-zn-bg-2 px-6 py-8 md:px-7 md:py-10",
-            dark && "bg-zn-dark",
+            "flex flex-col px-6 py-8 md:px-7 md:py-10",
+            dark ? "bg-zn-dark" : "bg-white/80",
           )}
         >
           <span

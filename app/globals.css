@@ -41,6 +41,12 @@
   --color-zn-sage: #dde6d8;
   --color-zn-sage-mid: #e9ede4;
 
+  /* Product accent washes */
+  --color-zn-lavender: #ebe6f0;
+  --color-zn-lavender-mid: #f2eff5;
+  --color-zn-sky: #e3ebf3;
+  --color-zn-sky-mid: #ecf2f8;
+
   /* Radii */
   --radius-sharp: 2px;
   --radius-ui: 6px;
@@ -198,6 +204,36 @@
     black 78%,
     transparent 100%
   );
+}
+
+/** Faded lavender wash — product cards (Anti-Slop Stack). */
+@utility zn-lavender-surface {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-zn-bg-2) 0%,
+    var(--color-zn-lavender-mid) 45%,
+    var(--color-zn-lavender) 100%
+  );
+}
+
+/** Faded sky wash — product cards (Framer Marketplace). */
+@utility zn-sky-surface {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-zn-bg) 0%,
+    var(--color-zn-sky-mid) 42%,
+    var(--color-zn-sky) 72%,
+    var(--color-zn-bg-2) 100%
+  );
+}
+
+@utility zn-accent-grain {
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  opacity: 0.022;
+  mix-blend-mode: multiply;
 }
 
 @utility zn-chip-tag {

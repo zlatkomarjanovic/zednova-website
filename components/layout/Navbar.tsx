@@ -1,13 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { Button } from "@/components/shared/Button";
 import { HoverFlip } from "@/components/shared/HoverFlip";
+import {
+  HoverHighlightSurface,
+  useHoverHighlight,
+} from "@/components/shared/HoverHighlight";
 import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import type { CaseStudy, Industry, Service, ServiceGroup } from "@/lib/types";
@@ -19,6 +24,8 @@ type NavbarProps = {
   featured: CaseStudy | null;
 };
 
+type MegaMenuType = "services" | "industries";
+
 const LINKS = [
   { label: "Work", href: "/work" },
   { label: "Products", href: "/products" },
@@ -26,19 +33,100 @@ const LINKS = [
   { label: "About", href: "/about" },
 ];
 
+const MENU_EASE = [0.22, 1, 0.36, 1] as const;
+
+const NAV_HIGHLIGHT_LIGHT =
+  "pointer-events-none absolute z-0 rounded-[4px] bg-zn-bg-3/75 transition-[top,left,width,height,opacity] duration-250 ease-out";
+
+const NAV_HIGHLIGHT_DARK =
+  "pointer-events-none absolute z-0 rounded-[4px] bg-zn-dark-2/90 transition-[top,left,width,height,opacity] duration-250 ease-out";
+
+const panelSlide = {
+  initial: (direction: number) => ({
+    x: direction === 0 ? "0%" : direction > 0 ? "100%" : "-100%",
+    opacity: direction === 0 ? 1 : 0,
+  }),
+  animate: {
+    x: "0%",
+    opacity: 1,
+    transition: { duration: 0.48, ease: MENU_EASE },
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? "-100%" : direction < 0 ? "100%" : "0%",
+    opacity: 0,
+    transition: { duration: 0.44, ease: MENU_EASE },
+  }),
+};
+
+function MegaMenuShell({
+  openMenu,
+  slideDirection,
+  shellHeight,
+  onHeightChange,
+  children,
+}: {
+  openMenu: MegaMenuType;
+  slideDirection: number;
+  shellHeight: number;
+  onHeightChange: (height: number) => void;
+  children: React.ReactNode;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const measure = useCallback(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    onHeightChange(el.offsetHeight);
+  }, [onHeightChange]);
+
+  useLayoutEffect(() => {
+    measure();
+    const el = panelRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [openMenu, measure]);
+
+  return (
+    <div
+      className="relative w-full overflow-hidden"
+      style={{ height: shellHeight > 0 ? shellHeight : undefined }}
+    >
+      <AnimatePresence initial={false} custom={slideDirection}>
+        <motion.div
+          key={openMenu}
+          ref={panelRef}
+          custom={slideDirection}
+          variants={panelSlide}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="absolute inset-x-0 top-0 w-full will-change-transform"
+          onAnimationComplete={measure}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
   const pathname = usePathname();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [openMenu, setOpenMenu] = useState<"services" | "industries" | null>(null);
+  const [openMenu, setOpenMenu] = useState<MegaMenuType | null>(null);
+  const [slideDirection, setSlideDirection] = useState(0);
+  const [panelHeight, setPanelHeight] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const navHighlight = useHoverHighlight<HTMLElement>();
 
   const services = serviceGroups.flatMap((g) => g.services);
 
-  // Hide on scroll down, reveal on scroll up.
   useEffect(() => {
     let last = window.scrollY;
     const onScroll = () => {
@@ -57,9 +145,10 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [openMenu]);
 
-  // Invert over sections marked data-theme="dark".
   useEffect(() => {
     setOpenMenu(null);
+    setSlideDirection(0);
+    setPanelHeight(0);
     setMobileOpen(false);
     const id = requestAnimationFrame(() => {
       const sections = Array.from(
@@ -95,10 +184,10 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
     };
   }, [pathname]);
 
-  // Close menus on Escape.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        setSlideDirection(0);
         setOpenMenu(null);
         setMobileOpen(false);
       }
@@ -107,18 +196,35 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  const closePanel = useCallback(() => {
+    setSlideDirection(0);
+    setOpenMenu(null);
+  }, []);
+
   const scheduleClose = useCallback(() => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setOpenMenu(null), 120);
-  }, []);
+    closeTimer.current = setTimeout(closePanel, 140);
+  }, [closePanel]);
 
   const cancelClose = useCallback(() => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
   }, []);
 
-  const openPanel = (menu: "services" | "industries") => {
+  const openPanel = (menu: MegaMenuType) => {
     cancelClose();
+    if (openMenu === "services" && menu === "industries") setSlideDirection(1);
+    else if (openMenu === "industries" && menu === "services") setSlideDirection(-1);
+    else setSlideDirection(0);
     setOpenMenu(menu);
+  };
+
+  const togglePanel = (menu: MegaMenuType) => {
+    cancelClose();
+    if (openMenu === menu) {
+      closePanel();
+      return;
+    }
+    openPanel(menu);
   };
 
   const isDark = theme === "dark";
@@ -151,29 +257,40 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
             <Logo variant={isDark ? "light" : "dark"} />
           </Link>
 
-          <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+          <nav
+            ref={navHighlight.rootRef}
+            aria-label="Main"
+            className="relative hidden items-center gap-0.5 lg:flex"
+            onMouseLeave={navHighlight.reset}
+          >
+            <HoverHighlightSurface
+              rect={navHighlight.rect}
+              className={isDark ? NAV_HIGHLIGHT_DARK : NAV_HIGHLIGHT_LIGHT}
+            />
+
             <MegaTrigger
               label="Services"
               isOpen={openMenu === "services"}
               onEnter={() => openPanel("services")}
-              onClick={() =>
-                setOpenMenu(openMenu === "services" ? null : "services")
-              }
+              onClick={() => togglePanel("services")}
+              onHighlight={navHighlight.moveTo}
             />
             <MegaTrigger
               label="Industries"
               isOpen={openMenu === "industries"}
               onEnter={() => openPanel("industries")}
-              onClick={() =>
-                setOpenMenu(openMenu === "industries" ? null : "industries")
-              }
+              onClick={() => togglePanel("industries")}
+              onHighlight={navHighlight.moveTo}
             />
             {LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                onMouseEnter={scheduleClose}
-                className="group/flip rounded-[2px] px-3 py-2 text-sm font-medium"
+                onMouseEnter={(e) => {
+                  scheduleClose();
+                  navHighlight.moveTo(e.currentTarget);
+                }}
+                className="group/flip relative z-[1] rounded-[4px] px-3 py-2 text-sm font-medium"
               >
                 <HoverFlip>{link.label}</HoverFlip>
               </Link>
@@ -200,25 +317,41 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
           </div>
         </div>
 
-        <div
-          className={cn(
-            "grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            openMenu ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-          )}
-          onMouseEnter={cancelClose}
+        <AnimatePresence
+          initial={false}
+          onExitComplete={() => {
+            setSlideDirection(0);
+            setPanelHeight(0);
+          }}
         >
-          <div className="overflow-hidden">
-            {openMenu && (
-              <MegaMenu
-                type={openMenu}
-                serviceGroups={serviceGroups}
-                industries={industries}
-                featured={featured}
-                onNavigate={() => setOpenMenu(null)}
-              />
-            )}
-          </div>
-        </div>
+          {openMenu && (
+            <motion.div
+              key="mega-shell"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: panelHeight, opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.44, ease: MENU_EASE }}
+              className="overflow-hidden"
+              onMouseEnter={cancelClose}
+            >
+              <MegaMenuShell
+                openMenu={openMenu}
+                slideDirection={slideDirection}
+                shellHeight={panelHeight}
+                onHeightChange={setPanelHeight}
+              >
+                <MegaMenu
+                  type={openMenu}
+                  serviceGroups={serviceGroups}
+                  industries={industries}
+                  featured={featured}
+                  theme={isDark ? "dark" : "light"}
+                  onNavigate={closePanel}
+                />
+              </MegaMenuShell>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <MobileMenu
@@ -236,18 +369,23 @@ function MegaTrigger({
   isOpen,
   onEnter,
   onClick,
+  onHighlight,
 }: {
   label: string;
   isOpen: boolean;
   onEnter: () => void;
   onClick: () => void;
+  onHighlight: (target: HTMLElement) => void;
 }) {
   return (
     <button
-      onMouseEnter={onEnter}
+      onMouseEnter={(e) => {
+        onEnter();
+        onHighlight(e.currentTarget);
+      }}
       onClick={onClick}
       aria-expanded={isOpen}
-      className="group/flip flex items-center gap-1 rounded-[2px] px-3 py-2 text-sm font-medium"
+      className="group/flip relative z-[1] flex items-center gap-1 rounded-[4px] px-3 py-2 text-sm font-medium"
     >
       <HoverFlip>{label}</HoverFlip>
       <ChevronDown

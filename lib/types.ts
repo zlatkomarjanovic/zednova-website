@@ -19,6 +19,8 @@ export type Service = {
   processSteps: { step: number; title: string; description: string }[];
   results: string[]; // outcomes you can expect
   pricingSignal: string;
+  timeline: string; // typical delivery window shown on cards
+  image: string; // cover image URL for cards + showcases
   order: number;
 };
 
@@ -106,6 +108,9 @@ export type Testimonial = {
   authorTitle: string;
   company: string;
   industry: string;
+  image?: string;
+  /** Platform-sourced reviews shown on the homepage carousel */
+  platform?: boolean;
   featured: boolean;
 };
 
