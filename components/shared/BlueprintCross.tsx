@@ -16,7 +16,8 @@ export function BlueprintCross({
   theme = "light",
   ...props
 }: BlueprintCrossProps) {
-  const strokeClass = "bg-zn-text-3/65";
+  const strokeClass =
+    theme === "dark" ? "bg-zn-inv-2/90" : "bg-zn-text-3/65";
   const anchorClass =
     anchor === "left"
       ? "left-0 -translate-x-1/2"

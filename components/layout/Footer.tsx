@@ -13,6 +13,9 @@ const COMPANY_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
+const FOOTER_CROSS =
+  "z-30";
+
 export function Footer({
   services,
   settings,
@@ -28,6 +31,17 @@ export function Footer({
       <BlueprintGuides theme="dark" reveal="none" className="z-10" />
 
       <div className="zn-container-guides relative">
+        <BlueprintCross
+          anchor="left"
+          theme="dark"
+          className={`top-0 -translate-y-1/2 ${FOOTER_CROSS}`}
+        />
+        <BlueprintCross
+          anchor="right"
+          theme="dark"
+          className={`top-0 -translate-y-1/2 ${FOOTER_CROSS}`}
+        />
+
         <div className="zn-container-inset grid gap-12 py-14 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10 lg:py-16">
           <div className="flex flex-col gap-6">
             <Logo variant="light" />
@@ -93,8 +107,18 @@ export function Footer({
           </div>
         </div>
 
-        <BlueprintCross anchor="left" theme="dark" className="bottom-0 translate-y-1/2" />
-        <BlueprintCross anchor="right" theme="dark" className="bottom-0 translate-y-1/2" />
+        <div className="border-b border-zn-border-dk" />
+
+        <BlueprintCross
+          anchor="left"
+          theme="dark"
+          className={`bottom-0 translate-y-1/2 ${FOOTER_CROSS}`}
+        />
+        <BlueprintCross
+          anchor="right"
+          theme="dark"
+          className={`bottom-0 translate-y-1/2 ${FOOTER_CROSS}`}
+        />
       </div>
     </footer>
   );
@@ -149,7 +173,7 @@ function Social({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex size-9 items-center justify-center border border-zn-border-dk text-zn-inv-2 transition-colors hover:border-zn-inv hover:text-zn-inv"
+      className="flex size-9 items-center justify-center border border-zn-border-dk text-zn-inv transition-colors hover:border-zn-inv hover:text-zn-inv"
     >
       {children}
     </a>
