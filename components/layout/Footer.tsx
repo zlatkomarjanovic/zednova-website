@@ -89,7 +89,7 @@ export function Footer({
 
         <div className="border-t border-zn-border-dk" />
 
-        <div className="zn-container-inset flex flex-col gap-4 py-8 pb-10 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="zn-container-inset flex flex-col gap-4 py-8 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} ZedNova Studios. Texas LLC. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link
@@ -103,17 +103,6 @@ export function Footer({
             </Link>
           </div>
         </div>
-
-        <BlueprintCross
-          anchor="left"
-          theme="dark"
-          className="bottom-0 z-30 translate-y-1/2"
-        />
-        <BlueprintCross
-          anchor="right"
-          theme="dark"
-          className="bottom-0 z-30 translate-y-1/2"
-        />
       </div>
     </footer>
   );
