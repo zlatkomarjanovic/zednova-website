@@ -152,7 +152,7 @@ export function ProductsShowcase({ products, intro }: ProductsShowcaseProps) {
       <div className="relative border-y border-zn-border">
         <BlueprintGridCrosses columns={2} rows={1} />
 
-        <div className="relative grid lg:grid-cols-[0.82fr_1.18fr] lg:divide-x lg:divide-zn-border">
+        <div className="relative grid lg:grid-cols-2 lg:divide-x lg:divide-zn-border">
           <div className="border-b border-zn-border px-6 py-8 lg:border-b-0 lg:py-10">
             {intro}
           </div>
