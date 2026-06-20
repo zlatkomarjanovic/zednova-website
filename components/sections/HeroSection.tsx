@@ -45,8 +45,8 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
                 <Button href="/contact" size="md" withArrow>
                   Tell us what you need
                 </Button>
-                <Button href="/work" variant="link" withArrow>
-                  See our work
+                <Button href="/services" variant="link" withArrow>
+                  See services
                 </Button>
               </div>
             </Reveal>

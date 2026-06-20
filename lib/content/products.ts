@@ -4,9 +4,9 @@ export const products: Product[] = [
   {
     slug: "anti-slop-stack",
     title: "The Anti-Slop Stack",
-    tagline: "Zed's AI website-building workflow, documented.",
+    tagline: "Free download",
     description:
-      "A PDF guide to the exact workflow behind ZedNova's sites. Nine tools, a twelve-step process, and the prompt templates that keep AI output sharp instead of generic.",
+      "The exact AI website-building workflow behind every ZedNova project, written down in one PDF. Nine tools, a twelve-step process, and the prompt templates that keep AI output sharp instead of generic.",
     status: "free",
     features: [
       "9 tools, end to end",

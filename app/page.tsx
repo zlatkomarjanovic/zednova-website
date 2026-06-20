@@ -48,7 +48,7 @@ const PILLARS = [
   {
     tagline: "Automation",
     title: "We connect your follow-up",
-    body: "CRM automations, booking flows, email and SMS sequences, and n8n or Make workflows so leads do not sit idle.",
+    body: "CRM automations, booking flows, email and SMS sequences, and n8n or Make workflows so no lead sits idle.",
   },
   {
     tagline: "AI Tools",
@@ -133,7 +133,7 @@ export default async function HomePage() {
         <div className="zn-container-guides relative">
           <div className="border-t border-zn-border">
             <p className="zn-container-inset py-4 text-center zn-label text-zn-text-3">
-              Our work summarized over the years.
+              120+ projects. 100% Job Success Score. 7+ years building. $0 wasted on agency overhead.
             </p>
           </div>
           <StatsRow stats={settings.stats} />
@@ -161,7 +161,7 @@ export default async function HomePage() {
               <Reveal delay={0.08}>
                 <p className="zn-prose mt-5 max-w-lg">
                   Website design, Shopify development, CRM automation, AI chatbots,
-                  dashboards, and migrations — built for clinics, ecommerce brands,
+                  dashboards, and migrations, built for clinics, ecommerce brands,
                   and small businesses.
                 </p>
               </Reveal>

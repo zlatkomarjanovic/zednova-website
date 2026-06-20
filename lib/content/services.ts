@@ -6,12 +6,12 @@ export const services: Service[] = [
     number: "01",
     title: "AI-Cited Lead Gen Site",
     group: "Websites",
-    category: "Websites & Conversion",
+    category: "SEO & AEO Content Systems",
     icon: "lead-site",
     shortDescription:
       "A lead gen site built to rank on Google and get cited by AI answer engines.",
     whatItIs:
-      "A high-converting website on Next.js or Webflow, structured so Google, ChatGPT, and Perplexity can find and cite your business. Schema markup, AEO-ready copy, Core Web Vitals performance, and conversion architecture that turns traffic into booked calls.",
+      "A high-converting website on Next.js or Webflow, built so Google, ChatGPT, and Perplexity can find and cite your business. Schema markup, AEO-ready copy, Core Web Vitals performance, and a structure that turns traffic into booked calls.",
     deliverables: [
       "Custom design",
       "Next.js or Webflow build",
@@ -38,8 +38,8 @@ export const services: Service[] = [
       "Every lead in your CRM within seconds of submitting",
       "Pages structured to be cited in Google AI Overviews, ChatGPT, and Perplexity",
     ],
-    pricingSignal: "Starting from $3,500",
-    timeline: "3–5 weeks to launch",
+    pricingSignal: "$3,500",
+    timeline: "3 to 5 weeks to launch",
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop",
     order: 1,
@@ -53,7 +53,7 @@ export const services: Service[] = [
     icon: "receptionist",
     shortDescription: "Answer every call and missed call, 24/7, before they call your competitor.",
     whatItIs:
-      "A 24/7 AI voice or chat system that answers inbound inquiries, qualifies leads, books appointments, and sends instant text-back to missed calls. It works before they call your competitor.",
+      "A 24/7 AI voice or chat system that answers inbound inquiries, qualifies leads, books appointments, and sends instant text-back to missed calls before they call your competitor.",
     deliverables: [
       "AI chat or voice agent configuration",
       "Missed-call SMS automation",
@@ -133,7 +133,7 @@ export const services: Service[] = [
     icon: "outbound",
     shortDescription: "A system that puts only warm leads in front of your sales team.",
     whatItIs:
-      "Scraping, enrichment, and AI-personalized outreach at scale. We build the system, prospect lists, personalization layers, multi-channel sequences, and inbox management, so your sales team only talks to warm leads.",
+      "Scraping, enrichment, and AI-personalized outreach at scale. We build the system, prospect lists, personalization layers, and multi-channel sequences so your sales team only talks to warm leads.",
     deliverables: [
       "ICP definition",
       "Prospect list building",
@@ -214,7 +214,7 @@ export const services: Service[] = [
     icon: "ops",
     shortDescription: "Eliminate the manual tasks quietly killing your team's time.",
     whatItIs:
-      "We map your internal workflows, find the manual tasks killing your team's time, and automate them with n8n or Make. Reporting, document processing, scheduling, and internal notifications, eliminated.",
+      "We map your internal workflows, find the manual tasks killing your team's time, and automate them with n8n or Make. Reporting, document processing, scheduling, and internal notifications, handled automatically.",
     deliverables: [
       "Process audit",
       "Automation design",

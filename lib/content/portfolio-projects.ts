@@ -4,9 +4,9 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     slug: "mavesta-media",
     client: "Mavesta Media",
-    title: "Full Brand Rebuild and Conversion-Focused Website Platform for Mavesta Media",
+    title: "Mavesta Media",
     summary:
-      "UX planning, brand and UI design in Figma, and a Webflow build with scalable CMS, SEO, performance optimization, and GSAP interactions.",
+      "Full brand rebuild and conversion-focused website. UX planning, brand and UI design in Figma, Webflow build with CMS, SEO, performance optimization, and GSAP interactions.",
     href: "https://mavestamedia.com/",
     image: "/images/Mavesta-Media-Cover-Image.webp",
     imageAlt:
@@ -18,9 +18,9 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     slug: "vault-apps",
     client: "Vault Apps",
-    title: "High-Performance SaaS Website with Scalable CMS",
+    title: "Vault Apps",
     summary:
-      "Modern marketing website for a software agency with clean UX, responsive design, scalable CMS, performance, and SEO in Webflow.",
+      "High-performance SaaS marketing site with scalable CMS. Clean UX, responsive design, performance, and SEO built in Webflow for a software agency.",
     href: "https://www.vaultapps.com/",
     image: "/images/Vault-Apps-Cover-Image-1.webp",
     imageAlt:
@@ -32,9 +32,9 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     slug: "mavi-longevity",
     client: "MAVI Longevity Living",
-    title: "Luxury Wellness Real Estate Platform and Lead Qualification System",
+    title: "MAVI Longevity Living",
     summary:
-      "Strategic website positioning MAVI in longevity-focused real estate with cinematic design, dual funnels, and lead qualification.",
+      "Luxury wellness real estate platform and lead qualification system. Strategic positioning, cinematic design, dual conversion funnels, and a lead qualification flow for longevity-focused real estate.",
     href: "https://mavilongevity.com/",
     image: "/images/Mavi-Longevity-Living-Cover-Image.webp",
     imageAlt:
@@ -46,9 +46,9 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     slug: "egc-nyc",
     client: "EGC NYC",
-    title: "Digital Platform for an International Nonprofit Organization",
+    title: "EGC NYC",
     summary:
-      "Comprehensive nonprofit website with Webflow development, CMS setup, SEO, and Google Business integration for global outreach.",
+      "Digital platform for an international nonprofit. Webflow development, CMS setup, SEO, and Google Business integration for a nonprofit with a global reach.",
     href: "https://egcnyc.org/",
     image: "/images/EGC-Cover-Image.webp",
     imageAlt:

@@ -350,31 +350,31 @@ export const customSoftwareNavItems: NavMenuItem[] = [
   {
     title: "Custom Web App Development",
     shortDescription:
-      "Simple web apps on Next.js for workflows, records, and tools your team uses daily.",
+      "Simple web apps on Next.js for workflows, records, and tools your team uses every day.",
     href: "/industries/small-business-custom-software",
   },
   {
     title: "Client Portal Development",
     shortDescription:
-      "Login portals where clients check status, upload files, and get project updates.",
+      "Login portals where clients check project status, upload files, and get updates without emailing you.",
     href: "/industries/portal-dashboard-booking-needs",
   },
   {
     title: "Patient Portal Development",
     shortDescription:
-      "Secure portals for patients to book visits, complete intake, and view appointment info.",
+      "Secure portals for patients to book visits, complete intake forms, and view their appointment info.",
     href: "/industries/healthcare-clinics",
   },
   {
     title: "Internal Dashboard Development",
     shortDescription:
-      "Staff dashboards that replace spreadsheets and show live business numbers.",
+      "Staff dashboards that replace spreadsheets and show live business numbers at a glance.",
     href: "/services/reporting-dashboards",
   },
   {
     title: "Booking System Development",
     shortDescription:
-      "Online scheduling with confirmations, reminders, intake, and calendar sync.",
+      "Online scheduling with confirmations, reminders, intake forms, and calendar sync built in.",
     href: "/services/crm-pipeline-automation",
   },
   {
@@ -386,7 +386,7 @@ export const customSoftwareNavItems: NavMenuItem[] = [
   {
     title: "Form & Intake Systems",
     shortDescription:
-      "Custom forms wired to CRM, email, SMS, and follow-up after submission.",
+      "Custom forms wired to CRM, email, SMS, and follow-up sequences triggered on submission.",
     href: "/services/custom-ai-agents",
   },
   {
