@@ -58,20 +58,20 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
       <BlueprintGrid />
 
       <div className="zn-container relative">
-        <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-start lg:gap-16">
-          <aside className="w-full shrink-0 lg:sticky lg:top-28 lg:w-[min(100%,22rem)] lg:self-start xl:w-[min(100%,26rem)]">
+        <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-start lg:gap-12 xl:gap-16">
+          <aside className="w-full shrink-0 lg:sticky lg:top-28 lg:w-1/2 lg:self-start">
             <SectionLabel withRule={false}>FAQ</SectionLabel>
-            <h2 className="mt-6 max-w-md zn-h2 font-sans font-normal">
+            <h2 className="mt-6 zn-h2 font-sans font-normal">
               Answers before you reach out
             </h2>
-            <p className="zn-prose mt-5 max-w-sm">
+            <p className="zn-prose mt-5">
               Websites, Shopify, automations, migrations, AI tools, pricing,
               ownership, and support — the questions we hear most before a
               project starts.
             </p>
           </aside>
 
-          <div className="min-w-0 flex-1 self-start">
+          <div className="min-w-0 w-full shrink-0 self-start lg:w-1/2">
             <div className="border border-zn-border bg-zn-bg-2">
               <div className="divide-y divide-zn-border">
                 {faqs.map((item) => (
