@@ -5,16 +5,17 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const HERO_BUILD_ITEMS = [
   "custom software",
-  "Shopify stores",
-  "Next.js websites",
+  "Next.js web apps",
+  "client portals",
+  "patient systems",
+  "booking flows",
+  "mobile apps",
+  "MVPs",
   "CRM automations",
   "AI phone assistants",
-  "booking flows",
-  "client portals",
-  "Klaviyo email flows",
-  "migration projects",
   "AI chatbots",
-  "custom dashboards",
+  "internal dashboards",
+  "migration projects",
 ] as const;
 
 const LOOP_MS = 3500;
