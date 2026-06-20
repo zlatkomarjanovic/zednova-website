@@ -18,30 +18,30 @@ export type ServiceMegaMenuCard = {
 
 export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
   {
-    title: "Websites & Landing Pages",
+    title: "Marketing website development",
     shortDescription:
-      "Fast websites, landing pages, and CMS setups for clinics, brands, and small businesses.",
-    includes: "Next.js, Sanity, Webflow, SEO setup",
+      "B2B and B2C marketing websites, landing pages, and CMS setups for brands that need to convert traffic into leads.",
+    includes: "Next.js, Webflow, Sanity, SEO setup",
     href: "/services/ai-lead-site",
   },
   {
-    title: "Shopify & Ecommerce",
+    title: "E-commerce development",
     shortDescription:
-      "Shopify stores, product pages, email flows, and ecommerce dashboards.",
+      "Shopify stores, product pages, checkout flows, email sequences, and ecommerce dashboards.",
     includes: "Shopify, headless Shopify, Klaviyo, cart recovery",
     href: "/industries/ecommerce-shopify",
   },
   {
-    title: "Custom Web Apps",
+    title: "Custom in-house software development",
     shortDescription:
-      "Portals, dashboards, booking systems, admin panels, and internal tools.",
+      "Client portals, staff dashboards, booking systems, admin panels, and internal tools built for your team.",
     includes: "client portals, staff dashboards, booking flows",
     href: "/industries/small-business-custom-software",
   },
   {
     title: "CRM & Workflow Automation",
     shortDescription:
-      "Automations that connect forms, leads, bookings, email, SMS, and internal tasks.",
+      "Automations that connect forms, leads, bookings, email, SMS, and internal tasks across your existing tools.",
     includes: "CRM setup, n8n, Make, Airtable, Zapier",
     href: "/services/crm-pipeline-automation",
   },

@@ -9,6 +9,7 @@ export type BenefitItem = {
   body: string;
   image: string;
   accent?: string;
+  visual?: React.ReactNode;
 };
 
 export function BenefitsGrid({
@@ -35,8 +36,10 @@ export function BenefitsGrid({
       >
         {items.map((item) => (
           <article key={item.title} className="flex flex-col">
-            <div className="relative aspect-[16/10] overflow-hidden border-b border-zn-border">
-              {item.image ? (
+            <div className="relative aspect-[16/10] overflow-hidden border-b border-zn-border bg-zn-bg-2">
+              {item.visual ? (
+                item.visual
+              ) : item.image ? (
                 <Image
                   src={item.image}
                   alt=""
@@ -50,7 +53,9 @@ export function BenefitsGrid({
                   style={{ backgroundColor: item.accent ?? "#d8d7d1" }}
                 />
               )}
-              <div className="zn-grain absolute inset-0 opacity-[0.03]" aria-hidden="true" />
+              {!item.visual && (
+                <div className="zn-grain absolute inset-0 opacity-[0.03]" aria-hidden="true" />
+              )}
             </div>
             <div className="flex flex-1 flex-col px-6 py-7 md:px-7 md:py-8">
               <p className="zn-label text-zn-text-3">{item.tagline}</p>

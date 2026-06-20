@@ -13,6 +13,9 @@ import {
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
+import { WebsiteBuilderAnimation } from "@/components/animations/WebsiteBuilderAnimation";
+import { CRMAutomationAnimation } from "@/components/animations/CRMAutomationAnimation";
+import { AIChatbotAnimation } from "@/components/animations/AIChatbotAnimation";
 import { Button } from "@/components/shared/Button";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { PortfolioWorkGrid } from "@/components/sections/PortfolioWorkGrid";
@@ -41,9 +44,9 @@ export const metadata: Metadata = {
 
 const PILLARS = [
   {
-    tagline: "Websites",
+    tagline: "Marketing websites",
     title: "We design and build the site",
-    body: "Next.js websites, Shopify stores, landing pages, and Sanity CMS setups that load fast and convert visitors.",
+    body: "B2B and B2C marketing websites, landing pages, and Sanity or Webflow CMS setups that load fast and convert visitors.",
   },
   {
     tagline: "Automation",
@@ -69,10 +72,17 @@ export default async function HomePage() {
       getAllFaqs(),
     ]);
 
+  const PILLAR_VISUALS = [
+    <WebsiteBuilderAnimation key="website-builder" />,
+    <CRMAutomationAnimation key="crm-automation" />,
+    <AIChatbotAnimation key="ai-chatbot" />,
+  ];
+
   const benefits = PILLARS.map((pillar, i) => ({
     ...pillar,
     image: allCases[i % allCases.length]?.image ?? "",
     accent: allCases[i % allCases.length]?.accent,
+    visual: PILLAR_VISUALS[i],
   }));
 
   return (
@@ -90,7 +100,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="A studio that builds websites, stores, and automations for businesses that want to grow without adding headcount."
+            text="A studio that builds marketing websites, ecommerce stores, and automations for businesses that want to grow without adding headcount."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
         </div>
@@ -160,9 +170,9 @@ export default async function HomePage() {
               />
               <Reveal delay={0.08}>
                 <p className="zn-prose mt-5 max-w-lg">
-                  Website design, Shopify development, CRM automation, AI chatbots,
-                  dashboards, and migrations, built for clinics, ecommerce brands,
-                  and small businesses.
+                  Marketing website design, e-commerce development, custom in-house
+                  software, CRM automation, AI chatbots, dashboards, and migrations,
+                  built for clinics, ecommerce brands, and small businesses.
                 </p>
               </Reveal>
             </div>

@@ -14,6 +14,14 @@ type FilterKey = "All" | ServiceGroup;
 
 const FILTER_ORDER: FilterKey[] = ["All", "Websites", "Automation", "AI Tools"];
 
+const FILTER_LABELS: Record<FilterKey, string> = {
+  All: "All",
+  Websites: "Marketing websites",
+  Automation: "Automation",
+  "AI Tools": "AI tools",
+  Ecommerce: "E-commerce",
+};
+
 const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
 
 const panelVariants = {
@@ -188,7 +196,7 @@ export function ServicesTabShowcase({ services, className }: ServicesTabShowcase
                     : "border-zn-border bg-white text-zn-text-2 hover:border-zn-text hover:text-zn-text",
                 )}
               >
-                {filter}
+                {FILTER_LABELS[filter]}
               </button>
             );
           })}
