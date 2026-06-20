@@ -20,7 +20,7 @@
     "semantic_hash": ""
   },
   "app/layout.tsx": {
-    "mtime": 1781891780.8482168,
+    "mtime": 1781911056.9080467,
     "ast_hash": "f01310d78b873f60e753a841e9d8dedf",
     "semantic_hash": ""
   },
@@ -105,13 +105,13 @@
     "semantic_hash": ""
   },
   "components/layout/Footer.tsx": {
-    "mtime": 1781891997.7072778,
-    "ast_hash": "88ea3267a7525b11fa718fa8cd989a9e",
+    "mtime": 1781956718.4466255,
+    "ast_hash": "feed71927296bf9b941f3f903e96a762",
     "semantic_hash": ""
   },
   "components/layout/MegaMenu.tsx": {
-    "mtime": 1781892533.213097,
-    "ast_hash": "bb6624c02357faf80112216030f1bacf",
+    "mtime": 1781892658.9381187,
+    "ast_hash": "01d85b640ac5d3681db8f413556ae271",
     "semantic_hash": ""
   },
   "components/layout/MobileMenu.tsx": {
@@ -120,8 +120,8 @@
     "semantic_hash": ""
   },
   "components/layout/Navbar.tsx": {
-    "mtime": 1781892540.1785998,
-    "ast_hash": "f2c33f62fc5e59f5418c8898f65d3fcc",
+    "mtime": 1781892658.373395,
+    "ast_hash": "514878f6516dc342ad2b80c2ee85c685",
     "semantic_hash": ""
   },
   "components/sections/BenefitsGrid.tsx": {
@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "components/sections/DarkCTA.tsx": {
-    "mtime": 1781891296.2689378,
-    "ast_hash": "014b9c8670904e3f80a47e0fb5b74f5c",
+    "mtime": 1781956718.4466255,
+    "ast_hash": "3146de1aa957c46d627081876a936663",
     "semantic_hash": ""
   },
   "components/sections/FaqSection.tsx": {
@@ -150,13 +150,13 @@
     "semantic_hash": ""
   },
   "components/sections/HeroSection.tsx": {
-    "mtime": 1781891285.5001528,
-    "ast_hash": "d72d7fd3a1df2fa5a4f5a125e249b447",
+    "mtime": 1781957618.2669816,
+    "ast_hash": "c0bac938a60048bb7ff9c2720ffbcd8b",
     "semantic_hash": ""
   },
   "components/sections/HeroWorkGallery.tsx": {
-    "mtime": 1781890469.7848494,
-    "ast_hash": "2a2f81084cd4064dfdaa2de9a286dada",
+    "mtime": 1781957132.8515985,
+    "ast_hash": "61e4d0dcd1667c4c604b8c225ce4fbef",
     "semantic_hash": ""
   },
   "components/sections/IndustryShowcaseGrid.tsx": {
@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "components/sections/ServicesTabShowcase.tsx": {
-    "mtime": 1781891779.6260605,
-    "ast_hash": "3bebc379ecf425a8c1d1fbcdf4403e7f",
+    "mtime": 1781956718.4466255,
+    "ast_hash": "1b007a9eb7fcf41fa6e739c8163da48c",
     "semantic_hash": ""
   },
   "components/sections/StatsRow.tsx": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "components/sections/TestimonialCarousel.tsx": {
-    "mtime": 1781890469.789869,
-    "ast_hash": "0d17f31d6b0e6fbd9a42236bc61c25c5",
+    "mtime": 1781908655.2867138,
+    "ast_hash": "eb729218680b002392d10be340a294b9",
     "semantic_hash": ""
   },
   "components/sections/WorkGrid.tsx": {
@@ -235,8 +235,8 @@
     "semantic_hash": ""
   },
   "components/shared/BlueprintCross.tsx": {
-    "mtime": 1781890469.790957,
-    "ast_hash": "931d61338c8561900ce14fcb9e8e6343",
+    "mtime": 1781909728.0608478,
+    "ast_hash": "af97aec34099ad4e17c93577082e344e",
     "semantic_hash": ""
   },
   "components/shared/BlueprintGridCrosses.tsx": {
@@ -265,8 +265,8 @@
     "semantic_hash": ""
   },
   "components/shared/HoverHighlight.tsx": {
-    "mtime": 1781892523.1215155,
-    "ast_hash": "99dd386673d464b16e51cb6374367e28",
+    "mtime": 1781907620.1724198,
+    "ast_hash": "46b5f830c14426f628dea0b5a1b0d754",
     "semantic_hash": ""
   },
   "components/shared/Icon.tsx": {
@@ -540,8 +540,13 @@
     "semantic_hash": ""
   },
   "components/sections/ProductSlider.tsx": {
-    "mtime": 1781891861.1712072,
-    "ast_hash": "988767a6f1b27c6f65aa0c8206acdd98",
+    "mtime": 1781908536.4290638,
+    "ast_hash": "bb56acab488044ee9ad444e3429afbc2",
+    "semantic_hash": ""
+  },
+  "components/animations/HeroLineWave.tsx": {
+    "mtime": 1781957783.545876,
+    "ast_hash": "5cbbe6661bf68ea1988f202959ea4f57",
     "semantic_hash": ""
   }
 }

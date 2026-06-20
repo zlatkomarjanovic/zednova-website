@@ -34,10 +34,13 @@ function ServicePanel({ service }: { service: Service }) {
       <div className="flex w-1/2 min-w-0 flex-col justify-between rounded-[8px] bg-white p-6 md:p-8">
         <div>
           <div className="flex items-start justify-end gap-4">
-            <ArrowUpRight
-              className="size-4 shrink-0 text-zn-text-3 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-zn-text"
+            <span
+              className="relative flex size-4 shrink-0 items-center justify-center overflow-hidden"
               aria-hidden="true"
-            />
+            >
+              <ArrowUpRight className="size-4 text-zn-text-3 transition-all duration-300 ease-out motion-reduce:transition-none group-hover:translate-x-full group-hover:-translate-y-full group-hover:opacity-0" />
+              <ArrowUpRight className="absolute size-4 text-zn-text-3 -translate-x-full translate-y-full opacity-0 transition-all duration-300 ease-out motion-reduce:transition-none group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 group-hover:text-zn-text motion-reduce:opacity-100 motion-reduce:translate-x-0 motion-reduce:translate-y-0" />
+            </span>
           </div>
           <h3 className="mt-1 font-sans text-xl font-normal tracking-tight text-zn-text md:text-[1.35rem]">
             {service.title}
@@ -47,16 +50,15 @@ function ServicePanel({ service }: { service: Service }) {
           </p>
         </div>
 
-        <div className="mt-8 grid gap-2 sm:grid-cols-3 sm:gap-3">
-          {meta.map((item) => (
-            <div
-              key={item.label}
-              className="rounded-[6px] bg-zn-bg px-4 py-3.5"
-            >
-              <p className="zn-label text-zn-text-3">{item.label}</p>
-              <p className="mt-2 text-sm leading-snug text-zn-text">{item.value}</p>
-            </div>
-          ))}
+        <div className="mt-8 border border-zn-border">
+          <div className="grid grid-cols-1 divide-y divide-zn-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            {meta.map((item) => (
+              <div key={item.label} className="px-4 py-3.5 md:px-5 md:py-4">
+                <p className="zn-label text-zn-text-3">{item.label}</p>
+                <p className="mt-2 text-sm leading-snug text-zn-text">{item.value}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

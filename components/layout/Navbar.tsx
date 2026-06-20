@@ -297,7 +297,7 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
                   scheduleClose();
                   navHighlight.snapTo(e.currentTarget);
                 }}
-                className="group/flip relative z-[1] rounded-[4px] px-3 py-2 text-sm font-medium"
+                className="group/flip relative z-[1] rounded-[4px] px-3 py-2 text-sm font-normal"
               >
                 <HoverFlip>{link.label}</HoverFlip>
               </Link>
@@ -393,7 +393,7 @@ function MegaTrigger({
       }}
       onClick={onClick}
       aria-expanded={isOpen}
-      className="group/flip relative z-[1] flex items-center gap-1 rounded-[4px] px-3 py-2 text-sm font-medium"
+      className="group/flip relative z-[1] flex items-center gap-1 rounded-[4px] px-3 py-2 text-sm font-normal"
     >
       <HoverFlip>{label}</HoverFlip>
       <ChevronDown

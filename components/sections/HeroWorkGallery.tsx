@@ -13,13 +13,18 @@ import { cn } from "@/lib/utils";
 type HeroWorkGalleryProps = {
   caseStudies: CaseStudy[];
   className?: string;
+  showTopBorder?: boolean;
 };
 
 /**
  * Horizontal project strip clipped to the guide column. Each slide is ~⅔ of the
  * guide width (~2× prior size) — one dominant + next entering.
  */
-export function HeroWorkGallery({ caseStudies, className }: HeroWorkGalleryProps) {
+export function HeroWorkGallery({
+  caseStudies,
+  className,
+  showTopBorder = true,
+}: HeroWorkGalleryProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const items = caseStudies.length > 0 ? [...caseStudies, ...caseStudies] : [];
 
@@ -47,12 +52,15 @@ export function HeroWorkGallery({ caseStudies, className }: HeroWorkGalleryProps
 
   return (
     <div className={cn("@container relative w-full", className)}>
-      <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
-      <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
+      {showTopBorder && (
+        <>
+          <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
+          <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
+          <div className="border-t border-zn-border" />
+        </>
+      )}
 
-      <div className="border-t border-zn-border" />
-
-      <div className="overflow-hidden pt-8">
+      <div className={cn("overflow-hidden", showTopBorder ? "pt-8" : "pt-0")}>
         <div
           ref={trackRef}
           className="flex w-max items-start gap-5 motion-reduce:overflow-x-auto motion-reduce:[scrollbar-width:none] lg:gap-6"

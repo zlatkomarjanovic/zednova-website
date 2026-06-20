@@ -3,6 +3,7 @@ import { Logo } from "@/components/shared/Logo";
 import { BlueprintGuides } from "@/components/shared/BlueprintGuides";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import type { Service, SiteSettings } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 const COMPANY_LINKS = [
   { label: "Work", href: "/work" },
@@ -16,14 +17,17 @@ const COMPANY_LINKS = [
 export function Footer({
   services,
   settings,
+  className,
 }: {
   services: Service[];
   settings: SiteSettings;
+  className?: string;
 }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer data-theme="dark" className="relative bg-zn-dark text-zn-inv">
+    <footer data-theme="dark" className={cn("relative bg-zn-dark text-zn-inv", className)}>
+      <div className="zn-blueprint-grid pointer-events-none absolute inset-0 opacity-[0.18]" aria-hidden="true" />
       <div className="zn-grain pointer-events-none absolute inset-0 opacity-[0.05]" aria-hidden="true" />
       <BlueprintGuides theme="dark" reveal="none" className="z-10" />
 
