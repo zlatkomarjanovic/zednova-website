@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 
-import { Reveal } from "@/components/animations/Reveal";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import type { FaqItem } from "@/lib/content/faq";
@@ -53,43 +52,39 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
   return (
     <section
       data-theme="light"
-      className="relative zn-section overflow-hidden zn-sage-surface"
+      className="relative zn-section zn-sage-surface"
     >
-      <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
+      <div className="zn-sage-grain pointer-events-none absolute inset-0" aria-hidden="true" />
       <BlueprintGrid />
 
-      <div className="zn-container relative grid items-start gap-10 lg:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)] lg:gap-16">
-        <div className="lg:sticky lg:top-28 lg:self-start">
-          <Reveal>
+      <div className="zn-container relative">
+        <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-start lg:gap-16">
+          <aside className="w-full shrink-0 lg:sticky lg:top-28 lg:w-[min(100%,22rem)] lg:self-start xl:w-[min(100%,26rem)]">
             <SectionLabel withRule={false}>FAQ</SectionLabel>
-          </Reveal>
-          <Reveal delay={0.05}>
             <h2 className="mt-6 max-w-md zn-h2 font-sans font-normal">
               Answers before you reach out
             </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
             <p className="zn-prose mt-5 max-w-sm">
               Websites, Shopify, automations, migrations, AI tools, pricing,
               ownership, and support — the questions we hear most before a
               project starts.
             </p>
-          </Reveal>
-        </div>
+          </aside>
 
-        <div className="min-w-0 self-start">
-          <div className="overflow-hidden border border-zn-border bg-zn-bg-2">
-            <div className="divide-y divide-zn-border">
-              {faqs.map((item) => (
-                <FaqAccordionItem
-                  key={item.id}
-                  item={item}
-                  open={openId === item.id}
-                  onToggle={() =>
-                    setOpenId((current) => (current === item.id ? "" : item.id))
-                  }
-                />
-              ))}
+          <div className="min-w-0 flex-1 self-start">
+            <div className="border border-zn-border bg-zn-bg-2">
+              <div className="divide-y divide-zn-border">
+                {faqs.map((item) => (
+                  <FaqAccordionItem
+                    key={item.id}
+                    item={item}
+                    open={openId === item.id}
+                    onToggle={() =>
+                      setOpenId((current) => (current === item.id ? "" : item.id))
+                    }
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
