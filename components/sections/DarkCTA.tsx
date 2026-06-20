@@ -6,10 +6,10 @@ import { Button } from "@/components/shared/Button";
 
 export function DarkCTA({
   heading = "Ready to start your next website or automation project?",
-  sub = "Tell us what you need — a new site, Shopify store, booking flow, or migration — and we will scope it in the first call.",
+  sub = "Tell us what you need and we will scope it out on the first call. Whether it is a new site, a Shopify store, a booking flow, or a migration, we have done it before.",
   ctaLabel = "Tell us what you need",
   ctaHref = "/contact",
-  note = "Or email us at hello@zednova.com · Response within 24 hours",
+  note = "Or email us at hello@zednova.com. We reply within 24 hours.",
 }: {
   heading?: string;
   sub?: string;

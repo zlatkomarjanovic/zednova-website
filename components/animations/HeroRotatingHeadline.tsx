@@ -78,11 +78,9 @@ export function HeroRotatingHeadline() {
         </span>
       </span>
       <span className="mt-2 block">
-        for small businesses that
+        for small businesses that want
         <br />
-        want more results with
-        <br />
-        less manual work.
+        more customers with less manual work.
       </span>
     </h1>
   );

@@ -51,9 +51,9 @@ const PILLARS = [
     body: "CRM automations, booking flows, email and SMS sequences, and n8n or Make workflows so leads do not sit idle.",
   },
   {
-    tagline: "AI tools",
-    title: "We add AI where it helps",
-    body: "AI chatbots for your website, AI phone assistants for missed calls, and intake flows that book appointments automatically.",
+    tagline: "AI Tools",
+    title: "We add AI where it actually helps",
+    body: "Website chatbots, AI phone assistants for missed calls, and intake flows that book appointments without anyone picking up the phone.",
   },
 ];
 
@@ -90,7 +90,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="A studio that builds websites, Shopify stores, and automations."
+            text="A studio that builds websites, stores, and automations for businesses that want to grow without adding headcount."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
         </div>
@@ -110,7 +110,7 @@ export default async function HomePage() {
               </Reveal>
               <TextReveal
                 as="h2"
-                text="Example projects and client work"
+                text="Projects and case studies"
                 className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
               />
             </div>
@@ -196,8 +196,8 @@ export default async function HomePage() {
           />
           <Reveal delay={0.08}>
             <p className="zn-prose mt-5 max-w-lg">
-              The platforms we build on, connect, and deploy — picked per project,
-              not forced into one playbook.
+              The platforms we build on, connect, and deploy. We pick the right stack
+              for the project, not the most familiar one.
             </p>
           </Reveal>
         </div>
@@ -242,16 +242,20 @@ export default async function HomePage() {
         <BlueprintGuides theme="dark" reveal="immediate" className="z-10" />
         <div className="zn-container relative">
           <div className="mx-auto max-w-2xl pb-28 text-center">
-            <h2 className="zn-h2 font-sans font-normal text-zn-inv">
-              What{" "}
-              <span className="zn-accent-italic">the people</span>
-              <br />
-              have to say
+            <Reveal>
+              <div className="flex justify-center">
+                <SectionLabel withRule={false} className="text-zn-inv-2">
+                  What the people have to say
+                </SectionLabel>
+              </div>
+            </Reveal>
+            <h2 className="zn-h2 mt-6 font-sans font-normal text-zn-inv">
+              Real reviews from real clients
             </h2>
             <Reveal delay={0.08}>
               <p className="zn-prose mx-auto mt-5 max-w-md text-zn-inv-2">
-                All testimonials are sourced from Contra, Fiverr, Upwork, and
-                LinkedIn — you can verify every review on those platforms.
+                All reviews are sourced from Contra, Fiverr, Upwork, and LinkedIn.
+                You can verify every one of them on those platforms.
               </p>
             </Reveal>
           </div>
@@ -270,7 +274,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="We also build products"
+            text="We also build products."
             className="mt-6 zn-h2 font-sans font-normal"
           />
         </div>
@@ -280,8 +284,8 @@ export default async function HomePage() {
             <>
               <Reveal delay={0.1}>
                 <p className="zn-prose max-w-md">
-                  Beyond client work, we ship software and tools for the ecosystems
-                  we work in.
+                  Alongside client work, we ship tools and resources for the
+                  ecosystems we work in.
                 </p>
               </Reveal>
               <Reveal delay={0.15}>

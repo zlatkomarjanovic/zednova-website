@@ -66,8 +66,7 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
             </h2>
             <p className="zn-prose mt-5 max-w-[25rem]">
               Websites, Shopify, automations, migrations, AI tools, pricing,
-              ownership, and support — the questions we hear most before a
-              project starts.
+              ownership, and support covered below.
             </p>
           </aside>
 

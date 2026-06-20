@@ -25,7 +25,7 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
           <div className="zn-container-inset relative z-10 flex shrink-0 flex-col pt-28 pb-8 lg:pt-32 lg:pb-10">
             <Reveal start="top bottom">
               <p className="text-sm text-zn-text-3">
-                120+ projects completed · 7+ years building · 100% Job Success Score
+                120+ projects. 7+ years. 100% Job Success Score.
               </p>
             </Reveal>
 
@@ -34,8 +34,8 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
 
               <Reveal delay={0.08} start="top bottom">
                 <p className="mt-6 max-w-md text-[clamp(0.75rem,1.615vw,1.125rem)] leading-relaxed text-zn-text-2">
-                  Turn your website, bookings, and follow-up into one cleaner setup that saves
-                  time and helps more leads become customers.
+                  Your website should bring in leads. Your follow-up should run on its
+                  own. We build both.
                 </p>
               </Reveal>
             </div>
@@ -45,8 +45,8 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
                 <Button href="/contact" size="md" withArrow>
                   Tell us what you need
                 </Button>
-                <Button href="/services" variant="link" withArrow>
-                  See services
+                <Button href="/work" variant="link" withArrow>
+                  See our work
                 </Button>
               </div>
             </Reveal>
