@@ -4,7 +4,10 @@
  * queries later without changing a single page.
  */
 import { services } from "@/lib/content/services";
-import { industries } from "@/lib/content/industries";
+import { ecommerceNavServices } from "@/lib/content/ecommerce-nav";
+import { migrations } from "@/lib/content/migrations";
+import { industryParents } from "@/lib/content/industry-parents";
+import { industries } from "@/lib/content/industry-subs";
 import { caseStudies } from "@/lib/content/case-studies";
 import { posts } from "@/lib/content/posts";
 import { products } from "@/lib/content/products";
@@ -14,6 +17,8 @@ import { siteSettings } from "@/lib/content/site";
 import type {
   CaseStudy,
   Industry,
+  IndustryCategory,
+  IndustryParent,
   Post,
   Product,
   Service,
@@ -24,6 +29,12 @@ import type {
 } from "@/lib/types";
 
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
+
+const CATEGORY_ORDER: IndustryCategory[] = [
+  "Healthcare Clinics",
+  "Ecommerce & Shopify",
+  "Small Business Custom Software",
+];
 
 /* ----------------------------- Services ----------------------------- */
 
@@ -45,27 +56,84 @@ export async function getServiceGroups(): Promise<
   { group: ServiceGroup; services: Service[] }[]
 > {
   const groups: ServiceGroup[] = [
-    "Growth & Automation",
-    "Infrastructure & Intelligence",
+    "Websites",
+    "Automation",
+    "AI Tools",
+    "Ecommerce",
   ];
   return groups.map((group) => ({
     group,
-    services: [...services].sort(byOrder).filter((s) => s.group === group),
+    services:
+      group === "Ecommerce"
+        ? [...ecommerceNavServices].sort(byOrder)
+        : [...services].sort(byOrder).filter((s) => s.group === group),
   }));
 }
 
+export async function getAllMigrations() {
+  return [...migrations].sort(byOrder);
+}
+
 /* ----------------------------- Industries ----------------------------- */
+
+export async function getIndustryParents(): Promise<IndustryParent[]> {
+  return [...industryParents].sort(byOrder);
+}
 
 export async function getAllIndustries(): Promise<Industry[]> {
   return [...industries].sort(byOrder);
 }
 
-export async function getIndustryBySlug(slug: string): Promise<Industry | null> {
+export async function getIndustryGroups(): Promise<
+  { category: IndustryCategory; parent: IndustryParent; industries: Industry[] }[]
+> {
+  const parents = await getIndustryParents();
+  const subs = await getAllIndustries();
+
+  return CATEGORY_ORDER.map((category) => {
+    const parent = parents.find((p) => p.category === category)!;
+    return {
+      category,
+      parent,
+      industries: subs.filter((i) => i.category === category).sort(byOrder),
+    };
+  });
+}
+
+export async function getIndustryParentBySlug(
+  slug: string,
+): Promise<IndustryParent | null> {
+  return industryParents.find((p) => p.slug === slug) ?? null;
+}
+
+export async function getIndustryBySlug(
+  slug: string,
+): Promise<Industry | null> {
   return industries.find((i) => i.slug === slug) ?? null;
 }
 
+export async function getIndustrySegmentBySlug(
+  slug: string,
+): Promise<IndustryParent | Industry | null> {
+  return (
+    (await getIndustryParentBySlug(slug)) ?? (await getIndustryBySlug(slug))
+  );
+}
+
 export async function getIndustryTitle(slug: string): Promise<string> {
-  return industries.find((i) => i.slug === slug)?.title ?? slug;
+  return (
+    industryParents.find((p) => p.slug === slug)?.title ??
+    industries.find((i) => i.slug === slug)?.title ??
+    slug
+  );
+}
+
+export async function getAllIndustrySlugs(): Promise<string[]> {
+  const [parents, subs] = await Promise.all([
+    getIndustryParents(),
+    getAllIndustries(),
+  ]);
+  return [...parents.map((p) => p.slug), ...subs.map((i) => i.slug)];
 }
 
 /* ----------------------------- Case studies ----------------------------- */
@@ -95,8 +163,18 @@ export async function getCaseStudiesByIndustry(
   industrySlug: string,
   limit = 2,
 ): Promise<CaseStudy[]> {
+  const subSlugs = industries
+    .filter((i) => i.parentSlug === industrySlug)
+    .map((i) => i.slug);
+
   return caseStudies
-    .filter((c) => c.industry === industrySlug)
+    .filter(
+      (c) =>
+        c.industry === industrySlug ||
+        subSlugs.includes(c.industry) ||
+        industries.find((i) => i.slug === c.industry)?.parentSlug ===
+          industrySlug,
+    )
     .slice(0, limit);
 }
 

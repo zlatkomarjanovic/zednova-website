@@ -2,12 +2,17 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { MediaImage } from "@/components/shared/MediaImage";
 import { Tag } from "@/components/shared/Tag";
-import { industries } from "@/lib/content/industries";
+import { industries } from "@/lib/content/industry-subs";
+import { industryParents } from "@/lib/content/industry-parents";
 import type { CaseStudy } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 function industryTitle(slug: string) {
-  return industries.find((i) => i.slug === slug)?.title ?? slug;
+  return (
+    industryParents.find((p) => p.slug === slug)?.title ??
+    industries.find((i) => i.slug === slug)?.title ??
+    slug
+  );
 }
 
 export function CaseStudyCard({

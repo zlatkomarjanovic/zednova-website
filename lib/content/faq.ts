@@ -18,7 +18,7 @@ export const faqs: FaqItem[] = [
     order: 2,
     question: "Do we need to replace our existing tools?",
     answer:
-      "Rarely. We integrate with what you already use — CRM, phone system, website, ad platforms — and only replace pieces that are actively leaking revenue.",
+      "Rarely. We integrate with what you already use — CRM, phone system, website, and ad platforms — and only replace tools that are slowing your team down.",
   },
   {
     id: "faq-ownership",
@@ -39,13 +39,13 @@ export const faqs: FaqItem[] = [
     order: 5,
     question: "Which industries do you work with?",
     answer:
-      "Home services, dental, legal, real estate, insurance, and other US service businesses where speed-to-lead and follow-up directly affect revenue. If you take inbound calls or form fills, we can help.",
+      "Healthcare clinics, ecommerce and Shopify brands, and small businesses that need custom websites, booking flows, dashboards, automations, or migrations from WordPress, Webflow, Wix, Squarespace, or Airtable.",
   },
   {
     id: "faq-ai",
     order: 6,
     question: "Is this just ChatGPT bolted onto our site?",
     answer:
-      "No. We build end-to-end revenue infrastructure — lead capture, routing, CRM automation, and AI agents wired to your actual business logic, not a generic chat widget.",
+      "No. We build AI chatbots, phone assistants, CRM automations, and booking flows wired to your actual business rules — not a generic chat widget pasted on your homepage.",
   },
 ];

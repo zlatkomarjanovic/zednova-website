@@ -29,16 +29,16 @@ export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
               </p>
             </Reveal>
 
-            <h1 className="mt-5 max-w-[18ch] font-sans text-[clamp(1.925rem,4.62vw,3.675rem)] font-normal leading-[1.02] tracking-[-0.025em]">
+            <h1 className="mt-5 max-w-[20ch] font-sans text-[clamp(1.925rem,4.62vw,3.675rem)] font-normal leading-[1.02] tracking-[-0.025em]">
               <TextReveal
                 as="span"
-                text="AI systems that work"
+                text="Custom websites, automations, AI chatbots,"
                 className="block"
                 immediate
               />
               <TextReveal
                 as="span"
-                text="while you sleep."
+                text="and Shopify development."
                 className="block zn-accent-italic text-zn-text-3"
                 delay={0.12}
                 immediate
@@ -46,9 +46,10 @@ export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
             </h1>
 
             <Reveal delay={0.08} start="top bottom">
-              <p className="zn-prose mt-4 max-w-md sm:max-w-lg">
-                Revenue infrastructure for American businesses. Lead capture,
-                automation, CRM, and AI agents that compound.
+              <p className="zn-prose mt-4 max-w-lg sm:max-w-xl">
+                We design and build Next.js websites, Shopify stores, Sanity CMS setups,
+                booking flows, CRM automations, AI chatbots, dashboards, and migration
+                projects for clinics, ecommerce brands, and small businesses.
               </p>
             </Reveal>
 

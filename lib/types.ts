@@ -3,7 +3,11 @@
  * content layer can be swapped for live GROQ queries without touching pages.
  */
 
-export type ServiceGroup = "Growth & Automation" | "Infrastructure & Intelligence";
+export type ServiceGroup =
+  | "Websites"
+  | "Automation"
+  | "AI Tools"
+  | "Ecommerce";
 
 export type Service = {
   slug: string;
@@ -26,17 +30,49 @@ export type Service = {
 
 export type PainPoint = { title: string; description: string };
 
-export type Industry = {
+export type IndustryCategory =
+  | "Healthcare Clinics"
+  | "Ecommerce & Shopify"
+  | "Small Business Custom Software";
+
+export type PopularServiceLink = {
+  label: string;
+  href: string;
+};
+
+export type IndustryParent = {
   slug: string;
   title: string;
+  category: IndustryCategory;
+  whoItIsFor: string;
+  whatWeBuild: string;
+  problemSolved: string;
   heroHeadline: string;
-  heroStat?: string;
-  hook: string; // one line for the grid
+  hook: string;
   shortDescription: string;
   painPoints: PainPoint[];
-  coreServices: string[]; // service slugs
-  miniCaseNarrative: string;
-  socialProof: string;
+  popularServices: PopularServiceLink[];
+  exampleProject: string;
+  commonUseCase: string;
+  icon: string;
+  order: number;
+};
+
+export type Industry = {
+  slug: string;
+  parentSlug: string;
+  category: IndustryCategory;
+  title: string;
+  whoItIsFor: string;
+  whatWeBuild: string;
+  problemSolved: string;
+  heroHeadline: string;
+  hook: string;
+  shortDescription: string;
+  painPoints: PainPoint[];
+  popularServices: PopularServiceLink[];
+  exampleProject: string;
+  commonUseCase: string;
   icon: string;
   order: number;
 };

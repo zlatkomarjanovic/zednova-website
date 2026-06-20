@@ -15,16 +15,24 @@ import {
 } from "@/components/shared/HoverHighlight";
 import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
-import type { CaseStudy, Industry, Service, ServiceGroup } from "@/lib/types";
+import type { CaseStudy, Industry, IndustryCategory, IndustryParent, Service, ServiceGroup } from "@/lib/types";
+import type { Migration } from "@/lib/content/migrations";
 import { cn } from "@/lib/utils";
 
 type NavbarProps = {
   serviceGroups: { group: ServiceGroup; services: Service[] }[];
-  industries: Industry[];
+  industryGroups: {
+    category: IndustryCategory;
+    parent: IndustryParent;
+    industries: Industry[];
+  }[];
+  migrations: Migration[];
   featured: CaseStudy | null;
 };
 
-type MegaMenuType = "services" | "industries";
+type MegaMenuType = "services" | "industries" | "migrations";
+
+const MENU_ORDER: MegaMenuType[] = ["services", "industries", "migrations"];
 
 const LINKS = [
   { label: "Work", href: "/work" },
@@ -111,7 +119,7 @@ function MegaMenuShell({
   );
 }
 
-export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
+export function Navbar({ serviceGroups, industryGroups, migrations, featured }: NavbarProps) {
   const pathname = usePathname();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [hidden, setHidden] = useState(false);
@@ -214,9 +222,15 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
 
   const openPanel = (menu: MegaMenuType) => {
     cancelClose();
-    if (openMenu === "services" && menu === "industries") setSlideDirection(1);
-    else if (openMenu === "industries" && menu === "services") setSlideDirection(-1);
-    else setSlideDirection(0);
+    if (openMenu) {
+      const currentIndex = MENU_ORDER.indexOf(openMenu);
+      const nextIndex = MENU_ORDER.indexOf(menu);
+      if (nextIndex > currentIndex) setSlideDirection(1);
+      else if (nextIndex < currentIndex) setSlideDirection(-1);
+      else setSlideDirection(0);
+    } else {
+      setSlideDirection(0);
+    }
     setOpenMenu(menu);
   };
 
@@ -288,6 +302,13 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
               onClick={() => togglePanel("industries")}
               onHighlight={navHighlight.snapTo}
             />
+            <MegaTrigger
+              label="Migrations"
+              isOpen={openMenu === "migrations"}
+              onEnter={() => openPanel("migrations")}
+              onClick={() => togglePanel("migrations")}
+              onHighlight={navHighlight.snapTo}
+            />
             {LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -350,7 +371,8 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
                 <MegaMenu
                   type={openMenu}
                   serviceGroups={serviceGroups}
-                  industries={industries}
+                  industryGroups={industryGroups}
+                  migrations={migrations}
                   featured={featured}
                   theme={isDark ? "dark" : "light"}
                   onNavigate={closePanel}
@@ -365,7 +387,8 @@ export function Navbar({ serviceGroups, industries, featured }: NavbarProps) {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         services={services}
-        industries={industries}
+        industryGroups={industryGroups}
+        migrations={migrations}
       />
     </>
   );

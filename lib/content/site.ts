@@ -3,7 +3,7 @@ import type { SiteSettings } from "@/lib/types";
 export const siteSettings: SiteSettings = {
   siteTitle: "ZedNova Studios",
   siteDescription:
-    "Full-stack AI systems agency. We build lead capture, automation, CRM, and AI agents that compound revenue for US businesses.",
+    "We design and build Next.js websites, Shopify stores, booking flows, CRM automations, AI chatbots, and migration projects for clinics, ecommerce brands, and small businesses.",
   contactEmail: "hello@zednova.com",
   responseTime: "Usually within 24 hours",
   announcementBar: undefined,

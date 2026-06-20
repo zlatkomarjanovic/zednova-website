@@ -11,7 +11,7 @@ import { Icon } from "@/components/shared/Icon";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Ten interconnected AI and automation services that compound. Lead sites, AI receptionists, CRM automation, custom agents, and more.",
+    "Website design, Shopify development, CRM automation, AI chatbots, dashboards, n8n workflows, and migrations for clinics, ecommerce, and small business.",
 };
 
 export default async function ServicesPage() {
@@ -21,8 +21,8 @@ export default async function ServicesPage() {
     <>
       <PageHero
         eyebrow="What we build"
-        title="Revenue infrastructure, not just deliverables"
-        description="Ten interconnected services that compound. Mix and match, or take the full stack."
+        title="Website design, Shopify, automation, and AI tools"
+        description="Pick one service or combine a few. We scope each project around what your business actually needs."
       >
         <Button href="/contact" withArrow>
           Start a project

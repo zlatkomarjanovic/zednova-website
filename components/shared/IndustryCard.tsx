@@ -19,13 +19,12 @@ export function IndustryCard({
       )}
     >
       <Icon name={industry.icon} className="size-7 text-zn-text" />
-      <div>
+      <div className="space-y-2">
         <h3 className="font-sans text-base font-normal tracking-tight text-zn-text">
           {industry.title}
         </h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-zn-text-2">
-          {industry.hook}
-        </p>
+        <p className="text-sm leading-relaxed text-zn-text-2">{industry.hook}</p>
+        <p className="text-xs leading-relaxed text-zn-text-3">{industry.problemSolved}</p>
       </div>
     </Link>
   );

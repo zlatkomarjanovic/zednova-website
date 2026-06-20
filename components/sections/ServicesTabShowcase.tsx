@@ -10,8 +10,10 @@ import type { Service, ServiceGroup } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const GROUP_ORDER: ServiceGroup[] = [
-  "Growth & Automation",
-  "Infrastructure & Intelligence",
+  "Websites",
+  "Automation",
+  "AI Tools",
+  "Ecommerce",
 ];
 
 type ServicesTabShowcaseProps = {

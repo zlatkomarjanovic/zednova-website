@@ -9,7 +9,7 @@ import { SectionLabel } from "@/components/shared/SectionLabel";
 export const metadata: Metadata = {
   title: "Resources",
   description:
-    "Thinking out loud on AI, systems, and the businesses that use them. Insights on AEO, automation, and revenue infrastructure.",
+    "Practical notes on website development, Shopify, automation, AI chatbots, and migrations for clinics, ecommerce, and small business.",
 };
 
 export default async function ResourcesPage() {

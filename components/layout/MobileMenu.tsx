@@ -7,7 +7,8 @@ import { X, Plus, Minus } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/shared/Button";
 import { Icon } from "@/components/shared/Icon";
-import type { Industry, Service } from "@/lib/types";
+import type { Industry, IndustryCategory, IndustryParent, Service } from "@/lib/types";
+import type { Migration } from "@/lib/content/migrations";
 
 const DIRECT_LINKS = [
   { label: "Work", href: "/work" },
@@ -20,14 +21,20 @@ export function MobileMenu({
   open,
   onClose,
   services,
-  industries,
+  industryGroups,
+  migrations,
 }: {
   open: boolean;
   onClose: () => void;
   services: Service[];
-  industries: Industry[];
+  industryGroups: {
+    category: IndustryCategory;
+    parent: IndustryParent;
+    industries: Industry[];
+  }[];
+  migrations: Migration[];
 }) {
-  const [section, setSection] = useState<"services" | "industries" | null>(null);
+  const [section, setSection] = useState<"services" | "industries" | "migrations" | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -91,16 +98,50 @@ export function MobileMenu({
                 setSection(section === "industries" ? null : "industries")
               }
             >
-              <ul className="grid gap-1 pb-2">
-                {industries.map((industry) => (
-                  <li key={industry.slug}>
+              <div className="grid gap-5 pb-2">
+                {industryGroups.map((group) => (
+                  <div key={group.category}>
                     <Link
-                      href={`/industries/${industry.slug}`}
+                      href={`/industries/${group.parent.slug}`}
                       onClick={onClose}
-                      className="flex items-center gap-3 py-2.5 text-zn-inv-2 transition-colors hover:text-zn-inv"
+                      className="zn-label block py-2 text-zn-inv"
                     >
-                      <Icon name={industry.icon} className="size-4" />
-                      {industry.title}
+                      {group.parent.title}
+                    </Link>
+                    <ul className="grid gap-1 pl-2">
+                      {group.industries.map((industry) => (
+                        <li key={industry.slug}>
+                          <Link
+                            href={`/industries/${industry.slug}`}
+                            onClick={onClose}
+                            className="block py-2 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                          >
+                            {industry.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </Accordion>
+
+            <Accordion
+              title="Migrations"
+              isOpen={section === "migrations"}
+              onToggle={() =>
+                setSection(section === "migrations" ? null : "migrations")
+              }
+            >
+              <ul className="grid gap-1 pb-2">
+                {migrations.map((item) => (
+                  <li key={item.slug}>
+                    <Link
+                      href={`/migrations/${item.slug}`}
+                      onClick={onClose}
+                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                    >
+                      {item.title}
                     </Link>
                   </li>
                 ))}
@@ -119,16 +160,9 @@ export function MobileMenu({
             ))}
           </nav>
 
-          <div className="px-6 pb-10 pt-4">
-            <Button
-              href="/contact"
-              variant="inverted"
-              size="lg"
-              withArrow
-              className="w-full"
-              onClick={onClose}
-            >
-              Start a project
+          <div className="border-t border-zn-border-dk px-6 py-6">
+            <Button href="/contact" variant="inverted" size="md" className="w-full">
+              Contact
             </Button>
           </div>
         </motion.div>
@@ -151,9 +185,9 @@ function Accordion({
   return (
     <div className="border-b border-zn-border-dk">
       <button
+        type="button"
         onClick={onToggle}
-        aria-expanded={isOpen}
-        className="flex w-full items-center justify-between py-5 font-sans font-normal text-2xl text-zn-inv"
+        className="flex w-full items-center justify-between py-5 font-sans text-2xl font-normal text-zn-inv"
       >
         {title}
         {isOpen ? <Minus className="size-5" /> : <Plus className="size-5" />}
@@ -164,7 +198,7 @@ function Accordion({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
             {children}

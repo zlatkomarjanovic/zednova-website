@@ -4,6 +4,7 @@ import {
   getAllCaseStudies,
   getAllFaqs,
   getAllIndustries,
+  getIndustryParents,
   getAllProducts,
   getAllServices,
   getFeaturedCaseStudies,
@@ -32,33 +33,34 @@ import { FaqSection } from "@/components/sections/FaqSection";
 import { DarkCTA } from "@/components/sections/DarkCTA";
 
 export const metadata: Metadata = {
-  title: { absolute: "ZedNova Studios — AI Systems for American Businesses" },
+  title: { absolute: "ZedNova Studios — Websites, Shopify & Automations" },
   description:
-    "We build end-to-end revenue infrastructure for American businesses: lead capture, automation, CRM, and AI agents that compound results over time.",
+    "We design and build Next.js websites, Shopify stores, booking flows, CRM automations, AI chatbots, and migration projects for clinics, ecommerce brands, and small businesses.",
 };
 
 
 const PILLARS = [
   {
-    tagline: "Infrastructure",
-    title: "We build the infrastructure",
-    body: "Websites, AI agents, and automations that run 24/7 without anyone watching them.",
+    tagline: "Websites",
+    title: "We design and build the site",
+    body: "Next.js websites, Shopify stores, landing pages, and Sanity CMS setups that load fast and convert visitors.",
   },
   {
-    tagline: "Revenue",
-    title: "We wire it to your revenue",
-    body: "Everything connects. CRM, lead capture, follow-up, and reporting move as one system.",
+    tagline: "Automation",
+    title: "We connect your follow-up",
+    body: "CRM automations, booking flows, email and SMS sequences, and n8n or Make workflows so leads do not sit idle.",
   },
   {
-    tagline: "Ownership",
-    title: "We hand you the controls",
-    body: "Dashboards and SOPs so you own what we build, long after launch.",
+    tagline: "AI tools",
+    title: "We add AI where it helps",
+    body: "AI chatbots for your website, AI phone assistants for missed calls, and intake flows that book appointments automatically.",
   },
 ];
 
 export default async function HomePage() {
-  const [industries, featuredCases, allCases, services, platformTestimonials, products, settings, faqs] =
+  const [industryParents, industries, featuredCases, allCases, services, platformTestimonials, products, settings, faqs] =
     await Promise.all([
+      getIndustryParents(),
       getAllIndustries(),
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
@@ -90,7 +92,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="Not an agency. A systems partner."
+            text="A studio that builds websites, Shopify stores, and automations."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
         </div>
@@ -110,7 +112,7 @@ export default async function HomePage() {
               </Reveal>
               <TextReveal
                 as="h2"
-                text="Systems that moved the needle"
+                text="Example projects and client work"
                 className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
               />
             </div>
@@ -120,7 +122,21 @@ export default async function HomePage() {
               </Button>
             </Reveal>
           </div>
-          <CaseStudiesShowcaseGrid caseStudies={allCases} industries={industries} />
+          <CaseStudiesShowcaseGrid
+            caseStudies={allCases}
+            industries={[
+              ...industryParents.map((p) => ({
+                slug: p.slug,
+                title: p.title,
+                icon: p.icon,
+              })),
+              ...industries.map((i) => ({
+                slug: i.slug,
+                title: i.title,
+                icon: i.icon,
+              })),
+            ]}
+          />
         </div>
       </section>
 
@@ -160,9 +176,9 @@ export default async function HomePage() {
               />
               <Reveal delay={0.08}>
                 <p className="zn-prose mt-5 max-w-lg">
-                  Ten interconnected systems — from AI-cited lead gen sites to CRM
-                  automation and custom agents — designed to capture revenue and
-                  compound over time.
+                  Website design, Shopify development, CRM automation, AI chatbots,
+                  dashboards, and migrations — built for clinics, ecommerce brands,
+                  and small businesses.
                 </p>
               </Reveal>
             </div>
@@ -219,7 +235,7 @@ export default async function HomePage() {
               </Reveal>
               <TextReveal
                 as="h2"
-                text="Built for the businesses that build America"
+                text="Websites, Shopify, and custom software for three core markets"
                 className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
               />
             </div>
@@ -230,7 +246,7 @@ export default async function HomePage() {
             </Reveal>
           </div>
         </div>
-        <IndustryShowcaseGrid industries={industries} />
+        <IndustryShowcaseGrid industries={industryParents} />
       </section>
 
       {/* Testimonials */}

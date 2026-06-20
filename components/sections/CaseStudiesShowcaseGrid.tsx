@@ -1,10 +1,12 @@
-import type { CaseStudy, Industry } from "@/lib/types";
+import type { CaseStudy, Industry, IndustryParent } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { CaseStudyShowcaseCard } from "@/components/sections/CaseStudyShowcaseCard";
 
+type IndustryLookup = Pick<IndustryParent, "slug" | "title" | "icon">;
+
 type CaseStudiesShowcaseGridProps = {
   caseStudies: CaseStudy[];
-  industries: Industry[];
+  industries: IndustryLookup[];
 };
 
 /** Two-column async grid — equal gaps, square cards, left higher / right lower. */
@@ -23,7 +25,7 @@ export function CaseStudiesShowcaseGrid({
             key={caseStudy.slug}
             caseStudy={caseStudy}
             industryLabel={industry?.title ?? caseStudy.industry}
-            industryIcon={industry?.icon ?? "briefcase"}
+            industryIcon={industry?.icon ?? "box"}
             className={cn(index % 2 === 0 ? "md:-translate-y-6" : "md:translate-y-6")}
           />
         );

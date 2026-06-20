@@ -7,10 +7,11 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import {
-  getAllIndustries,
+  getIndustryGroups,
   getAllServices,
   getFeaturedCaseStudies,
   getServiceGroups,
+  getAllMigrations,
   getSiteSettings,
 } from "@/lib/queries";
 
@@ -31,26 +32,26 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zednova.com"),
   title: {
-    default: "ZedNova Studios — AI Systems for American Businesses",
+    default: "ZedNova Studios — Websites, Shopify & Automations",
     template: "%s | ZedNova Studios",
   },
   description:
-    "Full-stack AI systems agency. We build lead capture, automation, CRM, and AI agents that compound revenue for US businesses.",
+    "We design and build Next.js websites, Shopify stores, booking flows, CRM automations, AI chatbots, and migration projects for clinics, ecommerce brands, and small businesses.",
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "ZedNova Studios",
-    title: "ZedNova Studios — AI Systems for American Businesses",
+    title: "ZedNova Studios — Websites, Shopify & Automations",
     description:
-      "We build end-to-end revenue infrastructure for American businesses: lead capture, automation, CRM, and AI agents that compound results over time.",
+      "Next.js websites, Shopify development, CRM automations, AI chatbots, and migrations for clinics, ecommerce brands, and small businesses.",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
     creator: "@zednova",
-    title: "ZedNova Studios — AI Systems for American Businesses",
+    title: "ZedNova Studios — Websites, Shopify & Automations",
     description:
-      "Full-stack AI systems agency for US businesses. Lead capture, automation, CRM, and AI agents that compound revenue.",
+      "Next.js websites, Shopify stores, booking flows, CRM automations, and AI chatbots for clinics, ecommerce, and small business.",
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
@@ -61,10 +62,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [serviceGroups, industries, featuredCases, allServices, settings] =
+  const [serviceGroups, industryGroups, migrations, featuredCases, allServices, settings] =
     await Promise.all([
       getServiceGroups(),
-      getAllIndustries(),
+      getIndustryGroups(),
+      getAllMigrations(),
       getFeaturedCaseStudies(1),
       getAllServices(),
       getSiteSettings(),
@@ -83,7 +85,8 @@ export default async function RootLayout({
           <CustomCursor />
           <Navbar
             serviceGroups={serviceGroups}
-            industries={industries}
+            industryGroups={industryGroups}
+            migrations={migrations}
             featured={featuredCases[0] ?? null}
           />
           <PageTransition className="flex flex-1 flex-col">

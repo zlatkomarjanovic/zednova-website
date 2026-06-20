@@ -5,8 +5,8 @@ import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { Button } from "@/components/shared/Button";
 
 export function DarkCTA({
-  heading = "Ready to stop leaving revenue on the table?",
-  sub = "Most businesses lose 40% of their leads to slow follow-up. We fix that in week one.",
+  heading = "Ready to start your next website or automation project?",
+  sub = "Tell us what you need — a new site, Shopify store, booking flow, or migration — and we will scope it in the first call.",
   ctaLabel = "Start a project",
   ctaHref = "/contact",
   note = "Or email us at hello@zednova.com · Response within 24 hours",
