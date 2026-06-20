@@ -18,14 +18,14 @@ function FaqAccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div>
+    <div className="min-w-0">
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={open}
-        className="flex w-full items-start justify-between gap-6 px-6 py-5 text-left transition-colors hover:bg-zn-bg md:px-7 md:py-5"
+        className="flex w-full min-w-0 items-start justify-between gap-6 px-6 py-5 text-left transition-colors hover:bg-zn-bg md:px-7 md:py-5"
       >
-        <span className="font-sans text-[0.95rem] leading-snug text-zn-text md:text-base">
+        <span className="min-w-0 font-sans text-[0.95rem] leading-snug text-zn-text md:text-base">
           {item.question}
         </span>
         <span className="mt-0.5 shrink-0 text-zn-text-3" aria-hidden="true">
@@ -57,22 +57,22 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
       <div className="zn-sage-grain pointer-events-none absolute inset-0" aria-hidden="true" />
       <BlueprintGrid />
 
-      <div className="zn-container relative">
-        <div className="flex flex-col items-start gap-10 lg:flex-row lg:items-start lg:gap-12 xl:gap-16">
-          <aside className="w-full shrink-0 lg:sticky lg:top-28 lg:w-1/2 lg:self-start">
+      <div className="zn-container relative min-w-0">
+        <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+          <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
             <SectionLabel withRule={false}>FAQ</SectionLabel>
-            <h2 className="mt-6 max-w-[22rem] zn-h2 font-sans font-normal">
+            <h2 className="mt-6 max-w-[25rem] zn-h2 font-sans font-normal">
               Answers before you reach out
             </h2>
-            <p className="zn-prose mt-5 max-w-[22rem]">
+            <p className="zn-prose mt-5 max-w-[25rem]">
               Websites, Shopify, automations, migrations, AI tools, pricing,
               ownership, and support — the questions we hear most before a
               project starts.
             </p>
           </aside>
 
-          <div className="min-w-0 w-full shrink-0 self-start lg:w-1/2">
-            <div className="border border-zn-border bg-zn-bg-2">
+          <div className="min-w-0">
+            <div className="min-w-0 overflow-hidden border border-zn-border bg-zn-bg-2">
               <div className="divide-y divide-zn-border">
                 {faqs.map((item) => (
                   <FaqAccordionItem
