@@ -21,11 +21,8 @@ const LOOP_MS = 3500;
 const FIRST_CYCLE_MS = 5000;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const STATIC_SUFFIX =
-  "for small businesses that want more results with less manual work.";
-
 const HEADING_CLASS =
-  "max-w-4xl font-sans text-4xl font-normal leading-[1.04] tracking-[-0.025em] text-zn-text sm:text-5xl lg:text-6xl";
+  "max-w-4xl font-sans text-[clamp(1.49rem,3.23vw,2.44rem)] font-normal leading-[1.06] tracking-[-0.025em] text-zn-text";
 
 export function HeroRotatingHeadline() {
   const [index, setIndex] = useState(0);
@@ -80,7 +77,13 @@ export function HeroRotatingHeadline() {
           </span>
         </span>
       </span>
-      <span className="mt-2 block">{STATIC_SUFFIX}</span>
+      <span className="mt-2 block">
+        for small businesses that
+        <br />
+        want more results with
+        <br />
+        less manual work.
+      </span>
     </h1>
   );
 }

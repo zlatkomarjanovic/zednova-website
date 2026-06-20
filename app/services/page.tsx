@@ -25,7 +25,7 @@ export default async function ServicesPage() {
         description="Pick one service or combine a few. We scope each project around what your business actually needs."
       >
         <Button href="/contact" withArrow>
-          Start a project
+          Tell us what you need
         </Button>
       </PageHero>
 

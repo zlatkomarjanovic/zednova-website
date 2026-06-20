@@ -6,9 +6,9 @@ import { Reveal } from "@/components/animations/Reveal";
 import { HeroRotatingHeadline } from "@/components/animations/HeroRotatingHeadline";
 import { HeroWorkGallery } from "@/components/sections/HeroWorkGallery";
 import { Button } from "@/components/shared/Button";
-import type { CaseStudy } from "@/lib/types";
+import type { PortfolioProject } from "@/lib/types";
 
-export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
+export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
   return (
     <section
       data-theme="light"
@@ -29,22 +29,24 @@ export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
               </p>
             </Reveal>
 
-            <HeroRotatingHeadline />
+            <div className="mt-8 max-w-4xl lg:mt-10">
+              <HeroRotatingHeadline />
 
-            <Reveal delay={0.08} start="top bottom">
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
-                Turn your website, bookings, and follow-up into one cleaner setup that saves
-                time and helps more leads become customers.
-              </p>
-            </Reveal>
+              <Reveal delay={0.08} start="top bottom">
+                <p className="mt-6 max-w-md text-[clamp(0.75rem,1.615vw,1.125rem)] leading-relaxed text-zn-text-2">
+                  Turn your website, bookings, and follow-up into one cleaner setup that saves
+                  time and helps more leads become customers.
+                </p>
+              </Reveal>
+            </div>
 
             <Reveal delay={0.14} start="top bottom">
               <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <Button href="/contact" size="md" withArrow>
-                  Start a project
+                  Tell us what you need
                 </Button>
                 <Button href="/services" variant="link" withArrow>
-                  View services
+                  See services
                 </Button>
               </div>
             </Reveal>
@@ -54,7 +56,7 @@ export function HeroSection({ caseStudies }: { caseStudies: CaseStudy[] }) {
         </div>
 
         <Reveal delay={0.22} start="top bottom" className="min-h-0">
-          <HeroWorkGallery caseStudies={caseStudies} />
+          <HeroWorkGallery projects={projects} />
         </Reveal>
       </div>
     </section>

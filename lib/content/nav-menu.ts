@@ -9,6 +9,58 @@ export type NavMenuGroup = {
   items: NavMenuItem[];
 };
 
+export type ServiceMegaMenuCard = {
+  title: string;
+  shortDescription: string;
+  includes: string;
+  href: string;
+};
+
+export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
+  {
+    title: "Websites & Landing Pages",
+    shortDescription:
+      "Fast websites, landing pages, and CMS setups for clinics, brands, and small businesses.",
+    includes: "Next.js, Sanity, Webflow, SEO setup",
+    href: "/services/ai-lead-site",
+  },
+  {
+    title: "Shopify & Ecommerce",
+    shortDescription:
+      "Shopify stores, product pages, email flows, and ecommerce dashboards.",
+    includes: "Shopify, headless Shopify, Klaviyo, cart recovery",
+    href: "/industries/ecommerce-shopify",
+  },
+  {
+    title: "Custom Web Apps",
+    shortDescription:
+      "Portals, dashboards, booking systems, admin panels, and internal tools.",
+    includes: "client portals, staff dashboards, booking flows",
+    href: "/industries/small-business-custom-software",
+  },
+  {
+    title: "CRM & Workflow Automation",
+    shortDescription:
+      "Automations that connect forms, leads, bookings, email, SMS, and internal tasks.",
+    includes: "CRM setup, n8n, Make, Airtable, Zapier",
+    href: "/services/crm-pipeline-automation",
+  },
+  {
+    title: "AI Chatbots & Phone Assistants",
+    shortDescription:
+      "AI tools that answer questions, collect details, qualify leads, and handle missed calls.",
+    includes: "website chatbots, intake chatbots, AI phone assistants",
+    href: "/services/ai-receptionist",
+  },
+  {
+    title: "Ongoing Support",
+    shortDescription:
+      "Updates, fixes, improvements, monitoring, and new features after launch.",
+    includes: "website updates, automation fixes, new pages",
+    href: "/services/ai-systems-retainer",
+  },
+];
+
 export const serviceNavGroups: NavMenuGroup[] = [
   {
     group: "Websites",
@@ -201,120 +253,158 @@ export const serviceNavGroups: NavMenuGroup[] = [
   },
 ];
 
-export const industryNavGroups: NavMenuGroup[] = [
+export const industryNavItems: NavMenuItem[] = [
   {
-    group: "Healthcare Clinics",
-    items: [
-      {
-        title: "Dental Clinics",
-        shortDescription: "Websites, booking, recall, and review automation for dental practices.",
-        href: "/industries/dental-clinics",
-      },
-      {
-        title: "Medical Clinics",
-        shortDescription: "Patient intake, appointment booking, and clinic websites.",
-        href: "/industries/medical-clinics",
-      },
-      {
-        title: "Peptide Clinics",
-        shortDescription: "Consult landing pages, intake, and follow-up for peptide therapy.",
-        href: "/industries/peptide-clinics",
-      },
-      {
-        title: "TRT Clinics",
-        shortDescription: "Lead capture and booking for hormone therapy clinics.",
-        href: "/industries/trt-clinics",
-      },
-      {
-        title: "Longevity Clinics",
-        shortDescription: "Premium clinic sites with consult booking and patient education.",
-        href: "/industries/longevity-clinics",
-      },
-      {
-        title: "Med Spas",
-        shortDescription: "Treatment pages, online booking, and follow-up for med spas.",
-        href: "/industries/med-spas",
-      },
-      {
-        title: "Aesthetic Clinics",
-        shortDescription: "Service pages and booking for aesthetic and cosmetic clinics.",
-        href: "/industries/aesthetic-clinics",
-      },
-      {
-        title: "Wellness Clinics",
-        shortDescription: "Websites and booking for wellness and holistic health clinics.",
-        href: "/industries/wellness-clinics",
-      },
-    ],
+    title: "Healthcare & Wellness",
+    shortDescription:
+      "Websites, booking, intake, and follow-up for dental, medical, peptide, TRT, longevity, med spa, aesthetic, wellness, physical therapy, and chiropractic clinics.",
+    href: "/industries/healthcare-clinics",
   },
   {
-    group: "Ecommerce & Shopify",
-    items: [
-      {
-        title: "Shopify Stores",
-        shortDescription: "Custom Shopify builds, product pages, and conversion improvements.",
-        href: "/industries/shopify-stores",
-      },
-      {
-        title: "DTC Brands",
-        shortDescription: "Direct-to-consumer stores with email flows and repeat-order paths.",
-        href: "/industries/dtc-brands",
-      },
-      {
-        title: "Product Brands",
-        shortDescription: "Product launches, landing pages, and storefront sections.",
-        href: "/industries/product-brands",
-      },
-      {
-        title: "Supplement Brands",
-        shortDescription: "Supplement stores with education pages and subscription flows.",
-        href: "/industries/supplement-brands",
-      },
-      {
-        title: "Wellness Ecommerce Brands",
-        shortDescription: "Wellness product stores with guided buying and follow-up emails.",
-        href: "/industries/wellness-ecommerce-brands",
-      },
-      {
-        title: "Beauty Brands",
-        shortDescription: "Beauty stores with product quizzes, bundles, and email sequences.",
-        href: "/industries/beauty-brands",
-      },
-      {
-        title: "Fitness Product Brands",
-        shortDescription: "Fitness gear stores with product education and upsell flows.",
-        href: "/industries/fitness-product-brands",
-      },
-    ],
+    title: "Fitness Coaches & Personal Trainers",
+    shortDescription:
+      "Websites, booking flows, client portals, check-ins, progress dashboards, and payment flows for coaches and trainers.",
+    href: "/industries/fitness-coaches-personal-trainers",
   },
   {
-    group: "Small Business Custom Software",
-    items: [
-      {
-        title: "Appointment-Based Businesses",
-        shortDescription: "Booking sites, reminders, and intake for service businesses.",
-        href: "/industries/appointment-based-businesses",
-      },
-      {
-        title: "Small Teams With Manual Processes",
-        shortDescription: "Dashboards and automations for teams stuck in manual follow-up.",
-        href: "/industries/small-teams-manual-processes",
-      },
-      {
-        title: "Businesses Outgrowing Spreadsheets",
-        shortDescription: "Web apps and dashboards that replace spreadsheet workflows.",
-        href: "/industries/outgrowing-spreadsheets",
-      },
-      {
-        title: "Businesses Outgrowing WordPress, Webflow, Wix, Squarespace, or Airtable",
-        shortDescription: "Custom builds when no-code tools hit performance or feature limits.",
-        href: "/industries/outgrowing-no-code-tools",
-      },
-      {
-        title: "Businesses That Need a Portal, Dashboard, Booking Flow, or Internal Tool",
-        shortDescription: "Portals, dashboards, booking, and internal tools built to spec.",
-        href: "/industries/portal-dashboard-booking-needs",
-      },
-    ],
+    title: "Gyms & Fitness Studios",
+    shortDescription:
+      "Websites, class booking, membership pages, lead forms, and email or SMS follow-up for gyms and studios.",
+    href: "/industries/gyms-fitness-studios",
+  },
+  {
+    title: "Supplement Brands",
+    shortDescription:
+      "Shopify stores, product pages, subscription flows, education pages, and email flows for supplement brands.",
+    href: "/industries/supplement-brands",
+  },
+  {
+    title: "Skincare & Beauty Brands",
+    shortDescription:
+      "Shopify stores, product pages, quizzes, bundles, landing pages, and email flows for skincare and beauty brands.",
+    href: "/industries/skincare-beauty-brands",
+  },
+  {
+    title: "Fitness & Wellness Product Brands",
+    shortDescription:
+      "Shopify stores, landing pages, product education, bundles, and post-purchase flows for fitness and wellness products.",
+    href: "/industries/fitness-wellness-product-brands",
+  },
+  {
+    title: "Crypto & Web3 Projects",
+    shortDescription:
+      "Websites, landing pages, dashboards, and AI chat tools for crypto, token, and web3 teams.",
+    href: "/industries/crypto-web3",
+  },
+  {
+    title: "Startups & MVPs",
+    shortDescription:
+      "Fast MVPs and full product builds for startups that need a working app, site, or portal quickly.",
+    href: "/industries/startups-mvp",
+  },
+  {
+    title: "Real Estate",
+    shortDescription:
+      "Agent websites, property pages, lead capture, and follow-up for brokers, teams, and property businesses.",
+    href: "/industries/real-estate",
+  },
+  {
+    title: "Nonprofits & NGOs",
+    shortDescription:
+      "Donation pages, program websites, volunteer intake, and email follow-up for nonprofits and NGOs.",
+    href: "/industries/nonprofits-ngos",
+  },
+  {
+    title: "Marketing Agencies",
+    shortDescription:
+      "Client portals, white-label sites, landing pages, and internal dashboards for marketing agencies.",
+    href: "/industries/marketing-agencies",
+  },
+  {
+    title: "Car Dealerships",
+    shortDescription:
+      "Inventory pages, lead forms, trade-in flows, and follow-up for new and used car dealers.",
+    href: "/industries/car-dealerships",
+  },
+  {
+    title: "Membership Communities",
+    shortDescription:
+      "Member portals, signup flows, content access, and billing pages for paid communities and memberships.",
+    href: "/industries/membership-communities",
+  },
+  {
+    title: "Private Schools & Academies",
+    shortDescription:
+      "School websites, enrollment pages, parent portals, and program information for private schools.",
+    href: "/industries/private-schools-academies",
+  },
+  {
+    title: "Tutoring Centers",
+    shortDescription:
+      "Websites, booking, program pages, parent intake, and follow-up for tutoring centers and learning programs.",
+    href: "/industries/tutoring-centers",
+  },
+];
+
+export const customSoftwareNavItems: NavMenuItem[] = [
+  {
+    title: "Custom Web App Development",
+    shortDescription:
+      "Simple web apps on Next.js for workflows, records, and tools your team uses daily.",
+    href: "/industries/small-business-custom-software",
+  },
+  {
+    title: "Client Portal Development",
+    shortDescription:
+      "Login portals where clients check status, upload files, and get project updates.",
+    href: "/industries/portal-dashboard-booking-needs",
+  },
+  {
+    title: "Patient Portal Development",
+    shortDescription:
+      "Secure portals for patients to book visits, complete intake, and view appointment info.",
+    href: "/industries/healthcare-clinics",
+  },
+  {
+    title: "Internal Dashboard Development",
+    shortDescription:
+      "Staff dashboards that replace spreadsheets and show live business numbers.",
+    href: "/services/reporting-dashboards",
+  },
+  {
+    title: "Booking System Development",
+    shortDescription:
+      "Online scheduling with confirmations, reminders, intake, and calendar sync.",
+    href: "/services/crm-pipeline-automation",
+  },
+  {
+    title: "Admin Panel Development",
+    shortDescription:
+      "Back-office panels to manage users, records, orders, content, and settings.",
+    href: "/industries/small-business-custom-software",
+  },
+  {
+    title: "Form & Intake Systems",
+    shortDescription:
+      "Custom forms wired to CRM, email, SMS, and follow-up after submission.",
+    href: "/services/custom-ai-agents",
+  },
+  {
+    title: "CRM & Lead Tracking Tools",
+    shortDescription:
+      "Simple CRM views for leads, deals, tasks, notes, and pipeline status.",
+    href: "/services/crm-pipeline-automation",
+  },
+  {
+    title: "Document Upload Portals",
+    shortDescription:
+      "Secure upload, review, and approval flows for files from clients or staff.",
+    href: "/industries/small-business-custom-software",
+  },
+  {
+    title: "Membership & Subscription Portals",
+    shortDescription:
+      "Member login, billing access, and gated content for paid users and subscribers.",
+    href: "/industries/membership-communities",
   },
 ];

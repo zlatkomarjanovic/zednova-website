@@ -12,8 +12,8 @@ import {
   getSiteSettings,
 } from "@/lib/queries";
 import {
-  serviceNavGroups,
-  industryNavGroups,
+  industryNavItems,
+  customSoftwareNavItems,
 } from "@/lib/content/nav-menu";
 
 const geistMono = Geist_Mono({
@@ -81,8 +81,8 @@ export default async function RootLayout({
         <LenisProvider>
           <CustomCursor />
           <Navbar
-            serviceNavGroups={serviceNavGroups}
-            industryNavGroups={industryNavGroups}
+            industryNavItems={industryNavItems}
+            customSoftwareNavItems={customSoftwareNavItems}
             migrations={migrations}
           />
           <PageTransition className="flex flex-1 flex-col">

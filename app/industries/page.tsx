@@ -24,7 +24,7 @@ export default async function IndustriesPage() {
         description="We design websites, Shopify stores, landing pages, AI phone assistants, booking flows, email automation, and CRM workflows for teams that sell through calls, forms, and online checkout."
       >
         <Button href="/contact" withArrow>
-          Start a project
+          Tell us what you need
         </Button>
       </PageHero>
 

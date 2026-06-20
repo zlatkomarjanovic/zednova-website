@@ -3,8 +3,6 @@ import type { Metadata } from "next";
 import {
   getAllCaseStudies,
   getAllFaqs,
-  getAllIndustries,
-  getIndustryParents,
   getAllProducts,
   getAllServices,
   getFeaturedCaseStudies,
@@ -17,9 +15,10 @@ import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/components/shared/Button";
 import { SectionLabel } from "@/components/shared/SectionLabel";
-import { CaseStudiesShowcaseGrid } from "@/components/sections/CaseStudiesShowcaseGrid";
+import { PortfolioWorkGrid } from "@/components/sections/PortfolioWorkGrid";
 import { ServicesTabShowcase } from "@/components/sections/ServicesTabShowcase";
-import { IndustryShowcaseGrid } from "@/components/sections/IndustryShowcaseGrid";
+import { IndustryNavShowcaseGrid } from "@/components/sections/IndustryNavShowcaseGrid";
+import { homepageIndustries } from "@/lib/content/homepage-industries";
 import { ProductsShowcase } from "@/components/sections/ProductSlider";
 import { LogoTicker } from "@/components/sections/LogoTicker";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -31,6 +30,7 @@ import { BlueprintGuides } from "@/components/shared/BlueprintGuides";
 import { TestimonialCarousel } from "@/components/sections/TestimonialCarousel";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { DarkCTA } from "@/components/sections/DarkCTA";
+import { portfolioProjects } from "@/lib/content/portfolio-projects";
 
 export const metadata: Metadata = {
   title: { absolute: "ZedNova Studios — Websites, Shopify & Automations" },
@@ -58,10 +58,8 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [industryParents, industries, featuredCases, allCases, services, platformTestimonials, products, settings, faqs] =
+  const [featuredCases, allCases, services, platformTestimonials, products, settings, faqs] =
     await Promise.all([
-      getIndustryParents(),
-      getAllIndustries(),
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
       getAllServices(),
@@ -79,7 +77,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSection caseStudies={featuredCases} />
+      <HeroSection projects={portfolioProjects} />
 
       <LogoTicker />
 
@@ -122,21 +120,7 @@ export default async function HomePage() {
               </Button>
             </Reveal>
           </div>
-          <CaseStudiesShowcaseGrid
-            caseStudies={allCases}
-            industries={[
-              ...industryParents.map((p) => ({
-                slug: p.slug,
-                title: p.title,
-                icon: p.icon,
-              })),
-              ...industries.map((i) => ({
-                slug: i.slug,
-                title: i.title,
-                icon: i.icon,
-              })),
-            ]}
-          />
+          <PortfolioWorkGrid projects={portfolioProjects} />
         </div>
       </section>
 
@@ -184,7 +168,7 @@ export default async function HomePage() {
             </div>
             <Reveal delay={0.1}>
               <Button href="/services" variant="link" withArrow>
-                All services
+                See services
               </Button>
             </Reveal>
           </div>
@@ -235,7 +219,7 @@ export default async function HomePage() {
               </Reveal>
               <TextReveal
                 as="h2"
-                text="Websites, Shopify, and custom software for three core markets"
+                text="Clinics, coaches, brands, startups, and teams we build for"
                 className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
               />
             </div>
@@ -246,7 +230,7 @@ export default async function HomePage() {
             </Reveal>
           </div>
         </div>
-        <IndustryShowcaseGrid industries={industryParents} />
+        <IndustryNavShowcaseGrid industries={homepageIndustries} />
       </section>
 
       {/* Testimonials */}

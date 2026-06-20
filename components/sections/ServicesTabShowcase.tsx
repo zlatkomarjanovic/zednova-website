@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
@@ -15,6 +16,14 @@ const GROUP_ORDER: ServiceGroup[] = [
   "AI Tools",
   "Ecommerce",
 ];
+
+const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
+
+const panelVariants = {
+  enter: { opacity: 0, y: 14 },
+  center: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
+};
 
 type ServicesTabShowcaseProps = {
   services: Service[];
@@ -31,9 +40,9 @@ function ServicePanel({ service }: { service: Service }) {
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="group flex h-[80vh] w-full items-stretch gap-8 px-8"
+      className="group flex min-h-[28rem] w-full flex-col items-stretch gap-6 px-6 md:min-h-0 md:h-[72vh] md:flex-row md:gap-8 md:px-8"
     >
-      <div className="flex w-1/2 min-w-0 flex-col justify-between rounded-[8px] bg-white p-6 md:p-8">
+      <div className="flex w-full min-w-0 flex-col justify-between rounded-[8px] bg-white p-6 md:w-1/2 md:p-8">
         <div>
           <div className="flex items-start justify-end gap-4">
             <span
@@ -64,12 +73,12 @@ function ServicePanel({ service }: { service: Service }) {
         </div>
       </div>
 
-      <div className="relative h-full w-1/2 shrink-0 overflow-hidden rounded-[8px] bg-zn-bg-3">
+      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-[8px] bg-zn-bg-3 md:aspect-auto md:h-full md:w-1/2">
         <Image
           src={service.image}
           alt={service.title}
           fill
-          sizes="(max-width: 768px) 46vw, 36rem"
+          sizes="(max-width: 768px) 100vw, 36rem"
           className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
         />
       </div>
@@ -85,26 +94,47 @@ export function ServicesTabShowcase({ services, className }: ServicesTabShowcase
         services: services
           .filter((s) => s.group === group)
           .sort((a, b) => a.order - b.order),
-      })),
+      })).filter((entry) => entry.services.length > 0),
     [services],
   );
 
-  const flat = useMemo(() => grouped.flatMap((g) => g.services), [grouped]);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeGroup, setActiveGroup] = useState<ServiceGroup>(
+    () => grouped[0]?.group ?? "Websites",
+  );
+  const [activeSlug, setActiveSlug] = useState(() => grouped[0]?.services[0]?.slug ?? "");
 
-  const active = flat[activeIndex];
+  const activeGroupEntry = useMemo(
+    () => grouped.find((entry) => entry.group === activeGroup) ?? grouped[0],
+    [activeGroup, grouped],
+  );
 
-  const selectTab = useCallback((index: number) => {
-    setActiveIndex(index);
-  }, []);
+  const groupServices = activeGroupEntry?.services ?? [];
+  const activeIndex = groupServices.findIndex((service) => service.slug === activeSlug);
+  const active = groupServices[activeIndex >= 0 ? activeIndex : 0];
+
+  useEffect(() => {
+    if (!groupServices.some((service) => service.slug === activeSlug)) {
+      setActiveSlug(groupServices[0]?.slug ?? "");
+    }
+  }, [activeSlug, groupServices]);
+
+  const selectGroup = useCallback((group: ServiceGroup) => {
+    setActiveGroup(group);
+    const first = grouped.find((entry) => entry.group === group)?.services[0];
+    if (first) setActiveSlug(first.slug);
+  }, [grouped]);
 
   const goPrev = useCallback(() => {
-    setActiveIndex((i) => (i - 1 + flat.length) % flat.length);
-  }, [flat.length]);
+    if (groupServices.length === 0) return;
+    const index = activeIndex >= 0 ? activeIndex : 0;
+    setActiveSlug(groupServices[(index - 1 + groupServices.length) % groupServices.length].slug);
+  }, [activeIndex, groupServices]);
 
   const goNext = useCallback(() => {
-    setActiveIndex((i) => (i + 1) % flat.length);
-  }, [flat.length]);
+    if (groupServices.length === 0) return;
+    const index = activeIndex >= 0 ? activeIndex : 0;
+    setActiveSlug(groupServices[(index + 1) % groupServices.length].slug);
+  }, [activeIndex, groupServices]);
 
   if (!active) return null;
 
@@ -115,82 +145,91 @@ export function ServicesTabShowcase({ services, className }: ServicesTabShowcase
 
       <div className="border-t border-zn-border" />
 
-      <div className="relative flex items-stretch border-b border-zn-border">
-        <button
-          type="button"
-          onClick={goPrev}
-          aria-label="Previous service"
-          className="hidden shrink-0 items-center justify-center border-r border-zn-border bg-white px-3 text-zn-text transition-opacity hover:opacity-70 sm:flex"
-        >
-          <ChevronLeft className="size-4" aria-hidden="true" />
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zn-border px-6 py-4 md:px-8">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-2">
+          <span className="zn-label mr-3 shrink-0 text-zn-text-3">Category</span>
+          {grouped.map(({ group }) => {
+            const isActive = group === activeGroup;
 
-        <div
-          role="tablist"
-          aria-label="Services"
-          className="flex min-w-0 flex-1"
-        >
-          {grouped.map(({ group, services: groupServices }, groupIndex) => (
-            <div key={group} className="flex min-w-0 flex-1">
-              <div
+            return (
+              <button
+                key={group}
+                type="button"
+                onClick={() => selectGroup(group)}
+                aria-current={isActive ? "true" : undefined}
                 className={cn(
-                  "zn-label flex max-w-[8rem] shrink-0 items-center border-r border-zn-border bg-white px-3 py-3 text-[0.625rem] leading-snug text-zn-text md:max-w-[9.5rem] md:px-4",
-                  groupIndex > 0 && "border-l border-zn-border",
+                  "rounded-full border px-4 py-2 font-sans text-sm transition-colors",
+                  isActive
+                    ? "border-zn-text bg-zn-text text-zn-bg"
+                    : "border-zn-border bg-white text-zn-text-2 hover:border-zn-text hover:text-zn-text",
                 )}
               >
                 {group}
-              </div>
-
-              {groupServices.map((service) => {
-                const index = flat.findIndex((s) => s.slug === service.slug);
-                const isActive = index === activeIndex;
-
-                return (
-                  <button
-                    key={service.slug}
-                    type="button"
-                    role="tab"
-                    id={`service-tab-${service.slug}`}
-                    aria-selected={isActive}
-                    aria-controls={`service-panel-${service.slug}`}
-                    onClick={() => selectTab(index)}
-                    className={cn(
-                      "min-w-0 flex-1 border-r border-zn-border px-3 py-3 text-left transition-colors last:border-r-0 md:px-4",
-                      isActive
-                        ? "bg-white text-zn-text"
-                        : "text-zn-text-3 hover:bg-white/50 hover:text-zn-text",
-                    )}
-                  >
-                    <span className="block font-mono text-[9px] uppercase tracking-[0.12em]">
-                      {service.number}
-                    </span>
-                    <span className="mt-0.5 block truncate font-sans text-xs font-normal tracking-tight md:text-[0.8125rem]">
-                      {service.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          ))}
+              </button>
+            );
+          })}
         </div>
 
-        <button
-          type="button"
-          onClick={goNext}
-          aria-label="Next service"
-          className="hidden shrink-0 items-center justify-center border-l border-zn-border bg-white px-3 text-zn-text transition-opacity hover:opacity-70 sm:flex"
-        >
-          <ChevronRight className="size-4" aria-hidden="true" />
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            onClick={goPrev}
+            aria-label="Previous service in category"
+            className="flex size-8 items-center justify-center border border-zn-border bg-white text-zn-text transition-colors hover:border-zn-text"
+          >
+            <ChevronLeft className="size-4" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={goNext}
+            aria-label="Next service in category"
+            className="flex size-8 items-center justify-center border border-zn-border bg-white text-zn-text transition-colors hover:border-zn-text"
+          >
+            <ChevronRight className="size-4" aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
-      <div
-        role="tabpanel"
-        id={`service-panel-${active.slug}`}
-        aria-labelledby={`service-tab-${active.slug}`}
-        className="pt-8"
-      >
-        <ServicePanel key={active.slug} service={active} />
+      <div className="border-b border-zn-border">
+        <div className="flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {groupServices.map((service) => {
+            const isActive = service.slug === active.slug;
+
+            return (
+              <button
+                key={service.slug}
+                type="button"
+                onClick={() => setActiveSlug(service.slug)}
+                aria-current={isActive ? "true" : undefined}
+                className={cn(
+                  "shrink-0 border-r border-zn-border px-5 py-4 text-left transition-colors last:border-r-0 md:px-6",
+                  isActive
+                    ? "bg-white text-zn-text"
+                    : "text-zn-text-3 hover:bg-white/60 hover:text-zn-text",
+                )}
+              >
+                <span className="block max-w-[12rem] font-sans text-sm font-normal leading-snug tracking-tight whitespace-normal md:max-w-[14rem] md:text-[0.875rem]">
+                  {service.title}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="overflow-hidden pt-8">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={active.slug}
+            variants={panelVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.38, ease: PANEL_EASE }}
+          >
+            <ServicePanel service={active} />
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

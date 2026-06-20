@@ -24,7 +24,7 @@ function FaqAccordionItem({
         type="button"
         onClick={onToggle}
         aria-expanded={open}
-        className="flex w-full items-start justify-between gap-6 px-6 py-5 text-left transition-colors hover:bg-zn-bg md:px-7 md:py-6"
+        className="flex w-full items-start justify-between gap-6 px-6 py-5 text-left transition-colors hover:bg-zn-bg md:px-7 md:py-5"
       >
         <span className="font-sans text-[0.95rem] leading-snug text-zn-text md:text-base">
           {item.question}
@@ -58,8 +58,8 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
       <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
       <BlueprintGrid />
 
-      <div className="zn-container relative grid gap-12 lg:grid-cols-[0.42fr_0.58fr] lg:items-start lg:gap-16">
-        <div className="lg:sticky lg:top-28">
+      <div className="zn-container relative grid items-start gap-10 lg:grid-cols-[minmax(0,0.38fr)_minmax(0,0.62fr)] lg:gap-16">
+        <div className="lg:sticky lg:top-28 lg:self-start">
           <Reveal>
             <SectionLabel withRule={false}>FAQ</SectionLabel>
           </Reveal>
@@ -70,13 +70,14 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="zn-prose mt-5 max-w-sm">
-              The questions we hear on almost every first call — scope, timeline,
-              ownership, and how we work with your existing stack.
+              Websites, Shopify, automations, migrations, AI tools, pricing,
+              ownership, and support — the questions we hear most before a
+              project starts.
             </p>
           </Reveal>
         </div>
 
-        <Reveal delay={0.08}>
+        <div className="min-w-0 self-start">
           <div className="overflow-hidden border border-zn-border bg-zn-bg-2">
             <div className="divide-y divide-zn-border">
               {faqs.map((item) => (
@@ -91,7 +92,7 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
               ))}
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

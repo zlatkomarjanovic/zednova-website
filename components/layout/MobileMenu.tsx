@@ -7,7 +7,7 @@ import { X, Plus, Minus } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/shared/Button";
 import type { Migration } from "@/lib/content/migrations";
-import type { NavMenuGroup } from "@/lib/content/nav-menu";
+import { serviceMegaMenuCards, type NavMenuItem } from "@/lib/content/nav-menu";
 
 const DIRECT_LINKS = [
   { label: "Work", href: "/work" },
@@ -17,17 +17,19 @@ const DIRECT_LINKS = [
 export function MobileMenu({
   open,
   onClose,
-  serviceNavGroups,
-  industryNavGroups,
+  industryNavItems,
+  customSoftwareNavItems,
   migrations,
 }: {
   open: boolean;
   onClose: () => void;
-  serviceNavGroups: NavMenuGroup[];
-  industryNavGroups: NavMenuGroup[];
+  industryNavItems: NavMenuItem[];
+  customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
 }) {
-  const [section, setSection] = useState<"services" | "industries" | "migrations" | null>(null);
+  const [section, setSection] = useState<
+    "services" | "industries" | "custom-software" | "migrations" | null
+  >(null);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -68,26 +70,22 @@ export function MobileMenu({
                 setSection(section === "services" ? null : "services")
               }
             >
-              <div className="grid gap-5 pb-2">
-                {serviceNavGroups.map((group) => (
-                  <div key={group.group}>
-                    <p className="zn-label py-2 text-zn-inv">{group.group}</p>
-                    <ul className="grid gap-1 pl-2">
-                      {group.items.map((item) => (
-                        <li key={item.title}>
-                          <Link
-                            href={item.href}
-                            onClick={onClose}
-                            className="block py-2 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
-                          >
-                            {item.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <ul className="grid gap-3 pb-2">
+                {serviceMegaMenuCards.map((card) => (
+                  <li key={card.title}>
+                    <Link
+                      href={card.href}
+                      onClick={onClose}
+                      className="block rounded-[2px] border border-zn-border-dk px-4 py-3 transition-colors hover:border-zn-inv"
+                    >
+                      <span className="block text-sm text-zn-inv">{card.title}</span>
+                      <span className="mt-1 block text-xs leading-relaxed text-zn-inv-2">
+                        {card.shortDescription}
+                      </span>
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </Accordion>
 
             <Accordion
@@ -97,26 +95,41 @@ export function MobileMenu({
                 setSection(section === "industries" ? null : "industries")
               }
             >
-              <div className="grid gap-5 pb-2">
-                {industryNavGroups.map((group) => (
-                  <div key={group.group}>
-                    <p className="zn-label py-2 text-zn-inv">{group.group}</p>
-                    <ul className="grid gap-1 pl-2">
-                      {group.items.map((item) => (
-                        <li key={item.title}>
-                          <Link
-                            href={item.href}
-                            onClick={onClose}
-                            className="block py-2 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
-                          >
-                            {item.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <ul className="grid gap-1 pb-2">
+                {industryNavItems.map((item) => (
+                  <li key={item.title}>
+                    <Link
+                      href={item.href}
+                      onClick={onClose}
+                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
+            </Accordion>
+
+            <Accordion
+              title="Custom Software"
+              isOpen={section === "custom-software"}
+              onToggle={() =>
+                setSection(section === "custom-software" ? null : "custom-software")
+              }
+            >
+              <ul className="grid gap-1 pb-2">
+                {customSoftwareNavItems.map((item) => (
+                  <li key={item.title}>
+                    <Link
+                      href={item.href}
+                      onClick={onClose}
+                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </Accordion>
 
             <Accordion
@@ -155,7 +168,7 @@ export function MobileMenu({
 
           <div className="border-t border-zn-border-dk px-6 py-6">
             <Button href="/contact" variant="inverted" size="md" className="w-full">
-              Contact
+              Tell us what you need
             </Button>
           </div>
         </motion.div>

@@ -4,17 +4,18 @@ import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-const BASE_SPACING = 16;
-const EXPANDED_SPACING = 62;
-const INFLUENCE_RADIUS = 300;
+const BASE_SPACING = 22;
+const EXPANDED_SPACING = 80;
+const INFLUENCE_RADIUS = 380;
 const MAX_PUSH = (EXPANDED_SPACING - BASE_SPACING) / 2;
-const MOUSE_LERP = 0.14;
-const LINE_LERP = 0.16;
-const Y_STEP = 8;
-const AMBIENT_AMP = 5;
-const HOVER_AMP = 18;
-const AMBIENT_SPEED = 0.42;
-const HOVER_SPEED_BOOST = 1.4;
+const MOUSE_LERP = 0.06;
+const LINE_LERP = 0.07;
+const Y_STEP = 5;
+const AMBIENT_AMP = 7;
+const HOVER_AMP = 28;
+const AMBIENT_SPEED = 0.24;
+const HOVER_SPEED_BOOST = 0.32;
+const LINE_WIDTH = 0.45;
 
 function smoothstep(t: number) {
   return t * t * (3 - 2 * t);
@@ -122,14 +123,16 @@ export function HeroLineWave({ className }: HeroLineWaveProps) {
       time: number,
     ) => {
       const amp = AMBIENT_AMP + strength * HOVER_AMP;
-      const freq = 0.009 + strength * 0.004;
+      const freq = 0.0065 + strength * 0.0028;
       const speed = AMBIENT_SPEED + strength * HOVER_SPEED_BOOST;
-      const phase = index * 0.52 + time * speed;
+      const phase = index * 0.62 - time * speed;
 
       ctx.beginPath();
       for (let y = 0; y <= height; y += Y_STEP) {
-        const wave = Math.sin(y * freq + phase) * amp;
-        const px = centerX + wave;
+        const primary = Math.sin(y * freq + phase) * amp;
+        const secondary = Math.sin(y * freq * 1.85 + phase * 1.25) * amp * 0.38;
+        const tertiary = Math.sin(y * freq * 0.55 + phase * 0.7) * amp * 0.22;
+        const px = centerX + primary + secondary + tertiary;
         if (y === 0) ctx.moveTo(px, y);
         else ctx.lineTo(px, y);
       }
@@ -151,8 +154,8 @@ export function HeroLineWave({ className }: HeroLineWaveProps) {
       }
 
       ctx.clearRect(0, 0, width, height);
-      ctx.strokeStyle = "rgba(216, 215, 209, 0.8)";
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = "rgba(216, 215, 209, 0.84)";
+      ctx.lineWidth = LINE_WIDTH;
 
       for (let i = 0; i < baseX.length; i += 1) {
         const target = computeTargetX(baseX[i], state.smoothMouseX, active);
@@ -167,7 +170,7 @@ export function HeroLineWave({ className }: HeroLineWaveProps) {
         const x = currentX[i];
         if (x < -12 || x > width + 12) continue;
 
-        const ambientOnly = state.reducedMotion ? 0 : 0.55;
+        const ambientOnly = state.reducedMotion ? 0 : 0.42;
 
         if (state.reducedMotion) {
           const px = Math.round(x) + 0.5;

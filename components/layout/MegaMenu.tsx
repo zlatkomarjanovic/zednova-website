@@ -13,13 +13,17 @@ import {
   useRubberHoverHighlight,
 } from "@/components/shared/HoverHighlight";
 import type { Migration } from "@/lib/content/migrations";
-import type { NavMenuGroup } from "@/lib/content/nav-menu";
+import {
+  serviceMegaMenuCards,
+  type NavMenuItem,
+  type ServiceMegaMenuCard,
+} from "@/lib/content/nav-menu";
 import { cn } from "@/lib/utils";
 
 type MegaMenuProps = {
-  type: "services" | "industries" | "migrations";
-  serviceNavGroups: NavMenuGroup[];
-  industryNavGroups: NavMenuGroup[];
+  type: "services" | "industries" | "custom-software" | "migrations";
+  industryNavItems: NavMenuItem[];
+  customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
   theme?: "light" | "dark";
   onNavigate: () => void;
@@ -66,6 +70,7 @@ function NavMenuItemLink({
   onNavigate,
   highlight,
   className,
+  interactive = true,
 }: {
   href: string;
   title: string;
@@ -75,13 +80,19 @@ function NavMenuItemLink({
   onNavigate: () => void;
   highlight: ReturnType<typeof useRubberHoverHighlight>;
   className?: string;
+  interactive?: boolean;
 }) {
   return (
     <Link
       href={href}
       onClick={onNavigate}
-      data-hover-cell
-      onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+      {...(interactive
+        ? {
+            "data-hover-cell": true,
+            onMouseEnter: (e: React.MouseEvent<HTMLAnchorElement>) =>
+              highlight.snapTo(e.currentTarget),
+          }
+        : {})}
       className={cn("relative z-[1] block px-6 py-3.5", className)}
     >
       <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
@@ -94,22 +105,124 @@ function NavMenuItemLink({
   );
 }
 
-function NavColumn({
-  group,
-  index,
+function ServiceMegaCard({
+  card,
+  titleClass,
+  bodyClass,
+  labelClass,
+  onNavigate,
+  highlight,
+  interactive = true,
+  className,
+}: {
+  card: ServiceMegaMenuCard;
+  titleClass: string;
+  bodyClass: string;
+  labelClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+  interactive?: boolean;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={card.href}
+      onClick={onNavigate}
+      {...(interactive
+        ? {
+            "data-hover-cell": true,
+            onMouseEnter: (e: React.MouseEvent<HTMLAnchorElement>) =>
+              highlight.snapTo(e.currentTarget),
+          }
+        : {})}
+      className={cn(
+        "relative z-[1] flex h-full min-h-[11rem] w-full flex-col px-6 py-5 md:min-h-[10.5rem] md:py-6",
+        className,
+      )}
+    >
+      <span className={cn("block text-[0.95rem] font-normal leading-snug md:text-base", titleClass)}>
+        {card.title}
+      </span>
+      <span className={cn("mt-2.5 block text-[0.8125rem] leading-relaxed md:text-[0.84rem]", bodyClass)}>
+        {card.shortDescription}
+      </span>
+      <span className={cn("zn-label mt-auto block pt-5 text-[0.625rem] leading-relaxed", labelClass)}>
+        Includes: {card.includes}
+      </span>
+    </Link>
+  );
+}
+
+function ServiceMegaMenuGrid({
+  cards,
   theme,
   borderClass,
+  titleClass,
+  bodyClass,
   labelClass,
+  onNavigate,
+  highlight,
+}: {
+  cards: ServiceMegaMenuCard[];
+  theme: "light" | "dark";
+  borderClass: string;
+  titleClass: string;
+  bodyClass: string;
+  labelClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+}) {
+  const columns = 3;
+
+  return (
+    <div className="relative grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2">
+      {cards.map((card, index) => (
+        <div
+          key={card.title}
+          data-hover-cell
+          onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+          className={cn(
+            "relative flex h-full",
+            index % columns !== 0 && cn("lg:border-l", borderClass),
+            index > 0 && cn("border-t lg:border-t-0", borderClass),
+            index >= columns && cn("lg:border-t", borderClass),
+          )}
+        >
+          {index % columns !== 0 && (
+            <ColumnCrosses theme={theme} showTop={index < columns} />
+          )}
+          <ServiceMegaCard
+            card={card}
+            titleClass={titleClass}
+            bodyClass={bodyClass}
+            labelClass={labelClass}
+            onNavigate={onNavigate}
+            highlight={highlight}
+            interactive={false}
+            className="flex h-full w-full flex-col"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function NavItemGrid({
+  items,
+  columns,
+  rows,
+  theme,
+  borderClass,
   titleClass,
   bodyClass,
   onNavigate,
   highlight,
 }: {
-  group: NavMenuGroup;
-  index: number;
+  items: NavMenuItem[];
+  columns: number;
+  rows: number;
   theme: "light" | "dark";
   borderClass: string;
-  labelClass: string;
   titleClass: string;
   bodyClass: string;
   onNavigate: () => void;
@@ -117,42 +230,50 @@ function NavColumn({
 }) {
   return (
     <div
-      key={group.group}
-      className={cn("relative", index > 0 && cn("border-l", borderClass))}
+      className={cn(
+        "relative grid grid-cols-1 lg:items-stretch",
+        columns === 5 && "lg:grid-cols-5",
+        columns === 4 && "lg:grid-cols-4",
+        rows === 3 && "lg:grid-rows-3",
+        rows === 2 && "lg:grid-rows-2",
+      )}
     >
-      {index > 0 && <ColumnCrosses theme={theme} />}
-      <div className={cn("relative border-b", borderClass)}>
-        <BlueprintCross
-          anchor="left"
-          theme={theme}
-          data-blueprint-cross
-          className="bottom-0 translate-y-1/2"
-        />
-        <p className={cn("zn-label px-6 py-4", labelClass)}>{group.group}</p>
-      </div>
-      <ul>
-        {group.items.map((item) => (
-          <li key={`${group.group}-${item.title}`} className="relative">
-            <NavMenuItemLink
-              href={item.href}
-              title={item.title}
-              shortDescription={item.shortDescription}
-              titleClass={titleClass}
-              bodyClass={bodyClass}
-              onNavigate={onNavigate}
-              highlight={highlight}
-            />
-          </li>
-        ))}
-      </ul>
+      {items.map((item, index) => (
+        <div
+          key={item.title}
+          data-hover-cell
+          onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+          className={cn(
+            "relative flex min-h-[9rem] h-full lg:min-h-[8.75rem]",
+            index % columns !== 0 && cn("lg:border-l", borderClass),
+            index > 0 && cn("border-t lg:border-t-0", borderClass),
+            index >= columns && cn("lg:border-t", borderClass),
+          )}
+        >
+          {index % columns !== 0 && (
+            <ColumnCrosses theme={theme} showTop={index < columns} />
+          )}
+          <NavMenuItemLink
+            href={item.href}
+            title={item.title}
+            shortDescription={item.shortDescription}
+            titleClass={titleClass}
+            bodyClass={bodyClass}
+            onNavigate={onNavigate}
+            highlight={highlight}
+            interactive={false}
+            className="flex h-full w-full flex-col"
+          />
+        </div>
+      ))}
     </div>
   );
 }
 
 export function MegaMenu({
   type,
-  serviceNavGroups,
-  industryNavGroups,
+  industryNavItems,
+  customSoftwareNavItems,
   migrations,
   theme = "light",
   onNavigate,
@@ -167,16 +288,6 @@ export function MegaMenu({
   const labelClass = isDark ? "text-zn-inv-2" : "text-zn-text-3";
   const titleClass = isDark ? "text-zn-inv" : "text-zn-text";
   const bodyClass = isDark ? "text-zn-inv-2" : "text-zn-text-2";
-
-  const columnProps = {
-    theme,
-    borderClass,
-    labelClass,
-    titleClass,
-    bodyClass,
-    onNavigate,
-    highlight,
-  };
 
   return (
     <div
@@ -239,17 +350,40 @@ export function MegaMenu({
           />
 
           {type === "services" ? (
-            <div className="relative grid lg:grid-cols-5">
-              {serviceNavGroups.map((group, index) => (
-                <NavColumn key={group.group} group={group} index={index} {...columnProps} />
-              ))}
-            </div>
+            <ServiceMegaMenuGrid
+              cards={serviceMegaMenuCards}
+              theme={theme}
+              borderClass={borderClass}
+              titleClass={titleClass}
+              bodyClass={bodyClass}
+              labelClass={labelClass}
+              onNavigate={onNavigate}
+              highlight={highlight}
+            />
           ) : type === "industries" ? (
-            <div className="relative grid lg:grid-cols-3">
-              {industryNavGroups.map((group, index) => (
-                <NavColumn key={group.group} group={group} index={index} {...columnProps} />
-              ))}
-            </div>
+            <NavItemGrid
+              items={industryNavItems}
+              columns={5}
+              rows={3}
+              theme={theme}
+              borderClass={borderClass}
+              titleClass={titleClass}
+              bodyClass={bodyClass}
+              onNavigate={onNavigate}
+              highlight={highlight}
+            />
+          ) : type === "custom-software" ? (
+            <NavItemGrid
+              items={customSoftwareNavItems}
+              columns={5}
+              rows={2}
+              theme={theme}
+              borderClass={borderClass}
+              titleClass={titleClass}
+              bodyClass={bodyClass}
+              onNavigate={onNavigate}
+              highlight={highlight}
+            />
           ) : (
             <div className="relative grid lg:grid-cols-2">
               {migrations.map((item, index) => (

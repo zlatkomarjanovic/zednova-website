@@ -16,18 +16,23 @@ import {
 import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import type { Migration } from "@/lib/content/migrations";
-import type { NavMenuGroup } from "@/lib/content/nav-menu";
+import type { NavMenuItem } from "@/lib/content/nav-menu";
 import { cn } from "@/lib/utils";
 
 type NavbarProps = {
-  serviceNavGroups: NavMenuGroup[];
-  industryNavGroups: NavMenuGroup[];
+  industryNavItems: NavMenuItem[];
+  customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
 };
 
-type MegaMenuType = "services" | "industries" | "migrations";
+type MegaMenuType = "services" | "industries" | "custom-software" | "migrations";
 
-const MENU_ORDER: MegaMenuType[] = ["services", "industries", "migrations"];
+const MENU_ORDER: MegaMenuType[] = [
+  "services",
+  "industries",
+  "custom-software",
+  "migrations",
+];
 
 const LINKS = [
   { label: "Work", href: "/work" },
@@ -112,7 +117,11 @@ function MegaMenuShell({
   );
 }
 
-export function Navbar({ serviceNavGroups, industryNavGroups, migrations }: NavbarProps) {
+export function Navbar({
+  industryNavItems,
+  customSoftwareNavItems,
+  migrations,
+}: NavbarProps) {
   const pathname = usePathname();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [hidden, setHidden] = useState(false);
@@ -294,6 +303,13 @@ export function Navbar({ serviceNavGroups, industryNavGroups, migrations }: Navb
               onHighlight={navHighlight.snapTo}
             />
             <MegaTrigger
+              label="Custom Software"
+              isOpen={openMenu === "custom-software"}
+              onEnter={() => openPanel("custom-software")}
+              onClick={() => togglePanel("custom-software")}
+              onHighlight={navHighlight.snapTo}
+            />
+            <MegaTrigger
               label="Migrations"
               isOpen={openMenu === "migrations"}
               onEnter={() => openPanel("migrations")}
@@ -323,7 +339,7 @@ export function Navbar({ serviceNavGroups, industryNavGroups, migrations }: Navb
                 variant={isDark ? "inverted" : "primary"}
                 size="sm"
               >
-                Contact
+                Tell us what you need
               </Button>
             </div>
             <button
@@ -361,8 +377,8 @@ export function Navbar({ serviceNavGroups, industryNavGroups, migrations }: Navb
               >
                 <MegaMenu
                   type={openMenu}
-                  serviceNavGroups={serviceNavGroups}
-                  industryNavGroups={industryNavGroups}
+                  industryNavItems={industryNavItems}
+                  customSoftwareNavItems={customSoftwareNavItems}
                   migrations={migrations}
                   theme={isDark ? "dark" : "light"}
                   onNavigate={closePanel}
@@ -376,8 +392,8 @@ export function Navbar({ serviceNavGroups, industryNavGroups, migrations }: Navb
       <MobileMenu
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        serviceNavGroups={serviceNavGroups}
-        industryNavGroups={industryNavGroups}
+        industryNavItems={industryNavItems}
+        customSoftwareNavItems={customSoftwareNavItems}
         migrations={migrations}
       />
     </>

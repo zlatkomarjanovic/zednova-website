@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "download:portfolio": "node scripts/download-portfolio-images.mjs",
+    "download:logos": "node scripts/download-client-logos.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

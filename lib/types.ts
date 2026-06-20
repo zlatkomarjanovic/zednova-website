@@ -97,6 +97,19 @@ export type CaseStudy = {
   image: string; // cover image URL
 };
 
+export type PortfolioProject = {
+  slug: string;
+  title: string;
+  client: string;
+  summary: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+  video?: string;
+  accent: string;
+  order: number;
+};
+
 export type ArticleBlock =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }

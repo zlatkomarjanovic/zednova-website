@@ -21,6 +21,16 @@ import {
   Store,
   Package,
   Activity,
+  Dumbbell,
+  GraduationCap,
+  Car,
+  Bitcoin,
+  HeartHandshake,
+  Megaphone,
+  Home,
+  Users,
+  UserRound,
+  BookOpen,
   type LucideIcon,
 } from "lucide-react";
 
@@ -66,6 +76,16 @@ const ICONS: Record<string, LucideIcon> = {
   spreadsheet: BarChart3,
   migration: RefreshCw,
   portal: Globe,
+  coach: UserRound,
+  gym: Dumbbell,
+  crypto: Bitcoin,
+  "real-estate": Home,
+  nonprofit: HeartHandshake,
+  agency: Megaphone,
+  automotive: Car,
+  community: Users,
+  education: GraduationCap,
+  tutoring: BookOpen,
 };
 
 export function Icon({
