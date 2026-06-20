@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import { Icon } from "@/components/shared/Icon";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import {
   BlueprintGuides,
@@ -13,76 +12,23 @@ import {
   RubberHoverHighlightLayer,
   useRubberHoverHighlight,
 } from "@/components/shared/HoverHighlight";
-import type { CaseStudy, Industry, IndustryCategory, IndustryParent, Service, ServiceGroup } from "@/lib/types";
 import type { Migration } from "@/lib/content/migrations";
+import type { NavMenuGroup } from "@/lib/content/nav-menu";
 import { cn } from "@/lib/utils";
 
 type MegaMenuProps = {
   type: "services" | "industries" | "migrations";
-  serviceGroups: { group: ServiceGroup; services: Service[] }[];
-  industryGroups: {
-    category: IndustryCategory;
-    parent: IndustryParent;
-    industries: Industry[];
-  }[];
+  serviceNavGroups: NavMenuGroup[];
+  industryNavGroups: NavMenuGroup[];
   migrations: Migration[];
-  featured: CaseStudy | null;
   theme?: "light" | "dark";
   onNavigate: () => void;
 };
-
-const MIGRATION_SLUGS = new Set([
-  "webflow-to-nextjs-sanity",
-  "wordpress-to-nextjs-sanity",
-  "framer-to-nextjs-sanity",
-  "wix-to-nextjs-sanity",
-  "squarespace-to-nextjs-sanity",
-  "webflow-cms-to-sanity",
-  "wordpress-blog-to-sanity",
-  "shopify-to-headless-shopify",
-]);
-
-function serviceHref(service: Service) {
-  return MIGRATION_SLUGS.has(service.slug)
-    ? `/migrations/${service.slug}`
-    : `/services/${service.slug}`;
-}
 
 const HIGHLIGHT_LIGHT_FILL = "var(--color-zn-bg-3)";
 const HIGHLIGHT_LIGHT_FILL_OPACITY = 0.7;
 const HIGHLIGHT_DARK_FILL = "var(--color-zn-dark-2)";
 const HIGHLIGHT_DARK_FILL_OPACITY = 0.9;
-
-function GridEdgeCrosses({
-  columns,
-  theme,
-}: {
-  columns: number;
-  theme: "light" | "dark";
-}) {
-  const stops = Array.from({ length: columns + 1 }, (_, i) => (i / columns) * 100);
-
-  return (
-    <>
-      {stops.map((pct) => (
-        <span key={pct}>
-          <BlueprintCross
-            anchor={pct === 0 ? "left" : pct === 100 ? "right" : pct}
-            theme={theme}
-            data-blueprint-cross
-            className="top-0 -translate-y-1/2"
-          />
-          <BlueprintCross
-            anchor={pct === 0 ? "left" : pct === 100 ? "right" : pct}
-            theme={theme}
-            data-blueprint-cross
-            className="bottom-0 translate-y-1/2"
-          />
-        </span>
-      ))}
-    </>
-  );
-}
 
 function ColumnCrosses({
   showTop = true,
@@ -111,12 +57,103 @@ function ColumnCrosses({
   );
 }
 
+function NavMenuItemLink({
+  href,
+  title,
+  shortDescription,
+  titleClass,
+  bodyClass,
+  onNavigate,
+  highlight,
+  className,
+}: {
+  href: string;
+  title: string;
+  shortDescription: string;
+  titleClass: string;
+  bodyClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      data-hover-cell
+      onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+      className={cn("relative z-[1] block px-6 py-3.5", className)}
+    >
+      <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+        {title}
+      </span>
+      <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
+        {shortDescription}
+      </span>
+    </Link>
+  );
+}
+
+function NavColumn({
+  group,
+  index,
+  theme,
+  borderClass,
+  labelClass,
+  titleClass,
+  bodyClass,
+  onNavigate,
+  highlight,
+}: {
+  group: NavMenuGroup;
+  index: number;
+  theme: "light" | "dark";
+  borderClass: string;
+  labelClass: string;
+  titleClass: string;
+  bodyClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+}) {
+  return (
+    <div
+      key={group.group}
+      className={cn("relative", index > 0 && cn("border-l", borderClass))}
+    >
+      {index > 0 && <ColumnCrosses theme={theme} />}
+      <div className={cn("relative border-b", borderClass)}>
+        <BlueprintCross
+          anchor="left"
+          theme={theme}
+          data-blueprint-cross
+          className="bottom-0 translate-y-1/2"
+        />
+        <p className={cn("zn-label px-6 py-4", labelClass)}>{group.group}</p>
+      </div>
+      <ul>
+        {group.items.map((item) => (
+          <li key={`${group.group}-${item.title}`} className="relative">
+            <NavMenuItemLink
+              href={item.href}
+              title={item.title}
+              shortDescription={item.shortDescription}
+              titleClass={titleClass}
+              bodyClass={bodyClass}
+              onNavigate={onNavigate}
+              highlight={highlight}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function MegaMenu({
   type,
-  serviceGroups,
-  industryGroups,
+  serviceNavGroups,
+  industryNavGroups,
   migrations,
-  featured,
   theme = "light",
   onNavigate,
 }: MegaMenuProps) {
@@ -126,12 +163,20 @@ export function MegaMenu({
 
   const isDark = theme === "dark";
   const borderClass = isDark ? "border-zn-border-dk" : "border-zn-border";
-  const divideClass = isDark ? "divide-zn-border-dk" : "divide-zn-border";
   const lineClass = isDark ? blueprintDarkLineClass : "bg-zn-border";
   const labelClass = isDark ? "text-zn-inv-2" : "text-zn-text-3";
   const titleClass = isDark ? "text-zn-inv" : "text-zn-text";
   const bodyClass = isDark ? "text-zn-inv-2" : "text-zn-text-2";
-  const iconClass = isDark ? "text-zn-inv" : "text-zn-text";
+
+  const columnProps = {
+    theme,
+    borderClass,
+    labelClass,
+    titleClass,
+    bodyClass,
+    onNavigate,
+    highlight,
+  };
 
   return (
     <div
@@ -194,101 +239,15 @@ export function MegaMenu({
           />
 
           {type === "services" ? (
-            <div className="relative grid lg:grid-cols-4">
-              {serviceGroups.map((group, index) => (
-                <div
-                  key={group.group}
-                  className={cn("relative", index > 0 && cn("border-l", borderClass))}
-                >
-                  {index > 0 && <ColumnCrosses theme={theme} />}
-                  <div className={cn("relative border-b", borderClass)}>
-                    <BlueprintCross
-                      anchor="left"
-                      theme={theme}
-                      data-blueprint-cross
-                      className="bottom-0 translate-y-1/2"
-                    />
-                    <p className={cn("zn-label px-6 py-4", labelClass)}>{group.group}</p>
-                  </div>
-                  <ul>
-                    {group.services.map((service) => (
-                      <li
-                        key={`${group.group}-${service.title}`}
-                        className="relative"
-                        data-hover-cell
-                        onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-                      >
-                        <Link
-                          href={serviceHref(service)}
-                          onClick={onNavigate}
-                          className="relative z-[1] flex items-start gap-3 px-6 py-4"
-                        >
-                          <Icon
-                            name={service.icon}
-                            className={cn("mt-0.5 size-5 shrink-0", iconClass)}
-                          />
-                          <span>
-                            <span className={cn("block text-[0.95rem] font-medium", titleClass)}>
-                              {service.title}
-                            </span>
-                            <span className={cn("block text-[0.8rem] leading-snug", bodyClass)}>
-                              {service.shortDescription}
-                            </span>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="relative grid lg:grid-cols-5">
+              {serviceNavGroups.map((group, index) => (
+                <NavColumn key={group.group} group={group} index={index} {...columnProps} />
               ))}
             </div>
           ) : type === "industries" ? (
             <div className="relative grid lg:grid-cols-3">
-              {industryGroups.map((group, index) => (
-                <div
-                  key={group.category}
-                  className={cn("relative", index > 0 && cn("border-l", borderClass))}
-                >
-                  {index > 0 && <ColumnCrosses theme={theme} />}
-                  <div className={cn("relative border-b", borderClass)}>
-                    <BlueprintCross
-                      anchor="left"
-                      theme={theme}
-                      data-blueprint-cross
-                      className="bottom-0 translate-y-1/2"
-                    />
-                    <Link
-                      href={`/industries/${group.parent.slug}`}
-                      onClick={onNavigate}
-                      className={cn("zn-label block px-6 py-4 transition-opacity hover:opacity-70", labelClass)}
-                    >
-                      {group.parent.title}
-                    </Link>
-                  </div>
-                  <ul>
-                    {group.industries.map((industry) => (
-                      <li
-                        key={industry.slug}
-                        className="relative"
-                        data-hover-cell
-                        onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-                      >
-                        <Link
-                          href={`/industries/${industry.slug}`}
-                          onClick={onNavigate}
-                          className="relative z-[1] block px-6 py-3.5"
-                        >
-                          <span className={cn("block text-[0.9rem] font-normal", titleClass)}>
-                            {industry.title}
-                          </span>
-                          <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
-                            {industry.hook}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {industryNavGroups.map((group, index) => (
+                <NavColumn key={group.group} group={group} index={index} {...columnProps} />
               ))}
             </div>
           ) : (
@@ -303,20 +262,15 @@ export function MegaMenu({
                   )}
                 >
                   {index % 2 === 1 && <ColumnCrosses theme={theme} showTop={index < 2} />}
-                  <Link
+                  <NavMenuItemLink
                     href={`/migrations/${item.slug}`}
-                    onClick={onNavigate}
-                    data-hover-cell
-                    onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-                    className="relative z-[1] block px-6 py-4"
-                  >
-                    <span className={cn("block text-[0.9rem] font-normal", titleClass)}>
-                      {item.title}
-                    </span>
-                    <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
-                      {item.shortDescription}
-                    </span>
-                  </Link>
+                    title={item.title}
+                    shortDescription={item.shortDescription}
+                    titleClass={titleClass}
+                    bodyClass={bodyClass}
+                    onNavigate={onNavigate}
+                    highlight={highlight}
+                  />
                 </div>
               ))}
             </div>

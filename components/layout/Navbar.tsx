@@ -15,19 +15,14 @@ import {
 } from "@/components/shared/HoverHighlight";
 import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
-import type { CaseStudy, Industry, IndustryCategory, IndustryParent, Service, ServiceGroup } from "@/lib/types";
 import type { Migration } from "@/lib/content/migrations";
+import type { NavMenuGroup } from "@/lib/content/nav-menu";
 import { cn } from "@/lib/utils";
 
 type NavbarProps = {
-  serviceGroups: { group: ServiceGroup; services: Service[] }[];
-  industryGroups: {
-    category: IndustryCategory;
-    parent: IndustryParent;
-    industries: Industry[];
-  }[];
+  serviceNavGroups: NavMenuGroup[];
+  industryNavGroups: NavMenuGroup[];
   migrations: Migration[];
-  featured: CaseStudy | null;
 };
 
 type MegaMenuType = "services" | "industries" | "migrations";
@@ -36,8 +31,6 @@ const MENU_ORDER: MegaMenuType[] = ["services", "industries", "migrations"];
 
 const LINKS = [
   { label: "Work", href: "/work" },
-  { label: "Products", href: "/products" },
-  { label: "Resources", href: "/resources" },
   { label: "About", href: "/about" },
 ];
 
@@ -119,7 +112,7 @@ function MegaMenuShell({
   );
 }
 
-export function Navbar({ serviceGroups, industryGroups, migrations, featured }: NavbarProps) {
+export function Navbar({ serviceNavGroups, industryNavGroups, migrations }: NavbarProps) {
   const pathname = usePathname();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [hidden, setHidden] = useState(false);
@@ -134,8 +127,6 @@ export function Navbar({ serviceGroups, industryGroups, migrations, featured }: 
     bendScale: 0.45,
     cornerRadius: 4,
   });
-
-  const services = serviceGroups.flatMap((g) => g.services);
 
   useEffect(() => {
     let last = window.scrollY;
@@ -370,10 +361,9 @@ export function Navbar({ serviceGroups, industryGroups, migrations, featured }: 
               >
                 <MegaMenu
                   type={openMenu}
-                  serviceGroups={serviceGroups}
-                  industryGroups={industryGroups}
+                  serviceNavGroups={serviceNavGroups}
+                  industryNavGroups={industryNavGroups}
                   migrations={migrations}
-                  featured={featured}
                   theme={isDark ? "dark" : "light"}
                   onNavigate={closePanel}
                 />
@@ -386,8 +376,8 @@ export function Navbar({ serviceGroups, industryGroups, migrations, featured }: 
       <MobileMenu
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        services={services}
-        industryGroups={industryGroups}
+        serviceNavGroups={serviceNavGroups}
+        industryNavGroups={industryNavGroups}
         migrations={migrations}
       />
     </>

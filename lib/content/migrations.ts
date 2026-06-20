@@ -11,7 +11,7 @@ export const migrations: Migration[] = [
     slug: "webflow-to-nextjs-sanity",
     title: "Webflow to Next.js & Sanity",
     shortDescription:
-      "Move from Webflow to a faster, more flexible Next.js website with Sanity CMS.",
+      "Move from Webflow to a faster custom website with Sanity CMS.",
     description:
       "We migrate your Webflow site to Next.js for better performance and SEO, and move content into Sanity CMS so your team can edit pages without touching code.",
     order: 1,
@@ -78,5 +78,23 @@ export const migrations: Migration[] = [
     description:
       "We keep Shopify for products, checkout, and inventory while building a custom Next.js storefront for faster pages, richer design, and better conversion.",
     order: 8,
+  },
+  {
+    slug: "airtable-to-custom-dashboard",
+    title: "Airtable to Custom Dashboard",
+    shortDescription:
+      "Move from Airtable views into a custom dashboard your team can use daily.",
+    description:
+      "We rebuild your Airtable bases into a custom web dashboard with login, filters, and automations so your team stops living in spreadsheet-style views.",
+    order: 9,
+  },
+  {
+    slug: "google-sheets-to-custom-dashboard",
+    title: "Google Sheets to Custom Dashboard",
+    shortDescription:
+      "Replace shared spreadsheets with a simple dashboard and automated updates.",
+    description:
+      "We move your Google Sheets workflows into a custom dashboard with role-based access, live data, and n8n or Make automations behind the scenes.",
+    order: 10,
   },
 ];

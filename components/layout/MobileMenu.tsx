@@ -6,32 +6,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X, Plus, Minus } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/shared/Button";
-import { Icon } from "@/components/shared/Icon";
-import type { Industry, IndustryCategory, IndustryParent, Service } from "@/lib/types";
 import type { Migration } from "@/lib/content/migrations";
+import type { NavMenuGroup } from "@/lib/content/nav-menu";
 
 const DIRECT_LINKS = [
   { label: "Work", href: "/work" },
-  { label: "Products", href: "/products" },
-  { label: "Resources", href: "/resources" },
   { label: "About", href: "/about" },
 ];
 
 export function MobileMenu({
   open,
   onClose,
-  services,
-  industryGroups,
+  serviceNavGroups,
+  industryNavGroups,
   migrations,
 }: {
   open: boolean;
   onClose: () => void;
-  services: Service[];
-  industryGroups: {
-    category: IndustryCategory;
-    parent: IndustryParent;
-    industries: Industry[];
-  }[];
+  serviceNavGroups: NavMenuGroup[];
+  industryNavGroups: NavMenuGroup[];
   migrations: Migration[];
 }) {
   const [section, setSection] = useState<"services" | "industries" | "migrations" | null>(null);
@@ -75,20 +68,26 @@ export function MobileMenu({
                 setSection(section === "services" ? null : "services")
               }
             >
-              <ul className="grid gap-1 pb-2">
-                {services.map((service) => (
-                  <li key={service.slug}>
-                    <Link
-                      href={`/services/${service.slug}`}
-                      onClick={onClose}
-                      className="flex items-center gap-3 py-2.5 text-zn-inv-2 transition-colors hover:text-zn-inv"
-                    >
-                      <Icon name={service.icon} className="size-4" />
-                      {service.title}
-                    </Link>
-                  </li>
+              <div className="grid gap-5 pb-2">
+                {serviceNavGroups.map((group) => (
+                  <div key={group.group}>
+                    <p className="zn-label py-2 text-zn-inv">{group.group}</p>
+                    <ul className="grid gap-1 pl-2">
+                      {group.items.map((item) => (
+                        <li key={item.title}>
+                          <Link
+                            href={item.href}
+                            onClick={onClose}
+                            className="block py-2 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                          >
+                            {item.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </Accordion>
 
             <Accordion
@@ -99,24 +98,18 @@ export function MobileMenu({
               }
             >
               <div className="grid gap-5 pb-2">
-                {industryGroups.map((group) => (
-                  <div key={group.category}>
-                    <Link
-                      href={`/industries/${group.parent.slug}`}
-                      onClick={onClose}
-                      className="zn-label block py-2 text-zn-inv"
-                    >
-                      {group.parent.title}
-                    </Link>
+                {industryNavGroups.map((group) => (
+                  <div key={group.group}>
+                    <p className="zn-label py-2 text-zn-inv">{group.group}</p>
                     <ul className="grid gap-1 pl-2">
-                      {group.industries.map((industry) => (
-                        <li key={industry.slug}>
+                      {group.items.map((item) => (
+                        <li key={item.title}>
                           <Link
-                            href={`/industries/${industry.slug}`}
+                            href={item.href}
                             onClick={onClose}
                             className="block py-2 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
                           >
-                            {industry.title}
+                            {item.title}
                           </Link>
                         </li>
                       ))}

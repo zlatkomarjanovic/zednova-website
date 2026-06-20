@@ -7,13 +7,14 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import {
-  getIndustryGroups,
   getAllServices,
-  getFeaturedCaseStudies,
-  getServiceGroups,
   getAllMigrations,
   getSiteSettings,
 } from "@/lib/queries";
+import {
+  serviceNavGroups,
+  industryNavGroups,
+} from "@/lib/content/nav-menu";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -62,15 +63,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [serviceGroups, industryGroups, migrations, featuredCases, allServices, settings] =
-    await Promise.all([
-      getServiceGroups(),
-      getIndustryGroups(),
-      getAllMigrations(),
-      getFeaturedCaseStudies(1),
-      getAllServices(),
-      getSiteSettings(),
-    ]);
+  const [migrations, allServices, settings] = await Promise.all([
+    getAllMigrations(),
+    getAllServices(),
+    getSiteSettings(),
+  ]);
 
   return (
     <html lang="en" className={`${geistMono.variable} ${instrumentSerif.variable}`}>
@@ -84,10 +81,9 @@ export default async function RootLayout({
         <LenisProvider>
           <CustomCursor />
           <Navbar
-            serviceGroups={serviceGroups}
-            industryGroups={industryGroups}
+            serviceNavGroups={serviceNavGroups}
+            industryNavGroups={industryNavGroups}
             migrations={migrations}
-            featured={featuredCases[0] ?? null}
           />
           <PageTransition className="flex flex-1 flex-col">
             <main id="main" className="flex-1">
