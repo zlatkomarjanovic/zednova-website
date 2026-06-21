@@ -6,6 +6,7 @@ import { CustomCursor } from "@/components/animations/CustomCursor";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { AiSummaryFab } from "@/components/layout/AiSummaryFab";
 import {
   getAllServices,
   getAllMigrations,
@@ -91,6 +92,7 @@ export default async function RootLayout({
             </main>
           </PageTransition>
           <Footer services={allServices} settings={settings} />
+          <AiSummaryFab />
         </LenisProvider>
       </body>
     </html>

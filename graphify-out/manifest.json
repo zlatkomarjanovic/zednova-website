@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "components/sections/HeroSection.tsx": {
-    "mtime": 1781990100.4799836,
-    "ast_hash": "956ab9ee5b9911055955cdb73f601ec7",
+    "mtime": 1782060671.8653865,
+    "ast_hash": "310ea0da0ab1e9b483175a0f6748d7af",
     "semantic_hash": ""
   },
   "components/sections/HeroWorkGallery.tsx": {
@@ -770,8 +770,8 @@
     "semantic_hash": ""
   },
   "components/sections/AgencyComparisonSection.tsx": {
-    "mtime": 1782059880.4020221,
-    "ast_hash": "8dab9599e53922d6f2ebc5e79f8033d1",
+    "mtime": 1782060205.5277417,
+    "ast_hash": "3cd5113e780f6f8b06539235f42dd1e7",
     "semantic_hash": ""
   },
   "components/shared/ProjectShowcaseLogo.tsx": {
@@ -780,8 +780,8 @@
     "semantic_hash": ""
   },
   "lib/content/agency-comparison.ts": {
-    "mtime": 1782059852.3875585,
-    "ast_hash": "72434f7d270b42045baebff17bed19e5",
+    "mtime": 1782060156.4130058,
+    "ast_hash": "61135eec98baff9bcb1ec2b6e7117a51",
     "semantic_hash": ""
   },
   "public/images/logos/mavesta-media.svg": {
@@ -792,6 +792,46 @@
   "public/images/logos/mavi-longevity.svg": {
     "mtime": 1782052209.7983472,
     "ast_hash": "df872c9ca690cbc5f06d14d9dfb5839f",
+    "semantic_hash": ""
+  },
+  "components/sections/HeroAISummaryStrip.tsx": {
+    "mtime": 1782060669.930466,
+    "ast_hash": "471d71283e7fb8db1e3d9f53a67a5d10",
+    "semantic_hash": ""
+  },
+  "lib/content/ai-summary-models.ts": {
+    "mtime": 1782060664.443619,
+    "ast_hash": "64acd569d4aeb29ac6807104e2f50540",
+    "semantic_hash": ""
+  },
+  "public/images/logos/ai/chatgpt.png": {
+    "mtime": 1782060642.5067978,
+    "ast_hash": "fc1f88bf7580f0aa8d100e7557bccccf",
+    "semantic_hash": ""
+  },
+  "public/images/logos/ai/claude.png": {
+    "mtime": 1782060643.5410137,
+    "ast_hash": "3d517229c118a7c4c20738fb4efd03d7",
+    "semantic_hash": ""
+  },
+  "public/images/logos/ai/deepseek.png": {
+    "mtime": 1782060644.7514963,
+    "ast_hash": "e63f7bb95968da19bd629fa4a0533103",
+    "semantic_hash": ""
+  },
+  "public/images/logos/ai/gemini.png": {
+    "mtime": 1782060643.7263923,
+    "ast_hash": "aa1a47e46001f6d2655d9243d9391e4a",
+    "semantic_hash": ""
+  },
+  "public/images/logos/ai/grok.png": {
+    "mtime": 1782060652.821099,
+    "ast_hash": "32a3482e06179e86112c7afd9e4740a1",
+    "semantic_hash": ""
+  },
+  "public/images/logos/ai/perplexity.png": {
+    "mtime": 1782060644.9209273,
+    "ast_hash": "6641a8aca47ed4973f54c02c72397095",
     "semantic_hash": ""
   }
 }
