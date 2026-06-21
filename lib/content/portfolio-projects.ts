@@ -14,6 +14,10 @@ export const portfolioProjects: PortfolioProject[] = [
     video: "/assets/portfolio/videos/mavesta.mp4",
     accent: "#1a1210",
     order: 1,
+    logo: {
+      src: "/images/logos/mavesta-media.svg",
+      alt: "Mavesta Media",
+    },
   },
   {
     slug: "vault-apps",
@@ -28,6 +32,10 @@ export const portfolioProjects: PortfolioProject[] = [
     video: "/assets/portfolio/videos/vault-apps.mp4",
     accent: "#0f1419",
     order: 2,
+    logo: {
+      src: "/images/logos/6681880ec9fc2fc5e3a062d9_Group-1091431.webp",
+      alt: "Vault Apps",
+    },
   },
   {
     slug: "mavi-longevity",
@@ -42,6 +50,10 @@ export const portfolioProjects: PortfolioProject[] = [
     video: "/assets/portfolio/videos/mavi-longevity.mp4",
     accent: "#161514",
     order: 3,
+    logo: {
+      src: "/images/logos/mavi-longevity.svg",
+      alt: "MAVI Longevity Living",
+    },
   },
   {
     slug: "egc-nyc",
@@ -56,5 +68,9 @@ export const portfolioProjects: PortfolioProject[] = [
     video: "/assets/portfolio/videos/egc.mp4",
     accent: "#121318",
     order: 4,
+    logo: {
+      src: "/images/logos/egc-logo.svg",
+      alt: "EGC NYC",
+    },
   },
 ];

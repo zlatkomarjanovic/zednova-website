@@ -3,19 +3,23 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
+/** Each item completes: “We build ___ for small businesses that want…” */
 const HERO_BUILD_ITEMS = [
-  "custom software",
-  "Next.js web apps",
-  "client portals",
-  "patient systems",
-  "booking flows",
+  "in-house software",
+  "web or desktop applications",
+  "AI chatbots and phone agents",
+  "headless ecommerce stores",
+  "portals, forums, and membership sites",
+  "marketing websites that convert",
+  "Shopify stores built to scale",
+  "landing pages that capture leads",
+  "booking and follow-up automations",
+  "CRM workflows on autopilot",
+  "patient intake and clinic systems",
+  "custom client portals",
+  "client dashboards for growing teams",
   "mobile apps",
-  "MVPs",
-  "CRM automations",
-  "AI phone assistants",
-  "AI chatbots",
-  "internal dashboards",
-  "migration projects",
+  "platform migrations without downtime",
 ] as const;
 
 const LOOP_MS = 3500;

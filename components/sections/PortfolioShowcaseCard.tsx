@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Icon } from "@/components/shared/Icon";
+import { ProjectShowcaseLogo } from "@/components/shared/ProjectShowcaseLogo";
 import { PortfolioImage } from "@/components/shared/PortfolioImage";
 import type { PortfolioProject } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -75,7 +75,13 @@ export function PortfolioShowcaseCard({ project, className }: PortfolioShowcaseC
         </div>
 
         <div className="flex flex-1 items-center justify-center py-4">
-          <Icon name="box" className="size-12 text-zn-text lg:size-14" />
+          {project.logo ? (
+            <ProjectShowcaseLogo src={project.logo.src} alt={project.logo.alt} />
+          ) : (
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-zn-text-3">
+              {project.client}
+            </span>
+          )}
         </div>
 
         <p className="zn-prose line-clamp-3">{project.summary}</p>

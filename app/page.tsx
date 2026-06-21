@@ -100,7 +100,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="A studio that builds marketing websites, ecommerce stores, and automations for businesses that want to grow without adding headcount."
+            text="A development studio building web apps, mobile apps, desktop software, ecommerce stores, marketing websites, and automations for businesses that want to move faster without adding headcount."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
         </div>

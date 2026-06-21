@@ -108,6 +108,12 @@ export type PortfolioProject = {
   video?: string;
   accent: string;
   order: number;
+  logo?: {
+    src: string;
+    alt: string;
+    /** Light/white marks — tone down on light card backgrounds. */
+    lightVariant?: boolean;
+  };
 };
 
 export type ArticleBlock =
