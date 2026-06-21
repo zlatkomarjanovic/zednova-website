@@ -73,4 +73,4 @@ export function summarizeWithLabel(name: string) {
 }
 
 /** Spacing between expanded FAB items */
-export const AI_SUMMARY_FAB_GAP_REM = 4.75;
+export const AI_SUMMARY_FAB_GAP_REM = 3.85;
