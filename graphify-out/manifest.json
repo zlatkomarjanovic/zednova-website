@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "app/page.tsx": {
-    "mtime": 1781991693.3538089,
-    "ast_hash": "4f67c8e6b500b2fcef102afe6ed6329f",
+    "mtime": 1782058012.0264442,
+    "ast_hash": "f96c75899a48629f67dd42c67e671549",
     "semantic_hash": ""
   },
   "app/products/page.tsx": {
@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "lib/types.ts": {
-    "mtime": 1781985069.8661518,
-    "ast_hash": "65b195b31568cf1754d886c66ed14cc0",
+    "mtime": 1782052111.3796394,
+    "ast_hash": "d7b348dfd3ca00e239df2a2734f7c3ce",
     "semantic_hash": ""
   },
   "lib/utils.ts": {
@@ -545,8 +545,8 @@
     "semantic_hash": ""
   },
   "components/animations/HeroLineWave.tsx": {
-    "mtime": 1781985069.8661518,
-    "ast_hash": "ed6ab38a727028be21aabbf6871fa045",
+    "mtime": 1782051649.6954792,
+    "ast_hash": "8a71f417f1226311465d6271103a03f0",
     "semantic_hash": ""
   },
   "lib/content/industry-parents.ts": {
@@ -580,8 +580,8 @@
     "semantic_hash": ""
   },
   "components/animations/HeroRotatingHeadline.tsx": {
-    "mtime": 1781990265.4801314,
-    "ast_hash": "5e1653607a168de563efc9b4a4268c20",
+    "mtime": 1782051124.364717,
+    "ast_hash": "6418318329d2bb1b1f22b9ed2dca4ebb",
     "semantic_hash": ""
   },
   "components/sections/PortfolioWorkGrid.tsx": {
@@ -595,13 +595,13 @@
     "semantic_hash": ""
   },
   "lib/content/nav-menu.ts": {
-    "mtime": 1781990740.4341712,
+    "mtime": 1782050193.2428145,
     "ast_hash": "01ea2dc459a01d50c4d8d8d7baaf9004",
     "semantic_hash": ""
   },
   "lib/content/portfolio-projects.ts": {
-    "mtime": 1781990099.3427272,
-    "ast_hash": "9ce9519f78632fe9197867de34c4e380",
+    "mtime": 1782052212.304671,
+    "ast_hash": "0ded643ddc87870074294f2f94e2d8c8",
     "semantic_hash": ""
   },
   "public/assets/portfolio/videos/egc.mp4": {
@@ -630,8 +630,8 @@
     "semantic_hash": ""
   },
   "components/sections/PortfolioShowcaseCard.tsx": {
-    "mtime": 1781985069.8566694,
-    "ast_hash": "22916b7c76fce2c623b5540d2e086636",
+    "mtime": 1782052210.750462,
+    "ast_hash": "d6d95edd2d5e79e57fe36299d4b2fad1",
     "semantic_hash": ""
   },
   "components/shared/PortfolioImage.tsx": {
@@ -760,13 +760,38 @@
     "semantic_hash": ""
   },
   "components/animations/CRMAutomationAnimation.tsx": {
-    "mtime": 1781998045.3294997,
-    "ast_hash": "53e57f2c567efb74b6196f1d2aceea89",
+    "mtime": 1781998550.2144172,
+    "ast_hash": "cd65324eec77474827e76fe260f9be10",
     "semantic_hash": ""
   },
   "components/animations/WebsiteBuilderAnimation.tsx": {
     "mtime": 1781993849.304288,
     "ast_hash": "d8e92c7ccb4f377df0da9cfd0c372f14",
+    "semantic_hash": ""
+  },
+  "components/sections/AgencyComparisonSection.tsx": {
+    "mtime": 1782059880.4020221,
+    "ast_hash": "8dab9599e53922d6f2ebc5e79f8033d1",
+    "semantic_hash": ""
+  },
+  "components/shared/ProjectShowcaseLogo.tsx": {
+    "mtime": 1782052208.483132,
+    "ast_hash": "9c59afe72668c0336b142d17b770b5a2",
+    "semantic_hash": ""
+  },
+  "lib/content/agency-comparison.ts": {
+    "mtime": 1782059852.3875585,
+    "ast_hash": "72434f7d270b42045baebff17bed19e5",
+    "semantic_hash": ""
+  },
+  "public/images/logos/mavesta-media.svg": {
+    "mtime": 1782051993.065967,
+    "ast_hash": "e7ad18a3cee19b1ecd8cde07613f8228",
+    "semantic_hash": ""
+  },
+  "public/images/logos/mavi-longevity.svg": {
+    "mtime": 1782052209.7983472,
+    "ast_hash": "df872c9ca690cbc5f06d14d9dfb5839f",
     "semantic_hash": ""
   }
 }

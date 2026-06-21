@@ -31,7 +31,9 @@ import { TechStackShowcase } from "@/components/sections/TechStackShowcase";
 import { techStackGroups } from "@/lib/content/tech-stack";
 import { BlueprintGuides } from "@/components/shared/BlueprintGuides";
 import { TestimonialCarousel } from "@/components/sections/TestimonialCarousel";
+import { AgencyComparisonSection } from "@/components/sections/AgencyComparisonSection";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { agencyComparison } from "@/lib/content/agency-comparison";
 import { DarkCTA } from "@/components/sections/DarkCTA";
 import { portfolioProjects } from "@/lib/content/portfolio-projects";
 
@@ -274,6 +276,8 @@ export default async function HomePage() {
           <TestimonialCarousel testimonials={platformTestimonials} />
         </div>
       </section>
+
+      <AgencyComparisonSection {...agencyComparison} />
 
       {/* Products teaser */}
       <section data-theme="light" className="relative zn-section">
