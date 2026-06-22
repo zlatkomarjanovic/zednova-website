@@ -16,6 +16,7 @@ export const agencyComparison = {
   subheading: "Sixteen categories. One glance to see the difference.",
   quote:
     "We build, refine, and maintain your web and technology stack so you can run the business without the worry or mental load of web operations.",
+  availabilityTag: "Open for projects",
   columns: {
     category: "Category",
     agencies: "Traditional & AI agencies",

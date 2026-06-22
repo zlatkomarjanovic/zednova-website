@@ -80,6 +80,7 @@ export function AgencyComparisonSection({
   heading,
   subheading,
   quote,
+  availabilityTag,
   columns,
   sections,
 }: {
@@ -87,6 +88,7 @@ export function AgencyComparisonSection({
   heading: string;
   subheading: string;
   quote: string;
+  availabilityTag: string;
   columns: {
     category: string;
     agencies: string;
@@ -177,6 +179,12 @@ export function AgencyComparisonSection({
             stagger={0.032}
             start="top 88%"
           />
+          <Reveal delay={0.2}>
+            <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-[#1D9E75]/40 bg-[#085041]/40 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-[#5DCAA5]">
+              <span className="size-1.5 rounded-full bg-[#5DCAA5]" aria-hidden="true" />
+              {availabilityTag}
+            </p>
+          </Reveal>
         </div>
       </div>
     </section>
