@@ -25,7 +25,7 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
           <div className="zn-container-inset relative z-10 flex shrink-0 flex-col pt-28 pb-8 lg:pt-32 lg:pb-10">
             <Reveal start="top bottom">
               <p className="text-sm text-zn-text-3">
-                120+ projects. 7+ years. 100% Job Success Score.
+                120+ projects. 7+ years building.
               </p>
             </Reveal>
 
