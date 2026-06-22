@@ -98,7 +98,7 @@ export function AgencyComparisonSection({
     <section
       data-theme="dark"
       data-bg="dark"
-      className="relative overflow-hidden border-t border-zn-border-dk bg-zn-dark pb-[clamp(3rem,6vw,6rem)] pt-[clamp(2.5rem,5vw,4rem)] text-zn-inv"
+      className="relative overflow-hidden border-t border-zn-border-dk bg-zn-dark pb-[clamp(4rem,8vw,7rem)] pt-[clamp(2.5rem,5vw,4rem)] text-zn-inv"
       aria-label={heading}
     >
       <BlueprintGuides theme="dark" reveal="scroll" className="z-10" />
@@ -169,12 +169,12 @@ export function AgencyComparisonSection({
           </div>
         </Reveal>
 
-        <div className="mx-auto mt-12 max-w-3xl px-6 text-center md:mt-16 lg:max-w-4xl">
+        <div className="mx-auto mt-16 max-w-3xl px-6 pb-4 pt-2 text-center md:mt-20 md:pb-6 lg:max-w-4xl lg:pt-4">
           <TextReveal
             as="blockquote"
             text={quote}
-            className="zn-accent-italic text-[clamp(1.25rem,2.4vw,1.875rem)] leading-snug text-zn-inv"
-            stagger={0.035}
+            className="zn-accent-italic text-[clamp(1.25rem,2.35vw,1.875rem)] leading-[1.45] text-zn-inv"
+            stagger={0.032}
             start="top 88%"
           />
         </div>
