@@ -79,12 +79,14 @@ export function AgencyComparisonSection({
   label,
   heading,
   subheading,
+  quote,
   columns,
   sections,
 }: {
   label: string;
   heading: string;
   subheading: string;
+  quote: string;
   columns: {
     category: string;
     agencies: string;
@@ -166,6 +168,16 @@ export function AgencyComparisonSection({
             </div>
           </div>
         </Reveal>
+
+        <div className="mx-auto mt-12 max-w-3xl px-6 text-center md:mt-16 lg:max-w-4xl">
+          <TextReveal
+            as="blockquote"
+            text={quote}
+            className="zn-accent-italic text-[clamp(1.25rem,2.4vw,1.875rem)] leading-snug text-zn-inv"
+            stagger={0.035}
+            start="top 88%"
+          />
+        </div>
       </div>
     </section>
   );

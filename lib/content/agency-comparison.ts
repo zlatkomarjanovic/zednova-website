@@ -14,6 +14,8 @@ export const agencyComparison = {
   label: "Why us",
   heading: "ZedNova vs traditional & AI agencies",
   subheading: "Sixteen categories. One glance to see the difference.",
+  quote:
+    "We help you build, refine and maintain your technology and web infrastructure, while you focus on running the business without worry and mental stress of web operations.",
   columns: {
     category: "Category",
     agencies: "Traditional & AI agencies",
