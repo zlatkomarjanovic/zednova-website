@@ -8,9 +8,39 @@ import { useGSAP } from "@gsap/react";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { clientLogos } from "@/lib/content/client-logos";
+import {
+  LOGO_TICKER_SCROLL_DIRECTION,
+  assertLogoTickerDirection,
+} from "@/lib/content/logo-ticker-config";
 
 /** Enough repeats so one loop half always fills the guide column on wide screens. */
 const SETS_PER_HALF = 5;
+
+function applyLogoTickerScroll(
+  track: HTMLElement,
+  loopWidth: number,
+  duration: number,
+): gsap.core.Tween {
+  assertLogoTickerDirection(LOGO_TICKER_SCROLL_DIRECTION);
+
+  // LTR on screen: track moves from -loopWidth → 0 (locked — see logo-ticker-config.ts)
+  gsap.set(track, { x: -loopWidth, force3D: true });
+  return gsap.to(track, {
+    x: 0,
+    duration,
+    ease: "none",
+    repeat: -1,
+    force3D: true,
+    modifiers: {
+      x: (value) => {
+        const px = parseFloat(String(value));
+        if (!Number.isFinite(px) || loopWidth <= 0) return "0px";
+        const wrapped = ((px % loopWidth) + loopWidth) % loopWidth;
+        return `${wrapped - loopWidth}px`;
+      },
+    },
+  });
+}
 
 export function LogoTicker({
   label = "Trusted by teams across the US",
@@ -35,22 +65,7 @@ export function LogoTicker({
         const loopWidth = track.scrollWidth / 2;
         if (loopWidth <= 0) return;
 
-        gsap.set(track, { x: 0, force3D: true });
-        tweenRef.current = gsap.to(track, {
-          x: -loopWidth,
-          duration: 78,
-          ease: "none",
-          repeat: -1,
-          force3D: true,
-          modifiers: {
-            x: (value) => {
-              const px = parseFloat(String(value));
-              if (!Number.isFinite(px) || loopWidth <= 0) return "0px";
-              const wrapped = ((px % -loopWidth) + -loopWidth) % -loopWidth;
-              return `${wrapped}px`;
-            },
-          },
-        });
+        tweenRef.current = applyLogoTickerScroll(track, loopWidth, 78);
       };
 
       startLoop();
