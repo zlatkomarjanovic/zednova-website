@@ -2,15 +2,29 @@
 
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
-import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { BlueprintGuides } from "@/components/shared/BlueprintGuides";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import type { ComparisonRow, ComparisonSection } from "@/lib/content/agency-comparison";
 import { cn } from "@/lib/utils";
 
+const CELL =
+  "px-3 py-2.5 align-top text-[11px] leading-snug md:px-4 md:py-3 md:text-[11.5px]";
+const ROW_LABEL =
+  "min-w-[6.5rem] border-r border-zn-border-dk bg-zn-dark-2 font-sans text-[11px] font-medium leading-snug text-zn-inv md:min-w-[7.5rem] md:text-[11.5px]";
+
+function ColumnIcon({ color }: { color: string }) {
+  return (
+    <span
+      className="mr-1.5 inline-block size-2 shrink-0 rounded-full"
+      style={{ backgroundColor: color }}
+      aria-hidden="true"
+    />
+  );
+}
+
 function ZednovaPill({ children }: { children: string }) {
   return (
-    <span className="mt-2 inline-block rounded-full bg-[#085041] px-2.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.04em] text-[#5DCAA5]">
+    <span className="mt-1.5 inline-block rounded-full bg-[#085041] px-2 py-px font-mono text-[9px] font-medium uppercase tracking-[0.04em] text-[#5DCAA5]">
       {children}
     </span>
   );
@@ -19,21 +33,24 @@ function ZednovaPill({ children }: { children: string }) {
 function ComparisonTableRow({ row }: { row: ComparisonRow }) {
   return (
     <tr className="group border-b border-zn-border-dk last:border-b-0">
-      <th
-        scope="row"
-        className="min-w-[9.5rem] border-r border-zn-border-dk bg-zn-dark-2 px-4 py-4 text-left align-top font-sans text-[11.5px] font-medium leading-snug text-zn-inv-2 md:min-w-[11rem] md:px-5 md:py-[0.875rem] md:text-xs"
-      >
+      <th scope="row" className={cn(ROW_LABEL, CELL, "text-left")}>
         {row.category}
       </th>
-      <td className="min-w-[14rem] border-r border-zn-border-dk bg-[rgba(136,135,128,0.05)] px-4 py-4 align-top text-[12.5px] leading-relaxed text-[#B4B2A9] transition-colors group-hover:bg-[rgba(136,135,128,0.09)] md:min-w-[16rem] md:px-5 md:py-[0.875rem]">
-        {row.traditional}
+      <td
+        className={cn(
+          CELL,
+          "min-w-[9rem] border-r border-zn-border-dk bg-[rgba(136,135,128,0.05)] text-[#B4B2A9] transition-colors group-hover:bg-[rgba(136,135,128,0.09)] md:min-w-[10rem]",
+        )}
+      >
+        {row.agencies}
       </td>
-      <td className="min-w-[14rem] border-r border-zn-border-dk bg-[rgba(127,119,221,0.07)] px-4 py-4 align-top text-[12.5px] leading-relaxed text-[#CECBF6] transition-colors group-hover:bg-[rgba(127,119,221,0.11)] md:min-w-[16rem] md:px-5 md:py-[0.875rem]">
-        {row.aiAgency}
-      </td>
-      <td className="min-w-[14rem] bg-[rgba(29,158,117,0.06)] px-4 py-4 align-top text-[12.5px] leading-relaxed text-zn-inv transition-colors group-hover:bg-[rgba(29,158,117,0.1)] md:min-w-[16rem] md:px-5 md:py-[0.875rem]">
-        {row.zednova}
-        <br />
+      <td
+        className={cn(
+          CELL,
+          "min-w-[9rem] bg-[rgba(29,158,117,0.06)] text-zn-inv transition-colors group-hover:bg-[rgba(29,158,117,0.1)] md:min-w-[10rem]",
+        )}
+      >
+        <span className="block">{row.zednova}</span>
         <ZednovaPill>{row.zednovaPill}</ZednovaPill>
       </td>
     </tr>
@@ -45,8 +62,8 @@ function ComparisonTableSection({ section }: { section: ComparisonSection }) {
     <>
       <tr className="border-b border-zn-border-dk">
         <td
-          colSpan={4}
-          className="bg-zn-dark-2 px-4 py-2 font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-zn-inv-2 md:px-5"
+          colSpan={3}
+          className="bg-zn-dark-2 px-3 py-1.5 font-mono text-[9px] font-medium uppercase tracking-[0.08em] text-zn-inv-2 md:px-4"
         >
           {section.title}
         </td>
@@ -62,18 +79,15 @@ export function AgencyComparisonSection({
   label,
   heading,
   subheading,
-  legend,
   columns,
   sections,
 }: {
   label: string;
   heading: string;
   subheading: string;
-  legend: readonly { label: string; color: string }[];
   columns: {
     category: string;
-    traditional: string;
-    aiAgency: string;
+    agencies: string;
     zednova: string;
   };
   sections: ComparisonSection[];
@@ -82,13 +96,13 @@ export function AgencyComparisonSection({
     <section
       data-theme="dark"
       data-bg="dark"
-      className="relative overflow-hidden border-t border-zn-border-dk bg-zn-dark pb-[clamp(4rem,8vw,8rem)] pt-[clamp(3rem,6vw,5rem)] text-zn-inv"
+      className="relative overflow-hidden border-t border-zn-border-dk bg-zn-dark pb-[clamp(3rem,6vw,6rem)] pt-[clamp(2.5rem,5vw,4rem)] text-zn-inv"
       aria-label={heading}
     >
       <BlueprintGuides theme="dark" reveal="scroll" className="z-10" />
 
       <div className="zn-container relative">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <div className="flex justify-center">
               <SectionLabel withRule={false} className="text-zn-inv-2">
@@ -99,82 +113,59 @@ export function AgencyComparisonSection({
           <TextReveal
             as="h2"
             text={heading}
-            className="zn-h2 mt-6 font-sans font-normal text-zn-inv"
+            className="zn-h2 mt-5 font-sans font-normal text-zn-inv"
           />
           <Reveal delay={0.08}>
-            <p className="zn-prose mx-auto mt-5 max-w-2xl text-zn-inv-2">{subheading}</p>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-zn-inv-2">
+              {subheading}
+            </p>
           </Reveal>
         </div>
       </div>
 
-      <div className="zn-container-guides relative mt-10 md:mt-14">
-        <BlueprintCross anchor="left" theme="dark" className="top-0 z-10 -translate-y-1/2" />
-        <BlueprintCross anchor="right" theme="dark" className="top-0 z-10 -translate-y-1/2" />
-        <BlueprintCross anchor="left" theme="dark" className="bottom-0 z-10 translate-y-1/2" />
-        <BlueprintCross anchor="right" theme="dark" className="bottom-0 z-10 translate-y-1/2" />
-
+      <div className="zn-container-guides relative mt-8 md:mt-10">
         <Reveal delay={0.06}>
-          <div className="zn-container-inset mb-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11.5px] text-zn-inv-2">
-            {legend.map((item) => (
-              <span key={item.label} className="inline-flex items-center gap-2">
-                <span
-                  className="size-2 shrink-0 rounded-full"
-                  style={{ backgroundColor: item.color }}
-                  aria-hidden="true"
-                />
-                {item.label}
-              </span>
-            ))}
+          <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-zn-border-dk bg-zn-dark">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[28rem] border-collapse text-left">
+                <colgroup>
+                  <col className="w-[26%]" />
+                  <col className="w-[37%]" />
+                  <col className="w-[37%]" />
+                </colgroup>
+                <thead>
+                  <tr className="border-b border-zn-border-dk bg-zn-dark-2">
+                    <th
+                      scope="col"
+                      className="border-r border-zn-border-dk px-3 py-2.5 font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-zn-inv-2 md:px-4"
+                    >
+                      {columns.category}
+                    </th>
+                    <th
+                      scope="col"
+                      className="border-r border-zn-border-dk bg-[rgba(136,135,128,0.12)] px-3 py-2.5 font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-[#B4B2A9] md:px-4"
+                    >
+                      <ColumnIcon color="#888780" />
+                      {columns.agencies}
+                    </th>
+                    <th
+                      scope="col"
+                      className="bg-[#085041] px-3 py-2.5 font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-[#5DCAA5] md:px-4"
+                    >
+                      <ColumnIcon color="#1D9E75" />
+                      {columns.zednova}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sections.map((section) => (
+                    <ComparisonTableSection key={section.title} section={section} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </Reveal>
-
-        <div className="relative border-y border-zn-border-dk bg-zn-dark">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[56rem] border-collapse text-left">
-              <colgroup>
-                <col className="w-[17%]" />
-                <col className="w-[28%]" />
-                <col className="w-[28%]" />
-                <col className="w-[27%]" />
-              </colgroup>
-              <thead>
-                <tr className="border-b border-zn-border-dk bg-zn-dark-2">
-                  <th
-                    scope="col"
-                    className="border-r border-zn-border-dk px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-[0.05em] text-zn-inv-2 md:px-5"
-                  >
-                    {columns.category}
-                  </th>
-                  <th
-                    scope="col"
-                    className="border-r border-zn-border-dk bg-[rgba(136,135,128,0.12)] border-b-2 border-b-[#888780] px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-[0.05em] text-[#B4B2A9] md:px-5"
-                  >
-                    {columns.traditional}
-                  </th>
-                  <th
-                    scope="col"
-                    className="border-r border-zn-border-dk bg-[#3C3489] border-b-2 border-b-[#7F77DD] px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-[0.05em] text-[#CECBF6] md:px-5"
-                  >
-                    {columns.aiAgency}
-                  </th>
-                  <th
-                    scope="col"
-                    className={cn(
-                      "border-b-2 border-[#1D9E75] bg-[#085041] px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-[0.05em] text-[#5DCAA5] md:px-5",
-                    )}
-                  >
-                    {columns.zednova}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {sections.map((section) => (
-                  <ComparisonTableSection key={section.title} section={section} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
     </section>
   );

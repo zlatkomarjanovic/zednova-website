@@ -23,7 +23,7 @@ function chunkIndustries(items: HomepageIndustry[], size: number) {
 
 function IndustryCard({ industry }: { industry: HomepageIndustry }) {
   return (
-    <div className="flex h-full flex-col border-r border-zn-border last:border-r-0">
+    <div className="flex h-full flex-col border-r border-zn-border bg-white last:border-r-0">
       <Link
         href={industry.href}
         className="flex h-full flex-col gap-5 px-6 py-7 md:px-7 md:py-8"
@@ -43,7 +43,7 @@ function IndustryCard({ industry }: { industry: HomepageIndustry }) {
           {industry.popularServices.map((service) => (
             <li
               key={service}
-              className="rounded-full border border-zn-border bg-white/80 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.1em] text-zn-text-3"
+              className="rounded-full border border-zn-border bg-zn-bg px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.1em] text-zn-text-3"
             >
               {service}
             </li>
@@ -90,7 +90,7 @@ export function IndustryNavShowcaseGrid({ industries }: { industries: HomepageIn
   return (
     <div className="zn-container-guides relative mt-14">
       <div
-        className="border-t border-zn-border"
+        className="border-t border-zn-border bg-white"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onFocusCapture={() => setPaused(true)}

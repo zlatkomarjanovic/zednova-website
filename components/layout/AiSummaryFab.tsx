@@ -136,7 +136,7 @@ export function AiSummaryFab() {
 
   return (
     <div
-      className="fixed bottom-6 right-5 z-[60] sm:bottom-8 sm:right-8"
+      className="fixed bottom-6 right-3 z-[60] sm:bottom-8 sm:right-5"
       aria-label="Ask AI to summarize this site"
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
