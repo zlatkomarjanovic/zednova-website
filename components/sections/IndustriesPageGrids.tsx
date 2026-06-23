@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
-import { BlueprintGridCrosses } from "@/components/shared/BlueprintGridCrosses";
 import { Icon } from "@/components/shared/Icon";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { cn } from "@/lib/utils";
@@ -30,13 +29,22 @@ function chunkRows<T>(items: T[], columns: number): T[][] {
   return rows;
 }
 
-function ColumnCrosses({ showTop = true }: { showTop?: boolean }) {
+/** + markers on the left edge of a vertical divider between cells. */
+function ColumnDividerCrosses({
+  showTop,
+  showBottom,
+}: {
+  showTop: boolean;
+  showBottom: boolean;
+}) {
   return (
     <>
       {showTop && (
         <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
       )}
-      <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
+      {showBottom && (
+        <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
+      )}
     </>
   );
 }
@@ -45,12 +53,14 @@ function GridCell({
   item,
   showLeftBorder,
   showTopBorder,
-  showColumnCrosses,
+  showDividerTop,
+  showDividerBottom,
 }: {
   item: IndustriesGridItem;
   showLeftBorder: boolean;
   showTopBorder: boolean;
-  showColumnCrosses: boolean;
+  showDividerTop: boolean;
+  showDividerBottom: boolean;
 }) {
   return (
     <div
@@ -60,7 +70,12 @@ function GridCell({
         showTopBorder && "border-t lg:border-t-0 border-zn-border",
       )}
     >
-      {showColumnCrosses && <ColumnCrosses showTop={showTopBorder} />}
+      {showLeftBorder && (
+        <ColumnDividerCrosses
+          showTop={showDividerTop}
+          showBottom={showDividerBottom}
+        />
+      )}
       <Link
         href={item.href}
         className="relative z-[1] flex h-full w-full flex-col bg-zn-bg px-6 py-5 transition-colors duration-200 ease-out group-hover/cell:bg-zn-bg-3 md:px-7 md:py-6"
@@ -91,14 +106,9 @@ function GridSection({
   columns?: 3 | 5;
 }) {
   const desktopRows = chunkRows(items, columns);
-  const rowCount = Math.max(1, desktopRows.length);
 
   return (
     <div className="relative [contain:layout_paint]">
-      <div className="pointer-events-none absolute inset-0 max-lg:hidden">
-        <BlueprintGridCrosses columns={columns} rows={rowCount} />
-      </div>
-
       <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
       <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
       <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
@@ -112,32 +122,47 @@ function GridSection({
             item={item}
             showLeftBorder={false}
             showTopBorder={index > 0}
-            showColumnCrosses={false}
+            showDividerTop={false}
+            showDividerBottom={false}
           />
         ))}
       </div>
 
-      {/* Desktop — flex rows; partial rows divide width evenly */}
+      {/* Desktop — flex rows; crosses only at real cell boundaries */}
       <div className="relative hidden flex-col lg:flex">
-        {desktopRows.map((row, rowIndex) => (
-          <div
-            key={rowIndex}
-            className={cn(
-              "flex w-full",
-              rowIndex > 0 && "border-t border-zn-border",
-            )}
-          >
-            {row.map((item, colIndex) => (
-              <GridCell
-                key={item.href}
-                item={item}
-                showLeftBorder={colIndex > 0}
-                showTopBorder={false}
-                showColumnCrosses={colIndex > 0}
-              />
-            ))}
-          </div>
-        ))}
+        {desktopRows.map((row, rowIndex) => {
+          const isLastRow = rowIndex === desktopRows.length - 1;
+          const isPartialLastRow = isLastRow && row.length < columns;
+          const showDividerBottom = !isPartialLastRow;
+
+          return (
+            <div
+              key={rowIndex}
+              className={cn(
+                "relative flex w-full",
+                rowIndex > 0 && "border-t border-zn-border",
+              )}
+            >
+              {rowIndex > 0 && (
+                <>
+                  <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
+                  <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
+                </>
+              )}
+
+              {row.map((item, colIndex) => (
+                <GridCell
+                  key={item.href}
+                  item={item}
+                  showLeftBorder={colIndex > 0}
+                  showTopBorder={false}
+                  showDividerTop={colIndex > 0 && rowIndex > 0}
+                  showDividerBottom={colIndex > 0 && showDividerBottom}
+                />
+              ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
