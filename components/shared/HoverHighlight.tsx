@@ -75,6 +75,8 @@ export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>(
   const rootRef = useRef<T>(null);
   const prevPointer = useRef({ x: 0, y: 0, t: 0 });
   const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pointerRaf = useRef<number | null>(null);
+  const pendingPointer = useRef<{ x: number; y: number } | null>(null);
 
   const top = useSpring(0, SNAP_SPRING);
   const left = useSpring(0, SNAP_SPRING);
@@ -112,23 +114,28 @@ export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>(
     opacity.set(0);
     bendX.set(0);
     prevPointer.current = { x: 0, y: 0, t: 0 };
+    pendingPointer.current = null;
+    if (pointerRaf.current !== null) {
+      cancelAnimationFrame(pointerRaf.current);
+      pointerRaf.current = null;
+    }
     if (settleTimer.current) clearTimeout(settleTimer.current);
   }, [bendX, opacity]);
 
-  const onPointerMove = useCallback(
-    (event: React.PointerEvent<HTMLElement>) => {
+  const processPointer = useCallback(
+    (clientX: number, clientY: number) => {
       const now = performance.now();
       const dt = Math.max(now - prevPointer.current.t, 1);
-      const vx = (event.clientX - prevPointer.current.x) / dt;
+      const vx = (clientX - prevPointer.current.x) / dt;
 
-      prevPointer.current = { x: event.clientX, y: event.clientY, t: now };
+      prevPointer.current = { x: clientX, y: clientY, t: now };
 
       const bendLimit = 104 * bendScale;
       const bendGain = 56 * bendScale;
       bendX.set(Math.max(-bendLimit, Math.min(bendLimit, vx * bendGain)));
 
       const hovered = document
-        .elementFromPoint(event.clientX, event.clientY)
+        .elementFromPoint(clientX, clientY)
         ?.closest<HTMLElement>(cellSelector);
 
       if (hovered) {
@@ -142,6 +149,20 @@ export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>(
       }, settleMs);
     },
     [bendScale, bendX, cellSelector, settleMs, snapTo],
+  );
+
+  const onPointerMove = useCallback(
+    (event: React.PointerEvent<HTMLElement>) => {
+      pendingPointer.current = { x: event.clientX, y: event.clientY };
+      if (pointerRaf.current !== null) return;
+      pointerRaf.current = requestAnimationFrame(() => {
+        pointerRaf.current = null;
+        const pt = pendingPointer.current;
+        if (!pt) return;
+        processPointer(pt.x, pt.y);
+      });
+    },
+    [processPointer],
   );
 
   const pointerHandlers = {
