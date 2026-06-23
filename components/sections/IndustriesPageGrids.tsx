@@ -28,12 +28,6 @@ export type IndustriesGroupSection = {
   items: IndustriesGridItem[];
 };
 
-type GridSectionProps = {
-  items: IndustriesGridItem[];
-  columns: 3 | 5;
-  highlight: ReturnType<typeof useRubberHoverHighlight>;
-};
-
 function ColumnCrosses({ showTop = true }: { showTop?: boolean }) {
   return (
     <>
@@ -45,12 +39,31 @@ function ColumnCrosses({ showTop = true }: { showTop?: boolean }) {
   );
 }
 
-/** Shared cell grid — one highlight context, mega-menu border logic. */
-function GridSection({ items, columns, highlight }: GridSectionProps) {
+/**
+ * Self-contained grid section — small SVG highlight surface, cell mouseEnter
+ * for snapping (no elementFromPoint), pointer move for rubber bend only.
+ */
+function GridSection({ items, columns = 3 }: { items: IndustriesGridItem[]; columns?: 3 | 5 }) {
+  const highlight = useRubberHoverHighlight({
+    bendScale: 0.45,
+    cornerRadius: 4,
+    detectCellOnMove: false,
+  });
   const rows = Math.max(1, Math.ceil(items.length / columns));
 
   return (
-    <div className="relative">
+    <div
+      ref={highlight.rootRef}
+      className="relative"
+      {...highlight.pointerHandlers}
+    >
+      <RubberHoverHighlightLayer
+        pathD={highlight.pathD}
+        opacity={highlight.opacity}
+        fill="var(--color-zn-bg-3)"
+        fillOpacity={0.7}
+      />
+
       <div className="pointer-events-none absolute inset-0">
         <BlueprintGridCrosses columns={columns} rows={rows} />
       </div>
@@ -106,10 +119,6 @@ function GridSection({ items, columns, highlight }: GridSectionProps) {
   );
 }
 
-/**
- * Full industries listing — single rubber highlight root for smooth hover
- * and continuous blueprint lines across every group and the mega-menu list.
- */
 export function IndustriesPageGrids({
   groups,
   allIndustries,
@@ -117,24 +126,8 @@ export function IndustriesPageGrids({
   groups: IndustriesGroupSection[];
   allIndustries: IndustriesGridItem[];
 }) {
-  const highlight = useRubberHoverHighlight({
-    bendScale: 0.45,
-    cornerRadius: 4,
-  });
-
   return (
-    <div
-      ref={highlight.rootRef}
-      className="relative"
-      {...highlight.pointerHandlers}
-    >
-      <RubberHoverHighlightLayer
-        pathD={highlight.pathD}
-        opacity={highlight.opacity}
-        fill="var(--color-zn-bg-3)"
-        fillOpacity={0.7}
-      />
-
+    <>
       {groups.map((group) => (
         <div key={group.id} className="border-b border-zn-border">
           <div className="zn-container-inset border-b border-zn-border py-12 lg:py-14">
@@ -154,7 +147,7 @@ export function IndustriesPageGrids({
             </div>
           </div>
 
-          <GridSection items={group.items} columns={3} highlight={highlight} />
+          <GridSection items={group.items} columns={3} />
         </div>
       ))}
 
@@ -171,12 +164,8 @@ export function IndustriesPageGrids({
           </p>
         </div>
 
-        <GridSection
-          items={allIndustries}
-          columns={3}
-          highlight={highlight}
-        />
+        <GridSection items={allIndustries} columns={3} />
       </div>
-    </div>
+    </>
   );
 }

@@ -64,6 +64,8 @@ type RubberHoverOptions = {
   bendScale?: number;
   settleMs?: number;
   cornerRadius?: number;
+  /** When false, cells are tracked via mouseEnter only — skips elementFromPoint on move. */
+  detectCellOnMove?: boolean;
 };
 
 export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>({
@@ -71,6 +73,7 @@ export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>(
   bendScale = 1,
   settleMs = 140,
   cornerRadius = 0,
+  detectCellOnMove = true,
 }: RubberHoverOptions = {}) {
   const rootRef = useRef<T>(null);
   const prevPointer = useRef({ x: 0, y: 0, t: 0 });
@@ -134,12 +137,15 @@ export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>(
       const bendGain = 56 * bendScale;
       bendX.set(Math.max(-bendLimit, Math.min(bendLimit, vx * bendGain)));
 
-      const hovered = document
-        .elementFromPoint(clientX, clientY)
-        ?.closest<HTMLElement>(cellSelector);
-
-      if (hovered) {
-        snapTo(hovered);
+      let hovered: HTMLElement | null = null;
+      if (detectCellOnMove) {
+        hovered =
+          document
+            .elementFromPoint(clientX, clientY)
+            ?.closest<HTMLElement>(cellSelector) ?? null;
+        if (hovered) {
+          snapTo(hovered);
+        }
       }
 
       if (settleTimer.current) clearTimeout(settleTimer.current);
@@ -148,7 +154,7 @@ export function useRubberHoverHighlight<T extends HTMLElement = HTMLDivElement>(
         if (hovered) snapTo(hovered);
       }, settleMs);
     },
-    [bendScale, bendX, cellSelector, settleMs, snapTo],
+    [bendScale, bendX, cellSelector, detectCellOnMove, settleMs, snapTo],
   );
 
   const onPointerMove = useCallback(
