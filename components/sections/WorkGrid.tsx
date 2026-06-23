@@ -1,10 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { CaseStudyCard } from "@/components/shared/CaseStudyCard";
-import { SectionHeading } from "@/components/shared/SectionHeading";
+import { CaseStudiesShowcaseGrid } from "@/components/sections/CaseStudiesShowcaseGrid";
+import { SectionLabel } from "@/components/shared/SectionLabel";
+import { industryParents } from "@/lib/content/industry-parents";
+import { industries } from "@/lib/content/industry-subs";
 import type { CaseStudy } from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+type Filter = { value: string; label: string };
+
+const PARENT_LOOKUP = Object.fromEntries(industryParents.map((p) => [p.slug, p]));
+const SUB_LOOKUP = Object.fromEntries(industries.map((i) => [i.slug, i]));
+
+function industryMeta(slug: string) {
+  return (
+    PARENT_LOOKUP[slug] ?? {
+      slug,
+      title: SUB_LOOKUP[slug]?.title ?? slug,
+      icon: SUB_LOOKUP[slug]?.icon ?? "box",
+    }
+  );
+}
 
 export function WorkGrid({
   caseStudies,
@@ -12,7 +29,7 @@ export function WorkGrid({
   showHeader = true,
 }: {
   caseStudies: CaseStudy[];
-  filters: { value: string; label: string }[];
+  filters: Filter[];
   showHeader?: boolean;
 }) {
   const [active, setActive] = useState("all");
@@ -21,16 +38,20 @@ export function WorkGrid({
       ? caseStudies
       : caseStudies.filter((c) => c.industry === active);
 
+  const industryLookup = shown.map((c) => industryMeta(c.industry));
+
   return (
     <div>
       {showHeader && (
-        <SectionHeading
-          label="Latest projects"
-          title="Deep-dive into our full-service case studies"
-        />
+        <div className="mb-10">
+          <SectionLabel withRule={false}>Latest projects</SectionLabel>
+          <h2 className="mt-5 max-w-2xl zn-h2 font-sans font-normal">
+            Deep-dive into our full-service case studies
+          </h2>
+        </div>
       )}
 
-      <div className={cn("flex flex-wrap gap-2", showHeader && "mt-10")}>
+      <div className={cn("flex flex-wrap gap-2", showHeader && "mt-6")}>
         {[{ value: "all", label: "All work" }, ...filters].map((filter) => (
           <button
             key={filter.value}
@@ -47,10 +68,11 @@ export function WorkGrid({
         ))}
       </div>
 
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:gap-6">
-        {shown.map((caseStudy) => (
-          <CaseStudyCard key={caseStudy.slug} caseStudy={caseStudy} />
-        ))}
+      <div className="mt-10">
+        <CaseStudiesShowcaseGrid
+          caseStudies={shown}
+          industries={industryLookup}
+        />
       </div>
     </div>
   );

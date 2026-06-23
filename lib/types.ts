@@ -123,6 +123,12 @@ export type ArticleBlock =
   | { type: "ul"; items: string[] }
   | { type: "quote"; text: string };
 
+export type ArticleFaq = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
 export type Post = {
   slug: string;
   title: string;
@@ -131,10 +137,23 @@ export type Post = {
   body: ArticleBlock[];
   author: string; // team slug
   publishedAt: string; // ISO date
+  updatedAt?: string; // ISO date — shown when content was revised
   readTime: number; // minutes
   featured: boolean;
   accent: string;
   image: string; // cover image URL
+  /** Short list of topic tags (AEO entities). */
+  tags: string[];
+  /** Optional SEO overrides; fall back to title/excerpt when absent. */
+  seoTitle?: string;
+  seoDescription?: string;
+  keywords?: string[];
+  /** Dedicated OG/Twitter image; falls back to `image`. */
+  ogImage?: string;
+  /** 3–5 answer-first bullets surfaced above the body (AEO). */
+  takeaways?: string[];
+  /** Inline FAQ section rendered with FAQPage JSON-LD (AEO). */
+  faqs?: ArticleFaq[];
 };
 
 export type ProductStatus =

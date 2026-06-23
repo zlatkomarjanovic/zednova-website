@@ -134,6 +134,7 @@ export function Navbar({
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const scrollResolveRef = useRef<(() => void) | null>(null);
   const navHighlight = useRubberHoverHighlight<HTMLElement>({
     bendScale: 0.45,
     cornerRadius: 4,
@@ -162,7 +163,7 @@ export function Navbar({
     setSlideDirection(0);
     setPanelHeight(0);
     setMobileOpen(false);
-    const id = requestAnimationFrame(() => {
+    const raf = requestAnimationFrame(() => {
       const sections = Array.from(
         document.querySelectorAll<HTMLElement>("[data-theme]"),
       );
@@ -170,17 +171,38 @@ export function Navbar({
         setTheme("light");
         return;
       }
+
+      // Track every section currently intersecting the navbar band, then
+      // resolve the theme from the topmost one. Falls back to light when
+      // nothing intersects (gaps between sections, page top/bottom).
+      const intersecting = new Map<HTMLElement, number>();
+      const resolve = () => {
+        let top: HTMLElement | null = null;
+        let topY = Infinity;
+        for (const [el, y] of intersecting) {
+          if (y < topY) {
+            topY = y;
+            top = el;
+          }
+        }
+        if (top) {
+          setTheme(top.getAttribute("data-theme") === "dark" ? "dark" : "light");
+        } else {
+          setTheme("light");
+        }
+      };
+
       const io = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry) => {
+          for (const entry of entries) {
+            const el = entry.target as HTMLElement;
             if (entry.isIntersecting) {
-              setTheme(
-                entry.target.getAttribute("data-theme") === "dark"
-                  ? "dark"
-                  : "light",
-              );
+              intersecting.set(el, el.getBoundingClientRect().top);
+            } else {
+              intersecting.delete(el);
             }
-          });
+          }
+          resolve();
         },
         {
           rootMargin: `-73px 0px -${Math.max(0, window.innerHeight - 75)}px 0px`,
@@ -189,9 +211,33 @@ export function Navbar({
       );
       sections.forEach((s) => io.observe(s));
       observerRef.current = io;
+
+      // Re-resolve on scroll since IntersectionObserver only fires on
+      // intersection changes, not while a section stays within the band.
+      // Throttled with rAF to avoid layout thrashing from getBoundingClientRect.
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          if (intersecting.size) {
+            for (const el of intersecting.keys()) {
+              intersecting.set(el, el.getBoundingClientRect().top);
+            }
+          }
+          resolve();
+          ticking = false;
+        });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      scrollResolveRef.current = onScroll;
     });
     return () => {
-      cancelAnimationFrame(id);
+      cancelAnimationFrame(raf);
+      if (scrollResolveRef.current) {
+        window.removeEventListener("scroll", scrollResolveRef.current);
+        scrollResolveRef.current = null;
+      }
       observerRef.current?.disconnect();
     };
   }, [pathname]);

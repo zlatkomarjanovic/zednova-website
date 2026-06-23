@@ -1,0 +1,100 @@
+"use client";
+
+import { useState } from "react";
+import { Check, Link2, Share2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+function LinkedinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+    </svg>
+  );
+}
+
+/**
+ * Share row for article pages. Uses the native Web Share API on mobile,
+ * falls back to copy-link + social intents on desktop.
+ */
+export function ArticleShare({
+  url,
+  title,
+  className,
+}: {
+  url: string;
+  title: string;
+  className?: string;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable — no-op */
+    }
+  }
+
+  function shareNative() {
+    if (typeof navigator !== "undefined" && navigator.share) {
+      navigator.share({ title, url }).catch(() => {});
+    } else {
+      void copyLink();
+    }
+  }
+
+  const iconBtn =
+    "flex size-10 items-center justify-center rounded-full border border-zn-border text-zn-text-2 transition-colors hover:border-zn-text hover:bg-zn-text hover:text-zn-inv";
+
+  return (
+    <div className={cn("flex items-center gap-2", className)}>
+      <span className="zn-label sr-only sm:not-sr-only sm:mr-1 sm:text-zn-text-3">
+        Share
+      </span>
+      <button
+        type="button"
+        onClick={copyLink}
+        aria-label="Copy link"
+        className={cn(iconBtn, copied && "border-zn-text text-zn-text")}
+      >
+        {copied ? <Check className="size-4" /> : <Link2 className="size-4" />}
+      </button>
+      <a
+        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on X"
+        className={iconBtn}
+      >
+        <XIcon className="size-4" />
+      </a>
+      <a
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on LinkedIn"
+        className={iconBtn}
+      >
+        <LinkedinIcon className="size-4" />
+      </a>
+      <button
+        type="button"
+        onClick={shareNative}
+        aria-label="Share"
+        className={cn(iconBtn, "sm:hidden")}
+      >
+        <Share2 className="size-4" />
+      </button>
+    </div>
+  );
+}

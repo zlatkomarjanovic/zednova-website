@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 import {
   getAllCaseStudies,
@@ -10,6 +10,8 @@ import {
   getServicesBySlugs,
   getTestimonialById,
 } from "@/lib/queries";
+import { breadcrumbJsonLd, caseStudyJsonLd } from "@/lib/seo";
+import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { SectionLabel } from "@/components/shared/SectionLabel";
@@ -17,6 +19,9 @@ import { Tag } from "@/components/shared/Tag";
 import { Button } from "@/components/shared/Button";
 import { MediaImage } from "@/components/shared/MediaImage";
 import { StatsRow } from "@/components/sections/StatsRow";
+import { DarkCTA } from "@/components/sections/DarkCTA";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 
 export async function generateStaticParams() {
   const caseStudies = await getAllCaseStudies();
@@ -34,6 +39,14 @@ export async function generateMetadata({
   return {
     title: caseStudy.title,
     description: `${caseStudy.client}: ${caseStudy.resultHeadline}.`,
+    alternates: { canonical: `/work/${slug}` },
+    openGraph: {
+      type: "website",
+      url: `/work/${slug}`,
+      title: caseStudy.title,
+      description: `${caseStudy.client}: ${caseStudy.resultHeadline}.`,
+      images: [{ url: caseStudy.image, alt: caseStudy.title }],
+    },
   };
 }
 
@@ -58,22 +71,36 @@ export default async function CaseStudyPage({
       : Promise.resolve(null),
   ]);
 
+  const crumbs = [
+    { label: "Home", href: "/" },
+    { label: "Work", href: "/work" },
+    { label: caseStudy.title },
+  ];
+
   return (
     <>
-      {/* Hero */}
-      <section data-theme="dark" className="relative overflow-hidden text-zn-inv">
+      <JsonLd data={[caseStudyJsonLd(caseStudy), breadcrumbJsonLd(crumbs)]} />
+
+      {/* Hero — dark with treated image */}
+      <section data-theme="dark" className="relative overflow-hidden bg-zn-dark text-zn-inv">
         <MediaImage
           src={caseStudy.image}
           alt={caseStudy.title}
           accent={caseStudy.accent}
-          tint={0.55}
+          tint={0.6}
           priority
           sizes="100vw"
           className="absolute inset-0"
         />
         <div className="zn-container relative z-10 pb-16 pt-36 lg:pb-24 lg:pt-44">
           <Reveal>
-            <div className="flex flex-wrap items-center gap-3">
+            <Breadcrumbs
+              items={crumbs}
+              className="text-zn-inv-2 [&_a]:text-zn-inv-2 [&_a:hover]:text-zn-inv"
+            />
+          </Reveal>
+          <Reveal>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Tag variant="outline-inverted">{industryName}</Tag>
               <span className="text-sm text-zn-inv-2">{caseStudy.client}</span>
             </div>
@@ -81,9 +108,14 @@ export default async function CaseStudyPage({
           <TextReveal
             as="h1"
             text={caseStudy.title}
-            className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
+            className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-inv"
           />
           <Reveal delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-inv-2">
+              {caseStudy.resultHeadline}
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
             <dl className="mt-12 grid max-w-3xl grid-cols-2 gap-8 border-t border-zn-border-dk pt-8 sm:grid-cols-3">
               <div>
                 <dt className="zn-label text-zn-inv-2">Timeline</dt>
@@ -104,32 +136,61 @@ export default async function CaseStudyPage({
         </div>
       </section>
 
-      {/* Challenge */}
-      <section className="zn-section">
-        <div className="zn-container grid gap-10 lg:grid-cols-[0.6fr_1.4fr]">
-          <SectionLabel>The challenge</SectionLabel>
-          <p className="max-w-3xl font-sans font-normal text-2xl leading-snug text-zn-text lg:text-3xl">
-            {caseStudy.challenge}
-          </p>
+      {/* Challenge — guides framing */}
+      <section data-theme="light" className="relative bg-zn-bg">
+        <BlueprintGrid immediate />
+        <div className="zn-container-guides relative">
+          <div className="relative border-x border-b border-zn-border">
+            <div className="zn-container-inset py-[clamp(3.5rem,7vw,6rem)]">
+              <Reveal>
+                <SectionLabel withRule={false}>The challenge</SectionLabel>
+              </Reveal>
+              <Reveal delay={0.05}>
+                <p className="mt-8 max-w-3xl font-sans font-normal text-2xl leading-snug text-zn-text lg:text-3xl">
+                  {caseStudy.challenge}
+                </p>
+              </Reveal>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Solution */}
-      <section className="zn-section bg-zn-bg-2/40">
-        <div className="zn-container grid gap-10 lg:grid-cols-[0.6fr_1.4fr]">
-          <SectionLabel>The solution</SectionLabel>
+      <section data-theme="light" className="zn-section">
+        <div className="zn-container grid gap-10 lg:grid-cols-[0.8fr_1.4fr]">
+          <div>
+            <Reveal>
+              <SectionLabel withRule={false}>The solution</SectionLabel>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h2 className="mt-6 max-w-md zn-h2 font-sans font-normal">
+                What we built
+              </h2>
+            </Reveal>
+          </div>
           <div className="max-w-3xl space-y-6 text-lg leading-relaxed text-zn-text-2">
             {caseStudy.solution.map((para, i) => (
-              <p key={i}>{para}</p>
+              <Reveal key={i} delay={0.05 * i}>
+                <p>{para}</p>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Results */}
+      {/* Results (dark) */}
       <section data-theme="dark" className="zn-section bg-zn-dark text-zn-inv">
         <div className="zn-container">
-          <SectionLabel className="text-zn-inv-2">The results</SectionLabel>
+          <Reveal>
+            <SectionLabel withRule={false} className="text-zn-inv-2">
+              The results
+            </SectionLabel>
+          </Reveal>
+          <TextReveal
+            as="h2"
+            text="Outcomes that moved the business"
+            className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-inv"
+          />
           <div className="mt-12">
             <StatsRow
               stats={caseStudy.results}
@@ -152,7 +213,7 @@ export default async function CaseStudyPage({
 
       {/* Testimonial */}
       {testimonial && (
-        <section className="zn-section">
+        <section data-theme="light" className="zn-section">
           <div className="zn-container">
             <figure className="mx-auto max-w-3xl text-center">
               <blockquote className="zn-accent-italic text-2xl leading-snug text-zn-text lg:text-3xl">
@@ -162,9 +223,7 @@ export default async function CaseStudyPage({
                 <span className="font-sans font-medium text-zn-text">
                   {testimonial.authorName}
                 </span>
-                <span className="mx-1.5" aria-hidden="true">
-                  ·
-                </span>
+                <span className="mx-1.5" aria-hidden="true">·</span>
                 {testimonial.company}
               </figcaption>
             </figure>
@@ -172,34 +231,27 @@ export default async function CaseStudyPage({
         </section>
       )}
 
-      {/* Next + CTA */}
-      <section data-theme="dark" className="border-t border-zn-border-dk bg-zn-dark text-zn-inv">
-        <div className="zn-container grid gap-px overflow-hidden md:grid-cols-2">
+      {/* Next project */}
+      <section data-theme="light" className="border-t border-zn-border">
+        <div className="zn-container">
           <Link
             href={`/work/${next.slug}`}
-            className="group flex flex-col justify-between gap-8 py-14 pr-8"
+            className="group flex items-center justify-between gap-8 py-12"
           >
-            <span className="zn-label text-zn-inv-2">Next project</span>
-            <span className="flex items-center gap-2 font-sans font-normal text-2xl text-zn-inv lg:text-3xl">
+            <span className="zn-label text-zn-text-3">Next project</span>
+            <span className="flex items-center gap-3 text-right font-sans font-normal text-xl text-zn-text transition-opacity group-hover:opacity-70 lg:text-2xl">
               {next.title}
-              <ArrowRight className="size-6 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </span>
           </Link>
-          <div className="flex flex-col justify-between gap-8 border-zn-border-dk py-14 md:border-l md:pl-12">
-            <span className="zn-label text-zn-inv-2">Start something</span>
-            <div>
-              <p className="font-sans font-normal text-2xl text-zn-inv lg:text-3xl">
-                Want a system like this?
-              </p>
-              <div className="mt-6">
-                <Button href="/contact" variant="inverted" withArrow>
-                  Start a similar project
-                </Button>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
+
+      <DarkCTA
+        heading="Want a system like this?"
+        sub="Tell us what you need and we will scope it out on the first call. Whether it is a new site, a Shopify store, a booking flow, or a migration, we have done it before."
+        ctaLabel="Start a similar project"
+      />
     </>
   );
 }

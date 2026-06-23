@@ -194,6 +194,45 @@ export async function getFeaturedPost(): Promise<Post> {
   return posts.find((p) => p.featured) ?? posts[0];
 }
 
+/** Previous and next posts in chronological order, for article nav. */
+export async function getAdjacentPosts(
+  slug: string,
+): Promise<{ previous: Post | null; next: Post | null }> {
+  const sorted = await getAllPosts(); // newest first
+  const index = sorted.findIndex((p) => p.slug === slug);
+  if (index === -1) return { previous: null, next: null };
+  // newest-first: "previous" (older) is at index+1, "next" (newer) at index-1
+  return {
+    previous: index + 1 < sorted.length ? sorted[index + 1] : null,
+    next: index - 1 >= 0 ? sorted[index - 1] : null,
+  };
+}
+
+/** Related posts by shared category or tag, excluding the current one. */
+export async function getRelatedPosts(slug: string, limit = 3): Promise<Post[]> {
+  const all = await getAllPosts();
+  const current = all.find((p) => p.slug === slug);
+  if (!current) return all.filter((p) => p.slug !== slug).slice(0, limit);
+
+  const scored = all
+    .filter((p) => p.slug !== slug)
+    .map((p) => {
+      let score = 0;
+      if (p.category === current.category) score += 2;
+      score += p.tags.filter((t) => current.tags.includes(t)).length;
+      return { post: p, score };
+    })
+    .sort((a, b) => b.score - a.score || +new Date(b.post.publishedAt) - +new Date(a.post.publishedAt));
+
+  return scored.slice(0, limit).map((s) => s.post);
+}
+
+/** All distinct categories across posts (for filtering / breadcrumbs). */
+export async function getPostCategories(): Promise<string[]> {
+  const set = new Set(posts.map((p) => p.category));
+  return [...set];
+}
+
 /* ----------------------------- Products ----------------------------- */
 
 export async function getAllProducts(): Promise<Product[]> {

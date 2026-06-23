@@ -44,9 +44,9 @@ export function InsightsArticleGrid({ posts }: { posts: Post[] }) {
             <Link
               href={`/resources/${post.slug}`}
               aria-label={`Read ${post.title}`}
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-[2]"
             />
-            <div className="relative z-[1] flex flex-1 flex-col gap-4">
+            <div className="relative z-[1] flex flex-1 flex-col gap-4 pointer-events-none">
               <ArticleCardShowcaseBody post={post} />
               <span className="mt-auto inline-flex items-center gap-1 text-[0.8125rem] text-zn-text-3">
                 Read article

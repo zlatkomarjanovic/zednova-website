@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
-import { InsightsArticleGrid } from "@/components/sections/InsightsArticleGrid";
+import { InsightsFilterableGrid } from "@/components/sections/InsightsFilterableGrid";
 import { InsightsFeaturedArticle } from "@/components/sections/InsightsFeaturedArticle";
 import { NewsletterSignup } from "@/components/sections/NewsletterSignup";
 import { PageHero } from "@/components/sections/PageHero";
@@ -16,20 +16,19 @@ export const metadata: Metadata = {
   title: "Insights",
   description:
     "Notes on AI, systems, conversion, and the businesses that use them. From a software and product studio with 10+ years shipping products.",
+  alternates: { canonical: "/resources" },
 };
-
-/** Grid slots under More writing (excludes the featured post). */
-const MORE_WRITING_LIMIT = 3;
 
 export default async function ResourcesPage() {
   const [featured, allPosts] = await Promise.all([getFeaturedPost(), getAllPosts()]);
-  const gridPosts = allPosts
-    .filter((p) => p.slug !== featured.slug)
-    .slice(0, MORE_WRITING_LIMIT);
+  const filterable = allPosts.filter((p) => p.slug !== featured.slug);
 
   return (
     <>
-      <section data-theme="light" className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]">
+      <section
+        data-theme="light"
+        className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
+      >
         <BlueprintGrid immediate />
 
         <div className="zn-container-guides relative">
@@ -52,7 +51,7 @@ export default async function ResourcesPage() {
             <div className="relative border-b border-zn-border bg-zn-bg">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
-              <div className="zn-container-inset border-b border-zn-border py-6 md:py-8">
+              <div className="zn-container-inset py-6 md:py-8">
                 <Reveal>
                   <SectionLabel withRule={false}>Featured</SectionLabel>
                 </Reveal>
@@ -64,7 +63,7 @@ export default async function ResourcesPage() {
 
         <div className="zn-container relative mt-14">
           <Reveal>
-            <SectionLabel withRule={false}>More writing</SectionLabel>
+            <SectionLabel withRule={false}>All articles</SectionLabel>
           </Reveal>
           <TextReveal
             as="h2"
@@ -74,13 +73,13 @@ export default async function ResourcesPage() {
           <Reveal delay={0.08}>
             <p className="zn-prose mt-5 max-w-lg">
               Practical notes on AI search, conversion, and the systems behind
-              businesses that ship.
+              businesses that ship. Filter by topic or search to find what you need.
             </p>
           </Reveal>
         </div>
 
-        <div className="zn-container-guides relative mt-14">
-          <InsightsArticleGrid posts={gridPosts} />
+        <div className="relative mt-14">
+          <InsightsFilterableGrid posts={filterable} />
         </div>
       </section>
 
