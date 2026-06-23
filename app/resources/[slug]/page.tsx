@@ -65,7 +65,7 @@ export default async function ArticlePage({
             <span aria-hidden="true">·</span>
             <span>{post.readTime} min read</span>
           </div>
-          <h1 className="mt-6 font-sans font-normal text-4xl leading-[1.1] text-zn-text lg:text-5xl">
+          <h1 className="mt-6 zn-h1 font-sans font-normal text-zn-text">
             {post.title}
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-zn-text-2">

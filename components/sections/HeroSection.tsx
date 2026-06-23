@@ -25,7 +25,7 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
           <div className="zn-container-inset relative z-10 flex shrink-0 flex-col pt-28 pb-8 lg:pt-32 lg:pb-10">
             <Reveal start="top bottom">
               <p className="text-sm text-zn-text-3">
-                120+ projects. 7+ years building.
+                120+ projects. 10+ years shipping products.
               </p>
             </Reveal>
 
@@ -34,8 +34,9 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
 
               <Reveal delay={0.08} start="top bottom">
                 <p className="mt-6 max-w-md text-[clamp(0.75rem,1.615vw,1.125rem)] leading-relaxed text-zn-text-2">
-                  Your website should bring in leads. Your follow-up should run on its
-                  own. We build both.
+                  A software and product studio with 10+ years shipping products for US businesses.
+                  We use AI internally to deliver faster, without trading off quality or
+                  follow-up.
                 </p>
               </Reveal>
             </div>

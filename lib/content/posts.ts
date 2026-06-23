@@ -83,4 +83,26 @@ export const posts: Post[] = [
       { type: "quote", text: "A website is not a brochure. It is the front end of a system. Build the system, and the site finally starts paying for itself." },
     ],
   },
+  {
+    slug: "when-to-rebuild-vs-migrate",
+    title: "When to Rebuild Your Site vs Migrate What You Have",
+    excerpt:
+      "Not every underperforming website needs a full rebuild. Here is how we decide between migration, refactor, and starting fresh.",
+    category: "Systems",
+    author: "zed-marjanovic",
+    publishedAt: "2026-04-15",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop",
+    readTime: 6,
+    featured: false,
+    accent: "#262624",
+    body: [
+      { type: "p", text: "Teams often jump to a full rebuild when the real problem is content structure, speed, or a CMS that fights them every day. The right call depends on what is actually broken." },
+      { type: "h2", text: "Migrate when the bones are fine" },
+      { type: "p", text: "If the offer is clear, the brand is solid, and the pain is WordPress plugins, Webflow limits, or slow hosting, a migration to Next.js and Sanity often gets you 80% of the value at half the cost of a rebuild." },
+      { type: "h2", text: "Rebuild when the strategy moved" },
+      { type: "p", text: "If positioning changed, the site has no single conversion path, or you are embarrassed to send paid traffic to it, a rebuild lets you fix structure and copy together instead of patching a broken funnel." },
+      { type: "quote", text: "The question is not WordPress or Next.js. It is whether the current site still matches how you sell today." },
+    ],
+  },
 ];

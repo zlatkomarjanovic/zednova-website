@@ -40,7 +40,7 @@ import { portfolioProjects } from "@/lib/content/portfolio-projects";
 export const metadata: Metadata = {
   title: { absolute: "ZedNova Studios — Websites, Shopify & Automations" },
   description:
-    "We design and build Next.js websites, Shopify stores, booking flows, CRM automations, AI chatbots, and migration projects for clinics, ecommerce brands, and small businesses.",
+    "An experienced software and product studio. We design and build Next.js websites, Shopify stores, custom software, CRM automations, and migrations for clinics, ecommerce brands, and growing businesses.",
 };
 
 
@@ -56,9 +56,9 @@ const PILLARS = [
     body: "CRM automations, booking flows, email and SMS sequences, and n8n or Make workflows so no lead sits idle.",
   },
   {
-    tagline: "AI Tools",
-    title: "We add AI where it actually helps",
-    body: "Website chatbots, AI phone assistants for missed calls, and intake flows that book appointments without anyone picking up the phone.",
+    tagline: "Product & software",
+    title: "Senior builders, faster delivery",
+    body: "Web apps, portals, dashboards, and MVPs from a team with 10+ years shipping products. We use AI internally to move faster without cutting corners.",
   },
 ];
 
@@ -102,7 +102,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="A development studio building web apps, mobile apps, desktop software, ecommerce stores, marketing websites, and automations for businesses that want to move faster without adding headcount."
+            text="An experienced software and product studio. We build web apps, mobile apps, desktop software, ecommerce stores, marketing websites, and automations—using AI internally to deliver faster and more cost-effectively, without adding headcount."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
         </div>
@@ -145,7 +145,7 @@ export default async function HomePage() {
         <div className="zn-container-guides relative">
           <div className="border-t border-zn-border">
             <p className="zn-container-inset py-4 text-center zn-label text-zn-text-3">
-              120+ projects. 100% Job Success Score. 7+ years building. $0 wasted on agency overhead.
+              120+ projects. 10+ years shipping products. $0 wasted on agency overhead.
             </p>
           </div>
           <StatsRow stats={settings.stats} />
@@ -172,9 +172,9 @@ export default async function HomePage() {
               />
               <Reveal delay={0.08}>
                 <p className="zn-prose mt-5 max-w-lg">
-                  Marketing website design, e-commerce development, custom in-house
-                  software, CRM automation, AI chatbots, dashboards, and migrations,
-                  built for clinics, ecommerce brands, and small businesses.
+                  Marketing website design, e-commerce development, custom software,
+                  CRM automation, dashboards, and migrations for clinics, ecommerce
+                  brands, and growing businesses.
                 </p>
               </Reveal>
             </div>

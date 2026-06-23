@@ -17,6 +17,7 @@ import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import type { Migration } from "@/lib/content/migrations";
 import type { NavMenuItem } from "@/lib/content/nav-menu";
+import { megaMenuNavLinks } from "@/lib/content/nav-menu";
 import { cn } from "@/lib/utils";
 
 type NavbarProps = {
@@ -37,6 +38,7 @@ const MENU_ORDER: MegaMenuType[] = [
 const LINKS = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
+  { label: "Insights", href: "/resources" },
 ];
 
 const MENU_EASE = [0.22, 1, 0.36, 1] as const;
@@ -289,31 +291,35 @@ export function Navbar({
             />
 
             <MegaTrigger
-              label="Services"
+              label={megaMenuNavLinks.services.label}
+              href={megaMenuNavLinks.services.href}
               isOpen={openMenu === "services"}
               onEnter={() => openPanel("services")}
-              onClick={() => togglePanel("services")}
+              onToggle={() => togglePanel("services")}
               onHighlight={navHighlight.snapTo}
             />
             <MegaTrigger
-              label="Industries"
+              label={megaMenuNavLinks.industries.label}
+              href={megaMenuNavLinks.industries.href}
               isOpen={openMenu === "industries"}
               onEnter={() => openPanel("industries")}
-              onClick={() => togglePanel("industries")}
+              onToggle={() => togglePanel("industries")}
               onHighlight={navHighlight.snapTo}
             />
             <MegaTrigger
-              label="Custom Software"
+              label={megaMenuNavLinks["custom-software"].label}
+              href={megaMenuNavLinks["custom-software"].href}
               isOpen={openMenu === "custom-software"}
               onEnter={() => openPanel("custom-software")}
-              onClick={() => togglePanel("custom-software")}
+              onToggle={() => togglePanel("custom-software")}
               onHighlight={navHighlight.snapTo}
             />
             <MegaTrigger
-              label="Migrations"
+              label={megaMenuNavLinks.migrations.label}
+              href={megaMenuNavLinks.migrations.href}
               isOpen={openMenu === "migrations"}
               onEnter={() => openPanel("migrations")}
-              onClick={() => togglePanel("migrations")}
+              onToggle={() => togglePanel("migrations")}
               onHighlight={navHighlight.snapTo}
             />
             {LINKS.map((link) => (
@@ -402,35 +408,45 @@ export function Navbar({
 
 function MegaTrigger({
   label,
+  href,
   isOpen,
   onEnter,
-  onClick,
+  onToggle,
   onHighlight,
 }: {
   label: string;
+  href: string;
   isOpen: boolean;
   onEnter: () => void;
-  onClick: () => void;
+  onToggle: () => void;
   onHighlight: (target: HTMLElement) => void;
 }) {
   return (
-    <button
+    <div
       data-hover-cell
       onMouseEnter={(e) => {
         onEnter();
         onHighlight(e.currentTarget);
       }}
-      onClick={onClick}
-      aria-expanded={isOpen}
-      className="group/flip relative z-[1] flex items-center gap-1 rounded-[4px] px-3 py-2 text-sm font-normal"
+      className="relative z-[1] flex items-center rounded-[4px] text-sm font-normal"
     >
-      <HoverFlip>{label}</HoverFlip>
-      <ChevronDown
-        className={cn(
-          "size-3.5 transition-transform duration-200",
-          isOpen && "rotate-180",
-        )}
-      />
-    </button>
+      <Link href={href} className="group/flip px-3 py-2">
+        <HoverFlip>{label}</HoverFlip>
+      </Link>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-label={`Open ${label} menu`}
+        className="px-1.5 py-2"
+      >
+        <ChevronDown
+          className={cn(
+            "size-3.5 transition-transform duration-200",
+            isOpen && "rotate-180",
+          )}
+        />
+      </button>
+    </div>
   );
 }

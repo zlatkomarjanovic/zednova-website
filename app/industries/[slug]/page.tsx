@@ -80,7 +80,7 @@ export default async function IndustryDetailPage({
           <TextReveal
             as="h1"
             text={segment.heroHeadline}
-            className="mt-6 max-w-4xl font-sans font-normal text-4xl leading-[1.05] sm:text-5xl lg:text-6xl"
+            className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
           />
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">

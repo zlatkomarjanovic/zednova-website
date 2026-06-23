@@ -3,7 +3,7 @@ import type { SiteSettings } from "@/lib/types";
 export const siteSettings: SiteSettings = {
   siteTitle: "ZedNova Studios",
   siteDescription:
-    "We design and build Next.js websites, Shopify stores, booking flows, CRM automations, AI chatbots, and migration projects for clinics, ecommerce brands, and small businesses.",
+    "An experienced software and product studio. We design and build Next.js websites, Shopify stores, custom software, CRM automations, and migrations for clinics, ecommerce brands, and growing businesses.",
   contactEmail: "hello@zednova.com",
   responseTime: "Usually within 24 hours",
   announcementBar: undefined,
@@ -14,8 +14,8 @@ export const siteSettings: SiteSettings = {
   },
   stats: [
     { value: "120+", label: "Projects completed" },
-    { value: "100%", label: "Job Success Score" },
-    { value: "7+", label: "Years building" },
+    { value: "10+", label: "Years shipping products" },
+    { value: "Senior", label: "Team-led delivery" },
     { value: "$0", label: "Wasted on agency overhead" },
   ],
 };

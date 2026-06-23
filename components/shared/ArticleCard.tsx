@@ -13,13 +13,39 @@ function formatDate(iso: string) {
   });
 }
 
+export function ArticleCardShowcaseBody({ post }: { post: Post }) {
+  return (
+    <>
+      <div
+        className="relative aspect-[16/10] overflow-hidden"
+        style={{ backgroundColor: post.accent }}
+      >
+        <div className="zn-grain absolute inset-0" aria-hidden="true" />
+        <ZMark className="absolute bottom-4 right-4 size-16 text-white/[0.05]" />
+      </div>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-zn-text-3">
+        <Tag>{post.category}</Tag>
+        <span>{formatDate(post.publishedAt)}</span>
+        <span aria-hidden="true">·</span>
+        <span>{post.readTime} min read</span>
+      </div>
+      <h3 className="font-sans text-sm font-normal tracking-tight text-zn-text md:text-base">
+        {post.title}
+      </h3>
+      <p className="zn-prose line-clamp-4 text-[0.8125rem]">{post.excerpt}</p>
+    </>
+  );
+}
+
 export function ArticleCard({
   post,
   featured = false,
+  variant = "default",
   className,
 }: {
   post: Post;
   featured?: boolean;
+  variant?: "default" | "showcase";
   className?: string;
 }) {
   const cover = (
@@ -59,8 +85,8 @@ export function ArticleCard({
           <h2 className="zn-h2 font-sans font-normal leading-tight text-zn-text">
             {post.title}
           </h2>
-          <p className="max-w-prose leading-relaxed text-zn-text-2">{post.excerpt}</p>
-          <span className="inline-flex items-center gap-1 text-sm font-medium text-zn-text">
+          <p className="zn-prose max-w-prose text-zn-text-2">{post.excerpt}</p>
+          <span className="inline-flex items-center gap-1 text-sm text-zn-text">
             Read article
             <ArrowUpRight
               className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -79,7 +105,7 @@ export function ArticleCard({
     >
       {cover}
       {meta}
-      <h3 className="font-sans font-normal text-xl leading-snug text-zn-text transition-opacity group-hover:opacity-70">
+      <h3 className="font-sans text-xl font-normal leading-snug text-zn-text transition-opacity group-hover:opacity-70">
         {post.title}
       </h3>
     </Link>

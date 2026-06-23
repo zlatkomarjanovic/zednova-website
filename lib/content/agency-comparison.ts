@@ -12,14 +12,14 @@ export type ComparisonSection = {
 
 export const agencyComparison = {
   label: "Why us",
-  heading: "ZedNova vs traditional & AI agencies",
-  subheading: "Sixteen categories. One glance to see the difference.",
+  heading: "ZedNova vs traditional agencies",
+  subheading: "Sixteen categories. Experience-led delivery, not agency overhead.",
   quote:
     "We build, refine, and maintain your web and technology stack so you can run the business without the worry or mental load of web operations.",
   availabilityTag: "Open for projects",
   columns: {
     category: "Category",
-    agencies: "Traditional & AI agencies",
+    agencies: "Traditional agencies",
     zednova: "ZedNova Studios",
   },
   sections: [
@@ -28,19 +28,19 @@ export const agencyComparison = {
       rows: [
         {
           category: "Marketing websites",
-          agencies: "WordPress, page builders, or AI-polished same stack. Hard to extend.",
+          agencies: "WordPress, page builders, templated themes. Hard to extend.",
           zednova: "Custom Next.js + Sanity. Built to extend.",
-          zednovaPill: "Senior devs + AI",
+          zednovaPill: "Senior product team",
         },
         {
           category: "E-commerce",
-          agencies: "Basic Shopify/WooCommerce, or not offered at AI studios.",
+          agencies: "Basic Shopify/WooCommerce. Deep work outsourced.",
           zednova: "Shopify, subscriptions, Klaviyo, full build.",
           zednovaPill: "E-com in-house",
         },
         {
           category: "Custom software & MVPs",
-          agencies: "Out of scope, $40k+ timelines, or Figma-only MVPs.",
+          agencies: "Out of scope or $40k+ timelines.",
           zednova: "Portals, apps, dashboards. MVP in 48 hours.",
           zednovaPill: "Software without enterprise pricing",
         },
@@ -52,8 +52,8 @@ export const agencyComparison = {
         },
         {
           category: "AI tools",
-          agencies: "Generic embed, chatbot demo, or not offered.",
-          zednova: "Chat, voice agents, intake that books.",
+          agencies: "Generic embed, demo chatbot, or not offered.",
+          zednova: "Chat, voice agents, intake that books when useful.",
           zednovaPill: "Deployed, not demoed",
         },
         {
@@ -69,20 +69,20 @@ export const agencyComparison = {
       rows: [
         {
           category: "Who builds it",
-          agencies: "Account manager → junior dev, or founder-led thin backend.",
-          zednova: "2–4 seniors. You talk to builders.",
-          zednovaPill: "Small team, big output",
+          agencies: "Account manager → junior dev. You rarely meet the builder.",
+          zednova: "2–4 seniors with 10+ years shipping products. You talk to builders.",
+          zednovaPill: "Experience first",
         },
         {
           category: "Scope changes",
-          agencies: "Change orders, sprint limits, new vendors for pivots.",
+          agencies: "Change orders, delays, billing fights.",
           zednova: "Fixed scope upfront. One team covers pivots.",
           zednovaPill: "No billing surprises",
         },
         {
           category: "Design → build",
-          agencies: "Figma handoff or design-only AI flow. Code gaps.",
-          zednova: "Same team designs and builds.",
+          agencies: "Figma handoff. Design ≠ what ships.",
+          zednova: "Same senior team designs and builds.",
           zednovaPill: "No handoff gap",
         },
       ],
@@ -92,19 +92,19 @@ export const agencyComparison = {
       rows: [
         {
           category: "Timelines",
-          agencies: "4+ months traditional, or 4–8 weeks for full AI builds.",
+          agencies: "Often 4+ months per project.",
           zednova: "Site: ~1 week. App: 2–3 weeks. MVP: 48h.",
-          zednovaPill: "Fast with depth",
+          zednovaPill: "Faster with experience + tooling",
         },
         {
           category: "Cost structure",
-          agencies: "Agency overhead, or web-only pricing with add-ons.",
+          agencies: "You pay agency overhead layers.",
           zednova: "Site + automation + CRM scoped together.",
           zednovaPill: "Pay for output",
         },
         {
           category: "Pricing clarity",
-          agencies: "Hourly T&M, or tiered sprints with scope creep.",
+          agencies: "Hourly T&M. Final bill unpredictable.",
           zednova: "Published starts. Fixed scope, fixed price.",
           zednovaPill: "Number upfront",
         },
@@ -116,24 +116,24 @@ export const agencyComparison = {
         {
           category: "Lead conversion",
           agencies: "Site only. No follow-up system wired in.",
-          zednova: "SMS, CRM, sequences, AI phone at launch.",
+          zednova: "SMS, CRM, sequences, phone assist at launch.",
           zednovaPill: "Revenue system",
         },
         {
           category: "AI search (AEO/GEO)",
-          agencies: "Legacy SEO, or GEO sold as add-on.",
+          agencies: "Legacy SEO. AI visibility ignored.",
           zednova: "Schema, AEO copy, llms.txt standard.",
           zednovaPill: "Included by default",
         },
         {
           category: "Track record",
-          agencies: "Portfolio-only or limited third-party reviews.",
-          zednova: "120+ projects. Public Upwork JSS.",
-          zednovaPill: "Verify anywhere",
+          agencies: "Portfolio-only proof.",
+          zednova: "120+ projects. Verifiable client history.",
+          zednovaPill: "Check it yourself",
         },
         {
           category: "Post-launch",
-          agencies: "Hourly support, or design-only iteration.",
+          agencies: "Hourly support. New team each time.",
           zednova: "Same team. Web + automation + CRM.",
           zednovaPill: "Full-stack continuity",
         },

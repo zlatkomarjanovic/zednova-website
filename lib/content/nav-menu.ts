@@ -16,6 +16,17 @@ export type ServiceMegaMenuCard = {
   href: string;
 };
 
+/** Top-level landing pages for each mega menu column. */
+export const megaMenuNavLinks = {
+  services: { label: "Services", href: "/services" },
+  industries: { label: "Industries", href: "/industries" },
+  "custom-software": {
+    label: "Custom Software",
+    href: "/industries/small-business-custom-software",
+  },
+  migrations: { label: "Migrations", href: "/migrations" },
+} as const;
+
 export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
   {
     title: "Marketing website development",

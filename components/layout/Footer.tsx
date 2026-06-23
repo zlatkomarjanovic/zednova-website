@@ -2,24 +2,33 @@ import Link from "next/link";
 import { Logo } from "@/components/shared/Logo";
 import { BlueprintGuides } from "@/components/shared/BlueprintGuides";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
-import type { Service, SiteSettings } from "@/lib/types";
+import { FooterAiSummaryLinks } from "@/components/layout/FooterAiSummaryLinks";
+import { FooterNavLink } from "@/components/layout/FooterNavLink";
+import { featuredHomepageIndustries } from "@/lib/content/homepage-industries";
+import type { Migration } from "@/lib/content/migrations";
+import {
+  customSoftwareNavItems,
+  serviceMegaMenuCards,
+} from "@/lib/content/nav-menu";
+import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const COMPANY_LINKS = [
   { label: "Work", href: "/work" },
-  { label: "Industries", href: "/industries" },
-  { label: "Products", href: "/products" },
-  { label: "Resources", href: "/resources" },
   { label: "About", href: "/about" },
+  { label: "Products", href: "/products" },
+  { label: "Insights", href: "/resources" },
   { label: "Contact", href: "/contact" },
-];
+] as const;
+
+const CUSTOM_SOFTWARE_FOOTER = customSoftwareNavItems.slice(0, 6);
 
 export function Footer({
-  services,
+  migrations,
   settings,
   className,
 }: {
-  services: Service[];
+  migrations: Migration[];
   settings: SiteSettings;
   className?: string;
 }) {
@@ -27,7 +36,7 @@ export function Footer({
 
   return (
     <footer data-theme="dark" className={cn("relative bg-zn-dark text-zn-inv", className)}>
-      <div className="zn-blueprint-grid pointer-events-none absolute inset-0 opacity-[0.18]" aria-hidden="true" />
+      <div className="zn-blueprint-grid pointer-events-none absolute inset-0 opacity-[0.28]" aria-hidden="true" />
       <div className="zn-grain pointer-events-none absolute inset-0 opacity-[0.05]" aria-hidden="true" />
       <BlueprintGuides theme="dark" reveal="none" className="z-10" />
 
@@ -43,52 +52,41 @@ export function Footer({
           className="top-0 z-30 -translate-y-1/2"
         />
 
-        <div className="zn-container-inset grid gap-12 py-14 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:gap-10 lg:py-16">
-          <div className="flex flex-col gap-6">
-            <Logo variant="light" />
-            <div className="flex items-center gap-3">
-              <Social href={settings.socialLinks.linkedin} label="LinkedIn">
-                <LinkedInIcon />
-              </Social>
-              <Social href={settings.socialLinks.twitter} label="X (Twitter)">
-                <XIcon />
-              </Social>
-              <Social href={settings.socialLinks.github} label="GitHub">
-                <GitHubIcon />
-              </Social>
+        <div className="zn-container-inset py-14 lg:py-16">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-md space-y-5">
+              <Logo variant="light" />
+              <p className="text-sm leading-relaxed text-zn-inv-2">
+                A software and product studio with 10+ years shipping products for US
+                businesses. We use AI internally to deliver faster, without trading off
+                quality or follow-up.
+              </p>
+              <FooterAiSummaryLinks />
+            </div>
+            <div className="flex flex-col gap-5 lg:items-end lg:text-right">
+              <div className="space-y-2 text-sm text-zn-inv-2">
+                <a
+                  href={`mailto:${settings.contactEmail}`}
+                  className="block text-zn-inv transition-opacity hover:opacity-70"
+                >
+                  {settings.contactEmail}
+                </a>
+                <p>{settings.responseTime}</p>
+                <p>CST (Texas) · We work async</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Social href={settings.socialLinks.linkedin} label="LinkedIn">
+                  <LinkedInIcon />
+                </Social>
+                <Social href={settings.socialLinks.twitter} label="X (Twitter)">
+                  <XIcon />
+                </Social>
+                <Social href={settings.socialLinks.github} label="GitHub">
+                  <GitHubIcon />
+                </Social>
+              </div>
             </div>
           </div>
-
-          <FooterCol title="Services">
-            {services.slice(0, 6).map((service) => (
-              <FooterLink key={service.slug} href={`/services/${service.slug}`}>
-                {service.title}
-              </FooterLink>
-            ))}
-            <FooterLink href="/services">All services</FooterLink>
-          </FooterCol>
-
-          <FooterCol title="Company">
-            {COMPANY_LINKS.map((link) => (
-              <FooterLink key={link.href} href={link.href}>
-                {link.label}
-              </FooterLink>
-            ))}
-          </FooterCol>
-
-          <FooterCol title="Contact">
-            <li>
-              <a
-                href={`mailto:${settings.contactEmail}`}
-                className="text-sm text-zn-inv transition-opacity hover:opacity-70"
-              >
-                {settings.contactEmail}
-              </a>
-            </li>
-            <li className="text-sm text-zn-inv-2">{settings.responseTime}</li>
-            <li className="text-sm text-zn-inv-2">CST (Texas) · We work async</li>
-            <li className="pt-1 text-sm text-zn-inv-2">ZedNova Studios, a Texas LLC</li>
-          </FooterCol>
         </div>
 
         <div className="relative border-t border-zn-border-dk">
@@ -104,7 +102,71 @@ export function Footer({
           />
         </div>
 
-        <div className="zn-container-inset flex flex-col gap-4 py-8 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="zn-container-inset grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-3 lg:py-14 xl:grid-cols-5 xl:gap-8">
+            <FooterCol title="Services">
+              {serviceMegaMenuCards.map((item) => (
+                <FooterNavLink key={item.href + item.title} href={item.href} label={item.title} />
+              ))}
+              <FooterNavLink href="/services" label="All services" />
+            </FooterCol>
+
+            <FooterCol title="Industries">
+              {featuredHomepageIndustries.map((industry) => (
+                <FooterNavLink
+                  key={industry.href}
+                  href={industry.href}
+                  label={industry.title}
+                />
+              ))}
+              <FooterNavLink href="/industries" label="All industries" />
+            </FooterCol>
+
+            <FooterCol title="Custom software">
+              {CUSTOM_SOFTWARE_FOOTER.map((item) => (
+                <FooterNavLink
+                  key={item.href + item.title}
+                  href={item.href}
+                  label={item.title}
+                />
+              ))}
+              <FooterNavLink
+                href="/industries/small-business-custom-software"
+                label="All custom software"
+              />
+            </FooterCol>
+
+            <FooterCol title="Migrations">
+              {migrations.map((migration) => (
+                <FooterNavLink
+                  key={migration.slug}
+                  href={`/migrations/${migration.slug}`}
+                  label={migration.title}
+                />
+              ))}
+              <FooterNavLink href="/migrations" label="All migrations" />
+            </FooterCol>
+
+            <FooterCol title="Company">
+              {COMPANY_LINKS.map((link) => (
+                <FooterNavLink key={link.href} href={link.href} label={link.label} />
+              ))}
+            </FooterCol>
+          </div>
+
+        <div className="relative border-t border-zn-border-dk">
+          <BlueprintCross
+            anchor="left"
+            theme="dark"
+            className="top-0 z-30 -translate-y-1/2"
+          />
+          <BlueprintCross
+            anchor="right"
+            theme="dark"
+            className="top-0 z-30 -translate-y-1/2"
+          />
+        </div>
+
+        <div className="zn-container-inset flex flex-col gap-4 py-10 pb-12 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between lg:py-12 lg:pb-14">
           <p>© {year} ZedNova Studios. Texas LLC. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link
@@ -132,28 +194,11 @@ function FooterCol({
 }) {
   return (
     <div>
-      <p className="zn-label mb-5 text-zn-inv-2">{title}</p>
+      <p className="mb-5 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-zn-inv">
+        {title}
+      </p>
       <ul className="grid gap-3">{children}</ul>
     </div>
-  );
-}
-
-function FooterLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <li>
-      <Link
-        href={href}
-        className="text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
-      >
-        {children}
-      </Link>
-    </li>
   );
 }
 

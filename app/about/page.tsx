@@ -9,7 +9,7 @@ import { DarkCTA } from "@/components/sections/DarkCTA";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "ZedNova is a Texas LLC built by Zed Marjanovic. 7+ years, 120+ projects, 100% Job Success Score. A builder, not an agency.",
+    "ZedNova is a Texas LLC built by Zed Marjanovic. 10+ years shipping products, 120+ projects. A builder, not an agency.",
 };
 
 const VALUES = [
@@ -55,12 +55,12 @@ export default async function AboutPage() {
           <TextReveal
             as="h1"
             text="Built in Bosnia. Trusted by America."
-            className="mt-6 max-w-4xl font-sans font-normal text-5xl leading-[1.04] sm:text-6xl lg:text-7xl"
+            className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
           />
           <Reveal delay={0.1}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-zn-text-2">
               ZedNova was built by Zed, a designer, developer, and systems thinker
-              from Živinice, Bosnia. Over 7-plus years he has delivered more than
+              from Živinice, Bosnia. Over 10-plus years shipping products he has delivered more than
               120 projects for clients across the US. ZedNova is a Texas LLC
               because your business deserves a real partner, not a freelancer
               profile. The work goes out under one standard, and the systems are

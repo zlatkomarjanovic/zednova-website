@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HoverFlip } from "@/components/shared/HoverFlip";
 
@@ -27,6 +27,29 @@ const SIZE: Record<Size, string> = {
   md: "h-11 px-5 text-sm",
   lg: "h-13 px-7 text-[0.95rem]",
 };
+
+const ARROW_FLIP =
+  "block size-4 transition-transform duration-500 ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
+
+function FlipArrow({ Icon }: { Icon: LucideIcon }) {
+  return (
+    <span className="relative inline-block size-4 shrink-0 overflow-hidden align-middle">
+      <Icon
+        className={cn(ARROW_FLIP, "group-hover/flip:translate-x-full")}
+        strokeWidth={2}
+        aria-hidden="true"
+      />
+      <Icon
+        className={cn(
+          ARROW_FLIP,
+          "absolute inset-0 -translate-x-full group-hover/flip:translate-x-0 motion-reduce:hidden",
+        )}
+        strokeWidth={2}
+        aria-hidden="true"
+      />
+    </span>
+  );
+}
 
 type CommonProps = {
   children: React.ReactNode;
@@ -68,13 +91,7 @@ export function Button(props: ButtonAsLink | ButtonAsButton) {
   const inner = (
     <>
       <HoverFlip>{children}</HoverFlip>
-      {withArrow && (
-        <Arrow
-          className="size-4 transition-transform duration-300 ease-out group-hover/flip:translate-x-0.5 motion-reduce:transition-none"
-          strokeWidth={2}
-          aria-hidden="true"
-        />
-      )}
+      {withArrow && <FlipArrow Icon={Arrow} />}
     </>
   );
 

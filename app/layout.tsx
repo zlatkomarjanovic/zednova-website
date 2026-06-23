@@ -7,11 +7,7 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AiSummaryFab } from "@/components/layout/AiSummaryFab";
-import {
-  getAllServices,
-  getAllMigrations,
-  getSiteSettings,
-} from "@/lib/queries";
+import { getAllMigrations, getSiteSettings } from "@/lib/queries";
 import {
   industryNavItems,
   customSoftwareNavItems,
@@ -64,9 +60,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [migrations, allServices, settings] = await Promise.all([
+  const [migrations, settings] = await Promise.all([
     getAllMigrations(),
-    getAllServices(),
     getSiteSettings(),
   ]);
 
@@ -91,7 +86,7 @@ export default async function RootLayout({
               {children}
             </main>
           </PageTransition>
-          <Footer services={allServices} settings={settings} />
+          <Footer migrations={migrations} settings={settings} />
           <AiSummaryFab />
         </LenisProvider>
       </body>

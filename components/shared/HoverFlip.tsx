@@ -2,8 +2,10 @@
 
 import { cn } from "@/lib/utils";
 
+const FLIP_STAGGER_MS = 10;
+
 const FLIP =
-  "block transition-transform duration-[420ms] ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
+  "block transition-transform duration-500 ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
 
 /**
  * Label swaps on hover character-by-character — each glyph rides up while a
@@ -44,7 +46,7 @@ export function HoverFlip({
         >
           <span
             className={cn(FLIP, "group-hover/flip:-translate-y-full")}
-            style={{ transitionDelay: `${index * 22}ms` }}
+            style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
           >
             {char === " " ? "\u00A0" : char}
           </span>
@@ -55,7 +57,7 @@ export function HoverFlip({
               FLIP,
               "translate-y-full group-hover/flip:translate-y-0 motion-reduce:hidden",
             )}
-            style={{ transitionDelay: `${index * 22}ms` }}
+            style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
           >
             {char === " " ? "\u00A0" : char}
           </span>

@@ -80,7 +80,7 @@ export function DarkCTA({
 
               <Reveal delay={0.22}>
                 <ul className="flex flex-wrap gap-x-5 gap-y-2 border-t border-zn-border-dk pt-6">
-                  {["Texas LLC", "120+ projects", "7+ years", "100% JSS"].map((item) => (
+                  {["Texas LLC", "120+ projects", "10+ years shipping products", "Senior-led"].map((item) => (
                     <li
                       key={item}
                       className="font-mono text-[10px] uppercase tracking-[0.1em] text-zn-inv-2"

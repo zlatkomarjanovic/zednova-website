@@ -7,11 +7,10 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 const HERO_BUILD_ITEMS = [
   "in-house software",
   "web or desktop applications",
-  "AI chatbots and phone agents",
-  "headless ecommerce stores",
-  "portals, forums, and membership sites",
   "marketing websites that convert",
+  "headless ecommerce stores",
   "Shopify stores built to scale",
+  "portals, forums, and membership sites",
   "landing pages that capture leads",
   "booking and follow-up automations",
   "CRM workflows on autopilot",
@@ -20,6 +19,7 @@ const HERO_BUILD_ITEMS = [
   "client dashboards for growing teams",
   "mobile apps",
   "platform migrations without downtime",
+  "AI chatbots and phone agents",
 ] as const;
 
 const LOOP_MS = 3500;
@@ -27,7 +27,7 @@ const FIRST_CYCLE_MS = 5000;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const HEADING_CLASS =
-  "max-w-4xl font-sans text-[clamp(1.49rem,3.23vw,2.44rem)] font-normal leading-[1.06] tracking-[-0.025em] text-zn-text";
+  "max-w-4xl zn-h1 font-sans font-normal text-zn-text";
 
 export function HeroRotatingHeadline() {
   const [index, setIndex] = useState(0);

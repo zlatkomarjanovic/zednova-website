@@ -81,7 +81,7 @@ export default async function CaseStudyPage({
           <TextReveal
             as="h1"
             text={caseStudy.title}
-            className="mt-6 max-w-4xl font-sans font-normal text-4xl leading-[1.05] sm:text-5xl lg:text-6xl"
+            className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
           />
           <Reveal delay={0.1}>
             <dl className="mt-12 grid max-w-3xl grid-cols-2 gap-8 border-t border-zn-border-dk pt-8 sm:grid-cols-3">

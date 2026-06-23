@@ -7,11 +7,12 @@ import { X, Plus, Minus } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/shared/Button";
 import type { Migration } from "@/lib/content/migrations";
-import { serviceMegaMenuCards, type NavMenuItem } from "@/lib/content/nav-menu";
+import { megaMenuNavLinks, serviceMegaMenuCards, type NavMenuItem } from "@/lib/content/nav-menu";
 
 const DIRECT_LINKS = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
+  { label: "Insights", href: "/resources" },
 ];
 
 export function MobileMenu({
@@ -64,11 +65,13 @@ export function MobileMenu({
             className="flex-1 overflow-y-auto px-6 py-6"
           >
             <Accordion
-              title="Services"
+              title={megaMenuNavLinks.services.label}
+              href={megaMenuNavLinks.services.href}
               isOpen={section === "services"}
               onToggle={() =>
                 setSection(section === "services" ? null : "services")
               }
+              onNavigate={onClose}
             >
               <ul className="grid gap-3 pb-2">
                 {serviceMegaMenuCards.map((card) => (
@@ -89,11 +92,13 @@ export function MobileMenu({
             </Accordion>
 
             <Accordion
-              title="Industries"
+              title={megaMenuNavLinks.industries.label}
+              href={megaMenuNavLinks.industries.href}
               isOpen={section === "industries"}
               onToggle={() =>
                 setSection(section === "industries" ? null : "industries")
               }
+              onNavigate={onClose}
             >
               <ul className="grid gap-1 pb-2">
                 {industryNavItems.map((item) => (
@@ -111,11 +116,13 @@ export function MobileMenu({
             </Accordion>
 
             <Accordion
-              title="Custom Software"
+              title={megaMenuNavLinks["custom-software"].label}
+              href={megaMenuNavLinks["custom-software"].href}
               isOpen={section === "custom-software"}
               onToggle={() =>
                 setSection(section === "custom-software" ? null : "custom-software")
               }
+              onNavigate={onClose}
             >
               <ul className="grid gap-1 pb-2">
                 {customSoftwareNavItems.map((item) => (
@@ -133,11 +140,13 @@ export function MobileMenu({
             </Accordion>
 
             <Accordion
-              title="Migrations"
+              title={megaMenuNavLinks.migrations.label}
+              href={megaMenuNavLinks.migrations.href}
               isOpen={section === "migrations"}
               onToggle={() =>
                 setSection(section === "migrations" ? null : "migrations")
               }
+              onNavigate={onClose}
             >
               <ul className="grid gap-1 pb-2">
                 {migrations.map((item) => (
@@ -179,25 +188,39 @@ export function MobileMenu({
 
 function Accordion({
   title,
+  href,
   isOpen,
   onToggle,
+  onNavigate,
   children,
 }: {
   title: string;
+  href: string;
   isOpen: boolean;
   onToggle: () => void;
+  onNavigate: () => void;
   children: React.ReactNode;
 }) {
   return (
     <div className="border-b border-zn-border-dk">
-      <button
-        type="button"
-        onClick={onToggle}
-        className="flex w-full items-center justify-between py-5 font-sans text-2xl font-normal text-zn-inv"
-      >
-        {title}
-        {isOpen ? <Minus className="size-5" /> : <Plus className="size-5" />}
-      </button>
+      <div className="flex items-center justify-between py-5">
+        <Link
+          href={href}
+          onClick={onNavigate}
+          className="font-sans text-2xl font-normal text-zn-inv"
+        >
+          {title}
+        </Link>
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          aria-label={`Expand ${title} menu`}
+          className="flex size-10 items-center justify-center"
+        >
+          {isOpen ? <Minus className="size-5" /> : <Plus className="size-5" />}
+        </button>
+      </div>
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div

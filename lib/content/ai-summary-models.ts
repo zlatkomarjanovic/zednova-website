@@ -12,7 +12,7 @@ const SITE_URL = "https://zednova.com";
 
 export const AI_SUMMARY_PROMPT = [
   `Please summarize what ZedNova Studios offers based on their website ${SITE_URL}.`,
-  "Cover their core services (websites, Shopify, custom software, CRM automations, AI chatbots, migrations), who they work with, typical delivery timelines, pricing approach, and what makes them different from traditional agencies and other AI studios.",
+  "Cover their core services (websites, Shopify, custom software, CRM automations, migrations), who they work with, typical delivery timelines, pricing approach, and what makes them different from traditional agencies as an experienced software and product studio that uses AI internally for faster delivery.",
   "Keep it concise, factual, and useful for someone deciding whether to hire them.",
 ].join(" ");
 
