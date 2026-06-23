@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getIndustryGroups } from "@/lib/queries";
 import { industryNavItems } from "@/lib/content/nav-menu";
-import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/components/shared/Button";
@@ -47,7 +46,6 @@ export default async function IndustriesPage() {
         data-theme="light"
         className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
       >
-        <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
           <div className="relative border-x border-b border-zn-border">
             <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />

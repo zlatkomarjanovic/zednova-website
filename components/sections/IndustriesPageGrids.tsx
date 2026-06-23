@@ -1,15 +1,9 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { BlueprintCross } from "@/components/shared/BlueprintCross";
 import { BlueprintGridCrosses } from "@/components/shared/BlueprintGridCrosses";
 import { Icon } from "@/components/shared/Icon";
 import { SectionLabel } from "@/components/shared/SectionLabel";
-import {
-  RubberHoverHighlightLayer,
-  useRubberHoverHighlight,
-} from "@/components/shared/HoverHighlight";
 import { cn } from "@/lib/utils";
 
 export type IndustriesGridItem = {
@@ -39,31 +33,18 @@ function ColumnCrosses({ showTop = true }: { showTop?: boolean }) {
   );
 }
 
-/**
- * Self-contained grid section — small SVG highlight surface, cell mouseEnter
- * for snapping (no elementFromPoint), pointer move for rubber bend only.
- */
-function GridSection({ items, columns = 3 }: { items: IndustriesGridItem[]; columns?: 3 | 5 }) {
-  const highlight = useRubberHoverHighlight({
-    bendScale: 0.45,
-    cornerRadius: 4,
-    detectCellOnMove: false,
-  });
+/** CSS-only hover — no Framer springs, SVG paths, or pointer hit-testing. */
+function GridSection({
+  items,
+  columns = 3,
+}: {
+  items: IndustriesGridItem[];
+  columns?: 3 | 5;
+}) {
   const rows = Math.max(1, Math.ceil(items.length / columns));
 
   return (
-    <div
-      ref={highlight.rootRef}
-      className="relative"
-      {...highlight.pointerHandlers}
-    >
-      <RubberHoverHighlightLayer
-        pathD={highlight.pathD}
-        opacity={highlight.opacity}
-        fill="var(--color-zn-bg-3)"
-        fillOpacity={0.7}
-      />
-
+    <div className="relative [contain:layout_paint]">
       <div className="pointer-events-none absolute inset-0">
         <BlueprintGridCrosses columns={columns} rows={rows} />
       </div>
@@ -83,10 +64,8 @@ function GridSection({ items, columns = 3 }: { items: IndustriesGridItem[]; colu
         {items.map((item, index) => (
           <div
             key={item.href}
-            data-hover-cell
-            onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
             className={cn(
-              "relative flex min-h-[9rem] h-full lg:min-h-[10rem]",
+              "group/cell relative flex min-h-[9rem] h-full lg:min-h-[10rem]",
               index % columns !== 0 && "lg:border-l border-zn-border",
               index > 0 && "border-t lg:border-t-0 border-zn-border",
               index >= columns && "lg:border-t border-zn-border",
@@ -97,7 +76,7 @@ function GridSection({ items, columns = 3 }: { items: IndustriesGridItem[]; colu
             )}
             <Link
               href={item.href}
-              className="relative z-[1] flex h-full w-full flex-col px-6 py-5 md:px-7 md:py-6"
+              className="relative z-[1] flex h-full w-full flex-col bg-zn-bg px-6 py-5 transition-colors duration-200 ease-out group-hover/cell:bg-zn-bg-3 md:px-7 md:py-6"
             >
               {item.icon ? (
                 <Icon
@@ -129,7 +108,10 @@ export function IndustriesPageGrids({
   return (
     <>
       {groups.map((group) => (
-        <div key={group.id} className="border-b border-zn-border">
+        <div
+          key={group.id}
+          className="border-b border-zn-border [content-visibility:auto]"
+        >
           <div className="zn-container-inset border-b border-zn-border py-12 lg:py-14">
             <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div className="max-w-2xl">
@@ -151,7 +133,7 @@ export function IndustriesPageGrids({
         </div>
       ))}
 
-      <div>
+      <div className="[content-visibility:auto]">
         <div className="zn-container-inset border-b border-zn-border py-12 lg:py-14">
           <SectionLabel withRule={false}>All industries</SectionLabel>
           <h2 className="mt-6 max-w-2xl zn-h2 font-sans font-normal">
