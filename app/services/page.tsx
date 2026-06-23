@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getServiceGroups } from "@/lib/queries";
+import { serviceMegaMenuCards } from "@/lib/content/nav-menu";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/components/shared/Button";
@@ -36,6 +37,13 @@ export default async function ServicesPage() {
       description: service.shortDescription,
       icon: service.icon,
     })),
+  }));
+
+  const coreServices = serviceMegaMenuCards.map((card) => ({
+    href: card.href,
+    title: card.title,
+    description: card.shortDescription,
+    includes: card.includes,
   }));
 
   return (
@@ -81,7 +89,7 @@ export default async function ServicesPage() {
               </div>
             </div>
 
-            <ServicesPageGrids groups={gridGroups} />
+            <ServicesPageGrids coreServices={coreServices} groups={gridGroups} />
 
             <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
             <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />

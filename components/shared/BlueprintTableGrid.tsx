@@ -8,6 +8,8 @@ export type TableGridItem = {
   title: string;
   description: string;
   icon?: string;
+  /** Optional "Includes: …" line (mega-menu core services). */
+  includes?: string;
 };
 
 function chunkRows<T>(items: T[], columns: number): T[][] {
@@ -80,6 +82,11 @@ function GridCell({
         <span className="mt-2 block line-clamp-3 text-[0.8125rem] leading-relaxed text-zn-text-2">
           {item.description}
         </span>
+        {item.includes ? (
+          <span className="zn-label mt-auto block pt-4 text-[0.625rem] leading-relaxed text-zn-text-3">
+            Includes: {item.includes}
+          </span>
+        ) : null}
       </Link>
     </div>
   );
