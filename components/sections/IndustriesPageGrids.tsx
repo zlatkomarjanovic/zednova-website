@@ -22,6 +22,14 @@ export type IndustriesGroupSection = {
   items: IndustriesGridItem[];
 };
 
+function chunkRows<T>(items: T[], columns: number): T[][] {
+  const rows: T[][] = [];
+  for (let i = 0; i < items.length; i += columns) {
+    rows.push(items.slice(i, i + columns));
+  }
+  return rows;
+}
+
 function ColumnCrosses({ showTop = true }: { showTop?: boolean }) {
   return (
     <>
@@ -33,7 +41,48 @@ function ColumnCrosses({ showTop = true }: { showTop?: boolean }) {
   );
 }
 
-/** CSS-only hover — no Framer springs, SVG paths, or pointer hit-testing. */
+function GridCell({
+  item,
+  showLeftBorder,
+  showTopBorder,
+  showColumnCrosses,
+}: {
+  item: IndustriesGridItem;
+  showLeftBorder: boolean;
+  showTopBorder: boolean;
+  showColumnCrosses: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "group/cell relative flex min-h-[9rem] min-w-0 flex-1 lg:min-h-[10rem]",
+        showLeftBorder && "lg:border-l border-zn-border",
+        showTopBorder && "border-t lg:border-t-0 border-zn-border",
+      )}
+    >
+      {showColumnCrosses && <ColumnCrosses showTop={showTopBorder} />}
+      <Link
+        href={item.href}
+        className="relative z-[1] flex h-full w-full flex-col bg-zn-bg px-6 py-5 transition-colors duration-200 ease-out group-hover/cell:bg-zn-bg-3 md:px-7 md:py-6"
+      >
+        {item.icon ? (
+          <Icon
+            name={item.icon}
+            className="mb-3 size-6 shrink-0 text-zn-text"
+          />
+        ) : null}
+        <span className="block text-[0.9rem] font-normal leading-snug text-zn-text md:text-base">
+          {item.title}
+        </span>
+        <span className="mt-2 block line-clamp-3 text-[0.8125rem] leading-relaxed text-zn-text-2">
+          {item.description}
+        </span>
+      </Link>
+    </div>
+  );
+}
+
+/** Flex rows so partial last rows stretch cells to fill the full width. */
 function GridSection({
   items,
   columns = 3,
@@ -41,12 +90,13 @@ function GridSection({
   items: IndustriesGridItem[];
   columns?: 3 | 5;
 }) {
-  const rows = Math.max(1, Math.ceil(items.length / columns));
+  const desktopRows = chunkRows(items, columns);
+  const rowCount = Math.max(1, desktopRows.length);
 
   return (
     <div className="relative [contain:layout_paint]">
-      <div className="pointer-events-none absolute inset-0">
-        <BlueprintGridCrosses columns={columns} rows={rows} />
+      <div className="pointer-events-none absolute inset-0 max-lg:hidden">
+        <BlueprintGridCrosses columns={columns} rows={rowCount} />
       </div>
 
       <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
@@ -54,43 +104,38 @@ function GridSection({
       <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
       <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2" />
 
-      <div
-        className={cn(
-          "relative grid grid-cols-1",
-          columns === 3 && "lg:grid-cols-3",
-          columns === 5 && "lg:grid-cols-5",
-        )}
-      >
+      {/* Mobile — single column stack */}
+      <div className="relative flex flex-col lg:hidden">
         {items.map((item, index) => (
-          <div
+          <GridCell
             key={item.href}
+            item={item}
+            showLeftBorder={false}
+            showTopBorder={index > 0}
+            showColumnCrosses={false}
+          />
+        ))}
+      </div>
+
+      {/* Desktop — flex rows; partial rows divide width evenly */}
+      <div className="relative hidden flex-col lg:flex">
+        {desktopRows.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
             className={cn(
-              "group/cell relative flex min-h-[9rem] h-full lg:min-h-[10rem]",
-              index % columns !== 0 && "lg:border-l border-zn-border",
-              index > 0 && "border-t lg:border-t-0 border-zn-border",
-              index >= columns && "lg:border-t border-zn-border",
+              "flex w-full",
+              rowIndex > 0 && "border-t border-zn-border",
             )}
           >
-            {index % columns !== 0 && (
-              <ColumnCrosses showTop={index < columns} />
-            )}
-            <Link
-              href={item.href}
-              className="relative z-[1] flex h-full w-full flex-col bg-zn-bg px-6 py-5 transition-colors duration-200 ease-out group-hover/cell:bg-zn-bg-3 md:px-7 md:py-6"
-            >
-              {item.icon ? (
-                <Icon
-                  name={item.icon}
-                  className="mb-3 size-6 shrink-0 text-zn-text"
-                />
-              ) : null}
-              <span className="block text-[0.9rem] font-normal leading-snug text-zn-text md:text-base">
-                {item.title}
-              </span>
-              <span className="mt-2 block line-clamp-3 text-[0.8125rem] leading-relaxed text-zn-text-2">
-                {item.description}
-              </span>
-            </Link>
+            {row.map((item, colIndex) => (
+              <GridCell
+                key={item.href}
+                item={item}
+                showLeftBorder={colIndex > 0}
+                showTopBorder={false}
+                showColumnCrosses={colIndex > 0}
+              />
+            ))}
           </div>
         ))}
       </div>
