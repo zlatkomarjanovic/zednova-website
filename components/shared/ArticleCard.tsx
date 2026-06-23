@@ -73,7 +73,7 @@ export function ArticleCard({
   if (featured) {
     return (
       <Link
-        href={`/resources/${post.slug}`}
+        href={`/insights/${post.slug}`}
         className={cn(
           "group grid gap-8 rounded-[2px] border border-zn-border bg-zn-bg p-6 transition-colors hover:border-zn-text lg:grid-cols-2 lg:p-8",
           className,
@@ -100,7 +100,7 @@ export function ArticleCard({
 
   return (
     <Link
-      href={`/resources/${post.slug}`}
+      href={`/insights/${post.slug}`}
       className={cn("group flex flex-col gap-4", className)}
     >
       {cover}

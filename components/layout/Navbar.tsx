@@ -38,7 +38,7 @@ const MENU_ORDER: MegaMenuType[] = [
 const LINKS = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
-  { label: "Insights", href: "/resources" },
+  { label: "Insights", href: "/insights" },
 ];
 
 const MENU_EASE = [0.22, 1, 0.36, 1] as const;

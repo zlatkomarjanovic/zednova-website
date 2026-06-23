@@ -12,7 +12,7 @@ import { megaMenuNavLinks, serviceMegaMenuCards, type NavMenuItem } from "@/lib/
 const DIRECT_LINKS = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
-  { label: "Insights", href: "/resources" },
+  { label: "Insights", href: "/insights" },
 ];
 
 export function MobileMenu({

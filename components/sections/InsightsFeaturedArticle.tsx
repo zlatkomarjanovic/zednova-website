@@ -43,7 +43,7 @@ export function InsightsFeaturedArticle({ post }: { post: Post }) {
         className="group relative z-[2] grid min-h-[60vh] lg:grid-cols-2"
       >
         <Link
-          href={`/resources/${post.slug}`}
+          href={`/insights/${post.slug}`}
           aria-label={`Read ${post.title}`}
           className="absolute inset-0 z-[2]"
         />

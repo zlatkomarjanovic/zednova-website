@@ -48,7 +48,7 @@ export function InsightsFilterableGrid({ posts }: { posts: FilterPost[] }) {
   }, [posts, activeCategory, query]);
 
   return (
-    <div className="zn-container-guides relative">
+    <div className="relative">
       {/* Controls */}
       <div className="zn-container-inset flex flex-col gap-5 border-y border-zn-border py-6 md:flex-row md:items-center md:justify-between md:gap-8 md:py-7">
         <div className="flex flex-wrap items-center gap-2">
@@ -108,7 +108,7 @@ export function InsightsFilterableGrid({ posts }: { posts: FilterPost[] }) {
             {filtered.map((post) => (
               <Link
                 key={post.slug}
-                href={`/resources/${post.slug}`}
+                href={`/insights/${post.slug}`}
                 aria-label={`Read ${post.title}`}
                 className="group relative z-[2] flex h-full flex-col gap-4 border-zn-border p-6 transition-colors hover:bg-zn-bg-2/50 md:p-8 lg:[&:nth-child(3n)]:border-r-0"
               >

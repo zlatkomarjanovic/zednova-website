@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      { source: "/resources", destination: "/insights", permanent: true },
+      { source: "/resources/:slug", destination: "/insights/:slug", permanent: true },
       { source: "/industries/shopify-dtc-brands", destination: "/industries/ecommerce-shopify", permanent: true },
       { source: "/industries/b2b-saas-tech", destination: "/industries/small-business-custom-software", permanent: true },
       { source: "/industries/saas-companies", destination: "/industries/small-business-custom-software", permanent: true },

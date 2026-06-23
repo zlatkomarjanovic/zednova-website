@@ -17,7 +17,7 @@ const COMPANY_LINKS = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
-  { label: "Insights", href: "/resources" },
+  { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ] as const;
 

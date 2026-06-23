@@ -8,7 +8,7 @@ import type { ArticleFaq, Post, TeamMember } from "@/lib/types";
 const SITE_ORIGIN = "https://zednova.com";
 
 export function articleUrl(slug: string): string {
-  return `${SITE_ORIGIN}/resources/${slug}`;
+  return `${SITE_ORIGIN}/insights/${slug}`;
 }
 
 type ArticleJsonLdInput = {

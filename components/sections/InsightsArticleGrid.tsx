@@ -42,7 +42,7 @@ export function InsightsArticleGrid({ posts }: { posts: Post[] }) {
             className="group relative z-[2] flex h-full flex-col gap-4 px-6 py-6 md:py-8"
           >
             <Link
-              href={`/resources/${post.slug}`}
+              href={`/insights/${post.slug}`}
               aria-label={`Read ${post.title}`}
               className="absolute inset-0 z-[2]"
             />

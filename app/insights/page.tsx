@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { InsightsFilterableGrid } from "@/components/sections/InsightsFilterableGrid";
@@ -16,10 +15,10 @@ export const metadata: Metadata = {
   title: "Insights",
   description:
     "Notes on AI, systems, conversion, and the businesses that use them. From a software and product studio with 10+ years shipping products.",
-  alternates: { canonical: "/resources" },
+  alternates: { canonical: "/insights" },
 };
 
-export default async function ResourcesPage() {
+export default async function InsightsPage() {
   const [featured, allPosts] = await Promise.all([getFeaturedPost(), getAllPosts()]);
   const filterable = allPosts.filter((p) => p.slug !== featured.slug);
 
@@ -29,10 +28,8 @@ export default async function ResourcesPage() {
         data-theme="light"
         className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
       >
-        <BlueprintGrid immediate />
-
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-zn-border">
+          <div className="relative border-x border-b border-zn-border">
             <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
             <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
@@ -58,28 +55,31 @@ export default async function ResourcesPage() {
               </div>
               <InsightsFeaturedArticle post={featured} />
             </div>
+
+            <div className="relative border-b border-zn-border">
+              <div className="zn-container-inset py-12 lg:py-14">
+                <Reveal>
+                  <SectionLabel withRule={false}>All articles</SectionLabel>
+                </Reveal>
+                <TextReveal
+                  as="h2"
+                  text="Notes on AI, systems, and conversion."
+                  className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+                />
+                <Reveal delay={0.08}>
+                  <p className="zn-prose mt-5 max-w-lg">
+                    Practical notes on AI search, conversion, and the systems behind
+                    businesses that ship. Filter by topic or search to find what you need.
+                  </p>
+                </Reveal>
+              </div>
+            </div>
+
+            <InsightsFilterableGrid posts={filterable} />
+
+            <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
+            <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
           </div>
-        </div>
-
-        <div className="zn-container relative mt-14">
-          <Reveal>
-            <SectionLabel withRule={false}>All articles</SectionLabel>
-          </Reveal>
-          <TextReveal
-            as="h2"
-            text="Notes on AI, systems, and conversion."
-            className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
-          />
-          <Reveal delay={0.08}>
-            <p className="zn-prose mt-5 max-w-lg">
-              Practical notes on AI search, conversion, and the systems behind
-              businesses that ship. Filter by topic or search to find what you need.
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="relative mt-14">
-          <InsightsFilterableGrid posts={filterable} />
         </div>
       </section>
 
