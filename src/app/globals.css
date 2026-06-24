@@ -27,7 +27,7 @@
   --color-zn-text-2: color-mix(in srgb, var(--color-zn-text) 52%, transparent);
   --color-zn-text-3: #a1a09c; /* muted / labels */
   --color-zn-inv: #fafaf8; /* text on dark sections */
-  --color-zn-inv-2: #9a9a96; /* secondary text on dark */
+  --color-zn-inv-2: #b8b8b4; /* secondary text on dark — WCAG AA on zn-dark */
 
   /* Borders */
   --color-zn-border: #d8d7d1; /* light section borders */
@@ -171,7 +171,7 @@
 
 @utility zn-label {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.1em;
   line-height: 1.2;
