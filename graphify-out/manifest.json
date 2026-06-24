@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1782330263.732998,
-    "ast_hash": "762d429960998b2551fe22534cf0ee67",
+    "mtime": 1782339404.9980452,
+    "ast_hash": "8899c4451f8b3e45723b7362538d2da3",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "tsconfig.json": {
-    "mtime": 1782330261.4720573,
-    "ast_hash": "e97971fc5db9e40c615c15c479fe2dad",
+    "mtime": 1782339329.4597857,
+    "ast_hash": "7ac1c2f7312e070268fdbc3ce283122b",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -325,8 +325,8 @@
     "semantic_hash": ""
   },
   "src/app/about/page.tsx": {
-    "mtime": 1782338154.7185235,
-    "ast_hash": "3b605d8c22135aa981c6dada41cd7b25",
+    "mtime": 1782338477.4655643,
+    "ast_hash": "1532d4746a6acd060cc46f0910ec5280",
     "semantic_hash": ""
   },
   "src/app/api/contact/route.ts": {
@@ -790,8 +790,8 @@
     "semantic_hash": ""
   },
   "src/lib/content/team.ts": {
-    "mtime": 1782338153.828041,
-    "ast_hash": "ab33ccd761101e6340c941f847e56e58",
+    "mtime": 1782338236.3840368,
+    "ast_hash": "ef5cedff0033f8320f7c744ce3f2bb47",
     "semantic_hash": ""
   },
   "src/lib/content/tech-stack.ts": {
@@ -850,8 +850,8 @@
     "semantic_hash": ""
   },
   "src/ui/Breadcrumbs.tsx": {
-    "mtime": 1782235227.4810581,
-    "ast_hash": "3c32c1eae93f4af70f41f49a35c01dd1",
+    "mtime": 1782342328.8042517,
+    "ast_hash": "eae3de6651f2ba9886390ea1dc40a31e",
     "semantic_hash": ""
   },
   "src/ui/Button.tsx": {
@@ -1192,6 +1192,16 @@
   "public/images/team/zlatko-marjanovic.png": {
     "mtime": 1728406880.0672925,
     "ast_hash": "435c64673e79174ad7a20cc64010e210",
+    "semantic_hash": ""
+  },
+  "scripts/generate-vercel-env-csv.mjs": {
+    "mtime": 1782339128.8707535,
+    "ast_hash": "7659585cccdf0e2ff8743a0cd2c76f1c",
+    "semantic_hash": ""
+  },
+  "public/images/team/zlatko-marjanovic-macbook.png": {
+    "mtime": 1727473262.7643037,
+    "ast_hash": "97a3919a7cc880e2c42f5ac2bfee2a9e",
     "semantic_hash": ""
   }
 }
