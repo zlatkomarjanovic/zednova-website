@@ -6,6 +6,7 @@ export const post = defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
+    { name: "relationships", title: "Relationships" },
     { name: "seo", title: "SEO & AEO" },
   ],
   fields: [
@@ -90,6 +91,7 @@ export const post = defineType({
       type: "array",
       of: [{ type: "reference", to: [{ type: "tag" }] }],
       group: "seo",
+      options: { layout: "tags" },
     }),
     defineField({
       name: "takeaways",
@@ -105,6 +107,60 @@ export const post = defineType({
       title: "FAQ",
       group: "seo",
     }),
+
+    /* Relationships — multi-reference */
+    defineField({
+      name: "relatedServices",
+      type: "array",
+      title: "Related services",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "service" }] }],
+    }),
+    defineField({
+      name: "relatedIndustries",
+      type: "array",
+      title: "Related industries",
+      group: "relationships",
+      of: [
+        { type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] },
+      ],
+    }),
+    defineField({
+      name: "relatedMigrations",
+      type: "array",
+      title: "Related migrations",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "migration" }] }],
+    }),
+    defineField({
+      name: "relatedCustomSoftware",
+      type: "array",
+      title: "Related custom software",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "customSoftware" }] }],
+    }),
+    defineField({
+      name: "relatedProducts",
+      type: "array",
+      title: "Related products",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "product" }] }],
+    }),
+    defineField({
+      name: "relatedCaseStudies",
+      type: "array",
+      title: "Related case studies",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
+    }),
+    defineField({
+      name: "relatedPosts",
+      type: "array",
+      title: "Related posts (manual)",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "post" }] }],
+    }),
+
     defineField({
       name: "seo",
       type: "seoFields",

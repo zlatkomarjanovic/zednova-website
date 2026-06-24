@@ -182,6 +182,7 @@ export function caseStudyJsonLd(c: {
 function estimateWordCount(post: Post): number {
   return post.body.reduce((sum, block) => {
     if (block.type === "ul") return sum + block.items.join(" ").split(/\s+/).length;
-    return sum + block.text.split(/\s+/).length;
+    if ("text" in block && block.text) return sum + block.text.split(/\s+/).length;
+    return sum;
   }, 0);
 }

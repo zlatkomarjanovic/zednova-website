@@ -1,5 +1,7 @@
 /** Nav and migration types shared by layout, mega menu, and CMS mappers. */
 
+import type { ArticleFaq, FeatureBullet, SeoFields } from "@/lib/types";
+
 export type NavMenuItem = {
   title: string;
   shortDescription: string;
@@ -31,7 +33,23 @@ export type Migration = {
   title: string;
   shortDescription: string;
   description: string;
+  heroHeadline?: string;
+  heroSubhead?: string;
+  sourcePlatform?: string;
+  targetPlatform?: string;
+  whatsIncluded?: FeatureBullet[];
+  deliverables?: string[];
+  processSteps?: { step: number; title: string; description: string }[];
+  faqs?: ArticleFaq[];
+  timeline?: string;
+  pricingSignal?: string;
+  relatedServices?: string[];
+  relatedIndustries?: string[];
+  relatedInsights?: string[];
+  relatedMigrations?: string[];
+  tags?: string[];
   order: number;
+  seo?: SeoFields;
 };
 
 /** Top-level landing pages for each mega menu column. */
@@ -43,4 +61,5 @@ export const megaMenuNavLinks = {
     href: "/custom-software",
   },
   migrations: { label: "Migrations", href: "/migrations" },
+  resources: { label: "Resources", href: "/resources" },
 } as const;

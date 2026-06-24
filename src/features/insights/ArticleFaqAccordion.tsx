@@ -17,7 +17,7 @@ export function ArticleFaqAccordion({ faqs }: { faqs: ArticleFaq[] }) {
             <button
               type="button"
               onClick={() =>
-                setOpenId((current) => (current === item.id ? "" : item.id))
+                setOpenId((current) => (current === item.id ? "" : item.id ?? ""))
               }
               aria-expanded={open}
               className="flex w-full items-start justify-between gap-6 px-6 py-5 text-left transition-colors hover:bg-zn-bg md:px-7"

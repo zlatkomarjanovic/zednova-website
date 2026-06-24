@@ -1,5 +1,6 @@
 import type { ArticleBlock } from "@/lib/types";
 import { slugify } from "@/lib/utils";
+import Image from "next/image";
 
 /** Renders the simple block model. Stands in for Sanity Portable Text today. */
 export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
@@ -49,6 +50,39 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
                 {block.text}
               </blockquote>
             );
+          case "callout": {
+            const variantStyles: Record<string, string> = {
+              info: "border-zn-text bg-zn-bg-2/60",
+              warning: "border-amber-500/60 bg-amber-50",
+              success: "border-emerald-600/40 bg-emerald-50",
+              quote: "border-zn-text bg-zn-bg-2/40",
+            };
+            const style = variantStyles[block.calloutVariant ?? "info"] ?? variantStyles.info;
+            return (
+              <div key={i} className={`my-8 rounded-[2px] border-l-2 p-5 ${style}`}>
+                <p className="text-base leading-relaxed text-zn-text">{block.text}</p>
+              </div>
+            );
+          }
+          case "image":
+            return block.image ? (
+              <figure key={i} className="my-8">
+                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2px] border border-zn-border">
+                  <Image
+                    src={block.image}
+                    alt={block.imageAlt ?? block.text ?? ""}
+                    fill
+                    sizes="(max-width: 720px) 100vw, 720px"
+                    className="object-cover"
+                  />
+                </div>
+                {block.text && (
+                  <figcaption className="mt-2 text-sm text-zn-text-3">
+                    {block.text}
+                  </figcaption>
+                )}
+              </figure>
+            ) : null;
           default:
             return (
               <p key={i} className="text-lg leading-relaxed text-zn-text-2">

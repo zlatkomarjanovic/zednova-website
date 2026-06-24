@@ -1,5 +1,23 @@
 /** GROQ query fragments and strings for Sanity fetches. */
 
+/** Shared SEO fragment projected into a flat object. */
+const SEO_PROJECTION = /* groq */ `{
+  "seoTitle": coalesce(seo.seoTitle, ""),
+  "seoDescription": coalesce(seo.seoDescription, ""),
+  "keywords": seo.keywords,
+  "seoCanonical": seo.seoCanonical,
+  "seoNoIndex": coalesce(seo.seoNoIndex, false),
+  "seoHideFromLists": coalesce(seo.seoHideFromLists, false),
+  "ogTitle": seo.ogTitle,
+  "ogDescription": seo.ogDescription,
+  "ogImage": coalesce(seo.ogImage.asset->url, coverImage.asset->url, coverImageUrl),
+  "ogType": seo.ogType,
+  "twitterCard": seo.twitterCard,
+  "twitterTitle": seo.twitterTitle,
+  "twitterDescription": seo.twitterDescription,
+  "twitterImage": seo.twitterImage.asset->url
+}`;
+
 export const POST_LIST_FIELDS = /* groq */ `{
   _id,
   title,
@@ -14,13 +32,11 @@ export const POST_LIST_FIELDS = /* groq */ `{
   accent,
   "image": coalesce(coverImage.asset->url, coverImageUrl),
   "tags": tags[]->title,
-  "seoTitle": seo.seoTitle,
-  "seoDescription": seo.seoDescription,
-  "keywords": seo.keywords,
-  "ogImage": coalesce(seo.ogImage.asset->url, coverImage.asset->url, coverImageUrl),
-  takeaways,
-  faqs,
-  articleBlocks
+  "relatedServices": relatedServices[]->slug.current,
+  "relatedIndustries": relatedIndustries[]->slug.current,
+  "relatedMigrations": relatedMigrations[]->slug.current,
+  "relatedPosts": relatedPosts[]->slug.current,
+  "seo": coalesce(seo, {})${SEO_PROJECTION}
 }`;
 
 export const POST_DETAIL_FIELDS = /* groq */ `{
@@ -37,14 +53,18 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   accent,
   "image": coalesce(coverImage.asset->url, coverImageUrl),
   "tags": tags[]->title,
-  "seoTitle": seo.seoTitle,
-  "seoDescription": seo.seoDescription,
-  "keywords": seo.keywords,
-  "ogImage": coalesce(seo.ogImage.asset->url, coverImage.asset->url, coverImageUrl),
+  "relatedServices": relatedServices[]->slug.current,
+  "relatedIndustries": relatedIndustries[]->slug.current,
+  "relatedMigrations": relatedMigrations[]->slug.current,
+  "relatedCustomSoftware": relatedCustomSoftware[]->slug.current,
+  "relatedProducts": relatedProducts[]->slug.current,
+  "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+  "relatedPosts": relatedPosts[]->slug.current,
   takeaways,
   faqs,
   articleBlocks,
-  body
+  body,
+  "seo": coalesce(seo, {})${SEO_PROJECTION}
 }`;
 
 export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
@@ -53,15 +73,17 @@ export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
     name,
     role,
     bio,
+    shortBio,
     linkedin,
     twitter,
     upwork,
+    website,
     "avatar": coalesce(avatar.asset->url, avatarUrl)
   }
 `;
 
 export const POSTS_QUERY = /* groq */ `
-  *[_type == "post" && defined(slug.current)] | order(publishedAt desc) ${POST_LIST_FIELDS}
+  *[_type == "post" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(publishedAt desc) ${POST_LIST_FIELDS}
 `;
 
 export const POST_BY_SLUG_QUERY = /* groq */ `
@@ -69,7 +91,7 @@ export const POST_BY_SLUG_QUERY = /* groq */ `
 `;
 
 export const CASE_STUDIES_QUERY = /* groq */ `
-  *[_type == "caseStudy" && defined(slug.current)] | order(_createdAt desc) {
+  *[_type == "caseStudy" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(_createdAt desc) {
     _id,
     title,
     "slug": slug.current,
@@ -83,14 +105,18 @@ export const CASE_STUDIES_QUERY = /* groq */ `
     results,
     techStack,
     "testimonialId": testimonial->_id,
+    faqs,
+    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
     featured,
     accent,
-    "image": coalesce(coverImage.asset->url, coverImageUrl)
+    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
 export const PORTFOLIO_PROJECTS_QUERY = /* groq */ `
-  *[_type == "portfolioProject" && defined(slug.current)] | order(order asc) {
+  *[_type == "portfolioProject" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
     _id,
     title,
     "slug": slug.current,
@@ -102,17 +128,22 @@ export const PORTFOLIO_PROJECTS_QUERY = /* groq */ `
     "video": videoUrl,
     accent,
     category,
+    year,
+    "servicesUsed": servicesUsed[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     order,
     logo {
       "src": coalesce(image.asset->url, imageUrl),
       alt,
       lightVariant
-    }
+    },
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
 export const SERVICES_QUERY = /* groq */ `
-  *[_type == "service" && defined(slug.current)] | order(order asc) {
+  *[_type == "service" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
     "slug": slug.current,
     number,
     title,
@@ -121,14 +152,27 @@ export const SERVICES_QUERY = /* groq */ `
     icon,
     shortDescription,
     whatItIs,
+    heroHeadline,
+    heroSubhead,
     deliverables,
+    whatsIncluded,
     idealClients,
     processSteps,
     results,
+    faqs,
     pricingSignal,
+    pricingTiers,
+    startingPrice,
     timeline,
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
+    "relatedMigrations": relatedMigrations[]->slug.current,
+    "tags": tags[]->title,
     "image": coalesce(coverImage.asset->url, coverImageUrl),
-    order
+    order,
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
@@ -142,14 +186,27 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
     icon,
     shortDescription,
     whatItIs,
+    heroHeadline,
+    heroSubhead,
     deliverables,
+    whatsIncluded,
     idealClients,
     processSteps,
     results,
+    faqs,
     pricingSignal,
+    pricingTiers,
+    startingPrice,
     timeline,
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
+    "relatedMigrations": relatedMigrations[]->slug.current,
+    "tags": tags[]->title,
     "image": coalesce(coverImage.asset->url, coverImageUrl),
-    order
+    order,
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
@@ -175,8 +232,13 @@ export const SERVICE_MEGA_MENU_CARDS_QUERY = /* groq */ `
 
 export const CUSTOM_SOFTWARE_QUERY = /* groq */ `
   *[_type == "customSoftware"] | order(order asc) {
+    "slug": coalesce(slug.current, ""),
     title,
     shortDescription,
+    whatItIs,
+    whatsIncluded,
+    deliverables,
+    faqs,
     href,
     order,
     sectionId,
@@ -184,17 +246,38 @@ export const CUSTOM_SOFTWARE_QUERY = /* groq */ `
     sectionHeadline,
     sectionDescription,
     sectionOrder,
-    showInNav
+    showInNav,
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
+    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
 export const MIGRATIONS_QUERY = /* groq */ `
-  *[_type == "migration" && defined(slug.current)] | order(order asc) {
+  *[_type == "migration" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
     "slug": slug.current,
     title,
     shortDescription,
     description,
-    order
+    heroHeadline,
+    heroSubhead,
+    sourcePlatform,
+    targetPlatform,
+    whatsIncluded,
+    deliverables,
+    processSteps,
+    faqs,
+    timeline,
+    pricingSignal,
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
+    "relatedMigrations": relatedMigrations[]->slug.current,
+    "tags": tags[]->title,
+    order,
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
@@ -204,93 +287,72 @@ export const MIGRATION_BY_SLUG_QUERY = /* groq */ `
     title,
     shortDescription,
     description,
-    order
+    heroHeadline,
+    heroSubhead,
+    sourcePlatform,
+    targetPlatform,
+    whatsIncluded,
+    deliverables,
+    processSteps,
+    faqs,
+    timeline,
+    pricingSignal,
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
+    "relatedMigrations": relatedMigrations[]->slug.current,
+    "tags": tags[]->title,
+    order,
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
+const INDUSTRY_FIELDS_PROJECTION = /* groq */ `{
+  "slug": slug.current,
+  title,
+  category,
+  whoItIsFor,
+  whatWeBuild,
+  problemSolved,
+  heroHeadline,
+  hook,
+  shortDescription,
+  painPoints,
+  popularServices,
+  faqs,
+  exampleProject,
+  commonUseCase,
+  icon,
+  "image": coalesce(coverImage.asset->url, coverImageUrl),
+  order,
+  showInMainNav,
+  navOrder,
+  "relatedServices": relatedServices[]->slug.current,
+  "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+  "relatedInsights": relatedInsights[]->slug.current,
+  "tags": tags[]->title,
+  "seo": coalesce(seo, {})${SEO_PROJECTION}
+}`;
+
 export const INDUSTRY_PARENTS_QUERY = /* groq */ `
-  *[_type == "industryParent" && defined(slug.current)] | order(order asc) {
-    "slug": slug.current,
-    title,
-    category,
-    whoItIsFor,
-    whatWeBuild,
-    problemSolved,
-    heroHeadline,
-    hook,
-    shortDescription,
-    painPoints,
-    popularServices,
-    exampleProject,
-    commonUseCase,
-    icon,
-    order,
-    showInMainNav,
-    navOrder
-  }
+  *[_type == "industryParent" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) ${INDUSTRY_FIELDS_PROJECTION}
 `;
 
 export const INDUSTRIES_QUERY = /* groq */ `
-  *[_type == "industry" && defined(slug.current)] | order(order asc) {
-    "slug": slug.current,
-    "parentSlug": parent->slug.current,
-    title,
-    category,
-    whoItIsFor,
-    whatWeBuild,
-    problemSolved,
-    heroHeadline,
-    hook,
-    shortDescription,
-    painPoints,
-    popularServices,
-    exampleProject,
-    commonUseCase,
-    icon,
-    order,
-    showInMainNav,
-    navOrder
+  *[_type == "industry" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
+    ...${INDUSTRY_FIELDS_PROJECTION},
+    "parentSlug": parent->slug.current
   }
 `;
 
 export const INDUSTRY_PARENT_BY_SLUG_QUERY = /* groq */ `
-  *[_type == "industryParent" && slug.current == $slug][0] {
-    "slug": slug.current,
-    title,
-    category,
-    whoItIsFor,
-    whatWeBuild,
-    problemSolved,
-    heroHeadline,
-    hook,
-    shortDescription,
-    painPoints,
-    popularServices,
-    exampleProject,
-    commonUseCase,
-    icon,
-    order
-  }
+  *[_type == "industryParent" && slug.current == $slug][0] ${INDUSTRY_FIELDS_PROJECTION}
 `;
 
 export const INDUSTRY_BY_SLUG_QUERY = /* groq */ `
   *[_type == "industry" && slug.current == $slug][0] {
-    "slug": slug.current,
-    "parentSlug": parent->slug.current,
-    title,
-    category,
-    whoItIsFor,
-    whatWeBuild,
-    problemSolved,
-    heroHeadline,
-    hook,
-    shortDescription,
-    painPoints,
-    popularServices,
-    exampleProject,
-    commonUseCase,
-    icon,
-    order
+    ...${INDUSTRY_FIELDS_PROJECTION},
+    "parentSlug": parent->slug.current
   }
 `;
 
@@ -312,25 +374,44 @@ export const SITE_SETTINGS_QUERY = /* groq */ `
   *[_type == "siteSettings" && _id == "siteSettings"][0] {
     siteTitle,
     siteDescription,
-    contactEmail,
-    responseTime,
+    siteUrl,
     announcementBar,
+    contactEmail,
+    contactPhone,
+    responseTime,
+    address,
+    officeHours,
     socialLinks,
-    stats
+    stats,
+    twitterCreator,
+    "defaultOgImage": defaultOgImage.asset->url,
+    "defaultSeo": coalesce(defaultSeo, {})${SEO_PROJECTION},
+    headerScripts
   }
 `;
 
 export const PRODUCTS_QUERY = /* groq */ `
-  *[_type == "product" && defined(slug.current)] | order(order asc) {
+  *[_type == "product" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
     "slug": slug.current,
     title,
+    type,
     tagline,
     description,
-    status,
     features,
+    featureList,
+    status,
+    pricingTiers,
+    startingPrice,
     ctaLabel,
     ctaHref,
-    order
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
+    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "resourceFile": resourceFile.asset->url,
+    externalUrl,
+    order,
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
@@ -342,8 +423,13 @@ export const TESTIMONIALS_QUERY = /* groq */ `
     authorTitle,
     company,
     industry,
-    "image": avatar.asset->url,
+    "image": coalesce(avatar.asset->url, avatarUrl),
     platform,
+    platformSource,
+    platformUrl,
+    rating,
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     featured
   }
 `;
@@ -353,6 +439,11 @@ export const FAQS_QUERY = /* groq */ `
     "id": _id,
     question,
     answer,
+    category,
+    "scopeServices": scopeServices[]->slug.current,
+    "scopeIndustries": scopeIndustries[]->slug.current,
+    "scopeMigrations": scopeMigrations[]->slug.current,
+    "tags": tags[]->title,
     order
   }
 `;
@@ -372,9 +463,44 @@ export const CASE_STUDY_BY_SLUG_QUERY = /* groq */ `
     results,
     techStack,
     "testimonialId": testimonial->_id,
+    faqs,
+    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
     featured,
     accent,
-    "image": coalesce(coverImage.asset->url, coverImageUrl)
+    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
 
+export const PAGES_QUERY = /* groq */ `
+  *[_type == "page" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(title asc) {
+    "slug": slug.current,
+    title,
+    path,
+    heroHeadline,
+    heroSubhead,
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
+  }
+`;
+
+export const PAGE_BY_PATH_QUERY = /* groq */ `
+  *[_type == "page" && path == $path][0] {
+    "slug": slug.current,
+    title,
+    path,
+    heroHeadline,
+    heroSubhead,
+    body,
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
+  }
+`;
+
+export const REDIRECTS_QUERY = /* groq */ `
+  *[_type == "redirect"] {
+    "from": from,
+    "to": to,
+    "statusCode": statusCode,
+    "permanent": permanent
+  }
+`;

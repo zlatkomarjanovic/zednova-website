@@ -1,31 +1,143 @@
 import { defineField, defineType } from "sanity";
 
+/* ----------------------------- SEO / OG / AEO ----------------------------- */
+
 export const seoFields = defineType({
   name: "seoFields",
-  title: "SEO",
+  title: "SEO & Social",
   type: "object",
+  groups: [
+    { name: "meta", title: "Meta", default: true },
+    { name: "og", title: "Open Graph" },
+    { name: "twitter", title: "Twitter" },
+    { name: "advanced", title: "Advanced" },
+  ],
   fields: [
-    defineField({ name: "seoTitle", type: "string", title: "SEO title" }),
+    defineField({
+      name: "seoTitle",
+      type: "string",
+      title: "SEO title",
+      group: "meta",
+      description: "Overrides the document title in the <title> tag. ~60 chars.",
+      validation: (r) => r.max(70).warning("May be truncated in search results"),
+    }),
     defineField({
       name: "seoDescription",
       type: "text",
-      title: "SEO description",
+      title: "Meta description",
       rows: 3,
+      group: "meta",
+      description: "~160 chars. Used by Google in search results.",
+      validation: (r) => r.max(170).warning("May be truncated in search results"),
     }),
     defineField({
       name: "keywords",
       type: "array",
       of: [{ type: "string" }],
       title: "Keywords",
+      group: "meta",
+      description: "Topic keywords (used for AEO entities and JSON-LD).",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "seoCanonical",
+      type: "url",
+      title: "Canonical URL override",
+      group: "advanced",
+      description: "Optional. Leave blank to use the default canonical.",
+    }),
+    defineField({
+      name: "seoNoIndex",
+      type: "boolean",
+      title: "No index",
+      group: "advanced",
+      description: "Excludes this page from search engine indices.",
+      initialValue: false,
+    }),
+    defineField({
+      name: "seoHideFromLists",
+      type: "boolean",
+      title: "Hide from lists & sitemap",
+      group: "advanced",
+      description: "Excludes from internal listings, sitemap.xml, and sitemap.md.",
+      initialValue: false,
+    }),
+    defineField({
+      name: "ogTitle",
+      type: "string",
+      title: "Open Graph title",
+      group: "og",
+      description: "Overrides SEO/browser title for social shares.",
+    }),
+    defineField({
+      name: "ogDescription",
+      type: "text",
+      title: "Open Graph description",
+      rows: 3,
+      group: "og",
     }),
     defineField({
       name: "ogImage",
       type: "image",
       title: "Open Graph image",
+      group: "og",
+      description: "Recommended 1200×630. Used for Facebook, LinkedIn, Slack previews.",
       options: { hotspot: true },
+    }),
+    defineField({
+      name: "ogType",
+      type: "string",
+      title: "Open Graph type",
+      group: "og",
+      options: {
+        list: ["website", "article", "product", "profile"],
+        layout: "radio",
+      },
+      initialValue: "website",
+    }),
+    defineField({
+      name: "twitterCard",
+      type: "string",
+      title: "Twitter card type",
+      group: "twitter",
+      options: {
+        list: ["summary", "summary_large_image"],
+        layout: "radio",
+      },
+      initialValue: "summary_large_image",
+    }),
+    defineField({
+      name: "twitterTitle",
+      type: "string",
+      title: "Twitter title",
+      group: "twitter",
+    }),
+    defineField({
+      name: "twitterDescription",
+      type: "text",
+      title: "Twitter description",
+      rows: 3,
+      group: "twitter",
+    }),
+    defineField({
+      name: "twitterImage",
+      type: "image",
+      title: "Twitter image",
+      group: "twitter",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "jsonLdOverride",
+      type: "text",
+      title: "JSON-LD override (advanced)",
+      rows: 6,
+      group: "advanced",
+      description: "Optional raw JSON-LD to override generated structured data.",
     }),
   ],
 });
+
+/* ----------------------------- Reusable content objects ----------------------------- */
 
 export const painPoint = defineType({
   name: "painPoint",
@@ -60,10 +172,16 @@ export const processStep = defineType({
 
 export const articleFaq = defineType({
   name: "articleFaq",
-  title: "FAQ item",
+  title: "FAQ item (inline)",
   type: "object",
   fields: [
-    defineField({ name: "id", type: "string", title: "ID (for anchors)" }),
+    defineField({
+      name: "id",
+      type: "slug",
+      title: "Anchor ID",
+      description: "Used for #fragment anchors and FAQ JSON-LD @id.",
+      options: { source: "question", maxLength: 60 },
+    }),
     defineField({ name: "question", type: "string", validation: (r) => r.required() }),
     defineField({ name: "answer", type: "text", rows: 4, validation: (r) => r.required() }),
   ],
@@ -84,6 +202,8 @@ export const articleBlock = defineType({
           { title: "Heading 3", value: "h3" },
           { title: "List", value: "ul" },
           { title: "Quote", value: "quote" },
+          { title: "Callout", value: "callout" },
+          { title: "Image", value: "image" },
         ],
       },
       validation: (r) => r.required(),
@@ -94,6 +214,21 @@ export const articleBlock = defineType({
       type: "array",
       of: [{ type: "string" }],
       title: "List items",
+    }),
+    defineField({
+      name: "image",
+      type: "image",
+      title: "Image (for image blocks)",
+      options: { hotspot: true },
+    }),
+    defineField({ name: "imageAlt", type: "string", title: "Image alt text" }),
+    defineField({
+      name: "calloutVariant",
+      type: "string",
+      title: "Callout variant",
+      options: {
+        list: ["info", "warning", "success", "quote"],
+      },
     }),
   ],
 });
@@ -135,6 +270,104 @@ export const portfolioLogo = defineType({
   ],
 });
 
+export const featureBullet = defineType({
+  name: "featureBullet",
+  title: "Feature / What's included item",
+  type: "object",
+  fields: [
+    defineField({ name: "title", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", type: "text", rows: 2 }),
+    defineField({
+      name: "icon",
+      type: "string",
+      title: "Icon key",
+      description: "Optional icon key resolved by the front-end icon map.",
+    }),
+  ],
+});
+
+export const priceTier = defineType({
+  name: "priceTier",
+  title: "Price tier",
+  type: "object",
+  fields: [
+    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "amount",
+      type: "number",
+      title: "Price (USD)",
+      validation: (r) => r.required().min(0),
+    }),
+    defineField({
+      name: "currency",
+      type: "string",
+      initialValue: "USD",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "period",
+      type: "string",
+      title: "Billing period",
+      options: { list: ["one-time", "monthly", "quarterly", "yearly"] },
+    }),
+    defineField({
+      name: "features",
+      type: "array",
+      of: [{ type: "string" }],
+      title: "Tier features",
+    }),
+    defineField({ name: "featured", type: "boolean", initialValue: false }),
+    defineField({ name: "ctaLabel", type: "string" }),
+    defineField({ name: "ctaHref", type: "string" }),
+  ],
+});
+
+export const ctaFields = defineType({
+  name: "ctaFields",
+  title: "Call to action",
+  type: "object",
+  fields: [
+    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "href", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "variant",
+      type: "string",
+      options: { list: ["primary", "secondary", "link"] },
+      initialValue: "primary",
+    }),
+  ],
+});
+
+export const mediaAsset = defineType({
+  name: "mediaAsset",
+  title: "Media asset",
+  type: "object",
+  fields: [
+    defineField({ name: "image", type: "image", options: { hotspot: true } }),
+    defineField({ name: "imageUrl", type: "url", title: "Image URL (legacy)" }),
+    defineField({ name: "alt", type: "string", title: "Alt text" }),
+    defineField({ name: "caption", type: "string" }),
+    defineField({ name: "credit", type: "string" }),
+  ],
+});
+
+export const resourceLink = defineType({
+  name: "resourceLink",
+  title: "Resource link",
+  type: "object",
+  fields: [
+    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "href", type: "url", validation: (r) => r.required() }),
+    defineField({
+      name: "type",
+      type: "string",
+      options: {
+        list: ["pdf", "guide", "checklist", "template", "freebie", "lead-magnet", "external"],
+      },
+    }),
+  ],
+});
+
 export const objectTypes = [
   seoFields,
   painPoint,
@@ -145,4 +378,9 @@ export const objectTypes = [
   popularServiceLink,
   stat,
   portfolioLogo,
+  featureBullet,
+  priceTier,
+  ctaFields,
+  mediaAsset,
+  resourceLink,
 ];

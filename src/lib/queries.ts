@@ -476,25 +476,7 @@ export async function getAdjacentPosts(
 }
 
 export async function getRelatedPosts(slug: string, limit = 3): Promise<Post[]> {
-  const all = await getAllPosts();
-  const current = all.find((p) => p.slug === slug);
-  if (!current) return all.filter((p) => p.slug !== slug).slice(0, limit);
-
-  const scored = all
-    .filter((p) => p.slug !== slug)
-    .map((p) => {
-      let score = 0;
-      if (p.category === current.category) score += 2;
-      score += p.tags.filter((t) => current.tags.includes(t)).length;
-      return { post: p, score };
-    })
-    .sort(
-      (a, b) =>
-        b.score - a.score ||
-        +new Date(b.post.publishedAt) - +new Date(a.post.publishedAt),
-    );
-
-  return scored.slice(0, limit).map((s) => s.post);
+  return getRelatedInsights(slug, limit);
 }
 
 /* ----------------------------- Products ----------------------------- */
@@ -503,6 +485,108 @@ export async function getAllProducts(): Promise<Product[]> {
   return fromSanity("product", fetchAllProductsFromSanity, () =>
     [...staticProducts].sort(byOrder),
   );
+}
+
+export async function getProductsByType(
+  type: string,
+): Promise<Product[]> {
+  const all = await getAllProducts();
+  return all.filter((p) => (p.type ?? "software") === type);
+}
+
+export async function getProductsByService(
+  serviceSlug: string,
+  limit?: number,
+): Promise<Product[]> {
+  const all = await getAllProducts();
+  const filtered = all.filter((p) => p.relatedServices?.includes(serviceSlug));
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+export async function getProductsByIndustry(
+  industrySlug: string,
+  limit?: number,
+): Promise<Product[]> {
+  const all = await getAllProducts();
+  const filtered = all.filter((p) => p.relatedIndustries?.includes(industrySlug));
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+export async function getInsightsByService(
+  serviceSlug: string,
+  limit?: number,
+): Promise<Post[]> {
+  const all = await getAllPosts();
+  const filtered = all.filter((p) => p.relatedServices?.includes(serviceSlug));
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+export async function getInsightsByIndustry(
+  industrySlug: string,
+  limit?: number,
+): Promise<Post[]> {
+  const all = await getAllPosts();
+  const filtered = all.filter((p) => p.relatedIndustries?.includes(industrySlug));
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+export async function getInsightsByMigration(
+  migrationSlug: string,
+  limit?: number,
+): Promise<Post[]> {
+  const all = await getAllPosts();
+  const filtered = all.filter((p) => p.relatedMigrations?.includes(migrationSlug));
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+export async function getInsightsByProduct(
+  productSlug: string,
+  limit?: number,
+): Promise<Post[]> {
+  const all = await getAllPosts();
+  const filtered = all.filter((p) => p.relatedProducts?.includes(productSlug));
+  return limit ? filtered.slice(0, limit) : filtered;
+}
+
+export async function getRelatedInsights(
+  slug: string,
+  limit = 3,
+): Promise<Post[]> {
+  const all = await getAllPosts();
+  const current = all.find((p) => p.slug === slug);
+  if (!current) return all.filter((p) => p.slug !== slug).slice(0, limit);
+
+  // First, use explicit multirefs (relatedPosts)
+  const explicit = current.relatedPosts
+    ? current.relatedPosts
+        .map((s) => all.find((p) => p.slug === s))
+        .filter((p): p is Post => Boolean(p))
+    : [];
+
+  if (explicit.length >= limit) return explicit.slice(0, limit);
+
+  // Then, score by shared services/industries/migrations/category/tags
+  const scored = all
+    .filter((p) => p.slug !== slug && !explicit.includes(p))
+    .map((p) => {
+      let score = 0;
+      if (p.category === current.category) score += 2;
+      score += p.tags.filter((t) => current.tags.includes(t)).length;
+      if (p.relatedServices && current.relatedServices)
+        score += p.relatedServices.filter((s) => current.relatedServices!.includes(s)).length * 2;
+      if (p.relatedIndustries && current.relatedIndustries)
+        score += p.relatedIndustries.filter((s) => current.relatedIndustries!.includes(s)).length * 2;
+      if (p.relatedMigrations && current.relatedMigrations)
+        score += p.relatedMigrations.filter((s) => current.relatedMigrations!.includes(s)).length;
+      return { post: p, score };
+    })
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        +new Date(b.post.publishedAt) - +new Date(a.post.publishedAt),
+    );
+
+  return [...explicit, ...scored.map((s) => s.post)].slice(0, limit);
 }
 
 /* ----------------------------- Testimonials ----------------------------- */

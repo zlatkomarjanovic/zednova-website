@@ -21,6 +21,8 @@ import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import type { Industry } from "@/lib/types";
+import { FaqSection } from "@/components/sections/FaqSection";
+import { getInsightsByIndustry } from "@/lib/queries";
 
 export async function generateStaticParams() {
   const slugs = await getAllIndustrySlugs();
@@ -35,15 +37,32 @@ export async function generateMetadata({
   const { slug } = await params;
   const segment = await getIndustrySegmentBySlug(slug);
   if (!segment) return {};
+
+  const title = segment.seo?.seoTitle ?? segment.title;
+  const description = segment.seo?.seoDescription ?? segment.shortDescription;
+  const canonical = segment.seo?.seoCanonical ?? `/industries/${slug}`;
+
   return {
-    title: segment.title,
-    description: segment.shortDescription,
-    alternates: { canonical: `/industries/${slug}` },
+    title,
+    description,
+    keywords: segment.seo?.keywords,
+    alternates: { canonical },
+    robots: segment.seo?.seoNoIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       type: "website",
-      url: `/industries/${slug}`,
-      title: segment.title,
-      description: segment.shortDescription,
+      url: canonical,
+      title,
+      description,
+      images: segment.seo?.ogImage ? [segment.seo.ogImage] : undefined,
+    },
+    twitter: {
+      card: (segment.seo?.twitterCard ?? "summary_large_image") as
+        | "summary"
+        | "summary_large_image"
+        | "player"
+        | "app",
+      title: segment.seo?.twitterTitle ?? title,
+      description: segment.seo?.twitterDescription ?? description,
     },
   };
 }
@@ -78,6 +97,7 @@ export default async function IndustryDetailPage({
       industryLabel: await getIndustryTitle(caseStudy.industry),
     })),
   );
+  const relatedInsights = await getInsightsByIndustry(slug);
 
   const crumbs = [
     { label: "Home", href: "/" },
@@ -265,6 +285,35 @@ export default async function IndustryDetailPage({
                   caseStudy={caseStudy}
                   industryLabel={industryLabel}
                 />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {segment.faqs && segment.faqs.length > 0 && (
+        <FaqSection faqs={segment.faqs} title={`${segment.title} FAQ`} />
+      )}
+
+      {relatedInsights.length > 0 && (
+        <section data-theme="light" className="zn-section bg-zn-bg-2/40">
+          <div className="zn-container">
+            <Reveal>
+              <SectionLabel withRule={false}>Related insights</SectionLabel>
+            </Reveal>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedInsights.slice(0, 3).map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/insights/${post.slug}`}
+                  className="group border border-zn-border bg-zn-bg p-6 transition hover:border-zn-text-3"
+                >
+                  <p className="text-xs font-mono uppercase tracking-wider text-zn-text-3">
+                    {post.category}
+                  </p>
+                  <p className="mt-2 font-sans text-lg text-zn-text">{post.title}</p>
+                  <p className="mt-2 text-sm text-zn-text-2 line-clamp-2">{post.excerpt}</p>
+                </Link>
               ))}
             </div>
           </div>

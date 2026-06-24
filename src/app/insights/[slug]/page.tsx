@@ -47,16 +47,17 @@ export async function generateMetadata({
   if (!post) return {};
 
   const url = articleUrl(slug);
-  const title = post.seoTitle ?? post.title;
-  const description = post.seoDescription ?? post.excerpt;
-  const ogImage = post.ogImage ?? post.image;
+  const title = post.seo?.seoTitle ?? post.seoTitle ?? post.title;
+  const description = post.seo?.seoDescription ?? post.seoDescription ?? post.excerpt;
+  const ogImage = post.seo?.ogImage ?? post.ogImage ?? post.image;
+  const canonical = post.seo?.seoCanonical ?? `/insights/${slug}`;
 
   return {
     title,
     description,
-    keywords: post.keywords,
+    keywords: post.seo?.keywords ?? post.keywords,
     authors: [{ name: "Zed Marjanovic", url: `${SITE_ORIGIN}/about` }],
-    alternates: { canonical: `/insights/${slug}` },
+    alternates: { canonical },
     openGraph: {
       type: "article",
       locale: "en_US",
@@ -74,19 +75,25 @@ export async function generateMetadata({
         : undefined,
     },
     twitter: {
-      card: "summary_large_image",
+      card: (post.seo?.twitterCard ?? "summary_large_image") as
+        | "summary"
+        | "summary_large_image"
+        | "player"
+        | "app",
       creator: "@zednova",
-      title,
-      description,
+      title: post.seo?.twitterTitle ?? title,
+      description: post.seo?.twitterDescription ?? description,
       images: ogImage ? [ogImage] : undefined,
     },
-    robots: {
-      index: true,
-      follow: true,
-      "max-snippet": -1,
-      "max-image-preview": "large",
-      "max-video-preview": -1,
-    },
+    robots: post.seo?.seoNoIndex
+      ? { index: false, follow: false }
+      : {
+          index: true,
+          follow: true,
+          "max-snippet": -1,
+          "max-image-preview": "large",
+          "max-video-preview": -1,
+        },
   };
 }
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAllMigrations, getMigrationBySlug } from "@/lib/queries";
+import { getAllMigrations, getMigrationBySlug, getInsightsByMigration, getServicesBySlugs } from "@/lib/queries";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
@@ -10,7 +10,9 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { Check } from "lucide-react";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   const migrations = await getAllMigrations();
@@ -25,31 +27,48 @@ export async function generateMetadata({
   const { slug } = await params;
   const item = await getMigrationBySlug(slug);
   if (!item) return {};
+
+  const title = item.seo?.seoTitle ?? item.title;
+  const description = item.seo?.seoDescription ?? item.shortDescription;
+  const canonical = item.seo?.seoCanonical ?? `/migrations/${slug}`;
+
   return {
-    title: item.title,
-    description: item.shortDescription,
-    alternates: { canonical: `/migrations/${slug}` },
+    title,
+    description,
+    keywords: item.seo?.keywords,
+    alternates: { canonical },
+    robots: item.seo?.seoNoIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       type: "website",
-      url: `/migrations/${slug}`,
-      title: item.title,
-      description: item.shortDescription,
+      url: canonical,
+      title,
+      description,
+      images: item.seo?.ogImage ? [item.seo.ogImage] : undefined,
+    },
+    twitter: {
+      card: (item.seo?.twitterCard ?? "summary_large_image") as
+        | "summary"
+        | "summary_large_image"
+        | "player"
+        | "app",
+      title: item.seo?.twitterTitle ?? title,
+      description: item.seo?.twitterDescription ?? description,
     },
   };
 }
 
-const MIGRATION_STEPS = [
-  { step: 1, title: "Audit", description: "We inventory your current content, URLs, redirects, and integrations before moving anything." },
-  { step: 2, title: "Map", description: "We map every page and record to its new home in Next.js and Sanity so nothing is lost." },
-  { step: 3, title: "Build", description: "We rebuild on Next.js with Sanity CMS, preserving design, SEO metadata, and URL structure." },
-  { step: 4, title: "Launch", description: "We cut over with 301 redirects in place, test every page, and monitor for the first week." },
-];
-
-const MIGRATION_BENEFITS = [
+const FALLBACK_BENEFITS = [
   "Keep your URLs and SEO — 301 redirects on every old path",
   "Content lives in Sanity so your team edits without a developer",
   "Sub-2-second load times on mobile, the make-or-break for ranking",
   "No plugins to maintain, no security patches, no theme lock-in",
+];
+
+const FALLBACK_STEPS = [
+  { step: 1, title: "Audit", description: "We inventory your current content, URLs, redirects, and integrations before moving anything." },
+  { step: 2, title: "Map", description: "We map every page and record to its new home in Next.js and Sanity so nothing is lost." },
+  { step: 3, title: "Build", description: "We rebuild on Next.js with Sanity CMS, preserving design, SEO metadata, and URL structure." },
+  { step: 4, title: "Launch", description: "We cut over with 301 redirects in place, test every page, and monitor for the first week." },
 ];
 
 export default async function MigrationDetailPage({
@@ -67,11 +86,27 @@ export default async function MigrationDetailPage({
     { label: item.title },
   ];
 
+  const benefits = item.whatsIncluded?.length
+    ? item.whatsIncluded.map((b) => b.title)
+    : item.deliverables?.length
+      ? item.deliverables
+      : FALLBACK_BENEFITS;
+
+  const steps = item.processSteps?.length ? item.processSteps : FALLBACK_STEPS;
+  const headline = item.heroHeadline ?? item.title;
+  const subhead = item.heroSubhead ?? item.description;
+  const target = item.targetPlatform ?? item.title.split(" to ")[1] ?? "a modern stack";
+
+  const [relatedInsights, relatedServices] = await Promise.all([
+    getInsightsByMigration(slug),
+    item.relatedServices?.length ? getServicesBySlugs(item.relatedServices) : Promise.resolve([]),
+  ]);
+
   return (
     <>
       <JsonLd data={[breadcrumbJsonLd(crumbs)]} />
 
-      {/* Hero — guides framing */}
+      {/* Hero */}
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
@@ -81,17 +116,19 @@ export default async function MigrationDetailPage({
                 <Breadcrumbs items={crumbs} />
                 <Reveal>
                   <div className="mt-6">
-                    <SectionLabel withRule={false}>Migration</SectionLabel>
+                    <SectionLabel withRule={false}>
+                      {item.sourcePlatform ? `${item.sourcePlatform} → ${item.targetPlatform ?? "Next.js"}` : "Migration"}
+                    </SectionLabel>
                   </div>
                 </Reveal>
                 <TextReveal
                   as="h1"
-                  text={item.title}
+                  text={headline}
                   className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
                 />
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
-                    {item.description}
+                    {subhead}
                   </p>
                 </Reveal>
                 <Reveal delay={0.15}>
@@ -120,7 +157,7 @@ export default async function MigrationDetailPage({
                   <SectionLabel withRule={false}>What you keep</SectionLabel>
                 </Reveal>
                 <ul className="mt-6 grid gap-4">
-                  {MIGRATION_BENEFITS.map((benefit) => (
+                  {benefits.map((benefit) => (
                     <li
                       key={benefit}
                       className="flex items-start gap-3 border-b border-zn-border pb-4 text-zn-text"
@@ -130,6 +167,16 @@ export default async function MigrationDetailPage({
                     </li>
                   ))}
                 </ul>
+                {item.timeline && (
+                  <p className="mt-6 text-sm text-zn-text-3">
+                    Typical timeline: <span className="text-zn-text-2">{item.timeline}</span>
+                  </p>
+                )}
+                {item.pricingSignal && (
+                  <p className="mt-2 text-sm text-zn-text-3">
+                    {item.pricingSignal}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -137,7 +184,7 @@ export default async function MigrationDetailPage({
                   <SectionLabel withRule={false}>How we migrate</SectionLabel>
                 </Reveal>
                 <ol className="mt-6 grid gap-6">
-                  {MIGRATION_STEPS.map((s) => (
+                  {steps.map((s) => (
                     <li key={s.step} className="grid grid-cols-[2rem_1fr] gap-4">
                       <span className="font-mono text-sm text-zn-text-3">
                         {String(s.step).padStart(2, "0")}
@@ -159,8 +206,55 @@ export default async function MigrationDetailPage({
         </div>
       </section>
 
+      {item.faqs && item.faqs.length > 0 && (
+        <FaqSection faqs={item.faqs} title="Migration FAQ" />
+      )}
+
+      {relatedServices.length > 0 && (
+        <section data-theme="light" className="bg-zn-bg pb-[clamp(3rem,6vw,5rem)]">
+          <div className="zn-container">
+            <SectionLabel>Related services</SectionLabel>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedServices.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/services/${s.slug}`}
+                  className="group border border-zn-border p-6 transition hover:border-zn-text-3"
+                >
+                  <p className="font-sans text-lg text-zn-text">{s.title}</p>
+                  <p className="mt-2 text-sm text-zn-text-2 line-clamp-2">{s.shortDescription}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {relatedInsights.length > 0 && (
+        <section data-theme="light" className="bg-zn-bg pb-[clamp(3rem,6vw,5rem)]">
+          <div className="zn-container">
+            <SectionLabel>Related insights</SectionLabel>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedInsights.slice(0, 3).map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/insights/${post.slug}`}
+                  className="group border border-zn-border p-6 transition hover:border-zn-text-3"
+                >
+                  <p className="text-xs font-mono uppercase tracking-wider text-zn-text-3">
+                    {post.category}
+                  </p>
+                  <p className="mt-2 font-sans text-lg text-zn-text">{post.title}</p>
+                  <p className="mt-2 text-sm text-zn-text-2 line-clamp-2">{post.excerpt}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <DarkCTA
-        heading={`Ready to migrate to ${item.title.split(" to ")[1] ?? "a modern stack"}?`}
+        heading={`Ready to migrate to ${target}?`}
         sub="We scope content, URLs, redirects, and launch timing before we move a single page. Tell us where you are today and where you want to go."
         ctaLabel="Plan this migration"
       />

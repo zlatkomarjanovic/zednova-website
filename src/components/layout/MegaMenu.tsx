@@ -267,6 +267,43 @@ function NavItemGrid({
   );
 }
 
+function CompactIndustryGrid({
+  items,
+  theme,
+  borderClass,
+  onNavigate,
+  highlight,
+}: {
+  items: NavMenuItem[];
+  theme: "light" | "dark";
+  borderClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+}) {
+  const isDark = theme === "dark";
+  return (
+    <div className="relative grid grid-cols-2 gap-px overflow-hidden border border-zn-border bg-zn-border sm:grid-cols-3 lg:grid-cols-4">
+      {items.map((item, index) => (
+        <Link
+          key={`${item.href}-${index}`}
+          href={item.href}
+          onClick={onNavigate}
+          onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+          data-hover-cell
+          className={cn(
+            "group flex h-full min-h-[5.5rem] flex-col justify-center bg-zn-bg px-4 py-3 transition-colors",
+            isDark
+              ? "bg-zn-dark text-zn-inv hover:bg-zn-dark-2"
+              : "bg-zn-bg text-zn-text hover:bg-zn-bg-2",
+          )}
+        >
+          <span className="text-sm font-medium leading-snug">{item.title}</span>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 export function MegaMenu({
   type,
   industryNavItems,
@@ -359,14 +396,10 @@ export function MegaMenu({
               highlight={highlight}
             />
           ) : type === "industries" ? (
-            <NavItemGrid
+            <CompactIndustryGrid
               items={industryNavItems}
-              columns={5}
-              rows={3}
               theme={theme}
               borderClass={borderClass}
-              titleClass={titleClass}
-              bodyClass={bodyClass}
               onNavigate={onNavigate}
               highlight={highlight}
             />

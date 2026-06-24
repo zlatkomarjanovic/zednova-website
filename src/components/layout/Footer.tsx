@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 const COMPANY_LINKS = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
-  { label: "Products", href: "/products" },
+  { label: "Resources", href: "/resources" },
   { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -77,15 +77,21 @@ export function Footer({
                 <p>CST (Texas) · We work async</p>
               </div>
               <div className="flex items-center gap-3">
-                <Social href={settings.socialLinks.linkedin} label="LinkedIn">
-                  <LinkedInIcon />
-                </Social>
-                <Social href={settings.socialLinks.twitter} label="X (Twitter)">
-                  <XIcon />
-                </Social>
-                <Social href={settings.socialLinks.github} label="GitHub">
-                  <GitHubIcon />
-                </Social>
+                {settings.socialLinks.linkedin && (
+                  <Social href={settings.socialLinks.linkedin} label="LinkedIn">
+                    <LinkedInIcon />
+                  </Social>
+                )}
+                {settings.socialLinks.twitter && (
+                  <Social href={settings.socialLinks.twitter} label="X (Twitter)">
+                    <XIcon />
+                  </Social>
+                )}
+                {settings.socialLinks.github && (
+                  <Social href={settings.socialLinks.github} label="GitHub">
+                    <GitHubIcon />
+                  </Social>
+                )}
               </div>
             </div>
           </div>

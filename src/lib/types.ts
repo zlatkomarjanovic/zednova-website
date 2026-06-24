@@ -1,5 +1,5 @@
 /**
- * Content types. These mirror the Sanity schema shapes (Phase 6) so the local
+ * Content types. These mirror the Sanity schema shapes so the local
  * content layer can be swapped for live GROQ queries without touching pages.
  */
 
@@ -9,23 +9,71 @@ export type ServiceGroup =
   | "AI Tools"
   | "Ecommerce";
 
+/** Reusable SEO object projected from Sanity seoFields. */
+export type SeoFields = {
+  seoTitle?: string;
+  seoDescription?: string;
+  keywords?: string[];
+  seoCanonical?: string;
+  seoNoIndex?: boolean;
+  seoHideFromLists?: boolean;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogType?: string;
+  twitterCard?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+};
+
+export type FeatureBullet = {
+  title: string;
+  description?: string;
+  icon?: string;
+};
+
+export type PriceTier = {
+  label: string;
+  amount: number;
+  currency: string;
+  period?: string;
+  features?: string[];
+  featured?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
 export type Service = {
   slug: string;
-  number: string; // "01"..."10"
+  number: string;
   title: string;
   group: ServiceGroup;
-  category: string; // short category tag shown on the service hero
-  icon: string; // icon key resolved by <Icon />
-  shortDescription: string; // one line, used in cards + mega menu
-  whatItIs: string; // 2-sentence hero summary
+  category: string;
+  icon: string;
+  shortDescription: string;
+  whatItIs: string;
+  heroHeadline?: string;
+  heroSubhead?: string;
+  whatsIncluded?: FeatureBullet[];
   deliverables: string[];
-  idealClients: string[]; // "Who it's for"
+  idealClients: string[];
   processSteps: { step: number; title: string; description: string }[];
-  results: string[]; // outcomes you can expect
+  results: string[];
+  faqs?: ArticleFaq[];
   pricingSignal: string;
-  timeline: string; // typical delivery window shown on cards
-  image: string; // cover image URL for cards + showcases
+  pricingTiers?: PriceTier[];
+  startingPrice?: number;
+  timeline: string;
+  relatedServices?: string[];
+  relatedIndustries?: string[];
+  relatedCaseStudies?: string[];
+  relatedInsights?: string[];
+  relatedMigrations?: string[];
+  tags?: string[];
+  image: string;
   order: number;
+  seo?: SeoFields;
 };
 
 export type PainPoint = { title: string; description: string };
@@ -52,10 +100,17 @@ export type IndustryParent = {
   shortDescription: string;
   painPoints: PainPoint[];
   popularServices: PopularServiceLink[];
+  faqs?: ArticleFaq[];
   exampleProject: string;
   commonUseCase: string;
   icon: string;
+  image?: string;
   order: number;
+  relatedServices?: string[];
+  relatedCaseStudies?: string[];
+  relatedInsights?: string[];
+  tags?: string[];
+  seo?: SeoFields;
 };
 
 export type Industry = {
@@ -71,10 +126,17 @@ export type Industry = {
   shortDescription: string;
   painPoints: PainPoint[];
   popularServices: PopularServiceLink[];
+  faqs?: ArticleFaq[];
   exampleProject: string;
   commonUseCase: string;
   icon: string;
+  image?: string;
   order: number;
+  relatedServices?: string[];
+  relatedCaseStudies?: string[];
+  relatedInsights?: string[];
+  tags?: string[];
+  seo?: SeoFields;
 };
 
 export type CaseResult = { value: string; label: string };
@@ -83,8 +145,8 @@ export type CaseStudy = {
   slug: string;
   title: string;
   client: string;
-  industry: string; // industry slug
-  servicesUsed: string[]; // service slugs
+  industry: string;
+  servicesUsed: string[];
   timeline: string;
   resultHeadline: string;
   challenge: string;
@@ -92,9 +154,13 @@ export type CaseStudy = {
   results: CaseResult[];
   techStack: string[];
   testimonialId?: string;
+  faqs?: ArticleFaq[];
+  relatedCaseStudies?: string[];
+  relatedInsights?: string[];
   featured: boolean;
-  accent: string; // hex tint applied over the duotone image
-  image: string; // cover image URL
+  accent: string;
+  image: string;
+  seo?: SeoFields;
 };
 
 export type PortfolioProject = {
@@ -108,14 +174,18 @@ export type PortfolioProject = {
   video?: string;
   accent: string;
   order: number;
-  /** Simple filter bucket for the work page. */
   category: string;
+  year?: number;
+  servicesUsed?: string[];
+  relatedIndustries?: string[];
+  relatedCaseStudies?: string[];
+  tags?: string[];
   logo?: {
     src: string;
     alt: string;
-    /** Light/white marks — tone down on light card backgrounds. */
     lightVariant?: boolean;
   };
+  seo?: SeoFields;
 };
 
 export type ArticleBlock =
@@ -123,10 +193,12 @@ export type ArticleBlock =
   | { type: "h2"; text: string }
   | { type: "h3"; text: string }
   | { type: "ul"; items: string[] }
-  | { type: "quote"; text: string };
+  | { type: "quote"; text: string }
+  | { type: "callout"; text: string; calloutVariant?: string }
+  | { type: "image"; image?: string; imageAlt?: string; text?: string };
 
 export type ArticleFaq = {
-  id: string;
+  id?: string;
   question: string;
   answer: string;
 };
@@ -137,26 +209,39 @@ export type Post = {
   excerpt: string;
   category: string;
   body: ArticleBlock[];
-  author: string; // team slug
-  publishedAt: string; // ISO date
-  updatedAt?: string; // ISO date — shown when content was revised
-  readTime: number; // minutes
+  author: string;
+  publishedAt: string;
+  updatedAt?: string;
+  readTime: number;
   featured: boolean;
   accent: string;
-  image: string; // cover image URL
-  /** Short list of topic tags (AEO entities). */
+  image: string;
   tags: string[];
-  /** Optional SEO overrides; fall back to title/excerpt when absent. */
   seoTitle?: string;
   seoDescription?: string;
   keywords?: string[];
-  /** Dedicated OG/Twitter image; falls back to `image`. */
   ogImage?: string;
-  /** 3–5 answer-first bullets surfaced above the body (AEO). */
   takeaways?: string[];
-  /** Inline FAQ section rendered with FAQPage JSON-LD (AEO). */
   faqs?: ArticleFaq[];
+  relatedServices?: string[];
+  relatedIndustries?: string[];
+  relatedMigrations?: string[];
+  relatedCustomSoftware?: string[];
+  relatedProducts?: string[];
+  relatedCaseStudies?: string[];
+  relatedPosts?: string[];
+  seo?: SeoFields;
 };
+
+export type ProductType =
+  | "software"
+  | "tool"
+  | "pdf"
+  | "guide"
+  | "checklist"
+  | "template"
+  | "freebie"
+  | "lead-magnet";
 
 export type ProductStatus =
   | "live"
@@ -168,13 +253,25 @@ export type ProductStatus =
 export type Product = {
   slug: string;
   title: string;
+  type?: ProductType;
   tagline: string;
   description: string;
+  features?: string[] | FeatureBullet[];
+  featureList?: string[];
   status: ProductStatus;
-  features: string[];
+  pricingTiers?: PriceTier[];
+  startingPrice?: number;
   ctaLabel: string;
   ctaHref: string;
+  image?: string;
+  resourceFile?: string;
+  externalUrl?: string;
+  relatedServices?: string[];
+  relatedIndustries?: string[];
+  relatedInsights?: string[];
+  tags?: string[];
   order: number;
+  seo?: SeoFields;
 };
 
 export type Testimonial = {
@@ -185,8 +282,12 @@ export type Testimonial = {
   company: string;
   industry: string;
   image?: string;
-  /** Platform-sourced reviews shown on the homepage carousel */
   platform?: boolean;
+  platformSource?: string;
+  platformUrl?: string;
+  rating?: number;
+  relatedServices?: string[];
+  relatedCaseStudies?: string[];
   featured: boolean;
 };
 
@@ -194,22 +295,71 @@ export type TeamMember = {
   slug: string;
   name: string;
   role: string;
+  shortRole?: string;
   bio: string[];
+  shortBio?: string;
   linkedin?: string;
   twitter?: string;
   upwork?: string;
+  website?: string;
+  avatar?: string;
+  order?: number;
 };
 
 export type Author = TeamMember & {
   avatar?: string;
+  shortBio?: string;
+};
+
+export type FaqItem = {
+  id: string;
+  question: string;
+  answer: string;
+  category?: string;
+  scopeServices?: string[];
+  scopeIndustries?: string[];
+  scopeMigrations?: string[];
+  tags?: string[];
+  order: number;
 };
 
 export type SiteSettings = {
   siteTitle: string;
   siteDescription: string;
-  contactEmail: string;
-  responseTime: string;
+  siteUrl?: string;
   announcementBar?: string;
-  socialLinks: { linkedin: string; twitter: string; github: string };
+  contactEmail: string;
+  contactPhone?: string;
+  responseTime: string;
+  address?: string;
+  officeHours?: string;
+  socialLinks: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+    instagram?: string;
+    youtube?: string;
+  };
   stats: { value: string; label: string }[];
+  twitterCreator?: string;
+  defaultOgImage?: string;
+  defaultSeo?: SeoFields;
+  headerScripts?: string;
+};
+
+export type Redirect = {
+  from: string;
+  to: string;
+  statusCode: number;
+  permanent: boolean;
+};
+
+export type StaticPage = {
+  slug: string;
+  title: string;
+  path: string;
+  heroHeadline?: string;
+  heroSubhead?: string;
+  body?: unknown;
+  seo?: SeoFields;
 };

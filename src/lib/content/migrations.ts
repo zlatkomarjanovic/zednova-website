@@ -1,9 +1,29 @@
+import type { ArticleFaq, FeatureBullet, SeoFields } from "@/lib/types";
+
 export type Migration = {
   slug: string;
   title: string;
   shortDescription: string;
   description: string;
   order: number;
+  heroHeadline?: string;
+  heroSubhead?: string;
+  sourcePlatform?: string;
+  targetPlatform?: string;
+  whatsIncluded?: FeatureBullet[];
+  deliverables?: string[];
+  processSteps?: { step: number; title: string; description: string }[];
+  faqs?: ArticleFaq[];
+  timeline?: string;
+  pricingSignal?: string;
+  coverImage?: { url: string; alt?: string };
+  coverImageUrl?: string;
+  relatedServices?: string[];
+  relatedIndustries?: string[];
+  relatedInsights?: string[];
+  relatedMigrations?: string[];
+  tags?: string[];
+  seo?: SeoFields;
 };
 
 export const migrations: Migration[] = [

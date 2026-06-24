@@ -1,9 +1,5 @@
-export type FaqItem = {
-  id: string;
-  question: string;
-  answer: string;
-  order: number;
-};
+import type { FaqItem } from "@/lib/types";
+export type { FaqItem };
 
 export const faqs: FaqItem[] = [
   {

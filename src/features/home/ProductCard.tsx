@@ -63,7 +63,7 @@ export function ProductCard({
       <p className="zn-prose relative">{product.description}</p>
 
       <ul className="relative grid gap-2.5">
-        {product.features.map((feature) => (
+        {(product.featureList ?? []).map((feature) => (
           <li key={feature} className="flex items-start gap-2.5 text-sm text-zn-text">
             <Check className="mt-0.5 size-4 shrink-0 text-zn-text-3" aria-hidden="true" />
             {feature}

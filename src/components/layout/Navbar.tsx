@@ -35,7 +35,10 @@ const MENU_ORDER: MegaMenuType[] = [
   "industries",
 ];
 
-const LINKS_BEFORE_ABOUT = [{ label: "Work", href: "/work" }];
+const LINKS_BEFORE_ABOUT = [
+  { label: "Work", href: "/work" },
+  { label: "Resources", href: "/resources" },
+];
 
 const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },

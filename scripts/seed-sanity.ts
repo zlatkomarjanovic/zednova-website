@@ -95,14 +95,34 @@ for (const service of services) {
     icon: service.icon,
     shortDescription: service.shortDescription,
     whatItIs: service.whatItIs,
+    heroHeadline: service.title,
+    heroSubhead: service.whatItIs,
     deliverables: service.deliverables,
+    whatsIncluded: service.deliverables.map((d) => ({
+      _type: "featureBullet",
+      _key: slugify(d).slice(0, 20),
+      title: d,
+    })),
     idealClients: service.idealClients,
-    processSteps: service.processSteps,
+    processSteps: service.processSteps.map((step) => ({
+      ...step,
+      _type: "processStep",
+      _key: `step-${step.step}`,
+    })),
     results: service.results,
     pricingSignal: service.pricingSignal,
+    startingPrice: undefined,
     timeline: service.timeline,
     coverImageUrl: service.image || undefined,
     order: service.order,
+    seo: {
+      _type: "seoFields",
+      seoTitle: service.title,
+      seoDescription: service.whatItIs,
+      keywords: [service.category, service.group],
+      ogType: "website",
+      twitterCard: "summary_large_image",
+    },
   });
 }
 
@@ -154,7 +174,6 @@ const sectionMeta = new Map(
 );
 
 customSoftwareNavItems.forEach((item, index) => {
-  const key = `${item.title}::${item.href}`;
   const inGroup = customSoftwareGroups.find((g) =>
     g.items.some((i) => i.title === item.title && i.href === item.href),
   );
@@ -164,11 +183,20 @@ customSoftwareNavItems.forEach((item, index) => {
     _id: `customSoftware-${slugify(item.title)}`,
     _type: "customSoftware",
     title: item.title,
+    slug: { _type: "slug", current: slugify(item.title) },
     shortDescription: item.shortDescription,
+    whatItIs: item.shortDescription,
     href: item.href,
     order: index + 1,
     showInNav: true,
     ...(section ?? {}),
+    seo: {
+      _type: "seoFields",
+      seoTitle: item.title,
+      seoDescription: item.shortDescription,
+      ogType: "website",
+      twitterCard: "summary_large_image",
+    },
   });
 });
 
@@ -182,12 +210,24 @@ for (const migration of migrations) {
     slug: { _type: "slug", current: migration.slug },
     shortDescription: migration.shortDescription,
     description: migration.description,
+    heroHeadline: migration.title,
+    heroSubhead: migration.shortDescription,
+    sourcePlatform: migration.title.split(" to ")[0]?.trim() || undefined,
+    targetPlatform: "Next.js",
     order: migration.order,
+    seo: {
+      _type: "seoFields",
+      seoTitle: migration.title,
+      seoDescription: migration.shortDescription,
+      ogType: "website",
+      twitterCard: "summary_large_image",
+    },
   });
 }
 
 /* ----------------------------- Industries ----------------------------- */
 
+// Build nav order map from the static nav list (15 curated items).
 const navSlugOrder = new Map<
   string,
   { order: number; title: string; shortDescription: string }
@@ -201,8 +241,23 @@ industryNavItems.forEach((item, index) => {
   });
 });
 
+// Every CMS industry is eligible for nav; we fall back to the next available order
+// for any industry that does not appear in the curated static nav list.
+let fallbackOrder = industryNavItems.length + 1;
+function navFor(slug: string, fallbackTitle: string, fallbackDesc?: string) {
+  const curated = navSlugOrder.get(slug);
+  if (curated) return { show: true, ...curated };
+  const order = fallbackOrder++;
+  return {
+    show: true,
+    order,
+    title: fallbackTitle,
+    shortDescription: fallbackDesc ?? "",
+  };
+}
+
 for (const parent of industryParents) {
-  const nav = navSlugOrder.get(parent.slug);
+  const nav = navFor(parent.slug, parent.title, parent.shortDescription);
   add({
     _id: `industryParent-${parent.slug}`,
     _type: "industryParent",
@@ -221,15 +276,23 @@ for (const parent of industryParents) {
     commonUseCase: parent.commonUseCase,
     icon: parent.icon,
     order: parent.order,
-    showInMainNav: nav != null,
-    navOrder: nav?.order,
-    navTitle: nav?.title,
-    navShortDescription: nav?.shortDescription,
+    showInMainNav: nav.show,
+    navOrder: nav.order,
+    navTitle: nav.title,
+    navShortDescription: nav.shortDescription,
+    seo: {
+      _type: "seoFields",
+      seoTitle: parent.title,
+      seoDescription: parent.shortDescription,
+      keywords: [parent.category, parent.title],
+      ogType: "website",
+      twitterCard: "summary_large_image",
+    },
   });
 }
 
 for (const industry of industries) {
-  const nav = navSlugOrder.get(industry.slug);
+  const nav = navFor(industry.slug, industry.title, industry.shortDescription);
   add({
     _id: `industry-${industry.slug}`,
     _type: "industry",
@@ -252,10 +315,18 @@ for (const industry of industries) {
     commonUseCase: industry.commonUseCase,
     icon: industry.icon,
     order: industry.order,
-    showInMainNav: nav != null,
-    navOrder: nav?.order,
-    navTitle: nav?.title,
-    navShortDescription: nav?.shortDescription,
+    showInMainNav: nav.show,
+    navOrder: nav.order,
+    navTitle: nav.title,
+    navShortDescription: nav.shortDescription,
+    seo: {
+      _type: "seoFields",
+      seoTitle: industry.title,
+      seoDescription: industry.shortDescription,
+      keywords: [industry.category, industry.title],
+      ogType: "website",
+      twitterCard: "summary_large_image",
+    },
   });
 }
 
@@ -284,8 +355,14 @@ categoryTitles.forEach((title, index) => {
     _type: "insightCategory",
     title,
     slug: { _type: "slug", current: categorySlug },
+    description: `Insights about ${title.toLowerCase()} from ZedNova Studios.`,
     icon: CATEGORY_ICONS[title] ?? "insights",
     order: index + 1,
+    seo: {
+      _type: "seoFields",
+      seoTitle: `${title} Insights`,
+      seoDescription: `Insights about ${title.toLowerCase()} from ZedNova Studios.`,
+    },
   });
 });
 
@@ -297,6 +374,12 @@ allTags.forEach((title) => {
     _type: "tag",
     title,
     slug: { _type: "slug", current: tagSlug },
+    description: `Topics tagged "${title}".`,
+    seo: {
+      _type: "seoFields",
+      seoTitle: title,
+      seoDescription: `Topics tagged "${title}".`,
+    },
   });
 });
 
@@ -308,14 +391,54 @@ for (const member of team) {
     slug: { _type: "slug", current: member.slug },
     role: member.role,
     bio: member.bio,
+    shortBio: member.bio[0],
     linkedin: member.linkedin,
     twitter: member.twitter,
     upwork: member.upwork,
+    seo: {
+      _type: "seoFields",
+      seoTitle: member.name,
+      seoDescription: member.bio[0],
+      ogType: "profile",
+    },
+  });
+}
+
+for (const member of team) {
+  add({
+    _id: `teamMember-${member.slug}`,
+    _type: "teamMember",
+    name: member.name,
+    slug: { _type: "slug", current: member.slug },
+    role: member.role,
+    shortRole: member.role,
+    bio: member.bio,
+    shortBio: member.bio[0],
+    linkedin: member.linkedin,
+    twitter: member.twitter,
+    upwork: member.upwork,
+    order: 1,
+    seo: {
+      _type: "seoFields",
+      seoTitle: member.name,
+      seoDescription: member.bio[0],
+    },
   });
 }
 
 for (const post of posts) {
   const categorySlug = slugify(post.category);
+
+  // Match posts to services by overlapping tags/category
+  const matchedServiceSlugs = services
+    .filter((s) =>
+      post.tags.some((t) =>
+        s.title.toLowerCase().includes(t.toLowerCase()) ||
+        s.category.toLowerCase().includes(t.toLowerCase()),
+      ) || s.category === post.category,
+    )
+    .map((s) => s.slug);
+
   add({
     _id: `post-${post.slug}`,
     _type: "post",
@@ -343,11 +466,21 @@ for (const post of posts) {
     })),
     takeaways: post.takeaways,
     faqs: post.faqs,
+    relatedServices: matchedServiceSlugs.length
+      ? matchedServiceSlugs.map((slug) => ({
+          _type: "reference",
+          _key: slug,
+          _ref: `service-${slug}`,
+        }))
+      : undefined,
     seo: {
       _type: "seoFields",
-      seoTitle: post.seoTitle,
-      seoDescription: post.seoDescription,
-      keywords: post.keywords,
+      seoTitle: post.seoTitle ?? post.title,
+      seoDescription: post.seoDescription ?? post.excerpt,
+      keywords: post.keywords ?? post.tags,
+      ogType: "article",
+      ogImage: post.image ? undefined : undefined, // would upload cover image to Sanity in production
+      twitterCard: "summary_large_image",
     },
     articleBlocks: post.body,
   });
@@ -358,24 +491,60 @@ for (const post of posts) {
 add({
   _id: "siteSettings",
   _type: "siteSettings",
-  ...siteSettings,
+  siteTitle: siteSettings.siteTitle,
+  siteDescription: siteSettings.siteDescription,
+  siteUrl: "https://zednova.com",
+  announcementBar: siteSettings.announcementBar,
+  contactEmail: siteSettings.contactEmail,
+  responseTime: siteSettings.responseTime,
+  socialLinks: siteSettings.socialLinks,
+  stats: siteSettings.stats,
+  twitterCreator: "@zednova",
+  defaultSeo: {
+    _type: "seoFields",
+    seoTitle: siteSettings.siteTitle,
+    seoDescription: siteSettings.siteDescription,
+    ogType: "website",
+    twitterCard: "summary_large_image",
+  },
 });
 
 /* ----------------------------- Products ----------------------------- */
 
+const PRODUCT_TYPE_INFER: Record<string, string> = {
+  "anti-slop-stack": "freebie",
+  "framer-marketplace-components": "software",
+  "prospect-engine": "software",
+  "zednova-os": "software",
+};
+
 for (const product of products) {
+  const features = product.features as unknown as string[];
   add({
     _id: `product-${product.slug}`,
     _type: "product",
     title: product.title,
     slug: { _type: "slug", current: product.slug },
+    type: PRODUCT_TYPE_INFER[product.slug] ?? "software",
     tagline: product.tagline,
     description: product.description,
+    featureList: features,
+    features: features.map((f) => ({
+      _type: "featureBullet",
+      _key: slugify(f).slice(0, 20),
+      title: f,
+    })),
     status: product.status,
-    features: product.features,
     ctaLabel: product.ctaLabel,
     ctaHref: product.ctaHref,
     order: product.order,
+    seo: {
+      _type: "seoFields",
+      seoTitle: product.title,
+      seoDescription: product.description,
+      ogType: "product",
+      twitterCard: "summary_large_image",
+    },
   });
 }
 
@@ -391,7 +560,9 @@ for (const testimonial of testimonials) {
     company: testimonial.company,
     industry: testimonial.industry,
     platform: testimonial.platform ?? false,
+    platformSource: "Direct",
     featured: testimonial.featured,
+    rating: 5,
   });
 }
 
@@ -411,6 +582,7 @@ for (const project of portfolioProjects) {
     videoUrl: project.video,
     accent: project.accent,
     category: project.category,
+    year: new Date().getFullYear(),
     order: project.order,
     logo: project.logo
       ? {
@@ -420,6 +592,13 @@ for (const project of portfolioProjects) {
           lightVariant: project.logo.lightVariant,
         }
       : undefined,
+    seo: {
+      _type: "seoFields",
+      seoTitle: project.title,
+      seoDescription: project.summary,
+      ogType: "website",
+      twitterCard: "summary_large_image",
+    },
   });
 }
 
@@ -453,20 +632,109 @@ for (const study of caseStudies) {
     featured: study.featured,
     accent: study.accent,
     coverImageUrl: study.image,
+    seo: {
+      _type: "seoFields",
+      seoTitle: study.title,
+      seoDescription: `${study.client}: ${study.resultHeadline}.`,
+      ogType: "article",
+      twitterCard: "summary_large_image",
+    },
   });
 }
 
 /* ----------------------------- FAQs ----------------------------- */
 
-for (const item of faqs) {
+const FAQ_CATEGORY_INFER = (question: string): string => {
+  const q = question.toLowerCase();
+  if (q.includes("build")) return "Services";
+  if (q.includes("price") || q.includes("cost")) return "Pricing";
+  if (q.includes("long") || q.includes("timeline")) return "Process";
+  if (q.includes("industry") || q.includes("who do you")) return "Industries";
+  if (q.includes("migrat")) return "Migrations";
+  if (q.includes("ai") || q.includes("chatbot") || q.includes("chatgpt")) return "Services";
+  if (q.includes("support") || q.includes("own") || q.includes("app")) return "General";
+  return "General";
+};
+
+faqs.forEach((item, index) => {
   add({
     _id: `faq-${item.id}`,
     _type: "faq",
     question: item.question,
     answer: item.answer,
-    order: item.order,
+    category: FAQ_CATEGORY_INFER(item.question),
+    order: index + 1,
+    tags: [],
   });
-}
+});
+
+/* ----------------------------- Static pages ----------------------------- */
+
+const staticPages = [
+  {
+    path: "/about",
+    title: "About ZedNova Studios",
+    heroHeadline: "A studio of one. A standard of ten.",
+  },
+  {
+    path: "/contact",
+    title: "Contact ZedNova Studios",
+    heroHeadline: "Tell us what you need.",
+  },
+  {
+    path: "/work",
+    title: "Work — ZedNova Studios",
+    heroHeadline: "Projects and case studies",
+  },
+  {
+    path: "/insights",
+    title: "Insights — ZedNova Studios",
+    heroHeadline: "Notes on AI search, conversion, and systems",
+  },
+  {
+    path: "/services",
+    title: "Services — ZedNova Studios",
+    heroHeadline: "Website design, Shopify, automation, and AI tools",
+  },
+  {
+    path: "/industries",
+    title: "Industries — ZedNova Studios",
+    heroHeadline: "Industries we serve",
+  },
+  {
+    path: "/migrations",
+    title: "Migrations — ZedNova Studios",
+    heroHeadline: "Move to a modern stack",
+  },
+  {
+    path: "/custom-software",
+    title: "Custom Software — ZedNova Studios",
+    heroHeadline: "Portals, dashboards, and internal tools",
+  },
+  {
+    path: "/resources",
+    title: "Resources — ZedNova Studios",
+    heroHeadline: "Guides, freebies, and software we ship",
+  },
+];
+
+staticPages.forEach((p, i) => {
+  add({
+    _id: `page-${slugify(p.path)}`,
+    _type: "page",
+    title: p.title,
+    slug: { _type: "slug", current: slugify(p.path) || "home" },
+    path: p.path,
+    heroHeadline: p.heroHeadline,
+    seo: {
+      _type: "seoFields",
+      seoTitle: p.title,
+      ogType: "website",
+      twitterCard: "summary_large_image",
+    },
+  });
+  void i;
+});
 
 /* ----------------------------- Commit ----------------------------- */
 

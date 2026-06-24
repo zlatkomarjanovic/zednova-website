@@ -22,6 +22,7 @@ import { StatsRow } from "@/features/home/StatsRow";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { FaqSection } from "@/components/sections/FaqSection";
 
 export async function generateStaticParams() {
   const caseStudies = await getAllCaseStudies();
@@ -36,16 +37,36 @@ export async function generateMetadata({
   const { slug } = await params;
   const caseStudy = await getCaseStudyBySlug(slug);
   if (!caseStudy) return {};
+
+  const title = caseStudy.seo?.seoTitle ?? caseStudy.title;
+  const description =
+    caseStudy.seo?.seoDescription ??
+    `${caseStudy.client}: ${caseStudy.resultHeadline}.`;
+  const canonical = caseStudy.seo?.seoCanonical ?? `/work/${slug}`;
+
   return {
-    title: caseStudy.title,
-    description: `${caseStudy.client}: ${caseStudy.resultHeadline}.`,
-    alternates: { canonical: `/work/${slug}` },
+    title,
+    description,
+    keywords: caseStudy.seo?.keywords,
+    alternates: { canonical },
+    robots: caseStudy.seo?.seoNoIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       type: "website",
-      url: `/work/${slug}`,
-      title: caseStudy.title,
-      description: `${caseStudy.client}: ${caseStudy.resultHeadline}.`,
-      images: [{ url: caseStudy.image, alt: caseStudy.title }],
+      url: canonical,
+      title,
+      description,
+      images: caseStudy.seo?.ogImage
+        ? [caseStudy.seo.ogImage]
+        : [{ url: caseStudy.image, alt: caseStudy.title }],
+    },
+    twitter: {
+      card: (caseStudy.seo?.twitterCard ?? "summary_large_image") as
+        | "summary"
+        | "summary_large_image"
+        | "player"
+        | "app",
+      title: caseStudy.seo?.twitterTitle ?? title,
+      description: caseStudy.seo?.twitterDescription ?? description,
     },
   };
 }
@@ -229,6 +250,10 @@ export default async function CaseStudyPage({
             </figure>
           </div>
         </section>
+      )}
+
+      {caseStudy.faqs && caseStudy.faqs.length > 0 && (
+        <FaqSection faqs={caseStudy.faqs} title="FAQ" />
       )}
 
       {/* Next project */}

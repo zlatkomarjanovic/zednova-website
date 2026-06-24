@@ -6,8 +6,10 @@ import { ArrowRight, Check } from "lucide-react";
 import {
   getAllServices,
   getCaseStudiesByService,
+  getInsightsByService,
   getIndustryTitle,
   getServiceBySlug,
+  getServicesBySlugs,
 } from "@/lib/queries";
 import { serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
@@ -21,6 +23,9 @@ import { ProcessSteps } from "@/features/home/ProcessSteps";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { FaqSection } from "@/components/sections/FaqSection";
+import { ArticleCard } from "@/features/insights/ArticleCard";
+import { slugify } from "@/lib/utils";
 
 export async function generateStaticParams() {
   const services = await getAllServices();
@@ -35,17 +40,37 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
   if (!service) return {};
+
+  const title = service.seo?.seoTitle ?? service.title;
+  const description = service.seo?.seoDescription ?? service.whatItIs;
+  const ogImage = service.seo?.ogImage ?? service.image;
+  const noIndex = service.seo?.seoNoIndex ?? false;
+
   return {
-    title: service.title,
-    description: service.whatItIs,
-    alternates: { canonical: `/services/${slug}` },
+    title,
+    description,
+    keywords: service.seo?.keywords,
+    alternates: { canonical: service.seo?.seoCanonical ?? `/services/${slug}` },
     openGraph: {
       type: "website",
       url: `/services/${slug}`,
-      title: service.title,
-      description: service.whatItIs,
-      images: [{ url: service.image, alt: service.title }],
+      title,
+      description,
+      images: ogImage ? [{ url: ogImage, alt: service.title }] : undefined,
     },
+    twitter: {
+      card: (service.seo?.twitterCard ?? "summary_large_image") as
+        | "summary"
+        | "summary_large_image"
+        | "player"
+        | "app",
+      title: service.seo?.twitterTitle ?? title,
+      description: service.seo?.twitterDescription ?? description,
+      images: service.seo?.twitterImage ? [service.seo.twitterImage] : undefined,
+    },
+    robots: noIndex
+      ? { index: false, follow: false }
+      : { index: true, follow: true },
   };
 }
 
@@ -58,7 +83,13 @@ export default async function ServiceDetailPage({
   const service = await getServiceBySlug(slug);
   if (!service) notFound();
 
-  const related = await getCaseStudiesByService(slug);
+  const [related, insights, relatedServices] = await Promise.all([
+    getCaseStudiesByService(slug),
+    getInsightsByService(slug, 3),
+    service.relatedServices
+      ? getServicesBySlugs(service.relatedServices)
+      : Promise.resolve([]),
+  ]);
   const relatedWithLabels = await Promise.all(
     related.map(async (caseStudy) => ({
       caseStudy,
@@ -71,17 +102,24 @@ export default async function ServiceDetailPage({
     { label: service.title },
   ];
 
+  const whatsIncluded =
+    service.whatsIncluded && service.whatsIncluded.length > 0
+      ? service.whatsIncluded
+      : service.deliverables.map((d) => ({ title: d, description: undefined }));
+
+  const hasFaq = Boolean(service.faqs && service.faqs.length);
+
   return (
     <>
       <JsonLd
         data={[serviceJsonLd(service), breadcrumbJsonLd(crumbs)]}
       />
 
-      {/* Hero — guides framing */}
+      {/* Hero */}
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-zn-border">
+          <div className="relative border-x border-b border-zn-border">
             <div className="relative border-b border-zn-border">
               <div className="zn-container-inset pb-16 pt-32 lg:pb-20 lg:pt-44">
                 <Breadcrumbs items={crumbs} />
@@ -95,12 +133,12 @@ export default async function ServiceDetailPage({
                 </Reveal>
                 <TextReveal
                   as="h1"
-                  text={service.title}
+                  text={service.heroHeadline ?? service.title}
                   className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
                 />
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
-                    {service.whatItIs}
+                    {service.heroSubhead ?? service.whatItIs}
                   </p>
                 </Reveal>
                 <Reveal delay={0.15}>
@@ -119,7 +157,7 @@ export default async function ServiceDetailPage({
         </div>
       </section>
 
-      {/* Investment + deliverables */}
+      {/* Investment + What's included */}
       <section data-theme="light" className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]">
         <div className="zn-container-guides relative">
           <div className="relative border-x border-b border-zn-border">
@@ -130,7 +168,44 @@ export default async function ServiceDetailPage({
                   <p className="mt-3 font-mono text-2xl text-zn-text">
                     {service.pricingSignal}
                   </p>
+                  {service.startingPrice != null && (
+                    <p className="mt-1 text-sm text-zn-text-3">
+                      From ${service.startingPrice.toLocaleString()}
+                    </p>
+                  )}
                   <p className="mt-2 text-sm text-zn-text-3">{service.timeline}</p>
+
+                  {service.pricingTiers && service.pricingTiers.length > 0 && (
+                    <div className="mt-6 space-y-3">
+                      {service.pricingTiers.map((tier) => (
+                        <div
+                          key={tier.label}
+                          className="border-t border-zn-border pt-3"
+                        >
+                          <div className="flex items-baseline justify-between gap-3">
+                            <span className="font-medium text-zn-text">
+                              {tier.label}
+                            </span>
+                            <span className="font-mono text-sm text-zn-text-2">
+                              ${tier.amount.toLocaleString()}
+                              {tier.period ? ` / ${tier.period}` : ""}
+                            </span>
+                          </div>
+                          {tier.features && tier.features.length > 0 && (
+                            <ul className="mt-2 grid gap-1.5 text-sm text-zn-text-2">
+                              {tier.features.map((f) => (
+                                <li key={f} className="flex gap-2">
+                                  <Check className="mt-0.5 size-3.5 text-zn-text-3" aria-hidden="true" />
+                                  <span>{f}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="mt-6">
                     <Button
                       href={`/contact?service=${service.slug}`}
@@ -151,13 +226,20 @@ export default async function ServiceDetailPage({
                   className="mt-6 grid gap-x-10 gap-y-4 sm:grid-cols-2"
                   stagger={0.04}
                 >
-                  {service.deliverables.map((item) => (
+                  {whatsIncluded.map((item) => (
                     <div
-                      key={item}
+                      key={item.title}
                       className="flex items-start gap-3 border-b border-zn-border pb-4 text-zn-text"
                     >
                       <Check className="mt-0.5 size-4 shrink-0 text-zn-text-3" aria-hidden="true" />
-                      <span>{item}</span>
+                      <div>
+                        <p className="font-medium">{item.title}</p>
+                        {item.description && (
+                          <p className="mt-1 text-sm text-zn-text-2">
+                            {item.description}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </Stagger>
@@ -195,43 +277,50 @@ export default async function ServiceDetailPage({
       </section>
 
       {/* Process */}
-      <section data-theme="light" className="zn-section">
-        <div className="zn-container">
-          <Reveal>
-            <SectionLabel withRule={false}>Our process</SectionLabel>
-          </Reveal>
-          <TextReveal
-            as="h2"
-            text={`How we deliver ${service.title.toLowerCase()}`}
-            className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
-          />
-          <div className="mt-16">
-            <ProcessSteps steps={service.processSteps} />
+      {service.processSteps.length > 0 && (
+        <section data-theme="light" className="zn-section">
+          <div className="zn-container">
+            <Reveal>
+              <SectionLabel withRule={false}>Our process</SectionLabel>
+            </Reveal>
+            <TextReveal
+              as="h2"
+              text={`How we deliver ${service.title.toLowerCase()}`}
+              className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+            />
+            <div className="mt-16">
+              <ProcessSteps steps={service.processSteps} />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Results (dark) */}
-      <section data-theme="dark" className="zn-section bg-zn-dark text-zn-inv">
-        <div className="zn-container">
-          <Reveal>
-            <SectionLabel withRule={false} className="text-zn-inv-2">
-              Results you can expect
-            </SectionLabel>
-          </Reveal>
-          <Stagger
-            className="mt-10 grid gap-px overflow-hidden rounded-[2px] border border-zn-border-dk bg-zn-border-dk md:grid-cols-3"
-            stagger={0.05}
-          >
-            {service.results.map((result) => (
-              <div key={result} className="bg-zn-dark p-8">
-                <Check className="size-5 text-zn-inv" aria-hidden="true" />
-                <p className="mt-4 leading-relaxed text-zn-inv">{result}</p>
-              </div>
-            ))}
-          </Stagger>
-        </div>
-      </section>
+      {service.results.length > 0 && (
+        <section data-theme="dark" className="zn-section bg-zn-dark text-zn-inv">
+          <div className="zn-container">
+            <Reveal>
+              <SectionLabel withRule={false} className="text-zn-inv-2">
+                Results you can expect
+              </SectionLabel>
+            </Reveal>
+            <Stagger
+              className="mt-10 grid gap-px overflow-hidden rounded-[2px] border border-zn-border-dk bg-zn-border-dk md:grid-cols-3"
+              stagger={0.05}
+            >
+              {service.results.map((result) => (
+                <div key={result} className="bg-zn-dark p-8">
+                  <Check className="size-5 text-zn-inv" aria-hidden="true" />
+                  <p className="mt-4 leading-relaxed text-zn-inv">{result}</p>
+                </div>
+              ))}
+            </Stagger>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ (CMS-driven) */}
+      {hasFaq && <FaqSection faqs={service.faqs!} title={`${service.title} FAQ`} id={`${slugify(service.title)}-faq`} />}
 
       {/* Related case studies */}
       {related.length > 0 && (
@@ -267,6 +356,78 @@ export default async function ServiceDetailPage({
                 />
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Related insights */}
+      {insights.length > 0 && (
+        <section data-theme="light" className="zn-section">
+          <div className="zn-container">
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <Reveal>
+                  <SectionLabel withRule={false}>Related insights</SectionLabel>
+                </Reveal>
+                <TextReveal
+                  as="h2"
+                  text="Notes that connect to this service"
+                  className="mt-6 zn-h2 font-sans font-normal"
+                />
+              </div>
+              <Reveal delay={0.1}>
+                <Link
+                  href="/insights"
+                  className="hidden items-center gap-1.5 text-sm font-medium text-zn-text sm:inline-flex"
+                >
+                  <span className="zn-underline">All insights</span>
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </Reveal>
+            </div>
+            <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+              {insights.map((post) => (
+                <ArticleCard key={post.slug} post={post} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Related services */}
+      {relatedServices.length > 0 && (
+        <section data-theme="light" className="zn-section">
+          <div className="zn-container">
+            <Reveal>
+              <SectionLabel withRule={false}>Related services</SectionLabel>
+            </Reveal>
+            <TextReveal
+              as="h2"
+              text="Often combined with"
+              className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+            />
+            <Stagger
+              className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+              stagger={0.05}
+            >
+              {relatedServices.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/services/${s.slug}`}
+                  className="group flex flex-col gap-3 rounded-[2px] border border-zn-border bg-zn-bg-2 p-6 transition-colors hover:border-zn-text"
+                >
+                  <span className="font-mono text-xs text-zn-text-3">
+                    {s.number}
+                  </span>
+                  <span className="font-sans text-lg font-normal text-zn-text">
+                    {s.title}
+                  </span>
+                  <span className="text-sm leading-relaxed text-zn-text-2">
+                    {s.shortDescription}
+                  </span>
+                </Link>
+              ))}
+            </Stagger>
           </div>
         </section>
       )}
