@@ -29,7 +29,7 @@ export function IndustriesPageGrids({
           key={group.id}
           className="border-b border-zn-border [content-visibility:auto]"
         >
-          <div className="zn-container-inset border-b border-zn-border py-12 lg:py-14">
+          <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
             <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div className="max-w-2xl">
                 <SectionLabel withRule={false}>{group.parentTitle}</SectionLabel>
@@ -37,7 +37,11 @@ export function IndustriesPageGrids({
                 <p className="zn-prose mt-5 max-w-lg">{group.description}</p>
               </div>
               <Link
-                href={`/industries/${group.parentSlug}`}
+                href={
+                  group.parentSlug === "small-business-custom-software"
+                    ? "/custom-software"
+                    : `/industries/${group.parentSlug}`
+                }
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-zn-text"
               >
                 <span className="zn-underline">Explore {group.parentTitle}</span>
@@ -51,7 +55,7 @@ export function IndustriesPageGrids({
       ))}
 
       <div className="[content-visibility:auto]">
-        <div className="zn-container-inset border-b border-zn-border py-12 lg:py-14">
+        <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
           <SectionLabel withRule={false}>All industries</SectionLabel>
           <h2 className="mt-6 max-w-2xl zn-h2 font-sans font-normal">
             More teams we build for

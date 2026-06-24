@@ -7,7 +7,11 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { PageHero } from "@/features/home/PageHero";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { resolveContactPrefill } from "@/lib/content/contact-options";
-import { getSiteSettings } from "@/lib/queries";
+import {
+  getContactIndustryOptions,
+  getContactServiceOptions,
+  getSiteSettings,
+} from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -36,7 +40,11 @@ export default async function ContactPage({
   searchParams: Promise<{ service?: string; industry?: string; product?: string }>;
 }) {
   const params = await searchParams;
-  const settings = await getSiteSettings();
+  const [settings, serviceOptions, industryOptions] = await Promise.all([
+    getSiteSettings(),
+    getContactServiceOptions(),
+    getContactIndustryOptions(),
+  ]);
   const defaults = resolveContactPrefill(params);
 
   return (
@@ -65,7 +73,11 @@ export default async function ContactPage({
             <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
 
             <div className="grid lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.65fr)] lg:divide-x lg:divide-zn-border">
-              <ContactForm defaults={defaults} />
+              <ContactForm
+                defaults={defaults}
+                serviceOptions={serviceOptions}
+                industryOptions={industryOptions}
+              />
 
               <aside className="border-t border-zn-border px-6 py-10 lg:border-t-0 md:px-8 md:py-12">
                 <Reveal>

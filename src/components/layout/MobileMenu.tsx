@@ -6,11 +6,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X, Plus, Minus } from "lucide-react";
 import { Logo } from "@/ui/Logo";
 import { Button } from "@/ui/Button";
-import type { Migration } from "@/lib/content/migrations";
-import { megaMenuNavLinks, serviceMegaMenuCards, type NavMenuItem } from "@/lib/content/nav-menu";
+import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import { megaMenuNavLinks } from "@/lib/types/content-nav";
 
-const DIRECT_LINKS = [
-  { label: "Work", href: "/work" },
+const LINKS_BEFORE_ABOUT = [{ label: "Work", href: "/work" }];
+
+const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
 ];
@@ -21,12 +22,14 @@ export function MobileMenu({
   industryNavItems,
   customSoftwareNavItems,
   migrations,
+  serviceMegaMenuCards,
 }: {
   open: boolean;
   onClose: () => void;
   industryNavItems: NavMenuItem[];
   customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
+  serviceMegaMenuCards: ServiceMegaMenuCard[];
 }) {
   const [section, setSection] = useState<
     "services" | "industries" | "custom-software" | "migrations" | null
@@ -92,30 +95,6 @@ export function MobileMenu({
             </Accordion>
 
             <Accordion
-              title={megaMenuNavLinks.industries.label}
-              href={megaMenuNavLinks.industries.href}
-              isOpen={section === "industries"}
-              onToggle={() =>
-                setSection(section === "industries" ? null : "industries")
-              }
-              onNavigate={onClose}
-            >
-              <ul className="grid gap-1 pb-2">
-                {industryNavItems.map((item) => (
-                  <li key={item.title}>
-                    <Link
-                      href={item.href}
-                      onClick={onClose}
-                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Accordion>
-
-            <Accordion
               title={megaMenuNavLinks["custom-software"].label}
               href={megaMenuNavLinks["custom-software"].href}
               isOpen={section === "custom-software"}
@@ -163,7 +142,42 @@ export function MobileMenu({
               </ul>
             </Accordion>
 
-            {DIRECT_LINKS.map((link) => (
+            <Accordion
+              title={megaMenuNavLinks.industries.label}
+              href={megaMenuNavLinks.industries.href}
+              isOpen={section === "industries"}
+              onToggle={() =>
+                setSection(section === "industries" ? null : "industries")
+              }
+              onNavigate={onClose}
+            >
+              <ul className="grid gap-1 pb-2">
+                {industryNavItems.map((item) => (
+                  <li key={item.title}>
+                    <Link
+                      href={item.href}
+                      onClick={onClose}
+                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Accordion>
+
+            {LINKS_BEFORE_ABOUT.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={onClose}
+                className="block border-b border-zn-border-dk py-5 font-sans font-normal text-2xl text-zn-inv"
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            {LINKS_AFTER_INDUSTRIES.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

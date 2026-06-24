@@ -7,8 +7,6 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 
 import { Button } from "@/ui/Button";
 import {
-  CONTACT_INDUSTRY_OPTIONS,
-  CONTACT_SERVICE_OPTIONS,
   type ContactPrefill,
 } from "@/lib/content/contact-options";
 import { BUDGET_OPTIONS, contactSchema, type ContactInput } from "@/lib/validation";
@@ -24,7 +22,15 @@ function FieldError({ message }: { message?: string }) {
   return <p className={ERROR}>{message}</p>;
 }
 
-export function ContactForm({ defaults }: { defaults: ContactPrefill }) {
+export function ContactForm({
+  defaults,
+  serviceOptions,
+  industryOptions,
+}: {
+  defaults: ContactPrefill;
+  serviceOptions: { value: string; label: string }[];
+  industryOptions: { value: string; label: string }[];
+}) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
     "idle",
   );
@@ -161,7 +167,7 @@ export function ContactForm({ defaults }: { defaults: ContactPrefill }) {
           </label>
           <select id="contact-service" className={FIELD} {...register("service")}>
             <option value="">Select a service</option>
-            {CONTACT_SERVICE_OPTIONS.map((option) => (
+            {serviceOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -176,7 +182,7 @@ export function ContactForm({ defaults }: { defaults: ContactPrefill }) {
           </label>
           <select id="contact-industry" className={FIELD} {...register("industry")}>
             <option value="">Select your industry</option>
-            {CONTACT_INDUSTRY_OPTIONS.map((option) => (
+            {industryOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

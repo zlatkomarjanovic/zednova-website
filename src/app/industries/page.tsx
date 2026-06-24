@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { getIndustryGroups } from "@/lib/queries";
-import { industryNavItems } from "@/lib/content/nav-menu";
+import { getIndustryGroups, getIndustryNavItems } from "@/lib/queries";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
@@ -17,7 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default async function IndustriesPage() {
-  const industryGroups = await getIndustryGroups();
+  const [industryGroups, industryNavItems] = await Promise.all([
+    getIndustryGroups(),
+    getIndustryNavItems(),
+  ]);
 
   const groups = industryGroups.map((group) => ({
     id: group.category,

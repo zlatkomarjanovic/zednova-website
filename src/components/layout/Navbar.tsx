@@ -15,28 +15,29 @@ import {
 } from "@/ui/HoverHighlight";
 import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
-import type { Migration } from "@/lib/content/migrations";
-import type { NavMenuItem } from "@/lib/content/nav-menu";
-import { megaMenuNavLinks } from "@/lib/content/nav-menu";
+import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import { megaMenuNavLinks } from "@/lib/types/content-nav";
 import { cn } from "@/lib/utils";
 
 type NavbarProps = {
   industryNavItems: NavMenuItem[];
   customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
+  serviceMegaMenuCards: ServiceMegaMenuCard[];
 };
 
 type MegaMenuType = "services" | "industries" | "custom-software" | "migrations";
 
 const MENU_ORDER: MegaMenuType[] = [
   "services",
-  "industries",
   "custom-software",
   "migrations",
+  "industries",
 ];
 
-const LINKS = [
-  { label: "Work", href: "/work" },
+const LINKS_BEFORE_ABOUT = [{ label: "Work", href: "/work" }];
+
+const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
 ];
@@ -123,6 +124,7 @@ export function Navbar({
   industryNavItems,
   customSoftwareNavItems,
   migrations,
+  serviceMegaMenuCards,
 }: NavbarProps) {
   const pathname = usePathname();
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -345,14 +347,6 @@ export function Navbar({
               onHighlight={navHighlight.snapTo}
             />
             <MegaTrigger
-              label={megaMenuNavLinks.industries.label}
-              href={megaMenuNavLinks.industries.href}
-              isOpen={openMenu === "industries"}
-              onEnter={() => openPanel("industries")}
-              onToggle={() => togglePanel("industries")}
-              onHighlight={navHighlight.snapTo}
-            />
-            <MegaTrigger
               label={megaMenuNavLinks["custom-software"].label}
               href={megaMenuNavLinks["custom-software"].href}
               isOpen={openMenu === "custom-software"}
@@ -368,7 +362,29 @@ export function Navbar({
               onToggle={() => togglePanel("migrations")}
               onHighlight={navHighlight.snapTo}
             />
-            {LINKS.map((link) => (
+            <MegaTrigger
+              label={megaMenuNavLinks.industries.label}
+              href={megaMenuNavLinks.industries.href}
+              isOpen={openMenu === "industries"}
+              onEnter={() => openPanel("industries")}
+              onToggle={() => togglePanel("industries")}
+              onHighlight={navHighlight.snapTo}
+            />
+            {LINKS_BEFORE_ABOUT.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                data-hover-cell
+                onMouseEnter={(e) => {
+                  scheduleClose();
+                  navHighlight.snapTo(e.currentTarget);
+                }}
+                className="group/flip relative z-[1] rounded-[4px] px-3 py-2 text-sm font-normal"
+              >
+                <HoverFlip>{link.label}</HoverFlip>
+              </Link>
+            ))}
+            {LINKS_AFTER_INDUSTRIES.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -432,6 +448,7 @@ export function Navbar({
                   industryNavItems={industryNavItems}
                   customSoftwareNavItems={customSoftwareNavItems}
                   migrations={migrations}
+                  serviceMegaMenuCards={serviceMegaMenuCards}
                   theme={isDark ? "dark" : "light"}
                   onNavigate={closePanel}
                 />
@@ -447,6 +464,7 @@ export function Navbar({
         industryNavItems={industryNavItems}
         customSoftwareNavItems={customSoftwareNavItems}
         migrations={migrations}
+        serviceMegaMenuCards={serviceMegaMenuCards}
       />
     </>
   );

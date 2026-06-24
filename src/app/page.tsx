@@ -6,6 +6,7 @@ import {
   getAllProducts,
   getAllServices,
   getFeaturedCaseStudies,
+  getHomepageIndustries,
   getPlatformTestimonials,
   getSiteSettings,
 } from "@/lib/queries";
@@ -21,7 +22,6 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import { PortfolioWorkGrid } from "@/features/work/PortfolioWorkGrid";
 import { ServicesTabShowcase } from "@/features/services/ServicesTabShowcase";
 import { IndustryNavShowcaseGrid } from "@/features/industries/IndustryNavShowcaseGrid";
-import { homepageIndustries } from "@/lib/content/homepage-industries";
 import { ProductsShowcase } from "@/features/home/ProductSlider";
 import { LogoTicker } from "@/features/home/LogoTicker";
 import { HeroSection } from "@/features/home/HeroSection";
@@ -63,7 +63,7 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, platformTestimonials, products, settings, faqs] =
+  const [featuredCases, allCases, services, platformTestimonials, products, settings, faqs, homepageIndustries] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
@@ -72,6 +72,7 @@ export default async function HomePage() {
       getAllProducts(),
       getSiteSettings(),
       getAllFaqs(),
+      getHomepageIndustries(),
     ]);
 
   const PILLAR_VISUALS = [

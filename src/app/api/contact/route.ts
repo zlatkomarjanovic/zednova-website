@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-import {
-  labelForIndustry,
-  labelForService,
-} from "@/lib/content/contact-options";
+import { labelForIndustry, labelForService } from "@/lib/queries";
 import { siteSettings } from "@/lib/content/site";
 import { contactSchema } from "@/lib/validation";
 
@@ -27,8 +24,8 @@ export async function POST(request: Request) {
   }
 
   const data = parsed.data;
-  const serviceLabel = labelForService(data.service);
-  const industryLabel = labelForIndustry(data.industry);
+  const serviceLabel = await labelForService(data.service);
+  const industryLabel = await labelForIndustry(data.industry);
 
   const text = [
     `Name: ${data.name}`,

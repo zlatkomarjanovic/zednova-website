@@ -25,7 +25,7 @@ export function DarkCTA({
     >
       <div className="zn-blueprint-grid absolute inset-0 opacity-[0.22]" aria-hidden="true" />
       <div className="zn-grain absolute inset-0 opacity-[0.06]" aria-hidden="true" />
-      <BlueprintGuides theme="dark" reveal="scroll" showEdgeCrosses className="z-10" />
+      <BlueprintGuides theme="dark" reveal="none" showEdgeCrosses className="z-10" />
 
       <div className="zn-container-guides relative">
         <BlueprintCross anchor="left" theme="dark" className="top-0 -translate-y-1/2" />

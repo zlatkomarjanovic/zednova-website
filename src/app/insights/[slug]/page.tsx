@@ -7,9 +7,9 @@ import { ArrowLeft, ArrowRight, Clock, CalendarDays } from "lucide-react";
 import {
   getAllPosts,
   getAdjacentPosts,
+  getAuthor,
   getPostBySlug,
   getRelatedPosts,
-  getTeamMember,
 } from "@/lib/queries";
 import {
   articleJsonLd,
@@ -100,7 +100,7 @@ export default async function ArticlePage({
   if (!post) notFound();
 
   const [author, related, adjacent] = await Promise.all([
-    getTeamMember(post.author),
+    getAuthor(post.author),
     getRelatedPosts(slug, 3),
     getAdjacentPosts(slug),
   ]);

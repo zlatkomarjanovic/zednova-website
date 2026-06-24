@@ -7,11 +7,7 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AiSummaryFab } from "@/components/layout/AiSummaryFab";
-import { getAllMigrations, getSiteSettings } from "@/lib/queries";
-import {
-  industryNavItems,
-  customSoftwareNavItems,
-} from "@/lib/content/nav-menu";
+import { getAllMigrations, getCustomSoftwareNavItems, getFeaturedHomepageIndustries, getIndustryNavItems, getServiceMegaMenuCards, getSiteSettings } from "@/lib/queries";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -60,10 +56,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [migrations, settings] = await Promise.all([
-    getAllMigrations(),
-    getSiteSettings(),
-  ]);
+  const [migrations, settings, industryNavItems, customSoftwareNavItems, serviceMegaMenuCards, featuredHomepageIndustries] =
+    await Promise.all([
+      getAllMigrations(),
+      getSiteSettings(),
+      getIndustryNavItems(),
+      getCustomSoftwareNavItems(),
+      getServiceMegaMenuCards(),
+      getFeaturedHomepageIndustries(),
+    ]);
 
   return (
     <html lang="en" className={`${geistMono.variable} ${instrumentSerif.variable}`}>
@@ -80,13 +81,20 @@ export default async function RootLayout({
             industryNavItems={industryNavItems}
             customSoftwareNavItems={customSoftwareNavItems}
             migrations={migrations}
+            serviceMegaMenuCards={serviceMegaMenuCards}
           />
           <PageTransition className="flex flex-1 flex-col">
             <main id="main" className="flex-1">
               {children}
             </main>
           </PageTransition>
-          <Footer migrations={migrations} settings={settings} />
+          <Footer
+            migrations={migrations}
+            settings={settings}
+            serviceMegaMenuCards={serviceMegaMenuCards}
+            customSoftwareNavItems={customSoftwareNavItems}
+            featuredHomepageIndustries={featuredHomepageIndustries}
+          />
           <AiSummaryFab />
         </LenisProvider>
       </body>

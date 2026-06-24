@@ -8,6 +8,7 @@ import {
   getCaseStudiesByIndustry,
   getIndustryParentBySlug,
   getIndustrySegmentBySlug,
+  getIndustryTitle,
 } from "@/lib/queries";
 import { breadcrumbJsonLd, industryJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
@@ -71,6 +72,12 @@ export default async function IndustryDetailPage({
     : (await getAllIndustries()).filter((i) => i.parentSlug === slug);
 
   const related = await getCaseStudiesByIndustry(slug);
+  const relatedWithLabels = await Promise.all(
+    related.map(async (caseStudy) => ({
+      caseStudy,
+      industryLabel: await getIndustryTitle(caseStudy.industry),
+    })),
+  );
 
   const crumbs = [
     { label: "Home", href: "/" },
@@ -252,8 +259,12 @@ export default async function IndustryDetailPage({
               className="mt-6 zn-h2 font-sans font-normal"
             />
             <div className="mt-12 grid gap-8 sm:grid-cols-2">
-              {related.map((caseStudy) => (
-                <CaseStudyCard key={caseStudy.slug} caseStudy={caseStudy} />
+              {relatedWithLabels.map(({ caseStudy, industryLabel }) => (
+                <CaseStudyCard
+                  key={caseStudy.slug}
+                  caseStudy={caseStudy}
+                  industryLabel={industryLabel}
+                />
               ))}
             </div>
           </div>

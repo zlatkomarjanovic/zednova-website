@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { getFounder, getSiteSettings } from "@/lib/queries";
-import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal, Stagger } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
+import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { StatsRow } from "@/features/home/StatsRow";
 import { DarkCTA } from "@/features/home/DarkCTA";
@@ -52,13 +52,9 @@ export default async function AboutPage() {
 
   return (
     <>
-      {/* Hero — guides framing */}
       <section data-theme="light" className="relative bg-zn-bg">
-        <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-zn-border">
-            <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
-            <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+          <BlueprintColumnFrame>
             <div className="relative border-b border-zn-border">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
@@ -94,127 +90,126 @@ export default async function AboutPage() {
                 </Reveal>
               </div>
             </div>
+
+            <div className="border-b border-zn-border">
+              <div className="zn-container-inset border-b border-zn-border py-4 text-center">
+                <p className="zn-label text-zn-text-3">
+                  120+ projects. 10+ years shipping products. $0 wasted on agency overhead.
+                </p>
+              </div>
+              <StatsRow stats={settings.stats} className="border-0" />
+            </div>
+
+            <div className="border-b border-zn-border">
+              <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
+                <SectionLabel withRule={false}>What we believe</SectionLabel>
+              </div>
+              <div className="zn-container-inset py-14 lg:py-16">
+                <Stagger className="grid gap-12 md:grid-cols-3" stagger={0.06}>
+                  {VALUES.map((value) => (
+                    <div key={value.name} className="border-t border-zn-text pt-6">
+                      <h2 className="zn-h2 font-sans font-normal text-zn-text">
+                        {value.name}
+                      </h2>
+                      <p className="mt-4 leading-relaxed text-zn-text-2">{value.body}</p>
+                    </div>
+                  ))}
+                </Stagger>
+              </div>
+            </div>
+
+            <div>
+              <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
+                <SectionLabel withRule={false}>The remote advantage</SectionLabel>
+                <TextReveal
+                  as="h2"
+                  text="Why a remote studio serves US clients better"
+                  className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
+                />
+              </div>
+              <div className="zn-container-inset py-14 lg:py-16">
+                <Stagger className="grid gap-8 md:grid-cols-3" stagger={0.06}>
+                  {REMOTE_POINTS.map((point, i) => (
+                    <div key={point.title}>
+                      <span className="font-mono text-sm text-zn-text-3">0{i + 1}</span>
+                      <h3 className="mt-3 font-sans text-lg font-normal text-zn-text">
+                        {point.title}
+                      </h3>
+                      <p className="mt-2 leading-relaxed text-zn-text-2">{point.body}</p>
+                    </div>
+                  ))}
+                </Stagger>
+              </div>
+            </div>
+          </BlueprintColumnFrame>
+        </div>
+      </section>
+
+      <section data-theme="dark" className="relative bg-zn-dark text-zn-inv">
+        <BlueprintGuides theme="dark" reveal="none" showEdgeCrosses className="z-10" />
+        <div className="zn-container-guides relative z-20">
+          <div className="relative border-t border-zn-border-dk">
+            <BlueprintCross anchor="left" theme="dark" className="top-0 -translate-y-1/2" />
+            <BlueprintCross anchor="right" theme="dark" className="top-0 -translate-y-1/2" />
+            <div className="zn-container-inset grid gap-12 py-[clamp(4rem,8vw,7rem)] lg:grid-cols-[0.8fr_1.4fr] lg:items-center">
+              <div
+                className="font-sans font-normal leading-none text-zn-inv/90"
+                aria-hidden="true"
+                style={{ fontSize: "clamp(8rem,18vw,16rem)" }}
+              >
+                Z.
+              </div>
+              <div>
+                <Reveal>
+                  <SectionLabel withRule={false} className="text-zn-inv-2">
+                    Founder
+                  </SectionLabel>
+                </Reveal>
+                <TextReveal
+                  as="h2"
+                  text={founder.name}
+                  className="mt-6 font-sans text-4xl font-normal text-zn-inv lg:text-5xl"
+                />
+                <div className="mt-6 space-y-4 leading-relaxed text-zn-inv-2">
+                  {founder.bio.map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+                <Reveal delay={0.1}>
+                  <div className="mt-8 flex flex-wrap gap-4">
+                    {founder.upwork && (
+                      <Button href={founder.upwork} variant="inverted" size="sm" withArrow>
+                        Upwork profile
+                      </Button>
+                    )}
+                    {founder.linkedin && (
+                      <Button
+                        href={founder.linkedin}
+                        variant="outline-inverted"
+                        size="sm"
+                        withArrow
+                      >
+                        LinkedIn
+                      </Button>
+                    )}
+                  </div>
+                </Reveal>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Stats — guides framing */}
-      <section data-theme="light" className="relative bg-zn-bg">
+      <section data-theme="dark" className="relative bg-zn-dark text-zn-inv">
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-b border-zn-border">
-            <div className="zn-container-inset border-b border-zn-border py-4 text-center">
-              <p className="zn-label text-zn-text-3">
-                120+ projects. 10+ years shipping products. $0 wasted on agency overhead.
-              </p>
-            </div>
-            <div className="zn-container-inset">
-              <StatsRow stats={settings.stats} />
+          <div className="relative border-t border-zn-border-dk">
+            <div className="zn-container-inset py-[clamp(4rem,8vw,7rem)]">
+              <blockquote className="mx-auto max-w-4xl text-center zn-accent-italic text-3xl leading-snug text-zn-inv sm:text-4xl lg:text-5xl">
+                &ldquo;Most agencies sell you the idea of systems. We build ones that
+                actually run.&rdquo;
+              </blockquote>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section data-theme="light" className="zn-section">
-        <div className="zn-container">
-          <Reveal>
-            <SectionLabel withRule={false}>What we believe</SectionLabel>
-          </Reveal>
-          <Stagger className="mt-12 grid gap-12 md:grid-cols-3" stagger={0.06}>
-            {VALUES.map((value) => (
-              <div key={value.name} className="border-t border-zn-text pt-6">
-                <h2 className="zn-h2 font-sans font-normal text-zn-text">
-                  {value.name}
-                </h2>
-                <p className="mt-4 leading-relaxed text-zn-text-2">{value.body}</p>
-              </div>
-            ))}
-          </Stagger>
-        </div>
-      </section>
-
-      {/* Founder (dark) */}
-      <section data-theme="dark" className="zn-section bg-zn-dark text-zn-inv">
-        <BlueprintGuides theme="dark" reveal="immediate" showEdgeCrosses className="z-10" />
-        <div className="zn-container relative z-20 grid gap-12 lg:grid-cols-[0.8fr_1.4fr] lg:items-center">
-          <div
-            className="font-sans font-normal leading-none text-zn-inv/90"
-            aria-hidden="true"
-            style={{ fontSize: "clamp(8rem,18vw,16rem)" }}
-          >
-            Z.
-          </div>
-          <div>
-            <Reveal>
-              <SectionLabel withRule={false} className="text-zn-inv-2">
-                Founder
-              </SectionLabel>
-            </Reveal>
-            <TextReveal
-              as="h2"
-              text={founder.name}
-              className="mt-6 font-sans text-4xl font-normal text-zn-inv lg:text-5xl"
-            />
-            <div className="mt-6 space-y-4 leading-relaxed text-zn-inv-2">
-              {founder.bio.map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-            <Reveal delay={0.1}>
-              <div className="mt-8 flex flex-wrap gap-4">
-                {founder.upwork && (
-                  <Button href={founder.upwork} variant="inverted" size="sm" withArrow>
-                    Upwork profile
-                  </Button>
-                )}
-                {founder.linkedin && (
-                  <Button
-                    href={founder.linkedin}
-                    variant="outline-inverted"
-                    size="sm"
-                    withArrow
-                  >
-                    LinkedIn
-                  </Button>
-                )}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Why remote works */}
-      <section data-theme="light" className="zn-section">
-        <div className="zn-container">
-          <Reveal>
-            <SectionLabel withRule={false}>The remote advantage</SectionLabel>
-          </Reveal>
-          <TextReveal
-            as="h2"
-            text="Why a remote studio serves US clients better"
-            className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
-          />
-          <Stagger className="mt-12 grid gap-8 md:grid-cols-3" stagger={0.06}>
-            {REMOTE_POINTS.map((point, i) => (
-              <div key={point.title}>
-                <span className="font-mono text-sm text-zn-text-3">0{i + 1}</span>
-                <h3 className="mt-3 font-sans text-lg font-normal text-zn-text">
-                  {point.title}
-                </h3>
-                <p className="mt-2 leading-relaxed text-zn-text-2">{point.body}</p>
-              </div>
-            ))}
-          </Stagger>
-        </div>
-      </section>
-
-      {/* Manifesto (dark) */}
-      <section data-theme="dark" className="bg-zn-dark text-zn-inv">
-        <div className="zn-container zn-section">
-          <blockquote className="mx-auto max-w-4xl text-center zn-accent-italic text-3xl leading-snug text-zn-inv sm:text-4xl lg:text-5xl">
-            &ldquo;Most agencies sell you the idea of systems. We build ones that
-            actually run.&rdquo;
-          </blockquote>
         </div>
       </section>
 

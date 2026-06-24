@@ -33,6 +33,11 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# sanity studio build output
+/studio-zednova-studio/dist
+/studio-zednova-studio/.sanity
+/studio-zednova-studio/node_modules
+
 # vercel
 .vercel
 

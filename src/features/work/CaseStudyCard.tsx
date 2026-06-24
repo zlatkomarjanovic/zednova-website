@@ -2,25 +2,17 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { MediaImage } from "@/ui/MediaImage";
 import { Tag } from "@/ui/Tag";
-import { industries } from "@/lib/content/industry-subs";
-import { industryParents } from "@/lib/content/industry-parents";
 import type { CaseStudy } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-function industryTitle(slug: string) {
-  return (
-    industryParents.find((p) => p.slug === slug)?.title ??
-    industries.find((i) => i.slug === slug)?.title ??
-    slug
-  );
-}
-
 export function CaseStudyCard({
   caseStudy,
+  industryLabel,
   theme = "light",
   className,
 }: {
   caseStudy: CaseStudy;
+  industryLabel: string;
   theme?: "light" | "dark";
   className?: string;
 }) {
@@ -50,7 +42,7 @@ export function CaseStudyCard({
       <div className="flex flex-1 flex-col gap-4 p-6 lg:p-7">
         <div className="flex items-start justify-between gap-3">
           <Tag variant={dark ? "outline-inverted" : "outline"}>
-            {industryTitle(caseStudy.industry)}
+            {industryLabel}
           </Tag>
           <ArrowUpRight
             className={cn(

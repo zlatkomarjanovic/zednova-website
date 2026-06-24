@@ -12,12 +12,8 @@ import {
   RubberHoverHighlightLayer,
   useRubberHoverHighlight,
 } from "@/ui/HoverHighlight";
-import type { Migration } from "@/lib/content/migrations";
-import {
-  serviceMegaMenuCards,
-  type NavMenuItem,
-  type ServiceMegaMenuCard,
-} from "@/lib/content/nav-menu";
+import type { Migration } from "@/lib/types/content-nav";
+import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { cn } from "@/lib/utils";
 
 type MegaMenuProps = {
@@ -25,6 +21,7 @@ type MegaMenuProps = {
   industryNavItems: NavMenuItem[];
   customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
+  serviceMegaMenuCards: ServiceMegaMenuCard[];
   theme?: "light" | "dark";
   onNavigate: () => void;
 };
@@ -275,6 +272,7 @@ export function MegaMenu({
   industryNavItems,
   customSoftwareNavItems,
   migrations,
+  serviceMegaMenuCards,
   theme = "light",
   onNavigate,
 }: MegaMenuProps) {

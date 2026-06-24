@@ -4,12 +4,9 @@ import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { FooterAiSummaryLinks } from "@/components/layout/FooterAiSummaryLinks";
 import { FooterNavLink } from "@/components/layout/FooterNavLink";
-import { featuredHomepageIndustries } from "@/lib/content/homepage-industries";
-import type { Migration } from "@/lib/content/migrations";
-import {
-  customSoftwareNavItems,
-  serviceMegaMenuCards,
-} from "@/lib/content/nav-menu";
+import type { HomepageIndustry } from "@/lib/content/homepage-industries";
+import { featuredHomepageIndustries as staticFeaturedHomepageIndustries } from "@/lib/content/homepage-industries";
+import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -21,18 +18,23 @@ const COMPANY_LINKS = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
-const CUSTOM_SOFTWARE_FOOTER = customSoftwareNavItems.slice(0, 6);
-
 export function Footer({
   migrations,
   settings,
+  serviceMegaMenuCards,
+  customSoftwareNavItems,
+  featuredHomepageIndustries = staticFeaturedHomepageIndustries,
   className,
 }: {
   migrations: Migration[];
   settings: SiteSettings;
+  serviceMegaMenuCards: ServiceMegaMenuCard[];
+  customSoftwareNavItems: NavMenuItem[];
+  featuredHomepageIndustries?: HomepageIndustry[];
   className?: string;
 }) {
   const year = new Date().getFullYear();
+  const customSoftwareFooter = customSoftwareNavItems.slice(0, 6);
 
   return (
     <footer data-theme="dark" className={cn("relative bg-zn-dark text-zn-inv", className)}>
@@ -122,7 +124,7 @@ export function Footer({
             </FooterCol>
 
             <FooterCol title="Custom software">
-              {CUSTOM_SOFTWARE_FOOTER.map((item) => (
+              {customSoftwareFooter.map((item) => (
                 <FooterNavLink
                   key={item.href + item.title}
                   href={item.href}
@@ -130,7 +132,7 @@ export function Footer({
                 />
               ))}
               <FooterNavLink
-                href="/industries/small-business-custom-software"
+                href="/custom-software"
                 label="All custom software"
               />
             </FooterCol>

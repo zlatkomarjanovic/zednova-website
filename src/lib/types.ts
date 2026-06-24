@@ -108,6 +108,8 @@ export type PortfolioProject = {
   video?: string;
   accent: string;
   order: number;
+  /** Simple filter bucket for the work page. */
+  category: string;
   logo?: {
     src: string;
     alt: string;
@@ -196,6 +198,10 @@ export type TeamMember = {
   linkedin?: string;
   twitter?: string;
   upwork?: string;
+};
+
+export type Author = TeamMember & {
+  avatar?: string;
 };
 
 export type SiteSettings = {

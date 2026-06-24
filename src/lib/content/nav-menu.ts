@@ -1,31 +1,18 @@
-export type NavMenuItem = {
-  title: string;
-  shortDescription: string;
-  href: string;
-};
+import type {
+  CustomSoftwareGroupSection,
+  NavMenuGroup,
+  NavMenuItem,
+  ServiceMegaMenuCard,
+} from "@/lib/types/content-nav";
 
-export type NavMenuGroup = {
-  group: string;
-  items: NavMenuItem[];
-};
+export type {
+  NavMenuItem,
+  NavMenuGroup,
+  ServiceMegaMenuCard,
+  CustomSoftwareGroupSection,
+} from "@/lib/types/content-nav";
 
-export type ServiceMegaMenuCard = {
-  title: string;
-  shortDescription: string;
-  includes: string;
-  href: string;
-};
-
-/** Top-level landing pages for each mega menu column. */
-export const megaMenuNavLinks = {
-  services: { label: "Services", href: "/services" },
-  industries: { label: "Industries", href: "/industries" },
-  "custom-software": {
-    label: "Custom Software",
-    href: "/industries/small-business-custom-software",
-  },
-  migrations: { label: "Migrations", href: "/migrations" },
-} as const;
+export { megaMenuNavLinks } from "@/lib/types/content-nav";
 
 export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
   {
@@ -47,7 +34,7 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     shortDescription:
       "Client portals, staff dashboards, booking systems, admin panels, and internal tools built for your team.",
     includes: "client portals, staff dashboards, booking flows",
-    href: "/industries/small-business-custom-software",
+    href: "/custom-software",
   },
   {
     title: "CRM & Workflow Automation",
@@ -162,7 +149,7 @@ export const serviceNavGroups: NavMenuGroup[] = [
         title: "Custom Web App Development",
         shortDescription:
           "Simple web apps, portals, dashboards, and internal tools for small businesses.",
-        href: "/industries/small-business-custom-software",
+        href: "/custom-software",
       },
       {
         title: "Client Portal Development",
@@ -187,7 +174,7 @@ export const serviceNavGroups: NavMenuGroup[] = [
       {
         title: "Admin Panel Development",
         shortDescription: "Back-office tools to manage records, orders, and team workflows.",
-        href: "/industries/small-business-custom-software",
+        href: "/custom-software",
       },
     ],
   },
@@ -362,7 +349,7 @@ export const customSoftwareNavItems: NavMenuItem[] = [
     title: "Custom Web App Development",
     shortDescription:
       "Simple web apps on Next.js for workflows, records, and tools your team uses every day.",
-    href: "/industries/small-business-custom-software",
+    href: "/custom-software",
   },
   {
     title: "Client Portal Development",
@@ -392,7 +379,7 @@ export const customSoftwareNavItems: NavMenuItem[] = [
     title: "Admin Panel Development",
     shortDescription:
       "Back-office panels to manage users, records, orders, content, and settings.",
-    href: "/industries/small-business-custom-software",
+    href: "/custom-software",
   },
   {
     title: "Form & Intake Systems",
@@ -410,12 +397,93 @@ export const customSoftwareNavItems: NavMenuItem[] = [
     title: "Document Upload Portals",
     shortDescription:
       "Secure upload, review, and approval flows for files from clients or staff.",
-    href: "/industries/small-business-custom-software",
+    href: "/custom-software",
   },
   {
     title: "Membership & Subscription Portals",
     shortDescription:
       "Member login, billing access, and gated content for paid users and subscribers.",
     href: "/industries/membership-communities",
+  },
+];
+
+export const customSoftwareGroups: CustomSoftwareGroupSection[] = [
+  {
+    id: "portals",
+    label: "Portals & dashboards",
+    headline: "Login areas and live views for clients, patients, and staff.",
+    description:
+      "Replace email threads and spreadsheet updates with portals your clients and team actually use.",
+    items: [
+      {
+        title: "Client Portal Development",
+        shortDescription:
+          "Login portals where clients check project status, upload files, and get updates without emailing you.",
+        href: "/industries/portal-dashboard-booking-needs",
+      },
+      {
+        title: "Patient Portal Development",
+        shortDescription:
+          "Secure portals for patients to book visits, complete intake forms, and view their appointment info.",
+        href: "/industries/healthcare-clinics",
+      },
+      {
+        title: "Internal Dashboard Development",
+        shortDescription:
+          "Staff dashboards that replace spreadsheets and show live business numbers at a glance.",
+        href: "/services/reporting-dashboards",
+      },
+      {
+        title: "Admin Panel Development",
+        shortDescription:
+          "Back-office panels to manage users, records, orders, content, and settings.",
+        href: "/custom-software",
+      },
+      {
+        title: "Document Upload Portals",
+        shortDescription:
+          "Secure upload, review, and approval flows for files from clients or staff.",
+        href: "/custom-software",
+      },
+      {
+        title: "Membership & Subscription Portals",
+        shortDescription:
+          "Member login, billing access, and gated content for paid users and subscribers.",
+        href: "/industries/membership-communities",
+      },
+    ],
+  },
+  {
+    id: "systems",
+    label: "Apps & workflows",
+    headline: "Booking, intake, CRM, and custom tools wired to how you work.",
+    description:
+      "From scheduling to lead tracking — systems that connect forms, notifications, and follow-up automatically.",
+    items: [
+      {
+        title: "Custom Web App Development",
+        shortDescription:
+          "Simple web apps on Next.js for workflows, records, and tools your team uses every day.",
+        href: "/custom-software",
+      },
+      {
+        title: "Booking System Development",
+        shortDescription:
+          "Online scheduling with confirmations, reminders, intake forms, and calendar sync built in.",
+        href: "/services/crm-pipeline-automation",
+      },
+      {
+        title: "Form & Intake Systems",
+        shortDescription:
+          "Custom forms wired to CRM, email, SMS, and follow-up sequences triggered on submission.",
+        href: "/services/custom-ai-agents",
+      },
+      {
+        title: "CRM & Lead Tracking Tools",
+        shortDescription:
+          "Simple CRM views for leads, deals, tasks, notes, and pipeline status.",
+        href: "/services/crm-pipeline-automation",
+      },
+    ],
   },
 ];

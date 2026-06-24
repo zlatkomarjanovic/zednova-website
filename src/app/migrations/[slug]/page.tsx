@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { migrations } from "@/lib/content/migrations";
+import { getAllMigrations, getMigrationBySlug } from "@/lib/queries";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
@@ -13,6 +13,7 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { Check } from "lucide-react";
 
 export async function generateStaticParams() {
+  const migrations = await getAllMigrations();
   return migrations.map((item) => ({ slug: item.slug }));
 }
 
@@ -22,7 +23,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const item = migrations.find((m) => m.slug === slug);
+  const item = await getMigrationBySlug(slug);
   if (!item) return {};
   return {
     title: item.title,
@@ -57,7 +58,7 @@ export default async function MigrationDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = migrations.find((m) => m.slug === slug);
+  const item = await getMigrationBySlug(slug);
   if (!item) notFound();
 
   const crumbs = [

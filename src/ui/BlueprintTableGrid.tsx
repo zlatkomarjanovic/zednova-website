@@ -43,12 +43,14 @@ function GridCell({
   item,
   showLeftBorder,
   showTopBorder,
+  showBottomBorder,
   showDividerTop,
   showDividerBottom,
 }: {
   item: TableGridItem;
   showLeftBorder: boolean;
   showTopBorder: boolean;
+  showBottomBorder: boolean;
   showDividerTop: boolean;
   showDividerBottom: boolean;
 }) {
@@ -58,6 +60,7 @@ function GridCell({
         "group/cell relative flex min-h-[9rem] min-w-0 flex-1 lg:min-h-[10rem]",
         showLeftBorder && "lg:border-l border-zn-border",
         showTopBorder && "border-t lg:border-t-0 border-zn-border",
+        showBottomBorder && "border-b border-zn-border",
       )}
     >
       {showLeftBorder && (
@@ -96,26 +99,33 @@ function GridCell({
 export function BlueprintTableGrid({
   items,
   columns = 3,
+  showEdgeCrosses = true,
 }: {
   items: TableGridItem[];
   columns?: 3 | 5;
+  showEdgeCrosses?: boolean;
 }) {
   const desktopRows = chunkRows(items, columns);
 
   return (
-    <div className="relative [contain:layout_paint]">
-      <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
-      <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
-      <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
-      <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2" />
+    <div className="relative">
+      {showEdgeCrosses ? (
+        <>
+          <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
+          <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
+          <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
+          <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2" />
+        </>
+      ) : null}
 
       <div className="relative flex flex-col lg:hidden">
         {items.map((item, index) => (
           <GridCell
-            key={item.href}
+            key={`${item.href}::${item.title}`}
             item={item}
             showLeftBorder={false}
             showTopBorder={index > 0}
+            showBottomBorder={index === items.length - 1}
             showDividerTop={false}
             showDividerBottom={false}
           />
@@ -145,10 +155,11 @@ export function BlueprintTableGrid({
 
               {row.map((item, colIndex) => (
                 <GridCell
-                  key={item.href}
+                  key={`${item.href}::${item.title}`}
                   item={item}
                   showLeftBorder={colIndex > 0}
                   showTopBorder={false}
+                  showBottomBorder={isLastRow}
                   showDividerTop={colIndex > 0 && rowIndex > 0}
                   showDividerBottom={colIndex > 0 && showDividerBottom}
                 />

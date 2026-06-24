@@ -6,6 +6,7 @@ import { ArrowRight, Check } from "lucide-react";
 import {
   getAllServices,
   getCaseStudiesByService,
+  getIndustryTitle,
   getServiceBySlug,
 } from "@/lib/queries";
 import { serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
@@ -58,6 +59,12 @@ export default async function ServiceDetailPage({
   if (!service) notFound();
 
   const related = await getCaseStudiesByService(slug);
+  const relatedWithLabels = await Promise.all(
+    related.map(async (caseStudy) => ({
+      caseStudy,
+      industryLabel: await getIndustryTitle(caseStudy.industry),
+    })),
+  );
   const crumbs = [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
@@ -252,8 +259,12 @@ export default async function ServiceDetailPage({
               </Reveal>
             </div>
             <div className="mt-12 grid gap-8 sm:grid-cols-2">
-              {related.map((caseStudy) => (
-                <CaseStudyCard key={caseStudy.slug} caseStudy={caseStudy} />
+              {relatedWithLabels.map(({ caseStudy, industryLabel }) => (
+                <CaseStudyCard
+                  key={caseStudy.slug}
+                  caseStudy={caseStudy}
+                  industryLabel={industryLabel}
+                />
               ))}
             </div>
           </div>

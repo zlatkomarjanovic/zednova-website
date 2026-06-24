@@ -1,0 +1,138 @@
+import { defineField, defineType } from "sanity";
+
+export const post = defineType({
+  name: "post",
+  title: "Insight / Post",
+  type: "document",
+  groups: [
+    { name: "content", title: "Content", default: true },
+    { name: "seo", title: "SEO & AEO" },
+  ],
+  fields: [
+    defineField({
+      name: "title",
+      type: "string",
+      group: "content",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "slug",
+      type: "slug",
+      group: "content",
+      options: { source: "title", maxLength: 96 },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "excerpt",
+      type: "text",
+      rows: 3,
+      group: "content",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "category",
+      type: "reference",
+      to: [{ type: "insightCategory" }],
+      group: "content",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "author",
+      type: "reference",
+      to: [{ type: "author" }],
+      group: "content",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "publishedAt",
+      type: "datetime",
+      group: "content",
+      initialValue: () => new Date().toISOString(),
+      validation: (rule) => rule.required(),
+    }),
+    defineField({ name: "updatedAt", type: "datetime", group: "content" }),
+    defineField({
+      name: "readTime",
+      type: "number",
+      title: "Read time (minutes)",
+      group: "content",
+      validation: (rule) => rule.required().min(1),
+    }),
+    defineField({
+      name: "featured",
+      type: "boolean",
+      group: "content",
+      initialValue: false,
+    }),
+    defineField({
+      name: "accent",
+      type: "string",
+      title: "Accent color (hex)",
+      group: "content",
+      initialValue: "#1c1917",
+    }),
+    defineField({
+      name: "coverImage",
+      type: "image",
+      title: "Cover image",
+      options: { hotspot: true },
+      group: "content",
+    }),
+    defineField({
+      name: "coverImageUrl",
+      type: "url",
+      title: "Cover image URL (legacy / external)",
+      description: "Use until cover is uploaded to Sanity.",
+      group: "content",
+    }),
+    defineField({
+      name: "tags",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
+      group: "seo",
+    }),
+    defineField({
+      name: "takeaways",
+      type: "array",
+      of: [{ type: "string" }],
+      title: "Key takeaways (AEO)",
+      group: "seo",
+    }),
+    defineField({
+      name: "faqs",
+      type: "array",
+      of: [{ type: "articleFaq" }],
+      title: "FAQ",
+      group: "seo",
+    }),
+    defineField({
+      name: "seo",
+      type: "seoFields",
+      group: "seo",
+    }),
+    defineField({
+      name: "articleBlocks",
+      type: "array",
+      of: [{ type: "articleBlock" }],
+      title: "Article body (structured blocks)",
+      group: "content",
+    }),
+    defineField({
+      name: "body",
+      type: "array",
+      of: [{ type: "block" }],
+      title: "Body (Portable Text — optional)",
+      group: "content",
+    }),
+  ],
+  orderings: [
+    {
+      title: "Published date, newest",
+      name: "publishedAtDesc",
+      by: [{ field: "publishedAt", direction: "desc" }],
+    },
+  ],
+  preview: {
+    select: { title: "title", subtitle: "category.title", media: "coverImage" },
+  },
+});
