@@ -6,12 +6,13 @@ import { ecommerceNavServices } from "@/lib/content/ecommerce-nav";
 import { migrations as staticMigrations } from "@/lib/content/migrations";
 import { industryParents } from "@/lib/content/industry-parents";
 import { industries } from "@/lib/content/industry-subs";
-import { caseStudies } from "@/lib/content/case-studies";
+import { caseStudies as staticCaseStudies } from "@/lib/content/case-studies";
+import { portfolioProjects as staticPortfolioProjects } from "@/lib/content/portfolio-projects";
 import { posts as postsStatic } from "@/lib/content/posts";
-import { products } from "@/lib/content/products";
-import { testimonials } from "@/lib/content/testimonials";
+import { products as staticProducts } from "@/lib/content/products";
+import { testimonials as staticTestimonials } from "@/lib/content/testimonials";
+import { siteSettings as staticSiteSettings } from "@/lib/content/site";
 import { team } from "@/lib/content/team";
-import { siteSettings } from "@/lib/content/site";
 import { homepageIndustries as staticHomepageIndustries } from "@/lib/content/homepage-industries";
 import type { HomepageIndustry } from "@/lib/content/homepage-industries";
 import {
@@ -54,8 +55,15 @@ import {
   fetchIndustryParentsFromSanity,
   fetchMigrationBySlugFromSanity,
   fetchAllPostsFromSanity,
+  fetchAllCaseStudiesFromSanity,
+  fetchAllFaqsFromSanity,
+  fetchAllProductsFromSanity,
   fetchAuthorBySlugFromSanity,
+  fetchCaseStudyBySlugFromSanity,
+  fetchPortfolioProjectsFromSanity,
   fetchPostBySlugFromSanity,
+  fetchSiteSettingsFromSanity,
+  fetchTestimonialsFromSanity,
   fetchServiceBySlugFromSanity,
   fetchServiceMegaMenuCardsFromSanity,
   fetchServiceNavGroupsFromSanity,
@@ -355,24 +363,33 @@ export async function getAllIndustrySlugs(): Promise<string[]> {
 /* ----------------------------- Case studies ----------------------------- */
 
 export async function getAllCaseStudies(): Promise<CaseStudy[]> {
-  return caseStudies;
+  return fromSanity("caseStudy", fetchAllCaseStudiesFromSanity, () => staticCaseStudies);
 }
 
 export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {
-  return caseStudies.find((c) => c.slug === slug) ?? null;
+  if (!isSanityConfigured()) {
+    return staticCaseStudies.find((c) => c.slug === slug) ?? null;
+  }
+  try {
+    const has = await sanityHasContent("caseStudy");
+    if (!has) return staticCaseStudies.find((c) => c.slug === slug) ?? null;
+    return (await fetchCaseStudyBySlugFromSanity(slug)) ?? null;
+  } catch {
+    return staticCaseStudies.find((c) => c.slug === slug) ?? null;
+  }
 }
 
 export async function getFeaturedCaseStudies(limit = 3): Promise<CaseStudy[]> {
-  return caseStudies.filter((c) => c.featured).slice(0, limit);
+  const all = await getAllCaseStudies();
+  return all.filter((c) => c.featured).slice(0, limit);
 }
 
 export async function getCaseStudiesByService(
   serviceSlug: string,
   limit = 2,
 ): Promise<CaseStudy[]> {
-  return caseStudies
-    .filter((c) => c.servicesUsed.includes(serviceSlug))
-    .slice(0, limit);
+  const all = await getAllCaseStudies();
+  return all.filter((c) => c.servicesUsed.includes(serviceSlug)).slice(0, limit);
 }
 
 export async function getCaseStudiesByIndustry(
@@ -383,8 +400,9 @@ export async function getCaseStudiesByIndustry(
   const subSlugs = subs
     .filter((i) => i.parentSlug === industrySlug)
     .map((i) => i.slug);
+  const all = await getAllCaseStudies();
 
-  return caseStudies
+  return all
     .filter(
       (c) =>
         c.industry === industrySlug ||
@@ -392,6 +410,16 @@ export async function getCaseStudiesByIndustry(
         subs.find((i) => i.slug === c.industry)?.parentSlug === industrySlug,
     )
     .slice(0, limit);
+}
+
+/* ----------------------------- Portfolio ----------------------------- */
+
+export async function getPortfolioProjects() {
+  return fromSanity(
+    "portfolioProject",
+    fetchPortfolioProjectsFromSanity,
+    () => staticPortfolioProjects,
+  );
 }
 
 /* ----------------------------- Posts ----------------------------- */
@@ -472,19 +500,27 @@ export async function getRelatedPosts(slug: string, limit = 3): Promise<Post[]> 
 /* ----------------------------- Products ----------------------------- */
 
 export async function getAllProducts(): Promise<Product[]> {
-  return [...products].sort(byOrder);
+  return fromSanity("product", fetchAllProductsFromSanity, () =>
+    [...staticProducts].sort(byOrder),
+  );
 }
 
 /* ----------------------------- Testimonials ----------------------------- */
 
 export async function getPlatformTestimonials(): Promise<Testimonial[]> {
-  return testimonials.filter((t) => t.platform);
+  const all = await fromSanity("testimonial", fetchTestimonialsFromSanity, () =>
+    staticTestimonials,
+  );
+  return all.filter((t) => t.platform);
 }
 
 export async function getTestimonialById(
   id: string,
 ): Promise<Testimonial | null> {
-  return testimonials.find((t) => t.id === id) ?? null;
+  const all = await fromSanity("testimonial", fetchTestimonialsFromSanity, () =>
+    staticTestimonials,
+  );
+  return all.find((t) => t.id === id || t.id === `testimonial-${id}`) ?? null;
 }
 
 /* ----------------------------- Team & settings ----------------------------- */
@@ -498,14 +534,21 @@ export async function getTeamMember(slug: string): Promise<TeamMember | null> {
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  return siteSettings;
+  if (!isSanityConfigured()) return staticSiteSettings;
+  try {
+    const has = await sanityHasContent("siteSettings");
+    if (!has) return staticSiteSettings;
+    return (await fetchSiteSettingsFromSanity()) ?? staticSiteSettings;
+  } catch {
+    return staticSiteSettings;
+  }
 }
 
 /* ----------------------------- FAQ ----------------------------- */
 
 export async function getAllFaqs() {
-  const { faqs } = await import("@/lib/content/faq");
-  return [...faqs].sort(byOrder);
+  const { faqs: staticFaqs } = await import("@/lib/content/faq");
+  return fromSanity("faq", fetchAllFaqsFromSanity, () => [...staticFaqs].sort(byOrder));
 }
 
 export type {

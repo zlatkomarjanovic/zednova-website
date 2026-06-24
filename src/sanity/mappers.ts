@@ -305,3 +305,149 @@ export function mapIndustryNavItem(doc: {
     navOrder: doc.navOrder ?? 999,
   };
 }
+
+export function mapCaseStudy(doc: {
+  slug: string;
+  title: string;
+  client: string;
+  industry: string;
+  servicesUsed?: string[];
+  timeline?: string;
+  resultHeadline: string;
+  challenge?: string;
+  solution?: string[];
+  results?: { value: string; label: string }[];
+  techStack?: string[];
+  testimonialId?: string;
+  featured?: boolean;
+  accent?: string;
+  image?: string;
+}) {
+  return {
+    slug: doc.slug,
+    title: doc.title,
+    client: doc.client,
+    industry: doc.industry,
+    servicesUsed: doc.servicesUsed ?? [],
+    timeline: doc.timeline ?? "",
+    resultHeadline: doc.resultHeadline,
+    challenge: doc.challenge ?? "",
+    solution: doc.solution ?? [],
+    results: doc.results ?? [],
+    techStack: doc.techStack ?? [],
+    testimonialId: doc.testimonialId,
+    featured: doc.featured ?? false,
+    accent: doc.accent ?? "#1c1917",
+    image: doc.image ?? "",
+  };
+}
+
+export function mapPortfolioProject(doc: {
+  slug: string;
+  title: string;
+  client: string;
+  summary: string;
+  href: string;
+  image?: string;
+  imageAlt?: string;
+  video?: string;
+  accent?: string;
+  category?: string;
+  order: number;
+  logo?: { src?: string; alt?: string; lightVariant?: boolean };
+}) {
+  return {
+    slug: doc.slug,
+    title: doc.title,
+    client: doc.client,
+    summary: doc.summary,
+    href: doc.href,
+    image: doc.image ?? "",
+    imageAlt: doc.imageAlt ?? doc.title,
+    video: doc.video,
+    accent: doc.accent ?? "#1c1917",
+    category: doc.category ?? "Websites",
+    order: doc.order,
+    logo: doc.logo?.src
+      ? {
+          src: doc.logo.src,
+          alt: doc.logo.alt ?? doc.client,
+          lightVariant: doc.logo.lightVariant,
+        }
+      : undefined,
+  };
+}
+
+export function mapProduct(doc: {
+  slug: string;
+  title: string;
+  tagline?: string;
+  description?: string;
+  status: string;
+  features?: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  order: number;
+}) {
+  return {
+    slug: doc.slug,
+    title: doc.title,
+    tagline: doc.tagline ?? "",
+    description: doc.description ?? "",
+    status: doc.status as import("@/lib/types").Product["status"],
+    features: doc.features ?? [],
+    ctaLabel: doc.ctaLabel ?? "",
+    ctaHref: doc.ctaHref ?? "",
+    order: doc.order,
+  };
+}
+
+export function mapTestimonial(doc: {
+  id: string;
+  quote: string;
+  authorName: string;
+  authorTitle?: string;
+  company?: string;
+  industry?: string;
+  image?: string;
+  platform?: boolean;
+  featured?: boolean;
+}) {
+  return {
+    id: doc.id,
+    quote: doc.quote,
+    authorName: doc.authorName,
+    authorTitle: doc.authorTitle ?? "",
+    company: doc.company ?? "",
+    industry: doc.industry ?? "",
+    image: doc.image,
+    platform: doc.platform,
+    featured: doc.featured ?? false,
+  };
+}
+
+export function mapSiteSettings(doc: {
+  siteTitle: string;
+  siteDescription: string;
+  contactEmail: string;
+  responseTime: string;
+  announcementBar?: string;
+  socialLinks: { linkedin: string; twitter: string; github: string };
+  stats: { value: string; label: string }[];
+}) {
+  return doc;
+}
+
+export function mapFaq(doc: {
+  id: string;
+  question: string;
+  answer: string;
+  order: number;
+}) {
+  return {
+    id: doc.id,
+    question: doc.question,
+    answer: doc.answer,
+    order: doc.order,
+  };
+}

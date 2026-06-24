@@ -34,7 +34,7 @@ export const product = defineType({
       of: [{ type: "string" }],
     }),
     defineField({ name: "ctaLabel", type: "string" }),
-    defineField({ name: "ctaHref", type: "url" }),
+    defineField({ name: "ctaHref", type: "string", title: "CTA link" }),
     defineField({
       name: "order",
       type: "number",

@@ -266,4 +266,153 @@ export const posts: Post[] = [
       { type: "quote", text: "The question is not WordPress or Next.js. It is whether the current site still matches how you sell today." },
     ],
   },
+  {
+    slug: "shopify-conversion-fixes-that-actually-move-revenue",
+    title: "7 Shopify Conversion Fixes That Actually Move Revenue",
+    excerpt:
+      "Most stores leak revenue on product pages, checkout friction, and post-purchase silence. Here are the seven fixes we apply first on every Shopify engagement.",
+    category: "Conversion",
+    author: "zed-marjanovic",
+    publishedAt: "2026-06-10",
+    image:
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1600&auto=format&fit=crop",
+    readTime: 7,
+    featured: false,
+    accent: "#1a1816",
+    tags: ["Shopify", "Conversion", "Ecommerce", "Product Pages", "Klaviyo"],
+    seoTitle: "7 Shopify Conversion Fixes That Move Revenue (2026)",
+    seoDescription:
+      "Product page clarity, cart recovery, post-purchase flows, and speed — seven Shopify fixes we apply first when a store gets traffic but not enough revenue.",
+    keywords: [
+      "shopify conversion rate",
+      "shopify product page optimization",
+      "cart abandonment shopify",
+      "klaviyo post purchase flow",
+      "shopify speed optimization",
+    ],
+    takeaways: [
+      "Traffic without conversion is a product page and checkout problem, not a branding problem.",
+      "Fix the offer clarity on product pages before you spend more on ads.",
+      "Cart recovery and post-purchase email flows recover revenue you already paid to acquire.",
+      "Speed on mobile is a conversion feature — four seconds loses paid traffic.",
+    ],
+    faqs: [
+      {
+        id: "faq-shopify-conversion-first",
+        question: "What is the first Shopify conversion fix to implement?",
+        answer:
+          "Start with product page clarity: one primary CTA, a scannable benefits block above the fold, and social proof near the add-to-cart button. Most stores try to fix checkout before fixing the page that sends people there.",
+      },
+      {
+        id: "faq-shopify-speed",
+        question: "Does Shopify site speed really affect conversion?",
+        answer:
+          "Yes. On mobile, every extra second increases bounce on paid traffic. Compress images, reduce app bloat, and lazy-load below-the-fold media before you increase ad spend.",
+      },
+    ],
+    body: [
+      { type: "p", text: "Shopify makes it easy to launch. It does not make it easy to convert. Most stores we audit get traffic, add-to-carts, and then leak revenue on product pages, slow mobile load, and silent post-purchase follow-up." },
+      { type: "h2", text: "Fix the product page before the ads budget" },
+      { type: "p", text: "If the offer is buried, the CTA competes with five other links, and social proof sits below three screens of fluff, paid traffic will not save you. One page, one action, proof next to the button." },
+      { type: "h2", text: "Recover what you already paid for" },
+      { type: "ul", items: [
+        "Browse abandonment emails for viewers who never added to cart.",
+        "Cart recovery with timed SMS and email after checkout drop-off.",
+        "Post-purchase flows that drive repeat orders, not just a thank-you page.",
+      ] },
+      { type: "quote", text: "The cheapest revenue in ecommerce is the shopper who already wanted to buy — and got stuck, distracted, or never heard from you again." },
+    ],
+  },
+  {
+    slug: "crm-automation-for-clinics-without-extra-hires",
+    title: "CRM Automation for Clinics Without Hiring More Front-Desk Staff",
+    excerpt:
+      "Clinics do not need a bigger front desk. They need booking, intake, reminders, and follow-up wired so no patient inquiry waits until someone has time.",
+    category: "Healthcare Clinics",
+    author: "zed-marjanovic",
+    publishedAt: "2026-06-05",
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop",
+    readTime: 6,
+    featured: false,
+    accent: "#171614",
+    tags: ["CRM Automation", "Healthcare", "Booking", "Clinics", "Follow-up"],
+    seoTitle: "CRM Automation for Clinics — No Extra Front-Desk Hires",
+    seoDescription:
+      "Booking, intake, reminders, and review requests for clinics — how to automate patient follow-up without adding front-desk headcount.",
+    keywords: [
+      "clinic crm automation",
+      "dental booking automation",
+      "patient intake automation",
+      "healthcare follow up sms",
+      "med spa crm setup",
+    ],
+    takeaways: [
+      "Missed calls and slow follow-up are scheduling problems, not staffing problems.",
+      "Online booking plus automated reminders cut no-shows without more phone time.",
+      "Intake forms should flow into the CRM before the patient arrives.",
+      "Review requests should trigger after the visit, not when someone remembers to ask.",
+    ],
+    faqs: [
+      {
+        id: "faq-clinic-crm-tools",
+        question: "Which CRM tools work for clinics?",
+        answer:
+          "HubSpot, GoHighLevel, and clinic-specific stacks all work if booking, SMS, and forms connect cleanly. We pick based on your call volume, locations, and what your team already uses.",
+      },
+    ],
+    body: [
+      { type: "p", text: "Every clinic owner knows the pattern: phones busy during patient hours, voicemails stack up, and new inquiries book with whoever answers first — often a competitor." },
+      { type: "h2", text: "Automate the repeatable parts" },
+      { type: "p", text: "Booking confirmations, reminder texts, intake links, and recall sequences do not need a human every time. They need a system that fires reliably." },
+      { type: "h2", text: "Keep humans on high-value calls" },
+      { type: "p", text: "AI phone assistants and missed-call text-back handle overflow. Staff focus on patients in the chair, not on chasing every form fill from yesterday." },
+    ],
+  },
+  {
+    slug: "sanity-cms-for-marketing-teams-who-hate-developer-tickets",
+    title: "Sanity CMS for Marketing Teams Who Hate Developer Tickets",
+    excerpt:
+      "Your marketing team should not open a ticket to change a headline. Here is how we structure Sanity so editors move fast without breaking the site.",
+    category: "Systems",
+    author: "zed-marjanovic",
+    publishedAt: "2026-05-20",
+    image:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop",
+    readTime: 5,
+    featured: false,
+    accent: "#141312",
+    tags: ["Sanity CMS", "Next.js", "Content Operations", "Marketing", "Webflow Migration"],
+    seoTitle: "Sanity CMS for Marketing Teams — Edit Without Developer Tickets",
+    seoDescription:
+      "How we structure Sanity CMS so marketing teams update pages, services, and insights without waiting on dev for every copy change.",
+    keywords: [
+      "sanity cms marketing team",
+      "headless cms next.js",
+      "content operations",
+      "webflow to sanity",
+      "marketing website cms",
+    ],
+    takeaways: [
+      "Separate page copy from layout components so editors change words, not React files.",
+      "Use collections for services, industries, and insights — not one-off hardcoded pages.",
+      "Preview URLs let marketing review before publish without staging gymnastics.",
+      "Structured content beats a WYSIWYG free-for-all when you care about SEO and consistency.",
+    ],
+    faqs: [
+      {
+        id: "faq-sanity-vs-webflow-cms",
+        question: "When is Sanity better than Webflow CMS?",
+        answer:
+          "When you need custom software features, multi-collection content, or a Next.js front end with room to grow. Webflow is great for marketing sites alone; Sanity wins when content feeds multiple surfaces.",
+      },
+    ],
+    body: [
+      { type: "p", text: "The goal is not a CMS your developers love. It is a CMS your marketing team actually uses — without breaking layout, SEO, or performance." },
+      { type: "h2", text: "Collections, not page blobs" },
+      { type: "p", text: "Services, industries, migrations, and insights each get their own collection. Editors update entries once; the site pulls them into nav, listing pages, and detail templates automatically." },
+      { type: "h2", text: "Guardrails beat freedom" },
+      { type: "p", text: "Required fields, references instead of pasted URLs, and preview before publish keep content consistent while still moving faster than a developer ticket queue." },
+    ],
+  },
 ];

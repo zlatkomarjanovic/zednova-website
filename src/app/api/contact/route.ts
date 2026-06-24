@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 import { labelForIndustry, labelForService } from "@/lib/queries";
-import { siteSettings } from "@/lib/content/site";
+import { getSiteSettings } from "@/lib/queries";
 import { contactSchema } from "@/lib/validation";
 
 export async function POST(request: Request) {
@@ -43,12 +43,13 @@ export async function POST(request: Request) {
 
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL ?? "ZedNova Contact <onboarding@resend.dev>";
+  const settings = await getSiteSettings();
 
   if (apiKey) {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from,
-      to: [siteSettings.contactEmail],
+      to: [settings.contactEmail],
       replyTo: data.email,
       subject: `New project inquiry from ${data.name}`,
       text,

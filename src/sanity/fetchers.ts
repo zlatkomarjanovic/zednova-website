@@ -8,18 +8,27 @@ import {
   buildCustomSoftwareGroups,
   groupServiceNavItems,
   mapAuthor,
+  mapCaseStudy,
+  mapFaq,
   mapIndustry,
   mapIndustryNavItem,
   mapIndustryParent,
   mapMegaMenuCard,
   mapMigration,
   mapNavItem,
+  mapPortfolioProject,
   mapPost,
+  mapProduct,
   mapService,
+  mapSiteSettings,
+  mapTestimonial,
 } from "@/sanity/mappers";
 import {
   AUTHOR_BY_SLUG_QUERY,
+  CASE_STUDIES_QUERY,
+  CASE_STUDY_BY_SLUG_QUERY,
   CUSTOM_SOFTWARE_QUERY,
+  FAQS_QUERY,
   INDUSTRIES_QUERY,
   INDUSTRY_BY_SLUG_QUERY,
   INDUSTRY_NAV_QUERY,
@@ -27,12 +36,16 @@ import {
   INDUSTRY_PARENTS_QUERY,
   MIGRATION_BY_SLUG_QUERY,
   MIGRATIONS_QUERY,
+  PORTFOLIO_PROJECTS_QUERY,
   POST_BY_SLUG_QUERY,
   POSTS_QUERY,
+  PRODUCTS_QUERY,
   SERVICE_BY_SLUG_QUERY,
   SERVICE_MEGA_MENU_CARDS_QUERY,
   SERVICE_NAV_ITEMS_QUERY,
   SERVICES_QUERY,
+  SITE_SETTINGS_QUERY,
+  TESTIMONIALS_QUERY,
 } from "@/sanity/queries";
 import type {
   CustomSoftwareGroupSection,
@@ -41,8 +54,8 @@ import type {
   NavMenuItem,
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";
-import type { Author, Industry, IndustryParent, Service } from "@/lib/types";
-import type { Post } from "@/lib/types";
+import type { Author, CaseStudy, Industry, IndustryParent, PortfolioProject, Post, Product, Service, SiteSettings, Testimonial } from "@/lib/types";
+import type { FaqItem } from "@/lib/content/faq";
 
 export async function sanityHasContent(type: string): Promise<boolean> {
   if (!isSanityConfigured()) return false;
@@ -203,4 +216,56 @@ export async function fetchAuthorBySlugFromSanity(
     params: { slug },
   });
   return doc ? mapAuthor(doc) : null;
+}
+
+export async function fetchSiteSettingsFromSanity(): Promise<SiteSettings | null> {
+  const doc = await sanityFetch<Parameters<typeof mapSiteSettings>[0] | null>({
+    query: SITE_SETTINGS_QUERY,
+  });
+  return doc ? mapSiteSettings(doc) : null;
+}
+
+export async function fetchAllCaseStudiesFromSanity(): Promise<CaseStudy[]> {
+  const docs = await sanityFetch<Parameters<typeof mapCaseStudy>[0][]>({
+    query: CASE_STUDIES_QUERY,
+  });
+  return docs.map(mapCaseStudy);
+}
+
+export async function fetchCaseStudyBySlugFromSanity(
+  slug: string,
+): Promise<CaseStudy | null> {
+  const doc = await sanityFetch<Parameters<typeof mapCaseStudy>[0] | null>({
+    query: CASE_STUDY_BY_SLUG_QUERY,
+    params: { slug },
+  });
+  return doc ? mapCaseStudy(doc) : null;
+}
+
+export async function fetchPortfolioProjectsFromSanity(): Promise<PortfolioProject[]> {
+  const docs = await sanityFetch<Parameters<typeof mapPortfolioProject>[0][]>({
+    query: PORTFOLIO_PROJECTS_QUERY,
+  });
+  return docs.map(mapPortfolioProject);
+}
+
+export async function fetchAllProductsFromSanity(): Promise<Product[]> {
+  const docs = await sanityFetch<Parameters<typeof mapProduct>[0][]>({
+    query: PRODUCTS_QUERY,
+  });
+  return docs.map(mapProduct);
+}
+
+export async function fetchTestimonialsFromSanity(): Promise<Testimonial[]> {
+  const docs = await sanityFetch<Parameters<typeof mapTestimonial>[0][]>({
+    query: TESTIMONIALS_QUERY,
+  });
+  return docs.map(mapTestimonial);
+}
+
+export async function fetchAllFaqsFromSanity(): Promise<FaqItem[]> {
+  const docs = await sanityFetch<Parameters<typeof mapFaq>[0][]>({
+    query: FAQS_QUERY,
+  });
+  return docs.map(mapFaq);
 }

@@ -124,6 +124,7 @@ export const portfolioLogo = defineType({
   type: "object",
   fields: [
     defineField({ name: "image", type: "image", title: "Logo image" }),
+    defineField({ name: "imageUrl", type: "string", title: "Logo URL (legacy)" }),
     defineField({ name: "alt", type: "string", title: "Alt text" }),
     defineField({
       name: "lightVariant",

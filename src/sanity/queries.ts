@@ -320,3 +320,61 @@ export const SITE_SETTINGS_QUERY = /* groq */ `
   }
 `;
 
+export const PRODUCTS_QUERY = /* groq */ `
+  *[_type == "product" && defined(slug.current)] | order(order asc) {
+    "slug": slug.current,
+    title,
+    tagline,
+    description,
+    status,
+    features,
+    ctaLabel,
+    ctaHref,
+    order
+  }
+`;
+
+export const TESTIMONIALS_QUERY = /* groq */ `
+  *[_type == "testimonial"] | order(_createdAt asc) {
+    "id": _id,
+    quote,
+    authorName,
+    authorTitle,
+    company,
+    industry,
+    "image": avatar.asset->url,
+    platform,
+    featured
+  }
+`;
+
+export const FAQS_QUERY = /* groq */ `
+  *[_type == "faq"] | order(order asc) {
+    "id": _id,
+    question,
+    answer,
+    order
+  }
+`;
+
+export const CASE_STUDY_BY_SLUG_QUERY = /* groq */ `
+  *[_type == "caseStudy" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    client,
+    "industry": industry->slug.current,
+    "servicesUsed": servicesUsed[]->slug.current,
+    timeline,
+    resultHeadline,
+    challenge,
+    solution,
+    results,
+    techStack,
+    "testimonialId": testimonial->_id,
+    featured,
+    accent,
+    "image": coalesce(coverImage.asset->url, coverImageUrl)
+  }
+`;
+

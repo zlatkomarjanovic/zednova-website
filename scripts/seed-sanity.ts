@@ -8,10 +8,16 @@ import { createClient } from "@sanity/client";
 
 import { services } from "../src/lib/content/services";
 import { migrations } from "../src/lib/content/migrations";
-import { industryParents } from "../src/lib/content/industry-parents";
+import { team } from "../src/lib/content/team";
 import { industries } from "../src/lib/content/industry-subs";
 import { posts } from "../src/lib/content/posts";
-import { team } from "../src/lib/content/team";
+import { products } from "../src/lib/content/products";
+import { testimonials } from "../src/lib/content/testimonials";
+import { siteSettings } from "../src/lib/content/site";
+import { caseStudies } from "../src/lib/content/case-studies";
+import { portfolioProjects } from "../src/lib/content/portfolio-projects";
+import { faqs } from "../src/lib/content/faq";
+import { industryParents } from "../src/lib/content/industry-parents";
 import {
   customSoftwareGroups,
   customSoftwareNavItems,
@@ -259,7 +265,16 @@ const CATEGORY_ICONS: Record<string, string> = {
   "AI & Search": "ai-search",
   Systems: "automation",
   Conversion: "conversion",
+  "Healthcare Clinics": "healthcare",
 };
+
+function industryRef(slug: string) {
+  const parent = industryParents.find((p) => p.slug === slug);
+  if (parent) {
+    return { _type: "reference", _ref: `industryParent-${slug}` };
+  }
+  return { _type: "reference", _ref: `industry-${slug}` };
+}
 
 const categoryTitles = [...new Set(posts.map((post) => post.category))];
 categoryTitles.forEach((title, index) => {
@@ -335,6 +350,121 @@ for (const post of posts) {
       keywords: post.keywords,
     },
     articleBlocks: post.body,
+  });
+}
+
+/* ----------------------------- Site settings ----------------------------- */
+
+add({
+  _id: "siteSettings",
+  _type: "siteSettings",
+  ...siteSettings,
+});
+
+/* ----------------------------- Products ----------------------------- */
+
+for (const product of products) {
+  add({
+    _id: `product-${product.slug}`,
+    _type: "product",
+    title: product.title,
+    slug: { _type: "slug", current: product.slug },
+    tagline: product.tagline,
+    description: product.description,
+    status: product.status,
+    features: product.features,
+    ctaLabel: product.ctaLabel,
+    ctaHref: product.ctaHref,
+    order: product.order,
+  });
+}
+
+/* ----------------------------- Testimonials ----------------------------- */
+
+for (const testimonial of testimonials) {
+  add({
+    _id: `testimonial-${testimonial.id}`,
+    _type: "testimonial",
+    quote: testimonial.quote,
+    authorName: testimonial.authorName,
+    authorTitle: testimonial.authorTitle,
+    company: testimonial.company,
+    industry: testimonial.industry,
+    platform: testimonial.platform ?? false,
+    featured: testimonial.featured,
+  });
+}
+
+/* ----------------------------- Portfolio ----------------------------- */
+
+for (const project of portfolioProjects) {
+  add({
+    _id: `portfolioProject-${project.slug}`,
+    _type: "portfolioProject",
+    title: project.title,
+    slug: { _type: "slug", current: project.slug },
+    client: project.client,
+    summary: project.summary,
+    href: project.href,
+    coverImageUrl: project.image,
+    imageAlt: project.imageAlt,
+    videoUrl: project.video,
+    accent: project.accent,
+    category: project.category,
+    order: project.order,
+    logo: project.logo
+      ? {
+          _type: "portfolioLogo",
+          imageUrl: project.logo.src,
+          alt: project.logo.alt,
+          lightVariant: project.logo.lightVariant,
+        }
+      : undefined,
+  });
+}
+
+/* ----------------------------- Case studies ----------------------------- */
+
+for (const study of caseStudies) {
+  add({
+    _id: `caseStudy-${study.slug}`,
+    _type: "caseStudy",
+    title: study.title,
+    slug: { _type: "slug", current: study.slug },
+    client: study.client,
+    industry: industryRef(study.industry),
+    servicesUsed: study.servicesUsed.map((slug) => ({
+      _type: "reference",
+      _key: slug,
+      _ref: `service-${slug}`,
+    })),
+    timeline: study.timeline,
+    resultHeadline: study.resultHeadline,
+    challenge: study.challenge,
+    solution: study.solution,
+    results: study.results,
+    techStack: study.techStack,
+    testimonial: study.testimonialId
+      ? {
+          _type: "reference",
+          _ref: `testimonial-${study.testimonialId}`,
+        }
+      : undefined,
+    featured: study.featured,
+    accent: study.accent,
+    coverImageUrl: study.image,
+  });
+}
+
+/* ----------------------------- FAQs ----------------------------- */
+
+for (const item of faqs) {
+  add({
+    _id: `faq-${item.id}`,
+    _type: "faq",
+    question: item.question,
+    answer: item.answer,
+    order: item.order,
   });
 }
 

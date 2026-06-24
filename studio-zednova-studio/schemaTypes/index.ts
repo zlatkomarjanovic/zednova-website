@@ -15,6 +15,7 @@ import { serviceMegaMenuCard } from "./documents/serviceMegaMenuCard";
 import { insightCategory } from "./documents/insightCategory";
 import { tag } from "./documents/tag";
 import { author } from "./documents/author";
+import { faq } from "./documents/faq";
 
 export const schemaTypes = [
   ...objectTypes,
@@ -22,6 +23,7 @@ export const schemaTypes = [
   insightCategory,
   tag,
   author,
+  faq,
   service,
   serviceNavItem,
   serviceMegaMenuCard,

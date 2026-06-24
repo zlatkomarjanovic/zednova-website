@@ -8,6 +8,7 @@ import {
   getFeaturedCaseStudies,
   getHomepageIndustries,
   getPlatformTestimonials,
+  getPortfolioProjects,
   getSiteSettings,
 } from "@/lib/queries";
 
@@ -35,7 +36,6 @@ import { AgencyComparisonSection } from "@/features/home/AgencyComparisonSection
 import { FaqSection } from "@/features/home/FaqSection";
 import { agencyComparison } from "@/lib/content/agency-comparison";
 import { DarkCTA } from "@/features/home/DarkCTA";
-import { portfolioProjects } from "@/lib/content/portfolio-projects";
 
 export const metadata: Metadata = {
   title: { absolute: "ZedNova Studios — Websites, Shopify & Automations" },
@@ -63,7 +63,7 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, platformTestimonials, products, settings, faqs, homepageIndustries] =
+  const [featuredCases, allCases, services, platformTestimonials, products, settings, faqs, homepageIndustries, portfolioProjects] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
@@ -73,6 +73,7 @@ export default async function HomePage() {
       getSiteSettings(),
       getAllFaqs(),
       getHomepageIndustries(),
+      getPortfolioProjects(),
     ]);
 
   const PILLAR_VISUALS = [
