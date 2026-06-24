@@ -5,10 +5,10 @@ import { ArrowRight, Check } from "lucide-react";
 
 import {
   getAllServices,
-  getCaseStudiesByService,
+  getAllPosts,
   getInsightsByService,
-  getIndustryTitle,
   getServiceBySlug,
+  getServiceRelatedPortfolioProjects,
   getServicesBySlugs,
 } from "@/lib/queries";
 import { serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
@@ -18,7 +18,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { Tag } from "@/ui/Tag";
 import { Button } from "@/ui/Button";
-import { CaseStudyCard } from "@/features/work/CaseStudyCard";
+import { PortfolioWorkGrid } from "@/features/work/PortfolioWorkGrid";
 import { ProcessSteps } from "@/features/home/ProcessSteps";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
@@ -26,6 +26,7 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { ArticleCard } from "@/features/insights/ArticleCard";
 import { slugify } from "@/lib/utils";
+import { TemplateSection } from "@/ui/TemplateSection";
 
 export async function generateStaticParams() {
   const services = await getAllServices();
@@ -83,19 +84,20 @@ export default async function ServiceDetailPage({
   const service = await getServiceBySlug(slug);
   if (!service) notFound();
 
-  const [related, insights, relatedServices] = await Promise.all([
-    getCaseStudiesByService(slug),
-    getInsightsByService(slug, 3),
+  const [relatedWork, allPosts, relatedServices] = await Promise.all([
+    getServiceRelatedPortfolioProjects(service),
+    getAllPosts(),
     service.relatedServices
       ? getServicesBySlugs(service.relatedServices)
       : Promise.resolve([]),
   ]);
-  const relatedWithLabels = await Promise.all(
-    related.map(async (caseStudy) => ({
-      caseStudy,
-      industryLabel: await getIndustryTitle(caseStudy.industry),
-    })),
-  );
+
+  const insights =
+    service.relatedInsights && service.relatedInsights.length > 0
+      ? allPosts
+          .filter((post) => service.relatedInsights!.includes(post.slug))
+          .slice(0, 3)
+      : await getInsightsByService(slug, 3);
   const crumbs = [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
@@ -175,6 +177,23 @@ export default async function ServiceDetailPage({
                   )}
                   <p className="mt-2 text-sm text-zn-text-3">{service.timeline}</p>
 
+                  {whatsIncluded.length > 0 && (
+                    <ul className="mt-6 grid gap-3 border-t border-zn-border pt-6">
+                      {whatsIncluded.map((item) => (
+                        <li
+                          key={item.title}
+                          className="flex items-start gap-3 text-sm text-zn-text"
+                        >
+                          <Check
+                            className="mt-0.5 size-4 shrink-0 text-zn-text-3"
+                            aria-hidden="true"
+                          />
+                          <span>{item.title}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   {service.pricingTiers && service.pricingTiers.length > 0 && (
                     <div className="mt-6 space-y-3">
                       {service.pricingTiers.map((tier) => (
@@ -249,187 +268,151 @@ export default async function ServiceDetailPage({
         </div>
       </section>
 
-      {/* Who it's for */}
-      <section data-theme="light" className="zn-section">
-        <div className="zn-container">
+      <TemplateSection>
+        <Reveal>
+          <SectionLabel withRule={false}>Who it&apos;s for</SectionLabel>
+        </Reveal>
+        <TextReveal
+          as="h2"
+          text="Built for these teams"
+          className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+        />
+        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.05}>
+          {service.idealClients.map((profile, i) => (
+            <div
+              key={profile}
+              className="rounded-[2px] border border-zn-border bg-zn-bg-2 p-7"
+            >
+              <span className="font-mono text-sm text-zn-text-3">0{i + 1}</span>
+              <p className="mt-4 leading-relaxed text-zn-text">{profile}</p>
+            </div>
+          ))}
+        </Stagger>
+      </TemplateSection>
+
+      {service.processSteps.length > 0 && (
+        <TemplateSection>
           <Reveal>
-            <SectionLabel withRule={false}>Who it&apos;s for</SectionLabel>
+            <SectionLabel withRule={false}>Our process</SectionLabel>
           </Reveal>
           <TextReveal
             as="h2"
-            text="Built for these teams"
+            text={`How we deliver ${service.title.toLowerCase()}`}
             className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
           />
-          <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.05}>
-            {service.idealClients.map((profile, i) => (
-              <div
-                key={profile}
-                className="rounded-[2px] border border-zn-border bg-zn-bg-2 p-7"
-              >
-                <span className="font-mono text-sm text-zn-text-3">
-                  0{i + 1}
-                </span>
-                <p className="mt-4 leading-relaxed text-zn-text">{profile}</p>
+          <div className="mt-16">
+            <ProcessSteps steps={service.processSteps} />
+          </div>
+        </TemplateSection>
+      )}
+
+      {service.results.length > 0 && (
+        <TemplateSection theme="dark">
+          <Reveal>
+            <SectionLabel withRule={false} className="text-zn-inv-2">
+              Results you can expect
+            </SectionLabel>
+          </Reveal>
+          <Stagger
+            className="mt-10 grid gap-px overflow-hidden rounded-[2px] border border-zn-border-dk bg-zn-border-dk md:grid-cols-3"
+            stagger={0.05}
+          >
+            {service.results.map((result) => (
+              <div key={result} className="bg-zn-dark p-8">
+                <Check className="size-5 text-zn-inv" aria-hidden="true" />
+                <p className="mt-4 leading-relaxed text-zn-inv">{result}</p>
               </div>
             ))}
           </Stagger>
-        </div>
-      </section>
-
-      {/* Process */}
-      {service.processSteps.length > 0 && (
-        <section data-theme="light" className="zn-section">
-          <div className="zn-container">
-            <Reveal>
-              <SectionLabel withRule={false}>Our process</SectionLabel>
-            </Reveal>
-            <TextReveal
-              as="h2"
-              text={`How we deliver ${service.title.toLowerCase()}`}
-              className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
-            />
-            <div className="mt-16">
-              <ProcessSteps steps={service.processSteps} />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Results (dark) */}
-      {service.results.length > 0 && (
-        <section data-theme="dark" className="zn-section bg-zn-dark text-zn-inv">
-          <div className="zn-container">
-            <Reveal>
-              <SectionLabel withRule={false} className="text-zn-inv-2">
-                Results you can expect
-              </SectionLabel>
-            </Reveal>
-            <Stagger
-              className="mt-10 grid gap-px overflow-hidden rounded-[2px] border border-zn-border-dk bg-zn-border-dk md:grid-cols-3"
-              stagger={0.05}
-            >
-              {service.results.map((result) => (
-                <div key={result} className="bg-zn-dark p-8">
-                  <Check className="size-5 text-zn-inv" aria-hidden="true" />
-                  <p className="mt-4 leading-relaxed text-zn-inv">{result}</p>
-                </div>
-              ))}
-            </Stagger>
-          </div>
-        </section>
+        </TemplateSection>
       )}
 
       {/* FAQ (CMS-driven) */}
       {hasFaq && <FaqSection faqs={service.faqs!} title={`${service.title} FAQ`} id={`${slugify(service.title)}-faq`} />}
 
-      {/* Related case studies */}
-      {related.length > 0 && (
-        <section data-theme="light" className="zn-section">
-          <div className="zn-container">
-            <div className="flex items-end justify-between gap-6">
-              <div>
-                <Reveal>
-                  <SectionLabel withRule={false}>Related work</SectionLabel>
-                </Reveal>
-                <TextReveal
-                  as="h2"
-                  text="Proof from real deployments"
-                  className="mt-6 zn-h2 font-sans font-normal"
-                />
-              </div>
-              <Reveal delay={0.1}>
-                <Link
-                  href="/work"
-                  className="hidden items-center gap-1.5 text-sm font-medium text-zn-text sm:inline-flex"
-                >
-                  <span className="zn-underline">All work</span>
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </Link>
+      {relatedWork.length > 0 && (
+        <TemplateSection withBlueprintGrid className="bg-zn-bg">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <Reveal>
+                <SectionLabel withRule={false}>Related work</SectionLabel>
               </Reveal>
+              <TextReveal
+                as="h2"
+                text="Projects and case studies"
+                className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+              />
             </div>
-            <div className="mt-12 grid gap-8 sm:grid-cols-2">
-              {relatedWithLabels.map(({ caseStudy, industryLabel }) => (
-                <CaseStudyCard
-                  key={caseStudy.slug}
-                  caseStudy={caseStudy}
-                  industryLabel={industryLabel}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Related insights */}
-      {insights.length > 0 && (
-        <section data-theme="light" className="zn-section">
-          <div className="zn-container">
-            <div className="flex items-end justify-between gap-6">
-              <div>
-                <Reveal>
-                  <SectionLabel withRule={false}>Related insights</SectionLabel>
-                </Reveal>
-                <TextReveal
-                  as="h2"
-                  text="Notes that connect to this service"
-                  className="mt-6 zn-h2 font-sans font-normal"
-                />
-              </div>
-              <Reveal delay={0.1}>
-                <Link
-                  href="/insights"
-                  className="hidden items-center gap-1.5 text-sm font-medium text-zn-text sm:inline-flex"
-                >
-                  <span className="zn-underline">All insights</span>
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </Link>
-              </Reveal>
-            </div>
-            <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-              {insights.map((post) => (
-                <ArticleCard key={post.slug} post={post} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Related services */}
-      {relatedServices.length > 0 && (
-        <section data-theme="light" className="zn-section">
-          <div className="zn-container">
-            <Reveal>
-              <SectionLabel withRule={false}>Related services</SectionLabel>
+            <Reveal delay={0.1}>
+              <Button href="/work" variant="link" withArrow>
+                All case studies
+              </Button>
             </Reveal>
-            <TextReveal
-              as="h2"
-              text="Often combined with"
-              className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
-            />
-            <Stagger
-              className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-              stagger={0.05}
-            >
-              {relatedServices.map((s) => (
-                <Link
-                  key={s.slug}
-                  href={`/services/${s.slug}`}
-                  className="group flex flex-col gap-3 rounded-[2px] border border-zn-border bg-zn-bg-2 p-6 transition-colors hover:border-zn-text"
-                >
-                  <span className="font-mono text-xs text-zn-text-3">
-                    {s.number}
-                  </span>
-                  <span className="font-sans text-lg font-normal text-zn-text">
-                    {s.title}
-                  </span>
-                  <span className="text-sm leading-relaxed text-zn-text-2">
-                    {s.shortDescription}
-                  </span>
-                </Link>
-              ))}
-            </Stagger>
           </div>
-        </section>
+          <PortfolioWorkGrid projects={relatedWork} />
+        </TemplateSection>
+      )}
+
+      {insights.length > 0 && (
+        <TemplateSection>
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <Reveal>
+                <SectionLabel withRule={false}>Related insights</SectionLabel>
+              </Reveal>
+              <TextReveal
+                as="h2"
+                text="Notes that connect to this service"
+                className="mt-6 zn-h2 font-sans font-normal"
+              />
+            </div>
+            <Reveal delay={0.1}>
+              <Link
+                href="/insights"
+                className="hidden items-center gap-1.5 text-sm font-medium text-zn-text sm:inline-flex"
+              >
+                <span className="zn-underline">All insights</span>
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </Reveal>
+          </div>
+          <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {insights.map((post) => (
+              <ArticleCard key={post.slug} post={post} />
+            ))}
+          </div>
+        </TemplateSection>
+      )}
+
+      {relatedServices.length > 0 && (
+        <TemplateSection borderBottom={false}>
+          <Reveal>
+            <SectionLabel withRule={false}>Related services</SectionLabel>
+          </Reveal>
+          <TextReveal
+            as="h2"
+            text="Often combined with"
+            className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+          />
+          <Stagger
+            className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            stagger={0.05}
+          >
+            {relatedServices.map((s) => (
+              <Link
+                key={s.slug}
+                href={`/services/${s.slug}`}
+                className="group flex flex-col gap-3 rounded-[2px] border border-zn-border bg-zn-bg-2 p-6 transition-colors hover:border-zn-text"
+              >
+                <span className="font-mono text-xs text-zn-text-3">{s.number}</span>
+                <span className="font-sans text-lg font-normal text-zn-text">{s.title}</span>
+                <span className="text-sm leading-relaxed text-zn-text-2">
+                  {s.shortDescription}
+                </span>
+              </Link>
+            ))}
+          </Stagger>
+        </TemplateSection>
       )}
 
       <DarkCTA

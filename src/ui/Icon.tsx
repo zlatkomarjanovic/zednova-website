@@ -31,6 +31,7 @@ import {
   Users,
   UserRound,
   BookOpen,
+  Scale,
   type LucideIcon,
 } from "lucide-react";
 
@@ -86,6 +87,17 @@ const ICONS: Record<string, LucideIcon> = {
   community: Users,
   education: GraduationCap,
   tutoring: BookOpen,
+  legal: Scale,
+  consulting: UserRound,
+  accounting: BarChart3,
+  recruiting: Users,
+  architecture: Home,
+  engineering: Settings2,
+  b2b: Globe,
+  operations: Workflow,
+  medspa: Sparkles,
+  devtools: Code2,
+  security: Star,
 };
 
 export function Icon({

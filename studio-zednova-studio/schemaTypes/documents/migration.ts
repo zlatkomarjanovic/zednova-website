@@ -1,4 +1,13 @@
 import { defineField, defineType } from "sanity";
+import { richTextMembers } from "../objects/extended";
+import {
+  flatConsultationCtaFields,
+  flatOpenGraphFields,
+  flatPrimaryCtaFields,
+  flatSchemaFields,
+  flatSeoFields,
+  flatSettingsFields,
+} from "../shared/flatFields";
 
 export const migration = defineType({
   name: "migration",
@@ -7,7 +16,12 @@ export const migration = defineType({
   groups: [
     { name: "content", title: "Content", default: true },
     { name: "relationships", title: "Relationships" },
-    { name: "seo", title: "SEO & AEO" },
+    { name: "aeo", title: "AEO" },
+    { name: "conversion", title: "Conversion" },
+    { name: "seo", title: "SEO" },
+    { name: "og", title: "Open Graph" },
+    { name: "schema", title: "Schema" },
+    { name: "settings", title: "Settings" },
   ],
   fields: [
     defineField({ name: "title", type: "string", group: "content", validation: (r) => r.required() }),
@@ -36,20 +50,22 @@ export const migration = defineType({
     defineField({ name: "heroHeadline", type: "string", group: "content" }),
     defineField({ name: "heroSubhead", type: "text", rows: 3, group: "content" }),
     defineField({
-      name: "sourcePlatform",
+      name: "fromPlatform",
       type: "string",
-      title: "Source platform",
+      title: "From platform",
       group: "content",
       options: {
-        list: ["Webflow", "WordPress", "Framer", "Wix", "Squarespace", "Shopify", "Custom", "Other"],
+        list: ["Webflow", "WordPress", "Framer", "Wix", "Squarespace", "Shopify", "Custom"],
       },
     }),
     defineField({
-      name: "targetPlatform",
+      name: "toPlatform",
       type: "string",
-      title: "Target platform",
+      title: "To platform",
       group: "content",
-      options: { list: ["Next.js", "Shopify", "Sanity", "Custom"] },
+      options: {
+        list: ["Next.js + Sanity", "Next.js", "Shopify", "Framer", "Custom"],
+      },
     }),
     defineField({
       name: "whatsIncluded",
@@ -82,7 +98,48 @@ export const migration = defineType({
     defineField({
       name: "body",
       type: "array",
-      of: [{ type: "block" }],
+      of: richTextMembers,
+      group: "content",
+    }),
+    defineField({
+      name: "longDescription",
+      type: "array",
+      of: richTextMembers,
+      group: "content",
+      description: "Full migration page content in rich text.",
+    }),
+    defineField({
+      name: "whyMigrate",
+      type: "array",
+      title: "Why migrate",
+      group: "content",
+      of: [{ type: "bulletItem" }],
+    }),
+    defineField({
+      name: "commonProblems",
+      type: "array",
+      title: "Common problems",
+      group: "content",
+      of: [{ type: "bulletItem" }],
+    }),
+    defineField({
+      name: "migrationDeliverables",
+      type: "array",
+      title: "Migration deliverables",
+      group: "content",
+      of: [{ type: "deliverableItem" }],
+    }),
+    defineField({
+      name: "risks",
+      type: "array",
+      title: "Risks",
+      group: "content",
+      of: [{ type: "bulletItem" }],
+    }),
+    defineField({
+      name: "startingPrice",
+      type: "number",
+      title: "Starting price (USD)",
       group: "content",
     }),
     defineField({
@@ -125,6 +182,31 @@ export const migration = defineType({
       of: [{ type: "reference", to: [{ type: "migration" }] }],
     }),
 
+    defineField({
+      name: "faqReferences",
+      type: "array",
+      title: "FAQ references",
+      group: "content",
+      of: [{ type: "reference", to: [{ type: "faq" }] }],
+    }),
+    defineField({
+      name: "relatedCaseStudies",
+      type: "array",
+      title: "Related case studies",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
+    }),
+    defineField({
+      name: "relatedPortfolioProjects",
+      type: "array",
+      title: "Related portfolio projects",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "portfolioProject" }] }],
+    }),
+    defineField({ name: "quickAnswer", type: "aeoAnswerBlock", group: "aeo" }),
+    defineField({ name: "aiSummary", type: "text", rows: 4, group: "aeo" }),
+    defineField({ name: "primaryCta", type: "ctaBlock", group: "conversion" }),
+
     /* SEO / AEO */
     defineField({
       name: "tags",
@@ -138,6 +220,14 @@ export const migration = defineType({
       type: "seoFields",
       group: "seo",
     }),
+    ...flatSeoFields,
+    ...flatOpenGraphFields,
+    ...flatSchemaFields,
+    ...flatPrimaryCtaFields,
+    ...flatConsultationCtaFields,
+    ...flatSettingsFields,
+    defineField({ name: "openGraph", type: "openGraphFields", group: "og" }),
+    defineField({ name: "schemaMarkup", type: "schemaMarkupFields", group: "schema" }),
 
     defineField({
       name: "order",

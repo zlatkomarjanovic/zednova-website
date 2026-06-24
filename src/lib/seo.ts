@@ -16,24 +16,30 @@ type ArticleJsonLdInput = {
   author: TeamMember | null;
 };
 
-/** schema.org/Article (BlogArticle) — main article structured data. */
+/** schema.org/Article or BlogPosting — main article structured data. */
 export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
   const url = articleUrl(post.slug);
-  const image = post.ogImage ?? post.image;
+  const image = post.seo?.ogImage ?? post.ogImage ?? post.image;
+  const schemaType =
+    post.seo?.structuredDataType === "Article" ? "Article" : "BlogPosting";
   return {
     "@context": "https://schema.org",
-    "@type": "BlogArticle",
+    "@type": schemaType,
     "@id": url,
     url,
-    headline: post.seoTitle ?? post.title,
-    description: post.seoDescription ?? post.excerpt,
+    headline: post.seo?.seoTitle ?? post.seoTitle ?? post.title,
+    description:
+      post.seo?.seoDescription ?? post.seoDescription ?? post.excerpt,
     image: image ? [image] : undefined,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
-    keywords: post.keywords?.join(", "),
+    keywords: (post.seo?.keywords ?? post.keywords)?.join(", "),
     articleSection: post.category,
     inLanguage: "en-US",
     wordCount: estimateWordCount(post),
+    ...(post.aiSummary || post.oneSentenceSummary
+      ? { abstract: post.aiSummary ?? post.oneSentenceSummary }
+      : {}),
     author: author
       ? {
           "@type": "Person",
@@ -86,6 +92,45 @@ export function faqPageJsonLd(faqs: ArticleFaq[]) {
         text: f.answer,
       },
     })),
+  };
+}
+
+/** schema.org/Organization — site-wide. */
+export function organizationJsonLd(org?: {
+  name?: string;
+  legalName?: string;
+  url?: string;
+  logo?: string;
+  description?: string;
+  email?: string;
+  phone?: string;
+  sameAs?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE_ORIGIN}/#organization`,
+    name: org?.name ?? "ZedNova Studios",
+    legalName: org?.legalName,
+    url: org?.url ?? SITE_ORIGIN,
+    logo: org?.logo ?? `${SITE_ORIGIN}/icon.svg`,
+    description: org?.description,
+    email: org?.email,
+    telephone: org?.phone,
+    sameAs: org?.sameAs,
+  };
+}
+
+/** schema.org/WebSite — site-wide search/discovery. */
+export function websiteJsonLd(siteName = "ZedNova Studios") {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_ORIGIN}/#website`,
+    url: SITE_ORIGIN,
+    name: siteName,
+    publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+    inLanguage: "en-US",
   };
 }
 

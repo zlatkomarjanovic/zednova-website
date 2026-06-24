@@ -11,6 +11,7 @@ import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { TemplateSection } from "@/ui/TemplateSection";
 import { Check } from "lucide-react";
 import Link from "next/link";
 
@@ -211,46 +212,42 @@ export default async function MigrationDetailPage({
       )}
 
       {relatedServices.length > 0 && (
-        <section data-theme="light" className="bg-zn-bg pb-[clamp(3rem,6vw,5rem)]">
-          <div className="zn-container">
-            <SectionLabel>Related services</SectionLabel>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedServices.map((s) => (
-                <Link
-                  key={s.slug}
-                  href={`/services/${s.slug}`}
-                  className="group border border-zn-border p-6 transition hover:border-zn-text-3"
-                >
-                  <p className="font-sans text-lg text-zn-text">{s.title}</p>
-                  <p className="mt-2 text-sm text-zn-text-2 line-clamp-2">{s.shortDescription}</p>
-                </Link>
-              ))}
-            </div>
+        <TemplateSection>
+          <SectionLabel withRule={false}>Related services</SectionLabel>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedServices.map((s) => (
+              <Link
+                key={s.slug}
+                href={`/services/${s.slug}`}
+                className="group border border-zn-border p-6 transition hover:border-zn-text-3"
+              >
+                <p className="font-sans text-lg text-zn-text">{s.title}</p>
+                <p className="mt-2 text-sm text-zn-text-2 line-clamp-2">{s.shortDescription}</p>
+              </Link>
+            ))}
           </div>
-        </section>
+        </TemplateSection>
       )}
 
       {relatedInsights.length > 0 && (
-        <section data-theme="light" className="bg-zn-bg pb-[clamp(3rem,6vw,5rem)]">
-          <div className="zn-container">
-            <SectionLabel>Related insights</SectionLabel>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedInsights.slice(0, 3).map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/insights/${post.slug}`}
-                  className="group border border-zn-border p-6 transition hover:border-zn-text-3"
-                >
-                  <p className="text-xs font-mono uppercase tracking-wider text-zn-text-3">
-                    {post.category}
-                  </p>
-                  <p className="mt-2 font-sans text-lg text-zn-text">{post.title}</p>
-                  <p className="mt-2 text-sm text-zn-text-2 line-clamp-2">{post.excerpt}</p>
-                </Link>
-              ))}
-            </div>
+        <TemplateSection borderBottom={false}>
+          <SectionLabel withRule={false}>Related insights</SectionLabel>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedInsights.slice(0, 3).map((post) => (
+              <Link
+                key={post.slug}
+                href={`/insights/${post.slug}`}
+                className="group border border-zn-border p-6 transition hover:border-zn-text-3"
+              >
+                <p className="text-xs font-mono uppercase tracking-wider text-zn-text-3">
+                  {post.category}
+                </p>
+                <p className="mt-2 font-sans text-lg text-zn-text">{post.title}</p>
+                <p className="mt-2 text-sm text-zn-text-2 line-clamp-2">{post.excerpt}</p>
+              </Link>
+            ))}
           </div>
-        </section>
+        </TemplateSection>
       )}
 
       <DarkCTA

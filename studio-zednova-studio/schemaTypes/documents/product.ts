@@ -1,4 +1,11 @@
 import { defineField, defineType } from "sanity";
+import { richTextMembers } from "../objects/extended";
+import {
+  flatOpenGraphFields,
+  flatSchemaFields,
+  flatSeoFields,
+  flatSettingsFields,
+} from "../shared/flatFields";
 
 const productTypes = [
   { title: "Software", value: "software" },
@@ -27,10 +34,19 @@ export const product = defineType({
     { name: "content", title: "Content", default: true },
     { name: "pricing", title: "Pricing" },
     { name: "relationships", title: "Relationships" },
-    { name: "seo", title: "SEO & AEO" },
+    { name: "seo", title: "SEO" },
+    { name: "og", title: "Open Graph" },
+    { name: "schema", title: "Schema" },
+    { name: "settings", title: "Settings" },
   ],
   fields: [
-    defineField({ name: "title", type: "string", group: "content", validation: (r) => r.required() }),
+    defineField({
+      name: "title",
+      type: "string",
+      group: "content",
+      description: "Product name.",
+      validation: (r) => r.required(),
+    }),
     defineField({
       name: "slug",
       type: "slug",
@@ -43,32 +59,102 @@ export const product = defineType({
       type: "string",
       title: "Resource type",
       group: "content",
+      description: "Type of product/resource. Used to group on the Resources page.",
       options: { list: productTypes },
       initialValue: "software",
       validation: (r) => r.required(),
     }),
-    defineField({ name: "tagline", type: "string", group: "content" }),
-    defineField({ name: "description", type: "text", rows: 4, group: "content" }),
+    defineField({
+      name: "productType",
+      type: "string",
+      title: "Product type (alias)",
+      group: "content",
+      options: {
+        list: ["Template", "Component", "SaaS", "Internal Tool", "Framer Component", "Next.js Starter", "Automation Template"],
+      },
+    }),
+    defineField({
+      name: "tagline",
+      type: "string",
+      group: "content",
+      description: "Short tagline shown under the title.",
+    }),
+    defineField({
+      name: "shortDescription",
+      type: "text",
+      rows: 3,
+      group: "content",
+      description: "Short product summary for cards.",
+    }),
+    defineField({
+      name: "description",
+      type: "text",
+      rows: 4,
+      title: "Description (legacy alias)",
+      group: "content",
+    }),
     defineField({
       name: "longDescription",
       type: "array",
-      title: "Long description (Portable Text)",
+      title: "Long description",
       group: "content",
-      of: [{ type: "block" }],
+      description: "Full product description in rich text.",
+      of: richTextMembers,
+    }),
+    defineField({
+      name: "heroImage",
+      type: "image",
+      title: "Hero image",
+      group: "content",
+      description: "Main product image with alt text and caption.",
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({ name: "caption", type: "string", title: "Caption" }),
+      ],
+    }),
+    defineField({
+      name: "coverImage",
+      type: "image",
+      title: "Cover image (legacy)",
+      group: "content",
+      options: { hotspot: true },
+    }),
+    defineField({ name: "coverImageUrl", type: "url", title: "Cover URL (legacy)", group: "content" }),
+    defineField({
+      name: "gallery",
+      type: "array",
+      title: "Gallery",
+      group: "content",
+      of: [{ type: "mediaAsset" }],
     }),
     defineField({
       name: "features",
       type: "array",
-      group: "content",
-      of: [{ type: "featureBullet" }],
       title: "Features (rich)",
+      group: "content",
+      of: [{ type: "bulletItem" }],
     }),
     defineField({
       name: "featureList",
       type: "array",
+      title: "Features (plain bullets)",
       group: "content",
       of: [{ type: "string" }],
-      title: "Features (plain bullets)",
+    }),
+    defineField({
+      name: "benefits",
+      type: "array",
+      title: "Benefits",
+      group: "content",
+      of: [{ type: "bulletItem" }],
+    }),
+    defineField({
+      name: "useCases",
+      type: "array",
+      title: "Use cases",
+      group: "content",
+      of: [{ type: "bulletItem" }],
     }),
     defineField({
       name: "status",
@@ -78,18 +164,11 @@ export const product = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: "coverImage",
-      type: "image",
-      group: "content",
-      options: { hotspot: true },
-    }),
-    defineField({ name: "coverImageUrl", type: "url", title: "Cover URL (legacy)", group: "content" }),
-    defineField({
       name: "resourceFile",
       type: "file",
-      title: "Resource file (PDF, zip…)",
+      title: "Resource file",
       group: "content",
-      description: "For downloadable freebies / lead magnets.",
+      description: "For downloadable freebies / lead magnets (PDF, zip).",
     }),
     defineField({
       name: "externalUrl",
@@ -98,8 +177,41 @@ export const product = defineType({
       group: "content",
       description: "For SaaS products that live on their own domain.",
     }),
+    defineField({
+      name: "productUrl",
+      type: "url",
+      title: "Product URL",
+      group: "content",
+      description: "Product landing page or marketplace URL.",
+    }),
+    defineField({
+      name: "checkoutUrl",
+      type: "url",
+      title: "Checkout URL",
+      group: "content",
+    }),
+    defineField({
+      name: "documentationUrl",
+      type: "url",
+      title: "Documentation URL",
+      group: "content",
+    }),
 
     /* Pricing */
+    defineField({
+      name: "price",
+      type: "string",
+      title: "Price",
+      group: "pricing",
+      description: "Product price (string to support 'Free', 'Contact', etc.).",
+    }),
+    defineField({
+      name: "pricingType",
+      type: "string",
+      title: "Pricing type",
+      group: "pricing",
+      options: { list: ["Free", "One-time", "Subscription", "Custom"] },
+    }),
     defineField({
       name: "pricingTiers",
       type: "array",
@@ -118,6 +230,13 @@ export const product = defineType({
 
     /* Relationships */
     defineField({
+      name: "faqs",
+      type: "array",
+      title: "FAQ references",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "faq" }] }],
+    }),
+    defineField({
       name: "relatedServices",
       type: "array",
       title: "Related services",
@@ -125,23 +244,52 @@ export const product = defineType({
       of: [{ type: "reference", to: [{ type: "service" }] }],
     }),
     defineField({
+      name: "relatedInsights",
+      type: "array",
+      title: "Related insights",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "post" }] }],
+    }),
+    defineField({
       name: "relatedIndustries",
       type: "array",
       title: "Related industries",
       group: "relationships",
-      of: [
-        { type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] },
-      ],
-    }),
-    defineField({
-      name: "relatedInsights",
-      type: "array",
-      title: "Related insights / posts",
-      group: "relationships",
-      of: [{ type: "reference", to: [{ type: "post" }] }],
+      of: [{ type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] }],
     }),
 
-    /* SEO / AEO */
+    ...flatSeoFields,
+    ...flatOpenGraphFields,
+    ...flatSchemaFields,
+    ...flatSettingsFields,
+
+    defineField({
+      name: "brand",
+      type: "string",
+      title: "Brand (schema)",
+      group: "schema",
+      description: "Product brand name for Product JSON-LD.",
+    }),
+    defineField({
+      name: "sku",
+      type: "string",
+      title: "SKU (schema)",
+      group: "schema",
+    }),
+    defineField({
+      name: "priceCurrency",
+      type: "string",
+      title: "Price currency (schema)",
+      group: "schema",
+      initialValue: "USD",
+    }),
+    defineField({
+      name: "availability",
+      type: "string",
+      title: "Availability (schema)",
+      group: "schema",
+      options: { list: ["InStock", "OutOfStock", "PreOrder", "OnlineOnly"] },
+    }),
     defineField({
       name: "tags",
       type: "array",
@@ -149,20 +297,15 @@ export const product = defineType({
       of: [{ type: "reference", to: [{ type: "tag" }] }],
       options: { layout: "tags" },
     }),
-    defineField({
-      name: "seo",
-      type: "seoFields",
-      group: "seo",
-    }),
-
+    defineField({ name: "seo", type: "seoFields", title: "SEO (grouped)", group: "seo" }),
     defineField({
       name: "order",
       type: "number",
-      group: "content",
+      group: "settings",
       validation: (r) => r.required(),
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "type", media: "coverImage" },
+    select: { title: "title", subtitle: "type", media: "heroImage" },
   },
 });

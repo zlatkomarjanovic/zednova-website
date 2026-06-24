@@ -4,6 +4,7 @@ import type {
   NavMenuItem,
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";
+import { industryParents } from "@/lib/content/industry-parents";
 
 export type {
   NavMenuItem,
@@ -13,6 +14,10 @@ export type {
 } from "@/lib/types/content-nav";
 
 export { megaMenuNavLinks } from "@/lib/types/content-nav";
+
+function cs(slug: string) {
+  return `/custom-software/${slug}`;
+}
 
 export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
   {
@@ -27,7 +32,7 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     shortDescription:
       "Shopify stores, product pages, checkout flows, email sequences, and ecommerce dashboards.",
     includes: "Shopify, headless Shopify, Klaviyo, cart recovery",
-    href: "/industries/ecommerce-shopify",
+    href: "/industries/ecommerce-dtc",
   },
   {
     title: "Custom in-house software development",
@@ -87,7 +92,7 @@ export const serviceNavGroups: NavMenuGroup[] = [
         title: "Clinic Website Design",
         shortDescription:
           "Websites for dental, medical, peptide, TRT, longevity, and wellness clinics.",
-        href: "/industries/healthcare-clinics",
+        href: "/industries/healthcare-wellness",
       },
       {
         title: "Dental Website Design",
@@ -97,7 +102,7 @@ export const serviceNavGroups: NavMenuGroup[] = [
       {
         title: "Shopify Website Design",
         shortDescription: "Storefront pages and brand sites connected to Shopify.",
-        href: "/industries/ecommerce-shopify",
+        href: "/industries/ecommerce-dtc",
       },
     ],
   },
@@ -251,161 +256,85 @@ export const serviceNavGroups: NavMenuGroup[] = [
   },
 ];
 
-export const industryNavItems: NavMenuItem[] = [
-  {
-    title: "Healthcare & Wellness",
-    shortDescription:
-      "Websites, booking, intake, and follow-up for dental, medical, peptide, TRT, longevity, med spa, aesthetic, wellness, physical therapy, and chiropractic clinics.",
-    href: "/industries/healthcare-clinics",
-  },
-  {
-    title: "Fitness Coaches & Personal Trainers",
-    shortDescription:
-      "Websites, booking flows, client portals, check-ins, progress dashboards, and payment flows for coaches and trainers.",
-    href: "/industries/fitness-coaches-personal-trainers",
-  },
-  {
-    title: "Gyms & Fitness Studios",
-    shortDescription:
-      "Websites, class booking, membership pages, lead forms, and email or SMS follow-up for gyms and studios.",
-    href: "/industries/gyms-fitness-studios",
-  },
-  {
-    title: "Supplement Brands",
-    shortDescription:
-      "Shopify stores, product pages, subscription flows, education pages, and email flows for supplement brands.",
-    href: "/industries/supplement-brands",
-  },
-  {
-    title: "Skincare & Beauty Brands",
-    shortDescription:
-      "Shopify stores, product pages, quizzes, bundles, landing pages, and email flows for skincare and beauty brands.",
-    href: "/industries/skincare-beauty-brands",
-  },
-  {
-    title: "Fitness & Wellness Product Brands",
-    shortDescription:
-      "Shopify stores, landing pages, product education, bundles, and post-purchase flows for fitness and wellness products.",
-    href: "/industries/fitness-wellness-product-brands",
-  },
-  {
-    title: "Crypto & Web3 Projects",
-    shortDescription:
-      "Websites, landing pages, dashboards, and AI chat tools for crypto, token, and web3 teams.",
-    href: "/industries/crypto-web3",
-  },
-  {
-    title: "Startups & MVPs",
-    shortDescription:
-      "Fast MVPs and full product builds for startups that need a working app, site, or portal quickly.",
-    href: "/industries/startups-mvp",
-  },
-  {
-    title: "Real Estate",
-    shortDescription:
-      "Agent websites, property pages, lead capture, and follow-up for brokers, teams, and property businesses.",
-    href: "/industries/real-estate",
-  },
-  {
-    title: "Nonprofits & NGOs",
-    shortDescription:
-      "Donation pages, program websites, volunteer intake, and email follow-up for nonprofits and NGOs.",
-    href: "/industries/nonprofits-ngos",
-  },
-  {
-    title: "Marketing Agencies",
-    shortDescription:
-      "Client portals, white-label sites, landing pages, and internal dashboards for marketing agencies.",
-    href: "/industries/marketing-agencies",
-  },
-  {
-    title: "Car Dealerships",
-    shortDescription:
-      "Inventory pages, lead forms, trade-in flows, and follow-up for new and used car dealers.",
-    href: "/industries/car-dealerships",
-  },
-  {
-    title: "Membership Communities",
-    shortDescription:
-      "Member portals, signup flows, content access, and billing pages for paid communities and memberships.",
-    href: "/industries/membership-communities",
-  },
-  {
-    title: "Private Schools & Academies",
-    shortDescription:
-      "School websites, enrollment pages, parent portals, and program information for private schools.",
-    href: "/industries/private-schools-academies",
-  },
-  {
-    title: "Tutoring Centers",
-    shortDescription:
-      "Websites, booking, program pages, parent intake, and follow-up for tutoring centers and learning programs.",
-    href: "/industries/tutoring-centers",
-  },
-];
+export const industryNavItems: NavMenuItem[] = industryParents.map((parent) => ({
+  title: parent.title,
+  shortDescription: parent.shortDescription,
+  href: `/industries/${parent.slug}`,
+}));
 
 export const customSoftwareNavItems: NavMenuItem[] = [
   {
     title: "Custom Web App Development",
     shortDescription:
       "Simple web apps on Next.js for workflows, records, and tools your team uses every day.",
-    href: "/custom-software",
+    href: cs("custom-web-app-development"),
   },
   {
     title: "Client Portal Development",
     shortDescription:
       "Login portals where clients check project status, upload files, and get updates without emailing you.",
-    href: "/industries/portal-dashboard-booking-needs",
+    href: cs("client-portal-development"),
   },
   {
     title: "Patient Portal Development",
     shortDescription:
       "Secure portals for patients to book visits, complete intake forms, and view their appointment info.",
-    href: "/industries/healthcare-clinics",
+    href: cs("patient-portal-development"),
   },
   {
     title: "Internal Dashboard Development",
     shortDescription:
       "Staff dashboards that replace spreadsheets and show live business numbers at a glance.",
-    href: "/services/reporting-dashboards",
+    href: cs("internal-dashboard-development"),
   },
   {
     title: "Booking System Development",
     shortDescription:
       "Online scheduling with confirmations, reminders, intake forms, and calendar sync built in.",
-    href: "/services/crm-pipeline-automation",
+    href: cs("booking-system-development"),
   },
   {
     title: "Admin Panel Development",
     shortDescription:
       "Back-office panels to manage users, records, orders, content, and settings.",
-    href: "/custom-software",
+    href: cs("admin-panel-development"),
   },
   {
     title: "Form & Intake Systems",
     shortDescription:
       "Custom forms wired to CRM, email, SMS, and follow-up sequences triggered on submission.",
-    href: "/services/custom-ai-agents",
+    href: cs("form-intake-systems"),
   },
   {
     title: "CRM & Lead Tracking Tools",
     shortDescription:
       "Simple CRM views for leads, deals, tasks, notes, and pipeline status.",
-    href: "/services/crm-pipeline-automation",
+    href: cs("crm-lead-tracking-tools"),
   },
   {
     title: "Document Upload Portals",
     shortDescription:
       "Secure upload, review, and approval flows for files from clients or staff.",
-    href: "/custom-software",
+    href: cs("document-upload-portals"),
   },
   {
     title: "Membership & Subscription Portals",
     shortDescription:
       "Member login, billing access, and gated content for paid users and subscribers.",
-    href: "/industries/membership-communities",
+    href: cs("membership-subscription-portals"),
   },
 ];
+
+function csItem(title: string): NavMenuItem {
+  const item = customSoftwareNavItems.find((entry) => entry.title === title);
+  return (
+    item ?? {
+      title,
+      shortDescription: "",
+      href: "/custom-software",
+    }
+  );
+}
 
 export const customSoftwareGroups: CustomSoftwareGroupSection[] = [
   {
@@ -415,42 +344,12 @@ export const customSoftwareGroups: CustomSoftwareGroupSection[] = [
     description:
       "Replace email threads and spreadsheet updates with portals your clients and team actually use.",
     items: [
-      {
-        title: "Client Portal Development",
-        shortDescription:
-          "Login portals where clients check project status, upload files, and get updates without emailing you.",
-        href: "/industries/portal-dashboard-booking-needs",
-      },
-      {
-        title: "Patient Portal Development",
-        shortDescription:
-          "Secure portals for patients to book visits, complete intake forms, and view their appointment info.",
-        href: "/industries/healthcare-clinics",
-      },
-      {
-        title: "Internal Dashboard Development",
-        shortDescription:
-          "Staff dashboards that replace spreadsheets and show live business numbers at a glance.",
-        href: "/services/reporting-dashboards",
-      },
-      {
-        title: "Admin Panel Development",
-        shortDescription:
-          "Back-office panels to manage users, records, orders, content, and settings.",
-        href: "/custom-software",
-      },
-      {
-        title: "Document Upload Portals",
-        shortDescription:
-          "Secure upload, review, and approval flows for files from clients or staff.",
-        href: "/custom-software",
-      },
-      {
-        title: "Membership & Subscription Portals",
-        shortDescription:
-          "Member login, billing access, and gated content for paid users and subscribers.",
-        href: "/industries/membership-communities",
-      },
+      csItem("Client Portal Development"),
+      csItem("Patient Portal Development"),
+      csItem("Internal Dashboard Development"),
+      csItem("Admin Panel Development"),
+      csItem("Document Upload Portals"),
+      csItem("Membership & Subscription Portals"),
     ],
   },
   {
@@ -460,30 +359,10 @@ export const customSoftwareGroups: CustomSoftwareGroupSection[] = [
     description:
       "From scheduling to lead tracking — systems that connect forms, notifications, and follow-up automatically.",
     items: [
-      {
-        title: "Custom Web App Development",
-        shortDescription:
-          "Simple web apps on Next.js for workflows, records, and tools your team uses every day.",
-        href: "/custom-software",
-      },
-      {
-        title: "Booking System Development",
-        shortDescription:
-          "Online scheduling with confirmations, reminders, intake forms, and calendar sync built in.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Form & Intake Systems",
-        shortDescription:
-          "Custom forms wired to CRM, email, SMS, and follow-up sequences triggered on submission.",
-        href: "/services/custom-ai-agents",
-      },
-      {
-        title: "CRM & Lead Tracking Tools",
-        shortDescription:
-          "Simple CRM views for leads, deals, tasks, notes, and pipeline status.",
-        href: "/services/crm-pipeline-automation",
-      },
+      csItem("Custom Web App Development"),
+      csItem("Booking System Development"),
+      csItem("Form & Intake Systems"),
+      csItem("CRM & Lead Tracking Tools"),
     ],
   },
 ];

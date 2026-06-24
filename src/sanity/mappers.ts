@@ -71,13 +71,29 @@ function mapFaqs(items?: SanityFaq[]): ArticleFaq[] {
 
 function mapSeo(seo?: Record<string, unknown>): SeoFields | undefined {
   if (!seo) return undefined;
+  const noIndex =
+    (seo.seoNoIndex as boolean) ||
+    (seo.robotsIndex === false ? true : undefined);
   return {
     seoTitle: (seo.seoTitle as string) || undefined,
     seoDescription: (seo.seoDescription as string) || undefined,
     keywords: seo.keywords as string[] | undefined,
-    seoCanonical: (seo.seoCanonical as string) || undefined,
-    seoNoIndex: (seo.seoNoIndex as boolean) || undefined,
+    focusKeyword: (seo.focusKeyword as string) || undefined,
+    secondaryKeywords: seo.secondaryKeywords as string[] | undefined,
+    searchTags: seo.searchTags as string[] | undefined,
+    seoCanonical:
+      (seo.seoCanonical as string) || (seo.canonicalUrl as string) || undefined,
+    canonicalUrl:
+      (seo.canonicalUrl as string) || (seo.seoCanonical as string) || undefined,
+    seoNoIndex: noIndex || undefined,
     seoHideFromLists: (seo.seoHideFromLists as boolean) || undefined,
+    robotsIndex: seo.robotsIndex as boolean | undefined,
+    robotsFollow: seo.robotsFollow as boolean | undefined,
+    structuredDataType: (seo.structuredDataType as string) || undefined,
+    jsonLdOverride:
+      (seo.jsonLdOverride as string) || (seo.customJsonLd as string) || undefined,
+    customJsonLd:
+      (seo.customJsonLd as string) || (seo.jsonLdOverride as string) || undefined,
     ogTitle: (seo.ogTitle as string) || undefined,
     ogDescription: (seo.ogDescription as string) || undefined,
     ogImage: (seo.ogImage as string) || undefined,
@@ -87,6 +103,25 @@ function mapSeo(seo?: Record<string, unknown>): SeoFields | undefined {
     twitterDescription: (seo.twitterDescription as string) || undefined,
     twitterImage: (seo.twitterImage as string) || undefined,
   };
+}
+
+function mergePostFaqs(
+  inline?: SanityFaq[],
+  refs?: SanityFaq[],
+  richInline?: SanityFaq[],
+): ArticleFaq[] {
+  const combined = [
+    ...mapFaqs(inline),
+    ...mapFaqs(refs),
+    ...mapFaqs(richInline),
+  ];
+  const seen = new Set<string>();
+  return combined.filter((f) => {
+    const key = f.id ?? f.question;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 type SanityService = {
@@ -165,9 +200,14 @@ type SanityIndustryFields = {
   heroHeadline?: string;
   hook?: string;
   shortDescription: string;
+  industryOverview?: string;
   painPoints?: { title: string; description: string }[];
+  commonProblems?: { title: string; description: string }[];
+  segmentSpecificProblems?: { title: string; description: string }[];
   popularServices?: { label: string; href: string }[];
+  recommendedServiceLinks?: { label: string; href: string }[];
   faqs?: SanityFaq[];
+  faqReferences?: SanityFaq[];
   exampleProject?: string;
   commonUseCase?: string;
   icon?: string;
@@ -182,6 +222,43 @@ type SanityIndustryFields = {
   seo?: Record<string, unknown>;
 };
 
+function mapIndustryPainPoints(doc: {
+  painPoints?: { title: string; description: string }[];
+  segmentSpecificProblems?: { title: string; description: string }[];
+  commonProblems?: { title: string; description: string }[];
+}): { title: string; description: string }[] {
+  if (doc.painPoints?.length) return doc.painPoints;
+  if (doc.segmentSpecificProblems?.length) {
+    return doc.segmentSpecificProblems.map((item) => ({
+      title: item.title,
+      description: item.description,
+    }));
+  }
+  if (doc.commonProblems?.length) {
+    return doc.commonProblems.map((item) => ({
+      title: item.title,
+      description: item.description,
+    }));
+  }
+  return [];
+}
+
+function mapIndustryPopularServices(doc: {
+  popularServices?: { label: string; href: string }[];
+  recommendedServiceLinks?: { label: string; href: string }[];
+}): { label: string; href: string }[] {
+  if (doc.popularServices?.length) return doc.popularServices;
+  if (doc.recommendedServiceLinks?.length) return doc.recommendedServiceLinks;
+  return [];
+}
+
+function mapIndustryFaqs(doc: {
+  faqs?: SanityFaq[];
+  faqReferences?: SanityFaq[];
+}) {
+  return mergePostFaqs(doc.faqs, doc.faqReferences);
+}
+
 type SanityIndustry = SanityIndustryFields & {
   parentSlug?: string;
 };
@@ -194,12 +271,13 @@ export function mapIndustryParent(doc: SanityIndustryFields): IndustryParent {
     whoItIsFor: doc.whoItIsFor ?? "",
     whatWeBuild: doc.whatWeBuild ?? "",
     problemSolved: doc.problemSolved ?? "",
-    heroHeadline: doc.heroHeadline ?? "",
+    heroHeadline: doc.heroHeadline ?? doc.title,
     hook: doc.hook ?? "",
     shortDescription: doc.shortDescription,
-    painPoints: doc.painPoints ?? [],
-    popularServices: doc.popularServices ?? [],
-    faqs: mapFaqs(doc.faqs),
+    industryOverview: doc.industryOverview,
+    painPoints: mapIndustryPainPoints(doc),
+    popularServices: mapIndustryPopularServices(doc),
+    faqs: mapIndustryFaqs(doc),
     exampleProject: doc.exampleProject ?? "",
     commonUseCase: doc.commonUseCase ?? "",
     icon: doc.icon ?? "",
@@ -222,12 +300,12 @@ export function mapIndustry(doc: SanityIndustry): Industry {
     whoItIsFor: doc.whoItIsFor ?? "",
     whatWeBuild: doc.whatWeBuild ?? "",
     problemSolved: doc.problemSolved ?? "",
-    heroHeadline: doc.heroHeadline ?? "",
+    heroHeadline: doc.heroHeadline ?? doc.title,
     hook: doc.hook ?? "",
     shortDescription: doc.shortDescription,
-    painPoints: doc.painPoints ?? [],
-    popularServices: doc.popularServices ?? [],
-    faqs: mapFaqs(doc.faqs),
+    painPoints: mapIndustryPainPoints(doc),
+    popularServices: mapIndustryPopularServices(doc),
+    faqs: mapIndustryFaqs(doc),
     exampleProject: doc.exampleProject ?? "",
     commonUseCase: doc.commonUseCase ?? "",
     icon: doc.icon ?? "",
@@ -289,15 +367,79 @@ export function mapMigration(doc: {
   };
 }
 
-export function mapNavItem(doc: {
+export function mapCustomSoftware(doc: {
+  slug: string;
   title: string;
   shortDescription: string;
-  href: string;
+  whatItIs?: string;
+  problemSolved?: string;
+  targetAudience?: string[];
+  keyFeatures?: { title: string; description?: string }[];
+  whatsIncluded?: { title: string; description?: string }[];
+  deliverables?: string[];
+  technologies?: string[];
+  integrations?: string[];
+  process?: { step: number; title: string; description: string }[];
+  timeline?: string;
+  startingPrice?: number;
+  softwareType?: string;
+  faqs?: SanityFaq[];
+  faqReferences?: SanityFaq[];
+  relatedServices?: string[];
+  relatedIndustries?: string[];
+  relatedCaseStudies?: string[];
+  relatedPortfolioProjects?: string[];
+  relatedInsights?: string[];
+  order: number;
+  seo?: Record<string, unknown>;
+}): import("@/lib/types/custom-software").CustomSoftware {
+  const mapBullets = (items?: { title: string; description?: string }[]) =>
+    items?.map((item) => ({
+      title: item.title,
+      description: item.description,
+    }));
+
+  return {
+    slug: doc.slug,
+    title: doc.title,
+    shortDescription: doc.shortDescription,
+    whatItIs: doc.whatItIs ?? doc.shortDescription,
+    problemSolved: doc.problemSolved,
+    targetAudience: doc.targetAudience,
+    keyFeatures: mapBullets(doc.keyFeatures),
+    whatsIncluded: mapBullets(doc.whatsIncluded),
+    deliverables: doc.deliverables,
+    technologies: doc.technologies,
+    integrations: doc.integrations,
+    processSteps: doc.process,
+    timeline: doc.timeline,
+    startingPrice: doc.startingPrice,
+    softwareType: doc.softwareType,
+    faqs: mergePostFaqs(doc.faqs, doc.faqReferences),
+    relatedServices: doc.relatedServices,
+    relatedIndustries: doc.relatedIndustries,
+    relatedCaseStudies: doc.relatedCaseStudies,
+    relatedPortfolioProjects: doc.relatedPortfolioProjects,
+    relatedInsights: doc.relatedInsights,
+    order: doc.order,
+    seo: mapSeo(doc.seo),
+  };
+}
+
+export function mapCustomSoftwareNavItem(doc: {
+  slug?: string;
+  title: string;
+  shortDescription: string;
+  href?: string;
 }): NavMenuItem {
+  const href =
+    doc.slug && doc.slug.length > 0
+      ? `/custom-software/${doc.slug}`
+      : (doc.href ?? "/custom-software");
   return {
     title: doc.title,
     shortDescription: doc.shortDescription,
-    href: doc.href,
+    href,
   };
 }
 
@@ -344,9 +486,10 @@ export function groupServiceNavItems(
 
 export function buildCustomSoftwareGroups(
   items: {
+    slug?: string;
     title: string;
     shortDescription: string;
-    href: string;
+    href?: string;
     order: number;
     sectionId?: string;
     sectionLabel?: string;
@@ -368,11 +511,7 @@ export function buildCustomSoftwareGroups(
         items: [],
       });
     }
-    sectionMap.get(sectionId)!.items.push({
-      title: item.title,
-      shortDescription: item.shortDescription,
-      href: item.href,
-    });
+    sectionMap.get(sectionId)!.items.push(mapCustomSoftwareNavItem(item));
   }
 
   return [...sectionMap.values()].sort((a, b) => {
@@ -388,6 +527,7 @@ export function mapPost(doc: {
   slug: string;
   title: string;
   excerpt: string;
+  oneSentenceSummary?: string;
   category: string;
   author: string;
   publishedAt: string;
@@ -403,17 +543,25 @@ export function mapPost(doc: {
   relatedCustomSoftware?: string[];
   relatedProducts?: string[];
   relatedCaseStudies?: string[];
+  relatedPortfolioProjects?: string[];
   relatedPosts?: string[];
   seo?: Record<string, unknown>;
+  mergedSeo?: Record<string, unknown>;
   takeaways?: string[];
   faqs?: SanityFaq[];
+  faqReferences?: SanityFaq[];
+  inlineFaqs?: SanityFaq[];
+  aiSummary?: string;
+  llmSnippet?: string;
   articleBlocks?: ArticleBlock[];
 }): Post {
-  const seo = mapSeo(doc.seo);
+  const seo = mapSeo(doc.mergedSeo ?? doc.seo);
+  const allFaqs = mergePostFaqs(doc.faqs, doc.faqReferences, doc.inlineFaqs);
   return {
     slug: doc.slug,
     title: doc.title,
     excerpt: doc.excerpt,
+    oneSentenceSummary: doc.oneSentenceSummary,
     category: doc.category,
     author: doc.author,
     publishedAt: doc.publishedAt,
@@ -429,13 +577,18 @@ export function mapPost(doc: {
     relatedCustomSoftware: doc.relatedCustomSoftware,
     relatedProducts: doc.relatedProducts,
     relatedCaseStudies: doc.relatedCaseStudies,
+    relatedPortfolioProjects: doc.relatedPortfolioProjects,
     relatedPosts: doc.relatedPosts,
     seoTitle: seo?.seoTitle,
     seoDescription: seo?.seoDescription,
     keywords: seo?.keywords,
     ogImage: seo?.ogImage,
     takeaways: doc.takeaways,
-    faqs: mapFaqs(doc.faqs),
+    faqs: allFaqs,
+    faqReferences: mapFaqs(doc.faqReferences),
+    inlineFaqs: mapFaqs(doc.inlineFaqs),
+    aiSummary: doc.aiSummary,
+    llmSnippet: doc.llmSnippet,
     body: doc.articleBlocks ?? [],
     seo,
   };
@@ -471,7 +624,7 @@ export function mapIndustryNavItem(doc: {
   title: string;
   shortDescription: string;
   slug: string;
-  docType: "industryParent" | "industry";
+  docType: "industryParent";
   navOrder?: number;
 }): NavMenuItem & { navOrder: number } {
   return {

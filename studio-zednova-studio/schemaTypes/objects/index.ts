@@ -40,11 +40,41 @@ export const seoFields = defineType({
       options: { layout: "tags" },
     }),
     defineField({
+      name: "focusKeyword",
+      type: "string",
+      title: "Focus keyword",
+      group: "meta",
+    }),
+    defineField({
+      name: "secondaryKeywords",
+      type: "array",
+      of: [{ type: "string" }],
+      title: "Secondary keywords",
+      group: "meta",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "searchTags",
+      type: "array",
+      of: [{ type: "string" }],
+      title: "Search tags",
+      group: "meta",
+      description: "Internal search, AI retrieval, and content clustering.",
+      options: { layout: "tags" },
+    }),
+    defineField({
       name: "seoCanonical",
       type: "url",
       title: "Canonical URL override",
       group: "advanced",
       description: "Optional. Leave blank to use the default canonical.",
+    }),
+    defineField({
+      name: "canonicalUrl",
+      type: "url",
+      title: "Canonical URL (alias)",
+      group: "advanced",
+      description: "Optional alias for seoCanonical.",
     }),
     defineField({
       name: "seoNoIndex",
@@ -53,6 +83,39 @@ export const seoFields = defineType({
       group: "advanced",
       description: "Excludes this page from search engine indices.",
       initialValue: false,
+    }),
+    defineField({
+      name: "robotsIndex",
+      type: "boolean",
+      title: "Robots index",
+      group: "advanced",
+      initialValue: true,
+    }),
+    defineField({
+      name: "robotsFollow",
+      type: "boolean",
+      title: "Robots follow",
+      group: "advanced",
+      initialValue: true,
+    }),
+    defineField({
+      name: "structuredDataType",
+      type: "string",
+      title: "Structured data type",
+      group: "advanced",
+      options: {
+        list: [
+          "WebPage",
+          "Article",
+          "BlogPosting",
+          "Service",
+          "FAQPage",
+          "Organization",
+          "Product",
+          "CollectionPage",
+          "BreadcrumbList",
+        ],
+      },
     }),
     defineField({
       name: "seoHideFromLists",
@@ -83,6 +146,10 @@ export const seoFields = defineType({
       group: "og",
       description: "Recommended 1200×630. Used for Facebook, LinkedIn, Slack previews.",
       options: { hotspot: true },
+      fields: [
+        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({ name: "caption", type: "string", title: "Caption" }),
+      ],
     }),
     defineField({
       name: "ogType",
@@ -125,6 +192,10 @@ export const seoFields = defineType({
       title: "Twitter image",
       group: "twitter",
       options: { hotspot: true },
+      fields: [
+        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({ name: "caption", type: "string", title: "Caption" }),
+      ],
     }),
     defineField({
       name: "jsonLdOverride",
@@ -132,7 +203,15 @@ export const seoFields = defineType({
       title: "JSON-LD override (advanced)",
       rows: 6,
       group: "advanced",
-      description: "Optional raw JSON-LD to override generated structured data.",
+      description: "Optional raw JSON-LD to override generated structured data. Must be valid JSON.",
+    }),
+    defineField({
+      name: "customJsonLd",
+      type: "text",
+      title: "Custom JSON-LD (alias)",
+      rows: 6,
+      group: "advanced",
+      description: "Optional advanced JSON-LD override.",
     }),
   ],
 });
@@ -156,6 +235,7 @@ export const caseResult = defineType({
   fields: [
     defineField({ name: "value", type: "string", validation: (r) => r.required() }),
     defineField({ name: "label", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", type: "text", rows: 2 }),
   ],
 });
 
@@ -165,8 +245,15 @@ export const processStep = defineType({
   type: "object",
   fields: [
     defineField({ name: "step", type: "number", validation: (r) => r.required() }),
+    defineField({ name: "stepNumber", type: "number", title: "Step number (alias)" }),
     defineField({ name: "title", type: "string", validation: (r) => r.required() }),
     defineField({ name: "description", type: "text", rows: 3 }),
+    defineField({
+      name: "deliverables",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({ name: "estimatedTime", type: "string" }),
   ],
 });
 
@@ -283,6 +370,7 @@ export const featureBullet = defineType({
       title: "Icon key",
       description: "Optional icon key resolved by the front-end icon map.",
     }),
+    defineField({ name: "priority", type: "number" }),
   ],
 });
 
@@ -345,9 +433,15 @@ export const mediaAsset = defineType({
   fields: [
     defineField({ name: "image", type: "image", options: { hotspot: true } }),
     defineField({ name: "imageUrl", type: "url", title: "Image URL (legacy)" }),
-    defineField({ name: "alt", type: "string", title: "Alt text" }),
+    defineField({
+      name: "alt",
+      type: "string",
+      title: "Alt text",
+      validation: (r) => r.warning("Alt text improves SEO and accessibility"),
+    }),
     defineField({ name: "caption", type: "string" }),
     defineField({ name: "credit", type: "string" }),
+    defineField({ name: "sourceUrl", type: "url", title: "Source URL" }),
   ],
 });
 
@@ -368,6 +462,8 @@ export const resourceLink = defineType({
   ],
 });
 
+import { extendedObjectTypes } from "./extended";
+
 export const objectTypes = [
   seoFields,
   painPoint,
@@ -383,4 +479,5 @@ export const objectTypes = [
   ctaFields,
   mediaAsset,
   resourceLink,
+  ...extendedObjectTypes,
 ];

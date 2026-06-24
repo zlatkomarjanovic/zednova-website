@@ -14,9 +14,18 @@ export type SeoFields = {
   seoTitle?: string;
   seoDescription?: string;
   keywords?: string[];
+  focusKeyword?: string;
+  secondaryKeywords?: string[];
+  searchTags?: string[];
   seoCanonical?: string;
+  canonicalUrl?: string;
   seoNoIndex?: boolean;
   seoHideFromLists?: boolean;
+  robotsIndex?: boolean;
+  robotsFollow?: boolean;
+  structuredDataType?: string;
+  jsonLdOverride?: string;
+  customJsonLd?: string;
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
@@ -25,6 +34,66 @@ export type SeoFields = {
   twitterTitle?: string;
   twitterDescription?: string;
   twitterImage?: string;
+};
+
+export type OpenGraphFields = {
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogType?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  twitterCardType?: string;
+};
+
+export type SchemaMarkupFields = {
+  schemaType?: string;
+  enableArticleSchema?: boolean;
+  enableFaqSchema?: boolean;
+  enableBreadcrumbSchema?: boolean;
+  enableServiceSchema?: boolean;
+  enableProductSchema?: boolean;
+  enableOrganizationSchema?: boolean;
+  enableCollectionPageSchema?: boolean;
+  enableSoftwareApplicationSchema?: boolean;
+  serviceType?: string;
+  areaServed?: string[];
+  providerName?: string;
+  priceRange?: string;
+  schemaImage?: string;
+};
+
+export type CtaFields = {
+  primaryCtaTitle?: string;
+  primaryCtaDescription?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaTitle?: string;
+  secondaryCtaDescription?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  consultationCtaTitle?: string;
+  consultationCtaDescription?: string;
+  consultationCtaLabel?: string;
+  consultationCtaHref?: string;
+  leadFormTitle?: string;
+  leadFormDescription?: string;
+};
+
+export type CtaBlock = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+};
+
+export type AeoAnswerBlock = {
+  question?: string;
+  shortAnswer?: string;
 };
 
 export type FeatureBullet = {
@@ -74,14 +143,31 @@ export type Service = {
   image: string;
   order: number;
   seo?: SeoFields;
+} & CtaFields & SchemaMarkupFields & {
+  openGraph?: OpenGraphFields;
+  searchTags?: string[];
+  focusKeyword?: string;
+  secondaryKeywords?: string[];
+  canonicalUrl?: string;
+  robotsIndex?: boolean;
+  robotsFollow?: boolean;
+  searchIntent?: string;
+  commercialIntentKeywords?: string[];
+  entitiesMentioned?: string[];
+  aiSummary?: string;
+  llmSnippet?: string;
+  quickAnswer?: AeoAnswerBlock;
 };
 
 export type PainPoint = { title: string; description: string };
 
 export type IndustryCategory =
-  | "Healthcare Clinics"
-  | "Ecommerce & Shopify"
-  | "Small Business Custom Software";
+  | "Healthcare & Wellness"
+  | "Ecommerce & DTC"
+  | "Fitness, Coaching & Performance"
+  | "Professional Services"
+  | "B2B SaaS & Technology"
+  | "Real Estate & Property";
 
 export type PopularServiceLink = {
   label: string;
@@ -98,6 +184,7 @@ export type IndustryParent = {
   heroHeadline: string;
   hook: string;
   shortDescription: string;
+  industryOverview?: string;
   painPoints: PainPoint[];
   popularServices: PopularServiceLink[];
   faqs?: ArticleFaq[];
@@ -207,6 +294,7 @@ export type Post = {
   slug: string;
   title: string;
   excerpt: string;
+  oneSentenceSummary?: string;
   category: string;
   body: ArticleBlock[];
   author: string;
@@ -214,6 +302,7 @@ export type Post = {
   updatedAt?: string;
   readTime: number;
   featured: boolean;
+  pinned?: boolean;
   accent: string;
   image: string;
   tags: string[];
@@ -223,12 +312,20 @@ export type Post = {
   ogImage?: string;
   takeaways?: string[];
   faqs?: ArticleFaq[];
+  faqReferences?: ArticleFaq[];
+  inlineFaqs?: ArticleFaq[];
+  aiSummary?: string;
+  llmSnippet?: string;
+  quickAnswer?: AeoAnswerBlock;
+  schemaMarkup?: SchemaMarkupFields;
+  openGraph?: OpenGraphFields;
   relatedServices?: string[];
   relatedIndustries?: string[];
   relatedMigrations?: string[];
   relatedCustomSoftware?: string[];
   relatedProducts?: string[];
   relatedCaseStudies?: string[];
+  relatedPortfolioProjects?: string[];
   relatedPosts?: string[];
   seo?: SeoFields;
 };

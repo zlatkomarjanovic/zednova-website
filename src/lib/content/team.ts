@@ -3,16 +3,16 @@ import type { TeamMember } from "@/lib/types";
 export const team: TeamMember[] = [
   {
     slug: "zed-marjanovic",
-    name: "Zed Marjanovic",
+    name: "Zlatko Marjanovic",
     role: "Founder",
     bio: [
-      "Zed is a designer, developer, and systems thinker from Živinice, Bosnia. Over 10-plus years shipping products he has delivered more than 120 projects for clients across the United States.",
-      "He publishes on the Framer Marketplace, where his components are used by more than 1,500 creators. He builds end to end: design, code, automation, and the AI agents that tie it all together.",
-      "ZedNova is a Texas LLC because clients deserve a real partner, not a freelancer profile. Zed ships fast, documents everything, and puts no account managers in the middle.",
-      "He is a builder, not an agency. The work goes out under one standard, and the systems are built to run without him.",
+      "Zlatko is a designer, developer, and product builder with 10+ years of experience shipping websites, software, ecommerce stores, automations, and digital products.",
+      "He has completed 120+ projects for clients across the United States, Europe, and other global markets.",
+      "He has published components on the Framer Marketplace used by more than 1,500 creators and works across Framer, Webflow, Shopify, WordPress, Sanity, Next.js, Make, n8n, and modern AI-assisted development tools.",
+      "ZedNova exists because many businesses do not need a traditional agency. They need someone who can understand the business problem, design the right solution, build it properly, and make sure it keeps working after launch.",
     ],
-    linkedin: "https://www.linkedin.com/",
-    twitter: "https://x.com/",
-    upwork: "https://www.upwork.com/",
+    linkedin: "https://www.linkedin.com/in/zlatkomarjanovic",
+    website: "https://zlatkomarjanovic.com",
+    avatar: "/images/team/zlatko-marjanovic-macbook.png",
   },
 ];

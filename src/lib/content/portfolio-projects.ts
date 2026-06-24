@@ -15,6 +15,7 @@ export const portfolioProjects: PortfolioProject[] = [
     accent: "#1a1210",
     order: 1,
     category: "Websites",
+    servicesUsed: ["ai-lead-site", "seo-aeo-content"],
     logo: {
       src: "/images/logos/mavesta-media.svg",
       alt: "Mavesta Media",
@@ -34,6 +35,7 @@ export const portfolioProjects: PortfolioProject[] = [
     accent: "#0f1419",
     order: 2,
     category: "SaaS",
+    servicesUsed: ["ai-lead-site", "seo-aeo-content"],
     logo: {
       src: "/images/logos/6681880ec9fc2fc5e3a062d9_Group-1091431.webp",
       alt: "Vault Apps",
@@ -53,6 +55,7 @@ export const portfolioProjects: PortfolioProject[] = [
     accent: "#161514",
     order: 3,
     category: "Real estate",
+    servicesUsed: ["ai-lead-site", "crm-pipeline-automation"],
     logo: {
       src: "/images/logos/mavi-longevity.svg",
       alt: "MAVI Longevity Living",
@@ -72,6 +75,7 @@ export const portfolioProjects: PortfolioProject[] = [
     accent: "#121318",
     order: 4,
     category: "Nonprofit",
+    servicesUsed: ["ai-lead-site", "seo-aeo-content"],
     logo: {
       src: "/images/logos/egc-logo.svg",
       alt: "EGC NYC",

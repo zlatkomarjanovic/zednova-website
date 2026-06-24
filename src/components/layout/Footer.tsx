@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 const COMPANY_LINKS = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
-  { label: "Resources", href: "/resources" },
   { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ] as const;

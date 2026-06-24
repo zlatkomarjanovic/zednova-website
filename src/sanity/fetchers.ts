@@ -15,7 +15,8 @@ import {
   mapIndustryParent,
   mapMegaMenuCard,
   mapMigration,
-  mapNavItem,
+  mapCustomSoftware,
+  mapCustomSoftwareNavItem,
   mapPortfolioProject,
   mapPost,
   mapProduct,
@@ -27,6 +28,7 @@ import {
   AUTHOR_BY_SLUG_QUERY,
   CASE_STUDIES_QUERY,
   CASE_STUDY_BY_SLUG_QUERY,
+  CUSTOM_SOFTWARE_BY_SLUG_QUERY,
   CUSTOM_SOFTWARE_QUERY,
   FAQS_QUERY,
   INDUSTRIES_QUERY,
@@ -106,11 +108,24 @@ export async function fetchServiceMegaMenuCardsFromSanity(): Promise<
 
 export async function fetchCustomSoftwareNavFromSanity(): Promise<NavMenuItem[]> {
   const docs = await sanityFetch<
-    (NavMenuItem & { showInNav?: boolean; order: number })[]
+    (Parameters<typeof mapCustomSoftwareNavItem>[0] & {
+      showInNav?: boolean;
+      order: number;
+    })[]
   >({ query: CUSTOM_SOFTWARE_QUERY });
   return docs
     .filter((d) => d.showInNav !== false)
-    .map(mapNavItem);
+    .map(mapCustomSoftwareNavItem);
+}
+
+export async function fetchCustomSoftwareBySlugFromSanity(
+  slug: string,
+): Promise<import("@/lib/types/custom-software").CustomSoftware | null> {
+  const doc = await sanityFetch<Parameters<typeof mapCustomSoftware>[0] | null>({
+    query: CUSTOM_SOFTWARE_BY_SLUG_QUERY,
+    params: { slug },
+  });
+  return doc ? mapCustomSoftware(doc) : null;
 }
 
 export async function fetchCustomSoftwareGroupsFromSanity(): Promise<

@@ -175,7 +175,7 @@ function ServiceMegaMenuGrid({
     <div className="relative grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2">
       {cards.map((card, index) => (
         <div
-          key={card.title}
+          key={`service-${index}-${card.href}`}
           data-hover-cell
           onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
           className={cn(
@@ -204,6 +204,60 @@ function ServiceMegaMenuGrid({
   );
 }
 
+function IndustryMegaMenuGrid({
+  items,
+  theme,
+  borderClass,
+  titleClass,
+  bodyClass,
+  onNavigate,
+  highlight,
+}: {
+  items: NavMenuItem[];
+  theme: "light" | "dark";
+  borderClass: string;
+  titleClass: string;
+  bodyClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+}) {
+  const columns = 3;
+  const displayItems = items.slice(0, 6);
+
+  return (
+    <div className="relative grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2">
+      {displayItems.map((item, index) => (
+        <div
+          key={`industry-${index}-${item.href}`}
+          data-hover-cell
+          onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+          className={cn(
+            "relative flex h-full min-h-[10.5rem]",
+            index % columns !== 0 && cn("lg:border-l", borderClass),
+            index > 0 && cn("border-t lg:border-t-0", borderClass),
+            index >= columns && cn("lg:border-t", borderClass),
+          )}
+        >
+          {index % columns !== 0 && (
+            <ColumnCrosses theme={theme} showTop={index < columns} />
+          )}
+          <NavMenuItemLink
+            href={item.href}
+            title={item.title}
+            shortDescription={item.shortDescription}
+            titleClass={titleClass}
+            bodyClass={bodyClass}
+            onNavigate={onNavigate}
+            highlight={highlight}
+            interactive={false}
+            className="flex h-full w-full flex-col px-6 py-5 md:py-6"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function NavItemGrid({
   items,
   columns,
@@ -214,6 +268,7 @@ function NavItemGrid({
   bodyClass,
   onNavigate,
   highlight,
+  cellClassName,
 }: {
   items: NavMenuItem[];
   columns: number;
@@ -224,6 +279,7 @@ function NavItemGrid({
   bodyClass: string;
   onNavigate: () => void;
   highlight: ReturnType<typeof useRubberHoverHighlight>;
+  cellClassName?: string;
 }) {
   return (
     <div
@@ -231,17 +287,19 @@ function NavItemGrid({
         "relative grid grid-cols-1 lg:items-stretch",
         columns === 5 && "lg:grid-cols-5",
         columns === 4 && "lg:grid-cols-4",
+        columns === 3 && "lg:grid-cols-3",
         rows === 3 && "lg:grid-rows-3",
         rows === 2 && "lg:grid-rows-2",
+        rows === 1 && "lg:grid-rows-1",
       )}
     >
       {items.map((item, index) => (
         <div
-          key={item.title}
+          key={`nav-${index}-${item.href}`}
           data-hover-cell
           onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
           className={cn(
-            "relative flex min-h-[9rem] h-full lg:min-h-[8.75rem]",
+            cellClassName ?? "relative flex min-h-[9rem] h-full lg:min-h-[8.75rem]",
             index % columns !== 0 && cn("lg:border-l", borderClass),
             index > 0 && cn("border-t lg:border-t-0", borderClass),
             index >= columns && cn("lg:border-t", borderClass),
@@ -262,43 +320,6 @@ function NavItemGrid({
             className="flex h-full w-full flex-col"
           />
         </div>
-      ))}
-    </div>
-  );
-}
-
-function CompactIndustryGrid({
-  items,
-  theme,
-  borderClass,
-  onNavigate,
-  highlight,
-}: {
-  items: NavMenuItem[];
-  theme: "light" | "dark";
-  borderClass: string;
-  onNavigate: () => void;
-  highlight: ReturnType<typeof useRubberHoverHighlight>;
-}) {
-  const isDark = theme === "dark";
-  return (
-    <div className="relative grid grid-cols-2 gap-px overflow-hidden border border-zn-border bg-zn-border sm:grid-cols-3 lg:grid-cols-4">
-      {items.map((item, index) => (
-        <Link
-          key={`${item.href}-${index}`}
-          href={item.href}
-          onClick={onNavigate}
-          onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-          data-hover-cell
-          className={cn(
-            "group flex h-full min-h-[5.5rem] flex-col justify-center bg-zn-bg px-4 py-3 transition-colors",
-            isDark
-              ? "bg-zn-dark text-zn-inv hover:bg-zn-dark-2"
-              : "bg-zn-bg text-zn-text hover:bg-zn-bg-2",
-          )}
-        >
-          <span className="text-sm font-medium leading-snug">{item.title}</span>
-        </Link>
       ))}
     </div>
   );
@@ -396,10 +417,12 @@ export function MegaMenu({
               highlight={highlight}
             />
           ) : type === "industries" ? (
-            <CompactIndustryGrid
+            <IndustryMegaMenuGrid
               items={industryNavItems}
               theme={theme}
               borderClass={borderClass}
+              titleClass={titleClass}
+              bodyClass={bodyClass}
               onNavigate={onNavigate}
               highlight={highlight}
             />

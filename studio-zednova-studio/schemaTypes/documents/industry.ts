@@ -1,27 +1,47 @@
 import { defineField, defineType } from "sanity";
+import { richTextMembers } from "../objects/extended";
+import {
+  flatOpenGraphFields,
+  flatPrimaryCtaFields,
+  flatSchemaFields,
+  flatSeoFields,
+  flatSettingsFields,
+} from "../shared/flatFields";
 
 const industryCategories = [
-  { title: "Healthcare Clinics", value: "Healthcare Clinics" },
-  { title: "Ecommerce & Shopify", value: "Ecommerce & Shopify" },
-  {
-    title: "Small Business Custom Software",
-    value: "Small Business Custom Software",
-  },
+  { title: "Healthcare & Wellness", value: "Healthcare & Wellness" },
+  { title: "Ecommerce & DTC", value: "Ecommerce & DTC" },
+  { title: "Fitness, Coaching & Performance", value: "Fitness, Coaching & Performance" },
+  { title: "Professional Services", value: "Professional Services" },
+  { title: "B2B SaaS & Technology", value: "B2B SaaS & Technology" },
+  { title: "Real Estate & Property", value: "Real Estate & Property" },
 ];
 
 const industryGroups = [
   { name: "content", title: "Content", default: true },
   { name: "nav", title: "Navigation" },
   { name: "relationships", title: "Relationships" },
-  { name: "seo", title: "SEO & AEO" },
+  { name: "aeo", title: "AEO" },
+  { name: "conversion", title: "Conversion" },
+  { name: "seo", title: "SEO" },
+  { name: "og", title: "Open Graph" },
+  { name: "schema", title: "Schema" },
+  { name: "settings", title: "Settings" },
 ];
 
-const industryFields = [
-  defineField({ name: "title", type: "string", group: "content", validation: (r) => r.required() }),
+const sharedIndustryFields = [
+  defineField({
+    name: "title",
+    type: "string",
+    group: "content",
+    description: "Industry or segment name.",
+    validation: (r) => r.required(),
+  }),
   defineField({
     name: "slug",
     type: "slug",
     group: "content",
+    description: "URL slug auto-generated from the title.",
     options: { source: "title", maxLength: 96 },
     validation: (r) => r.required(),
   }),
@@ -29,57 +49,169 @@ const industryFields = [
     name: "category",
     type: "string",
     group: "content",
+    description: "Industry category grouping.",
     options: { list: industryCategories },
     validation: (r) => r.required(),
   }),
-  defineField({ name: "whoItIsFor", type: "text", rows: 3, group: "content" }),
-  defineField({ name: "whatWeBuild", type: "text", rows: 3, group: "content" }),
-  defineField({ name: "problemSolved", type: "text", rows: 3, group: "content" }),
-  defineField({ name: "heroHeadline", type: "string", group: "content" }),
-  defineField({ name: "hook", type: "text", rows: 2, group: "content" }),
   defineField({
     name: "shortDescription",
     type: "text",
     rows: 2,
     group: "content",
+    description: "Short industry/segment summary for cards.",
     validation: (r) => r.required(),
+  }),
+  defineField({
+    name: "longDescription",
+    type: "array",
+    title: "Long description",
+    group: "content",
+    description: "Full industry/segment page content in rich text.",
+    of: richTextMembers,
+  }),
+  defineField({
+    name: "industryOverview",
+    type: "text",
+    rows: 4,
+    title: "Industry overview",
+    group: "content",
+    description: "Overview of the industry and how ZedNova helps.",
+  }),
+  defineField({ name: "whoItIsFor", type: "text", rows: 3, group: "content", title: "Who it is for (legacy)" }),
+  defineField({
+    name: "whoWeHelp",
+    type: "array",
+    of: [{ type: "string" }],
+    title: "Who we help",
+    group: "content",
+    description: "Business types inside this industry.",
+    options: { layout: "tags" },
+  }),
+  defineField({ name: "whatWeBuild", type: "text", rows: 3, group: "content" }),
+  defineField({ name: "problemSolved", type: "text", rows: 3, group: "content" }),
+  defineField({
+    name: "heroHeadline",
+    type: "string",
+    group: "content",
+    description: "Hero headline for the industry page.",
+  }),
+  defineField({ name: "hook", type: "text", rows: 2, group: "content" }),
+
+  defineField({
+    name: "commonProblems",
+    type: "array",
+    title: "Common problems",
+    group: "content",
+    description: "Common problems with title, description, icon, and priority.",
+    of: [{ type: "bulletItem" }],
   }),
   defineField({
     name: "painPoints",
     type: "array",
+    title: "Pain points (legacy)",
     group: "content",
     of: [{ type: "painPoint" }],
   }),
   defineField({
+    name: "solutions",
+    type: "array",
+    title: "Solutions",
+    group: "content",
+    description: "Recommended solutions with title, description, icon, and priority.",
+    of: [{ type: "bulletItem" }],
+  }),
+  defineField({
+    name: "outcomes",
+    type: "array",
+    title: "Outcomes",
+    group: "content",
+    description: "Expected outcomes with title, description, icon, and priority.",
+    of: [{ type: "bulletItem" }],
+  }),
+  defineField({
+    name: "segmentSpecificProblems",
+    type: "array",
+    title: "Segment-specific problems",
+    group: "content",
+    description: "Segment-specific problems with title, description, icon, and priority.",
+    of: [{ type: "bulletItem" }],
+  }),
+  defineField({
+    name: "recommendedAutomations",
+    type: "array",
+    title: "Recommended automations",
+    group: "content",
+    description: "Recommended automation ideas with title and description.",
+    of: [{ type: "bulletItem" }],
+  }),
+  defineField({
+    name: "deliverables",
+    type: "array",
+    title: "Deliverables",
+    group: "content",
+    description: "Recommended deliverables with title, description, category, and included.",
+    of: [{ type: "deliverableItem" }],
+  }),
+
+  defineField({
     name: "popularServices",
     type: "array",
+    title: "Popular services (legacy)",
     group: "content",
     of: [{ type: "popularServiceLink" }],
   }),
   defineField({
     name: "faqs",
     type: "array",
-    title: "FAQ (industry-level)",
+    title: "FAQ (inline, legacy)",
     group: "content",
     of: [{ type: "articleFaq" }],
   }),
+  defineField({
+    name: "faqReferences",
+    type: "array",
+    title: "FAQ references",
+    group: "content",
+    description: "References to FAQ documents.",
+    of: [{ type: "reference", to: [{ type: "faq" }] }],
+  }),
   defineField({ name: "exampleProject", type: "string", group: "content" }),
   defineField({ name: "commonUseCase", type: "string", group: "content" }),
-  defineField({ name: "icon", type: "string", title: "Icon key", group: "content" }),
+  defineField({
+    name: "icon",
+    type: "string",
+    title: "Icon key",
+    group: "content",
+    description: "Icon name resolved by the frontend icon map.",
+  }),
+  defineField({
+    name: "heroImage",
+    type: "image",
+    title: "Hero image",
+    group: "content",
+    description: "Industry/segment hero image with alt text and caption.",
+    options: { hotspot: true },
+    fields: [
+      defineField({ name: "alt", type: "string", title: "Alt text" }),
+      defineField({ name: "caption", type: "string", title: "Caption" }),
+    ],
+  }),
   defineField({
     name: "coverImage",
     type: "image",
+    title: "Cover image (legacy)",
     group: "content",
     options: { hotspot: true },
   }),
   defineField({ name: "coverImageUrl", type: "url", title: "Cover URL (legacy)", group: "content" }),
-
   defineField({
     name: "order",
     type: "number",
     group: "content",
     validation: (r) => r.required(),
   }),
+
+  /* Navigation */
   defineField({
     name: "showInMainNav",
     type: "boolean",
@@ -109,28 +241,93 @@ const industryFields = [
 
   /* Relationships */
   defineField({
+    name: "servicesForThisIndustry",
+    type: "array",
+    title: "Services for this industry",
+    group: "relationships",
+    description: "Services recommended for this industry.",
+    of: [{ type: "reference", to: [{ type: "service" }] }],
+  }),
+  defineField({
+    name: "recommendedServices",
+    type: "array",
+    title: "Recommended services",
+    group: "relationships",
+    description: "Services recommended for this segment.",
+    of: [{ type: "reference", to: [{ type: "service" }] }],
+  }),
+  defineField({
+    name: "recommendedSoftware",
+    type: "array",
+    title: "Recommended software",
+    group: "relationships",
+    description: "Custom software recommended for this segment.",
+    of: [{ type: "reference", to: [{ type: "customSoftware" }] }],
+  }),
+  defineField({
+    name: "segments",
+    type: "array",
+    title: "Segments",
+    group: "relationships",
+    description: "Industry segments under this parent.",
+    of: [{ type: "reference", to: [{ type: "industry" }] }],
+  }),
+  defineField({
     name: "relatedServices",
     type: "array",
-    title: "Related services",
+    title: "Related services (legacy)",
     group: "relationships",
     of: [{ type: "reference", to: [{ type: "service" }] }],
   }),
   defineField({
-    name: "relatedCaseStudies",
+    name: "caseStudies",
     type: "array",
-    title: "Related case studies",
+    title: "Case studies",
     group: "relationships",
     of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
   }),
   defineField({
+    name: "relatedCaseStudies",
+    type: "array",
+    title: "Related case studies (legacy)",
+    group: "relationships",
+    of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
+  }),
+  defineField({
+    name: "portfolioProjects",
+    type: "array",
+    title: "Portfolio projects",
+    group: "relationships",
+    of: [{ type: "reference", to: [{ type: "portfolioProject" }] }],
+  }),
+  defineField({
+    name: "insights",
+    type: "array",
+    title: "Insights",
+    group: "relationships",
+    of: [{ type: "reference", to: [{ type: "post" }] }],
+  }),
+  defineField({
     name: "relatedInsights",
     type: "array",
-    title: "Related insights / posts",
+    title: "Related insights (legacy)",
     group: "relationships",
     of: [{ type: "reference", to: [{ type: "post" }] }],
   }),
 
-  /* SEO / AEO */
+  /* AEO */
+  defineField({
+    name: "aiSummary",
+    type: "text",
+    rows: 4,
+    title: "AI summary",
+    group: "aeo",
+    description: "Clean summary written for AI crawlers and answer engines.",
+  }),
+  defineField({ name: "quickAnswer", type: "aeoAnswerBlock", group: "aeo" }),
+  defineField({ name: "primaryCta", type: "ctaBlock", group: "conversion" }),
+
+  /* SEO */
   defineField({
     name: "tags",
     type: "array",
@@ -138,11 +335,16 @@ const industryFields = [
     of: [{ type: "reference", to: [{ type: "tag" }] }],
     options: { layout: "tags" },
   }),
-  defineField({
-    name: "seo",
-    type: "seoFields",
-    group: "seo",
-  }),
+  defineField({ name: "seo", type: "seoFields", group: "seo" }),
+
+  /* Flat fields */
+  ...flatSeoFields,
+  ...flatOpenGraphFields,
+  ...flatSchemaFields,
+  ...flatPrimaryCtaFields,
+  ...flatSettingsFields,
+  defineField({ name: "openGraph", type: "openGraphFields", group: "og" }),
+  defineField({ name: "schemaMarkup", type: "schemaMarkupFields", group: "schema" }),
 ];
 
 export const industryParent = defineType({
@@ -150,7 +352,7 @@ export const industryParent = defineType({
   title: "Industry (parent)",
   type: "document",
   groups: industryGroups,
-  fields: industryFields,
+  fields: sharedIndustryFields,
   preview: { select: { title: "title", subtitle: "category" } },
 });
 
@@ -160,13 +362,22 @@ export const industry = defineType({
   type: "document",
   groups: industryGroups,
   fields: [
-    ...industryFields,
+    ...sharedIndustryFields,
     defineField({
       name: "parent",
       type: "reference",
       to: [{ type: "industryParent" }],
+      title: "Parent (legacy alias)",
       group: "content",
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "parentIndustry",
+      type: "reference",
+      to: [{ type: "industryParent" }],
+      title: "Parent industry",
+      group: "content",
+      description: "References one Industry parent document.",
     }),
   ],
   preview: {

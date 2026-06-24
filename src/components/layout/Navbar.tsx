@@ -35,10 +35,7 @@ const MENU_ORDER: MegaMenuType[] = [
   "industries",
 ];
 
-const LINKS_BEFORE_ABOUT = [
-  { label: "Work", href: "/work" },
-  { label: "Resources", href: "/resources" },
-];
+const LINKS_BEFORE_ABOUT = [{ label: "Work", href: "/work" }];
 
 const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },
@@ -96,7 +93,13 @@ function MegaMenuShell({
     if (!el) return;
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    return () => ro.disconnect();
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(measure);
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, [openMenu, measure]);
 
   return (
@@ -284,6 +287,7 @@ export function Navbar({
     } else {
       setSlideDirection(0);
     }
+    setPanelHeight(0);
     setOpenMenu(menu);
   };
 

@@ -9,10 +9,7 @@ import { Button } from "@/ui/Button";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
 
-const LINKS_BEFORE_ABOUT = [
-  { label: "Work", href: "/work" },
-  { label: "Resources", href: "/resources" },
-];
+const LINKS_BEFORE_ABOUT = [{ label: "Work", href: "/work" }];
 
 const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },

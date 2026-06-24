@@ -1,4 +1,9 @@
 import { defineField, defineType } from "sanity";
+import {
+  flatOpenGraphFields,
+  flatSchemaFields,
+  flatSeoFields,
+} from "../shared/flatFields";
 
 export const insightCategory = defineType({
   name: "insightCategory",
@@ -6,43 +11,142 @@ export const insightCategory = defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
-    { name: "seo", title: "SEO & AEO" },
+    { name: "relationships", title: "Relationships" },
+    { name: "seo", title: "SEO" },
+    { name: "og", title: "Open Graph" },
+    { name: "schema", title: "Schema" },
+    { name: "settings", title: "Settings" },
   ],
   fields: [
     defineField({
       name: "title",
       type: "string",
       group: "content",
+      description: "Category name shown on cards and the category landing page.",
       validation: (r) => r.required(),
     }),
     defineField({
       name: "slug",
       type: "slug",
       group: "content",
+      description: "URL slug auto-generated from the title.",
       options: { source: "title", maxLength: 96 },
       validation: (r) => r.required(),
     }),
-    defineField({ name: "description", type: "text", rows: 3, group: "content" }),
-    defineField({ name: "icon", type: "string", title: "Icon key", group: "content" }),
+    defineField({
+      name: "description",
+      type: "text",
+      rows: 3,
+      group: "content",
+      description: "Short category description shown on cards and meta tags.",
+    }),
+    defineField({
+      name: "longDescription",
+      type: "array",
+      title: "Long description",
+      group: "content",
+      description: "Longer content for the category landing page body.",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "icon",
+      type: "string",
+      title: "Icon key",
+      group: "content",
+      description: "Icon name resolved by the frontend icon map (e.g. ai-search, automation).",
+    }),
+    defineField({
+      name: "colorLabel",
+      type: "string",
+      title: "Color label",
+      group: "content",
+      description: "Color token or visual label for this category.",
+    }),
+    defineField({
+      name: "featuredImage",
+      type: "image",
+      title: "Featured image",
+      group: "content",
+      description: "Category image shown on landing pages and OG previews.",
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({ name: "caption", type: "string", title: "Caption" }),
+      ],
+    }),
     defineField({
       name: "coverImage",
       type: "image",
+      title: "Cover image (legacy)",
       group: "content",
       options: { hotspot: true },
     }),
     defineField({ name: "coverImageUrl", type: "url", title: "Cover URL (legacy)", group: "content" }),
     defineField({
+      name: "parentCategory",
+      type: "reference",
+      to: [{ type: "insightCategory" }],
+      title: "Parent category",
+      group: "content",
+      description: "Optional parent category for nesting.",
+    }),
+
+    defineField({
+      name: "relatedServices",
+      type: "array",
+      title: "Related services",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "service" }] }],
+    }),
+    defineField({
+      name: "relatedIndustries",
+      type: "array",
+      title: "Related industries",
+      group: "relationships",
+      of: [
+        { type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] },
+      ],
+    }),
+    defineField({
+      name: "faqs",
+      type: "array",
+      title: "FAQ references",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "faq" }] }],
+    }),
+
+    ...flatSeoFields,
+    ...flatOpenGraphFields,
+    ...flatSchemaFields,
+
+    defineField({
       name: "order",
       type: "number",
-      group: "content",
+      title: "Order",
+      group: "settings",
+      description: "Sort order on listing pages.",
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "priority",
+      type: "number",
+      group: "settings",
+      description: "Priority for featured placement.",
+    }),
+    defineField({
+      name: "featured",
+      type: "boolean",
+      group: "settings",
+      initialValue: false,
     }),
     defineField({
       name: "seo",
       type: "seoFields",
+      title: "SEO (grouped)",
       group: "seo",
+      description: "Alternative grouped SEO editor. Flat fields above take precedence.",
     }),
   ],
   orderings: [{ title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
-  preview: { select: { title: "title", media: "coverImage" } },
+  preview: { select: { title: "title", media: "featuredImage" } },
 });

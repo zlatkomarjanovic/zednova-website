@@ -2,20 +2,61 @@
 
 /** Shared SEO fragment projected into a flat object. */
 const SEO_PROJECTION = /* groq */ `{
-  "seoTitle": coalesce(seo.seoTitle, ""),
-  "seoDescription": coalesce(seo.seoDescription, ""),
-  "keywords": seo.keywords,
-  "seoCanonical": seo.seoCanonical,
-  "seoNoIndex": coalesce(seo.seoNoIndex, false),
-  "seoHideFromLists": coalesce(seo.seoHideFromLists, false),
-  "ogTitle": seo.ogTitle,
-  "ogDescription": seo.ogDescription,
-  "ogImage": coalesce(seo.ogImage.asset->url, coverImage.asset->url, coverImageUrl),
-  "ogType": seo.ogType,
-  "twitterCard": seo.twitterCard,
-  "twitterTitle": seo.twitterTitle,
-  "twitterDescription": seo.twitterDescription,
-  "twitterImage": seo.twitterImage.asset->url
+  "seoTitle": coalesce(seoTitle, ""),
+  "seoDescription": coalesce(seoDescription, ""),
+  "keywords": keywords,
+  "focusKeyword": focusKeyword,
+  "secondaryKeywords": secondaryKeywords,
+  "searchTags": searchTags,
+  "seoCanonical": coalesce(seoCanonical, canonicalUrl),
+  "canonicalUrl": coalesce(canonicalUrl, seoCanonical),
+  "seoNoIndex": coalesce(seoNoIndex, robotsIndex == false, false),
+  "seoHideFromLists": coalesce(seoHideFromLists, false),
+  "robotsIndex": coalesce(robotsIndex, !seoNoIndex, true),
+  "robotsFollow": coalesce(robotsFollow, true),
+  "structuredDataType": structuredDataType,
+  "jsonLdOverride": coalesce(jsonLdOverride, customJsonLd),
+  "customJsonLd": coalesce(customJsonLd, jsonLdOverride),
+  "ogTitle": ogTitle,
+  "ogDescription": ogDescription,
+  "ogImage": ogImage.asset->url,
+  "ogType": ogType,
+  "twitterCard": twitterCard,
+  "twitterTitle": twitterTitle,
+  "twitterDescription": twitterDescription,
+  "twitterImage": twitterImage.asset->url
+}`;
+
+const OPEN_GRAPH_PROJECTION = /* groq */ `{
+  "ogTitle": ogTitle,
+  "ogDescription": ogDescription,
+  "ogImage": ogImage.asset->url,
+  "ogType": ogType,
+  "twitterTitle": twitterTitle,
+  "twitterDescription": twitterDescription,
+  "twitterImage": twitterImage.asset->url,
+  "twitterCardType": twitterCardType
+}`;
+
+const SCHEMA_MARKUP_PROJECTION = /* groq */ `{
+  schemaType,
+  enableArticleSchema,
+  enableFaqSchema,
+  enableBreadcrumbSchema,
+  enableServiceSchema,
+  enableProductSchema,
+  enableOrganizationSchema,
+  enableCollectionPageSchema,
+  serviceType,
+  areaServed,
+  providerName,
+  priceRange
+}`;
+
+const FAQ_REF_PROJECTION = /* groq */ `{
+  "id": coalesce(slug.current, _id),
+  "question": question,
+  "answer": coalesce(shortAnswer, answer)
 }`;
 
 export const POST_LIST_FIELDS = /* groq */ `{
@@ -62,9 +103,53 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   "relatedPosts": relatedPosts[]->slug.current,
   takeaways,
   faqs,
+  "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
+  "inlineFaqs": inlineFaqs[]{
+    "id": _key,
+    question,
+    "answer": coalesce(shortAnswer, pt::text(answer))
+  },
+  oneSentenceSummary,
+  aiSummary,
+  llmSnippet,
+  quickAnswer,
+  "openGraph": coalesce(openGraph, {})${OPEN_GRAPH_PROJECTION},
+  "schemaMarkup": coalesce(schemaMarkup, {})${SCHEMA_MARKUP_PROJECTION},
   articleBlocks,
   body,
-  "seo": coalesce(seo, {})${SEO_PROJECTION}
+  "seo": coalesce(seo, {})${SEO_PROJECTION},
+  "mergedSeo": {
+    "seoTitle": coalesce(seoTitle, seo.seoTitle, ""),
+    "seoDescription": coalesce(seoDescription, seo.seoDescription, ""),
+    "keywords": coalesce(seo.keywords, secondaryKeywords),
+    "focusKeyword": coalesce(focusKeyword, seo.focusKeyword),
+    "secondaryKeywords": coalesce(secondaryKeywords, seo.secondaryKeywords),
+    "searchTags": coalesce(searchTags, seo.searchTags),
+    "seoCanonical": coalesce(canonicalUrl, seo.seoCanonical, seo.canonicalUrl),
+    "canonicalUrl": coalesce(canonicalUrl, seo.canonicalUrl, seo.seoCanonical),
+    "seoNoIndex": coalesce(noIndex, seo.seoNoIndex, seo.robotsIndex == false, false),
+    "seoHideFromLists": coalesce(seo.seoHideFromLists, false),
+    "robotsIndex": coalesce(robotsIndex, seo.robotsIndex, !noIndex, !seo.seoNoIndex, true),
+    "robotsFollow": coalesce(robotsFollow, seo.robotsFollow, true),
+    "structuredDataType": coalesce(schemaType, seo.structuredDataType),
+    "ogTitle": coalesce(openGraphTitle, openGraph.ogTitle, seo.ogTitle),
+    "ogDescription": coalesce(openGraphDescription, openGraph.ogDescription, seo.ogDescription),
+    "ogImage": coalesce(openGraphImage.asset->url, openGraph.ogImage.asset->url, schemaImage.asset->url, seo.ogImage.asset->url, coverImage.asset->url, coverImageUrl),
+    "ogType": coalesce(openGraph.ogType, seo.ogType, "article"),
+    "twitterCard": coalesce(openGraph.twitterCardType, seo.twitterCard, "summary_large_image"),
+    "twitterTitle": coalesce(twitterTitle, openGraph.twitterTitle, seo.twitterTitle),
+    "twitterDescription": coalesce(twitterDescription, openGraph.twitterDescription, seo.twitterDescription),
+    "twitterImage": coalesce(twitterImage.asset->url, openGraph.twitterImage.asset->url, seo.twitterImage.asset->url)
+  },
+  quickAnswerQuestion,
+  quickAnswerShort,
+  enableArticleSchema,
+  enableFaqSchema,
+  enableBreadcrumbSchema,
+  primaryCtaTitle,
+  primaryCtaDescription,
+  primaryCtaLabel,
+  primaryCtaHref,
 }`;
 
 export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
@@ -230,6 +315,36 @@ export const SERVICE_MEGA_MENU_CARDS_QUERY = /* groq */ `
   }
 `;
 
+export const CUSTOM_SOFTWARE_BY_SLUG_QUERY = /* groq */ `
+  *[_type == "customSoftware" && slug.current == $slug][0] {
+    "slug": slug.current,
+    title,
+    shortDescription,
+    whatItIs,
+    problemSolved,
+    targetAudience,
+    keyFeatures,
+    whatsIncluded,
+    deliverables,
+    technologies,
+    integrations,
+    process,
+    timeline,
+    startingPrice,
+    softwareType,
+    faqs,
+    "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
+    order,
+    "relatedServices": relatedServices[]->slug.current,
+    "relatedIndustries": relatedIndustries[]->slug.current,
+    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+    "relatedPortfolioProjects": relatedPortfolioProjects[]->slug.current,
+    "relatedInsights": relatedInsights[]->slug.current,
+    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "seo": coalesce(seo, {})${SEO_PROJECTION}
+  }
+`;
+
 export const CUSTOM_SOFTWARE_QUERY = /* groq */ `
   *[_type == "customSoftware"] | order(order asc) {
     "slug": coalesce(slug.current, ""),
@@ -317,13 +432,21 @@ const INDUSTRY_FIELDS_PROJECTION = /* groq */ `{
   heroHeadline,
   hook,
   shortDescription,
+  industryOverview,
   painPoints,
+  "commonProblems": commonProblems[]{ title, description },
+  "segmentSpecificProblems": segmentSpecificProblems[]{ title, description },
   popularServices,
+  "recommendedServiceLinks": coalesce(
+    servicesForThisIndustry[]->{ "label": title, "href": "/services/" + slug.current },
+    recommendedServices[]->{ "label": title, "href": "/services/" + slug.current }
+  ),
   faqs,
+  "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
   exampleProject,
   commonUseCase,
   icon,
-  "image": coalesce(coverImage.asset->url, coverImageUrl),
+  "image": coalesce(coverImage.asset->url, heroImage.asset->url, coverImageUrl),
   order,
   showInMainNav,
   navOrder,
@@ -335,11 +458,35 @@ const INDUSTRY_FIELDS_PROJECTION = /* groq */ `{
 }`;
 
 export const INDUSTRY_PARENTS_QUERY = /* groq */ `
-  *[_type == "industryParent" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) ${INDUSTRY_FIELDS_PROJECTION}
+  *[
+    _type == "industryParent" &&
+    defined(slug.current) &&
+    coalesce(seo.seoHideFromLists, false) == false &&
+    slug.current in [
+      "healthcare-wellness",
+      "ecommerce-dtc",
+      "fitness-coaching-performance",
+      "professional-services",
+      "b2b-saas-technology",
+      "real-estate-property"
+    ]
+  ] | order(order asc) ${INDUSTRY_FIELDS_PROJECTION}
 `;
 
 export const INDUSTRIES_QUERY = /* groq */ `
-  *[_type == "industry" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
+  *[
+    _type == "industry" &&
+    defined(slug.current) &&
+    coalesce(seo.seoHideFromLists, false) == false &&
+    parent->slug.current in [
+      "healthcare-wellness",
+      "ecommerce-dtc",
+      "fitness-coaching-performance",
+      "professional-services",
+      "b2b-saas-technology",
+      "real-estate-property"
+    ]
+  ] | order(order asc) {
     ...${INDUSTRY_FIELDS_PROJECTION},
     "parentSlug": parent->slug.current
   }
@@ -358,9 +505,17 @@ export const INDUSTRY_BY_SLUG_QUERY = /* groq */ `
 
 export const INDUSTRY_NAV_QUERY = /* groq */ `
   *[
-    (_type == "industryParent" || _type == "industry") &&
+    _type == "industryParent" &&
     showInMainNav == true &&
-    defined(slug.current)
+    defined(slug.current) &&
+    slug.current in [
+      "healthcare-wellness",
+      "ecommerce-dtc",
+      "fitness-coaching-performance",
+      "professional-services",
+      "b2b-saas-technology",
+      "real-estate-property"
+    ]
   ] | order(navOrder asc) {
     "title": coalesce(navTitle, title),
     "shortDescription": coalesce(navShortDescription, shortDescription),

@@ -16,12 +16,18 @@ import { team } from "@/lib/content/team";
 import { homepageIndustries as staticHomepageIndustries } from "@/lib/content/homepage-industries";
 import type { HomepageIndustry } from "@/lib/content/homepage-industries";
 import {
+  isIndustryParentRecord,
+  isIndustrySegment,
+  mergeIndustryRecord,
+} from "@/lib/industry-content";
+import { customSoftwareItems, customSoftwareBySlug } from "@/lib/content/custom-software-items";
+import {
   customSoftwareGroups as staticCustomSoftwareGroups,
   customSoftwareNavItems as staticCustomSoftwareNavItems,
-  industryNavItems as staticIndustryNavItems,
   serviceMegaMenuCards as staticServiceMegaMenuCards,
   serviceNavGroups as staticServiceNavGroups,
 } from "@/lib/content/nav-menu";
+import type { CustomSoftware } from "@/lib/types/custom-software";
 import type {
   CustomSoftwareGroupSection,
   Migration,
@@ -36,6 +42,7 @@ import type {
   IndustryParent,
   Post,
   Product,
+  PortfolioProject,
   Author,
   Service,
   ServiceGroup,
@@ -49,6 +56,7 @@ import {
   fetchAllServicesFromSanity,
   fetchCustomSoftwareGroupsFromSanity,
   fetchCustomSoftwareNavFromSanity,
+  fetchCustomSoftwareBySlugFromSanity,
   fetchIndustryBySlugFromSanity,
   fetchIndustryNavItemsFromSanity,
   fetchIndustryParentBySlugFromSanity,
@@ -72,12 +80,6 @@ import {
 import { isSanityConfigured } from "@/sanity/env";
 
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
-
-const CATEGORY_ORDER: IndustryCategory[] = [
-  "Healthcare Clinics",
-  "Ecommerce & Shopify",
-  "Small Business Custom Software",
-];
 
 async function fromSanity<T>(
   type: string,
@@ -173,6 +175,119 @@ export async function getCustomSoftwareGroups(): Promise<
   );
 }
 
+const staticCustomSoftwareItems: CustomSoftware[] = customSoftwareItems;
+
+function mergeCustomSoftware(
+  staticItem: CustomSoftware | null,
+  cms: CustomSoftware | null,
+): CustomSoftware | null {
+  if (!staticItem && !cms) return null;
+  if (!cms) return staticItem;
+  if (!staticItem) return cms;
+  return {
+    ...staticItem,
+    ...cms,
+    slug: cms.slug || staticItem.slug,
+    title: cms.title || staticItem.title,
+    shortDescription: cms.shortDescription || staticItem.shortDescription,
+    whatItIs: cms.whatItIs || staticItem.whatItIs,
+    problemSolved: cms.problemSolved || staticItem.problemSolved,
+    targetAudience: cms.targetAudience?.length
+      ? cms.targetAudience
+      : staticItem.targetAudience,
+    keyFeatures: cms.keyFeatures?.length ? cms.keyFeatures : staticItem.keyFeatures,
+    whatsIncluded: cms.whatsIncluded?.length ? cms.whatsIncluded : staticItem.whatsIncluded,
+    deliverables: cms.deliverables?.length ? cms.deliverables : staticItem.deliverables,
+    technologies: cms.technologies?.length ? cms.technologies : staticItem.technologies,
+    integrations: cms.integrations?.length ? cms.integrations : staticItem.integrations,
+    processSteps: cms.processSteps?.length ? cms.processSteps : staticItem.processSteps,
+    timeline: cms.timeline || staticItem.timeline,
+    startingPrice: cms.startingPrice ?? staticItem.startingPrice,
+    faqs: cms.faqs?.length ? cms.faqs : staticItem.faqs,
+    relatedServices: cms.relatedServices?.length
+      ? cms.relatedServices
+      : staticItem.relatedServices,
+    relatedIndustries: cms.relatedIndustries?.length
+      ? cms.relatedIndustries
+      : staticItem.relatedIndustries,
+    relatedCaseStudies: cms.relatedCaseStudies?.length
+      ? cms.relatedCaseStudies
+      : staticItem.relatedCaseStudies,
+    relatedPortfolioProjects: cms.relatedPortfolioProjects?.length
+      ? cms.relatedPortfolioProjects
+      : staticItem.relatedPortfolioProjects,
+    relatedInsights: cms.relatedInsights?.length
+      ? cms.relatedInsights
+      : staticItem.relatedInsights,
+    seo: cms.seo ?? staticItem.seo,
+  };
+}
+
+export async function getAllCustomSoftwareSlugs(): Promise<string[]> {
+  return staticCustomSoftwareItems.map((item) => item.slug);
+}
+
+export async function getCustomSoftwareBySlug(
+  slug: string,
+): Promise<CustomSoftware | null> {
+  const staticItem = customSoftwareBySlug.get(slug) ?? null;
+  if (!isSanityConfigured()) return staticItem;
+  try {
+    const has = await sanityHasContent("customSoftware");
+    if (!has) return staticItem;
+    const cms = await fetchCustomSoftwareBySlugFromSanity(slug);
+    return mergeCustomSoftware(staticItem, cms);
+  } catch {
+    return staticItem;
+  }
+}
+
+export async function getCustomSoftwareRelatedPortfolioProjects(
+  item: Pick<
+    CustomSoftware,
+    "slug" | "relatedCaseStudies" | "relatedPortfolioProjects" | "relatedServices"
+  >,
+  limit = 4,
+): Promise<PortfolioProject[]> {
+  const allPortfolio = await getPortfolioProjects();
+  const ordered: PortfolioProject[] = [];
+  const seen = new Set<string>();
+
+  const push = (projects: PortfolioProject[]) => {
+    for (const project of projects) {
+      if (seen.has(project.slug)) continue;
+      seen.add(project.slug);
+      ordered.push(project);
+    }
+  };
+
+  if (item.relatedPortfolioProjects?.length) {
+    const slugs = new Set(item.relatedPortfolioProjects);
+    push(allPortfolio.filter((project) => slugs.has(project.slug)));
+  }
+
+  if (item.relatedCaseStudies?.length) {
+    const caseSlugs = new Set(item.relatedCaseStudies);
+    push(
+      allPortfolio.filter((project) =>
+        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
+      ),
+    );
+  }
+
+  push(allPortfolio.filter((project) => project.servicesUsed?.includes(item.slug)));
+
+  if (ordered.length === 0 && item.relatedServices?.length) {
+    push(
+      allPortfolio.filter((project) =>
+        project.servicesUsed?.some((slug) => item.relatedServices!.includes(slug)),
+      ),
+    );
+  }
+
+  return ordered.slice(0, limit);
+}
+
 /* ----------------------------- Migrations ----------------------------- */
 
 export async function getAllMigrations(): Promise<Migration[]> {
@@ -199,9 +314,37 @@ export async function getMigrationBySlug(
 /* ----------------------------- Industries ----------------------------- */
 
 export async function getIndustryNavItems(): Promise<NavMenuItem[]> {
-  return fromSanity("industry", fetchIndustryNavItemsFromSanity, () =>
-    staticIndustryNavItems,
-  );
+  const staticParentNavItems: NavMenuItem[] = industryParents.map((parent) => ({
+    title: parent.title,
+    shortDescription: parent.shortDescription,
+    href: `/industries/${parent.slug}`,
+  }));
+
+  if (!isSanityConfigured()) return staticParentNavItems;
+
+  try {
+    const has = await sanityHasContent("industryParent");
+    if (!has) return staticParentNavItems;
+
+    const fromCms = await fetchIndustryNavItemsFromSanity();
+    const cmsBySlug = new Map(
+      fromCms.map((item) => [
+        item.href.replace(/^\/industries\//, ""),
+        item,
+      ]),
+    );
+
+    return industryParents.map((parent) => {
+      const cms = cmsBySlug.get(parent.slug);
+      return {
+        title: cms?.title ?? parent.title,
+        shortDescription: cms?.shortDescription ?? parent.shortDescription,
+        href: `/industries/${parent.slug}`,
+      };
+    });
+  } catch {
+    return staticParentNavItems;
+  }
 }
 
 export async function getHomepageIndustries(): Promise<HomepageIndustry[]> {
@@ -282,60 +425,87 @@ export async function labelForIndustry(value: string): Promise<string> {
 }
 
 export async function getIndustryParents(): Promise<IndustryParent[]> {
-  return fromSanity("industryParent", fetchIndustryParentsFromSanity, () =>
-    [...industryParents].sort(byOrder),
-  );
+  const staticSorted = [...industryParents].sort(byOrder);
+  if (!isSanityConfigured()) return staticSorted;
+  try {
+    const has = await sanityHasContent("industryParent");
+    if (!has) return staticSorted;
+    const fromCms = await fetchIndustryParentsFromSanity();
+    const cmsBySlug = new Map(fromCms.map((parent) => [parent.slug, parent]));
+    return staticSorted.map((parent) =>
+      mergeIndustryRecord(parent, cmsBySlug.get(parent.slug)),
+    );
+  } catch {
+    return staticSorted;
+  }
 }
 
 export async function getAllIndustries(): Promise<Industry[]> {
-  return fromSanity("industry", fetchAllIndustriesFromSanity, () =>
-    [...industries].sort(byOrder),
-  );
+  const parentSlugs = new Set(industryParents.map((parent) => parent.slug));
+  const staticSorted = industries
+    .filter((industry) => parentSlugs.has(industry.parentSlug))
+    .sort(byOrder);
+  if (!isSanityConfigured()) return staticSorted;
+  try {
+    const has = await sanityHasContent("industry");
+    if (!has) return staticSorted;
+    const fromCms = await fetchAllIndustriesFromSanity();
+    const cmsBySlug = new Map(
+      fromCms
+        .filter((industry) => parentSlugs.has(industry.parentSlug))
+        .map((industry) => [industry.slug, industry]),
+    );
+    return staticSorted.map((industry) =>
+      mergeIndustryRecord(industry, cmsBySlug.get(industry.slug)),
+    );
+  } catch {
+    return staticSorted;
+  }
 }
 
 export async function getIndustryGroups(): Promise<
-  { category: IndustryCategory; parent: IndustryParent; industries: Industry[] }[]
+  { parent: IndustryParent; industries: Industry[] }[]
 > {
   const parents = await getIndustryParents();
   const subs = await getAllIndustries();
 
-  return CATEGORY_ORDER.map((category) => {
-    const parent = parents.find((p) => p.category === category)!;
-    return {
-      category,
-      parent,
-      industries: subs.filter((i) => i.category === category).sort(byOrder),
-    };
-  });
+  return parents.sort(byOrder).map((parent) => ({
+    parent,
+    industries: subs
+      .filter((i) => i.parentSlug === parent.slug)
+      .sort(byOrder),
+  }));
 }
 
 export async function getIndustryParentBySlug(
   slug: string,
 ): Promise<IndustryParent | null> {
-  if (!isSanityConfigured()) {
-    return industryParents.find((p) => p.slug === slug) ?? null;
-  }
+  const staticParent = industryParents.find((p) => p.slug === slug) ?? null;
+  if (!isSanityConfigured()) return staticParent;
   try {
     const has = await sanityHasContent("industryParent");
-    if (!has) return industryParents.find((p) => p.slug === slug) ?? null;
-    return (await fetchIndustryParentBySlugFromSanity(slug)) ?? null;
+    if (!has) return staticParent;
+    const cms = await fetchIndustryParentBySlugFromSanity(slug);
+    if (!staticParent) return cms;
+    return mergeIndustryRecord(staticParent, cms);
   } catch {
-    return industryParents.find((p) => p.slug === slug) ?? null;
+    return staticParent;
   }
 }
 
 export async function getIndustryBySlug(
   slug: string,
 ): Promise<Industry | null> {
-  if (!isSanityConfigured()) {
-    return industries.find((i) => i.slug === slug) ?? null;
-  }
+  const staticIndustry = industries.find((i) => i.slug === slug) ?? null;
+  if (!isSanityConfigured()) return staticIndustry;
   try {
     const has = await sanityHasContent("industry");
-    if (!has) return industries.find((i) => i.slug === slug) ?? null;
-    return (await fetchIndustryBySlugFromSanity(slug)) ?? null;
+    if (!has) return staticIndustry;
+    const cms = await fetchIndustryBySlugFromSanity(slug);
+    if (!staticIndustry) return cms;
+    return mergeIndustryRecord(staticIndustry, cms);
   } catch {
-    return industries.find((i) => i.slug === slug) ?? null;
+    return staticIndustry;
   }
 }
 
@@ -358,6 +528,63 @@ export async function getAllIndustrySlugs(): Promise<string[]> {
     getAllIndustries(),
   ]);
   return [...parents.map((p) => p.slug), ...subs.map((i) => i.slug)];
+}
+
+export type IndustryPageData = {
+  industry: IndustryParent | Industry;
+  isParent: boolean;
+  parent: IndustryParent | null;
+  subIndustries: Industry[];
+  siblingIndustries: Industry[];
+  relatedCaseStudies: CaseStudy[];
+  relatedInsights: Post[];
+};
+
+export async function getIndustryPageData(
+  slug: string,
+): Promise<IndustryPageData | null> {
+  const industry = await getIndustrySegmentBySlug(slug);
+  if (!industry) return null;
+
+  const isParent = isIndustryParentRecord(industry);
+  const isSub = isIndustrySegment(industry);
+  const parent = isSub
+    ? await getIndustryParentBySlug(industry.parentSlug)
+    : industry;
+
+  const allSegments = await getAllIndustries();
+  const subIndustries = isParent
+    ? allSegments.filter((item) => item.parentSlug === slug)
+    : [];
+  const siblingIndustries = isSub
+    ? allSegments.filter(
+        (item) => item.parentSlug === industry.parentSlug && item.slug !== slug,
+      )
+    : [];
+
+  const allCaseStudies = await getAllCaseStudies();
+  const relatedCaseStudies =
+    industry.relatedCaseStudies && industry.relatedCaseStudies.length > 0
+      ? allCaseStudies.filter((study) =>
+          industry.relatedCaseStudies!.includes(study.slug),
+        )
+      : await getCaseStudiesByIndustry(slug);
+
+  const allPosts = await getAllPosts();
+  const relatedInsights =
+    industry.relatedInsights && industry.relatedInsights.length > 0
+      ? allPosts.filter((post) => industry.relatedInsights!.includes(post.slug))
+      : await getInsightsByIndustry(slug, 3);
+
+  return {
+    industry,
+    isParent,
+    parent,
+    subIndustries,
+    siblingIndustries,
+    relatedCaseStudies,
+    relatedInsights,
+  };
 }
 
 /* ----------------------------- Case studies ----------------------------- */
@@ -390,6 +617,90 @@ export async function getCaseStudiesByService(
 ): Promise<CaseStudy[]> {
   const all = await getAllCaseStudies();
   return all.filter((c) => c.servicesUsed.includes(serviceSlug)).slice(0, limit);
+}
+
+export async function getServiceRelatedPortfolioProjects(
+  service: Pick<Service, "slug" | "relatedCaseStudies">,
+  limit = 4,
+): Promise<PortfolioProject[]> {
+  const allPortfolio = await getPortfolioProjects();
+  const ordered: PortfolioProject[] = [];
+  const seen = new Set<string>();
+
+  const push = (items: PortfolioProject[]) => {
+    for (const project of items) {
+      if (seen.has(project.slug)) continue;
+      seen.add(project.slug);
+      ordered.push(project);
+    }
+  };
+
+  if (service.relatedCaseStudies?.length) {
+    const caseSlugs = new Set(service.relatedCaseStudies);
+    push(
+      allPortfolio.filter((project) =>
+        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
+      ),
+    );
+  }
+
+  push(allPortfolio.filter((project) => project.servicesUsed?.includes(service.slug)));
+
+  if (ordered.length === 0) {
+    const relatedCases = await getCaseStudiesByService(service.slug, limit);
+    const caseSlugs = new Set(relatedCases.map((study) => study.slug));
+    push(
+      allPortfolio.filter((project) =>
+        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
+      ),
+    );
+  }
+
+  return ordered.slice(0, limit);
+}
+
+export async function getIndustryRelatedPortfolioProjects(
+  industry: Pick<IndustryParent | Industry, "slug" | "relatedCaseStudies">,
+  limit = 4,
+): Promise<PortfolioProject[]> {
+  const allPortfolio = await getPortfolioProjects();
+  const ordered: PortfolioProject[] = [];
+  const seen = new Set<string>();
+
+  const push = (items: PortfolioProject[]) => {
+    for (const project of items) {
+      if (seen.has(project.slug)) continue;
+      seen.add(project.slug);
+      ordered.push(project);
+    }
+  };
+
+  if (industry.relatedCaseStudies?.length) {
+    const caseSlugs = new Set(industry.relatedCaseStudies);
+    push(
+      allPortfolio.filter((project) =>
+        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
+      ),
+    );
+  }
+
+  push(
+    allPortfolio.filter((project) =>
+      project.relatedIndustries?.includes(industry.slug),
+    ),
+  );
+
+  if (ordered.length === 0) {
+    const relatedCases = await getCaseStudiesByIndustry(industry.slug, limit);
+    const caseSlugs = new Set(relatedCases.map((study) => study.slug));
+    push(
+      allPortfolio.filter((project) =>
+        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
+      ),
+    );
+  }
+
+  return ordered.slice(0, limit);
 }
 
 export async function getCaseStudiesByIndustry(

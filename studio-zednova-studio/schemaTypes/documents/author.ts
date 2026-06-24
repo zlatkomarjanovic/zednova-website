@@ -1,4 +1,8 @@
 import { defineField, defineType } from "sanity";
+import {
+  flatOpenGraphFields,
+  flatSeoFields,
+} from "../shared/flatFields";
 
 export const author = defineType({
   name: "author",
@@ -6,13 +10,17 @@ export const author = defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
-    { name: "seo", title: "SEO & AEO" },
+    { name: "relationships", title: "Relationships" },
+    { name: "schema", title: "Schema" },
+    { name: "seo", title: "SEO" },
+    { name: "og", title: "Open Graph" },
   ],
   fields: [
     defineField({
       name: "name",
       type: "string",
       group: "content",
+      description: "Author full name shown publicly.",
       validation: (r) => r.required(),
     }),
     defineField({
@@ -22,28 +30,123 @@ export const author = defineType({
       options: { source: "name", maxLength: 96 },
       validation: (r) => r.required(),
     }),
-    defineField({ name: "role", type: "string", group: "content" }),
+    defineField({
+      name: "role",
+      type: "string",
+      group: "content",
+      description: "Public author role (e.g. Founder, Lead Developer).",
+    }),
+    defineField({
+      name: "shortBio",
+      type: "text",
+      rows: 2,
+      group: "content",
+      description: "One-line bio for cards and author bylines.",
+    }),
     defineField({
       name: "bio",
       type: "array",
       of: [{ type: "text" }],
-      title: "Bio paragraphs",
+      title: "Bio paragraphs (legacy)",
       group: "content",
     }),
-    defineField({ name: "shortBio", type: "text", rows: 2, group: "content" }),
-    defineField({ name: "linkedin", type: "url", group: "content" }),
-    defineField({ name: "twitter", type: "url", group: "content" }),
-    defineField({ name: "upwork", type: "url", group: "content" }),
-    defineField({ name: "website", type: "url", group: "content" }),
-    defineField({ name: "avatar", type: "image", options: { hotspot: true }, group: "content" }),
+    defineField({
+      name: "fullBio",
+      type: "array",
+      title: "Full bio",
+      group: "content",
+      description: "Full bio in rich text for the author page.",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "image",
+      type: "image",
+      title: "Profile image",
+      group: "content",
+      description: "Author profile photo with alt text and caption.",
+      options: { hotspot: true },
+      fields: [
+        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({ name: "caption", type: "string", title: "Caption" }),
+      ],
+    }),
+    defineField({ name: "avatar", type: "image", title: "Avatar (legacy)", group: "content", options: { hotspot: true } }),
     defineField({ name: "avatarUrl", type: "url", title: "Avatar URL (legacy)", group: "content" }),
+    defineField({ name: "email", type: "string", group: "content", description: "Optional author email." }),
+    defineField({ name: "website", type: "url", group: "content", description: "Author personal website." }),
+    defineField({ name: "linkedin", type: "url", group: "content", description: "LinkedIn profile URL." }),
+    defineField({ name: "twitter", type: "url", title: "X / Twitter", group: "content", description: "X/Twitter profile URL." }),
+    defineField({ name: "xTwitter", type: "url", title: "X / Twitter (alias)", group: "content" }),
+    defineField({ name: "github", type: "url", group: "content", description: "GitHub profile URL." }),
+    defineField({ name: "upwork", type: "url", group: "content" }),
+    defineField({
+      name: "expertise",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "content",
+      description: "Expertise areas (e.g. Next.js, Shopify, AI).",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "credentials",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "content",
+      description: "Credentials, experience, or trust signals.",
+      options: { layout: "tags" },
+    }),
+
+    defineField({
+      name: "relatedServices",
+      type: "array",
+      title: "Related services",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "service" }] }],
+    }),
+
+    defineField({
+      name: "sameAs",
+      type: "array",
+      of: [{ type: "url" }],
+      title: "sameAs (Person schema)",
+      group: "schema",
+      description: "Profile URLs used for schema.org Person sameAs.",
+    }),
+    defineField({
+      name: "jobTitle",
+      type: "string",
+      title: "Job title (schema)",
+      group: "schema",
+      description: "Job title for Person schema.",
+    }),
+    defineField({
+      name: "worksFor",
+      type: "string",
+      title: "Works for (schema)",
+      group: "schema",
+      description: "Company or organization name.",
+    }),
+    defineField({
+      name: "knowsAbout",
+      type: "array",
+      of: [{ type: "string" }],
+      title: "Knows about (schema)",
+      group: "schema",
+      description: "Topics the author knows about.",
+      options: { layout: "tags" },
+    }),
+
+    ...flatSeoFields,
+    ...flatOpenGraphFields,
+
     defineField({
       name: "seo",
       type: "seoFields",
+      title: "SEO (grouped)",
       group: "seo",
     }),
   ],
   preview: {
-    select: { title: "name", subtitle: "role", media: "avatar" },
+    select: { title: "name", subtitle: "role", media: "image" },
   },
 });

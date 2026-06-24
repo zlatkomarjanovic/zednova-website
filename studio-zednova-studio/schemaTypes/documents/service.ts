@@ -1,4 +1,14 @@
 import { defineField, defineType } from "sanity";
+import { richTextMembers } from "../objects/extended";
+import {
+  flatConsultationCtaFields,
+  flatOpenGraphFields,
+  flatPrimaryCtaFields,
+  flatQuickAnswerFields,
+  flatSchemaFields,
+  flatSeoFields,
+  flatSettingsFields,
+} from "../shared/flatFields";
 
 const serviceGroups = [
   { title: "Websites", value: "Websites" },
@@ -16,7 +26,12 @@ export const service = defineType({
     { name: "deliverables", title: "Deliverables & Pricing" },
     { name: "process", title: "Process & Results" },
     { name: "relationships", title: "Relationships" },
-    { name: "seo", title: "SEO & AEO" },
+    { name: "aeo", title: "AEO" },
+    { name: "conversion", title: "Conversion" },
+    { name: "seo", title: "SEO" },
+    { name: "og", title: "Open Graph" },
+    { name: "schema", title: "Schema" },
+    { name: "settings", title: "Settings" },
   ],
   fields: [
     defineField({ name: "title", type: "string", group: "content", validation: (r) => r.required() }),
@@ -47,12 +62,28 @@ export const service = defineType({
     defineField({ name: "whatItIs", type: "text", rows: 4, group: "content" }),
     defineField({ name: "heroHeadline", type: "string", group: "content" }),
     defineField({ name: "heroSubhead", type: "text", rows: 3, group: "content" }),
+    defineField({ name: "heroEyebrow", type: "string", group: "content" }),
+    defineField({ name: "heroTitle", type: "string", group: "content" }),
+    defineField({ name: "heroDescription", type: "text", rows: 3, group: "content" }),
+    defineField({ name: "oneSentencePitch", type: "string", group: "content" }),
+    defineField({
+      name: "longDescription",
+      type: "array",
+      title: "Long description",
+      group: "content",
+      of: richTextMembers,
+    }),
     defineField({
       name: "coverImage",
       type: "image",
       group: "content",
       options: { hotspot: true },
+      fields: [
+        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({ name: "caption", type: "string", title: "Caption" }),
+      ],
     }),
+    defineField({ name: "heroImage", type: "mediaAsset", group: "content" }),
     defineField({ name: "coverImageUrl", type: "url", title: "Cover URL (legacy)", group: "content" }),
 
     /* Deliverables & pricing */
@@ -121,10 +152,156 @@ export const service = defineType({
     defineField({
       name: "faqs",
       type: "array",
-      title: "FAQ (service-level)",
+      title: "FAQ (inline)",
       group: "process",
       of: [{ type: "articleFaq" }],
       description: "Renders with FAQPage JSON-LD on the service detail page.",
+    }),
+    defineField({
+      name: "faqReferences",
+      type: "array",
+      title: "FAQ references",
+      group: "process",
+      of: [{ type: "reference", to: [{ type: "faq" }] }],
+    }),
+    defineField({
+      name: "inlineFaqs",
+      type: "array",
+      of: [{ type: "inlineFaq" }],
+      group: "process",
+    }),
+
+    /* Positioning */
+    defineField({
+      name: "targetAudience",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "content",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "idealFor",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "content",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "notIdealFor",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "content",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "painPoints",
+      type: "array",
+      of: [{ type: "bulletItem" }],
+      group: "content",
+    }),
+    defineField({
+      name: "outcomes",
+      type: "array",
+      of: [{ type: "bulletItem" }],
+      group: "content",
+    }),
+    defineField({
+      name: "benefits",
+      type: "array",
+      of: [{ type: "bulletItem" }],
+      group: "content",
+    }),
+    defineField({
+      name: "useCases",
+      type: "array",
+      of: [{ type: "bulletItem" }],
+      group: "content",
+    }),
+    defineField({
+      name: "toolsUsed",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "content",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "technologies",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "content",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "includedFeatures",
+      type: "array",
+      of: [{ type: "featureBullet" }],
+      group: "deliverables",
+    }),
+    defineField({
+      name: "deliverableItems",
+      type: "array",
+      of: [{ type: "deliverableItem" }],
+      group: "deliverables",
+    }),
+    defineField({
+      name: "optionalAddons",
+      type: "array",
+      of: [{ type: "deliverableItem" }],
+      group: "deliverables",
+    }),
+    defineField({
+      name: "pricingNote",
+      type: "string",
+      group: "deliverables",
+    }),
+    defineField({
+      name: "packages",
+      type: "array",
+      group: "deliverables",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "name", type: "string" }),
+            defineField({ name: "price", type: "string" }),
+            defineField({ name: "description", type: "text", rows: 2 }),
+            defineField({ name: "timeline", type: "string" }),
+            defineField({
+              name: "features",
+              type: "array",
+              of: [{ type: "string" }],
+            }),
+            defineField({ name: "bestFor", type: "string" }),
+            defineField({ name: "ctaLabel", type: "string" }),
+            defineField({ name: "ctaHref", type: "string" }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "body",
+      type: "array",
+      title: "Body (Portable Text)",
+      group: "content",
+      of: richTextMembers,
+    }),
+    defineField({
+      name: "contentSections",
+      type: "array",
+      of: [{ type: "contentSection" }],
+      group: "content",
+    }),
+    defineField({
+      name: "requirements",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "deliverables",
+    }),
+    defineField({
+      name: "clientInputsNeeded",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "deliverables",
     }),
 
     /* Relationships */
@@ -165,8 +342,89 @@ export const service = defineType({
       group: "relationships",
       of: [{ type: "reference", to: [{ type: "migration" }] }],
     }),
+    defineField({
+      name: "relatedProducts",
+      type: "array",
+      title: "Related products",
+      group: "relationships",
+      of: [{ type: "reference", to: [{ type: "product" }] }],
+    }),
+    defineField({
+      name: "parentService",
+      type: "reference",
+      to: [{ type: "service" }],
+      group: "relationships",
+    }),
+    defineField({
+      name: "childServices",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "service" }] }],
+      group: "relationships",
+    }),
 
-    /* SEO / AEO */
+    /* AEO */
+    defineField({ name: "quickAnswer", type: "aeoAnswerBlock", group: "aeo" }),
+    defineField({ name: "aiSummary", type: "text", rows: 4, group: "aeo" }),
+    defineField({ name: "llmSnippet", type: "text", rows: 4, group: "aeo" }),
+    defineField({
+      name: "searchIntent",
+      type: "string",
+      group: "aeo",
+      options: {
+        list: ["Informational", "Commercial", "Transactional", "Navigational"],
+      },
+    }),
+    defineField({
+      name: "commercialIntentKeywords",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "aeo",
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "entitiesMentioned",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "aeo",
+      options: { layout: "tags" },
+    }),
+
+    ...flatQuickAnswerFields,
+    ...flatPrimaryCtaFields,
+    ...flatConsultationCtaFields,
+
+    /* Flat SEO / OG / Schema */
+    ...flatSeoFields,
+    ...flatOpenGraphFields,
+    ...flatSchemaFields,
+    ...flatSettingsFields,
+    defineField({
+      name: "serviceType",
+      type: "string",
+      title: "Service type (schema)",
+      group: "schema",
+    }),
+    defineField({
+      name: "areaServed",
+      type: "array",
+      of: [{ type: "string" }],
+      title: "Area served (schema)",
+      group: "schema",
+    }),
+    defineField({
+      name: "providerName",
+      type: "string",
+      title: "Provider name (schema)",
+      group: "schema",
+    }),
+    defineField({
+      name: "priceRange",
+      type: "string",
+      title: "Price range (schema)",
+      group: "schema",
+    }),
+    defineField({ name: "leadFormTitle", type: "string", title: "Lead form title", group: "conversion" }),
+    defineField({ name: "leadFormDescription", type: "text", rows: 3, title: "Lead form description", group: "conversion" }),
     defineField({
       name: "tags",
       type: "array",
@@ -174,10 +432,15 @@ export const service = defineType({
       of: [{ type: "reference", to: [{ type: "tag" }] }],
       options: { layout: "tags" },
     }),
+    defineField({ name: "seo", type: "seoFields", group: "seo" }),
+    defineField({ name: "openGraph", type: "openGraphFields", group: "og" }),
+    defineField({ name: "schemaMarkup", type: "schemaMarkupFields", group: "schema" }),
     defineField({
-      name: "seo",
-      type: "seoFields",
-      group: "seo",
+      name: "status",
+      type: "string",
+      group: "settings",
+      options: { list: ["Active", "Draft", "Hidden"] },
+      initialValue: "Active",
     }),
 
     defineField({
@@ -189,6 +452,9 @@ export const service = defineType({
   ],
   orderings: [{ title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: {
-    select: { title: "title", subtitle: "group", media: "coverImage" },
+    select: { title: "title", subtitle: "group", status: "status", media: "coverImage" },
+    prepare({ title, subtitle, status, media }) {
+      return { title, subtitle: [subtitle, status].filter(Boolean).join(" · "), media };
+    },
   },
 });

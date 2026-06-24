@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getIndustryGroups, getIndustryNavItems } from "@/lib/queries";
+import { getIndustryGroups } from "@/lib/queries";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
@@ -11,39 +11,32 @@ import { DarkCTA } from "@/features/home/DarkCTA";
 export const metadata: Metadata = {
   title: "Industries",
   description:
-    "Websites, Shopify development, booking automation, and CRM workflows for healthcare clinics, Shopify and DTC brands, and small businesses building custom software.",
+    "Websites, Shopify stores, booking automation, and CRM workflows for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
   alternates: { canonical: "/industries" },
 };
 
 export default async function IndustriesPage() {
-  const [industryGroups, industryNavItems] = await Promise.all([
-    getIndustryGroups(),
-    getIndustryNavItems(),
-  ]);
+  const industryGroups = await getIndustryGroups();
 
-  const groups = industryGroups.map((group) => ({
-    id: group.category,
-    parentTitle: group.parent.title,
-    parentSlug: group.parent.slug,
-    headline: group.parent.heroHeadline,
-    description: group.parent.shortDescription,
-    items: group.industries.map((industry) => ({
+  const parents = industryGroups.map((group) => ({
+    slug: group.parent.slug,
+    href: `/industries/${group.parent.slug}`,
+    title: group.parent.title,
+  }));
+
+  const segments = industryGroups.flatMap((group) =>
+    group.industries.map((industry) => ({
       href: `/industries/${industry.slug}`,
       title: industry.title,
       description: industry.hook,
       icon: industry.icon,
+      parentSlug: group.parent.slug,
+      parentTitle: group.parent.title,
     })),
-  }));
-
-  const allIndustries = industryNavItems.map((item) => ({
-    href: item.href,
-    title: item.title,
-    description: item.shortDescription,
-  }));
+  );
 
   return (
     <>
-      {/* Hero + industry grids — one continuous guides frame */}
       <section
         data-theme="light"
         className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
@@ -53,7 +46,6 @@ export default async function IndustriesPage() {
             <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
             <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
-            {/* Hero */}
             <div className="relative border-b border-zn-border">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
@@ -68,9 +60,9 @@ export default async function IndustriesPage() {
                 />
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
-                    We design websites, Shopify stores, landing pages, AI phone
-                    assistants, booking flows, email automation, and CRM
-                    workflows for teams across the United States.
+                    Six parent industries and the specialties we build for under
+                    each — websites, Shopify stores, booking flows, and CRM
+                    automation.
                   </p>
                 </Reveal>
                 <Reveal delay={0.15}>
@@ -86,7 +78,7 @@ export default async function IndustriesPage() {
               </div>
             </div>
 
-            <IndustriesPageGrids groups={groups} allIndustries={allIndustries} />
+            <IndustriesPageGrids parents={parents} segments={segments} />
 
             <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
             <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />

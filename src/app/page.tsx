@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import {
   getAllCaseStudies,
   getAllFaqs,
-  getAllProducts,
   getAllServices,
   getFeaturedCaseStudies,
   getHomepageIndustries,
@@ -23,7 +22,6 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import { PortfolioWorkGrid } from "@/features/work/PortfolioWorkGrid";
 import { ServicesTabShowcase } from "@/features/services/ServicesTabShowcase";
 import { IndustryNavShowcaseGrid } from "@/features/industries/IndustryNavShowcaseGrid";
-import { ProductsShowcase } from "@/features/home/ProductSlider";
 import { LogoTicker } from "@/features/home/LogoTicker";
 import { HeroSection } from "@/features/home/HeroSection";
 import { StatsRow } from "@/features/home/StatsRow";
@@ -63,13 +61,12 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, platformTestimonials, products, settings, faqs, homepageIndustries, portfolioProjects] =
+  const [featuredCases, allCases, services, platformTestimonials, settings, faqs, homepageIndustries, portfolioProjects] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
       getAllServices(),
       getPlatformTestimonials(),
-      getAllProducts(),
       getSiteSettings(),
       getAllFaqs(),
       getHomepageIndustries(),
@@ -280,41 +277,6 @@ export default async function HomePage() {
       </section>
 
       <AgencyComparisonSection {...agencyComparison} />
-
-      {/* Products teaser */}
-      <section data-theme="light" className="relative zn-section">
-        <BlueprintGrid />
-        <div className="zn-container relative">
-          <Reveal>
-            <SectionLabel withRule={false}>ZedNova Labs</SectionLabel>
-          </Reveal>
-          <TextReveal
-            as="h2"
-            text="We also build products."
-            className="mt-6 zn-h2 font-sans font-normal"
-          />
-        </div>
-        <ProductsShowcase
-          products={products}
-          intro={
-            <>
-              <Reveal delay={0.1}>
-                <p className="zn-prose max-w-md">
-                  Alongside client work, we ship tools and resources for the
-                  ecosystems we work in.
-                </p>
-              </Reveal>
-              <Reveal delay={0.15}>
-                <div className="mt-8">
-                  <Button href="/products" variant="link" withArrow>
-                    Explore products
-                  </Button>
-                </div>
-              </Reveal>
-            </>
-          }
-        />
-      </section>
 
       <FaqSection faqs={faqs} />
 

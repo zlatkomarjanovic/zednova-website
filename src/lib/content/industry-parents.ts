@@ -1,139 +1,232 @@
 import type { IndustryParent } from "@/lib/types";
 
+export const CANONICAL_INDUSTRY_PARENT_SLUGS = [
+  "healthcare-wellness",
+  "ecommerce-dtc",
+  "fitness-coaching-performance",
+  "professional-services",
+  "b2b-saas-technology",
+  "real-estate-property",
+] as const;
+
 export const industryParents: IndustryParent[] = [
   {
-    slug: "healthcare-clinics",
-    title: "Healthcare Clinics",
-    category: "Healthcare Clinics",
+    slug: "healthcare-wellness",
+    title: "Healthcare & Wellness",
+    category: "Healthcare & Wellness",
     whoItIsFor:
-      "Dental, medical, peptide, TRT, longevity, med spa, aesthetic, and wellness clinics that book patients by phone and online.",
+      "Dental, medical, medspa, aesthetic, longevity, skincare, physical therapy, and wellness practices that need better websites, booking, CRM automation, and AI-assisted patient workflows.",
     whatWeBuild:
-      "Clinic websites, appointment booking, patient intake forms, AI phone assistants, CRM automations, and Google review requests.",
+      "Clinic websites, SEO pages, booking flows, patient intake, AI receptionists, CRM automation, follow-up sequences, dashboards, and conversion-focused landing pages.",
     problemSolved:
-      "Patients call while the front desk is busy, forms are still manual, and follow-up depends on whoever has time that day.",
+      "Patients call while staff are busy, intake is manual, follow-up is inconsistent, and many clinics still lose leads to slower competitors online.",
     heroHeadline:
-      "Websites, booking, and follow-up built for clinics that run on appointments.",
-    hook: "Dental, medical, peptide, TRT, longevity, med spa, aesthetic, and wellness clinics.",
+      "Websites, booking, and automation for healthcare and wellness practices ready for digital growth.",
+    hook: "Clinics and wellness practices that need websites, booking, CRM automation, and AI workflows.",
     shortDescription:
-      "We design clinic websites, online booking, patient intake, AI phone assistants, and automated follow-up for healthcare practices that lose patients to slow response.",
+      "We build clinic websites, booking flows, patient intake, AI receptionists, CRM automation, and follow-up systems for healthcare and wellness businesses.",
+    industryOverview:
+      "Healthcare is one of the strongest long-term markets for websites, SEO, booking automation, CRM workflows, and AI-assisted operations — especially for smaller clinics still behind on digital.",
     painPoints: [
       {
         title: "Calls go unanswered during patient hours",
-        description:
-          "Front desk staff cannot pick up every call while checking patients in. New inquiries book elsewhere.",
+        description: "Front desk teams cannot pick up every inquiry while checking patients in.",
       },
       {
-        title: "Booking and intake are still manual",
-        description:
-          "Patients fill out paper forms, wait on hold, or email back and forth. Every extra step drops conversion.",
+        title: "Booking and intake stay manual",
+        description: "Paper forms, phone tag, and slow follow-up drop conversion before the first visit.",
       },
       {
-        title: "No-shows and gaps in the schedule",
-        description:
-          "Without automated reminders and recall, chairs sit empty.",
+        title: "No centralized follow-up or recall",
+        description: "Reviews, rebooking, and nurture sequences depend on whoever has time that day.",
       },
     ],
     popularServices: [
       { label: "Clinic Website Design", href: "/services/ai-lead-site" },
-      { label: "Appointment Booking Automation", href: "/services/crm-pipeline-automation" },
-      { label: "Patient Intake Forms", href: "/services/custom-ai-agents" },
-      { label: "AI Chatbot for Website", href: "/services/custom-ai-agents" },
       { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
-      { label: "Google Review Automation", href: "/services/review-reputation" },
+      { label: "AI Receptionist", href: "/services/ai-receptionist" },
+      { label: "Review Automation", href: "/services/review-reputation" },
     ],
     exampleProject:
-      "A clinic website with online booking, intake forms before the visit, SMS reminders, and automated review requests after appointments.",
+      "A clinic website with online booking, digital intake, SMS reminders, AI phone coverage, and automated review requests.",
     commonUseCase:
       "A new patient finds the clinic on Google, books online, completes intake on their phone, and gets reminder texts before the visit.",
     icon: "healthcare",
     order: 1,
   },
   {
-    slug: "ecommerce-shopify",
-    title: "Ecommerce & Shopify Brands",
-    category: "Ecommerce & Shopify",
+    slug: "ecommerce-dtc",
+    title: "Ecommerce & DTC",
+    category: "Ecommerce & DTC",
     whoItIsFor:
-      "Shopify stores, DTC brands, supplement companies, beauty brands, and fitness product businesses selling online.",
+      "Shopify stores, skincare brands, supplement brands, beauty brands, fitness product brands, fashion brands, and small DTC companies selling online.",
     whatWeBuild:
-      "Shopify development, product pages, Klaviyo email flows, cart abandonment automation, post-purchase sequences, and ecommerce dashboards.",
+      "Shopify development, product pages, landing pages, checkout optimization, Klaviyo flows, cart recovery, analytics dashboards, and AI-assisted content workflows.",
     problemSolved:
-      "Ad costs rise, carts are abandoned, and customers buy once because nothing brings them back for a second order.",
+      "Ad costs rise, carts are abandoned, product pages under-convert, and repeat revenue stays flat without structured email and automation.",
     heroHeadline:
-      "Shopify stores and DTC brands that convert first-time buyers into repeat customers.",
-    hook: "Shopify stores, DTC brands, supplements, beauty, and fitness products.",
+      "Shopify stores and DTC brands built to convert first-time buyers into repeat customers.",
+    hook: "DTC brands that need Shopify builds, conversion fixes, retention flows, and automation.",
     shortDescription:
-      "We build Shopify stores, product pages, Klaviyo flows, cart abandonment recovery, and post-purchase automation for brands that need more repeat revenue.",
+      "We build Shopify stores, product pages, landing pages, Klaviyo flows, cart recovery, and analytics dashboards for ecommerce and DTC brands.",
+    industryOverview:
+      "Ecommerce and DTC brands need more than a theme — they need conversion-focused product pages, retention email, automation, and clear analytics to grow profitably.",
     painPoints: [
-      {
-        title: "High ad costs, flat repeat rate",
-        description: "You pay more to acquire each customer while second orders stay low.",
-      },
-      {
-        title: "Abandoned carts are left on the table",
-        description: "Shoppers leave without buying and no recovery sequence fires.",
-      },
-      {
-        title: "Shopify theme limits conversion",
-        description: "The default storefront does not explain the product fast enough.",
-      },
+      { title: "High CAC, flat repeat rate", description: "Each new customer costs more while second orders stay low." },
+      { title: "Abandoned carts without recovery", description: "Shoppers leave and no structured sequence brings them back." },
+      { title: "Product pages fail to explain the offer", description: "Traffic arrives but the page does not close the sale fast enough." },
     ],
     popularServices: [
       { label: "Shopify Development", href: "/services/ai-lead-site" },
-      { label: "Headless Shopify Development", href: "/migrations/shopify-to-headless-shopify" },
-      { label: "Product Page Design", href: "/services/ai-lead-site" },
       { label: "Klaviyo Email Flows", href: "/services/crm-pipeline-automation" },
       { label: "Cart Abandonment Automation", href: "/services/ops-automation" },
       { label: "Ecommerce Dashboard", href: "/services/reporting-dashboards" },
     ],
     exampleProject:
-      "A Shopify store with redesigned product pages, cart recovery emails, post-purchase education, and a simple revenue dashboard.",
+      "A Shopify rebuild with stronger product pages, cart recovery emails, post-purchase education, and a revenue dashboard.",
     commonUseCase:
-      "A shopper abandons cart, gets a timed email sequence, returns to buy, then receives a post-purchase flow that drives a second order.",
+      "A shopper abandons cart, returns via email, completes checkout, then receives a post-purchase flow that drives a second order.",
     icon: "ecommerce",
     order: 2,
   },
   {
-    slug: "small-business-custom-software",
-    title: "Small Business Custom Software",
-    category: "Small Business Custom Software",
+    slug: "fitness-coaching-performance",
+    title: "Fitness, Coaching & Performance",
+    category: "Fitness, Coaching & Performance",
     whoItIsFor:
-      "Small teams, appointment-based businesses, and local companies that have outgrown spreadsheets, WordPress, Webflow, Wix, Squarespace, or Airtable.",
+      "Gyms, fitness coaches, online coaches, personal trainers, martial arts gyms, nutrition coaches, and performance businesses selling programs and memberships.",
     whatWeBuild:
-      "Custom web apps, client portals, dashboards, booking flows, CRM automations, and n8n or Make workflows.",
+      "Landing pages, booking systems, client portals, payment flows, onboarding forms, automations, and simple performance dashboards.",
     problemSolved:
-      "Work lives in spreadsheets and disconnected tools, so follow-up is manual, reporting is slow, and nothing scales with the team.",
+      "Leads book through DMs and spreadsheets, client onboarding is manual, and there is no simple system for payments, check-ins, or follow-up.",
     heroHeadline:
-      "Custom websites, dashboards, and automations for small teams that need software features without building them in-house.",
-    hook: "Small teams outgrowing spreadsheets, no-code tools, and manual processes.",
+      "Websites, booking, and client systems for fitness, coaching, and performance businesses.",
+    hook: "Coaches and gyms that need landing pages, booking, client portals, and payment automation.",
     shortDescription:
-      "We build custom web apps, dashboards, booking flows, client portals, and n8n or Make automations for small businesses that need done-for-you software features.",
+      "We build landing pages, booking flows, client portals, payment systems, onboarding forms, and automations for fitness and coaching businesses.",
+    industryOverview:
+      "Fitness and coaching businesses need fast landing pages, reliable booking, and lightweight client systems — without enterprise software complexity.",
     painPoints: [
-      {
-        title: "Spreadsheets run the business",
-        description: "Leads, jobs, and follow-up live in tabs nobody trusts.",
-      },
-      {
-        title: "No-code tools hit limits",
-        description: "WordPress, Webflow, Wix, Squarespace, or Airtable cannot do what the business needs next.",
-      },
-      {
-        title: "Manual follow-up eats the week",
-        description: "Owners and small teams chase updates instead of running the work.",
-      },
+      { title: "Leads live in DMs", description: "Inquiries get lost and booking happens through back-and-forth messages." },
+      { title: "Onboarding is manual", description: "New clients repeat the same intake steps every time." },
+      { title: "No client portal or progress tracking", description: "Check-ins, programs, and payments are scattered across tools." },
     ],
     popularServices: [
-      { label: "Custom Web App Development", href: "/services/ai-lead-site" },
-      { label: "Dashboard Development", href: "/services/reporting-dashboards" },
+      { label: "Lead Site", href: "/services/ai-lead-site" },
+      { label: "Client Portal", href: "/custom-software" },
       { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
-      { label: "n8n Automation", href: "/services/ops-automation" },
-      { label: "Make Automation", href: "/services/ops-automation" },
-      { label: "Client Portal Development", href: "/services/custom-ai-agents" },
+      { label: "Booking Automation", href: "/services/ops-automation" },
     ],
     exampleProject:
-      "A client portal with job status, file uploads, automated notifications, and a dashboard that replaces five spreadsheets.",
+      "A coach site with program landing pages, Stripe checkout, client onboarding forms, and automated check-in reminders.",
     commonUseCase:
-      "A small team moves off Airtable into a simple web app with login, status tracking, and automated email updates for clients.",
-    icon: "custom-software",
+      "A lead books a discovery call, pays for a program online, and receives onboarding forms and session reminders automatically.",
+    icon: "fitness",
     order: 3,
+  },
+  {
+    slug: "professional-services",
+    title: "Professional Services",
+    category: "Professional Services",
+    whoItIsFor:
+      "Consultants, accounting firms, recruiting firms, architecture studios, engineering consultants, B2B service firms, marketing agencies, and operations consultants.",
+    whatWeBuild:
+      "Authority websites, case study pages, lead capture, CRM automation, proposal workflows, dashboards, and content systems.",
+    problemSolved:
+      "Strong expertise is hidden behind weak websites, manual lead handling, and slow follow-up that loses deals to faster competitors.",
+    heroHeadline:
+      "Websites, lead systems, and automation for professional services firms that sell expertise.",
+    hook: "Consultancies and agencies that need authority sites, lead capture, and CRM automation.",
+    shortDescription:
+      "We build authority websites, case studies, lead capture, CRM automation, proposal workflows, and dashboards for professional services firms.",
+    industryOverview:
+      "Professional services firms win on trust and speed — they need polished websites, clear positioning, and automated lead handling to convert inbound interest.",
+    painPoints: [
+      { title: "Website undersells expertise", description: "Prospects cannot quickly understand services, proof, or next steps." },
+      { title: "Lead follow-up is inconsistent", description: "Inquiries sit in inboxes until someone manually responds." },
+      { title: "Proposals and onboarding are slow", description: "Every new client requires repetitive manual setup." },
+    ],
+    popularServices: [
+      { label: "Lead Site", href: "/services/ai-lead-site" },
+      { label: "CRM Pipeline Automation", href: "/services/crm-pipeline-automation" },
+      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
+      { label: "Custom Software", href: "/custom-software" },
+    ],
+    exampleProject:
+      "A consulting site with service pages, case studies, lead scoring, and automated proposal follow-up sequences.",
+    commonUseCase:
+      "A prospect submits a form, receives a tailored follow-up sequence, and books a discovery call within 24 hours.",
+    icon: "consulting",
+    order: 4,
+  },
+  {
+    slug: "b2b-saas-technology",
+    title: "B2B SaaS & Technology",
+    category: "B2B SaaS & Technology",
+    whoItIsFor:
+      "SaaS startups, AI startups, developer tools, cybersecurity companies, B2B software companies, API companies, and tech consultancies.",
+    whatWeBuild:
+      "Next.js marketing sites, Framer or Sanity-powered pages, product landing pages, docs-style layouts, dashboards, and AI-assisted development workflows.",
+    problemSolved:
+      "Product teams need a modern marketing site and lightweight internal tools without hiring a full in-house product team.",
+    heroHeadline:
+      "Marketing sites, product pages, and dashboards for B2B SaaS and technology companies.",
+    hook: "SaaS and tech companies that need Next.js sites, product pages, docs, and dashboards.",
+    shortDescription:
+      "We build Next.js marketing sites, product pages, documentation layouts, dashboards, and AI-assisted workflows for B2B SaaS and technology companies.",
+    industryOverview:
+      "B2B SaaS and technology companies need credible, fast marketing sites and product storytelling — plus lightweight dashboards and internal tools as they scale.",
+    painPoints: [
+      { title: "Marketing site lags the product", description: "The product is strong but the website does not explain it clearly." },
+      { title: "No unified lead or demo flow", description: "Inbound interest is handled manually across tools." },
+      { title: "Internal reporting is fragmented", description: "Teams patch together spreadsheets instead of a simple dashboard." },
+    ],
+    popularServices: [
+      { label: "Next.js Development", href: "/services/ai-lead-site" },
+      { label: "Custom AI Agents", href: "/services/custom-ai-agents" },
+      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
+      { label: "Platform Migrations", href: "/migrations" },
+    ],
+    exampleProject:
+      "A SaaS marketing site on Next.js with product pages, demo booking, and a lightweight admin dashboard for leads.",
+    commonUseCase:
+      "A startup launches a polished product site with clear pricing, demo CTAs, and automated lead routing to sales.",
+    icon: "saas",
+    order: 5,
+  },
+  {
+    slug: "real-estate-property",
+    title: "Real Estate & Property",
+    category: "Real Estate & Property",
+    whoItIsFor:
+      "Real estate agencies, property management companies, investment firms, short-term rental operators, developers, and commercial real estate teams.",
+    whatWeBuild:
+      "Listing pages, location pages, lead capture, portals, dashboards, CRM flows, email follow-up, and clean visual presentation.",
+    problemSolved:
+      "Listings and leads are scattered across portals and inboxes, with no unified site, CRM automation, or client-facing portal.",
+    heroHeadline:
+      "Websites, listing pages, and lead systems for real estate and property businesses.",
+    hook: "Property businesses that need listing pages, lead capture, portals, and CRM automation.",
+    shortDescription:
+      "We build listing pages, location pages, lead capture, client portals, dashboards, and CRM automation for real estate and property companies.",
+    industryOverview:
+      "Real estate and property businesses need strong listing presentation, fast lead capture, and automated follow-up — plus portals and dashboards for clients and internal teams.",
+    painPoints: [
+      { title: "Leads come from too many channels", description: "Inquiries from portals, calls, and forms are not tracked in one place." },
+      { title: "Listing pages under-convert", description: "Properties look generic and do not capture interest quickly." },
+      { title: "Follow-up depends on agents", description: "Speed-to-lead varies and hot inquiries go cold." },
+    ],
+    popularServices: [
+      { label: "Lead Site", href: "/services/ai-lead-site" },
+      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
+      { label: "Client Portal", href: "/custom-software" },
+      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
+    ],
+    exampleProject:
+      "A property site with listing search, location landing pages, lead forms, and automated follow-up for every inquiry.",
+    commonUseCase:
+      "A buyer submits a listing inquiry and receives immediate email and SMS follow-up with similar properties and a booking link.",
+    icon: "real-estate",
+    order: 6,
   },
 ];

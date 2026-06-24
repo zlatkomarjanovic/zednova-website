@@ -18,10 +18,10 @@ import { caseStudies } from "../src/lib/content/case-studies";
 import { portfolioProjects } from "../src/lib/content/portfolio-projects";
 import { faqs } from "../src/lib/content/faq";
 import { industryParents } from "../src/lib/content/industry-parents";
+import { customSoftwareItems } from "../src/lib/content/custom-software-items";
 import {
   customSoftwareGroups,
   customSoftwareNavItems,
-  industryNavItems,
   serviceMegaMenuCards,
   serviceNavGroups,
 } from "../src/lib/content/nav-menu";
@@ -54,6 +54,14 @@ function slugify(input: string) {
     .slice(0, 80);
 }
 
+function industryRef(slug: string) {
+  const parent = industryParents.find((p) => p.slug === slug);
+  if (parent) {
+    return { _type: "reference", _ref: `industryParent-${slug}` };
+  }
+  return { _type: "reference", _ref: `industry-${slug}` };
+}
+
 loadEnvLocal();
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "umo6y27o";
@@ -73,7 +81,9 @@ const client = createClient({
   useCdn: false,
 });
 
-type Mutation = { createOrReplace: Record<string, unknown> };
+type Mutation =
+  | { createOrReplace: Record<string, unknown> }
+  | { patch: { id: string; set: Record<string, unknown> } };
 
 const mutations: Mutation[] = [];
 
@@ -81,7 +91,20 @@ function add(doc: Record<string, unknown>) {
   mutations.push({ createOrReplace: doc });
 }
 
+function patch(id: string, set: Record<string, unknown>) {
+  mutations.push({ patch: { id, set } });
+}
+
 /* ----------------------------- Services ----------------------------- */
+
+const caseStudiesByService = new Map<string, string[]>();
+for (const study of caseStudies) {
+  for (const serviceSlug of study.servicesUsed) {
+    const list = caseStudiesByService.get(serviceSlug) ?? [];
+    list.push(study.slug);
+    caseStudiesByService.set(serviceSlug, list);
+  }
+}
 
 for (const service of services) {
   add({
@@ -115,6 +138,13 @@ for (const service of services) {
     timeline: service.timeline,
     coverImageUrl: service.image || undefined,
     order: service.order,
+    relatedCaseStudies: (caseStudiesByService.get(service.slug) ?? [])
+      .slice(0, 4)
+      .map((slug) => ({
+        _type: "reference",
+        _key: slug,
+        _ref: `caseStudy-${slug}`,
+      })),
     seo: {
       _type: "seoFields",
       seoTitle: service.title,
@@ -173,22 +203,59 @@ const sectionMeta = new Map(
   ]),
 );
 
-customSoftwareNavItems.forEach((item, index) => {
+for (const item of customSoftwareItems) {
+  const navItem = customSoftwareNavItems.find(
+    (entry) => entry.href === `/custom-software/${item.slug}`,
+  );
   const inGroup = customSoftwareGroups.find((g) =>
-    g.items.some((i) => i.title === item.title && i.href === item.href),
+    g.items.some((i) => i.title === item.title),
   );
   const section = inGroup ? sectionMeta.get(inGroup.id) : undefined;
 
   add({
-    _id: `customSoftware-${slugify(item.title)}`,
+    _id: `customSoftware-${item.slug}`,
     _type: "customSoftware",
     title: item.title,
-    slug: { _type: "slug", current: slugify(item.title) },
+    slug: { _type: "slug", current: item.slug },
     shortDescription: item.shortDescription,
-    whatItIs: item.shortDescription,
-    href: item.href,
-    order: index + 1,
+    whatItIs: item.whatItIs,
+    problemSolved: item.problemSolved,
+    targetAudience: item.targetAudience,
+    keyFeatures: item.keyFeatures?.map((feature) => ({
+      _type: "bulletItem",
+      _key: slugify(feature.title).slice(0, 20),
+      title: feature.title,
+      description: feature.description,
+    })),
+    whatsIncluded: item.whatsIncluded?.map((feature) => ({
+      _type: "featureBullet",
+      _key: slugify(feature.title).slice(0, 20),
+      title: feature.title,
+      description: feature.description,
+    })),
+    deliverables: item.deliverables,
+    technologies: item.technologies,
+    integrations: item.integrations,
+    process: item.processSteps?.map((step) => ({
+      ...step,
+      _type: "processStep",
+      _key: `step-${step.step}`,
+    })),
+    timeline: item.timeline,
+    startingPrice: item.startingPrice,
+    href: `/custom-software/${item.slug}`,
+    order: item.order,
     showInNav: true,
+    relatedServices: item.relatedServices?.map((slug) => ({
+      _type: "reference",
+      _key: slug,
+      _ref: `service-${slug}`,
+    })),
+    relatedIndustries: item.relatedIndustries?.map((slug) => ({
+      _type: "reference",
+      _key: slug,
+      _ref: industryRef(slug)._ref,
+    })),
     ...(section ?? {}),
     seo: {
       _type: "seoFields",
@@ -198,7 +265,11 @@ customSoftwareNavItems.forEach((item, index) => {
       twitterCard: "summary_large_image",
     },
   });
-});
+
+  if (!navItem) {
+    console.warn(`No nav item for custom software slug: ${item.slug}`);
+  }
+}
 
 /* ----------------------------- Migrations ----------------------------- */
 
@@ -227,37 +298,7 @@ for (const migration of migrations) {
 
 /* ----------------------------- Industries ----------------------------- */
 
-// Build nav order map from the static nav list (15 curated items).
-const navSlugOrder = new Map<
-  string,
-  { order: number; title: string; shortDescription: string }
->();
-industryNavItems.forEach((item, index) => {
-  const slug = item.href.replace(/^\/industries\//, "");
-  navSlugOrder.set(slug, {
-    order: index + 1,
-    title: item.title,
-    shortDescription: item.shortDescription,
-  });
-});
-
-// Every CMS industry is eligible for nav; we fall back to the next available order
-// for any industry that does not appear in the curated static nav list.
-let fallbackOrder = industryNavItems.length + 1;
-function navFor(slug: string, fallbackTitle: string, fallbackDesc?: string) {
-  const curated = navSlugOrder.get(slug);
-  if (curated) return { show: true, ...curated };
-  const order = fallbackOrder++;
-  return {
-    show: true,
-    order,
-    title: fallbackTitle,
-    shortDescription: fallbackDesc ?? "",
-  };
-}
-
 for (const parent of industryParents) {
-  const nav = navFor(parent.slug, parent.title, parent.shortDescription);
   add({
     _id: `industryParent-${parent.slug}`,
     _type: "industryParent",
@@ -270,16 +311,19 @@ for (const parent of industryParents) {
     heroHeadline: parent.heroHeadline,
     hook: parent.hook,
     shortDescription: parent.shortDescription,
+    industryOverview: parent.industryOverview,
     painPoints: parent.painPoints,
     popularServices: parent.popularServices,
     exampleProject: parent.exampleProject,
     commonUseCase: parent.commonUseCase,
     icon: parent.icon,
     order: parent.order,
-    showInMainNav: nav.show,
-    navOrder: nav.order,
-    navTitle: nav.title,
-    navShortDescription: nav.shortDescription,
+    showInMainNav: true,
+    navOrder: parent.order,
+    navTitle: parent.title,
+    navShortDescription: parent.shortDescription,
+    featured: parent.order <= 3,
+    priority: parent.order,
     seo: {
       _type: "seoFields",
       seoTitle: parent.title,
@@ -292,7 +336,6 @@ for (const parent of industryParents) {
 }
 
 for (const industry of industries) {
-  const nav = navFor(industry.slug, industry.title, industry.shortDescription);
   add({
     _id: `industry-${industry.slug}`,
     _type: "industry",
@@ -315,10 +358,7 @@ for (const industry of industries) {
     commonUseCase: industry.commonUseCase,
     icon: industry.icon,
     order: industry.order,
-    showInMainNav: nav.show,
-    navOrder: nav.order,
-    navTitle: nav.title,
-    navShortDescription: nav.shortDescription,
+    showInMainNav: false,
     seo: {
       _type: "seoFields",
       seoTitle: industry.title,
@@ -330,22 +370,35 @@ for (const industry of industries) {
   });
 }
 
+const LEGACY_PARENT_SLUGS = [
+  "healthcare-clinics",
+  "ecommerce-shopify",
+  "small-business-custom-software",
+];
+
+for (const slug of LEGACY_PARENT_SLUGS) {
+  patch(`industryParent-${slug}`, {
+    showInMainNav: false,
+    seo: {
+      _type: "seoFields",
+      seoHideFromLists: true,
+    },
+  });
+}
+
 /* ----------------------------- Insights ----------------------------- */
 
 const CATEGORY_ICONS: Record<string, string> = {
   "AI & Search": "ai-search",
   Systems: "automation",
   Conversion: "conversion",
-  "Healthcare Clinics": "healthcare",
+  "Healthcare & Wellness": "healthcare",
+  "Ecommerce & DTC": "ecommerce",
+  "Fitness, Coaching & Performance": "fitness",
+  "Professional Services": "consulting",
+  "B2B SaaS & Technology": "saas",
+  "Real Estate & Property": "real-estate",
 };
-
-function industryRef(slug: string) {
-  const parent = industryParents.find((p) => p.slug === slug);
-  if (parent) {
-    return { _type: "reference", _ref: `industryParent-${slug}` };
-  }
-  return { _type: "reference", _ref: `industry-${slug}` };
-}
 
 const categoryTitles = [...new Set(posts.map((post) => post.category))];
 categoryTitles.forEach((title, index) => {
@@ -584,6 +637,11 @@ for (const project of portfolioProjects) {
     category: project.category,
     year: new Date().getFullYear(),
     order: project.order,
+    servicesUsed: project.servicesUsed?.map((slug) => ({
+      _type: "reference",
+      _key: slug,
+      _ref: `service-${slug}`,
+    })),
     logo: project.logo
       ? {
           _type: "portfolioLogo",

@@ -1,219 +1,305 @@
 import type { Metadata } from "next";
-import { getFounder, getSiteSettings } from "@/lib/queries";
+import Image from "next/image";
+import type { ReactNode } from "react";
+import { Globe } from "lucide-react";
+import { getFounder } from "@/lib/queries";
+import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal, Stagger } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
-import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
+import { TemplateSection } from "@/ui/TemplateSection";
 import { StatsRow } from "@/features/home/StatsRow";
+import { ProcessSteps } from "@/features/home/ProcessSteps";
 import { DarkCTA } from "@/features/home/DarkCTA";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About ZedNova Studios",
   description:
-    "ZedNova is a Texas LLC built by Zed Marjanovic. 10+ years shipping products, 120+ projects. A builder, not an agency.",
+    "ZedNova Studios is a software and product studio building websites, ecommerce, internal tools, automations, and AI workflows for businesses that want senior-led delivery without agency overhead.",
   alternates: { canonical: "/about" },
 };
 
+const ABOUT_STATS = [
+  { value: "120+", label: "Projects completed" },
+  { value: "10+", label: "Years shipping websites, products, and software" },
+  { value: "Senior", label: "Team-led delivery from strategy to launch" },
+  { value: "$0", label: "Wasted on agency overhead" },
+];
+
 const VALUES = [
   {
-    name: "Inat",
-    body: "A Bosnian word with no English translation. It means spite-fueled persistence. Building something even harder when someone says it can't be done. That's how we approach every project.",
+    name: "Practical work over agency theater",
+    body: "You do not need endless strategy decks or weekly calls that go nowhere. You need a website, tool, or workflow that solves a real business problem and works in production.",
   },
   {
-    name: "Systems over heroics",
-    body: "Anyone can work 80-hour weeks. Building a system that runs without you is harder and more valuable. We build systems.",
+    name: "Systems over manual work",
+    body: "Most businesses lose time because follow-up, updates, reminders, and data entry depend on people remembering to do them. We build systems that reduce that manual work.",
   },
   {
     name: "Ownership, always",
-    body: "We don't disappear at launch. We document, train, and hand over something you actually own.",
+    body: "You should not feel trapped after launch. We document the build, explain how it works, and hand over what your team needs to run it confidently.",
+  },
+  {
+    name: "Speed without mess",
+    body: "Fast delivery only matters if the work stays clean. We use AI internally to move faster, but every project still gets structure, testing, and a reliable finish.",
   },
 ];
 
-const REMOTE_POINTS = [
+const REMOTE_STEPS = [
   {
-    title: "Lower overhead, better rates",
-    body: "No downtown office, no layers of account managers. That saving goes into the work, not the invoice.",
+    step: 1,
+    title: "Lower overhead, better use of budget",
+    description:
+      "No downtown office or inflated agency cost structure. Your budget goes into the work, not the appearance of a bigger company.",
   },
   {
-    title: "Async means faster turnaround",
-    body: "Work moves while you sleep. You wake up to progress, not a calendar full of status calls.",
+    step: 2,
+    title: "Async delivery, fewer wasted meetings",
+    description:
+      "Most updates do not need a meeting. We work async, send clear updates, document decisions, and keep projects moving.",
   },
   {
+    step: 3,
+    title: "Senior-led from start to finish",
+    description:
+      "You are not handed off after the sales call. The same senior thinking that shapes the project stays involved through launch.",
+  },
+  {
+    step: 4,
     title: "A US entity, real accountability",
-    body: "ZedNova is a Texas LLC. You get the speed of remote with the accountability of a domestic partner.",
+    description:
+      "ZedNova Studios is a Texas LLC. Remote delivery with the structure and accountability of a real business partner.",
   },
 ];
+
+const FOUNDER_BIO = [
+  "Zlatko is a designer, developer, and product builder with 10+ years of experience shipping websites, software, ecommerce stores, automations, and digital products.",
+  "He has completed 120+ projects for clients across the United States, Europe, and other global markets.",
+  "His work covers design, frontend and backend development, CMS setup, ecommerce, dashboards, client portals, automations, and AI tools that connect the moving parts of a business.",
+  "He has published components on the Framer Marketplace used by more than 1,500 creators and works across Framer, Webflow, Shopify, WordPress, Sanity, Next.js, Make, n8n, and modern AI-assisted development tools.",
+];
+
+const FOUNDER_IMAGE = "/images/team/zlatko-marjanovic-macbook.png";
+const STUDIO_QUOTE =
+  "Most agencies sell the idea of better systems. We build the websites, software, and automations that actually run them.";
+
+function LinkedInIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" />
+    </svg>
+  );
+}
+
+function FounderLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="inline-flex items-center gap-2.5 border border-zn-border-dk px-4 py-2.5 text-sm text-zn-inv transition-colors hover:border-zn-inv hover:bg-zn-dark-2"
+    >
+      {children}
+      <span>{label}</span>
+    </a>
+  );
+}
 
 export default async function AboutPage() {
-  const [founder, settings] = await Promise.all([getFounder(), getSiteSettings()]);
+  const founder = await getFounder();
 
   return (
     <>
+      {/* Hero */}
+      <section data-theme="light" className="relative bg-zn-bg">
+        <BlueprintGrid immediate />
+        <div className="zn-container-guides relative">
+          <div className="relative border-x border-b border-zn-border">
+            <div className="zn-container-inset pb-16 pt-32 lg:pb-20 lg:pt-44">
+              <Reveal>
+                <SectionLabel withRule={false}>The studio</SectionLabel>
+              </Reveal>
+              <TextReveal
+                as="h1"
+                text="Software, websites, and automations built by senior hands."
+                className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
+              />
+              <Reveal delay={0.08}>
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
+                  ZedNova Studios builds websites, ecommerce, internal tools, automations, and AI
+                  workflows for businesses that want practical execution instead of agency theater.
+                  Led by Zlatko Marjanovic — 10+ years, 120+ projects, Texas LLC.
+                </p>
+              </Reveal>
+              <Reveal delay={0.14}>
+                <div className="mt-8 flex flex-wrap items-center gap-4">
+                  <Button href="/contact" withArrow>
+                    Work with ZedNova
+                  </Button>
+                  <Button href="/work" variant="link" withArrow>
+                    See our work
+                  </Button>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
       <section data-theme="light" className="relative bg-zn-bg">
         <div className="zn-container-guides relative">
-          <BlueprintColumnFrame>
-            <div className="relative border-b border-zn-border">
-              <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
-              <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
-              <div className="zn-container-inset pb-14 pt-36 lg:pb-16 lg:pt-44">
-                <Reveal>
-                  <SectionLabel withRule={false}>The studio</SectionLabel>
-                </Reveal>
-                <TextReveal
-                  as="h1"
-                  text="Built in Bosnia. Trusted by America."
-                  className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
-                />
-                <Reveal delay={0.1}>
-                  <p className="mt-8 max-w-2xl text-lg leading-relaxed text-zn-text-2">
-                    ZedNova was built by Zed, a designer, developer, and systems
-                    thinker from Živinice, Bosnia. Over 10-plus years shipping
-                    products he has delivered more than 120 projects for clients
-                    across the US. ZedNova is a Texas LLC because your business
-                    deserves a real partner, not a freelancer profile. The work
-                    goes out under one standard, and the systems are built to
-                    run without us.
-                  </p>
-                </Reveal>
-                <Reveal delay={0.15}>
-                  <div className="mt-10 flex flex-wrap items-center gap-4">
-                    <Button href="/contact" withArrow>
-                      Work with ZedNova
-                    </Button>
-                    <Button href="/work" variant="link" withArrow>
-                      See our work
-                    </Button>
-                  </div>
-                </Reveal>
-              </div>
-            </div>
-
-            <div className="border-b border-zn-border">
-              <div className="zn-container-inset border-b border-zn-border py-4 text-center">
-                <p className="zn-label text-zn-text-3">
-                  120+ projects. 10+ years shipping products. $0 wasted on agency overhead.
-                </p>
-              </div>
-              <StatsRow stats={settings.stats} className="border-0" />
-            </div>
-
-            <div className="border-b border-zn-border">
-              <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
-                <SectionLabel withRule={false}>What we believe</SectionLabel>
-              </div>
-              <div className="zn-container-inset py-14 lg:py-16">
-                <Stagger className="grid gap-12 md:grid-cols-3" stagger={0.06}>
-                  {VALUES.map((value) => (
-                    <div key={value.name} className="border-t border-zn-text pt-6">
-                      <h2 className="zn-h2 font-sans font-normal text-zn-text">
-                        {value.name}
-                      </h2>
-                      <p className="mt-4 leading-relaxed text-zn-text-2">{value.body}</p>
-                    </div>
-                  ))}
-                </Stagger>
-              </div>
-            </div>
-
-            <div>
-              <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
-                <SectionLabel withRule={false}>The remote advantage</SectionLabel>
-                <TextReveal
-                  as="h2"
-                  text="Why a remote studio serves US clients better"
-                  className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
-                />
-              </div>
-              <div className="zn-container-inset py-14 lg:py-16">
-                <Stagger className="grid gap-8 md:grid-cols-3" stagger={0.06}>
-                  {REMOTE_POINTS.map((point, i) => (
-                    <div key={point.title}>
-                      <span className="font-mono text-sm text-zn-text-3">0{i + 1}</span>
-                      <h3 className="mt-3 font-sans text-lg font-normal text-zn-text">
-                        {point.title}
-                      </h3>
-                      <p className="mt-2 leading-relaxed text-zn-text-2">{point.body}</p>
-                    </div>
-                  ))}
-                </Stagger>
-              </div>
-            </div>
-          </BlueprintColumnFrame>
+          <div className="relative border-x border-b border-zn-border">
+            <StatsRow stats={ABOUT_STATS} className="border-0" />
+          </div>
         </div>
       </section>
 
-      <section data-theme="dark" className="relative bg-zn-dark text-zn-inv">
-        <BlueprintGuides theme="dark" reveal="none" showEdgeCrosses className="z-10" />
+      {/* Values */}
+      <TemplateSection>
+        <Reveal>
+          <SectionLabel withRule={false}>What we believe</SectionLabel>
+        </Reveal>
+        <TextReveal
+          as="h2"
+          text="Practical work, real systems, clean delivery"
+          className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
+        />
+        <Stagger className="mt-12 grid gap-6 md:grid-cols-2" stagger={0.05}>
+          {VALUES.map((value, i) => (
+            <div
+              key={value.name}
+              className="rounded-[2px] border border-zn-border bg-zn-bg-2 p-7"
+            >
+              <span className="font-mono text-sm text-zn-text-3">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-4 font-sans text-lg font-normal tracking-tight text-zn-text">
+                {value.name}
+              </h3>
+              <p className="zn-prose mt-3">{value.body}</p>
+            </div>
+          ))}
+        </Stagger>
+      </TemplateSection>
+
+      {/* Remote advantage */}
+      <TemplateSection className="bg-zn-bg-2/40">
+        <Reveal>
+          <SectionLabel withRule={false}>The remote advantage</SectionLabel>
+        </Reveal>
+        <TextReveal
+          as="h2"
+          text="Why a remote studio works better for modern businesses"
+          className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
+        />
+        <Reveal delay={0.08}>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zn-text-2">
+            Lower overhead, async delivery, senior-led execution, and a US entity — without the
+            agency layers in between.
+          </p>
+        </Reveal>
+        <div className="mt-12">
+          <ProcessSteps steps={REMOTE_STEPS} />
+        </div>
+      </TemplateSection>
+
+      {/* Founder + quote */}
+      <section
+        data-theme="dark"
+        data-bg="dark"
+        className="relative overflow-hidden border-t border-zn-border-dk bg-zn-dark text-zn-inv"
+      >
+        <BlueprintGuides theme="dark" reveal="scroll" className="z-10" />
         <div className="zn-container-guides relative z-20">
-          <div className="relative border-t border-zn-border-dk">
+          <div className="relative border-x border-zn-border-dk">
             <BlueprintCross anchor="left" theme="dark" className="top-0 -translate-y-1/2" />
             <BlueprintCross anchor="right" theme="dark" className="top-0 -translate-y-1/2" />
-            <div className="zn-container-inset grid gap-12 py-[clamp(4rem,8vw,7rem)] lg:grid-cols-[0.8fr_1.4fr] lg:items-center">
-              <div
-                className="font-sans font-normal leading-none text-zn-inv/90"
-                aria-hidden="true"
-                style={{ fontSize: "clamp(8rem,18vw,16rem)" }}
-              >
-                Z.
-              </div>
-              <div>
-                <Reveal>
-                  <SectionLabel withRule={false} className="text-zn-inv-2">
-                    Founder
-                  </SectionLabel>
+
+            <div className="border-b border-zn-border-dk">
+              <div className="zn-container-inset grid gap-12 py-[clamp(4rem,8vw,7rem)] lg:grid-cols-2 lg:items-center lg:gap-16">
+                <Reveal className="min-w-0">
+                  <figure className="relative aspect-[4/5] w-full overflow-hidden border border-zn-border-dk bg-zn-dark-2">
+                    <Image
+                      src={founder.avatar ?? FOUNDER_IMAGE}
+                      alt={founder.name}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover object-center"
+                      priority
+                    />
+                  </figure>
                 </Reveal>
-                <TextReveal
-                  as="h2"
-                  text={founder.name}
-                  className="mt-6 font-sans text-4xl font-normal text-zn-inv lg:text-5xl"
-                />
-                <div className="mt-6 space-y-4 leading-relaxed text-zn-inv-2">
-                  {founder.bio.map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
-                <Reveal delay={0.1}>
-                  <div className="mt-8 flex flex-wrap gap-4">
-                    {founder.upwork && (
-                      <Button href={founder.upwork} variant="inverted" size="sm" withArrow>
-                        Upwork profile
-                      </Button>
-                    )}
-                    {founder.linkedin && (
-                      <Button
-                        href={founder.linkedin}
-                        variant="outline-inverted"
-                        size="sm"
-                        withArrow
-                      >
-                        LinkedIn
-                      </Button>
-                    )}
+                <div>
+                  <Reveal>
+                    <SectionLabel withRule={false} className="text-zn-inv-2">
+                      Founder
+                    </SectionLabel>
+                  </Reveal>
+                  <TextReveal
+                    as="h2"
+                    text={founder.name}
+                    className="mt-6 font-sans text-4xl font-normal text-zn-inv lg:text-5xl"
+                  />
+                  <p className="mt-2 text-sm text-zn-inv-2">Founder, ZedNova Studios</p>
+                  <div className="mt-6 space-y-4 leading-relaxed text-zn-inv-2">
+                    {FOUNDER_BIO.map((para) => (
+                      <p key={para.slice(0, 40)}>{para}</p>
+                    ))}
                   </div>
-                </Reveal>
+                  <Reveal delay={0.1}>
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      {founder.linkedin && (
+                        <FounderLink href={founder.linkedin} label="LinkedIn">
+                          <LinkedInIcon className="size-4 shrink-0" />
+                        </FounderLink>
+                      )}
+                      {founder.website && (
+                        <FounderLink href={founder.website} label="Personal website">
+                          <Globe
+                            className="size-4 shrink-0"
+                            strokeWidth={1.75}
+                            aria-hidden="true"
+                          />
+                        </FounderLink>
+                      )}
+                    </div>
+                  </Reveal>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <section data-theme="dark" className="relative bg-zn-dark text-zn-inv">
-        <div className="zn-container-guides relative">
-          <div className="relative border-t border-zn-border-dk">
-            <div className="zn-container-inset py-[clamp(4rem,8vw,7rem)]">
-              <blockquote className="mx-auto max-w-4xl text-center zn-accent-italic text-3xl leading-snug text-zn-inv sm:text-4xl lg:text-5xl">
-                &ldquo;Most agencies sell you the idea of systems. We build ones that
-                actually run.&rdquo;
-              </blockquote>
+            <div className="zn-container-inset py-[clamp(3.5rem,7vw,5.5rem)]">
+              <TextReveal
+                as="blockquote"
+                text={`“${STUDIO_QUOTE}”`}
+                className="mx-auto max-w-4xl text-center zn-accent-italic text-[clamp(1.25rem,2.35vw,1.875rem)] leading-[1.45] text-zn-inv"
+                stagger={0.032}
+              />
             </div>
           </div>
         </div>
       </section>
 
-      <DarkCTA />
+      <DarkCTA
+        heading="Ready to start your next website, software, or automation project?"
+        sub="Tell us what you need and we will scope it clearly. Whether you need a new website, Shopify store, internal dashboard, booking flow, CRM automation, AI chatbot, client portal, or migration to a better stack, we can help you figure out the right build."
+        ctaLabel="Tell us what you need"
+        note="Or email us at hello@zednova.com. We usually reply within 24 hours."
+      />
     </>
   );
 }
