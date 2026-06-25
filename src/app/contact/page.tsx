@@ -6,6 +6,8 @@ import { Reveal } from "@/components/animations/Reveal";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { PageHero } from "@/features/home/PageHero";
 import { BlueprintCross } from "@/ui/BlueprintCross";
+import { JsonLd } from "@/ui/JsonLd";
+import { contactPageJsonLd } from "@/lib/seo";
 import { resolveContactPrefill } from "@/lib/content/contact-options";
 import {
   getContactIndustryOptions,
@@ -14,9 +16,10 @@ import {
 } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact ZedNova Studios",
   description:
-    "Tell ZedNova what you need. An experienced software and product studio with 10+ years shipping products for US businesses.",
+    "Tell ZedNova what you need. Websites, custom software, CRM automations, and AI tools for clinics, ecommerce brands, and service businesses.",
+  alternates: { canonical: "/contact" },
 };
 
 const STEPS = [
@@ -49,6 +52,7 @@ export default async function ContactPage({
 
   return (
     <section data-theme="light" className="relative pb-[clamp(4rem,8vw,7rem)]">
+      <JsonLd data={[contactPageJsonLd(settings.contactEmail)]} />
       <BlueprintGrid immediate />
 
       <div className="zn-container-guides relative">

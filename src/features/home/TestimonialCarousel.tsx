@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Star } from "lucide-react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -105,13 +105,21 @@ function MarqueeRow({
   const rowRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
-  const items = testimonials.length > 0 ? [...testimonials, ...testimonials] : [];
+  const [loopReady, setLoopReady] = useState(false);
+
+  useEffect(() => {
+    setLoopReady(true);
+  }, []);
+
+  const items = loopReady && testimonials.length > 0
+    ? [...testimonials, ...testimonials]
+    : testimonials;
 
   useGSAP(
     () => {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const track = trackRef.current;
-      if (reduce || !track || items.length === 0) return;
+      if (reduce || !track || !loopReady || testimonials.length === 0) return;
 
       const half = track.scrollWidth / 2;
 
@@ -137,7 +145,7 @@ function MarqueeRow({
         tweenRef.current?.kill();
       };
     },
-    { scope: trackRef, dependencies: [items.length, direction] },
+    { scope: trackRef, dependencies: [loopReady, testimonials.length, direction] },
   );
 
   const pause = () => tweenRef.current?.pause();
@@ -156,7 +164,7 @@ function MarqueeRow({
         {items.map((testimonial, index) => (
           <div
             key={`${testimonial.id}-${index}`}
-            aria-hidden={index >= testimonials.length ? true : undefined}
+            aria-hidden={loopReady && index >= testimonials.length ? true : undefined}
           >
             <TestimonialCard testimonial={testimonial} />
           </div>

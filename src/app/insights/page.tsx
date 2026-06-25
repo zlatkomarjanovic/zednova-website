@@ -13,9 +13,9 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import { getAllFaqs, getAllPosts, getFeaturedPost } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "Insights",
+  title: "Insights on AI Search, Websites & Automations",
   description:
-    "Notes on AI, systems, conversion, and the businesses that use them. From a software and product studio with 10+ years shipping products.",
+    "Practical notes on AI search, websites, automations, CRM workflows, and software for service businesses — from ZedNova Studios.",
   alternates: { canonical: "/insights" },
 };
 

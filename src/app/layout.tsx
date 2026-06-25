@@ -116,11 +116,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${geistMono.variable} ${instrumentSerif.variable}`}>
+      <head>
+        <JsonLd data={schemaGraph} />
+      </head>
       <body
         className="flex min-h-dvh flex-col bg-zn-bg font-sans text-zn-text"
         suppressHydrationWarning
       >
-        <JsonLd data={schemaGraph} />
         <a href="#main" className="zn-skip-link">
           Skip to content
         </a>

@@ -42,7 +42,7 @@ import type { TableGridItem } from "@/ui/BlueprintTableGrid";
 
 export const metadata: Metadata = {
 
-  title: "Services",
+  title: "Website, Shopify, Automation & AI Tool Services",
 
   description:
 

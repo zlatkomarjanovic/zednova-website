@@ -38,10 +38,13 @@ import { agencyComparison } from "@/lib/content/agency-comparison";
 import { homepagePricingPackages } from "@/lib/content/homepage-pricing";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
-import { faqPageJsonLd } from "@/lib/seo";
+import { faqPageJsonLd, homepageServiceGraphJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "ZedNova Studios — Websites, Shopify & Automations" },
+  title: {
+    absolute:
+      "Websites, Custom Software, Automations & AI Tools | ZedNova Studios",
+  },
   description:
     "An experienced software and product studio. We design and build Next.js websites, Shopify stores, custom software, CRM automations, and migrations for clinics, ecommerce brands, and growing businesses.",
 };
@@ -93,7 +96,18 @@ export default async function HomePage() {
 
   return (
     <>
-      <JsonLd data={[faqPageJsonLd(faqs)]} />
+      <JsonLd
+        data={[
+          faqPageJsonLd(faqs),
+          homepageServiceGraphJsonLd(
+            services.map((s) => ({
+              slug: s.slug,
+              title: s.title,
+              shortDescription: s.shortDescription,
+            })),
+          ),
+        ]}
+      />
       <HeroSection projects={portfolioProjects} />
 
       <LogoTicker />

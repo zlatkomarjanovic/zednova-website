@@ -263,6 +263,65 @@ export function personJsonLd(person: {
   };
 }
 
+/** schema.org/ContactPage for the contact route. */
+export function contactPageJsonLd(email: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": `${SITE_ORIGIN}/contact`,
+    url: `${SITE_ORIGIN}/contact`,
+    name: "Contact ZedNova Studios",
+    description:
+      "Tell ZedNova what you need — websites, custom software, automations, and AI tools for service businesses.",
+    mainEntity: {
+      "@type": "Organization",
+      "@id": `${SITE_ORIGIN}/#organization`,
+      email,
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email,
+        availableLanguage: ["English"],
+      },
+    },
+  };
+}
+
+/** Homepage ProfessionalService + core offer list. */
+export function homepageServiceGraphJsonLd(
+  services: { slug: string; title: string; shortDescription: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": `${SITE_ORIGIN}/#professional-service`,
+        name: "ZedNova Studios",
+        url: SITE_ORIGIN,
+        description:
+          "We build websites, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
+        provider: { "@id": `${SITE_ORIGIN}/#organization` },
+        areaServed: { "@type": "Country", name: "United States" },
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "ZedNova Studios services",
+          itemListElement: services.slice(0, 8).map((service, index) => ({
+            "@type": "Offer",
+            position: index + 1,
+            itemOffered: {
+              "@type": "Service",
+              name: service.title,
+              description: service.shortDescription,
+              url: `${SITE_ORIGIN}/services/${service.slug}`,
+            },
+          })),
+        },
+      },
+    ],
+  };
+}
+
 /** Connected @graph for sitewide Organization + WebSite + founder Person. */
 export function sitewideSchemaGraph(input?: {
   org?: Parameters<typeof organizationJsonLd>[0];

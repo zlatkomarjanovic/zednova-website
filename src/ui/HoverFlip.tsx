@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const FLIP_STAGGER_MS = 10;
@@ -8,8 +9,9 @@ const FLIP =
   "block transition-transform duration-500 ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
 
 /**
- * Label swaps on hover character-by-character — each glyph rides up while a
- * duplicate rises from below. Trigger from any ancestor marked `group/flip`.
+ * SSR and non-JS crawlers receive plain text. After hydration, the character
+ * flip animation renders in an aria-hidden layer while the real label stays
+ * in the DOM as normal text for crawlers (visually covered by the animation).
  */
 export function HoverFlip({
   children,
@@ -18,6 +20,13 @@ export function HoverFlip({
   children: React.ReactNode;
   className?: string;
 }) {
+  const [enhanced, setEnhanced] = useState(false);
+
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) setEnhanced(true);
+  }, []);
+
   if (typeof children !== "string") {
     return (
       <span className={cn("relative inline-block overflow-hidden align-bottom", className)}>
@@ -36,10 +45,16 @@ export function HoverFlip({
     );
   }
 
+  if (!enhanced) {
+    return <span className={cn("inline-block align-bottom", className)}>{children}</span>;
+  }
+
   return (
     <span className={cn("relative inline-flex align-bottom", className)}>
-      <span className="sr-only">{children}</span>
-      <span aria-hidden="true" className="inline-flex">
+      <span className="absolute left-0 top-0 h-px w-px overflow-hidden whitespace-nowrap opacity-0">
+        {children}
+      </span>
+      <span aria-hidden="true" className="relative inline-flex">
         {[...children].map((char, index) => (
           <span
             key={`${index}-${char}`}

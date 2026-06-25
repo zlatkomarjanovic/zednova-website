@@ -29,7 +29,7 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
               </p>
             </Reveal>
 
-            <div className="mt-8 max-w-4xl lg:mt-10">
+            <div className="mt-8 lg:mt-10">
               <HeroRotatingHeadline />
 
               <Reveal delay={0.08} start="top bottom">

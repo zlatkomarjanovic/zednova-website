@@ -68,17 +68,14 @@ export function TextReveal({
 
   return (
     <Tag ref={ref} className={className}>
-      <span className="sr-only">{text}</span>
-      <span aria-hidden="true">
-        {words.map((word, i) => (
-          <span key={i} className="inline-block align-bottom">
-            <span data-word className="inline-block will-change-[transform,opacity,filter]">
-              {word}
-              {i < words.length - 1 ? " " : ""}
-            </span>
+      {words.map((word, i) => (
+        <span key={i} className="inline-block align-bottom">
+          <span data-word className="inline-block will-change-[transform,opacity,filter]">
+            {word}
+            {i < words.length - 1 ? " " : ""}
           </span>
-        ))}
-      </span>
+        </span>
+      ))}
     </Tag>
   );
 }

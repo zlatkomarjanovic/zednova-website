@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -23,7 +23,6 @@ function applyLogoTickerScroll(
 ): gsap.core.Tween {
   assertLogoTickerDirection(LOGO_TICKER_SCROLL_DIRECTION);
 
-  // LTR on screen: track moves from -loopWidth → 0 (locked — see logo-ticker-config.ts)
   gsap.set(track, { x: -loopWidth, force3D: true });
   return gsap.to(track, {
     x: 0,
@@ -47,16 +46,28 @@ export function LogoTicker({
 }: {
   label?: string;
 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLUListElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
-  const half = Array.from({ length: SETS_PER_HALF }, () => clientLogos).flat();
-  const items = [...half, ...half];
+  const [loopReady, setLoopReady] = useState(false);
+
+  useEffect(() => {
+    setLoopReady(true);
+  }, []);
+
+  const half = useMemo(
+    () => Array.from({ length: SETS_PER_HALF }, () => clientLogos).flat(),
+    [],
+  );
+
+  /** SSR + first paint: one set only. Loop duplicate mounts client-side. */
+  const items = loopReady ? [...half, ...half] : clientLogos;
+  const loopHalfLength = loopReady ? half.length : clientLogos.length;
 
   useGSAP(
     () => {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const track = trackRef.current;
-      if (reduce || !track || items.length === 0) return;
+      if (reduce || !track || !loopReady || items.length === 0) return;
 
       const startLoop = () => {
         tweenRef.current?.kill();
@@ -84,11 +95,11 @@ export function LogoTicker({
         gsap.set(track, { clearProps: "transform" });
       };
     },
-    { scope: trackRef },
+    { scope: trackRef, dependencies: [loopReady, items.length] },
   );
 
   return (
-    <section className="relative bg-zn-bg py-10">
+    <section className="relative bg-zn-bg py-10" aria-label={label}>
       <BlueprintGrid />
 
       <div className="zn-container relative">
@@ -103,27 +114,27 @@ export function LogoTicker({
           <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
 
           <div className="relative overflow-hidden py-8 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-            <div
+            <ul
               ref={trackRef}
-              className="flex w-max items-center gap-24 will-change-transform motion-reduce:overflow-x-auto motion-reduce:[scrollbar-width:none] lg:gap-32"
+              className="flex w-max list-none items-center gap-24 p-0 will-change-transform motion-reduce:overflow-x-auto motion-reduce:[scrollbar-width:none] lg:gap-32"
             >
               {items.map((logo, i) => (
-                <div
+                <li
                   key={`${logo.src}-${i}`}
-                  aria-hidden={i >= half.length ? true : undefined}
+                  aria-hidden={loopReady && i >= loopHalfLength ? true : undefined}
                   className="flex h-7 shrink-0 items-center justify-center opacity-80 transition-opacity duration-300 hover:opacity-100 lg:h-8"
                 >
                   <Image
                     src={logo.src}
-                    alt={i >= half.length ? "" : logo.alt}
+                    alt={loopReady && i >= loopHalfLength ? "" : logo.alt}
                     width={100}
                     height={32}
                     unoptimized
                     className="h-5 w-auto max-w-[5.5rem] object-contain object-center brightness-0 opacity-45 lg:h-6"
                   />
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>

@@ -38,7 +38,7 @@ export function ServicesFilterableGrids({
     return order.filter((cat) => present.has(cat));
   }, [allServices]);
 
-  const [activeCategory, setActiveCategory] = useState<string | null>("Core");
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
 
   const isFiltering = activeCategory !== null || query.trim().length > 0;
@@ -58,7 +58,7 @@ export function ServicesFilterableGrids({
 
   function clearFilters() {
     setQuery("");
-    setActiveCategory("Core");
+    setActiveCategory(null);
   }
 
   return (
