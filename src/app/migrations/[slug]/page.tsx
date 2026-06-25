@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllMigrations, getMigrationBySlug, getInsightsByMigration, getServicesBySlugs } from "@/lib/queries";
-import { breadcrumbJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, serviceAtJsonLd, faqPageJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
@@ -103,9 +103,24 @@ export default async function MigrationDetailPage({
     item.relatedServices?.length ? getServicesBySlugs(item.relatedServices) : Promise.resolve([]),
   ]);
 
+  const schemas: object[] = [
+    serviceAtJsonLd({
+      path: `/migrations/${item.slug}`,
+      title: item.title,
+      description: item.shortDescription ?? item.description,
+      serviceType: item.sourcePlatform
+        ? `${item.sourcePlatform} to ${item.targetPlatform ?? "Next.js"}`
+        : "Migration",
+      pricingSignal: item.pricingSignal,
+      timeline: item.timeline,
+    }),
+    breadcrumbJsonLd(crumbs),
+  ];
+  if (item.faqs && item.faqs.length > 0) schemas.push(faqPageJsonLd(item.faqs));
+
   return (
     <>
-      <JsonLd data={[breadcrumbJsonLd(crumbs)]} />
+      <JsonLd data={schemas} />
 
       {/* Hero */}
       <section data-theme="light" className="relative bg-zn-bg">

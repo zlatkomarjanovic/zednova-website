@@ -10,7 +10,7 @@ import {
   getCustomSoftwareRelatedPortfolioProjects,
   getServicesBySlugs,
 } from "@/lib/queries";
-import { breadcrumbJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, serviceAtJsonLd, faqPageJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal, Stagger } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
@@ -102,9 +102,26 @@ export default async function CustomSoftwareDetailPage({
       ? allPosts.filter((post) => item.relatedInsights!.includes(post.slug)).slice(0, 3)
       : [];
 
+  const schemas: object[] = [
+    serviceAtJsonLd({
+      path: `/custom-software/${item.slug}`,
+      title: item.title,
+      description: item.shortDescription ?? item.whatItIs,
+      serviceType: item.softwareType ?? "Custom Software",
+      pricingSignal:
+        item.startingPrice != null
+          ? `From $${item.startingPrice.toLocaleString()}`
+          : undefined,
+      startingPrice: item.startingPrice ?? undefined,
+      timeline: item.timeline,
+    }),
+    breadcrumbJsonLd(crumbs),
+  ];
+  if (item.faqs && item.faqs.length > 0) schemas.push(faqPageJsonLd(item.faqs));
+
   return (
     <>
-      <JsonLd data={[breadcrumbJsonLd(crumbs)]} />
+      <JsonLd data={schemas} />
 
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />

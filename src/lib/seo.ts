@@ -176,6 +176,50 @@ export function serviceJsonLd(service: {
   };
 }
 
+/** schema.org/Service — generic variant for any path (migrations, custom software). */
+export function serviceAtJsonLd(input: {
+  path: string;
+  title: string;
+  description?: string;
+  serviceType?: string;
+  image?: string;
+  providerName?: string;
+  pricingSignal?: string;
+  startingPrice?: number;
+  timeline?: string;
+}) {
+  const url = `${SITE_ORIGIN}${input.path}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": url,
+    url,
+    name: input.title,
+    description: input.description,
+    serviceType: input.serviceType,
+    image: input.image,
+    provider: {
+      "@type": "Organization",
+      name: input.providerName ?? "ZedNova Studios",
+      url: SITE_ORIGIN,
+    },
+    areaServed: { "@type": "Country", name: "United States" },
+    offers:
+      input.pricingSignal || input.startingPrice != null
+        ? {
+            "@type": "Offer",
+            priceCurrency: "USD",
+            price:
+              input.startingPrice != null
+                ? String(input.startingPrice)
+                : input.pricingSignal?.replace(/[^0-9.]/g, "") || "0",
+            description: input.pricingSignal,
+            availability: "https://schema.org/InStock",
+          }
+        : undefined,
+  };
+}
+
 /** schema.org/Service for industry/category pages (treated as a service catalog page). */
 export function industryJsonLd(industry: {
   slug: string;
@@ -319,6 +363,56 @@ export function homepageServiceGraphJsonLd(
         },
       },
     ],
+  };
+}
+
+/** schema.org/AboutPage — for the about route. */
+export function aboutPageJsonLd(founder?: {
+  slug: string;
+  name: string;
+  role: string;
+  bio?: string[];
+  image?: string;
+  sameAs?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "@id": `${SITE_ORIGIN}/about`,
+    url: `${SITE_ORIGIN}/about`,
+    name: "About ZedNova Studios",
+    description:
+      "ZedNova Studios is a software and product studio led by Zlatko Marjanovic, building websites, ecommerce, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
+    mainEntity: founder
+      ? {
+          "@type": "Organization",
+          "@id": `${SITE_ORIGIN}/#organization`,
+          founder: personJsonLd(founder),
+        }
+      : { "@id": `${SITE_ORIGIN}/#organization` },
+  };
+}
+
+/** schema.org/CollectionPage — for index/listing routes. */
+export function collectionPageJsonLd(input: {
+  slug?: string;
+  path: string;
+  name: string;
+  description: string;
+}) {
+  const url = `${SITE_ORIGIN}${input.path}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": url,
+    url,
+    name: input.name,
+    description: input.description,
+    inLanguage: "en-US",
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${SITE_ORIGIN}/#website`,
+    },
   };
 }
 

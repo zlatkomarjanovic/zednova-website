@@ -277,11 +277,39 @@ const rawPlatformTestimonials: Testimonial[] = [
   },
 ];
 
+const PLATFORM_PROFILES: Record<string, { source: string; url: string }> = {
+  Upwork: {
+    source: "Upwork",
+    url: "https://www.upwork.com/freelancers/zlatkomarjanovic",
+  },
+  Fiverr: {
+    source: "Fiverr",
+    url: "https://www.fiverr.com/zlatkom",
+  },
+  Contra: {
+    source: "Contra",
+    url: "https://contra.com/zlatkomarjanovic",
+  },
+  LinkedIn: {
+    source: "LinkedIn",
+    url: "https://www.linkedin.com/in/zlatkomarjanovic",
+  },
+  Google: {
+    source: "Google",
+    url: "https://www.google.com/search?q=ZedNova+Studios+reviews",
+  },
+};
+
 export const platformTestimonials: Testimonial[] = rawPlatformTestimonials.map(
-  (testimonial) => ({
-    ...testimonial,
-    quote: brandQuote(testimonial.quote),
-  }),
+  (testimonial) => {
+    const profile = PLATFORM_PROFILES[testimonial.industry];
+    return {
+      ...testimonial,
+      quote: brandQuote(testimonial.quote),
+      platformSource: profile?.source ?? testimonial.industry,
+      platformUrl: profile?.url,
+    };
+  },
 );
 
 /** Anonymized quotes tied to case studies on /work. */

@@ -1,35 +1,30 @@
 import type { Metadata } from "next";
-
 import { getPortfolioProjects } from "@/lib/queries";
-
 import { Reveal } from "@/components/animations/Reveal";
-
 import { TextReveal } from "@/components/animations/TextReveal";
-
 import { Button } from "@/ui/Button";
-
 import { SectionLabel } from "@/ui/SectionLabel";
-
 import { BlueprintCross } from "@/ui/BlueprintCross";
-
 import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
-
 import { WorkFilterableGrid } from "@/features/work/WorkFilterableGrid";
-
 import { DarkCTA } from "@/features/home/DarkCTA";
-
-
+import { JsonLd } from "@/ui/JsonLd";
+import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-
-  title: "Work",
-
+  title: "Work — Website, Software & Automation Case Studies | ZedNova",
   description:
-
-    "Selected projects from ZedNova — marketing websites, SaaS, real estate, and nonprofit builds with brand, design, and development.",
-
+    "Selected projects from ZedNova Studios — marketing websites, Shopify stores, SaaS, custom software, CRM automations, and AI tools with brand, design, and development.",
   alternates: { canonical: "/work" },
-
+  openGraph: {
+    type: "website",
+    url: "/work",
+    title: "Work — ZedNova Studios",
+    description:
+      "Marketing websites, Shopify stores, custom software, CRM automations, and AI tools.",
+  },
+  robots: { index: true, follow: true },
 };
 
 
@@ -38,11 +33,26 @@ export default async function WorkPage() {
 
   const portfolioProjects = await getPortfolioProjects();
 
-
+  const crumbs = [
+    { label: "Home", href: "/" },
+    { label: "Work" },
+  ];
 
   return (
 
     <>
+
+      <JsonLd
+        data={[
+          collectionPageJsonLd({
+            path: "/work",
+            name: "Work — ZedNova Studios Case Studies",
+            description:
+              "Selected website, ecommerce, custom software, automation, and AI tool builds by ZedNova Studios.",
+          }),
+          breadcrumbJsonLd(crumbs),
+        ]}
+      />
 
       <section data-theme="light" className="relative bg-zn-bg">
 
@@ -57,7 +67,7 @@ export default async function WorkPage() {
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
 
               <div className="zn-container-inset pb-14 pt-36 lg:pb-16 lg:pt-44">
-
+                <Breadcrumbs items={crumbs} className="mb-8" />
                 <Reveal>
 
                   <SectionLabel withRule={false}>Our work</SectionLabel>

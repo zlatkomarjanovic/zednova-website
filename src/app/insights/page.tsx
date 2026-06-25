@@ -13,10 +13,18 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import { getAllFaqs, getAllPosts, getFeaturedPost } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "Insights on AI Search, Websites & Automations",
+  title: "Insights on AI Search, Websites & Automations | ZedNova",
   description:
     "Practical notes on AI search, websites, automations, CRM workflows, and software for service businesses — from ZedNova Studios.",
   alternates: { canonical: "/insights" },
+  openGraph: {
+    type: "website",
+    url: "/insights",
+    title: "Insights — ZedNova Studios",
+    description:
+      "Practical notes on AI search, websites, automations, CRM workflows, and software.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default async function InsightsPage() {

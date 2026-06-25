@@ -11,7 +11,11 @@ import {
   getServiceRelatedPortfolioProjects,
   getServicesBySlugs,
 } from "@/lib/queries";
-import { serviceJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import {
+  serviceJsonLd,
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+} from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal, Stagger } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
@@ -23,6 +27,8 @@ import { ProcessSteps } from "@/features/home/ProcessSteps";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { EntitySummary } from "@/ui/EntitySummary";
+import { BestForNotBestFor } from "@/ui/BestForNotBestFor";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { ArticleCard } from "@/features/insights/ArticleCard";
 import { slugify } from "@/lib/utils";
@@ -114,7 +120,13 @@ export default async function ServiceDetailPage({
   return (
     <>
       <JsonLd
-        data={[serviceJsonLd(service), breadcrumbJsonLd(crumbs)]}
+        data={[
+          serviceJsonLd(service),
+          breadcrumbJsonLd(crumbs),
+          ...(service.faqs && service.faqs.length > 0
+            ? [faqPageJsonLd(service.faqs)]
+            : []),
+        ]}
       />
 
       {/* Hero */}
@@ -414,6 +426,51 @@ export default async function ServiceDetailPage({
           </Stagger>
         </TemplateSection>
       )}
+
+      <BestForNotBestFor
+        bestFor={service.idealClients.length > 0 ? service.idealClients : [service.shortDescription]}
+        notBestFor={[
+          "$500 template websites",
+          "Pure branding-only work",
+          "Enterprise procurement-heavy projects",
+          "Strategy-only engagements without implementation",
+        ]}
+        heading={`Who ${service.title} is best for`}
+      />
+
+      <EntitySummary
+        fields={[
+          { label: "Company", value: "ZedNova Studios" },
+          { label: "Service", value: service.title },
+          { label: "Type", value: service.category },
+          { label: "Audience", value: service.idealClients[0] ?? "Service businesses" },
+          {
+            label: "Outcome",
+            value: service.results[0] ?? service.shortDescription,
+          },
+          {
+            label: "Timeline",
+            value: service.timeline,
+          },
+          {
+            label: "Investment",
+            value:
+              service.startingPrice != null
+                ? `${service.pricingSignal} (from $${service.startingPrice.toLocaleString()})`
+                : service.pricingSignal,
+          },
+        ]}
+        links={[
+          { label: "All services", href: "/services" },
+          ...(service.relatedServices ?? []).slice(0, 3).map((slug) => ({
+            label: `Related: ${slug}`,
+            href: `/services/${slug}`,
+          })),
+          { label: "See case studies", href: "/work" },
+          { label: "Contact about this service", href: `/contact?service=${service.slug}` },
+        ]}
+        intro={`${service.title} — ${service.whatItIs}`}
+      />
 
       <DarkCTA
         heading="Ready to put this system to work?"

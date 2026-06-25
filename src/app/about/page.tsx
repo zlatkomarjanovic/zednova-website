@@ -9,12 +9,38 @@ import { StatsRow } from "@/features/home/StatsRow";
 import { ProcessSteps } from "@/features/home/ProcessSteps";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { FounderSection } from "@/features/about/FounderSection";
+import { JsonLd } from "@/ui/JsonLd";
+import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { aboutPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import { team } from "@/lib/content/team";
 
 export const metadata: Metadata = {
-  title: "About ZedNova Studios",
+  title: "About ZedNova Studios — Senior-Led Software & Website Studio",
   description:
-    "ZedNova Studios is a software and product studio building websites, ecommerce, internal tools, automations, and AI workflows for businesses that want senior-led delivery without agency overhead.",
+    "ZedNova Studios is a software and product studio led by Zlatko Marjanovic, building websites, ecommerce, custom software, automations, and AI tools for US and global businesses.",
   alternates: { canonical: "/about" },
+  openGraph: {
+    type: "website",
+    url: "/about",
+    title: "About ZedNova Studios",
+    description:
+      "Senior-led software and product studio building websites, ecommerce, custom software, automations, and AI tools.",
+    images: [
+      {
+        url: "/api/og?title=About%20ZedNova%20Studios&description=Senior-led%20software%20studio%20for%20websites%2C%20automations%2C%20and%20AI%20tools.",
+        width: 1200,
+        height: 630,
+        alt: "About ZedNova Studios",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About ZedNova Studios",
+    description:
+      "Senior-led software and product studio building websites, ecommerce, custom software, automations, and AI tools.",
+  },
+  robots: { index: true, follow: true },
 };
 
 const ABOUT_STATS = [
@@ -71,14 +97,39 @@ const REMOTE_STEPS = [
 ];
 
 export default function AboutPage() {
+  const founder = team[0];
+  const crumbs = [
+    { label: "Home", href: "/" },
+    { label: "About" },
+  ];
   return (
     <>
+      <JsonLd
+        data={[
+          aboutPageJsonLd(
+            founder
+              ? {
+                  slug: founder.slug,
+                  name: "Zlatko Marjanovic",
+                  role: founder.role,
+                  bio: founder.bio,
+                  image: founder.avatar,
+                  sameAs: [founder.linkedin, founder.twitter, founder.website].filter(
+                    Boolean,
+                  ) as string[],
+                }
+              : undefined,
+          ),
+          breadcrumbJsonLd(crumbs),
+        ]}
+      />
       {/* Hero */}
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
           <div className="relative border-x border-b border-zn-border">
             <div className="zn-container-inset pb-16 pt-32 lg:pb-20 lg:pt-44">
+              <Breadcrumbs items={crumbs} />
               <Reveal>
                 <SectionLabel withRule={false}>The studio</SectionLabel>
               </Reveal>

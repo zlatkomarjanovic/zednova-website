@@ -26,13 +26,22 @@ import { DarkCTA } from "@/features/home/DarkCTA";
 
 export const metadata: Metadata = {
 
-  title: "Custom Software",
+  title: "Custom Software — Web Apps, Portals & Dashboards | ZedNova",
 
   description:
-
     "Custom web apps, client portals, staff dashboards, booking systems, intake forms, and admin panels for small teams that have outgrown spreadsheets and no-code tools.",
 
   alternates: { canonical: "/custom-software" },
+
+  openGraph: {
+    type: "website",
+    url: "/custom-software",
+    title: "Custom Software — ZedNova Studios",
+    description:
+      "Web apps, client portals, staff dashboards, booking systems, and admin panels.",
+  },
+
+  robots: { index: true, follow: true },
 
 };
 

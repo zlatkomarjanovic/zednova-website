@@ -7,12 +7,23 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { IndustriesPageGrids } from "@/features/industries/IndustriesPageGrids";
 import { DarkCTA } from "@/features/home/DarkCTA";
+import { JsonLd } from "@/ui/JsonLd";
+import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Industries",
+  title: "Industries — Websites, Automations & AI Tools by Vertical | ZedNova",
   description:
-    "Websites, Shopify stores, booking automation, and CRM workflows for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
+    "Websites, Shopify stores, booking automation, and CRM workflows for healthcare, dental, medical, medspas, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
   alternates: { canonical: "/industries" },
+  openGraph: {
+    type: "website",
+    url: "/industries",
+    title: "Industries — ZedNova Studios",
+    description:
+      "Websites, automations, and AI tools for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default async function IndustriesPage() {
@@ -35,8 +46,24 @@ export default async function IndustriesPage() {
     })),
   );
 
+  const crumbs = [
+    { label: "Home", href: "/" },
+    { label: "Industries" },
+  ];
+
   return (
     <>
+      <JsonLd
+        data={[
+          collectionPageJsonLd({
+            path: "/industries",
+            name: "Industries — ZedNova Studios",
+            description:
+              "Websites, Shopify stores, booking automation, and CRM workflows for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
+          }),
+          breadcrumbJsonLd(crumbs),
+        ]}
+      />
       <section
         data-theme="light"
         className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
@@ -50,6 +77,7 @@ export default async function IndustriesPage() {
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
               <div className="zn-container-inset pb-14 pt-36 lg:pb-16 lg:pt-44">
+                <Breadcrumbs items={crumbs} className="mb-8" />
                 <Reveal>
                   <SectionLabel withRule={false}>Who we serve</SectionLabel>
                 </Reveal>

@@ -10,10 +10,18 @@ import { ProductCard } from "@/features/home/ProductCard";
 import { DarkCTA } from "@/features/home/DarkCTA";
 
 export const metadata: Metadata = {
-  title: "Products",
+  title: "Products — ZedNova Labs | Software for Builders & Operators",
   description:
     "ZedNova Labs. Software and tools we build for designers, developers, and operators who build fast.",
   alternates: { canonical: "/products" },
+  openGraph: {
+    type: "website",
+    url: "/products",
+    title: "ZedNova Labs — Software for builders",
+    description:
+      "Software and tools we build for designers, developers, and operators.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default async function ProductsPage() {

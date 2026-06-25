@@ -1,55 +1,40 @@
 import type { Metadata } from "next";
-
 import {
-
   getAllMigrations,
-
   getCustomSoftwareNavItems,
-
   getServiceGroups,
-
   getServiceMegaMenuCards,
-
   getServiceNavGroups,
-
 } from "@/lib/queries";
-
 import { Reveal } from "@/components/animations/Reveal";
-
 import { TextReveal } from "@/components/animations/TextReveal";
-
 import { Button } from "@/ui/Button";
-
 import { SectionLabel } from "@/ui/SectionLabel";
-
 import { BlueprintCross } from "@/ui/BlueprintCross";
-
 import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
-
 import {
-
   ServicesFilterableGrids,
-
   type ServiceGridEntry,
-
 } from "@/features/services/ServicesFilterableGrids";
-
 import { DarkCTA } from "@/features/home/DarkCTA";
-
+import { JsonLd } from "@/ui/JsonLd";
+import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import type { TableGridItem } from "@/ui/BlueprintTableGrid";
 
-
-
 export const metadata: Metadata = {
-
-  title: "Website, Shopify, Automation & AI Tool Services",
-
+  title: "Services — Websites, Shopify, Automations & AI Tools | ZedNova",
   description:
-
-    "Website design, Shopify development, CRM automation, AI chatbots, dashboards, n8n workflows, and migrations for clinics, ecommerce, and small business.",
-
+    "Website design, Shopify development, CRM automation, AI chatbots, AI receptionists, custom software, dashboards, and migrations for clinics, ecommerce, and service businesses.",
   alternates: { canonical: "/services" },
-
+  openGraph: {
+    type: "website",
+    url: "/services",
+    title: "Services — ZedNova Studios",
+    description:
+      "Website design, Shopify development, CRM automation, AI chatbots, custom software, dashboards, and migrations.",
+  },
+  robots: { index: true, follow: true },
 };
 
 
@@ -296,6 +281,21 @@ export default async function ServicesPage() {
 
     <>
 
+      <JsonLd
+        data={[
+          collectionPageJsonLd({
+            path: "/services",
+            name: "Services — ZedNova Studios",
+            description:
+              "Website design, Shopify development, CRM automation, AI chatbots, AI receptionists, custom software, dashboards, and migrations for clinics, ecommerce, and service businesses.",
+          }),
+          breadcrumbJsonLd([
+            { label: "Home", href: "/" },
+            { label: "Services" },
+          ]),
+        ]}
+      />
+
       <section data-theme="light" className="relative bg-zn-bg">
 
         <div className="zn-container-guides relative">
@@ -309,6 +309,14 @@ export default async function ServicesPage() {
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
 
               <div className="zn-container-inset pb-14 pt-36 lg:pb-16 lg:pt-44">
+
+                <Breadcrumbs
+                  items={[
+                    { label: "Home", href: "/" },
+                    { label: "Services" },
+                  ]}
+                  className="mb-8"
+                />
 
                 <Reveal>
 

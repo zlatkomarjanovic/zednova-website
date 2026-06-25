@@ -50,6 +50,7 @@ export function buildLlmsTxt(): string {
 - About: ${SITE_ORIGIN}/about
 - Insights: ${SITE_ORIGIN}/insights
 - Contact: ${SITE_ORIGIN}/contact
+- HTML sitemap: ${SITE_ORIGIN}/sitemap
 
 ## Main services
 - AI-Cited Lead Gen Site: ${SITE_ORIGIN}/services/ai-lead-site
@@ -71,6 +72,8 @@ export function buildLlmsTxt(): string {
 - Ecommerce & DTC: ${SITE_ORIGIN}/industries/ecommerce-dtc
 - Professional Services: ${SITE_ORIGIN}/industries/professional-services
 - B2B SaaS & Technology: ${SITE_ORIGIN}/industries/b2b-saas-technology
+- Fitness & Coaching: ${SITE_ORIGIN}/industries/fitness-coaching
+- Real Estate & Property: ${SITE_ORIGIN}/industries/real-estate-property
 
 ## Founder profiles
 - About: ${SITE_ORIGIN}/about
