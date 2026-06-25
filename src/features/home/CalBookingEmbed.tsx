@@ -1,108 +1,101 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const CAL_ORIGIN = "https://app.cal.com";
-const CAL_SCRIPT_SRC = `${CAL_ORIGIN}/embed/embed.js`;
+const CAL_SCRIPT = `${CAL_ORIGIN}/embed/embed.js`;
 
-type CalNamespace = {
-  q: unknown[][];
-  (...args: unknown[]): void;
-};
-
-type CalGlobal = {
-  loaded?: boolean;
-  ns: Record<string, CalNamespace>;
-  q: unknown[][];
+type CalFn = {
   (command: string, ...args: unknown[]): void;
+  loaded?: boolean;
+  ns?: Record<string, CalFn>;
+  q?: unknown[][];
 };
 
-/** Official Cal embed bootstrap — queues calls until embed.js loads. */
-function ensureCalStub(): CalGlobal {
-  const w = window as typeof window & { Cal?: CalGlobal };
+declare global {
+  interface Window {
+    Cal?: CalFn;
+  }
+}
 
-  if (w.Cal) return w.Cal;
+/** Official Cal.com queue bootstrap (embed.js processes the queue on load). */
+function bootstrapCalQueue() {
+  if (window.Cal) return;
 
   const cal = function (...args: unknown[]) {
-    const api = cal as CalGlobal;
+    const api = cal as CalFn;
     if (!api.loaded) {
       api.ns = {};
       api.q = api.q || [];
       const script = document.createElement("script");
-      script.src = CAL_SCRIPT_SRC;
+      script.src = CAL_SCRIPT;
       script.async = true;
       document.head.appendChild(script);
       api.loaded = true;
     }
 
     if (args[0] === "init") {
-      const namespaceApi = function (...inner: unknown[]) {
-        (namespaceApi as CalNamespace).q.push(inner);
-      } as CalNamespace;
-      namespaceApi.q = [];
-
       const ns = args[1];
       if (typeof ns === "string") {
-        api.ns[ns] = api.ns[ns] || namespaceApi;
-        api.ns[ns].q.push(args.slice(2));
-        api.q.push(["initNamespace", ns]);
+        const namespaceApi = function (...inner: unknown[]) {
+          (namespaceApi as CalFn).q = (namespaceApi as CalFn).q || [];
+          (namespaceApi as CalFn).q!.push(inner);
+        } as CalFn;
+        namespaceApi.q = [];
+        api.ns![ns] = api.ns![ns] || namespaceApi;
+        api.ns![ns].q!.push(args.slice(2));
+        api.q!.push(["initNamespace", ns]);
       } else {
-        api.q.push(args);
+        api.q!.push(args);
       }
       return;
     }
 
-    api.q.push(args);
-  } as CalGlobal;
+    api.q!.push(args);
+  } as CalFn;
 
   cal.ns = {};
   cal.q = [];
-  w.Cal = cal;
-  return cal;
+  window.Cal = cal;
 }
 
-function waitForCalScript(): Promise<void> {
-  ensureCalStub();
+function loadCalScript(): Promise<void> {
+  bootstrapCalQueue();
 
-  return new Promise((resolve) => {
-    const w = window as typeof window & { Cal?: CalGlobal & { __embedReady?: boolean } };
-    if (w.Cal?.__embedReady) {
-      resolve();
-      return;
-    }
-
+  return new Promise((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(
-      `script[src="${CAL_SCRIPT_SRC}"]`,
+      `script[src="${CAL_SCRIPT}"]`,
     );
 
-    const markReady = () => {
-      if (w.Cal) w.Cal.__embedReady = true;
+    if (existing?.dataset.calLoaded === "true") {
       resolve();
-    };
-
-    if (existing?.dataset.calReady === "true") {
-      markReady();
       return;
     }
 
-    const script = existing ?? document.createElement("script");
-    if (!existing) {
-      script.src = CAL_SCRIPT_SRC;
-      script.async = true;
-      document.head.appendChild(script);
-    }
+    const script =
+      existing ??
+      (() => {
+        const el = document.createElement("script");
+        el.src = CAL_SCRIPT;
+        el.async = true;
+        document.head.appendChild(el);
+        return el;
+      })();
 
     script.addEventListener(
       "load",
       () => {
-        script.dataset.calReady = "true";
-        markReady();
+        script.dataset.calLoaded = "true";
+        resolve();
       },
       { once: true },
     );
 
-    // If the script was already cached/loaded before listeners attached.
-    if (script.dataset.calReady === "true") markReady();
+    script.addEventListener(
+      "error",
+      () => reject(new Error("Cal.com embed script failed to load")),
+      { once: true },
+    );
   });
 }
 
@@ -114,10 +107,7 @@ export function CalBookingEmbed({
   namespace?: string;
   className?: string;
 }) {
-  const reactId = useId();
-  const namespace = `cal-${reactId.replace(/:/g, "")}`;
   const containerRef = useRef<HTMLDivElement>(null);
-  const initializedRef = useRef(false);
 
   useEffect(() => {
     const element = containerRef.current;
@@ -125,38 +115,33 @@ export function CalBookingEmbed({
 
     let cancelled = false;
 
-    const mountEmbed = async () => {
-      await waitForCalScript();
-      if (cancelled || !containerRef.current || initializedRef.current) return;
+    void (async () => {
+      try {
+        await loadCalScript();
+        if (cancelled || !containerRef.current) return;
 
-      const Cal = ensureCalStub();
-      initializedRef.current = true;
+        const Cal = window.Cal;
+        if (!Cal) return;
 
-      Cal("init", namespace, { origin: CAL_ORIGIN });
+        Cal("init", { origin: CAL_ORIGIN });
 
-      Cal.ns[namespace]("inline", {
-        elementOrSelector: containerRef.current,
-        config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
-        calLink,
-      });
+        Cal("inline", {
+          elementOrSelector: containerRef.current,
+          calLink,
+          config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
+        });
 
-      Cal.ns[namespace]("ui", {
-        hideEventTypeDetails: false,
-        layout: "month_view",
-      });
-    };
-
-    const frame = requestAnimationFrame(() => {
-      void mountEmbed();
-    });
+        Cal("ui", { hideEventTypeDetails: false, layout: "month_view" });
+      } catch {
+        /* Leave empty container — user can still use /contact */
+      }
+    })();
 
     return () => {
       cancelled = true;
-      cancelAnimationFrame(frame);
-      initializedRef.current = false;
       element.replaceChildren();
     };
-  }, [calLink, namespace]);
+  }, [calLink]);
 
   return (
     <div
