@@ -28,6 +28,14 @@ function LinkedInIcon({ className }: { className?: string }) {
   );
 }
 
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
 function FounderLink({
   href,
   label,
@@ -91,7 +99,10 @@ export async function FounderSection() {
                   text={founder.name}
                   className="mt-6 font-sans text-4xl font-normal text-zn-inv lg:text-5xl"
                 />
-                <p className="mt-2 text-sm text-zn-inv-2">Founder, ZedNova Studios</p>
+                <p className="mt-2 text-sm text-zn-inv-2">
+                  Founder, ZedNova Studios{" "}
+                  <span className="text-zn-inv-2/80">(Zed is short for Zlatko, my full name)</span>
+                </p>
                 <div className="mt-6 space-y-4 leading-relaxed text-zn-inv-2">
                   {FOUNDER_BIO.map((para) => (
                     <p key={para.slice(0, 40)}>{para}</p>
@@ -102,6 +113,11 @@ export async function FounderSection() {
                     {founder.linkedin && (
                       <FounderLink href={founder.linkedin} label="LinkedIn">
                         <LinkedInIcon className="size-4 shrink-0" />
+                      </FounderLink>
+                    )}
+                    {founder.twitter && (
+                      <FounderLink href={founder.twitter} label="X / Twitter">
+                        <XIcon className="size-4 shrink-0" />
                       </FounderLink>
                     )}
                     {founder.website && (

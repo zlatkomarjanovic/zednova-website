@@ -127,11 +127,7 @@ export default async function ResourcesPage() {
         </section>
       ))}
 
-      <DarkCTA
-        heading="Want something built for your ecosystem?"
-        sub="We build products for the markets we work in. If you have one in mind, tell us."
-        ctaLabel="Start a conversation"
-      />
+      <DarkCTA bookingEmbed />
     </>
   );
 }

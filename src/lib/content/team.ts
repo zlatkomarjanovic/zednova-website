@@ -3,7 +3,7 @@ import type { TeamMember } from "@/lib/types";
 export const team: TeamMember[] = [
   {
     slug: "zed-marjanovic",
-    name: "Zlatko Marjanovic",
+    name: "Zed M.",
     role: "Founder",
     bio: [
       "Zlatko is a designer, developer, and product builder with 10+ years of experience shipping websites, software, ecommerce stores, automations, and digital products.",
@@ -12,6 +12,7 @@ export const team: TeamMember[] = [
       "ZedNova exists because many businesses do not need a traditional agency. They need someone who can understand the business problem, design the right solution, build it properly, and make sure it keeps working after launch.",
     ],
     linkedin: "https://www.linkedin.com/in/zlatkomarjanovic",
+    twitter: "https://x.com/thezlatkom",
     website: "https://zlatkomarjanovic.com",
     avatar: "/images/team/zlatko-marjanovic-macbook.png",
   },

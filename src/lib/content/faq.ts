@@ -116,3 +116,51 @@ export const faqs: FaqItem[] = [
       "Yes. We have a monthly support plan for updates, fixes, monitoring, and new additions. Details are in the proposal.",
   },
 ];
+
+const FAQ_CATEGORY_ORDER = [
+  "General",
+  "Pricing",
+  "Timeline",
+  "Technical",
+  "SEO",
+  "AI / Automation",
+  "CMS",
+  "Support",
+  "Migration",
+  "Industry-specific",
+  "Services",
+  "Process",
+  "Industries",
+  "Migrations",
+  "Custom Software",
+  "Products",
+  "Company",
+] as const;
+
+export function groupFaqsByCategory(faqs: FaqItem[]) {
+  const byCategory = new Map<string, FaqItem[]>();
+
+  for (const faq of faqs) {
+    const category = faq.category?.trim() || "General";
+    const items = byCategory.get(category) ?? [];
+    items.push(faq);
+    byCategory.set(category, items);
+  }
+
+  const known = FAQ_CATEGORY_ORDER.filter((category) => byCategory.has(category)).map(
+    (category) => ({
+      category,
+      items: [...(byCategory.get(category) ?? [])].sort((a, b) => a.order - b.order),
+    }),
+  );
+
+  const extra = [...byCategory.keys()]
+    .filter((category) => !FAQ_CATEGORY_ORDER.includes(category as (typeof FAQ_CATEGORY_ORDER)[number]))
+    .sort((a, b) => a.localeCompare(b))
+    .map((category) => ({
+      category,
+      items: [...(byCategory.get(category) ?? [])].sort((a, b) => a.order - b.order),
+    }));
+
+  return [...known, ...extra];
+}

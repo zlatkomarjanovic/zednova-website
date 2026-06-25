@@ -4,12 +4,13 @@ import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { InsightsFilterableGrid } from "@/features/insights/InsightsFilterableGrid";
 import { InsightsFeaturedArticle } from "@/features/insights/InsightsFeaturedArticle";
-import { NewsletterSignup } from "@/components/sections/NewsletterSignup";
 import { PageHero } from "@/features/home/PageHero";
+import { DarkCTA } from "@/features/home/DarkCTA";
+import { FaqSection } from "@/features/home/FaqSection";
+import { FounderSection } from "@/features/about/FounderSection";
 import { BlueprintCross } from "@/ui/BlueprintCross";
-import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { SectionLabel } from "@/ui/SectionLabel";
-import { getAllPosts, getFeaturedPost } from "@/lib/queries";
+import { getAllFaqs, getAllPosts, getFeaturedPost } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -19,7 +20,11 @@ export const metadata: Metadata = {
 };
 
 export default async function InsightsPage() {
-  const [featured, allPosts] = await Promise.all([getFeaturedPost(), getAllPosts()]);
+  const [featured, allPosts, faqs] = await Promise.all([
+    getFeaturedPost(),
+    getAllPosts(),
+    getAllFaqs(),
+  ]);
   const filterable = allPosts.filter((p) => p.slug !== featured.slug);
 
   return (
@@ -83,44 +88,17 @@ export default async function InsightsPage() {
         </div>
       </section>
 
-      <section
-        data-theme="dark"
-        data-bg="dark"
-        className="relative overflow-hidden bg-zn-dark text-zn-inv"
-      >
-        <div className="zn-blueprint-grid absolute inset-0 opacity-[0.22]" aria-hidden="true" />
-        <div className="zn-grain absolute inset-0 opacity-[0.06]" aria-hidden="true" />
-        <BlueprintGuides theme="dark" reveal="immediate" showEdgeCrosses className="z-10" />
+      <FaqSection
+        faqs={faqs}
+        groupByCategory
+        filterable
+        heading="Common questions"
+        description="Pricing, timelines, tech, migrations, and how we work. Filter by topic or browse everything."
+      />
 
-        <div className="zn-container-guides relative">
-          <BlueprintCross anchor="left" theme="dark" className="top-0 -translate-y-1/2" />
-          <BlueprintCross anchor="right" theme="dark" className="top-0 -translate-y-1/2" />
+      <FounderSection />
 
-          <div className="relative border-x border-t border-zn-border-dk">
-            <div className="zn-container-inset grid gap-10 py-[clamp(4.5rem,9vw,7rem)] lg:grid-cols-2 lg:items-center lg:gap-16">
-              <div>
-                <Reveal>
-                  <p className="zn-label text-zn-inv-2">Newsletter</p>
-                </Reveal>
-                <TextReveal
-                  as="h2"
-                  text="One insight per week. No slop."
-                  className="mt-5 max-w-2xl font-sans text-[clamp(1.75rem,3.2vw,2.75rem)] font-normal leading-[1.06] tracking-[-0.03em]"
-                />
-                <Reveal delay={0.1}>
-                  <p className="mt-6 max-w-lg text-[0.9375rem] leading-relaxed text-zn-inv-2">
-                    Short notes on what we are seeing in AI search, conversion, and
-                    systems for US businesses. Unsubscribe anytime.
-                  </p>
-                </Reveal>
-              </div>
-              <Reveal delay={0.12}>
-                <NewsletterSignup theme="dark" />
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
+      <DarkCTA bookingEmbed />
     </>
   );
 }

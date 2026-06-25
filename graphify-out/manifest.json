@@ -450,8 +450,8 @@
     "semantic_hash": ""
   },
   "src/components/animations/LenisProvider.tsx": {
-    "mtime": 1781890469.778326,
-    "ast_hash": "db51b63be1976bf12e52c016a3cc7efb",
+    "mtime": 1782346365.786591,
+    "ast_hash": "783dac2d4cd2aecbf6da37bf6c8009ac",
     "semantic_hash": ""
   },
   "src/components/animations/PageTransition.tsx": {
@@ -505,8 +505,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/Navbar.tsx": {
-    "mtime": 1782337542.1479473,
-    "ast_hash": "e86a33b406bfbbc22cf11346cfbf44fe",
+    "mtime": 1782346369.6728516,
+    "ast_hash": "f7a4186a2cbd2936fa731d377645589f",
     "semantic_hash": ""
   },
   "src/components/sections/ContactForm.tsx": {
@@ -1222,6 +1222,11 @@
   "src/features/about/FounderSection.tsx": {
     "mtime": 1782346079.461319,
     "ast_hash": "165a2076998028a68e5d903548f4b4aa",
+    "semantic_hash": ""
+  },
+  "src/lib/navbar-scroll.ts": {
+    "mtime": 1782346361.2114656,
+    "ast_hash": "ae13ede4d2d407e68a89d8389d0eefa4",
     "semantic_hash": ""
   }
 }

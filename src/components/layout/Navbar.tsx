@@ -18,6 +18,24 @@ import { MobileMenu } from "@/components/layout/MobileMenu";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
 import { cn } from "@/lib/utils";
+import { NAVBAR_SCROLL_EVENT } from "@/lib/navbar-scroll";
+
+function resolveNavbarTheme(probeY: number): "light" | "dark" {
+  const sections = document.querySelectorAll<HTMLElement>("[data-theme]");
+  let match: HTMLElement | null = null;
+  let matchTop = -Infinity;
+
+  for (const section of sections) {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= probeY && rect.bottom > probeY && rect.top > matchTop) {
+      matchTop = rect.top;
+      match = section;
+    }
+  }
+
+  if (!match) return "light";
+  return match.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
 
 type NavbarProps = {
   industryNavItems: NavMenuItem[];
@@ -141,8 +159,7 @@ export function Navbar({
   const [panelHeight, setPanelHeight] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const scrollResolveRef = useRef<(() => void) | null>(null);
+  const navBarRef = useRef<HTMLDivElement>(null);
   const navHighlight = useRubberHoverHighlight<HTMLElement>({
     bendScale: 0.45,
     cornerRadius: 4,
@@ -171,82 +188,30 @@ export function Navbar({
     setSlideDirection(0);
     setPanelHeight(0);
     setMobileOpen(false);
-    const raf = requestAnimationFrame(() => {
-      const sections = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-theme]"),
-      );
-      if (!sections.length) {
-        setTheme("light");
-        return;
-      }
 
-      // Track every section currently intersecting the navbar band, then
-      // resolve the theme from the topmost one. Falls back to light when
-      // nothing intersects (gaps between sections, page top/bottom).
-      const intersecting = new Map<HTMLElement, number>();
-      const resolve = () => {
-        let top: HTMLElement | null = null;
-        let topY = Infinity;
-        for (const [el, y] of intersecting) {
-          if (y < topY) {
-            topY = y;
-            top = el;
-          }
-        }
-        if (top) {
-          setTheme(top.getAttribute("data-theme") === "dark" ? "dark" : "light");
-        } else {
-          setTheme("light");
-        }
-      };
+    let raf = 0;
+    const updateTheme = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const bar = navBarRef.current?.getBoundingClientRect();
+        const probeY = bar ? bar.top + bar.height * 0.5 : 32;
+        setTheme(resolveNavbarTheme(probeY));
+      });
+    };
 
-      const io = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            const el = entry.target as HTMLElement;
-            if (entry.isIntersecting) {
-              intersecting.set(el, el.getBoundingClientRect().top);
-            } else {
-              intersecting.delete(el);
-            }
-          }
-          resolve();
-        },
-        {
-          rootMargin: `-73px 0px -${Math.max(0, window.innerHeight - 75)}px 0px`,
-          threshold: 0,
-        },
-      );
-      sections.forEach((s) => io.observe(s));
-      observerRef.current = io;
+    updateTheme();
+    const delayed = window.setTimeout(updateTheme, 150);
 
-      // Re-resolve on scroll since IntersectionObserver only fires on
-      // intersection changes, not while a section stays within the band.
-      // Throttled with rAF to avoid layout thrashing from getBoundingClientRect.
-      let ticking = false;
-      const onScroll = () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          if (intersecting.size) {
-            for (const el of intersecting.keys()) {
-              intersecting.set(el, el.getBoundingClientRect().top);
-            }
-          }
-          resolve();
-          ticking = false;
-        });
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
-      scrollResolveRef.current = onScroll;
-    });
+    window.addEventListener("scroll", updateTheme, { passive: true });
+    window.addEventListener(NAVBAR_SCROLL_EVENT, updateTheme);
+    window.addEventListener("resize", updateTheme);
+
     return () => {
       cancelAnimationFrame(raf);
-      if (scrollResolveRef.current) {
-        window.removeEventListener("scroll", scrollResolveRef.current);
-        scrollResolveRef.current = null;
-      }
-      observerRef.current?.disconnect();
+      window.clearTimeout(delayed);
+      window.removeEventListener("scroll", updateTheme);
+      window.removeEventListener(NAVBAR_SCROLL_EVENT, updateTheme);
+      window.removeEventListener("resize", updateTheme);
     };
   }, [pathname]);
 
@@ -323,7 +288,10 @@ export function Navbar({
               : "bg-transparent",
         )}
       >
-        <div className="zn-container relative flex h-16 items-center justify-between lg:h-18">
+        <div
+          ref={navBarRef}
+          className="zn-container relative flex h-16 items-center justify-between lg:h-18"
+        >
           <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
           <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2" />
           <Link href="/" aria-label="ZedNova Studios home">

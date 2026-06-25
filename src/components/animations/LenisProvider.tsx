@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { dispatchNavbarScrollUpdate } from "@/lib/navbar-scroll";
 
 /**
  * Smooth scroll (Lenis) wired into the GSAP ticker so ScrollTrigger stays in
@@ -32,6 +33,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     lenisRef.current = lenis;
 
     lenis.on("scroll", ScrollTrigger.update);
+    lenis.on("scroll", dispatchNavbarScrollUpdate);
 
     const onTick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(onTick);

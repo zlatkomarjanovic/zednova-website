@@ -6,6 +6,7 @@ import { Minus, Plus } from "lucide-react";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { SectionLabel } from "@/ui/SectionLabel";
 import type { FaqItem } from "@/lib/content/faq";
+import { groupFaqsByCategory } from "@/lib/content/faq";
 import { cn } from "@/lib/utils";
 
 function FaqAccordionItem({
@@ -46,8 +47,78 @@ function FaqAccordionItem({
   );
 }
 
-export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
-  const [openId, setOpenId] = useState(faqs[0]?.id ?? "");
+function FaqCategoryFilters({
+  categories,
+  active,
+  onChange,
+}: {
+  categories: string[];
+  active: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div
+      className="mb-4 flex flex-wrap gap-2"
+      role="tablist"
+      aria-label="Filter FAQs by category"
+    >
+      {categories.map((option) => {
+        const selected = active === option;
+        return (
+          <button
+            key={option}
+            type="button"
+            role="tab"
+            aria-selected={selected}
+            onClick={() => onChange(option)}
+            className={cn(
+              "rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] transition-colors",
+              selected
+                ? "border-zn-text bg-zn-text text-zn-bg"
+                : "border-zn-border bg-zn-bg text-zn-text-2 hover:border-zn-text hover:text-zn-text",
+            )}
+          >
+            {option}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export function FaqSection({
+  faqs,
+  groupByCategory = false,
+  filterable = false,
+  heading = "Answers before you reach out",
+  description = "Websites, Shopify, automations, migrations, AI tools, pricing, ownership, and support covered below.",
+}: {
+  faqs: FaqItem[];
+  groupByCategory?: boolean;
+  filterable?: boolean;
+  heading?: string;
+  description?: string;
+}) {
+  const groups = groupByCategory ? groupFaqsByCategory(faqs) : [{ category: "", items: faqs }];
+  const categories = groups.map((group) => group.category).filter(Boolean);
+  const defaultCategory = categories.includes("General")
+    ? "General"
+    : (categories[0] ?? "");
+  const [activeCategory, setActiveCategory] = useState(defaultCategory);
+  const visibleGroups = filterable
+    ? groups.filter((group) => group.category === activeCategory)
+    : groups;
+  const [openId, setOpenId] = useState(
+    () => visibleGroups[0]?.items[0]?.id ?? faqs[0]?.id ?? "",
+  );
+
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    const nextGroup = groups.find((group) => group.category === category);
+    setOpenId(nextGroup?.items[0]?.id ?? "");
+  };
+
+  if (faqs.length === 0) return null;
 
   return (
     <section
@@ -62,28 +133,45 @@ export function FaqSection({ faqs }: { faqs: FaqItem[] }) {
           <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
             <SectionLabel withRule={false}>FAQ</SectionLabel>
             <h2 className="mt-6 max-w-[25rem] zn-h2 font-sans font-normal">
-              Answers before you reach out
+              {heading}
             </h2>
-            <p className="zn-prose mt-5 max-w-[25rem]">
-              Websites, Shopify, automations, migrations, AI tools, pricing,
-              ownership, and support covered below.
-            </p>
+            <p className="zn-prose mt-5 max-w-[25rem]">{description}</p>
           </aside>
 
           <div className="min-w-0">
+            {filterable && categories.length > 0 ? (
+              <FaqCategoryFilters
+                categories={categories}
+                active={activeCategory}
+                onChange={handleCategoryChange}
+              />
+            ) : null}
+
             <div className="min-w-0 overflow-hidden border border-zn-border bg-zn-bg-2">
-              <div className="divide-y divide-zn-border">
-                {faqs.map((item) => (
-                  <FaqAccordionItem
-                    key={item.id}
-                    item={item}
-                    open={openId === item.id}
-                    onToggle={() =>
-                      setOpenId((current) => (current === item.id ? "" : item.id))
-                    }
-                  />
-                ))}
-              </div>
+              {visibleGroups.map((group, groupIndex) => (
+                <div
+                  key={group.category || "all"}
+                  className={cn(groupIndex > 0 && "border-t border-zn-border")}
+                >
+                  {group.category && !filterable ? (
+                    <p className="zn-label border-b border-zn-border bg-zn-bg px-6 py-3 md:px-7">
+                      {group.category}
+                    </p>
+                  ) : null}
+                  <div className="divide-y divide-zn-border">
+                    {group.items.map((item) => (
+                      <FaqAccordionItem
+                        key={item.id}
+                        item={item}
+                        open={openId === item.id}
+                        onToggle={() =>
+                          setOpenId((current) => (current === item.id ? "" : item.id))
+                        }
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
