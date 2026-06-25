@@ -1,17 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const FLIP_STAGGER_MS = 10;
 
 const FLIP =
-  "block transition-transform duration-500 ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
+  "block transition-[transform,opacity] duration-500 ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
 
 /**
- * SSR and non-JS crawlers receive plain text. After hydration, the character
- * flip animation renders in an aria-hidden layer while the real label stays
- * in the DOM as normal text for crawlers (visually covered by the animation).
+ * Dual-layer hover text: crawlers and screen readers get one normal string in
+ * the DOM; the split-letter flip runs in an aria-hidden decorative overlay.
  */
 export function HoverFlip({
   children,
@@ -20,21 +18,21 @@ export function HoverFlip({
   children: React.ReactNode;
   className?: string;
 }) {
-  const [enhanced, setEnhanced] = useState(false);
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduce) setEnhanced(true);
-  }, []);
-
   if (typeof children !== "string") {
     return (
       <span className={cn("relative inline-block overflow-hidden align-bottom", className)}>
-        <span className={cn(FLIP, "group-hover/flip:-translate-y-full")}>{children}</span>
+        <span
+          className={cn(
+            FLIP,
+            "group-hover/flip:-translate-y-full group-hover/flip:opacity-0 motion-reduce:group-hover/flip:translate-y-0 motion-reduce:group-hover/flip:opacity-100",
+          )}
+        >
+          {children}
+        </span>
         <span
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 block translate-y-full",
+            "pointer-events-none absolute inset-0 block translate-y-full",
             FLIP,
             "group-hover/flip:translate-y-0 motion-reduce:hidden",
           )}
@@ -45,32 +43,31 @@ export function HoverFlip({
     );
   }
 
-  if (!enhanced) {
-    return <span className={cn("inline-block align-bottom", className)}>{children}</span>;
-  }
-
   return (
-    <span className={cn("relative inline-flex align-bottom", className)}>
-      <span className="absolute left-0 top-0 h-px w-px overflow-hidden whitespace-nowrap opacity-0">
+    <span className={cn("relative inline-block align-bottom", className)}>
+      <span
+        className={cn(
+          "inline-block",
+          FLIP,
+          "group-hover/flip:-translate-y-full group-hover/flip:opacity-0 motion-reduce:group-hover/flip:translate-y-0 motion-reduce:group-hover/flip:opacity-100",
+        )}
+      >
         {children}
       </span>
-      <span aria-hidden="true" className="relative inline-flex">
+
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 inline-flex motion-reduce:hidden"
+      >
         {[...children].map((char, index) => (
           <span
             key={`${index}-${char}`}
             className="relative inline-block overflow-hidden"
           >
             <span
-              className={cn(FLIP, "group-hover/flip:-translate-y-full")}
-              style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
-            >
-              {char === " " ? "\u00A0" : char}
-            </span>
-            <span
               className={cn(
-                "absolute inset-x-0 top-0",
                 FLIP,
-                "translate-y-full group-hover/flip:translate-y-0 motion-reduce:hidden",
+                "translate-y-full group-hover/flip:translate-y-0",
               )}
               style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
             >
