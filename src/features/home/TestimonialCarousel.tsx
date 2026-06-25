@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 const MARQUEE_DURATION = 190;
 
 const CARD_CLASS =
-  "flex w-[22rem] shrink-0 flex-col justify-between self-stretch border-r border-zn-border-dk bg-zn-dark p-6 last:border-r-0 sm:w-[24rem]";
+  "flex w-[22rem] shrink-0 flex-col justify-between self-stretch border-x border-zn-border-dk bg-zn-dark p-6 sm:w-[24rem]";
 
 function FiveStarRating({ className = "size-3.5" }: { className?: string }) {
   return (
