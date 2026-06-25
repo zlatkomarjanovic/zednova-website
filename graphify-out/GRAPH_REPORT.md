@@ -1,16 +1,16 @@
 # Graph Report - zednova-website  (2026-06-25)
 
 ## Corpus Check
-- 205 files · ~634,207 words
+- 205 files · ~634,338 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1085 nodes · 3069 edges · 59 communities (53 shown, 6 thin omitted)
+- 1085 nodes · 3072 edges · 59 communities (53 shown, 6 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 66 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a5e2daa6`
+- Built from commit: `f2defc77`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
