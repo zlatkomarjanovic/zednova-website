@@ -13,39 +13,13 @@ function formatDate(iso: string) {
   });
 }
 
-export function ArticleCardShowcaseBody({ post }: { post: Post }) {
-  return (
-    <>
-      <div
-        className="relative aspect-[16/10] overflow-hidden"
-        style={{ backgroundColor: post.accent }}
-      >
-        <div className="zn-grain absolute inset-0" aria-hidden="true" />
-        <ZMark className="absolute bottom-4 right-4 size-16 text-white/[0.05]" />
-      </div>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-zn-text-3">
-        <Tag>{post.category}</Tag>
-        <span>{formatDate(post.publishedAt)}</span>
-        <span aria-hidden="true">·</span>
-        <span>{post.readTime} min read</span>
-      </div>
-      <h3 className="font-sans text-sm font-normal tracking-tight text-zn-text md:text-base">
-        {post.title}
-      </h3>
-      <p className="zn-prose line-clamp-4 text-[0.8125rem]">{post.excerpt}</p>
-    </>
-  );
-}
-
 export function ArticleCard({
   post,
   featured = false,
-  variant = "default",
   className,
 }: {
   post: Post;
   featured?: boolean;
-  variant?: "default" | "showcase";
   className?: string;
 }) {
   const cover = (

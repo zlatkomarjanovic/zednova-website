@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1782395387.6568506,
-    "ast_hash": "8899c4451f8b3e45723b7362538d2da3",
+    "mtime": 1782405453.557476,
+    "ast_hash": "7cdc009cf566ef4ffed8eb12cd8478f4",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -44,29 +44,9 @@
     "ast_hash": "9162add00befbcdb432430f405c4ad8d",
     "semantic_hash": ""
   },
-  "public/file.svg": {
-    "mtime": 1781890469.8074052,
-    "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
-    "semantic_hash": ""
-  },
   "public/globe.svg": {
     "mtime": 1781890469.809825,
     "ast_hash": "2aaafa6a49b6563925fe440891e32717",
-    "semantic_hash": ""
-  },
-  "public/logo/favicon.svg": {
-    "mtime": 1781890469.809825,
-    "ast_hash": "19c7524eace642eee6836e0a78aa1a6a",
-    "semantic_hash": ""
-  },
-  "public/logo/logo-dark.svg": {
-    "mtime": 1781890469.809825,
-    "ast_hash": "d451655b4d974a56168159a536d86d97",
-    "semantic_hash": ""
-  },
-  "public/logo/logo-light.svg": {
-    "mtime": 1781890469.8109446,
-    "ast_hash": "016449edf088c4108aaef54ac4b68de5",
     "semantic_hash": ""
   },
   "public/next.svg": {
@@ -129,16 +109,6 @@
     "ast_hash": "3a07b6d7ede215d3f09755742d12d722",
     "semantic_hash": ""
   },
-  "public/vercel.svg": {
-    "mtime": 1781890469.8194585,
-    "ast_hash": "c0af2f507b369b085b35ef4bbe3bcf1e",
-    "semantic_hash": ""
-  },
-  "public/window.svg": {
-    "mtime": 1781890469.8204672,
-    "ast_hash": "a2760511c65806022ad20adf74370ff3",
-    "semantic_hash": ""
-  },
   "public/assets/portfolio/videos/egc.mp4": {
     "mtime": 1781971937.0008047,
     "ast_hash": "85eaca2c9c2e79aac1e73b19ae02c61c",
@@ -167,26 +137,6 @@
   "scripts/download-portfolio-images.mjs": {
     "mtime": 1781985069.8773315,
     "ast_hash": "00ca42038db1696d567b2d6bebf91e70",
-    "semantic_hash": ""
-  },
-  "public/images/EGC-Cover-Image.jpg": {
-    "mtime": 1781974540.3697,
-    "ast_hash": "98f9b056722c98141fdca5c48b1de712",
-    "semantic_hash": ""
-  },
-  "public/images/Mavesta-Media-Cover-Image.jpg": {
-    "mtime": 1781974539.6400783,
-    "ast_hash": "b4013e2f3c0391dee1a798057363b56f",
-    "semantic_hash": ""
-  },
-  "public/images/Mavi-Longevity-Living-Cover-Image.jpg": {
-    "mtime": 1781974540.1274364,
-    "ast_hash": "129631dd8bbc4ca4a3ed6e3909300d1b",
-    "semantic_hash": ""
-  },
-  "public/images/Vault-Apps-Cover-Image-1.jpg": {
-    "mtime": 1781974539.884182,
-    "ast_hash": "89b5a200f5a1ad059f2484547c538872",
     "semantic_hash": ""
   },
   "public/images/logos/65c6c2ea17fcb5339ee9a29a_GetLargeHeaderLogo.webp": {
@@ -279,49 +229,9 @@
     "ast_hash": "b3c6bcc6b5a0d28d1ad808462b587ba4",
     "semantic_hash": ""
   },
-  "public/images/logos/ai/anthropic.svg": {
-    "mtime": 1782060755.0962064,
-    "ast_hash": "683aeb3f74ca3f84c8c81376d3f2c45c",
-    "semantic_hash": ""
-  },
-  "public/images/logos/ai/deepseek.svg": {
-    "mtime": 1782061048.5252895,
-    "ast_hash": "556966db3c72cb7643980dd199e258ce",
-    "semantic_hash": ""
-  },
-  "public/images/logos/ai/gemini-test.png": {
-    "mtime": 1782060699.45923,
-    "ast_hash": "edd35b35479ec591ddea91623af3e152",
-    "semantic_hash": ""
-  },
   "public/images/logos/ai/google.png": {
     "mtime": 1782061280.6192179,
     "ast_hash": "946f1eaea46f80d5940b66bb80fde9b9",
-    "semantic_hash": ""
-  },
-  "public/images/logos/ai/googlegemini.svg": {
-    "mtime": 1782060755.1900942,
-    "ast_hash": "0b7dab00c9235cb0b96bc5ade63e890a",
-    "semantic_hash": ""
-  },
-  "public/images/logos/ai/grok-test.png": {
-    "mtime": 1782060699.106764,
-    "ast_hash": "6cd7293a2377ead030d6bdd29e8d4bc9",
-    "semantic_hash": ""
-  },
-  "public/images/logos/ai/openai.svg": {
-    "mtime": 1782060755.0001235,
-    "ast_hash": "67826939b37d9873afb39fba9714d3f3",
-    "semantic_hash": ""
-  },
-  "public/images/logos/ai/perplexity.svg": {
-    "mtime": 1782060755.526735,
-    "ast_hash": "951a3b546ce296be9d622ebb9c5440b4",
-    "semantic_hash": ""
-  },
-  "public/images/logos/ai/x.svg": {
-    "mtime": 1782060755.2648442,
-    "ast_hash": "591d75f49453af0b3701f0503b445b6a",
     "semantic_hash": ""
   },
   "src/app/about/page.tsx": {
@@ -514,11 +424,6 @@
     "ast_hash": "89771ff37bd747c354a1f3ddb34f47c7",
     "semantic_hash": ""
   },
-  "src/components/sections/NewsletterSignup.tsx": {
-    "mtime": 1781890469.7858582,
-    "ast_hash": "f683064e26a10c1fbda80a2f95211626",
-    "semantic_hash": ""
-  },
   "src/features/home/AgencyComparisonSection.tsx": {
     "mtime": 1782310704.618376,
     "ast_hash": "ed58c364370c5565f6881a59c5abb15e",
@@ -579,11 +484,6 @@
     "ast_hash": "dc59c322cb9dd44467535ddcc39f52d6",
     "semantic_hash": ""
   },
-  "src/features/home/ProductSlider.tsx": {
-    "mtime": 1782311012.7710607,
-    "ast_hash": "0d027abbf6e209e0cff4495a4d632c93",
-    "semantic_hash": ""
-  },
   "src/features/home/ProjectShowcaseLogo.tsx": {
     "mtime": 1782052208.483132,
     "ast_hash": "9c59afe72668c0336b142d17b770b5a2",
@@ -630,8 +530,8 @@
     "semantic_hash": ""
   },
   "src/features/insights/ArticleCard.tsx": {
-    "mtime": 1782310704.6596248,
-    "ast_hash": "5175d9ba5fd241f1304cf06a481e9eb5",
+    "mtime": 1782405453.2138922,
+    "ast_hash": "204105349e87928f88a79390709ad499",
     "semantic_hash": ""
   },
   "src/features/insights/ArticleFaq.tsx": {
@@ -689,11 +589,6 @@
     "ast_hash": "425668b87145094aa6a5b08c7dd38965",
     "semantic_hash": ""
   },
-  "src/features/work/WorkGrid.tsx": {
-    "mtime": 1782310704.6576107,
-    "ast_hash": "7101e39bf857f4b8adb6571baee4b20d",
-    "semantic_hash": ""
-  },
   "src/lib/content/agency-comparison.ts": {
     "mtime": 1782223142.705591,
     "ast_hash": "688eb3555595d16d511eba3eee269041",
@@ -732,11 +627,6 @@
   "src/lib/content/homepage-industries.ts": {
     "mtime": 1782395387.6568506,
     "ast_hash": "12ef28881d70da8dccc491661e01b2b8",
-    "semantic_hash": ""
-  },
-  "src/lib/content/industries.ts": {
-    "mtime": 1781961832.0387597,
-    "ast_hash": "7979b4afa96f1bc8f288b8d65fa6de96",
     "semantic_hash": ""
   },
   "src/lib/content/industry-parents.ts": {
@@ -944,16 +834,6 @@
     "ast_hash": "f326e24f12a73e6553b7d96560b11f1a",
     "semantic_hash": ""
   },
-  "src/sanity/image.ts": {
-    "mtime": 1782395387.6558506,
-    "ast_hash": "12beb00440e47948e4d5e438d34eadb1",
-    "semantic_hash": ""
-  },
-  "src/sanity/index.ts": {
-    "mtime": 1782395387.6236486,
-    "ast_hash": "6f3ab37856a8774826fc0c5ba1be264e",
-    "semantic_hash": ""
-  },
   "src/sanity/queries.ts": {
     "mtime": 1782395719.162277,
     "ast_hash": "cee74a5117b83e2d5dddd42869cfc2d3",
@@ -1134,11 +1014,6 @@
     "ast_hash": "82361a1248903ff1ac2a9094b63016bb",
     "semantic_hash": ""
   },
-  "src/lib/seo-metadata.ts": {
-    "mtime": 1782395387.6558506,
-    "ast_hash": "2f72346c1a35b28ad7ec642be590f099",
-    "semantic_hash": ""
-  },
   "studio-zednova-studio/schemaTypes/objects/extended.ts": {
     "mtime": 1782395387.6568506,
     "ast_hash": "f391046cfabd030b750eb65f6df2356e",
@@ -1187,11 +1062,6 @@
   "src/ui/TemplateSection.tsx": {
     "mtime": 1782395387.5723546,
     "ast_hash": "05a53dbd05e2725fbabc96535203f202",
-    "semantic_hash": ""
-  },
-  "public/images/team/zlatko-marjanovic.png": {
-    "mtime": 1728406880.0672925,
-    "ast_hash": "435c64673e79174ad7a20cc64010e210",
     "semantic_hash": ""
   },
   "scripts/generate-vercel-env-csv.mjs": {
