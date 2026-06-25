@@ -7,6 +7,7 @@ import {
   getAllCaseStudies,
   getAllMigrations,
 } from "@/lib/queries";
+import { comparisons } from "@/lib/content/comparisons";
 import { SITE_ORIGIN } from "@/lib/site-url";
 
 const STATIC_ROUTES: MetadataRoute.Sitemap = [
@@ -20,6 +21,9 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${SITE_ORIGIN}/about`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/contact`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/sitemap`, changeFrequency: "monthly", priority: 0.4 },
+  { url: `${SITE_ORIGIN}/stack`, changeFrequency: "monthly", priority: 0.6 },
+  { url: `${SITE_ORIGIN}/service-areas`, changeFrequency: "monthly", priority: 0.6 },
+  { url: `${SITE_ORIGIN}/compare`, changeFrequency: "weekly", priority: 0.6 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -91,6 +95,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
+    const comparisonRoutes: MetadataRoute.Sitemap = comparisons.map((c) => ({
+      url: `${SITE_ORIGIN}/compare/${c.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+
     return [
       ...staticRoutes,
       ...postRoutes,
@@ -99,6 +110,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...caseStudyRoutes,
       ...migrationRoutes,
       ...customSoftwareRoutes,
+      ...comparisonRoutes,
     ];
   } catch {
     return STATIC_ROUTES.map((route) => ({ ...route, lastModified: now }));

@@ -51,6 +51,9 @@ export function buildLlmsTxt(): string {
 - Insights: ${SITE_ORIGIN}/insights
 - Contact: ${SITE_ORIGIN}/contact
 - HTML sitemap: ${SITE_ORIGIN}/sitemap
+- Tech stack: ${SITE_ORIGIN}/stack
+- Service areas: ${SITE_ORIGIN}/service-areas
+- Compare: ${SITE_ORIGIN}/compare
 
 ## Main services
 - AI-Cited Lead Gen Site: ${SITE_ORIGIN}/services/ai-lead-site

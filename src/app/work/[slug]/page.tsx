@@ -22,6 +22,7 @@ import { StatsRow } from "@/features/home/StatsRow";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { EntitySummary } from "@/ui/EntitySummary";
 import { FaqSection } from "@/components/sections/FaqSection";
 
 export async function generateStaticParams() {
@@ -149,7 +150,19 @@ export default async function CaseStudyPage({
               <div className="col-span-2 sm:col-span-1">
                 <dt className="zn-label text-zn-inv-2">Services</dt>
                 <dd className="mt-2 text-zn-inv">
-                  {servicesUsed.map((s) => s.title).join(", ")}
+                  {servicesUsed.length > 0
+                    ? servicesUsed.map((s, i) => (
+                        <span key={s.slug}>
+                          <Link
+                            href={`/services/${s.slug}`}
+                            className="underline-offset-4 hover:underline"
+                          >
+                            {s.title}
+                          </Link>
+                          {i < servicesUsed.length - 1 ? ", " : ""}
+                        </span>
+                      ))
+                    : "—"}
                 </dd>
               </div>
             </dl>
@@ -271,6 +284,41 @@ export default async function CaseStudyPage({
           </Link>
         </div>
       </section>
+
+      <EntitySummary
+        fields={[
+          { label: "Client", value: caseStudy.client },
+          { label: "Industry", value: industryName },
+          { label: "Timeline", value: caseStudy.timeline },
+          {
+            label: "Result",
+            value: caseStudy.resultHeadline,
+          },
+          {
+            label: "Services",
+            value:
+              servicesUsed.length > 0
+                ? servicesUsed.map((s) => s.title).join(", ")
+                : "—",
+          },
+          {
+            label: "Stack",
+            value: caseStudy.techStack.join(", "),
+          },
+        ]}
+        links={[
+          { label: "All case studies", href: "/work" },
+          ...(servicesUsed.length > 0
+            ? servicesUsed.slice(0, 3).map((s) => ({
+                label: `Service: ${s.title}`,
+                href: `/services/${s.slug}`,
+              }))
+            : []),
+          { label: "See services", href: "/services" },
+          { label: "See industries", href: "/industries" },
+        ]}
+        intro={`${caseStudy.client} — ${caseStudy.resultHeadline}.`}
+      />
 
       <DarkCTA
         heading="Want a system like this?"

@@ -11,6 +11,7 @@ import { DarkCTA } from "@/features/home/DarkCTA";
 import { FounderSection } from "@/features/about/FounderSection";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
+import { EntitySummary } from "@/ui/EntitySummary";
 import { aboutPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { team } from "@/lib/content/team";
 
@@ -221,6 +222,36 @@ export default function AboutPage() {
       </TemplateSection>
 
       <FounderSection />
+
+      <EntitySummary
+        fields={[
+          { label: "Founder", value: "Zlatko Marjanovic (Zed M.)" },
+          { label: "Role", value: "Designer, developer, and product builder" },
+          { label: "Experience", value: "10+ years, 120+ projects shipped" },
+          {
+            label: "Platforms",
+            value:
+              "Upwork, Fiverr, Contra, LinkedIn, Google",
+          },
+          {
+            label: "Specialties",
+            value:
+              "Next.js, React, TypeScript, Tailwind, Sanity, Webflow, Framer, Shopify, n8n, Make, Supabase, Vapi, Twilio, Claude, GPT-5",
+          },
+          {
+            label: "Markets served",
+            value: "United States and Europe (remote, async)",
+          },
+          { label: "Company", value: "ZedNova Studios LLC (Texas)" },
+        ]}
+        links={[
+          { label: "Services", href: "/services" },
+          { label: "Work", href: "/work" },
+          { label: "Tech stack", href: "/stack" },
+          { label: "Contact", href: "/contact" },
+        ]}
+        intro="Zlatko Marjanovic = ZedNova Studios = websites, custom software, automations, and AI tools for service businesses."
+      />
 
       <DarkCTA
         heading="Ready to start your next website, software, or automation project?"
