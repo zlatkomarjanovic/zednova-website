@@ -28,7 +28,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.zednova.studio"),
+  metadataBase: new URL(SITE_ORIGIN),
   title: {
     default: "ZedNova Studios — Websites, Shopify & Automations",
     template: "%s | ZedNova Studios",
