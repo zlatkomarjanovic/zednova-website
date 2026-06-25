@@ -31,8 +31,10 @@ import { techStackGroups } from "@/lib/content/tech-stack";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { TestimonialCarousel } from "@/features/home/TestimonialCarousel";
 import { AgencyComparisonSection } from "@/features/home/AgencyComparisonSection";
+import { PricingCardsSection } from "@/features/home/PricingCardsSection";
 import { FaqSection } from "@/features/home/FaqSection";
 import { agencyComparison } from "@/lib/content/agency-comparison";
+import { homepagePricingPackages } from "@/lib/content/homepage-pricing";
 import { DarkCTA } from "@/features/home/DarkCTA";
 
 export const metadata: Metadata = {
@@ -278,9 +280,11 @@ export default async function HomePage() {
 
       <AgencyComparisonSection {...agencyComparison} />
 
+      <PricingCardsSection packages={homepagePricingPackages} />
+
       <FaqSection faqs={faqs} />
 
-      <DarkCTA />
+      <DarkCTA bookingEmbed />
     </>
   );
 }

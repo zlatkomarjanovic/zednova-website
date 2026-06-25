@@ -3,6 +3,8 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { Button } from "@/ui/Button";
+import { CalBookingEmbed } from "@/features/home/CalBookingEmbed";
+import { cn } from "@/lib/utils";
 
 export function DarkCTA({
   heading = "Ready to start your next website or automation project?",
@@ -10,12 +12,14 @@ export function DarkCTA({
   ctaLabel = "Tell us what you need",
   ctaHref = "/contact",
   note = "Or email us at hello@zednova.com. We reply within 24 hours.",
+  bookingEmbed = false,
 }: {
   heading?: string;
   sub?: string;
   ctaLabel?: string;
   ctaHref?: string;
   note?: string;
+  bookingEmbed?: boolean;
 }) {
   return (
     <section
@@ -38,58 +42,83 @@ export function DarkCTA({
           />
 
           <div className="zn-container-inset grid gap-10 py-[clamp(4.5rem,9vw,7rem)] lg:grid-cols-2 lg:gap-0">
-            <div className="flex flex-col justify-end lg:pr-12">
+            <div
+              className={cn(
+                "flex flex-col justify-end lg:pr-12",
+                bookingEmbed && "items-center text-center lg:justify-center lg:pr-0",
+              )}
+            >
               <Reveal>
-                <p className="zn-label text-zn-inv-2">Next step</p>
+                <p className={cn("zn-label text-zn-inv-2", bookingEmbed && "mx-auto")}>
+                  Next step
+                </p>
               </Reveal>
               <TextReveal
                 as="h2"
                 text={heading}
-                className="mt-5 max-w-2xl font-sans text-[clamp(1.75rem,3.2vw,2.75rem)] font-normal leading-[1.06] tracking-[-0.03em]"
+                className={cn(
+                  "mt-5 max-w-2xl font-sans text-[clamp(1.75rem,3.2vw,2.75rem)] font-normal leading-[1.06] tracking-[-0.03em]",
+                  bookingEmbed && "mx-auto",
+                )}
               />
               <Reveal delay={0.1}>
-                <p className="mt-6 max-w-lg text-[0.9375rem] leading-relaxed text-zn-inv-2">
+                <p
+                  className={cn(
+                    "mt-6 max-w-lg text-[0.9375rem] leading-relaxed text-zn-inv-2",
+                    bookingEmbed && "mx-auto",
+                  )}
+                >
                   {sub}
                 </p>
               </Reveal>
             </div>
 
             <div className="flex flex-col justify-center gap-6 border-t border-zn-border-dk pt-10 lg:border-t-0 lg:pl-12 lg:pt-0">
-              <Reveal delay={0.12}>
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
-                  <Button href={ctaHref} variant="inverted" size="lg" withArrow className="flex-1">
-                    {ctaLabel}
-                  </Button>
-                  <Button
-                    href="/work"
-                    variant="outline-inverted"
-                    size="lg"
-                    withArrow
-                    className="flex-1"
-                  >
-                    View our work
-                  </Button>
-                </div>
-              </Reveal>
-
-              {note && (
-                <Reveal delay={0.18}>
-                  <p className="text-sm leading-relaxed text-zn-inv-2">{note}</p>
+              {bookingEmbed ? (
+                <Reveal delay={0.12}>
+                  <CalBookingEmbed className="overflow-hidden rounded-[10px] border border-zn-border-dk bg-zn-dark-2/80" />
                 </Reveal>
-              )}
+              ) : (
+                <>
+                  <Reveal delay={0.12}>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
+                      <Button href={ctaHref} variant="inverted" size="lg" withArrow className="flex-1">
+                        {ctaLabel}
+                      </Button>
+                      <Button
+                        href="/work"
+                        variant="outline-inverted"
+                        size="lg"
+                        withArrow
+                        className="flex-1"
+                      >
+                        View our work
+                      </Button>
+                    </div>
+                  </Reveal>
 
-              <Reveal delay={0.22}>
-                <ul className="flex flex-wrap gap-x-5 gap-y-2 border-t border-zn-border-dk pt-6">
-                  {["Texas LLC", "120+ projects", "10+ years shipping products", "Senior-led"].map((item) => (
-                    <li
-                      key={item}
-                      className="font-mono text-[10px] uppercase tracking-[0.1em] text-zn-inv-2"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
+                  {note ? (
+                    <Reveal delay={0.18}>
+                      <p className="text-sm leading-relaxed text-zn-inv-2">{note}</p>
+                    </Reveal>
+                  ) : null}
+
+                  <Reveal delay={0.22}>
+                    <ul className="flex flex-wrap gap-x-5 gap-y-2 border-t border-zn-border-dk pt-6">
+                      {["Texas LLC", "120+ projects", "10+ years shipping products", "Senior-led"].map(
+                        (item) => (
+                          <li
+                            key={item}
+                            className="font-mono text-[10px] uppercase tracking-[0.1em] text-zn-inv-2"
+                          >
+                            {item}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </Reveal>
+                </>
+              )}
             </div>
           </div>
         </div>

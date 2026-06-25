@@ -375,8 +375,8 @@
     "semantic_hash": ""
   },
   "src/app/page.tsx": {
-    "mtime": 1782337550.9689846,
-    "ast_hash": "9a81ffa71635dabbbd800992856b108f",
+    "mtime": 1782345326.1220953,
+    "ast_hash": "f08da93dfc1a502bb0514999305de08e",
     "semantic_hash": ""
   },
   "src/app/products/page.tsx": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "src/features/home/DarkCTA.tsx": {
-    "mtime": 1782330261.9403155,
-    "ast_hash": "7119de28e8cc4167ed49cecb61c6393c",
+    "mtime": 1782345583.9598033,
+    "ast_hash": "98c17e667aa8bbe1db6a04132d407abf",
     "semantic_hash": ""
   },
   "src/features/home/FaqSection.tsx": {
@@ -1202,6 +1202,21 @@
   "public/images/team/zlatko-marjanovic-macbook.png": {
     "mtime": 1727473262.7643037,
     "ast_hash": "97a3919a7cc880e2c42f5ac2bfee2a9e",
+    "semantic_hash": ""
+  },
+  "src/features/home/PricingCardsSection.tsx": {
+    "mtime": 1782345268.8890429,
+    "ast_hash": "270beb0d2c235a7f5163f5c12e662b54",
+    "semantic_hash": ""
+  },
+  "src/lib/content/homepage-pricing.ts": {
+    "mtime": 1782345083.2852895,
+    "ast_hash": "a3e2437eca500668d748a050f583e460",
+    "semantic_hash": ""
+  },
+  "src/features/home/CalBookingEmbed.tsx": {
+    "mtime": 1782345387.2367432,
+    "ast_hash": "c41ac0c36f8f7a350125a3f70b527117",
     "semantic_hash": ""
   }
 }
