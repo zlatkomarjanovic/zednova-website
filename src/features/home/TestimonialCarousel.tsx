@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 const MARQUEE_DURATION = 190;
 
 const CARD_CLASS =
-  "flex w-[22rem] shrink-0 flex-col justify-between self-stretch border-x border-zn-border-dk bg-zn-dark p-6 sm:w-[24rem]";
+  "flex h-full w-[22rem] shrink-0 flex-col justify-between border-x border-zn-border-dk bg-zn-dark p-6 sm:w-[24rem]";
 
 function FiveStarRating({ className = "size-3.5" }: { className?: string }) {
   return (
@@ -54,14 +54,14 @@ function TestimonialRatingSummary() {
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <article className={CARD_CLASS}>
-      <div>
+      <div className="flex min-h-0 flex-1 flex-col">
         <FiveStarRating />
         <p className="mt-4 text-sm leading-relaxed text-zn-inv sm:text-[0.9375rem]">
           &ldquo;{testimonial.quote}&rdquo;
         </p>
       </div>
 
-      <div className="-mx-6 mt-6 border-t border-zn-border-dk px-6 pt-4">
+      <div className="-mx-6 mt-6 shrink-0 border-t border-zn-border-dk px-6 pt-4">
         <div className="flex items-center gap-3">
           <TestimonialAvatar name={testimonial.authorName} image={testimonial.image} />
           <div className="min-w-0">
@@ -164,7 +164,7 @@ function MarqueeRow({
         {items.map((testimonial, index) => (
           <div
             key={`${testimonial.id}-${index}`}
-            className="-ml-px first:ml-0"
+            className="flex self-stretch -ml-px first:ml-0"
             aria-hidden={loopReady && index >= testimonials.length ? true : undefined}
           >
             <TestimonialCard testimonial={testimonial} />
