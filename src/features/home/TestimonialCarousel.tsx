@@ -164,6 +164,7 @@ function MarqueeRow({
         {items.map((testimonial, index) => (
           <div
             key={`${testimonial.id}-${index}`}
+            className="-ml-px first:ml-0"
             aria-hidden={loopReady && index >= testimonials.length ? true : undefined}
           >
             <TestimonialCard testimonial={testimonial} />
