@@ -29,7 +29,7 @@ const SIZE: Record<Size, string> = {
 };
 
 const ARROW_FLIP =
-  "block size-4 transition-transform duration-500 ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
+  "block size-4 transition-[translate,opacity] duration-500 ease-[var(--ease-flip)] will-change-[translate,opacity] motion-reduce:transition-none";
 
 function FlipArrow({ Icon }: { Icon: LucideIcon }) {
   return (

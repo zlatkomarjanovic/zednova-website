@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 
 const FLIP_STAGGER_MS = 18;
 
+/** Tailwind v4 drives motion via the `translate` property — not `transform`. */
 const FLIP =
-  "block transition-[transform,opacity] duration-500 ease-[var(--ease-flip)] will-change-transform motion-reduce:transition-none";
+  "block transition-[translate,opacity] duration-500 ease-[var(--ease-flip)] will-change-[translate,opacity] motion-reduce:transition-none";
 
 /**
  * Dual-layer hover text:
  * - Base: one normal string in the DOM (crawlers, screen readers, default visual)
- * - Overlay: split-letter flip in aria-hidden layer (visible only on hover)
+ * - Overlay: split-letter flip in aria-hidden layer (visible on hover)
  */
 export function HoverFlip({
   children,
@@ -64,7 +65,6 @@ export function HoverFlip({
         className,
       )}
     >
-      {/* Crawlable base — always one readable string in the DOM */}
       <span
         className={cn(
           "inline-block",
@@ -75,7 +75,6 @@ export function HoverFlip({
         {children}
       </span>
 
-      {/* Decorative split-letter flip — hidden until hover */}
       <span
         aria-hidden="true"
         className={cn(
