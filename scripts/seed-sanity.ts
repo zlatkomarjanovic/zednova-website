@@ -607,11 +607,19 @@ for (const testimonial of testimonials) {
   add({
     _id: `testimonial-${testimonial.id}`,
     _type: "testimonial",
+    clientName: testimonial.authorName,
+    clientRole: testimonial.authorTitle,
+    clientCompany: testimonial.company,
     quote: testimonial.quote,
     authorName: testimonial.authorName,
     authorTitle: testimonial.authorTitle,
     company: testimonial.company,
     industry: testimonial.industry,
+    avatarUrl: testimonial.image
+      ? testimonial.image.startsWith("http")
+        ? testimonial.image
+        : `https://zednova.com${testimonial.image}`
+      : undefined,
     platform: testimonial.platform ?? false,
     platformSource: "Direct",
     featured: testimonial.featured,

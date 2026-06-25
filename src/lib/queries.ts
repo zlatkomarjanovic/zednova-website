@@ -902,19 +902,49 @@ export async function getRelatedInsights(
 
 /* ----------------------------- Testimonials ----------------------------- */
 
-export async function getPlatformTestimonials(): Promise<Testimonial[]> {
+const staticTestimonialImages = (() => {
+  const byId = new Map<string, string>();
+  const byAuthor = new Map<string, string>();
+
+  for (const testimonial of staticTestimonials) {
+    if (!testimonial.image) continue;
+    byId.set(testimonial.id, testimonial.image);
+    byId.set(`testimonial-${testimonial.id}`, testimonial.image);
+    byAuthor.set(testimonial.authorName.toLowerCase(), testimonial.image);
+  }
+
+  return { byId, byAuthor };
+})();
+
+function applyTestimonialImageFallback(items: Testimonial[]): Testimonial[] {
+  return items.map((testimonial) => {
+    if (testimonial.image) return testimonial;
+
+    const image =
+      staticTestimonialImages.byId.get(testimonial.id) ??
+      staticTestimonialImages.byId.get(testimonial.id.replace(/^testimonial-/, "")) ??
+      staticTestimonialImages.byAuthor.get(testimonial.authorName.toLowerCase());
+
+    return image ? { ...testimonial, image } : testimonial;
+  });
+}
+
+async function getAllTestimonials(): Promise<Testimonial[]> {
   const all = await fromSanity("testimonial", fetchTestimonialsFromSanity, () =>
     staticTestimonials,
   );
+  return applyTestimonialImageFallback(all);
+}
+
+export async function getPlatformTestimonials(): Promise<Testimonial[]> {
+  const all = await getAllTestimonials();
   return all.filter((t) => t.platform);
 }
 
 export async function getTestimonialById(
   id: string,
 ): Promise<Testimonial | null> {
-  const all = await fromSanity("testimonial", fetchTestimonialsFromSanity, () =>
-    staticTestimonials,
-  );
+  const all = await getAllTestimonials();
   return all.find((t) => t.id === id || t.id === `testimonial-${id}`) ?? null;
 }
 

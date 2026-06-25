@@ -781,6 +781,22 @@ export function mapProduct(doc: {
   };
 }
 
+function normalizeTestimonialImage(image?: string): string | undefined {
+  if (!image) return undefined;
+  if (image.startsWith("/")) return image;
+
+  try {
+    const url = new URL(image);
+    if (url.hostname === "zednova.com" || url.hostname === "www.zednova.com") {
+      return `${url.pathname}${url.search}`;
+    }
+  } catch {
+    return image;
+  }
+
+  return image;
+}
+
 export function mapTestimonial(doc: {
   id: string;
   quote: string;
@@ -804,7 +820,7 @@ export function mapTestimonial(doc: {
     authorTitle: doc.authorTitle ?? "",
     company: doc.company ?? "",
     industry: doc.industry ?? "",
-    image: doc.image,
+    image: normalizeTestimonialImage(doc.image),
     platform: doc.platform,
     platformSource: doc.platformSource,
     platformUrl: doc.platformUrl,

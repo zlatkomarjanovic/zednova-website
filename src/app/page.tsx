@@ -33,6 +33,7 @@ import { TestimonialCarousel } from "@/features/home/TestimonialCarousel";
 import { AgencyComparisonSection } from "@/features/home/AgencyComparisonSection";
 import { PricingCardsSection } from "@/features/home/PricingCardsSection";
 import { FaqSection } from "@/features/home/FaqSection";
+import { FounderSection } from "@/features/about/FounderSection";
 import { agencyComparison } from "@/lib/content/agency-comparison";
 import { homepagePricingPackages } from "@/lib/content/homepage-pricing";
 import { DarkCTA } from "@/features/home/DarkCTA";
@@ -283,6 +284,8 @@ export default async function HomePage() {
       <PricingCardsSection packages={homepagePricingPackages} />
 
       <FaqSection faqs={faqs} />
+
+      <FounderSection />
 
       <DarkCTA bookingEmbed />
     </>
