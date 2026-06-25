@@ -1,12 +1,113 @@
 "use client";
 
-import { useEffect, useId } from "react";
+import { useEffect, useId, useRef } from "react";
 
 const CAL_ORIGIN = "https://app.cal.com";
+const CAL_SCRIPT_SRC = `${CAL_ORIGIN}/embed/embed.js`;
+
+type CalNamespace = {
+  q: unknown[][];
+  (...args: unknown[]): void;
+};
+
+type CalGlobal = {
+  loaded?: boolean;
+  ns: Record<string, CalNamespace>;
+  q: unknown[][];
+  (command: string, ...args: unknown[]): void;
+};
+
+/** Official Cal embed bootstrap — queues calls until embed.js loads. */
+function ensureCalStub(): CalGlobal {
+  const w = window as typeof window & { Cal?: CalGlobal };
+
+  if (w.Cal) return w.Cal;
+
+  const cal = function (...args: unknown[]) {
+    const api = cal as CalGlobal;
+    if (!api.loaded) {
+      api.ns = {};
+      api.q = api.q || [];
+      const script = document.createElement("script");
+      script.src = CAL_SCRIPT_SRC;
+      script.async = true;
+      document.head.appendChild(script);
+      api.loaded = true;
+    }
+
+    if (args[0] === "init") {
+      const namespaceApi = function (...inner: unknown[]) {
+        (namespaceApi as CalNamespace).q.push(inner);
+      } as CalNamespace;
+      namespaceApi.q = [];
+
+      const ns = args[1];
+      if (typeof ns === "string") {
+        api.ns[ns] = api.ns[ns] || namespaceApi;
+        api.ns[ns].q.push(args.slice(2));
+        api.q.push(["initNamespace", ns]);
+      } else {
+        api.q.push(args);
+      }
+      return;
+    }
+
+    api.q.push(args);
+  } as CalGlobal;
+
+  cal.ns = {};
+  cal.q = [];
+  w.Cal = cal;
+  return cal;
+}
+
+function waitForCalScript(): Promise<void> {
+  ensureCalStub();
+
+  return new Promise((resolve) => {
+    const w = window as typeof window & { Cal?: CalGlobal & { __embedReady?: boolean } };
+    if (w.Cal?.__embedReady) {
+      resolve();
+      return;
+    }
+
+    const existing = document.querySelector<HTMLScriptElement>(
+      `script[src="${CAL_SCRIPT_SRC}"]`,
+    );
+
+    const markReady = () => {
+      if (w.Cal) w.Cal.__embedReady = true;
+      resolve();
+    };
+
+    if (existing?.dataset.calReady === "true") {
+      markReady();
+      return;
+    }
+
+    const script = existing ?? document.createElement("script");
+    if (!existing) {
+      script.src = CAL_SCRIPT_SRC;
+      script.async = true;
+      document.head.appendChild(script);
+    }
+
+    script.addEventListener(
+      "load",
+      () => {
+        script.dataset.calReady = "true";
+        markReady();
+      },
+      { once: true },
+    );
+
+    // If the script was already cached/loaded before listeners attached.
+    if (script.dataset.calReady === "true") markReady();
+  });
+}
 
 export function CalBookingEmbed({
   calLink = "zlatkom/30min",
-  namespace = "30min",
   className,
 }: {
   calLink?: string;
@@ -14,65 +115,52 @@ export function CalBookingEmbed({
   className?: string;
 }) {
   const reactId = useId();
-  const elementId = `cal-inline-${reactId.replace(/:/g, "")}`;
+  const namespace = `cal-${reactId.replace(/:/g, "")}`;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
-    // Cal.com inline embed bootstrap (official snippet, typed loosely for third-party loader)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const w = window as any;
+    const element = containerRef.current;
+    if (!element) return;
 
-    (function (C: any, A: string, L: string) {
-      const push = (api: { q: unknown[] }, args: unknown[]) => {
-        api.q.push(args);
-      };
+    let cancelled = false;
 
-      C.Cal =
-        C.Cal ||
-        function (...args: unknown[]) {
-          const cal = C.Cal;
-          if (!cal.loaded) {
-            cal.ns = {};
-            cal.q = cal.q || [];
-            const script = C.document.createElement("script");
-            script.src = A;
-            C.document.head.appendChild(script);
-            cal.loaded = true;
-          }
+    const mountEmbed = async () => {
+      await waitForCalScript();
+      if (cancelled || !containerRef.current || initializedRef.current) return;
 
-          if (args[0] === L) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const namespaceApi: any = function (...inner: unknown[]) {
-              push(namespaceApi, inner);
-            };
-            namespaceApi.q = namespaceApi.q || [];
-            const ns = args[1];
-            if (typeof ns === "string") {
-              cal.ns[ns] = cal.ns[ns] || namespaceApi;
-              push(cal.ns[ns], args);
-              push(cal, ["initNamespace", ns]);
-            } else {
-              push(cal, args);
-            }
-            return;
-          }
+      const Cal = ensureCalStub();
+      initializedRef.current = true;
 
-          push(cal, args);
-        };
+      Cal("init", namespace, { origin: CAL_ORIGIN });
 
-      C.Cal("init", namespace, { origin: CAL_ORIGIN });
-
-      C.Cal.ns[namespace]("inline", {
-        elementOrSelector: `#${elementId}`,
+      Cal.ns[namespace]("inline", {
+        elementOrSelector: containerRef.current,
         config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
         calLink,
       });
-      C.Cal.ns[namespace]("ui", { hideEventTypeDetails: false, layout: "month_view" });
-    })(w, `${CAL_ORIGIN}/embed/embed.js`, "init");
-  }, [calLink, elementId, namespace]);
+
+      Cal.ns[namespace]("ui", {
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    };
+
+    const frame = requestAnimationFrame(() => {
+      void mountEmbed();
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+      initializedRef.current = false;
+      element.replaceChildren();
+    };
+  }, [calLink, namespace]);
 
   return (
     <div
-      id={elementId}
+      ref={containerRef}
       className={className}
       style={{ width: "100%", minHeight: "28rem", overflow: "auto" }}
       aria-label="Book a 30 minute call"
