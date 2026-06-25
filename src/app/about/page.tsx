@@ -89,9 +89,11 @@ export default function AboutPage() {
               />
               <Reveal delay={0.08}>
                 <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
-                  ZedNova Studios builds websites, ecommerce, internal tools, automations, and AI
-                  workflows for businesses that want practical execution instead of agency theater.
-                  Led by Zlatko Marjanovic — 10+ years, 120+ projects, Texas LLC.
+                  ZedNova Studios is a software and product studio led by Zlatko Marjanovic,
+                  also known as Zed M. The studio builds websites, ecommerce stores, custom
+                  software, automations, and AI tools for US and global businesses. ZedNova
+                  Studios LLC is a Texas-based company with 10+ years of delivery and 120+
+                  completed projects.
                 </p>
               </Reveal>
               <Reveal delay={0.14}>

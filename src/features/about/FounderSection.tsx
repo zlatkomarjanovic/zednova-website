@@ -77,7 +77,7 @@ export async function FounderSection() {
           <div className="border-b border-zn-border-dk">
             <div className="zn-container-inset grid gap-12 py-[clamp(4rem,8vw,7rem)] lg:grid-cols-2 lg:items-center lg:gap-16">
               <Reveal className="min-w-0">
-                <figure className="relative aspect-[4/5] w-full overflow-hidden border border-zn-border-dk bg-zn-dark-2">
+                <figure className="relative aspect-[4/5] w-full overflow-hidden rounded-[10px] border border-zn-border-dk bg-zn-dark-2">
                   <Image
                     src={founder.avatar ?? FOUNDER_IMAGE}
                     alt={founder.name}

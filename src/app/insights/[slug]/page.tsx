@@ -16,6 +16,8 @@ import {
   articleUrl,
   breadcrumbJsonLd,
 } from "@/lib/seo";
+import { SITE_ORIGIN } from "@/lib/site-url";
+import { ArticleInlineCta, ArticleQuickAnswer } from "@/features/insights/ArticleAeoBlocks";
 import { ArticleBody } from "@/features/insights/ArticleBody";
 import { ArticleFaq } from "@/features/insights/ArticleFaq";
 import { ArticleShare } from "@/features/insights/ArticleShare";
@@ -29,8 +31,6 @@ import { JsonLd } from "@/ui/JsonLd";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { Tag } from "@/ui/Tag";
 import { formatDate, slugify } from "@/lib/utils";
-
-const SITE_ORIGIN = "https://zednova.com";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -124,6 +124,8 @@ export default async function ArticlePage({
     text: string;
   }[];
 
+  const showToc = post.tableOfContentsEnabled !== false && toc.length > 0;
+
   const url = articleUrl(slug);
   const hasFaq = Boolean(post.faqs && post.faqs.length);
 
@@ -156,6 +158,8 @@ export default async function ArticlePage({
 
                   <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-zn-text-3">
                     <Tag>{post.category}</Tag>
+                    {post.contentType ? <Tag variant="outline">{post.contentType}</Tag> : null}
+                    {post.difficulty ? <Tag variant="outline">{post.difficulty}</Tag> : null}
                     <span className="inline-flex items-center gap-1.5">
                       <CalendarDays className="size-3.5" aria-hidden="true" />
                       <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
@@ -205,7 +209,7 @@ export default async function ArticlePage({
               <div className="relative aspect-[16/9] w-full md:aspect-[21/9]">
                 <Image
                   src={post.image}
-                  alt={post.title}
+                  alt={post.imageAlt ?? post.title}
                   fill
                   priority
                   sizes="(max-width: 1280px) 100vw, 1280px"
@@ -230,7 +234,7 @@ export default async function ArticlePage({
             <div className="relative border-b border-zn-border">
               <div className="zn-container-inset py-14 lg:py-16">
                 <div className="mx-auto flex max-w-5xl gap-12">
-                  {toc.length > 0 && (
+                  {showToc && (
                     <aside className="hidden w-56 shrink-0 xl:block">
                       <div className="sticky top-28">
                         <p className="zn-label mb-4 text-zn-text-3">On this page</p>
@@ -261,6 +265,8 @@ export default async function ArticlePage({
                   )}
 
                   <div className="mx-auto w-full max-w-[720px]">
+                    <ArticleQuickAnswer post={post} />
+
                     {post.takeaways && post.takeaways.length > 0 && (
                       <div className="mb-10">
                         <ArticleTakeaways items={post.takeaways} />
@@ -274,6 +280,8 @@ export default async function ArticlePage({
                         <ArticleFaq faqs={post.faqs!} />
                       </div>
                     )}
+
+                    <ArticleInlineCta post={post} />
 
                     {author && (
                       <div className="mt-16 flex items-start gap-5 rounded-[2px] border border-zn-border bg-zn-bg-2/40 p-6">

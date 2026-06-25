@@ -8,9 +8,9 @@ export const siteSettings: SiteSettings = {
   responseTime: "Usually within 24 hours",
   announcementBar: undefined,
   socialLinks: {
-    linkedin: "https://www.linkedin.com/",
-    twitter: "https://x.com/",
-    github: "https://github.com/",
+    linkedin: "https://www.linkedin.com/in/zlatkomarjanovic",
+    twitter: "https://x.com/thezlatkom",
+    github: "https://github.com/zlatkomarjanovic",
   },
   stats: [
     { value: "120+", label: "Projects completed" },

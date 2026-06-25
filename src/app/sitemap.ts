@@ -7,8 +7,7 @@ import {
   getAllCaseStudies,
   getAllMigrations,
 } from "@/lib/queries";
-
-const SITE_ORIGIN = "https://zednova.com";
+import { SITE_ORIGIN } from "@/lib/site-url";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [posts, services, industries, caseStudies, migrations, customSoftwareSlugs] =

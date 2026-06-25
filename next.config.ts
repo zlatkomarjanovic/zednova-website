@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.sanity.io" },
       { protocol: "https", hostname: "zednova.com" },
       { protocol: "https", hostname: "www.zednova.com" },
+      { protocol: "https", hostname: "zednova.studio" },
+      { protocol: "https", hostname: "www.zednova.studio" },
     ],
   },
   async redirects() {

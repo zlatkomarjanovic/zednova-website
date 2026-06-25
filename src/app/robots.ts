@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const SITE_ORIGIN = "https://zednova.com";
+import { SITE_ORIGIN } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/legal/"],
+        disallow: ["/api/contact", "/legal/"],
       },
       {
         userAgent: "GPTBot",

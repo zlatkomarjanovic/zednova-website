@@ -70,6 +70,23 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
             </p>
             <p className="mt-0.5 text-xs leading-snug text-zn-inv-2">
               {testimonial.authorTitle}
+              {testimonial.platformSource || testimonial.industry ? (
+                <>
+                  {" · "}
+                  {testimonial.platformUrl ? (
+                    <a
+                      href={testimonial.platformUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-zn-border-dk underline-offset-2 transition-opacity hover:opacity-80"
+                    >
+                      Verified on {testimonial.platformSource ?? testimonial.industry}
+                    </a>
+                  ) : (
+                    <>Verified on {testimonial.platformSource ?? testimonial.industry}</>
+                  )}
+                </>
+              ) : null}
             </p>
           </div>
         </div>
@@ -137,10 +154,12 @@ function MarqueeRow({
     >
       <div ref={trackRef} className="flex w-max items-stretch">
         {items.map((testimonial, index) => (
-          <TestimonialCard
+          <div
             key={`${testimonial.id}-${index}`}
-            testimonial={testimonial}
-          />
+            aria-hidden={index >= testimonials.length ? true : undefined}
+          >
+            <TestimonialCard testimonial={testimonial} />
+          </div>
         ))}
       </div>
     </div>

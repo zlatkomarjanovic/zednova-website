@@ -4,11 +4,10 @@
  * queries without changing the page.
  */
 import type { ArticleFaq, Post, TeamMember } from "@/lib/types";
-
-const SITE_ORIGIN = "https://zednova.com";
+import { SITE_ORIGIN, absoluteUrl } from "@/lib/site-url";
 
 export function articleUrl(slug: string): string {
-  return `${SITE_ORIGIN}/insights/${slug}`;
+  return absoluteUrl(`/insights/${slug}`);
 }
 
 type ArticleJsonLdInput = {
@@ -118,6 +117,15 @@ export function organizationJsonLd(org?: {
     email: org?.email,
     telephone: org?.phone,
     sameAs: org?.sameAs,
+    areaServed: { "@type": "Country", name: "United States" },
+    contactPoint: org?.email
+      ? {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          email: org.email,
+          availableLanguage: ["English"],
+        }
+      : undefined,
   };
 }
 
@@ -230,4 +238,43 @@ function estimateWordCount(post: Post): number {
     if ("text" in block && block.text) return sum + block.text.split(/\s+/).length;
     return sum;
   }, 0);
+}
+
+/** schema.org/Person — founder profile linked to Organization. */
+export function personJsonLd(person: {
+  slug: string;
+  name: string;
+  role: string;
+  bio?: string[];
+  image?: string;
+  sameAs?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${SITE_ORIGIN}/about#${person.slug}`,
+    name: person.name,
+    jobTitle: person.role,
+    url: `${SITE_ORIGIN}/about`,
+    image: person.image ? absoluteUrl(person.image) : undefined,
+    description: person.bio?.[0],
+    worksFor: { "@id": `${SITE_ORIGIN}/#organization` },
+    sameAs: person.sameAs?.filter(Boolean),
+  };
+}
+
+/** Connected @graph for sitewide Organization + WebSite + founder Person. */
+export function sitewideSchemaGraph(input?: {
+  org?: Parameters<typeof organizationJsonLd>[0];
+  founder?: Parameters<typeof personJsonLd>[0];
+  siteName?: string;
+}) {
+  const org = organizationJsonLd(input?.org);
+  const site = websiteJsonLd(input?.siteName);
+  const graph: object[] = [org, site];
+  if (input?.founder) graph.push(personJsonLd(input.founder));
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
+  };
 }

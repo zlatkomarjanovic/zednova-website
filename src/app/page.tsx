@@ -37,6 +37,8 @@ import { FounderSection } from "@/features/about/FounderSection";
 import { agencyComparison } from "@/lib/content/agency-comparison";
 import { homepagePricingPackages } from "@/lib/content/homepage-pricing";
 import { DarkCTA } from "@/features/home/DarkCTA";
+import { JsonLd } from "@/ui/JsonLd";
+import { faqPageJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: "ZedNova Studios — Websites, Shopify & Automations" },
@@ -91,6 +93,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={[faqPageJsonLd(faqs)]} />
       <HeroSection projects={portfolioProjects} />
 
       <LogoTicker />

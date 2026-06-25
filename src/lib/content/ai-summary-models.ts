@@ -8,10 +8,10 @@ export type AiSummaryModel = {
   buildUrl: (prompt: string) => string;
 };
 
-const SITE_URL = "https://zednova.com";
+import { SITE_ORIGIN } from "@/lib/site-url";
 
 export const AI_SUMMARY_PROMPT = [
-  `Please summarize what ZedNova Studios offers based on their website ${SITE_URL}.`,
+  `Please summarize what ZedNova Studios offers based on their website ${SITE_ORIGIN}.`,
   "Cover their core services (websites, Shopify, custom software, CRM automations, migrations), who they work with, typical delivery timelines, pricing approach, and what makes them different from traditional agencies as an experienced software and product studio that uses AI internally for faster delivery.",
   "Keep it concise, factual, and useful for someone deciding whether to hire them.",
 ].join(" ");

@@ -64,14 +64,19 @@ export const POST_LIST_FIELDS = /* groq */ `{
   title,
   "slug": slug.current,
   excerpt,
+  oneSentenceSummary,
   "category": category->title,
   "author": author->slug.current,
   publishedAt,
   updatedAt,
   readTime,
   featured,
+  pinned,
+  contentType,
+  difficulty,
   accent,
   "image": coalesce(coverImage.asset->url, coverImageUrl),
+  "imageAlt": coalesce(coverImage.alt, title),
   "tags": tags[]->title,
   "relatedServices": relatedServices[]->slug.current,
   "relatedIndustries": relatedIndustries[]->slug.current,
@@ -85,14 +90,19 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   title,
   "slug": slug.current,
   excerpt,
+  oneSentenceSummary,
   "category": category->title,
   "author": author->slug.current,
   publishedAt,
   updatedAt,
   readTime,
   featured,
+  pinned,
+  contentType,
+  difficulty,
   accent,
   "image": coalesce(coverImage.asset->url, coverImageUrl),
+  "imageAlt": coalesce(coverImage.alt, title),
   "tags": tags[]->title,
   "relatedServices": relatedServices[]->slug.current,
   "relatedIndustries": relatedIndustries[]->slug.current,
@@ -100,8 +110,10 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   "relatedCustomSoftware": relatedCustomSoftware[]->slug.current,
   "relatedProducts": relatedProducts[]->slug.current,
   "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+  "relatedPortfolioProjects": relatedPortfolioProjects[]->slug.current,
   "relatedPosts": relatedPosts[]->slug.current,
   takeaways,
+  "keyTakeaways": keyTakeaways[].title,
   faqs,
   "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
   "inlineFaqs": inlineFaqs[]{
@@ -109,21 +121,38 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
     question,
     "answer": coalesce(shortAnswer, pt::text(answer))
   },
-  oneSentenceSummary,
   aiSummary,
   llmSnippet,
   quickAnswer,
+  tableOfContentsEnabled,
   "openGraph": coalesce(openGraph, {})${OPEN_GRAPH_PROJECTION},
   "schemaMarkup": coalesce(schemaMarkup, {})${SCHEMA_MARKUP_PROJECTION},
-  articleBlocks,
-  body,
+  "articleBlocks": articleBlocks[]{
+    type,
+    text,
+    items,
+    calloutVariant,
+    "image": image.asset->url,
+    imageAlt
+  },
+  body[]{
+    ...,
+    _type == "mediaAsset" => {
+      ...,
+      "imageUrl": coalesce(image.asset->url, imageUrl),
+      alt,
+      caption
+    },
+    _type == "calloutBlock" => { type, title, body },
+    _type == "codeBlock" => { language, code }
+  },
   "seo": coalesce(seo, {})${SEO_PROJECTION},
   "mergedSeo": {
     "seoTitle": coalesce(seoTitle, seo.seoTitle, ""),
     "seoDescription": coalesce(seoDescription, seo.seoDescription, ""),
     "keywords": coalesce(seo.keywords, secondaryKeywords),
     "focusKeyword": coalesce(focusKeyword, seo.focusKeyword),
-    "secondaryKeywords": coalesce(secondaryKeywords, seo.secondaryKeywords),
+    "secondaryKeywords": coalesce(seo.secondaryKeywords, secondaryKeywords),
     "searchTags": coalesce(searchTags, seo.searchTags),
     "seoCanonical": coalesce(canonicalUrl, seo.seoCanonical, seo.canonicalUrl),
     "canonicalUrl": coalesce(canonicalUrl, seo.canonicalUrl, seo.seoCanonical),
@@ -150,6 +179,10 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   primaryCtaDescription,
   primaryCtaLabel,
   primaryCtaHref,
+  secondaryCtaTitle,
+  secondaryCtaDescription,
+  secondaryCtaLabel,
+  secondaryCtaHref,
 }`;
 
 export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
@@ -168,7 +201,7 @@ export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
 `;
 
 export const POSTS_QUERY = /* groq */ `
-  *[_type == "post" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(publishedAt desc) ${POST_LIST_FIELDS}
+  *[_type == "post" && defined(slug.current) && coalesce(status, "Published") == "Published" && coalesce(seo.seoHideFromLists, false) == false] | order(publishedAt desc) ${POST_LIST_FIELDS}
 `;
 
 export const POST_BY_SLUG_QUERY = /* groq */ `

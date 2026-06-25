@@ -303,8 +303,11 @@ export type Post = {
   readTime: number;
   featured: boolean;
   pinned?: boolean;
+  contentType?: string;
+  difficulty?: string;
   accent: string;
   image: string;
+  imageAlt?: string;
   tags: string[];
   seoTitle?: string;
   seoDescription?: string;
@@ -327,6 +330,15 @@ export type Post = {
   relatedCaseStudies?: string[];
   relatedPortfolioProjects?: string[];
   relatedPosts?: string[];
+  tableOfContentsEnabled?: boolean;
+  primaryCtaTitle?: string;
+  primaryCtaDescription?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaTitle?: string;
+  secondaryCtaDescription?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
   seo?: SeoFields;
 };
 

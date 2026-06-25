@@ -757,7 +757,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 export async function getFeaturedPost(): Promise<Post> {
   const all = await getAllPosts();
-  return all.find((p) => p.featured) ?? all[0];
+  return all.find((p) => p.pinned) ?? all.find((p) => p.featured) ?? all[0];
 }
 
 export async function getAuthor(slug: string): Promise<Author | null> {
@@ -889,6 +889,16 @@ export async function getRelatedInsights(
         score += p.relatedIndustries.filter((s) => current.relatedIndustries!.includes(s)).length * 2;
       if (p.relatedMigrations && current.relatedMigrations)
         score += p.relatedMigrations.filter((s) => current.relatedMigrations!.includes(s)).length;
+      if (p.relatedCaseStudies && current.relatedCaseStudies)
+        score += p.relatedCaseStudies.filter((s) => current.relatedCaseStudies!.includes(s)).length * 2;
+      if (p.relatedCustomSoftware && current.relatedCustomSoftware)
+        score += p.relatedCustomSoftware.filter((s) => current.relatedCustomSoftware!.includes(s)).length * 2;
+      if (p.relatedProducts && current.relatedProducts)
+        score += p.relatedProducts.filter((s) => current.relatedProducts!.includes(s)).length;
+      if (p.relatedPortfolioProjects && current.relatedPortfolioProjects)
+        score += p.relatedPortfolioProjects.filter((s) =>
+          current.relatedPortfolioProjects!.includes(s),
+        ).length;
       return { post: p, score };
     })
     .sort(

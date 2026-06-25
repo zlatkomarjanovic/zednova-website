@@ -37,32 +37,33 @@ export function HoverFlip({
   }
 
   return (
-    <span className={cn("relative inline-flex align-bottom", className)} aria-label={children}>
-      {[...children].map((char, index) => (
-        <span
-          key={`${index}-${char}`}
-          className="relative inline-block overflow-hidden"
-          aria-hidden="true"
-        >
+    <span className={cn("relative inline-flex align-bottom", className)}>
+      <span className="sr-only">{children}</span>
+      <span aria-hidden="true" className="inline-flex">
+        {[...children].map((char, index) => (
           <span
-            className={cn(FLIP, "group-hover/flip:-translate-y-full")}
-            style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
+            key={`${index}-${char}`}
+            className="relative inline-block overflow-hidden"
           >
-            {char === " " ? "\u00A0" : char}
+            <span
+              className={cn(FLIP, "group-hover/flip:-translate-y-full")}
+              style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
+            >
+              {char === " " ? "\u00A0" : char}
+            </span>
+            <span
+              className={cn(
+                "absolute inset-x-0 top-0",
+                FLIP,
+                "translate-y-full group-hover/flip:translate-y-0 motion-reduce:hidden",
+              )}
+              style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
+            >
+              {char === " " ? "\u00A0" : char}
+            </span>
           </span>
-          <span
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-x-0 top-0",
-              FLIP,
-              "translate-y-full group-hover/flip:translate-y-0 motion-reduce:hidden",
-            )}
-            style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
-          >
-            {char === " " ? "\u00A0" : char}
-          </span>
-        </span>
-      ))}
+        ))}
+      </span>
     </span>
   );
 }

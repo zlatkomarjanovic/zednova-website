@@ -26,6 +26,7 @@ import type {
 } from "@/lib/types/content-nav";
 import type { PortfolioProject } from "@/lib/types";
 import type { FaqItem, SiteSettings } from "@/lib/types";
+import { portableTextToArticleBlocks } from "@/sanity/portable-text-to-blocks";
 
 type SanityFeatureBullet = { title: string; description?: string; icon?: string };
 type SanityPriceTier = {
@@ -523,6 +524,93 @@ export function buildCustomSoftwareGroups(
   });
 }
 
+function mapOpenGraph(og?: Record<string, unknown>) {
+  if (!og) return undefined;
+  return {
+    ogTitle: (og.ogTitle as string) || undefined,
+    ogDescription: (og.ogDescription as string) || undefined,
+    ogImage: (og.ogImage as string) || undefined,
+    ogType: (og.ogType as string) || undefined,
+    twitterTitle: (og.twitterTitle as string) || undefined,
+    twitterDescription: (og.twitterDescription as string) || undefined,
+    twitterImage: (og.twitterImage as string) || undefined,
+    twitterCardType: (og.twitterCardType as string) || undefined,
+  };
+}
+
+function mapSchemaMarkup(schema?: Record<string, unknown>) {
+  if (!schema) return undefined;
+  return {
+    schemaType: (schema.schemaType as string) || undefined,
+    enableArticleSchema: schema.enableArticleSchema as boolean | undefined,
+    enableFaqSchema: schema.enableFaqSchema as boolean | undefined,
+    enableBreadcrumbSchema: schema.enableBreadcrumbSchema as boolean | undefined,
+    enableServiceSchema: schema.enableServiceSchema as boolean | undefined,
+    enableProductSchema: schema.enableProductSchema as boolean | undefined,
+    enableOrganizationSchema: schema.enableOrganizationSchema as boolean | undefined,
+    enableCollectionPageSchema: schema.enableCollectionPageSchema as boolean | undefined,
+    serviceType: (schema.serviceType as string) || undefined,
+    areaServed: schema.areaServed as string[] | undefined,
+    providerName: (schema.providerName as string) || undefined,
+    priceRange: (schema.priceRange as string) || undefined,
+  };
+}
+
+type SanityArticleBlock = {
+  type?: string;
+  text?: string;
+  items?: string[];
+  calloutVariant?: string;
+  image?: string;
+  imageAlt?: string;
+};
+
+function mapSanityArticleBlocks(blocks?: SanityArticleBlock[]): ArticleBlock[] {
+  return (blocks ?? [])
+    .map((block) => {
+      const type = block.type ?? "p";
+      if (type === "h2") return { type: "h2" as const, text: block.text ?? "" };
+      if (type === "h3") return { type: "h3" as const, text: block.text ?? "" };
+      if (type === "ul") return { type: "ul" as const, items: block.items ?? [] };
+      if (type === "quote") return { type: "quote" as const, text: block.text ?? "" };
+      if (type === "callout") {
+        return {
+          type: "callout" as const,
+          text: block.text ?? "",
+          calloutVariant: block.calloutVariant,
+        };
+      }
+      if (type === "image" && block.image) {
+        return {
+          type: "image" as const,
+          image: block.image,
+          imageAlt: block.imageAlt,
+          text: block.text,
+        };
+      }
+      return { type: "p" as const, text: block.text ?? "" };
+    })
+    .filter((block) => {
+      if (block.type === "ul") return block.items.length > 0;
+      if (block.type === "image") return Boolean(block.image);
+      return Boolean("text" in block && block.text?.trim());
+    });
+}
+
+function resolvePostBody(doc: {
+  articleBlocks?: SanityArticleBlock[];
+  body?: Parameters<typeof portableTextToArticleBlocks>[0];
+}): ArticleBlock[] {
+  const structured = mapSanityArticleBlocks(doc.articleBlocks);
+  if (structured.length) return structured;
+  return portableTextToArticleBlocks(doc.body);
+}
+
+function mergeTakeaways(plain?: string[], rich?: string[]): string[] | undefined {
+  const merged = [...(plain ?? []), ...(rich ?? [])].filter(Boolean);
+  return merged.length ? merged : undefined;
+}
+
 export function mapPost(doc: {
   slug: string;
   title: string;
@@ -534,8 +622,12 @@ export function mapPost(doc: {
   updatedAt?: string;
   readTime: number;
   featured: boolean;
+  pinned?: boolean;
+  contentType?: string;
+  difficulty?: string;
   accent: string;
   image?: string;
+  imageAlt?: string;
   tags?: string[];
   relatedServices?: string[];
   relatedIndustries?: string[];
@@ -548,15 +640,40 @@ export function mapPost(doc: {
   seo?: Record<string, unknown>;
   mergedSeo?: Record<string, unknown>;
   takeaways?: string[];
+  keyTakeaways?: string[];
   faqs?: SanityFaq[];
   faqReferences?: SanityFaq[];
   inlineFaqs?: SanityFaq[];
   aiSummary?: string;
   llmSnippet?: string;
-  articleBlocks?: ArticleBlock[];
+  quickAnswer?: { question?: string; shortAnswer?: string };
+  quickAnswerQuestion?: string;
+  quickAnswerShort?: string;
+  tableOfContentsEnabled?: boolean;
+  openGraph?: Record<string, unknown>;
+  schemaMarkup?: Record<string, unknown>;
+  enableFaqSchema?: boolean;
+  primaryCtaTitle?: string;
+  primaryCtaDescription?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaTitle?: string;
+  secondaryCtaDescription?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  articleBlocks?: SanityArticleBlock[];
+  body?: Parameters<typeof portableTextToArticleBlocks>[0];
 }): Post {
   const seo = mapSeo(doc.mergedSeo ?? doc.seo);
   const allFaqs = mergePostFaqs(doc.faqs, doc.faqReferences, doc.inlineFaqs);
+  const schemaMarkup = {
+    ...(mapSchemaMarkup(doc.schemaMarkup) ?? {}),
+    ...(doc.enableFaqSchema !== undefined
+      ? { enableFaqSchema: doc.enableFaqSchema }
+      : {}),
+  };
+  const hasSchemaMarkup = Object.values(schemaMarkup).some((value) => value !== undefined);
+
   return {
     slug: doc.slug,
     title: doc.title,
@@ -568,8 +685,12 @@ export function mapPost(doc: {
     updatedAt: doc.updatedAt,
     readTime: doc.readTime,
     featured: doc.featured,
+    pinned: doc.pinned,
+    contentType: doc.contentType,
+    difficulty: doc.difficulty,
     accent: doc.accent,
     image: doc.image ?? "",
+    imageAlt: doc.imageAlt,
     tags: doc.tags ?? [],
     relatedServices: doc.relatedServices,
     relatedIndustries: doc.relatedIndustries,
@@ -583,13 +704,32 @@ export function mapPost(doc: {
     seoDescription: seo?.seoDescription,
     keywords: seo?.keywords,
     ogImage: seo?.ogImage,
-    takeaways: doc.takeaways,
+    takeaways: mergeTakeaways(doc.takeaways, doc.keyTakeaways),
     faqs: allFaqs,
     faqReferences: mapFaqs(doc.faqReferences),
     inlineFaqs: mapFaqs(doc.inlineFaqs),
     aiSummary: doc.aiSummary,
     llmSnippet: doc.llmSnippet,
-    body: doc.articleBlocks ?? [],
+    quickAnswer:
+      doc.quickAnswer ??
+      (doc.quickAnswerQuestion || doc.quickAnswerShort
+        ? {
+            question: doc.quickAnswerQuestion,
+            shortAnswer: doc.quickAnswerShort,
+          }
+        : undefined),
+    tableOfContentsEnabled: doc.tableOfContentsEnabled ?? true,
+    openGraph: mapOpenGraph(doc.openGraph),
+    schemaMarkup: hasSchemaMarkup ? schemaMarkup : undefined,
+    primaryCtaTitle: doc.primaryCtaTitle,
+    primaryCtaDescription: doc.primaryCtaDescription,
+    primaryCtaLabel: doc.primaryCtaLabel,
+    primaryCtaHref: doc.primaryCtaHref,
+    secondaryCtaTitle: doc.secondaryCtaTitle,
+    secondaryCtaDescription: doc.secondaryCtaDescription,
+    secondaryCtaLabel: doc.secondaryCtaLabel,
+    secondaryCtaHref: doc.secondaryCtaHref,
+    body: resolvePostBody(doc),
     seo,
   };
 }
@@ -787,7 +927,12 @@ function normalizeTestimonialImage(image?: string): string | undefined {
 
   try {
     const url = new URL(image);
-    if (url.hostname === "zednova.com" || url.hostname === "www.zednova.com") {
+    if (
+      url.hostname === "zednova.com" ||
+      url.hostname === "www.zednova.com" ||
+      url.hostname === "zednova.studio" ||
+      url.hostname === "www.zednova.studio"
+    ) {
       return `${url.pathname}${url.search}`;
     }
   } catch {

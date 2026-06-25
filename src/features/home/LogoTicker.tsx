@@ -110,11 +110,12 @@ export function LogoTicker({
               {items.map((logo, i) => (
                 <div
                   key={`${logo.src}-${i}`}
+                  aria-hidden={i >= half.length ? true : undefined}
                   className="flex h-7 shrink-0 items-center justify-center opacity-80 transition-opacity duration-300 hover:opacity-100 lg:h-8"
                 >
                   <Image
                     src={logo.src}
-                    alt={logo.alt}
+                    alt={i >= half.length ? "" : logo.alt}
                     width={100}
                     height={32}
                     unoptimized
