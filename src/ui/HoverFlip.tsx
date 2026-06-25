@@ -6,12 +6,13 @@ const FLIP_STAGGER_MS = 18;
 
 /** Tailwind v4 drives motion via the `translate` property — not `transform`. */
 const FLIP =
-  "block transition-[translate,opacity] duration-500 ease-[var(--ease-flip)] will-change-[translate,opacity] motion-reduce:transition-none";
+  "block transition-[translate] duration-500 ease-[var(--ease-flip)] will-change-[translate] motion-reduce:transition-none motion-reduce:group-hover/flip:translate-y-0";
 
 /**
- * Dual-layer hover text:
- * - Base: one normal string in the DOM (crawlers, screen readers, default visual)
- * - Overlay: split-letter flip in aria-hidden layer (visible on hover)
+ * Split-letter hover flip for nav/footer/button links.
+ *
+ * - One clean string in `.sr-only` for screen readers and crawlers
+ * - Decorative letter animation in an `aria-hidden` layer (never a second readable copy)
  */
 export function HoverFlip({
   children,
@@ -22,36 +23,8 @@ export function HoverFlip({
 }) {
   if (typeof children !== "string") {
     return (
-      <span
-        className={cn(
-          "relative inline-block overflow-hidden align-bottom leading-none",
-          className,
-        )}
-      >
-        <span
-          className={cn(
-            FLIP,
-            "group-hover/flip:-translate-y-full group-hover/flip:opacity-0 motion-reduce:group-hover/flip:translate-y-0 motion-reduce:group-hover/flip:opacity-100",
-          )}
-        >
-          {children}
-        </span>
-        <span
-          aria-hidden="true"
-          className={cn(
-            "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-0 group-hover/flip:opacity-100 motion-reduce:hidden",
-          )}
-        >
-          <span
-            className={cn(
-              "block translate-y-full",
-              FLIP,
-              "group-hover/flip:translate-y-0",
-            )}
-          >
-            {children}
-          </span>
-        </span>
+      <span className={cn("inline-block align-bottom leading-none", className)}>
+        {children}
       </span>
     );
   }
@@ -60,34 +33,32 @@ export function HoverFlip({
 
   return (
     <span
-      className={cn(
-        "relative inline-block overflow-hidden align-bottom leading-none",
-        className,
-      )}
+      className={cn("inline-block align-bottom leading-none", className)}
+      data-label={children}
     >
+      {/* Single canonical label — never duplicated in the visible layer */}
       <span
         className={cn(
-          "inline-block",
-          FLIP,
-          "group-hover/flip:-translate-y-full group-hover/flip:opacity-0 motion-reduce:group-hover/flip:translate-y-0 motion-reduce:group-hover/flip:opacity-100",
+          "sr-only",
+          "motion-reduce:static motion-reduce:m-0 motion-reduce:h-auto motion-reduce:w-auto motion-reduce:overflow-visible motion-reduce:p-0 motion-reduce:[clip-path:none] motion-reduce:whitespace-normal motion-reduce:not-sr-only",
         )}
       >
         {children}
       </span>
 
+      {/* Visual-only split-letter flip */}
       <span
         aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute inset-0 inline-flex opacity-0 transition-opacity duration-0 group-hover/flip:opacity-100 motion-reduce:hidden",
-        )}
+        className="inline-flex items-end motion-reduce:hidden"
       >
         {chars.map((char, index) => (
           <span
             key={`${index}-${char}`}
-            className="relative inline-block overflow-hidden"
+            className="relative inline-block h-[1.25em] overflow-hidden align-bottom"
+            style={char === " " ? { minWidth: "0.35em" } : undefined}
           >
             <span
-              className={cn(FLIP, "group-hover/flip:-translate-y-full")}
+              className={cn(FLIP, "group-hover/flip:-translate-y-[115%]")}
               style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
             >
               {char === " " ? "\u00A0" : char}
@@ -96,7 +67,7 @@ export function HoverFlip({
               className={cn(
                 "absolute inset-x-0 top-0",
                 FLIP,
-                "translate-y-full group-hover/flip:translate-y-0",
+                "translate-y-[115%] group-hover/flip:translate-y-0",
               )}
               style={{ transitionDelay: `${index * FLIP_STAGGER_MS}ms` }}
             >
