@@ -121,7 +121,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="An experienced software and product studio. We build web apps, mobile apps, desktop software, ecommerce stores, marketing websites, and automations—using AI internally to deliver faster and more cost-effectively, without adding headcount."
+            text="An experienced software and product studio. We build web apps, mobile apps, desktop software, ecommerce stores, marketing websites, and automations, using AI internally to deliver faster and more cost-effectively, without adding headcount."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
         </div>
