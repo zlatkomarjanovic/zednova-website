@@ -1,13 +1,14 @@
 import type { ArticleBlock, ArticleFaq, ImplementationRow, ResourceLink, SourceReference } from "@/lib/types";
+import { remainingInsightOverrides } from "./insight-overrides-remaining";
 
 export type InsightOverride = {
   body: ArticleBlock[];
   takeaways: string[];
   faqs: ArticleFaq[];
   quickAnswer: { question: string; shortAnswer: string };
-  sources: SourceReference[];
-  implementationTable: ImplementationRow[];
-  searchQuestions: string[];
+  sources?: SourceReference[];
+  implementationTable?: ImplementationRow[];
+  searchQuestions?: string[];
   relatedLinks?: ResourceLink[];
 };
 
@@ -294,6 +295,7 @@ const fiveMinuteOverride: InsightOverride = {
 const OVERRIDES: Record<string, InsightOverride> = {
   [SHOPIFY_SLUG]: shopifyOverride,
   [FIVE_MINUTE_SLUG]: fiveMinuteOverride,
+  ...remainingInsightOverrides,
 };
 
 export function getInsightOverride(slug: string): InsightOverride | null {
@@ -324,10 +326,12 @@ export function applyInsightOverride<T extends { slug: string }>(
     body: override.body,
     takeaways: override.takeaways,
     faqs: override.faqs,
-    sources: override.sources,
-    implementationTable: override.implementationTable,
     searchQuestions: override.searchQuestions,
     quickAnswer: override.quickAnswer,
+    ...(override.sources?.length ? { sources: override.sources } : {}),
+    ...(override.implementationTable?.length
+      ? { implementationTable: override.implementationTable }
+      : {}),
     ...(override.relatedLinks?.length ? { relatedLinks: override.relatedLinks } : {}),
   };
 }

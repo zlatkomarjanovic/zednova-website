@@ -16,8 +16,11 @@
     "seed:migration-icons": "npx tsx scripts/seed-migration-platform-icons.ts",
     "seed:custom-software-icons": "npx tsx scripts/seed-custom-software-icons.ts",
     "fix:insights-data": "npx tsx scripts/fix-insights-post-data.ts",
-    "qa:insights-jsonld": "npx tsx scripts/qa-insight-jsonld.ts",
-    "verify:live-seo": "node scripts/verify-live-seo.mjs",
+    "qa:insights-jsonld": "npx tsx scripts/qa-insights-jsonld.ts",
+    "qa:insights-seo": "npx tsx scripts/qa-insights-seo.ts",
+    "qa:insights-crawl": "npx tsx scripts/qa-insights-crawl.ts",
+    "qa:insights-all": "node scripts/qa-insights-all.mjs",
+    "verify:live-seo": "npx tsx scripts/qa-insights-crawl.ts --live",
     "enrich:insights-posts": "npx tsx scripts/enrich-insights-posts.ts"
   },
   "dependencies": {

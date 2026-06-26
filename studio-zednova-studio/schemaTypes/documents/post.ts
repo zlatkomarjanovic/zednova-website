@@ -18,10 +18,11 @@ export const post = defineType({
     { name: "body", title: "Body" },
     { name: "aeo", title: "AEO" },
     { name: "relationships", title: "Relationships" },
+    { name: "references", title: "References" },
     { name: "conversion", title: "Conversion" },
     { name: "editorial", title: "Editorial" },
     { name: "seo", title: "SEO" },
-    { name: "og", title: "Open Graph" },
+    { name: "og", title: "Social" },
     { name: "schema", title: "Schema" },
     { name: "settings", title: "Settings" },
   ],
@@ -290,7 +291,7 @@ export const post = defineType({
       name: "sources",
       title: "Sources & references",
       type: "array",
-      group: "aeo",
+      group: "references",
       of: [
         {
           type: "object",
