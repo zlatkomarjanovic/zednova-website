@@ -44,11 +44,10 @@ import { faqPageJsonLd, homepageServiceGraphJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
-    absolute:
-      "Websites, Custom Software, Automations & AI Tools | ZedNova Studios",
+    absolute: "Websites, Custom Software & AI Tools | ZedNova",
   },
   description:
-    "An experienced software and product studio. We design and build Next.js websites, Shopify stores, custom software, CRM automations, and migrations for clinics, ecommerce brands, and growing businesses.",
+    "We build Next.js websites, Shopify stores, custom software, CRM automations, and AI tools for clinics, ecommerce brands, and growing businesses.",
 };
 
 

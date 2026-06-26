@@ -80,7 +80,7 @@ export async function FounderSection() {
                 <figure className="relative aspect-[4/5] w-full overflow-hidden rounded-[10px] border border-zn-border-dk bg-zn-dark-2">
                   <Image
                     src={founder.avatar ?? FOUNDER_IMAGE}
-                    alt={founder.name}
+                    alt={`${founder.name}, founder of ZedNova Studios`}
                     fill
                     unoptimized
                     sizes="(max-width: 1024px) 100vw, 50vw"
