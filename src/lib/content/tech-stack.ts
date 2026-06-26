@@ -162,6 +162,7 @@ export const techStackGroups: TechStackGroup[] = [
     description:
       "Product analytics, contracts, and sales tools for SaaS startups, consultancies, and agencies.",
     tools: [
+      "Supabase",
       "Intercom",
       "Segment",
       "Amplitude",
