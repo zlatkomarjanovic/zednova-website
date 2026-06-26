@@ -20,7 +20,7 @@ export function TechStackShowcase({
 }: TechStackShowcaseProps) {
   return (
     <div className="zn-container relative min-w-0">
-      <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,0.38fr)_minmax(0,1fr)] lg:gap-12 xl:gap-16">
+      <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
         <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
           <Reveal>
             <SectionLabel withRule={false}>Tech stack</SectionLabel>
@@ -28,23 +28,23 @@ export function TechStackShowcase({
           <TextReveal
             as="h2"
             text={heading}
-            className="mt-6 max-w-[22rem] zn-h2 font-sans font-normal"
+            className="mt-6 zn-h2 font-sans font-normal"
           />
           <Reveal delay={0.08}>
-            <p className="zn-prose mt-5 max-w-[22rem]">{description}</p>
+            <p className="zn-prose mt-5">{description}</p>
           </Reveal>
         </aside>
 
-        <div className="zn-container-guides relative min-w-0">
-          <div className="relative border-x border-zn-border">
+        <div className="relative min-w-0">
+          <div className="relative border border-zn-border">
             <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
             <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
 
-            <div className="flex flex-col gap-px border-y border-zn-border bg-zn-border">
+            <div className="flex flex-col gap-px bg-zn-border">
               {groups.map((group) => (
                 <article
                   key={group.category}
-                  className="flex flex-col bg-white/90 px-6 py-6 md:px-8 md:py-7"
+                  className="flex flex-col bg-white/90 px-5 py-5 md:px-6 md:py-6"
                 >
                   <h3 className="font-sans text-lg font-normal tracking-tight text-zn-text md:text-xl">
                     {group.category}
@@ -52,10 +52,10 @@ export function TechStackShowcase({
                   <p className="mt-2 text-sm leading-relaxed text-zn-text-2">
                     {group.description}
                   </p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
+                  <ul className="mt-4 flex flex-wrap gap-2">
                     {group.tools.map((tool) => (
                       <li key={tool}>
-                        <span className="inline-block rounded-[4px] border border-zn-border bg-zn-bg px-3 py-1.5 text-sm tracking-tight text-zn-text">
+                        <span className="inline-block rounded-[4px] border border-zn-border bg-zn-bg px-2.5 py-1 text-sm tracking-tight text-zn-text">
                           {tool}
                         </span>
                       </li>
