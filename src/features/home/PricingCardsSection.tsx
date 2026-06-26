@@ -19,26 +19,20 @@ export function PricingCardsSection({
   if (packages.length === 0) return null;
 
   return (
-    <section
-      data-theme="light"
-      className="relative zn-section overflow-hidden zn-sage-surface"
-    >
-      <div className="zn-sage-grain pointer-events-none absolute inset-0" aria-hidden="true" />
+    <section data-theme="light" className="relative zn-section bg-zn-bg">
       <BlueprintGrid />
 
       <div className="zn-container relative">
         <Reveal>
-          <SectionLabel withRule={false} className="text-zn-sage-text">
-            Typical investment
-          </SectionLabel>
+          <SectionLabel withRule={false}>Typical investment</SectionLabel>
         </Reveal>
         <TextReveal
           as="h2"
           text="What most clients start with"
-          className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-sage-text"
+          className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
         />
         <Reveal delay={0.08}>
-          <p className="zn-prose mt-5 max-w-xl text-zn-sage-text-2">
+          <p className="zn-prose mt-5 max-w-xl">
             Fixed scope and clear pricing before we start. Most projects launch as an MVP,
             then iterate based on real usage, not a six-month strategy deck.
           </p>
@@ -46,18 +40,18 @@ export function PricingCardsSection({
       </div>
 
       <div className="zn-container-guides relative mt-14">
-        <div className="relative border-x border-zn-sage-text/15">
+        <div className="relative border-x border-zn-border">
           <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
           <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
 
-          <div className="relative border-y border-zn-sage-text/15 bg-white/70 shadow-[0_24px_80px_-48px_rgba(74,99,71,0.45)]">
+          <div className="relative border-y border-zn-border">
             <div className="pointer-events-none absolute inset-0 hidden md:block">
               <BlueprintGridCrosses columns={packages.length} rows={1} />
             </div>
 
             <Stagger
               className={cn(
-                "grid divide-y divide-zn-sage-text/15",
+                "grid divide-y divide-zn-border",
                 packages.length === 3 && "md:grid-cols-3 md:divide-x md:divide-y-0",
               )}
               stagger={0.06}
@@ -65,29 +59,27 @@ export function PricingCardsSection({
               {packages.map((pkg) => (
                 <article
                   key={pkg.slug}
-                  className="flex flex-col bg-white/80 px-6 py-8 md:px-8 md:py-10"
+                  className="flex flex-col bg-zn-bg-2/40 px-6 py-8 md:px-8 md:py-10"
                 >
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="zn-label text-zn-sage-text-2">{pkg.group}</span>
+                    <span className="zn-label text-zn-text-3">{pkg.group}</span>
                     {pkg.badge ? (
-                      <span className="rounded-full border border-zn-sage-text/20 bg-zn-sage-mid px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.06em] text-zn-sage-text">
+                      <span className="rounded-full border border-zn-border bg-zn-bg px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.06em] text-zn-text-2">
                         {pkg.badge}
                       </span>
                     ) : null}
                   </div>
 
-                  <h3 className="mt-5 font-sans text-lg font-normal tracking-tight text-zn-sage-text md:text-xl">
+                  <h3 className="mt-5 font-sans text-lg font-normal tracking-tight text-zn-text md:text-xl">
                     {pkg.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-zn-sage-text-2">
-                    {pkg.shortDescription}
-                  </p>
+                  <p className="zn-prose mt-3">{pkg.shortDescription}</p>
 
-                  <div className="mt-6 border-t border-zn-sage-text/15 pt-6">
-                    <p className="font-mono text-2xl tracking-tight text-zn-sage-text md:text-[1.65rem]">
+                  <div className="mt-6 border-t border-zn-border pt-6">
+                    <p className="font-mono text-2xl tracking-tight text-zn-text md:text-[1.65rem]">
                       {pkg.pricingSignal}
                     </p>
-                    <p className="mt-2 text-sm leading-relaxed text-zn-sage-text-2">
+                    <p className="mt-2 text-sm leading-relaxed text-zn-text-3">
                       {pkg.timeline}
                     </p>
                   </div>
@@ -96,10 +88,10 @@ export function PricingCardsSection({
                     {pkg.deliverables.map((item) => (
                       <li
                         key={item}
-                        className="flex items-start gap-2.5 text-sm leading-snug text-zn-sage-text"
+                        className="flex items-start gap-2.5 text-sm leading-snug text-zn-text"
                       >
                         <Check
-                          className="mt-0.5 size-4 shrink-0 text-zn-sage-text"
+                          className="mt-0.5 size-4 shrink-0 text-zn-text-3"
                           aria-hidden="true"
                         />
                         <span>{item}</span>
@@ -132,18 +124,18 @@ export function PricingCardsSection({
         </div>
 
         <Reveal delay={0.12}>
-          <p className="zn-container-inset mt-6 text-center text-sm text-zn-sage-text-2">
+          <p className="zn-container-inset mt-6 text-center text-sm text-zn-text-3">
             Need something different?{" "}
             <Link
               href="/services"
-              className="text-zn-sage-text underline-offset-4 hover:underline"
+              className="text-zn-text underline-offset-4 hover:underline"
             >
               Browse all services
             </Link>{" "}
             or{" "}
             <Link
               href="/contact"
-              className="text-zn-sage-text underline-offset-4 hover:underline"
+              className="text-zn-text underline-offset-4 hover:underline"
             >
               describe your project
             </Link>

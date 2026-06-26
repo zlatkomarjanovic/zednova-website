@@ -40,8 +40,6 @@
   /* Sage accent (workflow sections) */
   --color-zn-sage: #dde6d8;
   --color-zn-sage-mid: #e9ede4;
-  --color-zn-sage-text: #4a6347;
-  --color-zn-sage-text-2: color-mix(in srgb, var(--color-zn-sage-text) 72%, transparent);
 
   /* Product accent washes */
   --color-zn-lavender: #ebe6f0;

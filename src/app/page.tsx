@@ -222,22 +222,6 @@ export default async function HomePage() {
       >
         <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
         <BlueprintGrid />
-        <div className="zn-container relative">
-          <Reveal>
-            <SectionLabel withRule={false}>Tech stack</SectionLabel>
-          </Reveal>
-          <TextReveal
-            as="h2"
-            text="The tools we wire together for you"
-            className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
-          />
-          <Reveal delay={0.08}>
-            <p className="zn-prose mt-5 max-w-lg">
-              The platforms we build on, connect, and deploy. We pick the right stack
-              for the project, not the most familiar one.
-            </p>
-          </Reveal>
-        </div>
         <TechStackShowcase groups={techStackGroups} />
       </section>
 
