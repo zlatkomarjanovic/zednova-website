@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { buildCmsImageUrl, shouldUseCdnDelivery } from "@/sanity/image";
 
 import { BlueprintGridCrosses } from "@/ui/BlueprintGridCrosses";
 import { cn } from "@/lib/utils";
@@ -41,11 +42,13 @@ export function BenefitsGrid({
                 item.visual
               ) : item.image ? (
                 <Image
-                  src={item.image}
+                  src={buildCmsImageUrl(item.image, { width: 1280, quality: 85 })}
                   alt=""
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
+                  quality={90}
+                  unoptimized={shouldUseCdnDelivery(item.image)}
                 />
               ) : (
                 <div

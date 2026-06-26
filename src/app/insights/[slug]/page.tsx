@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowLeft, ArrowRight, Clock, CalendarDays } from "lucide-react";
+
+import { CmsImage } from "@/ui/CmsImage";
 
 import {
   getAllPosts,
@@ -207,12 +208,13 @@ export default async function ArticlePage({
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
               <div className="relative aspect-[16/9] w-full md:aspect-[21/9]">
-                <Image
+                <CmsImage
                   src={post.image}
                   alt={post.imageAlt ?? post.title}
                   fill
                   priority
-                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  preset="hero"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1920px) 100vw, 1920px"
                   className="object-cover"
                 />
               </div>

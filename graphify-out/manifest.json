@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "src/app/insights/[slug]/page.tsx": {
-    "mtime": 1782396555.4419274,
-    "ast_hash": "d355920b0a13487745c2db0ee11029fe",
+    "mtime": 1782487070.871736,
+    "ast_hash": "24993aaa59069c288ef007b9e739ed03",
     "semantic_hash": ""
   },
   "src/app/insights/page.tsx": {
@@ -430,8 +430,8 @@
     "semantic_hash": ""
   },
   "src/features/home/BenefitsGrid.tsx": {
-    "mtime": 1782310704.6193852,
-    "ast_hash": "809d569df1076b767d58d74252e094a3",
+    "mtime": 1782487067.8048055,
+    "ast_hash": "3d7a7847fe1a1828cd60f151c4a1f411",
     "semantic_hash": ""
   },
   "src/features/home/DarkCTA.tsx": {
@@ -525,8 +525,8 @@
     "semantic_hash": ""
   },
   "src/features/insights/ArticleBody.tsx": {
-    "mtime": 1782395387.5723546,
-    "ast_hash": "dbbd324cf6ae20f42898ede314358c3a",
+    "mtime": 1782487063.493738,
+    "ast_hash": "5d73ca098b30f50f180d627bc4b33e47",
     "semantic_hash": ""
   },
   "src/features/insights/ArticleCard.tsx": {
@@ -570,8 +570,8 @@
     "semantic_hash": ""
   },
   "src/features/services/ServicesTabShowcase.tsx": {
-    "mtime": 1782310704.6505957,
-    "ast_hash": "839ace2dde6e9fae62cc666c92e60c55",
+    "mtime": 1782487062.2927015,
+    "ast_hash": "7105fbdd440c0c2bb2c0670c4f4a54d9",
     "semantic_hash": ""
   },
   "src/features/work/CaseStudyCard.tsx": {
@@ -775,8 +775,8 @@
     "semantic_hash": ""
   },
   "src/ui/MediaImage.tsx": {
-    "mtime": 1781890469.7950733,
-    "ast_hash": "9a17ccd79c791df65d633e2746c76fa1",
+    "mtime": 1782487060.8215027,
+    "ast_hash": "21e723800296466d696a8d4b96a98a13",
     "semantic_hash": ""
   },
   "src/ui/SectionLabel.tsx": {
@@ -1232,6 +1232,16 @@
   "src/lib/cookies/types.ts": {
     "mtime": 1782485817.9787803,
     "ast_hash": "b87d88336a010106b9f941649756953e",
+    "semantic_hash": ""
+  },
+  "src/sanity/image.ts": {
+    "mtime": 1782487057.6781726,
+    "ast_hash": "f190b6ac7f954c131c050f5c587e0fa9",
+    "semantic_hash": ""
+  },
+  "src/ui/CmsImage.tsx": {
+    "mtime": 1782487098.3180995,
+    "ast_hash": "6cd93a4051cd16928de52df759682391",
     "semantic_hash": ""
   }
 }

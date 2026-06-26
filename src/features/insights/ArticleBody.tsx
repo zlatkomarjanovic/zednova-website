@@ -1,6 +1,6 @@
 import type { ArticleBlock } from "@/lib/types";
 import { slugify } from "@/lib/utils";
-import Image from "next/image";
+import { CmsImage } from "@/ui/CmsImage";
 
 /** Renders the simple block model. Stands in for Sanity Portable Text today. */
 export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
@@ -68,11 +68,12 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
             return block.image ? (
               <figure key={i} className="my-8">
                 <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2px] border border-zn-border">
-                  <Image
+                  <CmsImage
                     src={block.image}
                     alt={block.imageAlt ?? block.text ?? ""}
                     fill
-                    sizes="(max-width: 720px) 100vw, 720px"
+                    preset="article"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 720px"
                     className="object-cover"
                   />
                 </div>

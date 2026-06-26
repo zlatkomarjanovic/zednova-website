@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { BlueprintCross } from "@/ui/BlueprintCross";
+import { CmsImage } from "@/ui/CmsImage";
 import type { Service, ServiceGroup } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -86,11 +86,12 @@ function ServicePanel({ service }: { service: Service }) {
       </div>
 
       <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-[8px] bg-zn-bg-3 md:aspect-auto md:h-full md:w-1/2">
-        <Image
+        <CmsImage
           src={service.image}
           alt={service.title}
           fill
-          sizes="(max-width: 768px) 100vw, 36rem"
+          preset="showcase"
+          sizes="(max-width: 768px) 100vw, (max-width: 1920px) 50vw, 960px"
           className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
         />
       </div>
