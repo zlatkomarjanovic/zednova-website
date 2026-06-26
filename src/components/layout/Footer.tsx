@@ -66,7 +66,6 @@ export function Footer({
             </div>
             <div className="flex flex-col gap-5 lg:items-end lg:text-right">
               <div className="space-y-2 text-sm text-zn-inv-2">
-                <p>{settings.responseTime}</p>
                 <p>CST (Texas) · We work async</p>
               </div>
               <div className="flex items-center gap-3">

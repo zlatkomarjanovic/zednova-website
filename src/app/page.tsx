@@ -63,9 +63,9 @@ const PILLARS = [
     body: "CRM automations, booking flows, email and SMS sequences, and n8n or Make workflows so no lead sits idle.",
   },
   {
-    tagline: "Product & software",
-    title: "Senior builders, faster delivery",
-    body: "Web apps, portals, dashboards, and MVPs from a team with 10+ years shipping products. We use AI internally to move faster without cutting corners.",
+    tagline: "AI tools",
+    title: "We add AI where it actually helps",
+    body: "Website chatbots, AI phone assistants for missed calls, and intake flows that book appointments without anyone picking up the phone.",
   },
 ];
 
