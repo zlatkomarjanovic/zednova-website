@@ -19,6 +19,7 @@ import {
   articleUrl,
   breadcrumbJsonLd,
   faqPageJsonLd,
+  relatedArticlesJsonLd,
 } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import { ArticleInlineCta, ArticleQuickAnswer } from "@/features/insights/ArticleAeoBlocks";
@@ -30,13 +31,12 @@ import { ArticleShare } from "@/features/insights/ArticleShare";
 import { ArticleSidebar, ArticleMobileToc } from "@/features/insights/ArticleSidebar";
 import { ArticleTags } from "@/features/insights/ArticleTags";
 import { ArticleTakeaways } from "@/features/insights/ArticleTakeaways";
-import { ArticleCard } from "@/features/insights/ArticleCard";
+import { ArticleContinueReading } from "@/features/insights/ArticleContinueReading";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { Button } from "@/ui/Button";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
-import { SectionLabel } from "@/ui/SectionLabel";
 import { Tag } from "@/ui/Tag";
 import { formatDate } from "@/lib/utils";
 
@@ -150,14 +150,18 @@ export default async function ArticlePage({
 
   const tocSchema =
     showToc ? articleTocJsonLd(post, url, { includeFaq: hasFaq }) : null;
+  const relatedSchema = related.length
+    ? relatedArticlesJsonLd(related, post.title)
+    : null;
 
   return (
     <>
       <JsonLd
         data={[
-          articlePageGraphJsonLd({ post, author }),
+          articlePageGraphJsonLd({ post, author, related }),
           breadcrumbJsonLd(crumbs),
           ...(tocSchema ? [tocSchema] : []),
+          ...(relatedSchema ? [relatedSchema] : []),
           ...(hasFaq && post.schemaMarkup?.enableFaqSchema !== false
             ? [faqPageJsonLd(post.faqs!)]
             : []),
@@ -167,7 +171,7 @@ export default async function ArticlePage({
       {/* Article — continuous guides frame */}
       <section
         data-theme="light"
-        className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
+        className="relative bg-zn-bg"
       >
         <div className="zn-container-guides relative">
           <div className="relative border-x border-b border-zn-border">
@@ -376,22 +380,10 @@ export default async function ArticlePage({
 
             {/* Related */}
             {related.length > 0 && (
-              <div className="relative">
-                <div className="zn-container-inset py-14 lg:py-16">
-                  <SectionLabel withRule={false}>Keep reading</SectionLabel>
-                  <h2 className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-text">
-                    More from ZedNova
-                  </h2>
-                  <p className="zn-prose mt-5 max-w-lg">
-                    Practical notes on AI search, conversion, and the systems behind
-                    businesses that ship.
-                  </p>
-                  <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                    {related.map((p) => (
-                      <ArticleCard key={p.slug} post={p} />
-                    ))}
-                  </div>
-                </div>
+              <div className="relative border-b border-zn-border">
+                <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+                <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+                <ArticleContinueReading current={post} related={related} />
               </div>
             )}
 

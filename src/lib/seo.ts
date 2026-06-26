@@ -145,8 +145,16 @@ export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
 export function articlePageGraphJsonLd({
   post,
   author,
-}: ArticleJsonLdInput) {
-  const graph: object[] = [articleJsonLd({ post, author })];
+  related,
+}: ArticleJsonLdInput & { related?: Post[] }) {
+  const graph: object[] = [
+    {
+      ...articleJsonLd({ post, author }),
+      ...(related?.length
+        ? { relatedLink: related.map((p) => articleUrl(p.slug)) }
+        : {}),
+    },
+  ];
   if (author) {
     graph.push(
       personJsonLd({
@@ -197,6 +205,39 @@ export function articleTocJsonLd(
     "@type": "ItemList",
     name: `Table of contents — ${post.title}`,
     itemListElement: items,
+  };
+}
+
+/** schema.org/ItemList — related / continue-reading articles on an insight page. */
+export function relatedArticlesJsonLd(related: Post[], currentTitle: string) {
+  if (!related.length) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `Continue reading — ${currentTitle}`,
+    itemListElement: related.map((post, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "BlogPosting",
+        "@id": articleUrl(post.slug),
+        url: articleUrl(post.slug),
+        headline: post.seo?.seoTitle ?? post.seoTitle ?? post.title,
+        description: post.oneSentenceSummary ?? post.excerpt,
+        image: post.image ? [post.image] : undefined,
+        datePublished: post.publishedAt,
+        dateModified: post.updatedAt ?? post.publishedAt,
+        articleSection: post.category,
+        keywords: post.tags?.slice(0, 5).join(", "),
+        ...(post.contentType ? { genre: post.contentType } : {}),
+        author: {
+          "@type": "Organization",
+          name: "ZedNova Studios",
+          url: SITE_ORIGIN,
+        },
+      },
+    })),
   };
 }
 
