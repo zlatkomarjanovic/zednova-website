@@ -38,7 +38,7 @@ export const techStackGroups: TechStackGroup[] = [
     category: "CMS",
     description:
       "Content systems your team can edit without a developer — structured content for websites and apps.",
-    tools: ["Sanity", "Payload CMS", "Webflow"],
+    tools: ["Sanity", "Payload CMS", "Webflow", "Framer"],
   },
   {
     category: "Automation",
@@ -64,16 +64,16 @@ export const techStackGroups: TechStackGroup[] = [
     ],
   },
   {
-    category: "CRM",
+    category: "CRM & sales",
     description:
-      "CRMs we connect, automate, and build on for clinics, ecommerce, and service businesses.",
+      "CRMs we connect, automate, and build on for clinics, ecommerce, agencies, and service businesses.",
     tools: [
       "HubSpot",
       "GoHighLevel",
       "Salesforce",
       "Attio",
-      "Follow Up Boss",
       "Pipedrive",
+      "Follow Up Boss",
       "AgencyZoom",
       "Custom CRMs",
     ],
@@ -89,14 +89,86 @@ export const techStackGroups: TechStackGroup[] = [
     description:
       "Dashboards, analytics, and payments we integrate for reporting and conversion tracking.",
     tools: [
+      "Google Analytics",
       "Looker Studio",
       "Metabase",
-      "Google Analytics",
-      "Apollo",
-      "Google Business Profile",
+      "Mixpanel",
+      "PostHog",
       "Stripe",
       "Airtable",
       "Typeform",
+    ],
+  },
+  {
+    category: "Healthcare & wellness",
+    description:
+      "Booking, PMS, and patient communication platforms for dental, medical, medspa, and wellness practices.",
+    tools: [
+      "Jane App",
+      "NexHealth",
+      "Weave",
+      "SimplePractice",
+      "Practice Better",
+      "Dentrix",
+      "Open Dental",
+      "Lighthouse 360",
+      "Athenahealth",
+    ],
+  },
+  {
+    category: "Ecommerce & DTC",
+    description:
+      "Shopify, retention, support, and analytics for skincare, supplement, beauty, and DTC brands.",
+    tools: [
+      "Shopify",
+      "Shopify Plus",
+      "Klaviyo",
+      "Recharge",
+      "Gorgias",
+      "Yotpo",
+      "Judge.me",
+      "Triple Whale",
+      "Meta Ads",
+    ],
+  },
+  {
+    category: "Fitness & coaching",
+    description:
+      "Scheduling, coaching, and membership tools for gyms, trainers, and online coaching programs.",
+    tools: [
+      "Mindbody",
+      "Trainerize",
+      "TrueCoach",
+      "Acuity Scheduling",
+      "Stripe Billing",
+      "Practice Better",
+    ],
+  },
+  {
+    category: "Real estate & property",
+    description:
+      "CRM, IDX, and transaction tools for agencies, broker teams, property managers, and STR operators.",
+    tools: [
+      "KVCore",
+      "Sierra Interactive",
+      "Dotloop",
+      "BoomTown",
+      "IDX Broker",
+      "Follow Up Boss",
+    ],
+  },
+  {
+    category: "B2B SaaS & professional services",
+    description:
+      "Product analytics, contracts, and sales tools for SaaS startups, consultancies, and agencies.",
+    tools: [
+      "Intercom",
+      "Segment",
+      "Amplitude",
+      "DocuSign",
+      "PandaDoc",
+      "QuickBooks",
+      "Notion",
     ],
   },
 ];

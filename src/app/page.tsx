@@ -218,7 +218,7 @@ export default async function HomePage() {
       {/* Tech stack — continues sage */}
       <section
         data-theme="light"
-        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage via-zn-sage-mid to-zn-sage"
+        className="relative zn-section bg-gradient-to-b from-zn-sage via-zn-sage-mid to-zn-sage"
       >
         <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
         <BlueprintGrid />
