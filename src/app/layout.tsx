@@ -7,6 +7,9 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AiSummaryFab } from "@/components/layout/AiSummaryFab";
+import { CookieBanner } from "@/components/legal/CookieBanner";
+import { ConsentAwareAnalytics } from "@/components/legal/ConsentAwareAnalytics";
+import { CookieConsentProvider } from "@/lib/cookies/CookieConsentProvider";
 import { JsonLd } from "@/ui/JsonLd";
 import { sitewideSchemaGraph } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-url";
@@ -126,28 +129,32 @@ export default async function RootLayout({
         <a href="#main" className="zn-skip-link">
           Skip to content
         </a>
-        <LenisProvider>
-          <CustomCursor />
-          <Navbar
-            industryNavItems={industryNavItems}
-            customSoftwareNavItems={customSoftwareNavItems}
-            migrations={migrations}
-            serviceMegaMenuCards={serviceMegaMenuCards}
-          />
-          <PageTransition className="flex flex-1 flex-col">
-            <main id="main" className="flex-1">
-              {children}
-            </main>
-          </PageTransition>
-          <Footer
-            migrations={migrations}
-            settings={settings}
-            serviceMegaMenuCards={serviceMegaMenuCards}
-            customSoftwareNavItems={customSoftwareNavItems}
-            featuredHomepageIndustries={featuredHomepageIndustries}
-          />
-          <AiSummaryFab />
-        </LenisProvider>
+        <CookieConsentProvider>
+          <LenisProvider>
+            <CustomCursor />
+            <Navbar
+              industryNavItems={industryNavItems}
+              customSoftwareNavItems={customSoftwareNavItems}
+              migrations={migrations}
+              serviceMegaMenuCards={serviceMegaMenuCards}
+            />
+            <PageTransition className="flex flex-1 flex-col">
+              <main id="main" className="flex-1">
+                {children}
+              </main>
+            </PageTransition>
+            <Footer
+              migrations={migrations}
+              settings={settings}
+              serviceMegaMenuCards={serviceMegaMenuCards}
+              customSoftwareNavItems={customSoftwareNavItems}
+              featuredHomepageIndustries={featuredHomepageIndustries}
+            />
+            <AiSummaryFab />
+          </LenisProvider>
+          <CookieBanner />
+          <ConsentAwareAnalytics />
+        </CookieConsentProvider>
       </body>
     </html>
   );

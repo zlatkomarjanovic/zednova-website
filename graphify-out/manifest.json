@@ -270,8 +270,8 @@
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1782397645.8950608,
-    "ast_hash": "7bc997c3c5d08c0724dbbcbb1084c890",
+    "mtime": 1782485875.7034137,
+    "ast_hash": "4509b8b2177d4813faf8bf47c4027988",
     "semantic_hash": ""
   },
   "src/app/migrations/[slug]/page.tsx": {
@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/Footer.tsx": {
-    "mtime": 1782395387.6236486,
-    "ast_hash": "3e0bd47e01e35e7754290459133039dd",
+    "mtime": 1782485876.6679003,
+    "ast_hash": "4829e35bb28fde680c63f72fc5be0c20",
     "semantic_hash": ""
   },
   "src/components/layout/FooterAiSummaryLinks.tsx": {
@@ -750,8 +750,8 @@
     "semantic_hash": ""
   },
   "src/ui/HoverFlip.tsx": {
-    "mtime": 1782405819.5229378,
-    "ast_hash": "dae3628c55a3f866d369c9585ed98a3b",
+    "mtime": 1782405923.4925215,
+    "ast_hash": "84bce08845fc87bdc04ed5fb12bfbe7a",
     "semantic_hash": ""
   },
   "src/ui/HoverHighlight.tsx": {
@@ -970,13 +970,13 @@
     "semantic_hash": ""
   },
   "src/app/robots.ts": {
-    "mtime": 1782396489.878029,
-    "ast_hash": "f1e18eb96998491e152cd02fabc4593e",
+    "mtime": 1782485876.8925273,
+    "ast_hash": "9e3993f24fc33ce3d3113d06e0ee003f",
     "semantic_hash": ""
   },
   "src/app/sitemap.ts": {
-    "mtime": 1782401288.140401,
-    "ast_hash": "996af29052cb10c548f191e9c2a16ba9",
+    "mtime": 1782485877.8683195,
+    "ast_hash": "c6785a18987a0e4bebc5f3df3f317b30",
     "semantic_hash": ""
   },
   "src/components/sections/FaqSection.tsx": {
@@ -1125,8 +1125,8 @@
     "semantic_hash": ""
   },
   "src/lib/content/llms.ts": {
-    "mtime": 1782401298.443155,
-    "ast_hash": "af3f2be5a903be8030f441037ae49cd2",
+    "mtime": 1782485882.7785494,
+    "ast_hash": "cd677afc0d936f73a2b123a47d0e47cd",
     "semantic_hash": ""
   },
   "src/lib/site-url.ts": {
@@ -1172,6 +1172,66 @@
   "src/ui/EntitySummary.tsx": {
     "mtime": 1782400280.9743226,
     "ast_hash": "f87217d2c47b58fbbff0eab8d8740a30",
+    "semantic_hash": ""
+  },
+  "src/app/legal/cookie-settings/page.tsx": {
+    "mtime": 1782485867.9236207,
+    "ast_hash": "3ca02b126517466ec1223751d8fc9ab3",
+    "semantic_hash": ""
+  },
+  "src/app/legal/privacy-policy/page.tsx": {
+    "mtime": 1782485864.6965635,
+    "ast_hash": "7f919b0ab09b940ab34b73dab98e1d67",
+    "semantic_hash": ""
+  },
+  "src/app/legal/terms/page.tsx": {
+    "mtime": 1782485865.617458,
+    "ast_hash": "2832a5f213a0826e7f9c90d8103190eb",
+    "semantic_hash": ""
+  },
+  "src/components/legal/ConsentAwareAnalytics.tsx": {
+    "mtime": 1782485840.232183,
+    "ast_hash": "29b87c0529f7ac9346bdcc10a78a3d27",
+    "semantic_hash": ""
+  },
+  "src/components/legal/CookieBanner.tsx": {
+    "mtime": 1782485848.3768575,
+    "ast_hash": "817b7525310964ab7a5ba37e3561f173",
+    "semantic_hash": ""
+  },
+  "src/components/legal/CookiePreferencesForm.tsx": {
+    "mtime": 1782485841.0631273,
+    "ast_hash": "87c2169500c22bb67b0870d55e2e29ef",
+    "semantic_hash": ""
+  },
+  "src/components/legal/CookieSettingsPanel.tsx": {
+    "mtime": 1782485850.3474529,
+    "ast_hash": "d975632200924cb71c01e93c9a3539a6",
+    "semantic_hash": ""
+  },
+  "src/components/legal/LegalPageContent.tsx": {
+    "mtime": 1782485852.6990259,
+    "ast_hash": "5e5b1d82804cb4c8cf0db9578cb45bda",
+    "semantic_hash": ""
+  },
+  "src/lib/content/legal.ts": {
+    "mtime": 1782485863.4977655,
+    "ast_hash": "fb975b2c39d0235fd99e42d3bc66050d",
+    "semantic_hash": ""
+  },
+  "src/lib/cookies/CookieConsentProvider.tsx": {
+    "mtime": 1782485836.903433,
+    "ast_hash": "a595aec407b75c94ef84f982971ddc2c",
+    "semantic_hash": ""
+  },
+  "src/lib/cookies/storage.ts": {
+    "mtime": 1782485821.9177477,
+    "ast_hash": "5365055effac88488d75f33365ef3dd9",
+    "semantic_hash": ""
+  },
+  "src/lib/cookies/types.ts": {
+    "mtime": 1782485817.9787803,
+    "ast_hash": "b87d88336a010106b9f941649756953e",
     "semantic_hash": ""
   }
 }

@@ -50,6 +50,9 @@ export function buildLlmsTxt(): string {
 - About: ${SITE_ORIGIN}/about
 - Insights: ${SITE_ORIGIN}/insights
 - Contact: ${SITE_ORIGIN}/contact
+- Privacy Policy: ${SITE_ORIGIN}/legal/privacy-policy
+- Terms of Service: ${SITE_ORIGIN}/legal/terms
+- Cookie Settings: ${SITE_ORIGIN}/legal/cookie-settings
 - HTML sitemap: ${SITE_ORIGIN}/sitemap
 - Tech stack: ${SITE_ORIGIN}/stack
 - Service areas: ${SITE_ORIGIN}/service-areas

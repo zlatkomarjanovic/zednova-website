@@ -175,7 +175,7 @@ export function Footer({
 
         <div className="zn-container-inset flex flex-col gap-4 py-10 pb-12 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between lg:py-12 lg:pb-14">
           <p>© {year} ZedNova Studios. Texas LLC. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link
               href="/legal/privacy-policy"
               className="transition-opacity hover:text-zn-inv"
@@ -184,6 +184,12 @@ export function Footer({
             </Link>
             <Link href="/legal/terms" className="transition-opacity hover:text-zn-inv">
               Terms
+            </Link>
+            <Link
+              href="/legal/cookie-settings"
+              className="transition-opacity hover:text-zn-inv"
+            >
+              Cookie Settings
             </Link>
           </div>
         </div>
