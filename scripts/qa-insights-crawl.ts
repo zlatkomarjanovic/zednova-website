@@ -14,6 +14,20 @@ const SPLIT_PATTERNS = [
   /M M i i g g r r a a t t i i o o n n s s/i,
 ];
 
+// Duplicated clean-label patterns caused by dual text nodes (sr-only + fallback).
+const DUPLICATE_LABEL_PATTERNS = [
+  /\b(Services)\s+\1\b/,
+  /\b(Custom Software)\s+\1\b/,
+  /\b(Migrations)\s+\1\b/,
+  /\b(Industries)\s+\1\b/,
+  /\b(Start a project)\s+\1\b/,
+  /\b(Tell us what you need)\s+\1\b/,
+  /\b(See services)\s+\1\b/,
+  /\b(See work)\s+\1\b/,
+  /\b(Marketing website development)\s+\1\b/,
+  /\b(Shopify to Headless Shopify)\s+\1\b/,
+];
+
 const PAGES = [
   `${ORIGIN}/robots.txt`,
   `${ORIGIN}/sitemap.xml`,
@@ -27,14 +41,20 @@ async function checkRobots(url: string): Promise<string[]> {
   const errors: string[] = [];
   const res = await fetch(url);
   const text = await res.text();
-  if (!text.includes("\n") && !text.includes("\r")) {
-    errors.push("robots.txt has no newline characters");
+
+  const newlineCount = (text.match(/\n/g) ?? []).length;
+  if (newlineCount < 5) {
+    errors.push(`robots.txt has only ${newlineCount} newlines — expected multi-line output`);
   }
+
   if (text.includes("User-Agent:") && !text.includes("User-agent:")) {
     errors.push("robots.txt appears to use old MetadataRoute format");
   }
   if (!text.includes(`Sitemap: ${ORIGIN}/sitemap.xml`)) {
     errors.push("robots.txt missing sitemap directive");
+  }
+  if (!text.includes(`Host: ${ORIGIN}`)) {
+    errors.push("robots.txt missing Host directive");
   }
   return errors;
 }
@@ -47,6 +67,12 @@ async function checkHtml(url: string): Promise<string[]> {
   for (const pattern of SPLIT_PATTERNS) {
     if (pattern.test(html)) {
       errors.push(`split-letter pattern matched: ${pattern}`);
+    }
+  }
+
+  for (const pattern of DUPLICATE_LABEL_PATTERNS) {
+    if (pattern.test(html)) {
+      errors.push(`duplicate clean-label pattern matched: ${pattern}`);
     }
   }
 
@@ -93,6 +119,28 @@ async function main() {
       errors++;
     } else {
       console.log("✓ HoverFlip uses self-closing data-char elements");
+    }
+    // HoverFlip must not render a second text node as a motion-reduce fallback.
+    const fallbackMatch = hoverFlip.match(/motion-reduce:inline[^}]*\{children\}/);
+    if (fallbackMatch) {
+      console.error("✗ HoverFlip still renders duplicate fallback label text");
+      errors++;
+    } else {
+      console.log("✓ HoverFlip has no duplicate fallback label");
+    }
+    // HeroWorkGallery must mark the loop duplicate as aria-hidden.
+    const galleryPath = "src/features/home/HeroWorkGallery.tsx";
+    try {
+      const gallery = fs.readFileSync(galleryPath, "utf8");
+      if (!gallery.includes("aria-hidden") || !gallery.includes("loopHalfLength")) {
+        console.error("✗ HeroWorkGallery does not hide marquee duplicate from crawlers");
+        errors++;
+      } else {
+        console.log("✓ HeroWorkGallery hides marquee duplicate via aria-hidden");
+      }
+    } catch {
+      console.error(`✗ ${galleryPath} not found`);
+      errors++;
     }
     if (robotsRoute.includes('join("\\n")')) {
       console.log("✓ robots route joins with newline");

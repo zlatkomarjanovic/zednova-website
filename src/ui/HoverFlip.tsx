@@ -9,6 +9,8 @@ const FLIP_STAGGER_MS = 18;
  *
  * Crawlers get one clean label via `.sr-only`. Decorative letters use
  * `data-char` + CSS `::before`/`::after` — no letter text nodes in the DOM.
+ * The `.hover-flip-char::before` pseudo-element always renders the letter
+ * visually (including reduced-motion), so no duplicate fallback text is needed.
  */
 export function HoverFlip({
   children,
@@ -32,7 +34,7 @@ export function HoverFlip({
   return (
     <span className={cn("inline-block align-bottom leading-none", className)}>
       <span className="sr-only">{children}</span>
-      <span aria-hidden="true" className="hover-flip motion-reduce:hidden">
+      <span aria-hidden="true" className="hover-flip">
         {chars.map((char, index) => (
           <span
             key={`${index}-${char}`}
@@ -44,9 +46,6 @@ export function HoverFlip({
             }}
           />
         ))}
-      </span>
-      <span aria-hidden="true" className="hidden motion-reduce:inline">
-        {children}
       </span>
     </span>
   );

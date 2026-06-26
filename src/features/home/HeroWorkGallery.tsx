@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -15,24 +15,34 @@ type HeroWorkGalleryProps = {
   showTopBorder?: boolean;
 };
 
-function ProjectSlide({ project, priority }: { project: PortfolioProject; priority?: boolean }) {
+function ProjectSlide({
+  project,
+  priority,
+  ariaHidden,
+}: {
+  project: PortfolioProject;
+  priority?: boolean;
+  ariaHidden?: boolean;
+}) {
   return (
     <a
       href={project.href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-hidden={ariaHidden || undefined}
+      tabIndex={ariaHidden ? -1 : undefined}
       className="group block w-[66.666cqw] min-w-[18rem] shrink-0"
     >
       <PortfolioHoverMedia
         image={project.image}
         video={project.video}
-        alt={project.imageAlt}
+        alt={ariaHidden ? "" : project.imageAlt}
         priority={priority}
         sizes="(max-width: 1312px) 66vw, 840px"
         className="aspect-[16/10] w-full rounded-[10px]"
       />
       <p className="mt-2.5 w-full font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-zn-text-2">
-        {project.client} — {project.title}
+        {ariaHidden ? "" : `${project.client} — ${project.title}`}
       </p>
     </a>
   );
@@ -49,13 +59,21 @@ export function HeroWorkGallery({
 }: HeroWorkGalleryProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
-  const items = projects.length > 0 ? [...projects, ...projects] : [];
+  const [loopReady, setLoopReady] = useState(false);
+
+  useEffect(() => {
+    setLoopReady(true);
+  }, []);
+
+  // SSR + first paint: one set only. Loop duplicate mounts client-side.
+  const items = loopReady && projects.length > 0 ? [...projects, ...projects] : projects;
+  const loopHalfLength = loopReady ? projects.length : 0;
 
   useGSAP(
     () => {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const track = trackRef.current;
-      if (reduce || !track || items.length === 0) return;
+      if (reduce || !track || !loopReady || items.length === 0) return;
 
       const BASE_DURATION = 58;
       const scrollState = {
@@ -124,7 +142,7 @@ export function HeroWorkGallery({
         gsap.set(track, { clearProps: "transform" });
       };
     },
-    { dependencies: [items.length] },
+    { dependencies: [loopReady, items.length] },
   );
 
   return (
@@ -147,6 +165,7 @@ export function HeroWorkGallery({
               key={`${project.slug}-${index}`}
               project={project}
               priority={index === 0}
+              aria-hidden={loopReady && index >= loopHalfLength ? true : undefined}
             />
           ))}
         </div>
