@@ -17,6 +17,7 @@
     "seed:custom-software-icons": "npx tsx scripts/seed-custom-software-icons.ts",
     "fix:insights-data": "npx tsx scripts/fix-insights-post-data.ts",
     "qa:insights-jsonld": "npx tsx scripts/qa-insight-jsonld.ts",
+    "verify:live-seo": "node scripts/verify-live-seo.mjs",
     "enrich:insights-posts": "npx tsx scripts/enrich-insights-posts.ts"
   },
   "dependencies": {
