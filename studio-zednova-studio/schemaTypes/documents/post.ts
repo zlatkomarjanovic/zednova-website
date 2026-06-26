@@ -287,6 +287,41 @@ export const post = defineType({
       ],
     }),
     defineField({
+      name: "sources",
+      title: "Sources & references",
+      type: "array",
+      group: "aeo",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "title", type: "string", validation: (r) => r.required() }),
+            defineField({ name: "url", type: "url", validation: (r) => r.required() }),
+            defineField({ name: "publisher", type: "string" }),
+            defineField({ name: "note", type: "string", title: "Optional note" }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "implementationTable",
+      title: "Implementation table",
+      type: "array",
+      group: "aeo",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "fix", type: "string", title: "Fix" }),
+            defineField({ name: "problem", type: "string", title: "Problem" }),
+            defineField({ name: "change", type: "string", title: "What to change" }),
+            defineField({ name: "metric", type: "string", title: "Metric" }),
+            defineField({ name: "tool", type: "string", title: "Tool" }),
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: "checklists",
       type: "array",
       group: "aeo",

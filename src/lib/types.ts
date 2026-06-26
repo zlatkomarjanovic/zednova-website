@@ -284,6 +284,21 @@ export type ArticleBlock =
   | { type: "callout"; text: string; calloutVariant?: string }
   | { type: "image"; image?: string; imageAlt?: string; text?: string };
 
+export type ImplementationRow = {
+  fix: string;
+  problem: string;
+  change: string;
+  metric: string;
+  tool: string;
+};
+
+export type SourceReference = {
+  title: string;
+  url: string;
+  publisher?: string;
+  note?: string;
+};
+
 export type ArticleFaq = {
   id?: string;
   question: string;
@@ -300,6 +315,7 @@ export type Post = {
   author: string;
   publishedAt: string;
   updatedAt?: string;
+  lastReviewedAt?: string;
   readTime: number;
   featured: boolean;
   pinned?: boolean;
@@ -345,6 +361,8 @@ export type Post = {
   secondaryCtaDescription?: string;
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
+  sources?: SourceReference[];
+  implementationTable?: ImplementationRow[];
   seo?: SeoFields;
 };
 

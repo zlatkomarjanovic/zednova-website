@@ -1,4 +1,5 @@
 import type { ArticleBlock } from "@/lib/types";
+import { parseInlineLinks } from "@/lib/insights/parse-inline-links";
 import { slugify } from "@/lib/utils";
 import { CmsImage } from "@/ui/CmsImage";
 
@@ -87,7 +88,7 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
           default:
             return (
               <p key={i} className="text-lg leading-relaxed text-zn-text-2">
-                {block.text}
+                {parseInlineLinks(block.text)}
               </p>
             );
         }

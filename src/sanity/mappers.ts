@@ -17,6 +17,7 @@ import type {
   ServiceGroup,
   Testimonial,
 } from "@/lib/types";
+import { uniqueFaqs, uniqueTakeaways } from "@/lib/insights/dedupe-aeo";
 import type { Migration } from "@/lib/types/content-nav";
 import type {
   CustomSoftwareGroupSection,
@@ -123,13 +124,7 @@ function mergePostFaqs(
     ...mapFaqs(refs),
     ...mapFaqs(richInline),
   ];
-  const seen = new Set<string>();
-  return combined.filter((f) => {
-    const key = f.id ?? f.question;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  return uniqueFaqs(combined);
 }
 
 type SanityService = {
@@ -635,8 +630,8 @@ function resolvePostBody(doc: {
 }
 
 function mergeTakeaways(plain?: string[], rich?: string[]): string[] | undefined {
-  const merged = [...(plain ?? []), ...(rich ?? [])].filter(Boolean);
-  return merged.length ? merged : undefined;
+  const unique = uniqueTakeaways([...(plain ?? []), ...(rich ?? [])]);
+  return unique.length ? unique : undefined;
 }
 
 export function mapPost(doc: {
@@ -648,6 +643,7 @@ export function mapPost(doc: {
   author: string;
   publishedAt: string;
   updatedAt?: string;
+  lastReviewedAt?: string;
   readTime: number;
   featured: boolean;
   pinned?: boolean;
@@ -683,6 +679,14 @@ export function mapPost(doc: {
   painPoints?: string[];
   searchQuestions?: string[];
   entitiesMentioned?: string[];
+  sources?: { title?: string; url?: string; publisher?: string; note?: string }[];
+  implementationTable?: {
+    fix?: string;
+    problem?: string;
+    change?: string;
+    metric?: string;
+    tool?: string;
+  }[];
   tableOfContentsEnabled?: boolean;
   openGraph?: Record<string, unknown>;
   schemaMarkup?: Record<string, unknown>;
@@ -717,6 +721,7 @@ export function mapPost(doc: {
     author: doc.author,
     publishedAt: doc.publishedAt,
     updatedAt: doc.updatedAt,
+    lastReviewedAt: doc.lastReviewedAt,
     readTime: doc.readTime,
     featured: doc.featured,
     pinned: doc.pinned,
@@ -769,6 +774,23 @@ export function mapPost(doc: {
     secondaryCtaDescription: doc.secondaryCtaDescription,
     secondaryCtaLabel: doc.secondaryCtaLabel,
     secondaryCtaHref: doc.secondaryCtaHref,
+    sources: doc.sources
+      ?.filter((s) => s.title && s.url)
+      .map((s) => ({
+        title: s.title!,
+        url: s.url!,
+        publisher: s.publisher,
+        note: s.note,
+      })),
+    implementationTable: doc.implementationTable
+      ?.filter((row) => row.fix && row.problem)
+      .map((row) => ({
+        fix: row.fix!,
+        problem: row.problem!,
+        change: row.change ?? "",
+        metric: row.metric ?? "",
+        tool: row.tool ?? "",
+      })),
     body: resolvePostBody(doc),
     seo,
   };

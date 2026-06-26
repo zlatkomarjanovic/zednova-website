@@ -790,16 +790,21 @@ export async function getAllPosts(): Promise<Post[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
+  let post: Post | null = null;
   if (!isSanityConfigured()) {
-    return postsStatic.find((p) => p.slug === slug) ?? null;
+    post = postsStatic.find((p) => p.slug === slug) ?? null;
+  } else {
+    try {
+      const has = await sanityHasContent("post");
+      if (!has) post = postsStatic.find((p) => p.slug === slug) ?? null;
+      else post = (await fetchPostBySlugFromSanity(slug)) ?? null;
+    } catch {
+      post = postsStatic.find((p) => p.slug === slug) ?? null;
+    }
   }
-  try {
-    const has = await sanityHasContent("post");
-    if (!has) return postsStatic.find((p) => p.slug === slug) ?? null;
-    return (await fetchPostBySlugFromSanity(slug)) ?? null;
-  } catch {
-    return postsStatic.find((p) => p.slug === slug) ?? null;
-  }
+  if (!post) return null;
+  const { normalizeInsightPost } = await import("@/lib/insights/normalize-post");
+  return normalizeInsightPost(post);
 }
 
 export async function getFeaturedPost(): Promise<Post> {

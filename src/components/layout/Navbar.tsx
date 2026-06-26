@@ -349,6 +349,7 @@ export function Navbar({
               <Link
                 key={link.href}
                 href={link.href}
+                aria-label={link.label}
                 data-hover-cell
                 onMouseEnter={(e) => {
                   scheduleClose();
@@ -356,13 +357,14 @@ export function Navbar({
                 }}
                 className="group/flip relative z-[1] rounded-[4px] px-3 py-2 text-sm font-normal"
               >
-                <HoverFlip>{link.label}</HoverFlip>
+                <HoverFlip decorative>{link.label}</HoverFlip>
               </Link>
             ))}
             {LINKS_AFTER_INDUSTRIES.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
+                aria-label={link.label}
                 data-hover-cell
                 onMouseEnter={(e) => {
                   scheduleClose();
@@ -370,7 +372,7 @@ export function Navbar({
                 }}
                 className="group/flip relative z-[1] rounded-[4px] px-3 py-2 text-sm font-normal"
               >
-                <HoverFlip>{link.label}</HoverFlip>
+                <HoverFlip decorative>{link.label}</HoverFlip>
               </Link>
             ))}
           </nav>
@@ -469,8 +471,8 @@ function MegaTrigger({
       }}
       className="relative z-[1] flex items-center rounded-[4px] text-sm font-normal"
     >
-      <Link href={href} className="group/flip px-3 py-2">
-        <HoverFlip>{label}</HoverFlip>
+      <Link href={href} aria-label={label} className="group/flip px-3 py-2">
+        <HoverFlip decorative>{label}</HoverFlip>
       </Link>
       <button
         type="button"

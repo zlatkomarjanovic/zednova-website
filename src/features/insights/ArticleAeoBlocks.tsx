@@ -11,11 +11,11 @@ export function ArticleQuickAnswer({ post }: { post: Post }) {
   if (!answer) return null;
 
   return (
-    <aside className="article-quick-answer mb-10 rounded-[2px] border border-zn-border bg-zn-bg-2/60 p-6">
+    <aside className="article-direct-answer article-quick-answer mb-10 rounded-[2px] border border-zn-border bg-zn-bg-2/60 p-6">
       {question ? (
         <p className="zn-label text-zn-text-3">{question}</p>
       ) : (
-        <p className="zn-label text-zn-text-3">Quick answer</p>
+        <p className="zn-label text-zn-text-3">Direct answer</p>
       )}
       <p className="mt-3 text-base leading-relaxed text-zn-text">{answer}</p>
     </aside>

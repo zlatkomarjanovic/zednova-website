@@ -9,9 +9,10 @@ export function FooterNavLink({ href, label }: { href: string; label: string }) 
     <li>
       <Link
         href={href}
+        aria-label={label}
         className="group/flip inline-block text-sm leading-snug text-zn-inv-2 transition-colors hover:text-zn-inv"
       >
-        <HoverFlip>{label}</HoverFlip>
+        <HoverFlip decorative>{label}</HoverFlip>
       </Link>
     </li>
   );

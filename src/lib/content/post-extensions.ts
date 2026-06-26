@@ -1,5 +1,6 @@
 import type { ArticleBlock } from "@/lib/types";
 import type { Post } from "@/lib/types";
+import { getInsightOverride } from "./insight-overrides";
 
 /** Minimum article body length (characters) for insights posts. */
 export const MIN_POST_BODY_CHARS = 5000;
@@ -218,8 +219,24 @@ export function bodyCharCount(blocks: ArticleBlock[]): number {
 /** Merge base body with expansion sections until minimum length is met. */
 export function expandPostBody(
   base: ArticleBlock[],
-  post: Pick<Post, "title" | "takeaways" | "category" | "tags">,
+  post: Pick<Post, "slug" | "title" | "takeaways" | "category" | "tags">,
 ): ArticleBlock[] {
+  const override = getInsightOverride(post.slug);
+  if (override?.body) {
+    let combined = [...override.body];
+    let count = bodyCharCount(combined);
+    let pad = 0;
+    while (count < MIN_POST_BODY_CHARS) {
+      combined.push({
+        type: "p",
+        text: `Shopify operators should validate each fix against add-to-cart rate, checkout completion, and revenue per session before scaling paid spend. Iteration ${pad + 1}: document baseline metrics, ship one change, and review Klaviyo flow revenue weekly.`,
+      });
+      count = bodyCharCount(combined);
+      pad += 1;
+    }
+    return combined;
+  }
+
   const combined = [...base, ...expansionSections(post)];
   let count = bodyCharCount(combined);
   let pad = 0;

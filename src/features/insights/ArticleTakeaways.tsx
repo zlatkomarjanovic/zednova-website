@@ -1,3 +1,4 @@
+import { uniqueTakeaways } from "@/lib/insights/dedupe-aeo";
 import { Lightbulb } from "lucide-react";
 
 /**
@@ -5,7 +6,8 @@ import { Lightbulb } from "lucide-react";
  * engines (and skimming readers) get the conclusion immediately.
  */
 export function ArticleTakeaways({ items }: { items: string[] }) {
-  if (!items.length) return null;
+  const unique = uniqueTakeaways(items);
+  if (!unique.length) return null;
   return (
     <aside
       aria-label="Key takeaways"
@@ -16,7 +18,7 @@ export function ArticleTakeaways({ items }: { items: string[] }) {
         <span className="zn-label">Key takeaways</span>
       </div>
       <ul className="mt-4 grid gap-3">
-        {items.map((item, i) => (
+        {unique.map((item, i) => (
           <li key={i} className="flex gap-3">
             <span
               className="mt-0.5 font-mono text-xs text-zn-text-3"

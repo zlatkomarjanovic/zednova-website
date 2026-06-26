@@ -4,8 +4,24 @@
  * queries without changing the page.
  */
 import type { ArticleFaq, Post, TeamMember } from "@/lib/types";
+import { uniqueFaqs } from "@/lib/insights/dedupe-aeo";
+import {
+  normalizeModifiedDate,
+  pruneJsonLd,
+  stripJsonLdContext,
+} from "@/lib/seo/jsonld-utils";
 import { SITE_ORIGIN, absoluteUrl } from "@/lib/site-url";
 import { slugify } from "@/lib/utils";
+
+/** Shared schema @id constants — must match sitewideSchemaGraph in layout. */
+export const SCHEMA_ORG_ID = `${SITE_ORIGIN}/#organization`;
+export const SCHEMA_WEBSITE_ID = `${SITE_ORIGIN}/#website`;
+
+function normalizeSchemaImageUrl(url?: string): string | undefined {
+  if (!url?.trim()) return undefined;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return absoluteUrl(url);
+}
 
 export function articleUrl(slug: string): string {
   return absoluteUrl(`/insights/${slug}`);
@@ -239,6 +255,169 @@ export function relatedArticlesJsonLd(related: Post[], currentTitle: string) {
       },
     })),
   };
+}
+
+/** Unified @graph for insight article pages — article-specific nodes only. */
+export function insightPageGraphJsonLd(input: {
+  post: Post;
+  author: TeamMember | null;
+  crumbs: { label: string; href?: string }[];
+  faqs?: ArticleFaq[];
+  related?: Post[];
+  includeToc?: boolean;
+  includeFaq?: boolean;
+}): { "@context": "https://schema.org"; "@graph": object[] } {
+  const { post, author, crumbs, related } = input;
+  const faqs = uniqueFaqs(input.faqs);
+  const canonicalPath = post.seo?.seoCanonical ?? `/insights/${post.slug}`;
+  const pageUrl = absoluteUrl(canonicalPath);
+  const webPageId = `${pageUrl}#webpage`;
+  const blogPostingId = `${pageUrl}#blogposting`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const imageUrl = normalizeSchemaImageUrl(
+    post.seo?.ogImage ?? post.ogImage ?? post.image,
+  );
+  const imageId = `${pageUrl}#primaryimage`;
+  const faqId = `${pageUrl}#faq`;
+  const personId = author ? `${SITE_ORIGIN}/about#${author.slug}` : SCHEMA_ORG_ID;
+
+  const headline = post.seo?.seoTitle ?? post.seoTitle ?? post.title;
+  const description =
+    post.aiSummary ??
+    post.oneSentenceSummary ??
+    post.seo?.seoDescription ??
+    post.seoDescription ??
+    post.excerpt;
+  const datePublished = post.publishedAt;
+  const dateModified = normalizeModifiedDate(
+    datePublished,
+    post.lastReviewedAt ?? post.updatedAt ?? datePublished,
+  );
+
+  const authorSameAs = author
+    ? [author.linkedin, author.twitter, author.website, author.upwork].filter(
+        (link): link is string => Boolean(link),
+      )
+    : [];
+
+  const graph: object[] = [
+    {
+      "@type": "WebPage",
+      "@id": webPageId,
+      url: pageUrl,
+      name: headline,
+      description,
+      inLanguage: "en-US",
+      isPartOf: { "@id": SCHEMA_WEBSITE_ID },
+      breadcrumb: { "@id": breadcrumbId },
+      ...(imageUrl ? { primaryImageOfPage: { "@id": imageId } } : {}),
+      mainEntity: { "@id": blogPostingId },
+      dateModified,
+      datePublished,
+    },
+    {
+      "@type": "BlogPosting",
+      "@id": blogPostingId,
+      url: pageUrl,
+      headline,
+      description,
+      datePublished,
+      dateModified,
+      articleSection: post.category,
+      ...((post.seo?.keywords ?? post.keywords)?.length
+        ? { keywords: (post.seo?.keywords ?? post.keywords)!.join(", ") }
+        : {}),
+      wordCount: estimateWordCount(post),
+      inLanguage: "en-US",
+      isAccessibleForFree: true,
+      ...(post.aiSummary || post.oneSentenceSummary
+        ? { abstract: post.aiSummary ?? post.oneSentenceSummary }
+        : {}),
+      author: { "@id": personId },
+      publisher: { "@id": SCHEMA_ORG_ID },
+      mainEntityOfPage: { "@id": webPageId },
+      ...(imageUrl ? { image: { "@id": imageId } } : {}),
+      ...(related?.length
+        ? { relatedLink: related.map((p) => articleUrl(p.slug)) }
+        : {}),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": breadcrumbId,
+      itemListElement: crumbs.map((c, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: c.label,
+        item: c.href ? absoluteUrl(c.href) : pageUrl,
+      })),
+    },
+  ];
+
+  if (imageUrl) {
+    graph.push({
+      "@type": "ImageObject",
+      "@id": imageId,
+      url: imageUrl,
+      contentUrl: imageUrl,
+      width: 1600,
+      height: 900,
+      ...(post.imageCaption ? { caption: post.imageCaption } : {}),
+      ...(post.imageAlt ? { name: post.imageAlt } : {}),
+    });
+  }
+
+  if (author) {
+    graph.push({
+      "@type": "Person",
+      "@id": personId,
+      name: author.name,
+      jobTitle: author.role,
+      url: absoluteUrl("/about"),
+      ...(author.avatar ? { image: absoluteUrl(author.avatar) } : {}),
+      ...(authorSameAs.length ? { sameAs: authorSameAs } : {}),
+      worksFor: { "@id": SCHEMA_ORG_ID },
+    });
+  }
+
+  if (input.includeToc) {
+    const toc = articleTocJsonLd(post, pageUrl, { includeFaq: input.includeFaq });
+    if (toc) {
+      graph.push({
+        ...stripJsonLdContext(toc as Record<string, unknown>),
+        "@id": `${pageUrl}#toc`,
+      });
+    }
+  }
+
+  if (faqs.length && input.includeFaq !== false) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": faqId,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: f.answer,
+        },
+      })),
+    });
+  }
+
+  if (related?.length) {
+    const relatedList = relatedArticlesJsonLd(related, post.title);
+    if (relatedList) {
+      graph.push({
+        ...stripJsonLdContext(relatedList as Record<string, unknown>),
+        "@id": `${pageUrl}#related`,
+      });
+    }
+  }
+
+  return pruneJsonLd({
+    "@context": "https://schema.org",
+    "@graph": graph,
+  });
 }
 
 /** schema.org/BreadcrumbList — for the breadcrumb trail. */

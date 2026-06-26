@@ -13,14 +13,8 @@ import {
   getRelatedPosts,
   getServicesBySlugs,
 } from "@/lib/queries";
-import {
-  articlePageGraphJsonLd,
-  articleTocJsonLd,
-  articleUrl,
-  breadcrumbJsonLd,
-  faqPageJsonLd,
-  relatedArticlesJsonLd,
-} from "@/lib/seo";
+import { insightPageGraphJsonLd, articleUrl } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/site-url";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import { ArticleInlineCta, ArticleQuickAnswer } from "@/features/insights/ArticleAeoBlocks";
 import { ArticleAudienceLine } from "@/features/insights/ArticleAudienceLine";
@@ -32,6 +26,8 @@ import { ArticleSidebar, ArticleMobileToc } from "@/features/insights/ArticleSid
 import { ArticleTags } from "@/features/insights/ArticleTags";
 import { ArticleTakeaways } from "@/features/insights/ArticleTakeaways";
 import { ArticleContinueReading } from "@/features/insights/ArticleContinueReading";
+import { ArticleImplementationTable } from "@/features/insights/ArticleImplementationTable";
+import { ArticleSources } from "@/features/insights/ArticleSources";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { Button } from "@/ui/Button";
@@ -54,37 +50,47 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug);
   if (!post) return {};
 
-  const url = articleUrl(slug);
   const title = post.seo?.seoTitle ?? post.seoTitle ?? post.title;
   const description = post.seo?.seoDescription ?? post.seoDescription ?? post.excerpt;
-  const ogImage = post.seo?.ogImage ?? post.ogImage ?? post.image;
+  const ogImageRaw = post.seo?.ogImage ?? post.ogImage ?? post.image;
+  const ogImage = ogImageRaw ? absoluteUrl(ogImageRaw) : undefined;
   const canonical = post.seo?.seoCanonical ?? `/insights/${slug}`;
+  const canonicalAbsolute = absoluteUrl(canonical);
   const authorRecord = await getAuthor(post.author);
   const authorName = authorRecord?.name ?? "Zed Marjanovic";
   const authorUrl = authorRecord
     ? `${SITE_ORIGIN}/about`
     : `${SITE_ORIGIN}/about`;
 
+  const ogTitle = post.openGraph?.ogTitle ?? post.seo?.ogTitle ?? title;
+  const ogDescription =
+    post.openGraph?.ogDescription ?? post.seo?.ogDescription ?? description;
+  const twitterTitle = post.openGraph?.twitterTitle ?? post.seo?.twitterTitle ?? ogTitle;
+  const twitterDescription =
+    post.openGraph?.twitterDescription ?? post.seo?.twitterDescription ?? ogDescription;
+  const twitterImage =
+    post.openGraph?.twitterImage ?? post.seo?.twitterImage ?? ogImage;
+
   return {
     title,
     description,
     keywords: post.seo?.keywords ?? post.keywords,
     authors: [{ name: authorName, url: authorUrl }],
-    alternates: { canonical },
+    alternates: { canonical: canonicalAbsolute },
     openGraph: {
       type: "article",
       locale: "en_US",
-      url,
+      url: canonicalAbsolute,
       siteName: "ZedNova Studios",
-      title,
-      description,
+      title: ogTitle,
+      description: ogDescription,
       publishedTime: post.publishedAt,
-      modifiedTime: post.updatedAt ?? post.publishedAt,
+      modifiedTime: post.lastReviewedAt ?? post.updatedAt ?? post.publishedAt,
       authors: [authorName],
       section: post.category,
       tags: post.tags,
       images: ogImage
-        ? [{ url: ogImage, width: 1600, height: 900, alt: post.title }]
+        ? [{ url: ogImage, width: 1600, height: 900, alt: post.imageAlt ?? post.title }]
         : undefined,
     },
     twitter: {
@@ -94,9 +100,9 @@ export async function generateMetadata({
         | "player"
         | "app",
       creator: "@zednova",
-      title: post.seo?.twitterTitle ?? title,
-      description: post.seo?.twitterDescription ?? description,
-      images: ogImage ? [ogImage] : undefined,
+      title: twitterTitle,
+      description: twitterDescription,
+      images: twitterImage ? [twitterImage] : ogImage ? [ogImage] : undefined,
     },
     robots: post.seo?.seoNoIndex
       ? { index: false, follow: false }
@@ -148,24 +154,21 @@ export default async function ArticlePage({
     post.imageCaption?.trim() ||
     (post.imageAlt && post.imageAlt !== post.title ? post.imageAlt : null);
 
-  const tocSchema =
-    showToc ? articleTocJsonLd(post, url, { includeFaq: hasFaq }) : null;
-  const relatedSchema = related.length
-    ? relatedArticlesJsonLd(related, post.title)
-    : null;
+  const enableFaqSchema =
+    hasFaq && post.schemaMarkup?.enableFaqSchema !== false;
 
   return (
     <>
       <JsonLd
-        data={[
-          articlePageGraphJsonLd({ post, author, related }),
-          breadcrumbJsonLd(crumbs),
-          ...(tocSchema ? [tocSchema] : []),
-          ...(relatedSchema ? [relatedSchema] : []),
-          ...(hasFaq && post.schemaMarkup?.enableFaqSchema !== false
-            ? [faqPageJsonLd(post.faqs!)]
-            : []),
-        ]}
+        data={insightPageGraphJsonLd({
+          post,
+          author,
+          crumbs,
+          faqs: post.faqs,
+          related,
+          includeToc: showToc,
+          includeFaq: enableFaqSchema,
+        })}
       />
 
       {/* Article — continuous guides frame */}
@@ -194,8 +197,16 @@ export default async function ArticlePage({
                     </span>
                     {post.updatedAt && (
                       <span className="text-xs text-zn-text-3">
-                        · Updated{" "}
+                        · Last updated{" "}
                         <time dateTime={post.updatedAt}>{formatDate(post.updatedAt)}</time>
+                      </span>
+                    )}
+                    {post.lastReviewedAt && (
+                      <span className="text-xs text-zn-text-3">
+                        · Last reviewed{" "}
+                        <time dateTime={post.lastReviewedAt}>
+                          {formatDate(post.lastReviewedAt)}
+                        </time>
                       </span>
                     )}
                     <span aria-hidden="true">·</span>
@@ -282,10 +293,18 @@ export default async function ArticlePage({
 
                     <ArticleBody blocks={post.body} />
 
+                    {post.implementationTable && post.implementationTable.length > 0 && (
+                      <ArticleImplementationTable rows={post.implementationTable} />
+                    )}
+
                     {hasFaq && (
                       <div id="article-faq" className="mt-16">
                         <ArticleFaq faqs={post.faqs!} />
                       </div>
+                    )}
+
+                    {post.sources && post.sources.length > 0 && (
+                      <ArticleSources sources={post.sources} />
                     )}
 
                     <ArticleTags tags={post.tags} />

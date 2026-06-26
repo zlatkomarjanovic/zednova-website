@@ -16,6 +16,7 @@
     "seed:migration-icons": "npx tsx scripts/seed-migration-platform-icons.ts",
     "seed:custom-software-icons": "npx tsx scripts/seed-custom-software-icons.ts",
     "fix:insights-data": "npx tsx scripts/fix-insights-post-data.ts",
+    "qa:insights-jsonld": "npx tsx scripts/qa-insight-jsonld.ts",
     "enrich:insights-posts": "npx tsx scripts/enrich-insights-posts.ts"
   },
   "dependencies": {

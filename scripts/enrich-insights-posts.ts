@@ -13,6 +13,7 @@ import {
   expandPostBody,
   extendedTagsForPost,
 } from "../src/lib/content/post-extensions";
+import { getInsightOverride } from "../src/lib/content/insight-overrides";
 import {
   mapArticleBlocksForSanity,
   mapFaqsForSanity,
@@ -193,51 +194,69 @@ export function buildPostEnrichment(post: (typeof posts)[number]) {
   const relations = RELATIONS_BY_SLUG[post.slug] ?? {};
   const serviceSlugs = matchedServiceSlugs(post);
   const relatedSlugs = relatedPostSlugs(post);
-  const firstFaq = post.faqs?.[0];
-  const oneSentenceSummary = post.excerpt.trim();
+  const override = getInsightOverride(post.slug);
+  const faqs = override?.faqs ?? post.faqs ?? [];
+  const takeaways = override?.takeaways ?? post.takeaways ?? [];
+  const firstFaq = faqs[0];
+  const oneSentenceSummary = override?.quickAnswer.shortAnswer ?? post.excerpt.trim();
   const expandedBody = expandPostBody(post.body, post);
   const tagTitles = extendedTagsForPost(post.slug, post.tags);
   const readTime = Math.max(post.readTime, Math.ceil(bodyCharCount(expandedBody) / 1000));
+  const reviewedAt = new Date().toISOString();
 
   return {
     oneSentenceSummary,
     status: "Published",
-    contentType: "Insight",
+    contentType: "Guide",
     difficulty: difficultyFor(readTime),
     readTime,
+    updatedAt: reviewedAt,
+    lastReviewedAt: reviewedAt,
     tableOfContentsEnabled: true,
-    takeaways: post.takeaways,
-    keyTakeaways: (post.takeaways ?? []).map((title, index) => ({
+    takeaways,
+    keyTakeaways: takeaways.map((title, index) => ({
       _type: "bulletItem" as const,
       _key: sanityKey("takeaway", String(index)),
       title,
     })),
     articleBlocks: mapArticleBlocksForSanity(expandedBody),
-    faqs: post.faqs?.length ? mapFaqsForSanity(post.faqs) : undefined,
-    inlineFaqs: (post.faqs ?? []).map((faq, index) => ({
+    faqs: faqs.length ? mapFaqsForSanity(faqs) : undefined,
+    inlineFaqs: faqs.map((faq, index) => ({
       _type: "inlineFaq" as const,
       _key: sanityKey("inline-faq", faq.id ?? String(index)),
       question: faq.question,
       shortAnswer: faq.answer,
       schemaEnabled: true,
     })),
-    aiSummary: post.seoDescription ?? post.excerpt,
+    aiSummary: override?.quickAnswer.shortAnswer ?? post.seoDescription ?? post.excerpt,
     llmSnippet: oneSentenceSummary,
     quickAnswer: {
       _type: "aeoAnswerBlock" as const,
-      question: firstFaq?.question ?? post.title,
-      shortAnswer: firstFaq?.answer ?? post.excerpt,
+      question: override?.quickAnswer.question ?? firstFaq?.question ?? post.title,
+      shortAnswer: override?.quickAnswer.shortAnswer ?? firstFaq?.answer ?? post.excerpt,
     },
     searchIntent: searchIntentFor(post.category),
     targetAudience: AUDIENCE_BY_CATEGORY[post.category] ?? ["Founders", "Marketing teams"],
-    painPoints: (post.takeaways ?? []).slice(0, 4),
-    searchQuestions: [
-      ...(post.faqs ?? []).map((faq) => faq.question),
-      `What should I know about ${post.tags[0] ?? post.category}?`,
-    ],
+    painPoints: takeaways.slice(0, 4),
+    searchQuestions: override?.searchQuestions ?? faqs.map((faq) => faq.question),
     entitiesMentioned: [
       ...new Set([...(ENTITIES_BY_SLUG[post.slug] ?? []), ...post.tags.slice(0, 4)]),
     ],
+    sources: override?.sources?.map((source, index) => ({
+      _key: sanityKey("source", String(index)),
+      title: source.title,
+      url: source.url,
+      publisher: source.publisher,
+      note: source.note,
+    })),
+    implementationTable: override?.implementationTable?.map((row, index) => ({
+      _key: sanityKey("impl", String(index)),
+      fix: row.fix,
+      problem: row.problem,
+      change: row.change,
+      metric: row.metric,
+      tool: row.tool,
+    })),
     relatedServices: serviceSlugs.map((slug) => ref("service", `service-${slug}`, slug)),
     relatedIndustries: (relations.industries ?? []).map((slug) =>
       ref("industryParent", `industryParent-${slug}`, slug),
@@ -260,7 +279,7 @@ export function buildPostEnrichment(post: (typeof posts)[number]) {
       _type: "schemaMarkupFields" as const,
       schemaType: "BlogPosting",
       enableArticleSchema: true,
-      enableFaqSchema: Boolean(post.faqs?.length),
+      enableFaqSchema: Boolean(faqs.length),
       enableBreadcrumbSchema: true,
     },
     primaryCta: {
@@ -412,8 +431,6 @@ async function main() {
       .commit();
 
     console.log(`✓ ${post.title}`);
-    console.log(`    articleBlocks: ${post.body.length} · faqs: ${post.faqs?.length ?? 0} · takeaways: ${post.takeaways?.length ?? 0}`);
-    console.log(`    services: ${enrichment.relatedServices.length} · industries: ${enrichment.relatedIndustries.length} · related posts: ${enrichment.relatedPosts.length}`);
   }
 
   console.log("\nDone.");

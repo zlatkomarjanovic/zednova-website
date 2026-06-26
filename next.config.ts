@@ -17,6 +17,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "zednova.studio" }],
+        destination: "https://www.zednova.studio/:path*",
+        permanent: true,
+      },
       { source: "/custom_software", destination: "/custom-software", permanent: true },
       { source: "/resources", destination: "/", permanent: false },
       { source: "/resources/:path*", destination: "/", permanent: false },
