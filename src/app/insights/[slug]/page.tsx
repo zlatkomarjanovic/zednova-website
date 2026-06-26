@@ -129,7 +129,7 @@ export default async function ArticlePage({
     getAuthor(post.author),
     getRelatedPosts(slug, 3),
     getAdjacentPosts(slug),
-    post.articleRelatedLinks?.length
+    post.relatedLinks?.length
       ? Promise.resolve([])
       : post.relatedServices?.length
         ? getServicesBySlugs(post.relatedServices.slice(0, 4))
@@ -137,7 +137,7 @@ export default async function ArticlePage({
   ]);
 
   const relatedLinkItems =
-    post.articleRelatedLinks ??
+    post.relatedLinks ??
     relatedServices.map((service) => ({
       href: `/services/${service.slug}`,
       label: service.title,

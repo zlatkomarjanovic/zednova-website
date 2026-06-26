@@ -1,8 +1,8 @@
 import { SITE_ORIGIN } from "@/lib/site-url";
 
-/** Plain-text robots.txt with proper line breaks (MetadataRoute.Robots can collapse newlines). */
+/** Plain-text robots.txt with guaranteed line breaks. */
 export function GET(): Response {
-  const lines = [
+  const body = [
     "User-agent: *",
     "Allow: /",
     "Disallow: /api/contact",
@@ -25,12 +25,12 @@ export function GET(): Response {
     `Host: ${SITE_ORIGIN}`,
     `Sitemap: ${SITE_ORIGIN}/sitemap.xml`,
     "",
-  ];
+  ].join("\n");
 
-  return new Response(lines.join("\n"), {
+  return new Response(body, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=3600, s-maxage=86400",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 }

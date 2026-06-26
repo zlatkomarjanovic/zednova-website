@@ -347,8 +347,8 @@ export type Post = {
   relatedServices?: string[];
   relatedIndustries?: string[];
   relatedMigrations?: string[];
-  /** Curated related links (override CMS when set). */
-  articleRelatedLinks?: ResourceLink[];
+  /** Curated related resource links (override or CMS). */
+  relatedLinks?: ResourceLink[];
   relatedCustomSoftware?: string[];
   relatedProducts?: string[];
   relatedCaseStudies?: string[];

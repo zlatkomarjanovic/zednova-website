@@ -320,6 +320,45 @@
   .group\/flip:hover .zn-underline {
     background-size: 100% 1px;
   }
+
+  /* HoverFlip — letters from data-char, not text nodes */
+  .hover-flip {
+    display: inline-flex;
+    align-items: flex-end;
+    line-height: 1;
+  }
+
+  .hover-flip-char {
+    position: relative;
+    display: inline-block;
+    height: 1.25em;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+
+  .hover-flip-char::before,
+  .hover-flip-char::after {
+    content: attr(data-char);
+    display: block;
+    transition: translate 500ms var(--ease-flip);
+    transition-delay: inherit;
+    will-change: translate;
+  }
+
+  .hover-flip-char::after {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    translate: 0 115%;
+  }
+
+  .group\/flip:hover .hover-flip-char::before {
+    translate: 0 -115%;
+  }
+
+  .group\/flip:hover .hover-flip-char::after {
+    translate: 0 0;
+  }
 }
 
 /* ---------------- Reduced motion ---------------- */

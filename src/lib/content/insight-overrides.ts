@@ -1,4 +1,4 @@
-import type { ArticleBlock, ArticleFaq, ImplementationRow, SourceReference } from "@/lib/types";
+import type { ArticleBlock, ArticleFaq, ImplementationRow, ResourceLink, SourceReference } from "@/lib/types";
 
 export type InsightOverride = {
   body: ArticleBlock[];
@@ -8,7 +8,7 @@ export type InsightOverride = {
   sources: SourceReference[];
   implementationTable: ImplementationRow[];
   searchQuestions: string[];
-  relatedLinks?: { href: string; label: string }[];
+  relatedLinks?: ResourceLink[];
 };
 
 const SHOPIFY_SLUG = "shopify-conversion-fixes-that-actually-move-revenue";
@@ -315,7 +315,7 @@ export function applyInsightOverride<T extends { slug: string }>(
   implementationTable?: ImplementationRow[];
   searchQuestions?: string[];
   quickAnswer?: { question?: string; shortAnswer?: string };
-  articleRelatedLinks?: { href: string; label: string }[];
+  relatedLinks?: ResourceLink[];
 } {
   const override = getInsightOverride(post.slug);
   if (!override) return post;
@@ -328,8 +328,6 @@ export function applyInsightOverride<T extends { slug: string }>(
     implementationTable: override.implementationTable,
     searchQuestions: override.searchQuestions,
     quickAnswer: override.quickAnswer,
-    ...(override.relatedLinks?.length
-      ? { articleRelatedLinks: override.relatedLinks }
-      : {}),
+    ...(override.relatedLinks?.length ? { relatedLinks: override.relatedLinks } : {}),
   };
 }
