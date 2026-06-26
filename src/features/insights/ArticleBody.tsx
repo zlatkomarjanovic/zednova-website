@@ -13,7 +13,7 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
               <h2
                 key={i}
                 id={slugify(block.text)}
-                className="scroll-mt-28 pt-6 font-sans font-normal text-2xl leading-tight text-zn-text lg:text-3xl"
+                className="scroll-mt-28 pt-8 font-sans text-xl font-normal leading-snug text-zn-text first:pt-0 lg:text-[1.375rem]"
               >
                 {block.text}
               </h2>
@@ -23,7 +23,7 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
               <h3
                 key={i}
                 id={slugify(block.text)}
-                className="scroll-mt-28 pt-2 font-sans text-xl font-normal text-zn-text"
+                className="scroll-mt-28 pt-4 font-sans text-lg font-normal leading-snug text-zn-text"
               >
                 {block.text}
               </h3>
@@ -45,7 +45,7 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
             return (
               <blockquote
                 key={i}
-                className="my-10 border-l-2 border-zn-text pl-6 zn-accent-italic text-xl leading-relaxed text-zn-text lg:text-2xl"
+                className="my-10 border-l-2 border-zn-text pl-6 zn-accent-italic text-lg leading-relaxed text-zn-text lg:text-xl"
               >
                 {block.text}
               </blockquote>

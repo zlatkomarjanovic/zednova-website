@@ -11,19 +11,24 @@ import {
   getAuthor,
   getPostBySlug,
   getRelatedPosts,
+  getServicesBySlugs,
 } from "@/lib/queries";
 import {
-  articleJsonLd,
+  articlePageGraphJsonLd,
+  articleTocJsonLd,
   articleUrl,
   breadcrumbJsonLd,
   faqPageJsonLd,
 } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import { ArticleInlineCta, ArticleQuickAnswer } from "@/features/insights/ArticleAeoBlocks";
-import { ArticleInsightMeta } from "@/features/insights/ArticleInsightMeta";
+import { ArticleAudienceLine } from "@/features/insights/ArticleAudienceLine";
+import { ArticleRelatedLinks } from "@/features/insights/ArticleRelatedLinks";
 import { ArticleBody } from "@/features/insights/ArticleBody";
 import { ArticleFaq } from "@/features/insights/ArticleFaq";
 import { ArticleShare } from "@/features/insights/ArticleShare";
+import { ArticleSidebar, ArticleMobileToc } from "@/features/insights/ArticleSidebar";
+import { ArticleTags } from "@/features/insights/ArticleTags";
 import { ArticleTakeaways } from "@/features/insights/ArticleTakeaways";
 import { ArticleCard } from "@/features/insights/ArticleCard";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
@@ -33,7 +38,7 @@ import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { Tag } from "@/ui/Tag";
-import { formatDate, slugify } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -54,12 +59,17 @@ export async function generateMetadata({
   const description = post.seo?.seoDescription ?? post.seoDescription ?? post.excerpt;
   const ogImage = post.seo?.ogImage ?? post.ogImage ?? post.image;
   const canonical = post.seo?.seoCanonical ?? `/insights/${slug}`;
+  const authorRecord = await getAuthor(post.author);
+  const authorName = authorRecord?.name ?? "Zed Marjanovic";
+  const authorUrl = authorRecord
+    ? `${SITE_ORIGIN}/about`
+    : `${SITE_ORIGIN}/about`;
 
   return {
     title,
     description,
     keywords: post.seo?.keywords ?? post.keywords,
-    authors: [{ name: "Zed Marjanovic", url: `${SITE_ORIGIN}/about` }],
+    authors: [{ name: authorName, url: authorUrl }],
     alternates: { canonical },
     openGraph: {
       type: "article",
@@ -70,7 +80,7 @@ export async function generateMetadata({
       description,
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt ?? post.publishedAt,
-      authors: ["Zed Marjanovic"],
+      authors: [authorName],
       section: post.category,
       tags: post.tags,
       images: ogImage
@@ -109,10 +119,13 @@ export default async function ArticlePage({
   const post = await getPostBySlug(slug);
   if (!post) notFound();
 
-  const [author, related, adjacent] = await Promise.all([
+  const [author, related, adjacent, relatedServices] = await Promise.all([
     getAuthor(post.author),
     getRelatedPosts(slug, 3),
     getAdjacentPosts(slug),
+    post.relatedServices?.length
+      ? getServicesBySlugs(post.relatedServices.slice(0, 4))
+      : Promise.resolve([]),
   ]);
 
   const crumbs = [
@@ -131,13 +144,20 @@ export default async function ArticlePage({
 
   const url = articleUrl(slug);
   const hasFaq = Boolean(post.faqs && post.faqs.length);
+  const imageCaption =
+    post.imageCaption?.trim() ||
+    (post.imageAlt && post.imageAlt !== post.title ? post.imageAlt : null);
+
+  const tocSchema =
+    showToc ? articleTocJsonLd(post, url, { includeFaq: hasFaq }) : null;
 
   return (
     <>
       <JsonLd
         data={[
-          articleJsonLd({ post, author }),
+          articlePageGraphJsonLd({ post, author }),
           breadcrumbJsonLd(crumbs),
+          ...(tocSchema ? [tocSchema] : []),
           ...(hasFaq && post.schemaMarkup?.enableFaqSchema !== false
             ? [faqPageJsonLd(post.faqs!)]
             : []),
@@ -164,8 +184,6 @@ export default async function ArticlePage({
 
                   <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-zn-text-3">
                     <Tag>{post.category}</Tag>
-                    {post.contentType ? <Tag variant="outline">{post.contentType}</Tag> : null}
-                    {post.difficulty ? <Tag variant="outline">{post.difficulty}</Tag> : null}
                     <span className="inline-flex items-center gap-1.5">
                       <CalendarDays className="size-3.5" aria-hidden="true" />
                       <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
@@ -191,16 +209,21 @@ export default async function ArticlePage({
                   </p>
 
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-y border-zn-border py-5">
-                    {author && (
-                      <div className="flex items-center gap-3">
-                        <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-zn-text font-sans font-normal text-base text-zn-inv">
+                    {author ? (
+                      <Link
+                        href={`/about#${author.slug}`}
+                        className="group flex min-w-0 items-center gap-3"
+                      >
+                        <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-zn-text font-sans text-base text-zn-inv transition-opacity group-hover:opacity-85">
                           {author.name.charAt(0)}
                         </div>
-                        <div className="text-sm">
+                        <div className="min-w-0 text-sm">
                           <p className="font-medium text-zn-text">{author.name}</p>
                           <p className="text-zn-text-3">{author.role}, ZedNova</p>
                         </div>
-                      </div>
+                      </Link>
+                    ) : (
+                      <span />
                     )}
                     <ArticleShare url={url} title={post.title} />
                   </div>
@@ -223,57 +246,29 @@ export default async function ArticlePage({
                   className="object-cover"
                 />
               </div>
-              {post.tags.length > 0 && (
-                <figcaption className="zn-container-inset flex flex-wrap gap-2 py-4">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="font-mono text-[10px] uppercase tracking-[0.1em] text-zn-text-3"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
+              {imageCaption && (
+                <figcaption className="zn-container-inset border-t border-zn-border py-3 text-sm leading-relaxed text-zn-text-3">
+                  {imageCaption}
                 </figcaption>
               )}
             </figure>
 
-            {/* Body */}
+            {/* Body — sidebar + article column */}
             <div className="relative border-b border-zn-border">
               <div className="zn-container-inset py-14 lg:py-16">
-                <div className="mx-auto flex max-w-5xl gap-12">
-                  {showToc && (
-                    <aside className="hidden w-56 shrink-0 xl:block">
-                      <div className="sticky top-28">
-                        <p className="zn-label mb-4 text-zn-text-3">On this page</p>
-                        <ul className="grid gap-2.5 border-l border-zn-border">
-                          {toc.map((heading) => (
-                            <li key={heading.text}>
-                              <a
-                                href={`#${slugify(heading.text)}`}
-                                className="-ml-px block border-l border-transparent pl-4 text-sm leading-snug text-zn-text-2 transition-colors hover:border-zn-text hover:text-zn-text"
-                              >
-                                {heading.text}
-                              </a>
-                            </li>
-                          ))}
-                          {hasFaq && (
-                            <li>
-                              <a
-                                href="#article-faq"
-                                className="-ml-px block border-l border-transparent pl-4 text-sm leading-snug text-zn-text-2 transition-colors hover:border-zn-text hover:text-zn-text"
-                              >
-                                FAQ
-                              </a>
-                            </li>
-                          )}
-                        </ul>
-                      </div>
-                    </aside>
-                  )}
+                <div className="mx-auto flex max-w-5xl gap-12 xl:gap-16">
+                  <ArticleSidebar
+                    post={post}
+                    toc={toc}
+                    showToc={showToc}
+                    hasFaq={hasFaq}
+                  />
 
-                  <div className="mx-auto w-full max-w-[720px]">
+                  <article className="min-w-0 flex-1 lg:max-w-[720px]">
+                    <ArticleMobileToc toc={toc} hasFaq={hasFaq} />
+
                     <ArticleQuickAnswer post={post} />
-                    <ArticleInsightMeta post={post} />
+                    <ArticleAudienceLine post={post} />
 
                     {post.takeaways && post.takeaways.length > 0 && (
                       <div className="mb-10">
@@ -289,17 +284,17 @@ export default async function ArticlePage({
                       </div>
                     )}
 
-                    <ArticleInlineCta post={post} />
+                    <ArticleTags tags={post.tags} />
+
+                    <ArticleRelatedLinks services={relatedServices} />
 
                     {author && (
                       <div className="mt-16 flex items-start gap-5 rounded-[2px] border border-zn-border bg-zn-bg-2/40 p-6">
-                        <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-zn-text font-sans font-normal text-xl text-zn-inv">
+                        <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-zn-text font-sans text-xl text-zn-inv">
                           {author.name.charAt(0)}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-sans font-normal text-zn-text">
-                            {author.name}
-                          </p>
+                          <p className="font-sans font-normal text-zn-text">{author.name}</p>
                           <p className="text-sm text-zn-text-3">{author.role}, ZedNova</p>
                           <p className="mt-2 text-sm leading-relaxed text-zn-text-2">
                             {author.bio[0]}
@@ -323,17 +318,8 @@ export default async function ArticlePage({
                       </div>
                     )}
 
-                    {post.tags.length > 0 && (
-                      <div className="mt-10 flex flex-wrap items-center gap-2">
-                        <span className="zn-label mr-1 text-zn-text-3">Tagged</span>
-                        {post.tags.map((tag) => (
-                          <Tag key={tag} variant="outline">
-                            {tag}
-                          </Tag>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                    <ArticleInlineCta post={post} />
+                  </article>
                 </div>
               </div>
             </div>

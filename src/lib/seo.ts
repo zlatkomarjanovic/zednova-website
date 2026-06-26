@@ -5,6 +5,7 @@
  */
 import type { ArticleFaq, Post, TeamMember } from "@/lib/types";
 import { SITE_ORIGIN, absoluteUrl } from "@/lib/site-url";
+import { slugify } from "@/lib/utils";
 
 export function articleUrl(slug: string): string {
   return absoluteUrl(`/insights/${slug}`);
@@ -18,27 +19,101 @@ type ArticleJsonLdInput = {
 /** schema.org/Article or BlogPosting — main article structured data. */
 export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
   const url = articleUrl(post.slug);
-  const image = post.seo?.ogImage ?? post.ogImage ?? post.image;
+  const imageUrl = post.seo?.ogImage ?? post.ogImage ?? post.image;
   const schemaType =
     post.seo?.structuredDataType === "Article" ? "Article" : "BlogPosting";
+
+  const additionalProperty: Array<{
+    "@type": "PropertyValue";
+    name: string;
+    value: string;
+  }> = [];
+  if (post.searchIntent) {
+    additionalProperty.push({
+      "@type": "PropertyValue",
+      name: "searchIntent",
+      value: post.searchIntent,
+    });
+  }
+  for (const point of post.painPoints ?? []) {
+    additionalProperty.push({
+      "@type": "PropertyValue",
+      name: "painPoint",
+      value: point,
+    });
+  }
+
+  const summary = post.aiSummary ?? post.oneSentenceSummary;
+  const speakableAnswer =
+    post.quickAnswer?.shortAnswer ?? post.llmSnippet ?? post.oneSentenceSummary;
+
+  const authorSameAs = author
+    ? [author.linkedin, author.twitter, author.website, author.upwork].filter(
+        (link): link is string => Boolean(link),
+      )
+    : [];
+
   return {
     "@context": "https://schema.org",
     "@type": schemaType,
     "@id": url,
     url,
     headline: post.seo?.seoTitle ?? post.seoTitle ?? post.title,
-    description:
-      post.seo?.seoDescription ?? post.seoDescription ?? post.excerpt,
-    image: image ? [image] : undefined,
+    description: summary ?? post.seo?.seoDescription ?? post.seoDescription ?? post.excerpt,
+    image: imageUrl
+      ? [
+          {
+            "@type": "ImageObject",
+            url: imageUrl,
+            ...(post.imageCaption ? { caption: post.imageCaption } : {}),
+            ...(post.imageAlt ? { name: post.imageAlt } : {}),
+          },
+        ]
+      : undefined,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     keywords: (post.seo?.keywords ?? post.keywords)?.join(", "),
     articleSection: post.category,
     inLanguage: "en-US",
+    isAccessibleForFree: true,
     wordCount: estimateWordCount(post),
-    ...(post.aiSummary || post.oneSentenceSummary
-      ? { abstract: post.aiSummary ?? post.oneSentenceSummary }
+    ...(summary ? { abstract: summary } : {}),
+    ...(post.searchIntent ? { genre: post.searchIntent } : {}),
+    ...(post.entitiesMentioned?.length
+      ? {
+          about: post.entitiesMentioned.map((name) => ({
+            "@type": "Thing",
+            name,
+          })),
+          mentions: post.entitiesMentioned.map((name) => ({
+            "@type": "Thing",
+            name,
+          })),
+        }
       : {}),
+    ...(post.targetAudience?.length
+      ? {
+          audience: {
+            "@type": "Audience",
+            audienceType: post.targetAudience.join(", "),
+          },
+        }
+      : {}),
+    ...(additionalProperty.length ? { additionalProperty } : {}),
+    ...(speakableAnswer
+      ? {
+          speakable: {
+            "@type": "SpeakableSpecification",
+            cssSelector: [".article-quick-answer"],
+          },
+        }
+      : {}),
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${SITE_ORIGIN}/#website`,
+      name: "ZedNova Studios",
+      url: SITE_ORIGIN,
+    },
     author: author
       ? {
           "@type": "Person",
@@ -46,10 +121,12 @@ export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
           name: author.name,
           jobTitle: author.role,
           url: `${SITE_ORIGIN}/about`,
+          ...(authorSameAs.length ? { sameAs: authorSameAs } : {}),
         }
       : { "@type": "Organization", name: "ZedNova Studios", url: SITE_ORIGIN },
     publisher: {
       "@type": "Organization",
+      "@id": `${SITE_ORIGIN}/#organization`,
       name: "ZedNova Studios",
       url: SITE_ORIGIN,
       logo: {
@@ -61,6 +138,65 @@ export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
       "@type": "WebPage",
       "@id": url,
     },
+  };
+}
+
+/** Article page @graph — BlogPosting + linked Person entity for E-E-A-T. */
+export function articlePageGraphJsonLd({
+  post,
+  author,
+}: ArticleJsonLdInput) {
+  const graph: object[] = [articleJsonLd({ post, author })];
+  if (author) {
+    graph.push(
+      personJsonLd({
+        slug: author.slug,
+        name: author.name,
+        role: author.role,
+        bio: author.bio,
+        image: author.avatar,
+        sameAs: [author.linkedin, author.twitter, author.website, author.upwork].filter(
+          (link): link is string => Boolean(link),
+        ),
+      }),
+    );
+  }
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
+  };
+}
+
+/** schema.org/ItemList — table of contents for long articles. */
+export function articleTocJsonLd(
+  post: Post,
+  url: string,
+  options?: { includeFaq?: boolean },
+) {
+  const headings = post.body.filter((b) => b.type === "h2");
+  const items = headings.map((block, index) => ({
+    "@type": "ListItem" as const,
+    position: index + 1,
+    name: block.text,
+    url: `${url}#${slugify(block.text)}`,
+  }));
+
+  if (options?.includeFaq) {
+    items.push({
+      "@type": "ListItem",
+      position: items.length + 1,
+      name: "Frequently asked questions",
+      url: `${url}#article-faq`,
+    });
+  }
+
+  if (!items.length) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `Table of contents — ${post.title}`,
+    itemListElement: items,
   };
 }
 

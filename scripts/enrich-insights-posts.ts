@@ -356,10 +356,11 @@ async function uploadCoverImage(slug: string, url: string, alt: string) {
   return asset._id;
 }
 
-function imageField(assetId: string, alt: string) {
+function imageField(assetId: string, alt: string, caption?: string) {
   return {
     _type: "image" as const,
     alt,
+    ...(caption ? { caption } : {}),
     asset: { _type: "reference" as const, _ref: assetId },
   };
 }
@@ -385,7 +386,11 @@ async function main() {
     await ensureTagDocuments(tagTitles);
     const enrichment = buildPostEnrichment(post);
     const assetId = await uploadCoverImage(post.slug, post.image, post.title);
-    const coverImage = imageField(assetId, post.title);
+    const coverImage = imageField(
+      assetId,
+      post.title,
+      `Cover illustration for “${post.title}” — ${post.category} insight by ZedNova Studios.`,
+    );
 
     await client
       .patch(`post-${post.slug}`)

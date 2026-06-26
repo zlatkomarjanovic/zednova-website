@@ -11,7 +11,7 @@ export function ArticleQuickAnswer({ post }: { post: Post }) {
   if (!answer) return null;
 
   return (
-    <aside className="mb-10 rounded-[2px] border border-zn-border bg-zn-bg-2/60 p-6">
+    <aside className="article-quick-answer mb-10 rounded-[2px] border border-zn-border bg-zn-bg-2/60 p-6">
       {question ? (
         <p className="zn-label text-zn-text-3">{question}</p>
       ) : (

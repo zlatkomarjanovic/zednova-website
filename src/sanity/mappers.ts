@@ -656,6 +656,7 @@ export function mapPost(doc: {
   accent: string;
   image?: string;
   imageAlt?: string;
+  imageCaption?: string;
   tags?: string[];
   relatedServices?: string[];
   relatedIndustries?: string[];
@@ -724,6 +725,7 @@ export function mapPost(doc: {
     accent: doc.accent,
     image: doc.image ?? "",
     imageAlt: doc.imageAlt,
+    imageCaption: doc.imageCaption,
     tags: doc.tags ?? [],
     relatedServices: doc.relatedServices,
     relatedIndustries: doc.relatedIndustries,

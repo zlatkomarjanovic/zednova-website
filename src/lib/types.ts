@@ -308,6 +308,7 @@ export type Post = {
   accent: string;
   image: string;
   imageAlt?: string;
+  imageCaption?: string;
   tags: string[];
   seoTitle?: string;
   seoDescription?: string;
