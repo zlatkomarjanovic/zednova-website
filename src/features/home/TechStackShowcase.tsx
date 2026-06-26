@@ -1,51 +1,39 @@
 "use client";
 
-import {
-  RubberHoverHighlightLayer,
-  useRubberHoverHighlight,
-} from "@/ui/HoverHighlight";
+import { BlueprintCross } from "@/ui/BlueprintCross";
 import type { TechStackGroup } from "@/lib/content/tech-stack";
 
 export function TechStackShowcase({ groups }: { groups: TechStackGroup[] }) {
-  const highlight = useRubberHoverHighlight();
-
   return (
     <div className="zn-container-guides relative mt-14">
-      <div
-        ref={highlight.rootRef}
-        className="relative border-y border-zn-border"
-        {...highlight.pointerHandlers}
-      >
-        <RubberHoverHighlightLayer
-          pathD={highlight.pathD}
-          opacity={highlight.opacity}
-          fill="white"
-          fillOpacity={0.9}
-          stroke="var(--color-zn-border)"
-        />
+      <div className="relative border-x border-zn-border">
+        <BlueprintCross anchor="left" className="top-0 -translate-y-1/2" />
+        <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
 
-        <ul className="relative z-[1] divide-y divide-zn-border">
+        <div className="grid gap-px border-y border-zn-border bg-zn-border md:grid-cols-2">
           {groups.map((group) => (
-            <li
+            <article
               key={group.category}
-              data-hover-cell
-              onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-              className="grid grid-cols-1 gap-4 px-6 py-5 sm:grid-cols-[6.5rem_1fr] sm:items-center sm:gap-6 md:px-8 md:py-6"
+              className="flex flex-col bg-white/85 px-6 py-6 md:px-8 md:py-7"
             >
-              <p className="zn-label text-zn-text-3 sm:pt-0">{group.category}</p>
-              <div className="flex flex-wrap justify-end gap-2">
+              <h3 className="font-sans text-lg font-normal tracking-tight text-zn-text md:text-xl">
+                {group.category}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-zn-text-2">
+                {group.description}
+              </p>
+              <ul className="mt-5 flex flex-wrap gap-2">
                 {group.tools.map((tool) => (
-                  <span
-                    key={tool}
-                    className="rounded-[4px] bg-white px-3 py-1.5 text-sm tracking-tight text-zn-text"
-                  >
-                    {tool}
-                  </span>
+                  <li key={tool}>
+                    <span className="inline-block rounded-[4px] border border-zn-border bg-zn-bg px-3 py-1.5 text-sm tracking-tight text-zn-text">
+                      {tool}
+                    </span>
+                  </li>
                 ))}
-              </div>
-            </li>
+              </ul>
+            </article>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );

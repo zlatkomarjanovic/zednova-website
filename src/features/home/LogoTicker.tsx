@@ -122,7 +122,7 @@ export function LogoTicker({
                 <li
                   key={`${logo.src}-${i}`}
                   aria-hidden={loopReady && i >= loopHalfLength ? true : undefined}
-                  className="flex h-7 shrink-0 items-center justify-center opacity-80 transition-opacity duration-300 hover:opacity-100 lg:h-8"
+                  className="group/logo flex h-7 shrink-0 items-center justify-center opacity-80 transition-opacity duration-300 hover:opacity-100 lg:h-8"
                 >
                   <Image
                     src={logo.src}
@@ -130,7 +130,7 @@ export function LogoTicker({
                     width={100}
                     height={32}
                     unoptimized
-                    className="h-5 w-auto max-w-[5.5rem] object-contain object-center brightness-0 opacity-45 lg:h-6"
+                    className="h-5 w-auto max-w-[5.5rem] object-contain object-center brightness-0 opacity-45 transition-[filter,opacity] duration-300 group-hover/logo:brightness-100 group-hover/logo:opacity-100 lg:h-6"
                   />
                 </li>
               ))}

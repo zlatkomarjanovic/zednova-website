@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Plus, Minus } from "lucide-react";
-import { Logo } from "@/ui/Logo";
+import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { Button } from "@/ui/Button";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
@@ -55,7 +55,7 @@ export function MobileMenu({
           className="fixed inset-0 z-[60] flex flex-col bg-zn-dark text-zn-inv lg:hidden"
         >
           <div className="flex h-16 items-center justify-between px-6">
-            <Logo variant="light" />
+            <LogoHomeLink variant="light" onNavigate={onClose} />
             <button
               onClick={onClose}
               aria-label="Close menu"

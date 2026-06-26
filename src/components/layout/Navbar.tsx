@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu } from "lucide-react";
-import { Logo } from "@/ui/Logo";
+import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { Button } from "@/ui/Button";
 import { HoverFlip } from "@/ui/HoverFlip";
@@ -294,9 +294,7 @@ export function Navbar({
         >
           <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
           <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2" />
-          <Link href="/" aria-label="ZedNova Studios home">
-            <Logo variant={isDark ? "light" : "dark"} />
-          </Link>
+          <LogoHomeLink variant={isDark ? "light" : "dark"} />
 
           <nav
             ref={navHighlight.rootRef}

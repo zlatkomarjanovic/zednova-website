@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import {
   getAllCaseStudies,
   getAllCustomSoftware,
-  getAllFaqs,
   getAllMigrations,
   getAllServices,
   getFeaturedCaseStudies,
@@ -12,6 +11,7 @@ import {
   getPortfolioProjects,
   getSiteSettings,
 } from "@/lib/queries";
+import { homepageFaqs } from "@/lib/content/faq";
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
@@ -70,7 +70,7 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, customSoftware, migrations, platformTestimonials, settings, faqs, homepageIndustries, portfolioProjects] =
+  const [featuredCases, allCases, services, customSoftware, migrations, platformTestimonials, settings, homepageIndustries, portfolioProjects] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
@@ -79,7 +79,6 @@ export default async function HomePage() {
       getAllMigrations(),
       getPlatformTestimonials(),
       getSiteSettings(),
-      getAllFaqs(),
       getHomepageIndustries(),
       getPortfolioProjects(),
     ]);
@@ -101,7 +100,7 @@ export default async function HomePage() {
     <>
       <JsonLd
         data={[
-          faqPageJsonLd(faqs),
+          faqPageJsonLd(homepageFaqs),
           homepageServiceGraphJsonLd(
             services.map((s) => ({
               slug: s.slug,
@@ -307,7 +306,10 @@ export default async function HomePage() {
 
       <PricingCardsSection packages={homepagePricingPackages} />
 
-      <FaqSection faqs={faqs} />
+      <FaqSection
+        faqs={homepageFaqs}
+        description="Websites, Shopify, automations, migrations, AI tools, pricing, and support — the essentials before you reach out."
+      />
 
       <FounderSection />
 

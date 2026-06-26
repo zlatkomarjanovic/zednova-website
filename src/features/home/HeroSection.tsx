@@ -11,6 +11,7 @@ import type { PortfolioProject } from "@/lib/types";
 export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
   return (
     <section
+      id="top"
       data-theme="light"
       className="relative flex min-h-dvh flex-col overflow-hidden bg-zn-bg"
     >

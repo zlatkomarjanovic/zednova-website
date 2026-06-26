@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { dispatchNavbarScrollUpdate } from "@/lib/navbar-scroll";
+import { registerLenis } from "@/lib/scroll";
 
 /**
  * Smooth scroll (Lenis) wired into the GSAP ticker so ScrollTrigger stays in
@@ -31,6 +32,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       smoothWheel: true,
     });
     lenisRef.current = lenis;
+    registerLenis(lenis);
 
     lenis.on("scroll", ScrollTrigger.update);
     lenis.on("scroll", dispatchNavbarScrollUpdate);
@@ -45,6 +47,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       gsap.ticker.remove(onTick);
       lenis.destroy();
       lenisRef.current = null;
+      registerLenis(null);
     };
   }, []);
 

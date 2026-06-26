@@ -21,7 +21,7 @@ export const faqs: FaqItem[] = [
     order: 3,
     question: "Do I need a website or custom software?",
     answer:
-      "Most businesses need a website first. If you need something more specific, like a client portal, a booking flow with custom logic, or an internal dashboard, that is where custom software comes in. We will tell you which one makes sense on the first call.",
+      "Most businesses need a website first. If you need something more specific, like a client portal, a booking flow with custom logic, or an internal dashboard, that is where custom software comes in. For most teams, a fast responsive site handles what a mobile app would, without App Store cost or approval delays. We will tell you which path makes sense on the first call.",
   },
   {
     id: "faq-existing-tools",
@@ -114,6 +114,48 @@ export const faqs: FaqItem[] = [
     question: "Do you offer support after launch?",
     answer:
       "Yes. We have a monthly support plan for updates, fixes, monitoring, and new additions. Details are in the proposal.",
+  },
+];
+
+/** Consolidated FAQ set for the homepage — fewer, broader questions. */
+export const homepageFaqs: FaqItem[] = [
+  faqs.find((item) => item.id === "faq-build")!,
+  faqs.find((item) => item.id === "faq-who")!,
+  faqs.find((item) => item.id === "faq-website-vs-software")!,
+  {
+    id: "faq-tools-and-replacement",
+    order: 4,
+    question: "Can you work with our existing tools, or do we need to replace them?",
+    answer:
+      "Usually we connect to what you already use — HubSpot, GoHighLevel, Calendly, Stripe, and most CRMs, calendars, and form tools. We only recommend replacing something when the current setup is slowing you down or blocking automation. We audit what you have before suggesting any rebuild.",
+  },
+  {
+    id: "faq-migration-seo",
+    order: 5,
+    question: "Can you migrate our site from Webflow, WordPress, Wix, or Framer without hurting SEO?",
+    answer:
+      "Yes. We handle migrations regularly with 301 redirects, preserved meta data, URL structures kept where possible, and post-launch monitoring. Content, design, SEO settings, and CMS structure move over — you keep the history and lose the platform limitations.",
+  },
+  {
+    id: "faq-automation-ai",
+    order: 6,
+    question: "What automations and AI tools can you build?",
+    answer:
+      "CRM follow-up, booking confirmations, intake processing, internal notifications, reporting, and workflow syncing in n8n or Make. AI chatbots and phone assistants trained on your services, pricing, and process — not a generic ChatGPT widget. They answer questions, qualify leads, book appointments, and hand off to a human when needed.",
+  },
+  {
+    id: "faq-timeline-pricing",
+    order: 7,
+    question: "How long does a project take and how does pricing work?",
+    answer:
+      "Simple landing pages and automation setups can go live in one to two weeks. Full website builds typically take three to six weeks. Custom apps depend on scope. We price per project, not per hour — after the first call you get a fixed-price proposal with clear scope.",
+  },
+  {
+    id: "faq-ownership-support",
+    order: 8,
+    question: "Do we own everything after launch, and do you offer support?",
+    answer:
+      "Yes — you own the code, design, domain, and accounts. We do not lock you in. After launch we offer a monthly support plan for updates, fixes, monitoring, and new additions.",
   },
 ];
 

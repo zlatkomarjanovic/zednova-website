@@ -24,9 +24,15 @@ type ShowcaseItem = {
   description: string;
   href: string;
   image?: string;
+  imageClassName?: string;
   ctaLabel: string;
   platformIcons?: Migration["platformIcons"];
   meta: { label: string; value: string }[];
+};
+
+const SERVICE_IMAGE_CLASS: Record<string, string> = {
+  "ops-automation":
+    "object-contain object-center p-4 md:p-6 transition-transform duration-[900ms] ease-out group-hover:scale-[1.01] motion-reduce:transition-none",
 };
 
 const SERVICE_FILTER_ORDER: ServiceFilter[] = ["Websites", "Automation", "AI Tools"];
@@ -76,6 +82,7 @@ function toServiceItems(services: Service[], group: ServiceFilter): ShowcaseItem
       description: service.whatItIs,
       href: `/services/${service.slug}`,
       image: service.image || undefined,
+      imageClassName: SERVICE_IMAGE_CLASS[service.slug],
       ctaLabel: "See this service",
       meta: [
         { label: "Starting at", value: service.pricingSignal },
@@ -210,7 +217,10 @@ function ShowcasePanel({ item }: { item: ShowcaseItem }) {
             fill
             preset="showcase"
             sizes="(max-width: 768px) 100vw, (max-width: 1920px) 50vw, 960px"
-            className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
+            className={cn(
+              item.imageClassName ??
+                "object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.02] motion-reduce:transition-none",
+            )}
           />
         ) : (
           <div

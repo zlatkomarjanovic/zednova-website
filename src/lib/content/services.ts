@@ -276,7 +276,7 @@ export const services: Service[] = [
     pricingSignal: "Starting from $2,000 per workflow package",
     timeline: "MVP in 1–2 business days per workflow · iterate after launch",
     image:
-      "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop",
     order: 6,
   },
   {
