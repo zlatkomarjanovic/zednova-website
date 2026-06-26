@@ -66,12 +66,6 @@ export function Footer({
             </div>
             <div className="flex flex-col gap-5 lg:items-end lg:text-right">
               <div className="space-y-2 text-sm text-zn-inv-2">
-                <a
-                  href={`mailto:${settings.contactEmail}`}
-                  className="block text-zn-inv transition-opacity hover:opacity-70"
-                >
-                  {settings.contactEmail}
-                </a>
                 <p>{settings.responseTime}</p>
                 <p>CST (Texas) · We work async</p>
               </div>
