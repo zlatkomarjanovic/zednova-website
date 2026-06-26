@@ -35,10 +35,18 @@ export function ArticleImplementationTable({
         <tbody>
           {rows.map((row) => (
             <tr key={row.fix} className="border-b border-zn-border align-top">
-              <td className="px-4 py-3 font-medium text-zn-text">{row.fix}</td>
-              <td className="px-4 py-3 text-zn-text-2">{row.problem}</td>
-              <td className="px-4 py-3 text-zn-text-2">{row.change}</td>
-              <td className="px-4 py-3 text-zn-text-2">{row.metric}</td>
+              <td className="border-r border-zn-border/50 px-4 py-3 font-medium text-zn-text">
+                {row.fix}
+              </td>
+              <td className="border-r border-zn-border/50 px-4 py-3 text-zn-text-2">
+                {row.problem}
+              </td>
+              <td className="border-r border-zn-border/50 px-4 py-3 text-zn-text-2">
+                {row.change}
+              </td>
+              <td className="border-r border-zn-border/50 px-4 py-3 text-zn-text-2">
+                {row.metric}
+              </td>
               <td className="px-4 py-3 text-zn-text-2">{row.tool}</td>
             </tr>
           ))}

@@ -8,6 +8,7 @@ export type InsightOverride = {
   sources: SourceReference[];
   implementationTable: ImplementationRow[];
   searchQuestions: string[];
+  relatedLinks?: { href: string; label: string }[];
 };
 
 const SHOPIFY_SLUG = "shopify-conversion-fixes-that-actually-move-revenue";
@@ -65,6 +66,11 @@ const shopifyOverride: InsightOverride = {
     "Why is my Shopify store getting traffic but no sales?",
     "What Shopify fixes increase revenue?",
     "What should I fix before spending more on ads?",
+  ],
+  relatedLinks: [
+    { href: "/industries/ecommerce-dtc", label: "E-commerce development" },
+    { href: "/migrations/shopify-to-headless-shopify", label: "Shopify to Headless Shopify" },
+    { href: "/services/seo-aeo-content", label: "SEO & AEO Content Systems" },
   ],
   implementationTable: [
     {
@@ -146,12 +152,12 @@ const shopifyOverride: InsightOverride = {
   body: [
     {
       type: "p",
-      text: "Shopify makes launch easy; conversion is harder. Most stores we audit get traffic and add-to-carts, then leak revenue on unclear product pages, slow mobile load, checkout friction, and silent post-purchase follow-up. These seven fixes are the order we use on every [Shopify and ecommerce engagement](/services/ai-lead-site) before touching ad creative.",
+      text: "Shopify makes launch easy; conversion is harder. Most stores we audit get traffic and add-to-carts, then leak revenue on unclear product pages, slow mobile load, checkout friction, and silent post-purchase follow-up. These seven fixes are the order we use on every [Shopify and ecommerce engagement](/industries/ecommerce-dtc) before touching ad creative.",
     },
     { type: "h2", text: "Fix 1: Product page clarity" },
     {
       type: "p",
-      text: "If a shopper cannot state your offer in five seconds, paid traffic will not save the store. One primary CTA, a scannable benefit block, and a single conversion path beat another homepage redesign. We apply the same [conversion-focused page structure](/services/seo-aeo-content) we use on marketing sites — one page, one action.",
+      text: "If a shopper cannot state your offer in five seconds, paid traffic will not save the store. One primary CTA, a scannable benefit block, and a single conversion path beat another homepage redesign. We apply the same [conversion-focused product page structure](/industries/ecommerce-dtc) we use on Shopify builds — one page, one action.",
     },
     { type: "h2", text: "Fix 2: Social proof near the CTA" },
     {
@@ -309,6 +315,7 @@ export function applyInsightOverride<T extends { slug: string }>(
   implementationTable?: ImplementationRow[];
   searchQuestions?: string[];
   quickAnswer?: { question?: string; shortAnswer?: string };
+  articleRelatedLinks?: { href: string; label: string }[];
 } {
   const override = getInsightOverride(post.slug);
   if (!override) return post;
@@ -321,5 +328,8 @@ export function applyInsightOverride<T extends { slug: string }>(
     implementationTable: override.implementationTable,
     searchQuestions: override.searchQuestions,
     quickAnswer: override.quickAnswer,
+    ...(override.relatedLinks?.length
+      ? { articleRelatedLinks: override.relatedLinks }
+      : {}),
   };
 }

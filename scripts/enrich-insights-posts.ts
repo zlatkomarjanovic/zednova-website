@@ -142,8 +142,9 @@ const RELATIONS_BY_SLUG: Record<
     ],
   },
   "shopify-conversion-fixes-that-actually-move-revenue": {
-    services: ["ai-lead-site", "seo-aeo-content"],
+    services: ["seo-aeo-content"],
     industries: ["ecommerce-dtc"],
+    migrations: ["shopify-to-headless-shopify"],
     relatedPosts: ["why-your-website-is-losing-clients"],
   },
   "crm-automation-for-clinics-without-extra-hires": {

@@ -129,10 +129,19 @@ export default async function ArticlePage({
     getAuthor(post.author),
     getRelatedPosts(slug, 3),
     getAdjacentPosts(slug),
-    post.relatedServices?.length
-      ? getServicesBySlugs(post.relatedServices.slice(0, 4))
-      : Promise.resolve([]),
+    post.articleRelatedLinks?.length
+      ? Promise.resolve([])
+      : post.relatedServices?.length
+        ? getServicesBySlugs(post.relatedServices.slice(0, 4))
+        : Promise.resolve([]),
   ]);
+
+  const relatedLinkItems =
+    post.articleRelatedLinks ??
+    relatedServices.map((service) => ({
+      href: `/services/${service.slug}`,
+      label: service.title,
+    }));
 
   const crumbs = [
     { label: "Home", href: "/" },
@@ -309,7 +318,7 @@ export default async function ArticlePage({
 
                     <ArticleTags tags={post.tags} />
 
-                    <ArticleRelatedLinks services={relatedServices} />
+                    <ArticleRelatedLinks items={relatedLinkItems} />
 
                     {author && (
                       <div className="mt-16 flex items-start gap-5 rounded-[2px] border border-zn-border bg-zn-bg-2/40 p-6">

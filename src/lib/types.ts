@@ -292,6 +292,11 @@ export type ImplementationRow = {
   tool: string;
 };
 
+export type ResourceLink = {
+  href: string;
+  label: string;
+};
+
 export type SourceReference = {
   title: string;
   url: string;
@@ -342,6 +347,8 @@ export type Post = {
   relatedServices?: string[];
   relatedIndustries?: string[];
   relatedMigrations?: string[];
+  /** Curated related links (override CMS when set). */
+  articleRelatedLinks?: ResourceLink[];
   relatedCustomSoftware?: string[];
   relatedProducts?: string[];
   relatedCaseStudies?: string[];
