@@ -27,10 +27,10 @@ export function TechStackShowcase({
           <TextReveal
             as="h2"
             text={heading}
-            className="mt-6 zn-h2 font-sans font-normal"
+            className="mt-6 max-w-[22rem] zn-h2 font-sans font-normal"
           />
           <Reveal delay={0.08}>
-            <p className="zn-prose mt-5">{description}</p>
+            <p className="zn-prose mt-5 max-w-[22rem]">{description}</p>
           </Reveal>
         </aside>
 
