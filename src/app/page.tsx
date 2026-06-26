@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 
 import {
   getAllCaseStudies,
+  getAllCustomSoftware,
   getAllFaqs,
+  getAllMigrations,
   getAllServices,
   getFeaturedCaseStudies,
   getHomepageIndustries,
@@ -69,11 +71,13 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, platformTestimonials, settings, faqs, homepageIndustries, portfolioProjects] =
+  const [featuredCases, allCases, services, customSoftware, migrations, platformTestimonials, settings, faqs, homepageIndustries, portfolioProjects] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
       getAllServices(),
+      getAllCustomSoftware(),
+      getAllMigrations(),
       getPlatformTestimonials(),
       getSiteSettings(),
       getAllFaqs(),
@@ -205,7 +209,11 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="zn-container-guides relative">
-          <ServicesTabShowcase services={services} />
+          <ServicesTabShowcase
+            services={services}
+            customSoftware={customSoftware}
+            migrations={migrations}
+          />
         </div>
       </section>
 

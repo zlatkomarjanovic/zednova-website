@@ -27,6 +27,7 @@ import type {
 import type { PortfolioProject } from "@/lib/types";
 import type { FaqItem, SiteSettings } from "@/lib/types";
 import { portableTextToArticleBlocks } from "@/sanity/portable-text-to-blocks";
+import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
 
 type SanityFeatureBullet = { title: string; description?: string; icon?: string };
 type SanityPriceTier = {
@@ -39,7 +40,13 @@ type SanityPriceTier = {
   ctaLabel?: string;
   ctaHref?: string;
 };
-type SanityFaq = { id?: string; question: string; answer: string };
+type SanityFaq = { id?: string | { current?: string }; question: string; answer: string };
+
+function normalizeFaqId(id?: string | { current?: string }): string | undefined {
+  if (!id) return undefined;
+  if (typeof id === "string") return id;
+  return id.current;
+}
 
 function mapFeatureBullets(items?: SanityFeatureBullet[]): FeatureBullet[] {
   return (items ?? []).map((i) => ({
@@ -64,7 +71,7 @@ function mapPriceTiers(items?: SanityPriceTier[]): PriceTier[] {
 
 function mapFaqs(items?: SanityFaq[]): ArticleFaq[] {
   return (items ?? []).map((f) => ({
-    id: f.id,
+    id: normalizeFaqId(f.id),
     question: f.question,
     answer: f.answer,
   }));
@@ -335,6 +342,9 @@ export function mapMigration(doc: {
   faqs?: SanityFaq[];
   timeline?: string;
   pricingSignal?: string;
+  image?: string;
+  fromIcons?: { url?: string; alt?: string }[];
+  toIcons?: { url?: string; alt?: string }[];
   relatedServices?: string[];
   relatedIndustries?: string[];
   relatedInsights?: string[];
@@ -343,7 +353,7 @@ export function mapMigration(doc: {
   order: number;
   seo?: Record<string, unknown>;
 }): Migration {
-  return {
+  const mapped = {
     slug: doc.slug,
     title: doc.title,
     shortDescription: doc.shortDescription,
@@ -358,6 +368,9 @@ export function mapMigration(doc: {
     faqs: mapFaqs(doc.faqs),
     timeline: doc.timeline,
     pricingSignal: doc.pricingSignal,
+    image: doc.image,
+    fromIcons: doc.fromIcons,
+    toIcons: doc.toIcons,
     relatedServices: doc.relatedServices,
     relatedIndustries: doc.relatedIndustries,
     relatedInsights: doc.relatedInsights,
@@ -365,6 +378,11 @@ export function mapMigration(doc: {
     tags: doc.tags ?? [],
     order: doc.order,
     seo: mapSeo(doc.seo),
+  };
+
+  return {
+    ...mapped,
+    platformIcons: resolveMigrationPlatformIcons(mapped) ?? undefined,
   };
 }
 
@@ -392,6 +410,7 @@ export function mapCustomSoftware(doc: {
   relatedPortfolioProjects?: string[];
   relatedInsights?: string[];
   order: number;
+  image?: string;
   seo?: Record<string, unknown>;
 }): import("@/lib/types/custom-software").CustomSoftware {
   const mapBullets = (items?: { title: string; description?: string }[]) =>
@@ -423,6 +442,7 @@ export function mapCustomSoftware(doc: {
     relatedPortfolioProjects: doc.relatedPortfolioProjects,
     relatedInsights: doc.relatedInsights,
     order: doc.order,
+    image: doc.image,
     seo: mapSeo(doc.seo),
   };
 }
@@ -432,15 +452,23 @@ export function mapCustomSoftwareNavItem(doc: {
   title: string;
   shortDescription: string;
   href?: string;
+  navIcon?: { url?: string; alt?: string };
 }): NavMenuItem {
   const href =
     doc.slug && doc.slug.length > 0
       ? `/custom-software/${doc.slug}`
       : (doc.href ?? "/custom-software");
+
   return {
     title: doc.title,
     shortDescription: doc.shortDescription,
     href,
+    icon: doc.navIcon?.url
+      ? {
+          src: doc.navIcon.url,
+          alt: doc.navIcon.alt ?? doc.title,
+        }
+      : undefined,
   };
 }
 
@@ -649,6 +677,11 @@ export function mapPost(doc: {
   quickAnswer?: { question?: string; shortAnswer?: string };
   quickAnswerQuestion?: string;
   quickAnswerShort?: string;
+  searchIntent?: string;
+  targetAudience?: string[];
+  painPoints?: string[];
+  searchQuestions?: string[];
+  entitiesMentioned?: string[];
   tableOfContentsEnabled?: boolean;
   openGraph?: Record<string, unknown>;
   schemaMarkup?: Record<string, unknown>;
@@ -718,6 +751,11 @@ export function mapPost(doc: {
             shortAnswer: doc.quickAnswerShort,
           }
         : undefined),
+    searchIntent: doc.searchIntent,
+    targetAudience: doc.targetAudience,
+    painPoints: doc.painPoints,
+    searchQuestions: doc.searchQuestions,
+    entitiesMentioned: doc.entitiesMentioned,
     tableOfContentsEnabled: doc.tableOfContentsEnabled ?? true,
     openGraph: mapOpenGraph(doc.openGraph),
     schemaMarkup: hasSchemaMarkup ? schemaMarkup : undefined,

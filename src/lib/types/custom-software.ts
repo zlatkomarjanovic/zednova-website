@@ -23,6 +23,7 @@ export type CustomSoftware = {
   relatedPortfolioProjects?: string[];
   relatedInsights?: string[];
   order: number;
+  image?: string;
   seo?: SeoFields;
 };
 

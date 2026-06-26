@@ -16,9 +16,11 @@ import {
   articleJsonLd,
   articleUrl,
   breadcrumbJsonLd,
+  faqPageJsonLd,
 } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import { ArticleInlineCta, ArticleQuickAnswer } from "@/features/insights/ArticleAeoBlocks";
+import { ArticleInsightMeta } from "@/features/insights/ArticleInsightMeta";
 import { ArticleBody } from "@/features/insights/ArticleBody";
 import { ArticleFaq } from "@/features/insights/ArticleFaq";
 import { ArticleShare } from "@/features/insights/ArticleShare";
@@ -136,6 +138,9 @@ export default async function ArticlePage({
         data={[
           articleJsonLd({ post, author }),
           breadcrumbJsonLd(crumbs),
+          ...(hasFaq && post.schemaMarkup?.enableFaqSchema !== false
+            ? [faqPageJsonLd(post.faqs!)]
+            : []),
         ]}
       />
 
@@ -268,6 +273,7 @@ export default async function ArticlePage({
 
                   <div className="mx-auto w-full max-w-[720px]">
                     <ArticleQuickAnswer post={post} />
+                    <ArticleInsightMeta post={post} />
 
                     {post.takeaways && post.takeaways.length > 0 && (
                       <div className="mb-10">

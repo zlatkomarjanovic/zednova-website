@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { ZMark } from "@/ui/Logo";
 import { Tag } from "@/ui/Tag";
 import type { Post } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { ArticleCover } from "@/features/insights/ArticleCover";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", {
@@ -23,16 +23,12 @@ export function ArticleCard({
   className?: string;
 }) {
   const cover = (
-    <div
+    <ArticleCover
+      post={post}
       className={cn(
-        "relative overflow-hidden rounded-[2px]",
-        featured ? "aspect-[16/10] lg:aspect-auto lg:h-full" : "aspect-[16/10]",
+        featured ? "aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[280px]" : "aspect-[16/10]",
       )}
-      style={{ backgroundColor: post.accent }}
-    >
-      <div className="zn-grain absolute inset-0" aria-hidden="true" />
-      <ZMark className="absolute bottom-4 right-4 size-20 text-white/[0.05]" />
-    </div>
+    />
   );
 
   const meta = (

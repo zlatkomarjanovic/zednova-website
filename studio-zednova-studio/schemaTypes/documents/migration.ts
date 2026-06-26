@@ -15,6 +15,7 @@ export const migration = defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
+    { name: "platformIcons", title: "Platform icons" },
     { name: "relationships", title: "Relationships" },
     { name: "aeo", title: "AEO" },
     { name: "conversion", title: "Conversion" },
@@ -50,22 +51,22 @@ export const migration = defineType({
     defineField({ name: "heroHeadline", type: "string", group: "content" }),
     defineField({ name: "heroSubhead", type: "text", rows: 3, group: "content" }),
     defineField({
-      name: "fromPlatform",
-      type: "string",
-      title: "From platform",
-      group: "content",
-      options: {
-        list: ["Webflow", "WordPress", "Framer", "Wix", "Squarespace", "Shopify", "Custom"],
-      },
+      name: "fromIcons",
+      type: "array",
+      title: "From platform icons",
+      description: "Upload one or more source platform logos (e.g. Webflow). Add alt text for each.",
+      group: "platformIcons",
+      of: [{ type: "migrationPlatformIcon" }],
+      validation: (r) => r.min(1).error("Add at least one source platform icon."),
     }),
     defineField({
-      name: "toPlatform",
-      type: "string",
-      title: "To platform",
-      group: "content",
-      options: {
-        list: ["Next.js + Sanity", "Next.js", "Shopify", "Framer", "Custom"],
-      },
+      name: "toIcons",
+      type: "array",
+      title: "To platform icons",
+      description: "Upload one or more destination platform logos (e.g. Next.js, Sanity). Add alt text for each.",
+      group: "platformIcons",
+      of: [{ type: "migrationPlatformIcon" }],
+      validation: (r) => r.min(1).error("Add at least one destination platform icon."),
     }),
     defineField({
       name: "whatsIncluded",
@@ -237,5 +238,20 @@ export const migration = defineType({
     }),
   ],
   orderings: [{ title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
-  preview: { select: { title: "title", subtitle: "shortDescription" } },
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "shortDescription",
+      fromAlts: "fromIcons[].alt",
+      toAlts: "toIcons[].alt",
+    },
+    prepare({ title, subtitle, fromAlts, toAlts }) {
+      const fromLabel = fromAlts?.filter(Boolean).join(" + ") || "—";
+      const toLabel = toAlts?.filter(Boolean).join(" + ") || "—";
+      return {
+        title,
+        subtitle: subtitle ?? `${fromLabel} → ${toLabel}`,
+      };
+    },
+  },
 });

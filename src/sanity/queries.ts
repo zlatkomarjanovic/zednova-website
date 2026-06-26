@@ -59,6 +59,15 @@ const FAQ_REF_PROJECTION = /* groq */ `{
   "answer": coalesce(shortAnswer, answer)
 }`;
 
+/** Inline articleFaq items (legacy faqs[] on posts, services, etc.). */
+const INLINE_ARTICLE_FAQS_FIELD = /* groq */ `
+  "faqs": faqs[]{
+    "id": coalesce(id.current, id),
+    question,
+    answer
+  }
+`;
+
 export const POST_LIST_FIELDS = /* groq */ `{
   _id,
   title,
@@ -114,7 +123,7 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   "relatedPosts": relatedPosts[]->slug.current,
   takeaways,
   "keyTakeaways": keyTakeaways[].title,
-  faqs,
+  ${INLINE_ARTICLE_FAQS_FIELD},
   "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
   "inlineFaqs": inlineFaqs[]{
     "id": _key,
@@ -124,6 +133,11 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   aiSummary,
   llmSnippet,
   quickAnswer,
+  searchIntent,
+  targetAudience,
+  painPoints,
+  searchQuestions,
+  entitiesMentioned,
   tableOfContentsEnabled,
   "openGraph": coalesce(openGraph, {})${OPEN_GRAPH_PROJECTION},
   "schemaMarkup": coalesce(schemaMarkup, {})${SCHEMA_MARKUP_PROJECTION},
@@ -223,7 +237,7 @@ export const CASE_STUDIES_QUERY = /* groq */ `
     results,
     techStack,
     "testimonialId": testimonial->_id,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
     featured,
@@ -277,7 +291,7 @@ export const SERVICES_QUERY = /* groq */ `
     idealClients,
     processSteps,
     results,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     pricingSignal,
     pricingTiers,
     startingPrice,
@@ -311,7 +325,7 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
     idealClients,
     processSteps,
     results,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     pricingSignal,
     pricingTiers,
     startingPrice,
@@ -365,7 +379,7 @@ export const CUSTOM_SOFTWARE_BY_SLUG_QUERY = /* groq */ `
     timeline,
     startingPrice,
     softwareType,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
     order,
     "relatedServices": relatedServices[]->slug.current,
@@ -386,7 +400,7 @@ export const CUSTOM_SOFTWARE_QUERY = /* groq */ `
     whatItIs,
     whatsIncluded,
     deliverables,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     href,
     order,
     sectionId,
@@ -395,12 +409,48 @@ export const CUSTOM_SOFTWARE_QUERY = /* groq */ `
     sectionDescription,
     sectionOrder,
     showInNav,
+    "navIcon": navIcon{
+      "url": image.asset->url,
+      "alt": coalesce(alt, title)
+    },
     "relatedServices": relatedServices[]->slug.current,
     "relatedIndustries": relatedIndustries[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
     "image": coalesce(coverImage.asset->url, coverImageUrl),
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
+`;
+
+/** Migration platform icon galleries (supports legacy single fromIcon + raw image arrays). */
+const MIGRATION_PLATFORM_ICONS_PROJECTION = /* groq */ `
+  "fromIcons": coalesce(
+    fromIcons[]{
+      "url": image.asset->url,
+      "alt": alt
+    },
+    select(
+      defined(fromIcon.asset->url) => [{"url": fromIcon.asset->url, "alt": coalesce(fromIcon.alt, "")}],
+      []
+    )
+  ),
+  "toIcons": coalesce(
+    toIcons[]{
+      "url": coalesce(image.asset->url, asset->url),
+      "alt": coalesce(alt, "")
+    },
+    []
+  ),
+  "sourcePlatform": coalesce(
+    sourcePlatform,
+    array::join(fromIcons[].alt, " + "),
+    fromIcon.alt,
+    fromPlatform
+  ),
+  "targetPlatform": coalesce(
+    targetPlatform,
+    array::join(toIcons[].alt, " + "),
+    toPlatform
+  )
 `;
 
 export const MIGRATIONS_QUERY = /* groq */ `
@@ -411,12 +461,11 @@ export const MIGRATIONS_QUERY = /* groq */ `
     description,
     heroHeadline,
     heroSubhead,
-    sourcePlatform,
-    targetPlatform,
+    ${MIGRATION_PLATFORM_ICONS_PROJECTION},
     whatsIncluded,
     deliverables,
     processSteps,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     timeline,
     pricingSignal,
     "relatedServices": relatedServices[]->slug.current,
@@ -425,6 +474,7 @@ export const MIGRATIONS_QUERY = /* groq */ `
     "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
     order,
+    "image": coalesce(coverImage.asset->url, coverImageUrl),
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -437,12 +487,11 @@ export const MIGRATION_BY_SLUG_QUERY = /* groq */ `
     description,
     heroHeadline,
     heroSubhead,
-    sourcePlatform,
-    targetPlatform,
+    ${MIGRATION_PLATFORM_ICONS_PROJECTION},
     whatsIncluded,
     deliverables,
     processSteps,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     timeline,
     pricingSignal,
     "relatedServices": relatedServices[]->slug.current,
@@ -451,6 +500,7 @@ export const MIGRATION_BY_SLUG_QUERY = /* groq */ `
     "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
     order,
+    "image": coalesce(coverImage.asset->url, coverImageUrl),
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -474,7 +524,7 @@ const INDUSTRY_FIELDS_PROJECTION = /* groq */ `{
     servicesForThisIndustry[]->{ "label": title, "href": "/services/" + slug.current },
     recommendedServices[]->{ "label": title, "href": "/services/" + slug.current }
   ),
-  faqs,
+  ${INLINE_ARTICLE_FAQS_FIELD},
   "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
   exampleProject,
   commonUseCase,
@@ -651,7 +701,7 @@ export const CASE_STUDY_BY_SLUG_QUERY = /* groq */ `
     results,
     techStack,
     "testimonialId": testimonial->_id,
-    faqs,
+    ${INLINE_ARTICLE_FAQS_FIELD},
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
     featured,

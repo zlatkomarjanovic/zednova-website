@@ -4,6 +4,7 @@
 import { services } from "@/lib/content/services";
 import { ecommerceNavServices } from "@/lib/content/ecommerce-nav";
 import { migrations as staticMigrations } from "@/lib/content/migrations";
+import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
 import { industryParents } from "@/lib/content/industry-parents";
 import { industries } from "@/lib/content/industry-subs";
 import { caseStudies as staticCaseStudies } from "@/lib/content/case-studies";
@@ -57,6 +58,7 @@ import {
   fetchCustomSoftwareGroupsFromSanity,
   fetchCustomSoftwareNavFromSanity,
   fetchCustomSoftwareBySlugFromSanity,
+  fetchAllCustomSoftwareFromSanity,
   fetchIndustryBySlugFromSanity,
   fetchIndustryNavItemsFromSanity,
   fetchIndustryParentBySlugFromSanity,
@@ -80,6 +82,19 @@ import {
 import { isSanityConfigured } from "@/sanity/env";
 
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
+
+function enrichMigration(migration: Migration): Migration {
+  return {
+    ...migration,
+    platformIcons:
+      migration.platformIcons ??
+      resolveMigrationPlatformIcons({
+        fromIcons: migration.fromIcons,
+        toIcons: migration.toIcons,
+      }) ??
+      undefined,
+  };
+}
 
 async function fromSanity<T>(
   type: string,
@@ -219,12 +234,37 @@ function mergeCustomSoftware(
     relatedInsights: cms.relatedInsights?.length
       ? cms.relatedInsights
       : staticItem.relatedInsights,
+    image: cms.image || staticItem.image,
     seo: cms.seo ?? staticItem.seo,
   };
 }
 
 export async function getAllCustomSoftwareSlugs(): Promise<string[]> {
-  return staticCustomSoftwareItems.map((item) => item.slug);
+  const items = await getAllCustomSoftware();
+  return items.map((item) => item.slug);
+}
+
+export async function getAllCustomSoftware(): Promise<CustomSoftware[]> {
+  const staticItems = staticCustomSoftwareItems;
+  if (!isSanityConfigured()) return [...staticItems].sort(byOrder);
+
+  try {
+    const has = await sanityHasContent("customSoftware");
+    if (!has) return [...staticItems].sort(byOrder);
+
+    const cmsItems = await fetchAllCustomSoftwareFromSanity();
+    const merged = new Map<string, CustomSoftware>();
+
+    for (const item of staticItems) merged.set(item.slug, item);
+    for (const cms of cmsItems) {
+      const existing = merged.get(cms.slug);
+      merged.set(cms.slug, existing ? mergeCustomSoftware(existing, cms)! : cms);
+    }
+
+    return [...merged.values()].sort(byOrder);
+  } catch {
+    return [...staticItems].sort(byOrder);
+  }
 }
 
 export async function getCustomSoftwareBySlug(
@@ -291,23 +331,30 @@ export async function getCustomSoftwareRelatedPortfolioProjects(
 /* ----------------------------- Migrations ----------------------------- */
 
 export async function getAllMigrations(): Promise<Migration[]> {
-  return fromSanity("migration", fetchAllMigrationsFromSanity, () =>
+  const items = await fromSanity("migration", fetchAllMigrationsFromSanity, () =>
     [...staticMigrations].sort(byOrder),
   );
+  return items.map(enrichMigration);
 }
 
 export async function getMigrationBySlug(
   slug: string,
 ): Promise<Migration | null> {
   if (!isSanityConfigured()) {
-    return staticMigrations.find((m) => m.slug === slug) ?? null;
+    const item = staticMigrations.find((m) => m.slug === slug) ?? null;
+    return item ? enrichMigration(item) : null;
   }
   try {
     const has = await sanityHasContent("migration");
-    if (!has) return staticMigrations.find((m) => m.slug === slug) ?? null;
-    return (await fetchMigrationBySlugFromSanity(slug)) ?? null;
+    if (!has) {
+      const item = staticMigrations.find((m) => m.slug === slug) ?? null;
+      return item ? enrichMigration(item) : null;
+    }
+    const item = (await fetchMigrationBySlugFromSanity(slug)) ?? null;
+    return item ? enrichMigration(item) : null;
   } catch {
-    return staticMigrations.find((m) => m.slug === slug) ?? null;
+    const item = staticMigrations.find((m) => m.slug === slug) ?? null;
+    return item ? enrichMigration(item) : null;
   }
 }
 

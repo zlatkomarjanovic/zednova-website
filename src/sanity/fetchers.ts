@@ -128,6 +128,15 @@ export async function fetchCustomSoftwareBySlugFromSanity(
   return doc ? mapCustomSoftware(doc) : null;
 }
 
+export async function fetchAllCustomSoftwareFromSanity(): Promise<
+  import("@/lib/types/custom-software").CustomSoftware[]
+> {
+  const docs = await sanityFetch<Parameters<typeof mapCustomSoftware>[0][]>({
+    query: CUSTOM_SOFTWARE_QUERY,
+  });
+  return docs.filter((doc) => doc.slug).map(mapCustomSoftware);
+}
+
 export async function fetchCustomSoftwareGroupsFromSanity(): Promise<
   CustomSoftwareGroupSection[]
 > {

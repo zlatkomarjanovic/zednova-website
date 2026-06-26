@@ -8,6 +8,8 @@ import { Logo } from "@/ui/Logo";
 import { Button } from "@/ui/Button";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
+import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
+import { NavMenuIcon } from "@/ui/NavMenuIcon";
 
 const LINKS_BEFORE_ABOUT = [{ label: "Work", href: "/work" }];
 
@@ -109,9 +111,17 @@ export function MobileMenu({
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                      className="flex items-start gap-3 py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
                     >
-                      {item.title}
+                      {item.icon && (
+                        <NavMenuIcon
+                          src={item.icon.src}
+                          alt={item.icon.alt}
+                          theme="dark"
+                          className="mt-0.5"
+                        />
+                      )}
+                      <span>{item.title}</span>
                     </Link>
                   </li>
                 ))}
@@ -135,6 +145,14 @@ export function MobileMenu({
                       onClick={onClose}
                       className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
                     >
+                      {item.platformIcons && (
+                        <MigrationPlatformPill
+                          from={item.platformIcons.from}
+                          to={item.platformIcons.to}
+                          theme="dark"
+                          className="mb-2"
+                        />
+                      )}
                       {item.title}
                     </Link>
                   </li>

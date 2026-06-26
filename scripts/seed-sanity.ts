@@ -25,6 +25,9 @@ import {
   serviceMegaMenuCards,
   serviceNavGroups,
 } from "../src/lib/content/nav-menu";
+import {
+  buildPostEnrichment,
+} from "./enrich-insights-posts";
 
 function loadEnvLocal() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -283,8 +286,6 @@ for (const migration of migrations) {
     description: migration.description,
     heroHeadline: migration.title,
     heroSubhead: migration.shortDescription,
-    sourcePlatform: migration.title.split(" to ")[0]?.trim() || undefined,
-    targetPlatform: "Next.js",
     order: migration.order,
     seo: {
       _type: "seoFields",
@@ -480,17 +481,7 @@ for (const member of team) {
 }
 
 for (const post of posts) {
-  const categorySlug = slugify(post.category);
-
-  // Match posts to services by overlapping tags/category
-  const matchedServiceSlugs = services
-    .filter((s) =>
-      post.tags.some((t) =>
-        s.title.toLowerCase().includes(t.toLowerCase()) ||
-        s.category.toLowerCase().includes(t.toLowerCase()),
-      ) || s.category === post.category,
-    )
-    .map((s) => s.slug);
+  const enrichment = buildPostEnrichment(post);
 
   add({
     _id: `post-${post.slug}`,
@@ -498,10 +489,6 @@ for (const post of posts) {
     title: post.title,
     slug: { _type: "slug", current: post.slug },
     excerpt: post.excerpt,
-    category: {
-      _type: "reference",
-      _ref: `insightCategory-${categorySlug}`,
-    },
     author: {
       _type: "reference",
       _ref: `author-${post.author}`,
@@ -511,31 +498,12 @@ for (const post of posts) {
     readTime: post.readTime,
     featured: post.featured,
     accent: post.accent,
-    coverImageUrl: post.image,
     tags: post.tags.map((tagTitle) => ({
       _type: "reference",
       _key: slugify(tagTitle),
       _ref: `tag-${slugify(tagTitle)}`,
     })),
-    takeaways: post.takeaways,
-    faqs: post.faqs,
-    relatedServices: matchedServiceSlugs.length
-      ? matchedServiceSlugs.map((slug) => ({
-          _type: "reference",
-          _key: slug,
-          _ref: `service-${slug}`,
-        }))
-      : undefined,
-    seo: {
-      _type: "seoFields",
-      seoTitle: post.seoTitle ?? post.title,
-      seoDescription: post.seoDescription ?? post.excerpt,
-      keywords: post.keywords ?? post.tags,
-      ogType: "article",
-      ogImage: post.image ? undefined : undefined, // would upload cover image to Sanity in production
-      twitterCard: "summary_large_image",
-    },
-    articleBlocks: post.body,
+    ...enrichment,
   });
 }
 

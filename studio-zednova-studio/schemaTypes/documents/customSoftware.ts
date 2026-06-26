@@ -14,6 +14,7 @@ export const customSoftware = defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
+    { name: "navIcon", title: "Nav icon" },
     { name: "section", title: "Section" },
     { name: "relationships", title: "Relationships" },
     { name: "conversion", title: "Conversion" },
@@ -153,6 +154,13 @@ export const customSoftware = defineType({
       title: "FAQ references",
       group: "content",
       of: [{ type: "reference", to: [{ type: "faq" }] }],
+    }),
+    defineField({
+      name: "navIcon",
+      type: "migrationPlatformIcon",
+      title: "Nav icon",
+      description: "Square logo or icon for the Custom Software mega menu. Upload image + alt text (e.g. Web app).",
+      group: "navIcon",
     }),
     defineField({
       name: "coverImage",

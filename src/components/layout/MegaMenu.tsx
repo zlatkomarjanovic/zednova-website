@@ -14,6 +14,8 @@ import {
 } from "@/ui/HoverHighlight";
 import type { Migration } from "@/lib/types/content-nav";
 import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
+import { NavMenuIcon } from "@/ui/NavMenuIcon";
 import { cn } from "@/lib/utils";
 
 type MegaMenuProps = {
@@ -58,10 +60,53 @@ function ColumnCrosses({
   );
 }
 
+function MigrationNavMenuItemLink({
+  item,
+  titleClass,
+  bodyClass,
+  theme,
+  onNavigate,
+  highlight,
+}: {
+  item: Migration;
+  titleClass: string;
+  bodyClass: string;
+  theme: "light" | "dark";
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+}) {
+  return (
+    <Link
+      href={`/migrations/${item.slug}`}
+      onClick={onNavigate}
+      data-hover-cell
+      onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+      className="relative z-[1] block px-6 py-3.5"
+    >
+      {item.platformIcons && (
+        <MigrationPlatformPill
+          from={item.platformIcons.from}
+          to={item.platformIcons.to}
+          theme={theme}
+          className="mb-2.5"
+        />
+      )}
+      <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+        {item.title}
+      </span>
+      <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
+        {item.shortDescription}
+      </span>
+    </Link>
+  );
+}
+
 function NavMenuItemLink({
   href,
   title,
   shortDescription,
+  icon,
+  theme = "light",
   titleClass,
   bodyClass,
   onNavigate,
@@ -72,6 +117,8 @@ function NavMenuItemLink({
   href: string;
   title: string;
   shortDescription: string;
+  icon?: { src: string; alt: string };
+  theme?: "light" | "dark";
   titleClass: string;
   bodyClass: string;
   onNavigate: () => void;
@@ -92,6 +139,9 @@ function NavMenuItemLink({
         : {})}
       className={cn("relative z-[1] block px-6 py-3.5", className)}
     >
+      {icon && (
+        <NavMenuIcon src={icon.src} alt={icon.alt} theme={theme} className="mb-2.5" />
+      )}
       <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
         {title}
       </span>
@@ -312,6 +362,8 @@ function NavItemGrid({
             href={item.href}
             title={item.title}
             shortDescription={item.shortDescription}
+            icon={item.icon}
+            theme={theme}
             titleClass={titleClass}
             bodyClass={bodyClass}
             onNavigate={onNavigate}
@@ -450,12 +502,11 @@ export function MegaMenu({
                   )}
                 >
                   {index % 2 === 1 && <ColumnCrosses theme={theme} showTop={index < 2} />}
-                  <NavMenuItemLink
-                    href={`/migrations/${item.slug}`}
-                    title={item.title}
-                    shortDescription={item.shortDescription}
+                  <MigrationNavMenuItemLink
+                    item={item}
                     titleClass={titleClass}
                     bodyClass={bodyClass}
+                    theme={theme}
                     onNavigate={onNavigate}
                     highlight={highlight}
                   />

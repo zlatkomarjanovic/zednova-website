@@ -2,9 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "cdn.sanity.io" },
+      { protocol: "https", hostname: "cdn.simpleicons.org" },
       { protocol: "https", hostname: "zednova.com" },
       { protocol: "https", hostname: "www.zednova.com" },
       { protocol: "https", hostname: "zednova.studio" },

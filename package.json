@@ -12,7 +12,11 @@
     "studio:deploy": "npm run deploy --prefix studio-zednova-studio",
     "download:portfolio": "node scripts/download-portfolio-images.mjs",
     "download:logos": "node scripts/download-client-logos.mjs",
-    "seed:sanity": "npx tsx scripts/seed-sanity.ts"
+    "seed:sanity": "npx tsx scripts/seed-sanity.ts",
+    "seed:migration-icons": "npx tsx scripts/seed-migration-platform-icons.ts",
+    "seed:custom-software-icons": "npx tsx scripts/seed-custom-software-icons.ts",
+    "fix:insights-data": "npx tsx scripts/fix-insights-post-data.ts",
+    "enrich:insights-posts": "npx tsx scripts/enrich-insights-posts.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

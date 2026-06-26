@@ -445,6 +445,32 @@ export const mediaAsset = defineType({
   ],
 });
 
+/** Uploadable icon with required alt text (migrations, custom software nav, etc.). */
+export const migrationPlatformIcon = defineType({
+  name: "migrationPlatformIcon",
+  title: "Icon (image + alt)",
+  type: "object",
+  fields: [
+    defineField({
+      name: "image",
+      type: "image",
+      title: "Logo",
+      options: { hotspot: true },
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "alt",
+      type: "string",
+      title: "Alt text",
+      description: "Platform name shown to screen readers (e.g. Webflow, Next.js).",
+      validation: (r) => r.required().min(1).error("Alt text is required for each platform icon."),
+    }),
+  ],
+  preview: {
+    select: { title: "alt", media: "image" },
+  },
+});
+
 export const resourceLink = defineType({
   name: "resourceLink",
   title: "Resource link",
@@ -478,6 +504,7 @@ export const objectTypes = [
   priceTier,
   ctaFields,
   mediaAsset,
+  migrationPlatformIcon,
   resourceLink,
   ...extendedObjectTypes,
 ];

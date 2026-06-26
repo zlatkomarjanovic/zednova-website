@@ -331,6 +331,11 @@ export type Post = {
   relatedPortfolioProjects?: string[];
   relatedPosts?: string[];
   tableOfContentsEnabled?: boolean;
+  searchIntent?: string;
+  targetAudience?: string[];
+  painPoints?: string[];
+  searchQuestions?: string[];
+  entitiesMentioned?: string[];
   primaryCtaTitle?: string;
   primaryCtaDescription?: string;
   primaryCtaLabel?: string;

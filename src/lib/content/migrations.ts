@@ -18,6 +18,7 @@ export type Migration = {
   pricingSignal?: string;
   coverImage?: { url: string; alt?: string };
   coverImageUrl?: string;
+  image?: string;
   relatedServices?: string[];
   relatedIndustries?: string[];
   relatedInsights?: string[];

@@ -12,8 +12,10 @@ import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { TemplateSection } from "@/ui/TemplateSection";
-import { Check } from "lucide-react";
+import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
+import { migrationPlatformLabel } from "@/lib/migrations/platform-icons";
 import Link from "next/link";
+import { Check } from "lucide-react";
 
 export async function generateStaticParams() {
   const migrations = await getAllMigrations();
@@ -108,9 +110,11 @@ export default async function MigrationDetailPage({
       path: `/migrations/${item.slug}`,
       title: item.title,
       description: item.shortDescription ?? item.description,
-      serviceType: item.sourcePlatform
-        ? `${item.sourcePlatform} to ${item.targetPlatform ?? "Next.js"}`
-        : "Migration",
+      serviceType: item.platformIcons
+        ? migrationPlatformLabel(item.platformIcons)
+        : item.sourcePlatform
+          ? `${item.sourcePlatform} to ${item.targetPlatform ?? "Next.js"}`
+          : "Migration",
       pricingSignal: item.pricingSignal,
       timeline: item.timeline,
     }),
@@ -132,9 +136,19 @@ export default async function MigrationDetailPage({
                 <Breadcrumbs items={crumbs} />
                 <Reveal>
                   <div className="mt-6">
-                    <SectionLabel withRule={false}>
-                      {item.sourcePlatform ? `${item.sourcePlatform} → ${item.targetPlatform ?? "Next.js"}` : "Migration"}
-                    </SectionLabel>
+                    {item.platformIcons ? (
+                      <MigrationPlatformPill
+                        from={item.platformIcons.from}
+                        to={item.platformIcons.to}
+                        className="mb-1"
+                      />
+                    ) : (
+                      <SectionLabel withRule={false}>
+                        {item.sourcePlatform
+                          ? `${item.sourcePlatform} → ${item.targetPlatform ?? "Next.js"}`
+                          : "Migration"}
+                      </SectionLabel>
+                    )}
                   </div>
                 </Reveal>
                 <TextReveal

@@ -1,11 +1,16 @@
 /** Nav and migration types shared by layout, mega menu, and CMS mappers. */
 
 import type { ArticleFaq, FeatureBullet, SeoFields } from "@/lib/types";
+import type { PlatformIcon } from "@/lib/migrations/platform-icons";
 
 export type NavMenuItem = {
   title: string;
   shortDescription: string;
   href: string;
+  icon?: {
+    src: string;
+    alt: string;
+  };
 };
 
 export type NavMenuGroup = {
@@ -43,6 +48,12 @@ export type Migration = {
   faqs?: ArticleFaq[];
   timeline?: string;
   pricingSignal?: string;
+  image?: string;
+  coverImage?: { url: string; alt?: string };
+  coverImageUrl?: string;
+  fromIcons?: { url?: string; alt?: string }[];
+  toIcons?: { url?: string; alt?: string }[];
+  platformIcons?: { from: PlatformIcon[]; to: PlatformIcon[] };
   relatedServices?: string[];
   relatedIndustries?: string[];
   relatedInsights?: string[];
