@@ -213,13 +213,6 @@ export const author = defineType({
       group: "content",
       hidden: true,
     }),
-    defineField({
-      name: "seo",
-      type: "seoFields",
-      title: "SEO (legacy)",
-      group: "content",
-      hidden: true,
-    }),
   ],
   preview: {
     select: { title: "name", subtitle: "role", media: "image" },
