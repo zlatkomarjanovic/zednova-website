@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { HomePreloader } from "@/features/home/HomePreloader";
 import { LenisProvider } from "@/components/animations/LenisProvider";
 import { CustomCursor } from "@/components/animations/CustomCursor";
 import { PageTransition } from "@/components/animations/PageTransition";
@@ -130,6 +131,7 @@ export default async function RootLayout({
           Skip to content
         </a>
         <CookieConsentProvider>
+          <HomePreloader />
           <LenisProvider>
             <CustomCursor />
             <Navbar

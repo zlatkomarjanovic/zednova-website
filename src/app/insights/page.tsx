@@ -37,12 +37,9 @@ export default async function InsightsPage() {
 
   return (
     <>
-      <section
-        data-theme="light"
-        className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
-      >
+      <section data-theme="light" className="relative bg-zn-bg">
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-b border-zn-border">
+          <div className="relative border-x border-zn-border">
             <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
             <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
@@ -58,7 +55,7 @@ export default async function InsightsPage() {
               />
             </div>
 
-            <div className="relative border-b border-zn-border bg-zn-bg">
+            <div className="relative bg-zn-bg">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
               <div className="zn-container-inset py-6 md:py-8">
@@ -67,9 +64,13 @@ export default async function InsightsPage() {
                 </Reveal>
               </div>
               <InsightsFeaturedArticle post={featured} />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-zn-border/50"
+              />
             </div>
 
-            <div className="relative border-b border-zn-border">
+            <div className="relative">
               <div className="zn-container-inset py-12 lg:py-14">
                 <Reveal>
                   <SectionLabel withRule={false}>All articles</SectionLabel>
@@ -90,19 +91,20 @@ export default async function InsightsPage() {
 
             <InsightsFilterableGrid posts={filterable} />
 
+            <FaqSection
+              embedded
+              faqs={faqs}
+              groupByCategory
+              filterable
+              heading="Common questions"
+              description="Pricing, timelines, tech, migrations, and how we work. Filter by topic or browse everything."
+            />
+
             <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
             <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
           </div>
         </div>
       </section>
-
-      <FaqSection
-        faqs={faqs}
-        groupByCategory
-        filterable
-        heading="Common questions"
-        description="Pricing, timelines, tech, migrations, and how we work. Filter by topic or browse everything."
-      />
 
       <FounderSection />
 

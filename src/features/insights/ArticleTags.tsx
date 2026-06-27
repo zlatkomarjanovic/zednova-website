@@ -9,7 +9,7 @@ export function ArticleTags({ tags }: { tags: string[] }) {
       <p className="zn-label mb-4 text-zn-text-3">Tagged</p>
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
-          <Tag key={tag} variant="outline">
+          <Tag key={tag} className="border-transparent bg-zn-text text-zn-inv">
             {tag}
           </Tag>
         ))}

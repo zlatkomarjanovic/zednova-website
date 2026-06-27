@@ -344,7 +344,27 @@ export default async function ArticlePage({
                                 LinkedIn
                               </Button>
                             )}
-                            <Button href="/contact" variant="link" size="sm" withArrow>
+                            {author.website && (
+                              <Button
+                                href={author.website}
+                                variant="outline"
+                                size="sm"
+                                withArrow
+                              >
+                                Website
+                              </Button>
+                            )}
+                            {author.twitter && (
+                              <Button
+                                href={author.twitter}
+                                variant="outline"
+                                size="sm"
+                                withArrow
+                              >
+                                X / Twitter
+                              </Button>
+                            )}
+                            <Button href="/contact" variant="outline" size="sm" withArrow>
                               Work with ZedNova
                             </Button>
                           </div>

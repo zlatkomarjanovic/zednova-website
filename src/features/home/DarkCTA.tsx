@@ -76,7 +76,10 @@ export function DarkCTA({
             <div className="flex flex-col justify-center gap-6 border-t border-zn-border-dk pt-10 lg:border-t-0 lg:pl-12 lg:pt-0">
               {bookingEmbed ? (
                 <Reveal delay={0.12}>
-                  <CalBookingEmbed className="overflow-hidden rounded-[10px] border border-zn-border-dk bg-zn-dark-2/80" />
+                  <CalBookingEmbed
+                    theme="dark"
+                    className="overflow-hidden rounded-[10px] border border-zn-border-dk bg-zn-dark-2/80"
+                  />
                 </Reveal>
               ) : (
                 <>

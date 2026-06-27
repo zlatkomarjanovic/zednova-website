@@ -59,7 +59,15 @@ export function InsightsFilterableGrid({ posts }: { posts: FilterPost[] }) {
   return (
     <div className="relative">
       {/* Controls */}
-      <div className="zn-container-inset flex flex-col gap-5 border-y border-zn-border py-6 md:flex-row md:items-center md:justify-between md:gap-8 md:py-7">
+      <div className="relative zn-container-inset flex flex-col gap-5 py-6 md:flex-row md:items-center md:justify-between md:gap-8 md:py-7">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-zn-border/50"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-zn-border/50"
+        />
         <div className="flex flex-wrap items-center gap-2">
           {categories.map((cat) => {
             const active = cat === activeCategory;
@@ -112,7 +120,7 @@ export function InsightsFilterableGrid({ posts }: { posts: FilterPost[] }) {
 
       {/* Results */}
       {filtered.length > 0 ? (
-        <div className="relative border-b border-zn-border">
+        <div className="relative">
           <div className="relative grid grid-cols-1 divide-y divide-zn-border md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-3">
             {filtered.map((post) => (
               <Link
@@ -144,7 +152,7 @@ export function InsightsFilterableGrid({ posts }: { posts: FilterPost[] }) {
           </div>
         </div>
       ) : (
-        <div className="border-b border-zn-border">
+        <div className="relative">
           <div className="zn-container-inset py-20 text-center">
             <p className="zn-label text-zn-text-3">No results</p>
             <p className="mt-4 text-lg text-zn-text-2">
@@ -166,7 +174,11 @@ export function InsightsFilterableGrid({ posts }: { posts: FilterPost[] }) {
       )}
 
       {/* Result count */}
-      <div className="zn-container-inset py-4">
+      <div className="relative zn-container-inset py-4">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-zn-border/50"
+        />
         <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-zn-text-3">
           {filtered.length} {filtered.length === 1 ? "article" : "articles"}
           {activeCategory !== "All" && ` · ${activeCategory}`}

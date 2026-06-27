@@ -7,6 +7,8 @@ import { CAL_LINK } from "@/lib/booking";
 const CAL_ORIGIN = "https://app.cal.com";
 const CAL_SCRIPT = `${CAL_ORIGIN}/embed/embed.js`;
 
+type CalTheme = "light" | "dark" | "auto";
+
 type CalFn = {
   (command: string, ...args: unknown[]): void;
   loaded?: boolean;
@@ -104,10 +106,14 @@ function loadCalScript(): Promise<void> {
 export function CalBookingEmbed({
   calLink = CAL_LINK,
   className,
+  theme = "auto",
+  minHeight = "28rem",
 }: {
   calLink?: string;
   namespace?: string;
   className?: string;
+  theme?: CalTheme;
+  minHeight?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -127,13 +133,23 @@ export function CalBookingEmbed({
 
         Cal("init", { origin: CAL_ORIGIN });
 
+        const resolvedTheme = theme === "auto" ? undefined : theme;
+
         Cal("inline", {
           elementOrSelector: containerRef.current,
           calLink,
-          config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
+          config: {
+            layout: "month_view",
+            useSlotsViewOnSmallScreen: "true",
+            ...(resolvedTheme ? { theme: resolvedTheme } : {}),
+          },
         });
 
-        Cal("ui", { hideEventTypeDetails: false, layout: "month_view" });
+        Cal("ui", {
+          hideEventTypeDetails: false,
+          layout: "month_view",
+          ...(resolvedTheme ? { theme: resolvedTheme } : {}),
+        });
       } catch {
         /* Leave empty container — user can still use /contact */
       }
@@ -143,13 +159,13 @@ export function CalBookingEmbed({
       cancelled = true;
       element.replaceChildren();
     };
-  }, [calLink]);
+  }, [calLink, theme]);
 
   return (
     <div
       ref={containerRef}
       className={className}
-      style={{ width: "100%", minHeight: "28rem", overflow: "auto" }}
+      style={{ width: "100%", minHeight, overflow: "hidden" }}
       aria-label="Book a 30 minute call"
     />
   );

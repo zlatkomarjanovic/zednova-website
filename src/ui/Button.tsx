@@ -16,9 +16,9 @@ const VARIANT: Record<Variant, string> = {
   primary: "bg-zn-text text-zn-inv hover:bg-zn-text/90 rounded-[2px]",
   inverted: "bg-zn-inv text-zn-text hover:bg-white rounded-[2px]",
   outline:
-    "border border-zn-border text-zn-text hover:border-zn-text hover:bg-zn-bg-2 rounded-[2px]",
+    "border border-zn-border text-zn-text hover:border-zn-text hover:bg-zn-text hover:text-zn-inv rounded-[2px]",
   "outline-inverted":
-    "border border-zn-border-dk text-zn-inv hover:border-zn-inv hover:bg-zn-dark-2 rounded-[2px]",
+    "border border-zn-border-dk text-zn-inv hover:border-zn-text hover:bg-zn-text hover:text-zn-inv rounded-[2px]",
   link: "text-current p-0 h-auto",
 };
 

@@ -98,6 +98,7 @@ export function FaqSection({
   recentPosts,
   groupByCategory = false,
   filterable = false,
+  embedded = false,
   heading = "Answers before you reach out",
   description = "Websites, Shopify, automations, migrations, AI tools, pricing, and support. The essentials before you reach out.",
 }: {
@@ -105,6 +106,8 @@ export function FaqSection({
   recentPosts?: Post[];
   groupByCategory?: boolean;
   filterable?: boolean;
+  /** Renders inside a parent blueprint frame (e.g. insights page) — no extra side borders or gap. */
+  embedded?: boolean;
   heading?: string;
   description?: string;
 }) {
@@ -129,6 +132,121 @@ export function FaqSection({
 
   if (faqs.length === 0) return null;
 
+  const faqContent = (
+    <>
+      <div
+        className={cn(
+          "zn-container-inset",
+          embedded ? "py-[12rem]" : "py-14 lg:py-16",
+        )}
+      >
+        <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+          <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
+            <SectionLabel withRule={false}>FAQ</SectionLabel>
+            <h2 className="mt-6 max-w-[25rem] zn-h2 font-sans font-normal">
+              {heading}
+            </h2>
+            <p className="zn-prose mt-5 max-w-[25rem]">{description}</p>
+          </aside>
+
+          <div className="min-w-0">
+            {filterable && categories.length > 0 ? (
+              <FaqCategoryFilters
+                categories={categories}
+                active={activeCategory}
+                onChange={handleCategoryChange}
+              />
+            ) : null}
+
+            <div className="min-w-0 overflow-hidden border border-zn-border bg-zn-bg-2">
+              {visibleGroups.map((group, groupIndex) => (
+                <div
+                  key={group.category || "all"}
+                  className={cn(groupIndex > 0 && "border-t border-zn-border")}
+                >
+                  {group.category && !filterable ? (
+                    <p className="zn-label border-b border-zn-border bg-zn-bg px-6 py-3 md:px-7">
+                      {group.category}
+                    </p>
+                  ) : null}
+                  <div className="divide-y divide-zn-border">
+                    {group.items.map((item) => (
+                      <FaqAccordionItem
+                        key={item.id}
+                        item={item}
+                        open={openId === item.id}
+                        onToggle={() =>
+                          setOpenId((current) => (current === item.id ? "" : item.id))
+                        }
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {recentPosts && recentPosts.length > 0 ? (
+        <div className="relative border-t border-zn-border">
+          <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+          <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+
+          <div
+            className="zn-container-inset py-14 lg:py-16"
+            aria-labelledby="homepage-recent-insights-heading"
+          >
+            <InsightsContinueReadingBlock
+              posts={recentPosts}
+              label="Insights"
+              heading="Recent blog posts"
+              headingId="homepage-recent-insights-heading"
+              description={HOMEPAGE_INSIGHTS_DESCRIPTION}
+              transparentCards
+              action={
+                <Button href="/insights" variant="link" withArrow>
+                  All insights
+                </Button>
+              }
+            />
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+
+  if (embedded) {
+    return (
+      <div className="relative" aria-label="FAQ">
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 z-[4] h-px bg-zn-border/50"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 z-[4] h-px bg-zn-border/50"
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2 zn-sage-surface"
+          aria-hidden="true"
+        />
+        <div
+          className="zn-sage-grain pointer-events-none absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2"
+          aria-hidden="true"
+        />
+        <BlueprintGrid className="z-[1]" immediate />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 z-[2] w-px bg-zn-border"
+        />
+        <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+        <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+        <div className="relative z-[3]">{faqContent}</div>
+      </div>
+    );
+  }
+
   return (
     <section
       data-theme="light"
@@ -143,85 +261,14 @@ export function FaqSection({
           <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
           <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
-          <div className="zn-container-inset py-14 lg:py-16">
-            <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-              <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
-                <SectionLabel withRule={false}>FAQ</SectionLabel>
-                <h2 className="mt-6 max-w-[25rem] zn-h2 font-sans font-normal">
-                  {heading}
-                </h2>
-                <p className="zn-prose mt-5 max-w-[25rem]">{description}</p>
-              </aside>
+          {faqContent}
 
-              <div className="min-w-0">
-                {filterable && categories.length > 0 ? (
-                  <FaqCategoryFilters
-                    categories={categories}
-                    active={activeCategory}
-                    onChange={handleCategoryChange}
-                  />
-                ) : null}
-
-                <div className="min-w-0 overflow-hidden border border-zn-border bg-zn-bg-2">
-                  {visibleGroups.map((group, groupIndex) => (
-                    <div
-                      key={group.category || "all"}
-                      className={cn(groupIndex > 0 && "border-t border-zn-border")}
-                    >
-                      {group.category && !filterable ? (
-                        <p className="zn-label border-b border-zn-border bg-zn-bg px-6 py-3 md:px-7">
-                          {group.category}
-                        </p>
-                      ) : null}
-                      <div className="divide-y divide-zn-border">
-                        {group.items.map((item) => (
-                          <FaqAccordionItem
-                            key={item.id}
-                            item={item}
-                            open={openId === item.id}
-                            onToggle={() =>
-                              setOpenId((current) => (current === item.id ? "" : item.id))
-                            }
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {recentPosts && recentPosts.length > 0 ? (
-            <div className="relative border-t border-zn-border">
-              <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
-              <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
-
-              <div
-                className="zn-container-inset py-14 lg:py-16"
-                aria-labelledby="homepage-recent-insights-heading"
-              >
-                <InsightsContinueReadingBlock
-                  posts={recentPosts}
-                  label="Insights"
-                  heading="Recent blog posts"
-                  headingId="homepage-recent-insights-heading"
-                  description={HOMEPAGE_INSIGHTS_DESCRIPTION}
-                  transparentCards
-                  action={
-                    <Button href="/insights" variant="link" withArrow>
-                      All insights
-                    </Button>
-                  }
-                />
-              </div>
-            </div>
-          ) : (
+          {!recentPosts?.length ? (
             <>
               <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
               <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
             </>
-          )}
+          ) : null}
         </div>
       </div>
     </section>
