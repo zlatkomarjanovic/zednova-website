@@ -73,8 +73,8 @@ function AiFabButton({
   const label = summarizeWithLabel(model.name);
 
   const handleLeave = (e: React.MouseEvent<HTMLAnchorElement> | React.FocusEvent<HTMLAnchorElement>) => {
-    const related = e.relatedTarget as Node | null;
-    if (stackRef.current?.contains(related)) return;
+    const related = e.relatedTarget;
+    if (related instanceof Node && stackRef.current?.contains(related)) return;
     onHover("");
   };
 
