@@ -1,11 +1,12 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
 
 import { ArticleCover } from "@/features/insights/ArticleCover";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { Tag } from "@/ui/Tag";
 import type { Post } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 function buildIntro(current: Post, related: Post[]): string {
   const sharedTags = [
@@ -26,11 +27,22 @@ function buildIntro(current: Post, related: Post[]): string {
   return `Handpicked ZedNova insights related to ${current.category.toLowerCase()} — written for founders and operators who want clearer answers on SEO, web performance, and AI-ready content structure.`;
 }
 
-export function ContinueReadingCard({ post }: { post: Post }) {
+export function ContinueReadingCard({
+  post,
+  transparent = false,
+}: {
+  post: Post;
+  transparent?: boolean;
+}) {
   const summary = post.oneSentenceSummary ?? post.excerpt;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[2px] border border-zn-border bg-zn-bg">
+    <article
+      className={cn(
+        "group flex h-full flex-col overflow-hidden rounded-[2px] border border-zn-border",
+        transparent ? "bg-transparent" : "bg-zn-bg",
+      )}
+    >
       <Link
         href={`/insights/${post.slug}`}
         className="flex flex-1 flex-col"
@@ -91,12 +103,18 @@ export function ContinueReadingCard({ post }: { post: Post }) {
   );
 }
 
-export function ContinueReadingGrid({ posts }: { posts: Post[] }) {
+export function ContinueReadingGrid({
+  posts,
+  transparentCards = false,
+}: {
+  posts: Post[];
+  transparentCards?: boolean;
+}) {
   return (
     <ul className="mt-10 grid list-none gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
       {posts.map((post) => (
         <li key={post.slug} className="min-h-0">
-          <ContinueReadingCard post={post} />
+          <ContinueReadingCard post={post} transparent={transparentCards} />
         </li>
       ))}
     </ul>
@@ -109,26 +127,35 @@ export function InsightsContinueReadingBlock({
   heading = "More from ZedNova",
   description,
   headingId = "continue-reading-heading",
+  transparentCards = false,
+  action,
 }: {
   posts: Post[];
   label?: string;
   heading?: string;
   description: string;
   headingId?: string;
+  transparentCards?: boolean;
+  action?: ReactNode;
 }) {
   if (!posts.length) return null;
 
   return (
     <>
-      <SectionLabel withRule={false}>{label}</SectionLabel>
-      <h2
-        id={headingId}
-        className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-text"
-      >
-        {heading}
-      </h2>
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="min-w-0">
+          <SectionLabel withRule={false}>{label}</SectionLabel>
+          <h2
+            id={headingId}
+            className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-text"
+          >
+            {heading}
+          </h2>
+        </div>
+        {action ? <div className="shrink-0">{action}</div> : null}
+      </div>
       <p className="zn-prose mt-5 max-w-2xl text-zn-text-2">{description}</p>
-      <ContinueReadingGrid posts={posts} />
+      <ContinueReadingGrid posts={posts} transparentCards={transparentCards} />
     </>
   );
 }

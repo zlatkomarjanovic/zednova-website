@@ -111,6 +111,7 @@ export default async function HomePage() {
               title: s.title,
               shortDescription: s.shortDescription,
             })),
+            recentPosts,
           ),
         ]}
       />
@@ -297,7 +298,7 @@ export default async function HomePage() {
       <FaqSection
         faqs={homepageFaqs}
         recentPosts={recentPosts}
-        description="Websites, Shopify, automations, migrations, AI tools, pricing, and support — the essentials before you reach out."
+        description="Websites, Shopify, automations, migrations, AI tools, pricing, and support. The essentials before you reach out."
       />
 
       <FounderSection />

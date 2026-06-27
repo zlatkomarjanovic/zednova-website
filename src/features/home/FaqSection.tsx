@@ -14,7 +14,7 @@ import { groupFaqsByCategory } from "@/lib/content/faq";
 import { cn } from "@/lib/utils";
 
 const HOMEPAGE_INSIGHTS_DESCRIPTION =
-  "Practical notes on AI search, websites, Shopify, CRM automations, and software for clinics, ecommerce brands, and service businesses — the same guides we link from each article.";
+  "Practical notes on AI search, websites, Shopify, CRM automations, and software for clinics, ecommerce brands, and service businesses. The same guides we link from each article.";
 
 function FaqAccordionItem({
   item,
@@ -99,7 +99,7 @@ export function FaqSection({
   groupByCategory = false,
   filterable = false,
   heading = "Answers before you reach out",
-  description = "Websites, Shopify, automations, migrations, AI tools, pricing, ownership, and support covered below.",
+  description = "Websites, Shopify, automations, migrations, AI tools, pricing, and support. The essentials before you reach out.",
 }: {
   faqs: FaqItem[];
   recentPosts?: Post[];
@@ -207,19 +207,21 @@ export function FaqSection({
                   heading="Recent blog posts"
                   headingId="homepage-recent-insights-heading"
                   description={HOMEPAGE_INSIGHTS_DESCRIPTION}
+                  transparentCards
+                  action={
+                    <Button href="/insights" variant="link" withArrow>
+                      All insights
+                    </Button>
+                  }
                 />
-
-                <div className="mt-10 flex justify-end border-t border-zn-border pt-8">
-                  <Button href="/insights" variant="link" withArrow>
-                    All insights
-                  </Button>
-                </div>
               </div>
             </div>
-          ) : null}
-
-          <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
-          <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
+          ) : (
+            <>
+              <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
+              <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
+            </>
+          )}
         </div>
       </div>
     </section>

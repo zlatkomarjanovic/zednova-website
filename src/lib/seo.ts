@@ -690,35 +690,51 @@ export function contactPageJsonLd(email: string) {
 /** Homepage ProfessionalService + core offer list. */
 export function homepageServiceGraphJsonLd(
   services: { slug: string; title: string; shortDescription: string }[],
+  recentPosts?: Post[],
 ) {
+  const graph: object[] = [
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE_ORIGIN}/#professional-service`,
+      name: "ZedNova Studios",
+      url: SITE_ORIGIN,
+      description:
+        "We build websites, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
+      provider: { "@id": `${SITE_ORIGIN}/#organization` },
+      areaServed: { "@type": "Country", name: "United States" },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "ZedNova Studios services",
+        itemListElement: services.slice(0, 8).map((service, index) => ({
+          "@type": "Offer",
+          position: index + 1,
+          itemOffered: {
+            "@type": "Service",
+            name: service.title,
+            description: service.shortDescription,
+            url: `${SITE_ORIGIN}/services/${service.slug}`,
+          },
+        })),
+      },
+    },
+  ];
+
+  if (recentPosts?.length) {
+    const relatedList = relatedArticlesJsonLd(
+      recentPosts,
+      "Recent blog posts from ZedNova Studios",
+    );
+    if (relatedList) {
+      graph.push({
+        ...stripJsonLdContext(relatedList as Record<string, unknown>),
+        "@id": `${SITE_ORIGIN}/#recent-insights`,
+      });
+    }
+  }
+
   return {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "ProfessionalService",
-        "@id": `${SITE_ORIGIN}/#professional-service`,
-        name: "ZedNova Studios",
-        url: SITE_ORIGIN,
-        description:
-          "We build websites, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
-        provider: { "@id": `${SITE_ORIGIN}/#organization` },
-        areaServed: { "@type": "Country", name: "United States" },
-        hasOfferCatalog: {
-          "@type": "OfferCatalog",
-          name: "ZedNova Studios services",
-          itemListElement: services.slice(0, 8).map((service, index) => ({
-            "@type": "Offer",
-            position: index + 1,
-            itemOffered: {
-              "@type": "Service",
-              name: service.title,
-              description: service.shortDescription,
-              url: `${SITE_ORIGIN}/services/${service.slug}`,
-            },
-          })),
-        },
-      },
-    ],
+    "@graph": graph,
   };
 }
 
