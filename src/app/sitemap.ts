@@ -8,6 +8,7 @@ import {
   getAllMigrations,
 } from "@/lib/queries";
 import { comparisons } from "@/lib/content/comparisons";
+import { alternatives } from "@/lib/content/alternatives";
 import { SITE_ORIGIN } from "@/lib/site-url";
 
 const STATIC_ROUTES: MetadataRoute.Sitemap = [
@@ -27,6 +28,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${SITE_ORIGIN}/stack`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/service-areas`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/compare`, changeFrequency: "weekly", priority: 0.6 },
+  { url: `${SITE_ORIGIN}/alternatives`, changeFrequency: "weekly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/llms.txt`, changeFrequency: "monthly", priority: 0.5 },
   { url: `${SITE_ORIGIN}/llms-full.txt`, changeFrequency: "weekly", priority: 0.5 },
 ];
@@ -107,6 +109,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
+    const alternativeRoutes: MetadataRoute.Sitemap = alternatives.map((guide) => ({
+      url: `${SITE_ORIGIN}/alternatives/${guide.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+
     return [
       ...staticRoutes,
       ...postRoutes,
@@ -116,6 +125,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...migrationRoutes,
       ...customSoftwareRoutes,
       ...comparisonRoutes,
+      ...alternativeRoutes,
     ];
   } catch {
     return STATIC_ROUTES.map((route) => ({ ...route, lastModified: now }));

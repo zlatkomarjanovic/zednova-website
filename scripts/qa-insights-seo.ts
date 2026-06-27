@@ -64,8 +64,16 @@ function main() {
     const bodyText = post.body
       .map((b) => (b.type === "ul" ? b.items.join(" ") : (b.text ?? "")))
       .join(" ");
-    if (wordCount(bodyText) < 200) {
-      slugErrors.push("body content too short");
+    if (wordCount(bodyText) < 1000) {
+      slugErrors.push(`body content too short (${wordCount(bodyText)} words, expected 1000+)`);
+    }
+
+    if ((post.faqs?.length ?? 0) < 5) {
+      slugErrors.push(`expected at least 5 FAQs, got ${post.faqs?.length ?? 0}`);
+    }
+
+    if ((post.takeaways?.length ?? 0) < 5) {
+      slugErrors.push(`expected at least 5 takeaways, got ${post.takeaways?.length ?? 0}`);
     }
 
     if (!post.quickAnswer?.shortAnswer?.includes("article-direct-answer")) {

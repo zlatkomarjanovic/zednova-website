@@ -415,4 +415,60 @@ export const posts: Post[] = [
       { type: "p", text: "Required fields, references instead of pasted URLs, and preview before publish keep content consistent while still moving faster than a developer ticket queue." },
     ],
   },
+  {
+    slug: "next-js-vs-webflow-for-service-businesses",
+    title: "Next.js vs Webflow for Service Businesses — Which Stack Wins?",
+    excerpt:
+      "Webflow launches fast; Next.js scales with CRM, AEO, and custom software. Here is how service businesses should choose — and when to migrate.",
+    category: "Systems",
+    author: "zlatko-marjanovic",
+    publishedAt: "2026-06-20",
+    image:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop",
+    readTime: 9,
+    featured: false,
+    accent: "#1a1918",
+    tags: ["Next.js", "Webflow", "Migration", "Service Business", "AEO"],
+    seoTitle: "Next.js vs Webflow for Service Businesses (2026)",
+    seoDescription:
+      "Should a service business use Next.js or Webflow? Compare speed, CRM integrations, AEO, CMS limits, and migration timing with an honest decision framework.",
+    keywords: [
+      "next.js vs webflow",
+      "webflow for service business",
+      "next.js marketing site",
+      "webflow migration",
+      "headless cms service business",
+    ],
+    takeaways: [],
+    faqs: [],
+    body: [{ type: "p", text: "Placeholder — full content from CMS override." }],
+  },
+  {
+    slug: "ai-chatbots-for-small-business-what-works",
+    title: "AI Chatbots for Small Business — What Actually Works in 2026",
+    excerpt:
+      "Generic chatbots waste budget. Here is what SMB chat and voice assistants should do — qualify, book, and hand off — plus what to skip.",
+    category: "AI & Search",
+    author: "zlatko-marjanovic",
+    publishedAt: "2026-06-22",
+    image:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1600&auto=format&fit=crop",
+    readTime: 9,
+    featured: false,
+    accent: "#0f0e0d",
+    tags: ["AI Chatbot", "SMB", "AI Receptionist", "Lead Qualification", "Automation"],
+    seoTitle: "AI Chatbots for Small Business — What Works (2026)",
+    seoDescription:
+      "Which AI chatbots work for small businesses? Compare website chat, missed-call text-back, and voice receptionists — with a framework for booking and CRM handoff.",
+    keywords: [
+      "ai chatbot small business",
+      "ai receptionist smb",
+      "website chatbot booking",
+      "missed call text back",
+      "ai lead qualification",
+    ],
+    takeaways: [],
+    faqs: [],
+    body: [{ type: "p", text: "Placeholder — full content from CMS override." }],
+  },
 ];

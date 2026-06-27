@@ -30,6 +30,8 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { EntitySummary } from "@/ui/EntitySummary";
 import { BestForNotBestFor } from "@/ui/BestForNotBestFor";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { getServiceQuickAnswer } from "@/lib/content/service-quick-answers";
+import { ServiceDirectAnswer } from "@/features/services/ServiceDirectAnswer";
 import { ArticleCard } from "@/features/insights/ArticleCard";
 import { slugify } from "@/lib/utils";
 import { TemplateSection } from "@/ui/TemplateSection";
@@ -116,6 +118,7 @@ export default async function ServiceDetailPage({
       : service.deliverables.map((d) => ({ title: d, description: undefined }));
 
   const hasFaq = Boolean(service.faqs && service.faqs.length);
+  const quickAnswer = getServiceQuickAnswer(slug);
 
   return (
     <>
@@ -150,6 +153,13 @@ export default async function ServiceDetailPage({
                   text={service.heroHeadline ?? service.title}
                   className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
                 />
+                {quickAnswer && (
+                  <Reveal delay={0.08}>
+                    <div className="mt-6">
+                      <ServiceDirectAnswer answer={quickAnswer} />
+                    </div>
+                  </Reveal>
+                )}
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
                     {service.heroSubhead ?? service.whatItIs}

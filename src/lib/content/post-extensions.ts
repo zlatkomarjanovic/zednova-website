@@ -3,7 +3,7 @@ import type { Post } from "@/lib/types";
 import { getInsightOverride } from "./insight-overrides";
 
 /** Minimum article body length (characters) for insights posts. */
-export const MIN_POST_BODY_CHARS = 5000;
+export const MIN_POST_BODY_CHARS = 6000;
 
 /** 20 tags per post — merged with existing tags in Sanity enrichment. */
 export const EXTENDED_POST_TAGS: Record<string, string[]> = {
@@ -160,6 +160,50 @@ export const EXTENDED_POST_TAGS: Record<string, string[]> = {
     "Content Strategy",
     "Web Operations",
     "ZedNova Insights",
+  ],
+  "next-js-vs-webflow-for-service-businesses": [
+    "Next.js",
+    "Webflow",
+    "Migration",
+    "Service Business",
+    "AEO",
+    "Headless CMS",
+    "Sanity",
+    "Core Web Vitals",
+    "CRM Integration",
+    "Marketing Website",
+    "Webflow CMS",
+    "Platform Comparison",
+    "Professional Services",
+    "SMB Websites",
+    "Website Strategy",
+    "Paid Media",
+    "Content Operations",
+    "Schema Markup",
+    "Developer Tickets",
+    "ZedNova Insights",
+  ],
+  "ai-chatbots-for-small-business-what-works": [
+    "AI Chatbot",
+    "SMB",
+    "AI Receptionist",
+    "Lead Qualification",
+    "Automation",
+    "Missed Call",
+    "CRM",
+    "GoHighLevel",
+    "Booking",
+    "Voice AI",
+    "Website Chat",
+    "Speed to Lead",
+    "HVAC",
+    "Dental",
+    "Home Services",
+    "Conversion",
+    "Customer Support",
+    "HIPAA Awareness",
+    "ZedNova Insights",
+    "AI Tools",
   ],
 };
 

@@ -320,4 +320,104 @@ export const comparisons: Comparison[] = [
       { label: "About", href: "/about" },
     ],
   },
+  {
+    slug: "gohighlevel-vs-hubspot",
+    title: "GoHighLevel vs HubSpot for Service Businesses (2026)",
+    h1: "GoHighLevel vs HubSpot",
+    description:
+      "GoHighLevel bundles CRM, SMS, calendars, and funnels for local service businesses. HubSpot scales for B2B teams with marketing ops depth. Compare cost, workflows, and clinic-ready features.",
+    intro:
+      "Both tools capture leads. The right pick depends on call volume, team size, and whether you need enterprise marketing ops or an all-in-one local business stack.",
+    left: {
+      name: "GoHighLevel",
+      tagline: "All-in-one for local service businesses and agencies.",
+      strengths: [
+        "Built-in SMS, calendars, pipelines, and missed-call text-back",
+        "Fast to launch for clinics, HVAC, and home services",
+        "White-label options for agencies managing multiple clients",
+        "Lower entry cost than HubSpot Marketing + Sales Hub",
+      ],
+      weaknesses: [
+        "Weaker content marketing and SEO tooling vs HubSpot",
+        "Reporting and attribution less mature for complex B2B",
+        "Site builder is functional, not a replacement for Next.js",
+      ],
+    },
+    right: {
+      name: "HubSpot",
+      tagline: "Marketing, sales, and service hub for growing B2B teams.",
+      strengths: [
+        "Deep email, workflow, and attribution tooling",
+        "Strong integrations and partner ecosystem",
+        "Scales from startup to enterprise with clear upgrade path",
+        "Better fit for multi-touch B2B sales cycles",
+      ],
+      weaknesses: [
+        "Higher cost as contacts and hubs grow",
+        "SMS and local business workflows often need extra apps",
+        "Slower to wire missed-call text-back out of the box",
+      ],
+    },
+    verdict:
+      "Pick GoHighLevel when the business lives on phone, SMS, and booking — clinics, trades, med spas. Pick HubSpot when marketing ops, content, and B2B pipeline reporting are the core job.",
+    whenLeft:
+      "Best for high call volume, multi-location service businesses, and teams that want CRM + SMS + calendar in one login.",
+    whenRight:
+      "Best for B2B SaaS, professional services with long cycles, and teams already invested in HubSpot content and workflows.",
+    related: [
+      { label: "CRM automation for clinics", href: "/insights/crm-automation-for-clinics-without-extra-hires" },
+      { label: "CRM & Pipeline Automation", href: "/services/crm-pipeline-automation" },
+      { label: "AI Receptionist", href: "/services/ai-receptionist" },
+    ],
+  },
+  {
+    slug: "wordpress-vs-sanity",
+    title: "WordPress vs Sanity CMS — Which Content Stack for 2026?",
+    h1: "WordPress vs Sanity",
+    description:
+      "WordPress powers the web with plugins; Sanity powers structured content for Next.js sites. Compare editor experience, performance, security, and AEO readiness for marketing teams.",
+    intro:
+      "WordPress is familiar. Sanity is structured. The decision is whether your marketing site is a plugin stack or a content API feeding a fast frontend.",
+    left: {
+      name: "WordPress",
+      tagline: "Familiar CMS with a massive plugin ecosystem.",
+      strengths: [
+        "Huge plugin library for forms, SEO, and ecommerce",
+        "Editors already know the admin",
+        "Lower migration cost if you are already on WordPress",
+        "Works for blogs and brochure sites without custom dev",
+      ],
+      weaknesses: [
+        "Plugin conflicts and security maintenance overhead",
+        "Hard to hit Core Web Vitals on complex themes",
+        "Weak native structure for multi-collection AEO content",
+      ],
+    },
+    right: {
+      name: "Sanity",
+      tagline: "Structured content for Next.js with guardrailed editing.",
+      strengths: [
+        "Content models for services, insights, FAQs, and AEO fields",
+        "Marketing publishes without touching React layout files",
+        "Pairs with Next.js for speed, schema, and llms.txt architecture",
+        "No plugin security surface on the public site",
+      ],
+      weaknesses: [
+        "Requires Next.js (or similar) frontend — not a standalone site builder",
+        "Higher upfront content modeling and dev setup",
+        "Editors learn Studio instead of Gutenberg",
+      ],
+    },
+    verdict:
+      "Stay on WordPress if migration cost exceeds two years of maintenance pain. Move to Sanity + Next.js when speed, AEO, and marketing velocity without developer tickets are strategic priorities.",
+    whenLeft:
+      "Best when the team is small, the site is blog-led, and plugins solve immediate needs without performance pressure.",
+    whenRight:
+      "Best when content feeds multiple templates, AI search matters, and you are migrating off WordPress or Webflow anyway.",
+    related: [
+      { label: "WordPress → Next.js migration", href: "/migrations/wordpress-to-nextjs-sanity" },
+      { label: "Sanity for marketing teams", href: "/insights/sanity-cms-for-marketing-teams-who-hate-developer-tickets" },
+      { label: "WordPress vs Next.js compare", href: "/compare/wordpress-vs-nextjs-sanity" },
+    ],
+  },
 ];

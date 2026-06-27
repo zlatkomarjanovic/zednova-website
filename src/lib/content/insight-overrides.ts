@@ -1,5 +1,7 @@
 import type { ArticleBlock, ArticleFaq, ImplementationRow, ResourceLink, SourceReference } from "@/lib/types";
 import { remainingInsightOverrides } from "./insight-overrides-remaining";
+import { INSIGHT_NEW_POST_OVERRIDES } from "./insight-new-posts";
+import { mergeInsightExpansion } from "./insight-post-expansions";
 
 export type InsightOverride = {
   body: ArticleBlock[];
@@ -296,6 +298,7 @@ const OVERRIDES: Record<string, InsightOverride> = {
   [SHOPIFY_SLUG]: shopifyOverride,
   [FIVE_MINUTE_SLUG]: fiveMinuteOverride,
   ...remainingInsightOverrides,
+  ...INSIGHT_NEW_POST_OVERRIDES,
 };
 
 export function getInsightOverride(slug: string): InsightOverride | null {
@@ -321,7 +324,7 @@ export function applyInsightOverride<T extends { slug: string }>(
 } {
   const override = getInsightOverride(post.slug);
   if (!override) return post;
-  return {
+  return mergeInsightExpansion({
     ...post,
     body: override.body,
     takeaways: override.takeaways,
@@ -333,5 +336,5 @@ export function applyInsightOverride<T extends { slug: string }>(
       ? { implementationTable: override.implementationTable }
       : {}),
     ...(override.relatedLinks?.length ? { relatedLinks: override.relatedLinks } : {}),
-  };
+  });
 }
