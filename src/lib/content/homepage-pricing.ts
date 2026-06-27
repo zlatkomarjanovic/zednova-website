@@ -3,7 +3,11 @@ export type HomepagePricingPackage = {
   group: string;
   title: string;
   shortDescription: string;
-  pricingSignal: string;
+  pricing: {
+    setupAmount: string;
+    setupLabel?: string;
+    monthlyAmount?: string;
+  };
   timeline: string;
   badge?: string;
   deliverables: string[];
@@ -17,7 +21,11 @@ export const homepagePricingPackages: HomepagePricingPackage[] = [
     title: "Complete growth stack",
     shortDescription:
       "Most service businesses lose leads because their site doesn't convert and nobody follows up fast enough. This fixes both.",
-    pricingSignal: "From $3,500 setup + $349/mo",
+    pricing: {
+      setupAmount: "$3,500",
+      setupLabel: "setup",
+      monthlyAmount: "$349/mo",
+    },
     timeline: "Live in 7 to 10 business days, then we improve it together",
     badge: "Most common starting point",
     deliverables: [
@@ -39,7 +47,9 @@ export const homepagePricingPackages: HomepagePricingPackage[] = [
     title: "Fast platform migration",
     shortDescription:
       "Stuck on WordPress, Wix, Squarespace, Webflow, or Framer? We move everything over cleanly, protect your SEO, and launch you on a site that actually loads fast.",
-    pricingSignal: "From $4,500",
+    pricing: {
+      setupAmount: "$4,500",
+    },
     timeline: "MVP in 5 to 8 business days, then we iterate and maintain after launch",
     deliverables: [
       "Every page, post, and asset moves with you",
@@ -60,7 +70,11 @@ export const homepagePricingPackages: HomepagePricingPackage[] = [
     title: "Custom internal software",
     shortDescription:
       "If your team is living in spreadsheets, email threads, and shared drives to run the business — this replaces all of it with one tool built specifically for you.",
-    pricingSignal: "From $4,999 MVP + $549/mo",
+    pricing: {
+      setupAmount: "$4,999",
+      setupLabel: "MVP",
+      monthlyAmount: "$549/mo",
+    },
     timeline: "MVP in 10 to 15 business days, then we iterate and maintain after launch",
     deliverables: [
       "Each role sees only what they need",

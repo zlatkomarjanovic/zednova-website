@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal, Stagger } from "@/components/animations/Reveal";
@@ -11,6 +11,37 @@ import { BlueprintGridCrosses } from "@/ui/BlueprintGridCrosses";
 import { CAL_BOOKING_URL } from "@/lib/booking";
 import type { HomepagePricingPackage } from "@/lib/content/homepage-pricing";
 import { cn } from "@/lib/utils";
+
+function PricingAmount({
+  setupAmount,
+  setupLabel,
+  monthlyAmount,
+}: {
+  setupAmount: string;
+  setupLabel?: string;
+  monthlyAmount?: string;
+}) {
+  return (
+    <p className="flex flex-wrap items-baseline gap-x-1.5 font-mono text-2xl tracking-tight text-zn-text md:text-[1.65rem]">
+      <span>From</span>
+      <span className="inline-flex items-center gap-0.5">
+        {setupAmount}
+        <Plus
+          className="size-4 shrink-0 text-zn-text-3"
+          aria-hidden="true"
+          strokeWidth={2}
+        />
+      </span>
+      {setupLabel ? <span>{setupLabel}</span> : null}
+      {monthlyAmount ? (
+        <>
+          <span className="text-zn-text-3">+</span>
+          <span>{monthlyAmount}</span>
+        </>
+      ) : null}
+    </p>
+  );
+}
 
 export function PricingCardsSection({
   packages,
@@ -78,9 +109,11 @@ export function PricingCardsSection({
                   <p className="zn-prose mt-3">{pkg.shortDescription}</p>
 
                   <div className="mt-6 border-t border-zn-border pt-6">
-                    <p className="font-mono text-2xl tracking-tight text-zn-text md:text-[1.65rem]">
-                      {pkg.pricingSignal}
-                    </p>
+                    <PricingAmount
+                      setupAmount={pkg.pricing.setupAmount}
+                      setupLabel={pkg.pricing.setupLabel}
+                      monthlyAmount={pkg.pricing.monthlyAmount}
+                    />
                     <p className="mt-1 text-xs text-zn-text-3">Starting price</p>
                     <p className="mt-2 text-sm leading-relaxed text-zn-text-3">
                       {pkg.timeline}
