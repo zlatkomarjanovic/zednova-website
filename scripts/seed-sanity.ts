@@ -449,12 +449,6 @@ for (const member of team) {
     linkedin: member.linkedin,
     twitter: member.twitter,
     upwork: member.upwork,
-    seo: {
-      _type: "seoFields",
-      seoTitle: member.name,
-      seoDescription: member.bio[0],
-      ogType: "profile",
-    },
   });
 }
 
