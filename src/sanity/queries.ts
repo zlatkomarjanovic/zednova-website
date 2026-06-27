@@ -215,7 +215,7 @@ export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
     twitter,
     upwork,
     website,
-    "avatar": coalesce(avatar.asset->url, avatarUrl)
+    "avatar": coalesce(image.asset->url, avatar.asset->url, avatarUrl)
   }
 `;
 

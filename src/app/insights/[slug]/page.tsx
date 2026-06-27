@@ -26,6 +26,7 @@ import { ArticleSidebar, ArticleMobileToc } from "@/features/insights/ArticleSid
 import { ArticleTags } from "@/features/insights/ArticleTags";
 import { ArticleTakeaways } from "@/features/insights/ArticleTakeaways";
 import { ArticleContinueReading } from "@/features/insights/ArticleContinueReading";
+import { AuthorAvatar } from "@/features/insights/AuthorAvatar";
 import { ArticleImplementationTable } from "@/features/insights/ArticleImplementationTable";
 import { ArticleSources } from "@/features/insights/ArticleSources";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
@@ -238,9 +239,12 @@ export default async function ArticlePage({
                         href={`/about#${author.slug}`}
                         className="group flex min-w-0 items-center gap-3"
                       >
-                        <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-zn-text font-sans text-base text-zn-inv transition-opacity group-hover:opacity-85">
-                          {author.name.charAt(0)}
-                        </div>
+                        <AuthorAvatar
+                          name={author.name}
+                          avatar={author.avatar}
+                          size="sm"
+                          className="transition-opacity group-hover:opacity-85"
+                        />
                         <div className="min-w-0 text-sm">
                           <p className="font-medium text-zn-text">{author.name}</p>
                           <p className="text-zn-text-3">{author.role}, ZedNova</p>
@@ -322,9 +326,7 @@ export default async function ArticlePage({
 
                     {author && (
                       <div className="mt-16 flex items-start gap-5 rounded-[2px] border border-zn-border bg-zn-bg-2/40 p-6">
-                        <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-zn-text font-sans text-xl text-zn-inv">
-                          {author.name.charAt(0)}
-                        </div>
+                        <AuthorAvatar name={author.name} avatar={author.avatar} size="md" />
                         <div className="min-w-0">
                           <p className="font-sans font-normal text-zn-text">{author.name}</p>
                           <p className="text-sm text-zn-text-3">{author.role}, ZedNova</p>
