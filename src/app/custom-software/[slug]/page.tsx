@@ -344,7 +344,7 @@ export default async function CustomSoftwareDetailPage({
       )}
 
       {item.faqs && item.faqs.length > 0 ? (
-        <FaqSection faqs={item.faqs} title={`${item.title} FAQ`} />
+        <FaqSection faqs={item.faqs} title={`${item.title} FAQ`} showJsonLd={false} />
       ) : null}
 
       {relatedWork.length > 0 && (

@@ -237,7 +237,7 @@ export default async function MigrationDetailPage({
       </section>
 
       {item.faqs && item.faqs.length > 0 && (
-        <FaqSection faqs={item.faqs} title="Migration FAQ" />
+        <FaqSection faqs={item.faqs} title="Migration FAQ" showJsonLd={false} />
       )}
 
       {relatedServices.length > 0 && (

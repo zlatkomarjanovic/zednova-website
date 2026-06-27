@@ -340,7 +340,14 @@ export default async function ServiceDetailPage({
       )}
 
       {/* FAQ (CMS-driven) */}
-      {hasFaq && <FaqSection faqs={service.faqs!} title={`${service.title} FAQ`} id={`${slugify(service.title)}-faq`} />}
+      {hasFaq && (
+        <FaqSection
+          faqs={service.faqs!}
+          title={`${service.title} FAQ`}
+          id={`${slugify(service.title)}-faq`}
+          showJsonLd={false}
+        />
+      )}
 
       {relatedWork.length > 0 && (
         <TemplateSection withBlueprintGrid className="bg-zn-bg">

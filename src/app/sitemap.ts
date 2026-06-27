@@ -27,6 +27,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${SITE_ORIGIN}/stack`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/service-areas`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/compare`, changeFrequency: "weekly", priority: 0.6 },
+  { url: `${SITE_ORIGIN}/llms.txt`, changeFrequency: "monthly", priority: 0.5 },
+  { url: `${SITE_ORIGIN}/llms-full.txt`, changeFrequency: "weekly", priority: 0.5 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
