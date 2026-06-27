@@ -13,6 +13,9 @@ import {
   getSiteSettings,
 } from "@/lib/queries";
 import { homepageFaqs } from "@/lib/content/faq";
+import { agencyComparison } from "@/lib/content/agency-comparison";
+import { clientLogos } from "@/lib/content/client-logos";
+import { team } from "@/lib/content/team";
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
@@ -37,11 +40,10 @@ import { AgencyComparisonSection } from "@/features/home/AgencyComparisonSection
 import { PricingCardsSection } from "@/features/home/PricingCardsSection";
 import { FaqSection } from "@/features/home/FaqSection";
 import { FounderSection } from "@/features/about/FounderSection";
-import { agencyComparison } from "@/lib/content/agency-comparison";
 import { homepagePricingPackages } from "@/lib/content/homepage-pricing";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
-import { faqPageJsonLd, homepageServiceGraphJsonLd } from "@/lib/seo";
+import { homepageGraphJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
@@ -100,20 +102,82 @@ export default async function HomePage() {
     visual: PILLAR_VISUALS[i],
   }));
 
+  const founder = team[0];
+
   return (
     <>
       <JsonLd
-        data={[
-          faqPageJsonLd(homepageFaqs),
-          homepageServiceGraphJsonLd(
-            services.map((s) => ({
-              slug: s.slug,
-              title: s.title,
-              shortDescription: s.shortDescription,
+        data={homepageGraphJsonLd({
+          pillars: PILLARS,
+          clientLogos: clientLogos.map((logo) => logo.alt),
+          portfolioProjects: portfolioProjects.map((project) => ({
+            slug: project.slug,
+            title: project.title,
+            summary: project.summary,
+            href: project.href,
+            category: project.category,
+          })),
+          featuredCases: featuredCases.map((study) => ({
+            slug: study.slug,
+            title: study.title,
+            excerpt: study.resultHeadline,
+          })),
+          stats: settings.stats,
+          services: services.map((service) => ({
+            slug: service.slug,
+            title: service.title,
+            shortDescription: service.shortDescription,
+          })),
+          customSoftware: customSoftware.map((item) => ({
+            slug: item.slug,
+            title: item.title,
+            shortDescription: item.shortDescription,
+          })),
+          migrations: migrations.map((item) => ({
+            slug: item.slug,
+            title: item.title,
+            shortDescription: item.shortDescription,
+          })),
+          techStackGroups,
+          industries: homepageIndustries.map((industry) => ({
+            title: industry.title,
+            shortDescription: industry.shortDescription,
+            href: industry.href,
+          })),
+          testimonials: platformTestimonials.map((testimonial) => ({
+            quote: testimonial.quote,
+            authorName: testimonial.authorName,
+            authorTitle: testimonial.authorTitle,
+            company: testimonial.company,
+            rating: testimonial.rating,
+          })),
+          pricingPackages: homepagePricingPackages,
+          faqs: homepageFaqs,
+          recentPosts,
+          founder: founder
+            ? {
+                slug: founder.slug,
+                name: founder.name,
+                role: founder.role,
+                bio: founder.bio,
+                image: founder.avatar,
+                sameAs: [founder.linkedin, founder.twitter, founder.website].filter(
+                  Boolean,
+                ) as string[],
+              }
+            : undefined,
+          agencyComparison: {
+            heading: agencyComparison.heading,
+            subheading: agencyComparison.subheading,
+            sections: agencyComparison.sections.map((section) => ({
+              title: section.title,
+              rows: section.rows.map((row) => ({
+                category: row.category,
+                zednova: row.zednova,
+              })),
             })),
-            recentPosts,
-          ),
-        ]}
+          },
+        })}
       />
       <HeroSection projects={portfolioProjects} />
 

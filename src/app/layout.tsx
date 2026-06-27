@@ -130,8 +130,8 @@ export default async function RootLayout({
         <a href="#main" className="zn-skip-link">
           Skip to content
         </a>
+        <HomePreloader />
         <CookieConsentProvider>
-          <HomePreloader />
           <LenisProvider>
             <CustomCursor />
             <Navbar

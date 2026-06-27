@@ -687,41 +687,374 @@ export function contactPageJsonLd(email: string) {
   };
 }
 
-/** Homepage ProfessionalService + core offer list. */
+/** Homepage ProfessionalService + core offer list. @deprecated Use homepageGraphJsonLd */
 export function homepageServiceGraphJsonLd(
   services: { slug: string; title: string; shortDescription: string }[],
   recentPosts?: Post[],
 ) {
-  const graph: object[] = [
-    {
-      "@type": "ProfessionalService",
-      "@id": `${SITE_ORIGIN}/#professional-service`,
-      name: "ZedNova Studios",
-      url: SITE_ORIGIN,
-      description:
-        "We build websites, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
-      provider: { "@id": `${SITE_ORIGIN}/#organization` },
-      areaServed: { "@type": "Country", name: "United States" },
-      hasOfferCatalog: {
-        "@type": "OfferCatalog",
-        name: "ZedNova Studios services",
-        itemListElement: services.slice(0, 8).map((service, index) => ({
-          "@type": "Offer",
-          position: index + 1,
-          itemOffered: {
-            "@type": "Service",
-            name: service.title,
-            description: service.shortDescription,
-            url: `${SITE_ORIGIN}/services/${service.slug}`,
-          },
-        })),
+  return homepageGraphJsonLd({ services, recentPosts, faqs: [] });
+}
+
+type HomepageGraphPillar = {
+  tagline: string;
+  title: string;
+  body: string;
+};
+
+type HomepageGraphPortfolio = {
+  slug: string;
+  title: string;
+  summary: string;
+  href?: string;
+  category?: string;
+};
+
+type HomepageGraphCaseStudy = {
+  slug: string;
+  title: string;
+  excerpt?: string;
+};
+
+type HomepageGraphIndustry = {
+  title: string;
+  shortDescription: string;
+  href: string;
+};
+
+type HomepageGraphPricing = {
+  slug: string;
+  title: string;
+  shortDescription: string;
+  pricing: { setupAmount: string; monthlyAmount?: string };
+  timeline: string;
+};
+
+type HomepageGraphTestimonial = {
+  quote: string;
+  authorName: string;
+  authorTitle?: string;
+  company?: string;
+  rating?: number;
+};
+
+type HomepageGraphComparison = {
+  heading: string;
+  subheading: string;
+  sections: { title: string; rows: { category: string; zednova: string }[] }[];
+};
+
+export type HomepageGraphInput = {
+  pillars?: HomepageGraphPillar[];
+  clientLogos?: string[];
+  portfolioProjects?: HomepageGraphPortfolio[];
+  featuredCases?: HomepageGraphCaseStudy[];
+  stats?: { value: string; label: string }[];
+  services?: { slug: string; title: string; shortDescription: string }[];
+  customSoftware?: { slug: string; title: string; shortDescription?: string }[];
+  migrations?: { slug: string; title: string; shortDescription?: string }[];
+  techStackGroups?: { category: string; description: string; tools: string[] }[];
+  industries?: HomepageGraphIndustry[];
+  testimonials?: HomepageGraphTestimonial[];
+  pricingPackages?: HomepageGraphPricing[];
+  faqs?: ArticleFaq[];
+  recentPosts?: Post[];
+  founder?: Parameters<typeof personJsonLd>[0];
+  agencyComparison?: HomepageGraphComparison;
+};
+
+function homepageItemList(
+  id: string,
+  name: string,
+  items: { name: string; description?: string; url?: string; type?: string }[],
+) {
+  if (!items.length) return null;
+
+  return {
+    "@type": "ItemList",
+    "@id": id,
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": item.type ?? "Thing",
+        name: item.name,
+        ...(item.description ? { description: item.description } : {}),
+        ...(item.url ? { url: item.url } : {}),
       },
+    })),
+  };
+}
+
+function parseUsdPrice(value?: string): string | undefined {
+  if (!value) return undefined;
+  const match = value.replace(/,/g, "").match(/(\d+(?:\.\d+)?)/);
+  return match?.[1];
+}
+
+/** Unified @graph for the homepage — mirrors visible sections for AEO / rich results. */
+export function homepageGraphJsonLd(input: HomepageGraphInput) {
+  const graph: object[] = [];
+  const homepageId = `${SITE_ORIGIN}/#homepage`;
+  const sectionIds: { "@id": string }[] = [];
+
+  const pushSection = (node: object | null, id: string) => {
+    if (!node) return;
+    graph.push(node);
+    sectionIds.push({ "@id": id });
+  };
+
+  graph.push({
+    "@type": "WebPage",
+    "@id": homepageId,
+    url: SITE_ORIGIN,
+    name: "Websites, Custom Software & AI Tools | ZedNova",
+    description:
+      "We build Next.js websites, Shopify stores, custom software, CRM automations, and AI tools for clinics, ecommerce brands, and growing businesses.",
+    isPartOf: { "@id": SCHEMA_WEBSITE_ID },
+    about: { "@id": SCHEMA_ORG_ID },
+    inLanguage: "en-US",
+    potentialAction: {
+      "@type": "ReserveAction",
+      target: `${SITE_ORIGIN}/contact`,
+      name: "Book a call with ZedNova Studios",
     },
+  });
+
+  const serviceOffers = [
+    ...(input.services ?? []).map((service) => ({
+      name: service.title,
+      description: service.shortDescription,
+      url: `${SITE_ORIGIN}/services/${service.slug}`,
+    })),
+    ...(input.customSoftware ?? []).map((item) => ({
+      name: item.title,
+      description: item.shortDescription,
+      url: `${SITE_ORIGIN}/custom-software/${item.slug}`,
+    })),
+    ...(input.migrations ?? []).map((item) => ({
+      name: item.title,
+      description: item.shortDescription,
+      url: `${SITE_ORIGIN}/migrations/${item.slug}`,
+    })),
   ];
 
-  if (recentPosts?.length) {
+  graph.push({
+    "@type": "ProfessionalService",
+    "@id": `${SITE_ORIGIN}/#professional-service`,
+    name: "ZedNova Studios",
+    url: SITE_ORIGIN,
+    description:
+      "We build websites, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
+    provider: { "@id": SCHEMA_ORG_ID },
+    areaServed: { "@type": "Country", name: "United States" },
+    ...(serviceOffers.length
+      ? {
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "ZedNova Studios services",
+            itemListElement: serviceOffers.map((service, index) => ({
+              "@type": "Offer",
+              position: index + 1,
+              itemOffered: {
+                "@type": "Service",
+                name: service.name,
+                description: service.description,
+                url: service.url,
+              },
+            })),
+          },
+        }
+      : {}),
+  });
+
+  pushSection(
+    homepageItemList(
+      `${SITE_ORIGIN}/#approach`,
+      "Our approach",
+      (input.pillars ?? []).map((pillar) => ({
+        name: pillar.title,
+        description: `${pillar.tagline}. ${pillar.body}`,
+        type: "Service",
+      })),
+    ),
+    `${SITE_ORIGIN}/#approach`,
+  );
+
+  pushSection(
+    homepageItemList(
+      `${SITE_ORIGIN}/#client-logos`,
+      "Trusted by teams across the US",
+      (input.clientLogos ?? []).map((name) => ({ name, type: "Organization" })),
+    ),
+    `${SITE_ORIGIN}/#client-logos`,
+  );
+
+  pushSection(
+    homepageItemList(
+      `${SITE_ORIGIN}/#portfolio`,
+      "Projects and case studies",
+      (input.portfolioProjects ?? []).map((project) => ({
+        name: project.title,
+        description: project.summary,
+        url: project.href ?? `${SITE_ORIGIN}/work/${project.slug}`,
+        type: "CreativeWork",
+      })),
+    ),
+    `${SITE_ORIGIN}/#portfolio`,
+  );
+
+  pushSection(
+    homepageItemList(
+      `${SITE_ORIGIN}/#featured-case-studies`,
+      "Featured case studies",
+      (input.featuredCases ?? []).map((study) => ({
+        name: study.title,
+        description: study.excerpt,
+        url: `${SITE_ORIGIN}/work/${study.slug}`,
+        type: "Article",
+      })),
+    ),
+    `${SITE_ORIGIN}/#featured-case-studies`,
+  );
+
+  pushSection(
+    homepageItemList(
+      `${SITE_ORIGIN}/#stats`,
+      "ZedNova Studios at a glance",
+      (input.stats ?? []).map((stat) => ({
+        name: `${stat.value} ${stat.label}`,
+        type: "QuantitativeValue",
+      })),
+    ),
+    `${SITE_ORIGIN}/#stats`,
+  );
+
+  pushSection(
+    homepageItemList(
+      `${SITE_ORIGIN}/#tech-stack`,
+      "Technology stack",
+      (input.techStackGroups ?? []).flatMap((group) =>
+        group.tools.map((tool) => ({
+          name: tool,
+          description: `${group.category}: ${group.description}`,
+          type: "SoftwareApplication",
+        })),
+      ),
+    ),
+    `${SITE_ORIGIN}/#tech-stack`,
+  );
+
+  pushSection(
+    homepageItemList(
+      `${SITE_ORIGIN}/#industries`,
+      "Industries we serve",
+      (input.industries ?? []).map((industry) => ({
+        name: industry.title,
+        description: industry.shortDescription,
+        url: `${SITE_ORIGIN}${industry.href}`,
+        type: "Service",
+      })),
+    ),
+    `${SITE_ORIGIN}/#industries`,
+  );
+
+  if (input.testimonials?.length) {
+    const reviewNodes = input.testimonials.slice(0, 12).map((testimonial, index) => ({
+      "@type": "Review",
+      "@id": `${SITE_ORIGIN}/#review-${index + 1}`,
+      reviewBody: testimonial.quote,
+      author: {
+        "@type": "Person",
+        name: testimonial.authorName,
+        ...(testimonial.authorTitle ? { jobTitle: testimonial.authorTitle } : {}),
+        ...(testimonial.company
+          ? { worksFor: { "@type": "Organization", name: testimonial.company } }
+          : {}),
+      },
+      itemReviewed: { "@id": SCHEMA_ORG_ID },
+      ...(testimonial.rating
+        ? {
+            reviewRating: {
+              "@type": "Rating",
+              ratingValue: testimonial.rating,
+              bestRating: 5,
+            },
+          }
+        : {}),
+    }));
+
+    graph.push(...reviewNodes);
+    sectionIds.push({ "@id": `${SITE_ORIGIN}/#testimonials` });
+  }
+
+  if (input.agencyComparison) {
+    pushSection(
+      homepageItemList(
+        `${SITE_ORIGIN}/#agency-comparison`,
+        input.agencyComparison.heading,
+        input.agencyComparison.sections.flatMap((section) =>
+          section.rows.map((row) => ({
+            name: row.category,
+            description: row.zednova,
+          })),
+        ),
+      ),
+      `${SITE_ORIGIN}/#agency-comparison`,
+    );
+  }
+
+  if (input.pricingPackages?.length) {
+    graph.push({
+      "@type": "OfferCatalog",
+      "@id": `${SITE_ORIGIN}/#pricing`,
+      name: "ZedNova Studios pricing",
+      itemListElement: input.pricingPackages.map((pkg, index) => ({
+        "@type": "Offer",
+        position: index + 1,
+        name: pkg.title,
+        description: pkg.shortDescription,
+        url: `${SITE_ORIGIN}/contact`,
+        priceCurrency: "USD",
+        price: parseUsdPrice(pkg.pricing.setupAmount),
+        ...(pkg.pricing.monthlyAmount
+          ? {
+              priceSpecification: {
+                "@type": "UnitPriceSpecification",
+                price: parseUsdPrice(pkg.pricing.monthlyAmount),
+                priceCurrency: "USD",
+                unitText: "MONTH",
+              },
+            }
+          : {}),
+        eligibleDuration: pkg.timeline,
+        seller: { "@id": SCHEMA_ORG_ID },
+      })),
+    });
+    sectionIds.push({ "@id": `${SITE_ORIGIN}/#pricing` });
+  }
+
+  const faqs = uniqueFaqs(input.faqs);
+  if (faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${SITE_ORIGIN}/#faq`,
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: f.answer,
+        },
+      })),
+    });
+    sectionIds.push({ "@id": `${SITE_ORIGIN}/#faq` });
+  }
+
+  if (input.recentPosts?.length) {
     const relatedList = relatedArticlesJsonLd(
-      recentPosts,
+      input.recentPosts,
       "Recent blog posts from ZedNova Studios",
     );
     if (relatedList) {
@@ -729,13 +1062,37 @@ export function homepageServiceGraphJsonLd(
         ...stripJsonLdContext(relatedList as Record<string, unknown>),
         "@id": `${SITE_ORIGIN}/#recent-insights`,
       });
+      sectionIds.push({ "@id": `${SITE_ORIGIN}/#recent-insights` });
     }
   }
 
-  return {
+  if (input.founder) {
+    graph.push({
+      ...stripJsonLdContext(personJsonLd(input.founder) as Record<string, unknown>),
+      "@id": `${SITE_ORIGIN}/about#${input.founder.slug}`,
+    });
+    sectionIds.push({ "@id": `${SITE_ORIGIN}/about#${input.founder.slug}` });
+  }
+
+  if (sectionIds.length) {
+    const homepageNode = graph.find(
+      (node) =>
+        typeof node === "object" &&
+        node !== null &&
+        "@id" in node &&
+        (node as { "@id"?: string })["@id"] === homepageId,
+    ) as Record<string, unknown> | undefined;
+
+    if (homepageNode) {
+      homepageNode.hasPart = sectionIds;
+      homepageNode.mainEntity = { "@id": `${SITE_ORIGIN}/#professional-service` };
+    }
+  }
+
+  return pruneJsonLd({
     "@context": "https://schema.org",
     "@graph": graph,
-  };
+  });
 }
 
 /** schema.org/AboutPage — for the about route. */
