@@ -34,8 +34,9 @@ export function PricingCardsSection({
         />
         <Reveal delay={0.08}>
           <p className="zn-prose mt-5 max-w-xl">
-            Fixed scope and clear pricing before we start. Send what you need, we ship an MVP
-            fast, then iterate from real usage, not months of meetings first.
+            Fixed scope and clear pricing before we start. The numbers below are starting prices.
+            More features or higher complexity cost more, and you see the exact quote before we
+            kick off.
           </p>
         </Reveal>
       </div>
@@ -80,6 +81,7 @@ export function PricingCardsSection({
                     <p className="font-mono text-2xl tracking-tight text-zn-text md:text-[1.65rem]">
                       {pkg.pricingSignal}
                     </p>
+                    <p className="mt-1 text-xs text-zn-text-3">Starting price</p>
                     <p className="mt-2 text-sm leading-relaxed text-zn-text-3">
                       {pkg.timeline}
                     </p>
@@ -106,7 +108,11 @@ export function PricingCardsSection({
         </div>
 
         <Reveal delay={0.1}>
-          <div className="zn-container-inset flex justify-center border-t border-zn-border py-8">
+          <p className="zn-container-inset border-t border-zn-border pt-6 text-center text-sm leading-relaxed text-zn-text-3">
+            Need more pages, integrations, or custom logic? Scope goes up and so does the price.
+            We quote the full number on your call before work begins.
+          </p>
+          <div className="zn-container-inset flex justify-center py-8">
             <Button href={CAL_BOOKING_URL} size="lg" withArrow>
               Book a call
             </Button>
