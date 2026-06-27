@@ -2,7 +2,7 @@ import type { TeamMember } from "@/lib/types";
 
 export const team: TeamMember[] = [
   {
-    slug: "zed-marjanovic",
+    slug: "zlatko-marjanovic",
     name: "Zed M.",
     role: "Founder",
     bio: [

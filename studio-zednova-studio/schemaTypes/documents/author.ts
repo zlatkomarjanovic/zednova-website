@@ -1,8 +1,4 @@
 import { defineField, defineType } from "sanity";
-import {
-  flatOpenGraphFields,
-  flatSeoFields,
-} from "../shared/flatFields";
 import { optionalEmail, optionalUrl, optionalUrlList } from "../shared/validation";
 
 const profileUrlField = (name: string, title: string, description?: string) =>
@@ -11,6 +7,7 @@ const profileUrlField = (name: string, title: string, description?: string) =>
     type: "url",
     title,
     group: "content",
+    fieldset: "social",
     description,
     validation: optionalUrl,
   });
@@ -23,14 +20,30 @@ export const author = defineType({
     { name: "content", title: "Content", default: true },
     { name: "relationships", title: "Relationships" },
     { name: "schema", title: "Schema" },
-    { name: "seo", title: "SEO" },
-    { name: "og", title: "Open Graph" },
+  ],
+  fieldsets: [
+    {
+      name: "profile",
+      title: "Profile",
+      options: { collapsible: false, columns: 1 },
+    },
+    {
+      name: "bioFields",
+      title: "Bio",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "social",
+      title: "Social links",
+      options: { collapsible: true, collapsed: true },
+    },
   ],
   fields: [
     defineField({
       name: "name",
       type: "string",
       group: "content",
+      fieldset: "profile",
       description: "Author full name shown publicly.",
       validation: (rule) => rule.required().min(2),
     }),
@@ -38,21 +51,48 @@ export const author = defineType({
       name: "slug",
       type: "slug",
       group: "content",
+      fieldset: "profile",
       options: { source: "name", maxLength: 96 },
+      description: "Used to match insight articles. Keep in sync with post author references.",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "role",
       type: "string",
       group: "content",
+      fieldset: "profile",
       description: "Public author role (e.g. Founder, Lead Developer).",
-      validation: (rule) => rule.required().warning("Add a role so author bylines render correctly"),
+    }),
+    defineField({
+      name: "image",
+      type: "image",
+      title: "Profile image",
+      group: "content",
+      fieldset: "profile",
+      description: "Shown on insight articles. Upload here — legacy Avatar fields are no longer used.",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          type: "string",
+          title: "Alt text",
+          description: "Describe the photo for accessibility and SEO.",
+          validation: (rule) =>
+            rule.custom((alt, context) => {
+              const image = context.parent as { asset?: { _ref?: string } } | undefined;
+              if (!image?.asset?._ref) return true;
+              return alt?.trim() ? true : "Add alt text when a profile image is uploaded";
+            }),
+        }),
+        defineField({ name: "caption", type: "string", title: "Caption" }),
+      ],
     }),
     defineField({
       name: "shortBio",
       type: "text",
       rows: 2,
       group: "content",
+      fieldset: "bioFields",
       description: "One-line bio for cards and author bylines.",
     }),
     defineField({
@@ -60,6 +100,7 @@ export const author = defineType({
       type: "array",
       title: "Bio paragraphs",
       group: "content",
+      fieldset: "bioFields",
       description: "Short paragraphs shown in the author box on insight articles.",
       of: [{ type: "string" }],
       options: { sortable: true },
@@ -69,73 +110,31 @@ export const author = defineType({
       type: "array",
       title: "Full bio",
       group: "content",
+      fieldset: "bioFields",
       description: "Full bio in rich text for the author page.",
       of: [{ type: "block" }],
     }),
-    defineField({
-      name: "image",
-      type: "image",
-      title: "Profile image",
-      group: "content",
-      description: "Author profile photo used on insight articles and schema.",
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: "alt",
-          type: "string",
-          title: "Alt text",
-          description: "Describe the photo for accessibility and SEO.",
-        }),
-        defineField({ name: "caption", type: "string", title: "Caption" }),
-      ],
-      validation: (rule) =>
-        rule
-          .custom((image) =>
-            image?.asset ? true : "Add a profile image for insight author bylines",
-          )
-          .warning(),
-    }),
-    defineField({
-      name: "avatar",
-      type: "image",
-      title: "Avatar (legacy)",
-      group: "content",
-      options: { hotspot: true },
-      hidden: true,
-    }),
-    defineField({
-      name: "avatarUrl",
-      type: "url",
-      title: "Avatar URL (legacy)",
-      group: "content",
-      hidden: true,
-      validation: optionalUrl,
-    }),
+
     defineField({
       name: "email",
       type: "string",
       group: "content",
+      fieldset: "social",
       description: "Optional author email.",
       validation: optionalEmail,
     }),
     profileUrlField("website", "Website", "Author personal website."),
     profileUrlField("linkedin", "LinkedIn", "LinkedIn profile URL."),
     profileUrlField("twitter", "X / Twitter", "X/Twitter profile URL."),
-    defineField({
-      name: "xTwitter",
-      type: "url",
-      title: "X / Twitter (alias)",
-      group: "content",
-      hidden: true,
-      validation: optionalUrl,
-    }),
     profileUrlField("github", "GitHub", "GitHub profile URL."),
     profileUrlField("upwork", "Upwork", "Upwork profile URL."),
+
     defineField({
       name: "expertise",
       type: "array",
       of: [{ type: "string" }],
       group: "content",
+      fieldset: "social",
       description: "Expertise areas (e.g. Next.js, Shopify, AI).",
       options: { layout: "tags" },
     }),
@@ -144,6 +143,7 @@ export const author = defineType({
       type: "array",
       of: [{ type: "string" }],
       group: "content",
+      fieldset: "social",
       description: "Credentials, experience, or trust signals.",
       options: { layout: "tags" },
     }),
@@ -179,6 +179,7 @@ export const author = defineType({
       title: "Works for (schema)",
       group: "schema",
       description: "Company or organization name.",
+      initialValue: "ZedNova Studios",
     }),
     defineField({
       name: "knowsAbout",
@@ -190,16 +191,34 @@ export const author = defineType({
       options: { layout: "tags" },
     }),
 
-    ...flatSeoFields.map((field) =>
-      field.name === "canonicalUrl" ? { ...field, validation: optionalUrl } : field,
-    ),
-    ...flatOpenGraphFields,
-
+    // Legacy fields kept for existing documents — hidden from editors.
+    defineField({
+      name: "avatar",
+      type: "image",
+      title: "Avatar (legacy)",
+      group: "content",
+      hidden: true,
+    }),
+    defineField({
+      name: "avatarUrl",
+      type: "url",
+      title: "Avatar URL (legacy)",
+      group: "content",
+      hidden: true,
+    }),
+    defineField({
+      name: "xTwitter",
+      type: "url",
+      title: "X / Twitter (alias)",
+      group: "content",
+      hidden: true,
+    }),
     defineField({
       name: "seo",
       type: "seoFields",
-      title: "SEO (grouped)",
-      group: "seo",
+      title: "SEO (legacy)",
+      group: "content",
+      hidden: true,
     }),
   ],
   preview: {

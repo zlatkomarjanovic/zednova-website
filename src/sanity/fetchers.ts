@@ -235,9 +235,10 @@ export async function fetchPostBySlugFromSanity(
 export async function fetchAuthorBySlugFromSanity(
   slug: string,
 ): Promise<Author | null> {
+  const { resolveAuthorSlugs } = await import("@/lib/content/author-slugs");
   const doc = await sanityFetch<Parameters<typeof mapAuthor>[0] | null>({
     query: AUTHOR_BY_SLUG_QUERY,
-    params: { slug },
+    params: { slugs: resolveAuthorSlugs(slug) },
   });
   return doc ? mapAuthor(doc) : null;
 }

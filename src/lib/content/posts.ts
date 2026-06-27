@@ -7,7 +7,7 @@ export const posts: Post[] = [
     excerpt:
       "Search is moving from ten blue links to one synthesized answer. Here is how to make sure your business is the one being cited.",
     category: "AI & Search",
-    author: "zed-marjanovic",
+    author: "zlatko-marjanovic",
     publishedAt: "2026-05-28",
     updatedAt: "2026-06-02",
     image:
@@ -81,7 +81,7 @@ export const posts: Post[] = [
     excerpt:
       "Most businesses lose more to slow follow-up than to any marketing problem. Here is a five-minute check that shows you where.",
     category: "Systems",
-    author: "zed-marjanovic",
+    author: "zlatko-marjanovic",
     publishedAt: "2026-05-14",
     updatedAt: "2026-05-18",
     image:
@@ -150,7 +150,7 @@ export const posts: Post[] = [
     excerpt:
       "It is rarely the design. It is the absence of a single clear action and a system to capture the people who take it.",
     category: "Conversion",
-    author: "zed-marjanovic",
+    author: "zlatko-marjanovic",
     publishedAt: "2026-04-30",
     image:
       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop",
@@ -212,7 +212,7 @@ export const posts: Post[] = [
     excerpt:
       "Not every underperforming website needs a full rebuild. Here is how we decide between migration, refactor, and starting fresh.",
     category: "Systems",
-    author: "zed-marjanovic",
+    author: "zlatko-marjanovic",
     publishedAt: "2026-04-15",
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop",
@@ -272,7 +272,7 @@ export const posts: Post[] = [
     excerpt:
       "Most stores leak revenue on product pages, checkout friction, and post-purchase silence. Here are the seven fixes we apply first on every Shopify engagement.",
     category: "Conversion",
-    author: "zed-marjanovic",
+    author: "zlatko-marjanovic",
     publishedAt: "2026-06-10",
     image:
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1600&auto=format&fit=crop",
@@ -329,7 +329,7 @@ export const posts: Post[] = [
     excerpt:
       "Clinics do not need a bigger front desk. They need booking, intake, reminders, and follow-up wired so no patient inquiry waits until someone has time.",
     category: "Healthcare Clinics",
-    author: "zed-marjanovic",
+    author: "zlatko-marjanovic",
     publishedAt: "2026-06-05",
     image:
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop",
@@ -375,7 +375,7 @@ export const posts: Post[] = [
     excerpt:
       "Your marketing team should not open a ticket to change a headline. Here is how we structure Sanity so editors move fast without breaking the site.",
     category: "Systems",
-    author: "zed-marjanovic",
+    author: "zlatko-marjanovic",
     publishedAt: "2026-05-20",
     image:
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1600&auto=format&fit=crop",

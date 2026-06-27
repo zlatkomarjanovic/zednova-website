@@ -205,7 +205,7 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
 }`;
 
 export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
-  *[_type == "author" && slug.current == $slug][0] {
+  *[_type == "author" && slug.current in $slugs][0] {
     "slug": slug.current,
     name,
     role,
