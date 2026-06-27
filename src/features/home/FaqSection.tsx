@@ -4,12 +4,17 @@ import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
+import { BlueprintCross } from "@/ui/BlueprintCross";
+import { Button } from "@/ui/Button";
+import { InsightsContinueReadingBlock } from "@/features/insights/ArticleContinueReading";
 import { SectionLabel } from "@/ui/SectionLabel";
-import { HomepageRecentInsights } from "@/features/home/HomepageRecentInsights";
 import type { FaqItem } from "@/lib/content/faq";
 import type { Post } from "@/lib/types";
 import { groupFaqsByCategory } from "@/lib/content/faq";
 import { cn } from "@/lib/utils";
+
+const HOMEPAGE_INSIGHTS_DESCRIPTION =
+  "Practical notes on AI search, websites, Shopify, CRM automations, and software for clinics, ecommerce brands, and service businesses — the same guides we link from each article.";
 
 function FaqAccordionItem({
   item,
@@ -128,62 +133,95 @@ export function FaqSection({
     <section
       data-theme="light"
       className="relative zn-section zn-sage-surface"
+      aria-label="FAQ and recent insights"
     >
       <div className="zn-sage-grain pointer-events-none absolute inset-0" aria-hidden="true" />
       <BlueprintGrid />
 
-      <div className="zn-container relative min-w-0">
-        <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-          <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel withRule={false}>FAQ</SectionLabel>
-            <h2 className="mt-6 max-w-[25rem] zn-h2 font-sans font-normal">
-              {heading}
-            </h2>
-            <p className="zn-prose mt-5 max-w-[25rem]">{description}</p>
-          </aside>
+      <div className="zn-container-guides relative">
+        <div className="relative border-x border-zn-border">
+          <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+          <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
-          <div className="min-w-0">
-            {filterable && categories.length > 0 ? (
-              <FaqCategoryFilters
-                categories={categories}
-                active={activeCategory}
-                onChange={handleCategoryChange}
-              />
-            ) : null}
+          <div className="zn-container-inset py-14 lg:py-16">
+            <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+              <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
+                <SectionLabel withRule={false}>FAQ</SectionLabel>
+                <h2 className="mt-6 max-w-[25rem] zn-h2 font-sans font-normal">
+                  {heading}
+                </h2>
+                <p className="zn-prose mt-5 max-w-[25rem]">{description}</p>
+              </aside>
 
-            <div className="min-w-0 overflow-hidden border border-zn-border bg-zn-bg-2">
-              {visibleGroups.map((group, groupIndex) => (
-                <div
-                  key={group.category || "all"}
-                  className={cn(groupIndex > 0 && "border-t border-zn-border")}
-                >
-                  {group.category && !filterable ? (
-                    <p className="zn-label border-b border-zn-border bg-zn-bg px-6 py-3 md:px-7">
-                      {group.category}
-                    </p>
-                  ) : null}
-                  <div className="divide-y divide-zn-border">
-                    {group.items.map((item) => (
-                      <FaqAccordionItem
-                        key={item.id}
-                        item={item}
-                        open={openId === item.id}
-                        onToggle={() =>
-                          setOpenId((current) => (current === item.id ? "" : item.id))
-                        }
-                      />
-                    ))}
-                  </div>
+              <div className="min-w-0">
+                {filterable && categories.length > 0 ? (
+                  <FaqCategoryFilters
+                    categories={categories}
+                    active={activeCategory}
+                    onChange={handleCategoryChange}
+                  />
+                ) : null}
+
+                <div className="min-w-0 overflow-hidden border border-zn-border bg-zn-bg-2">
+                  {visibleGroups.map((group, groupIndex) => (
+                    <div
+                      key={group.category || "all"}
+                      className={cn(groupIndex > 0 && "border-t border-zn-border")}
+                    >
+                      {group.category && !filterable ? (
+                        <p className="zn-label border-b border-zn-border bg-zn-bg px-6 py-3 md:px-7">
+                          {group.category}
+                        </p>
+                      ) : null}
+                      <div className="divide-y divide-zn-border">
+                        {group.items.map((item) => (
+                          <FaqAccordionItem
+                            key={item.id}
+                            item={item}
+                            open={openId === item.id}
+                            onToggle={() =>
+                              setOpenId((current) => (current === item.id ? "" : item.id))
+                            }
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
+
+          {recentPosts && recentPosts.length > 0 ? (
+            <div className="relative border-t border-zn-border">
+              <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+              <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+
+              <div
+                className="zn-container-inset py-14 lg:py-16"
+                aria-labelledby="homepage-recent-insights-heading"
+              >
+                <InsightsContinueReadingBlock
+                  posts={recentPosts}
+                  label="Insights"
+                  heading="Recent blog posts"
+                  headingId="homepage-recent-insights-heading"
+                  description={HOMEPAGE_INSIGHTS_DESCRIPTION}
+                />
+
+                <div className="mt-10 flex justify-end border-t border-zn-border pt-8">
+                  <Button href="/insights" variant="link" withArrow>
+                    All insights
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : null}
+
+          <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
+          <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
         </div>
       </div>
-
-      {recentPosts && recentPosts.length > 0 ? (
-        <HomepageRecentInsights posts={recentPosts} />
-      ) : null}
     </section>
   );
 }
