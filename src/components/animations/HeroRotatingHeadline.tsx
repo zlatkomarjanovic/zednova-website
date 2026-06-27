@@ -4,21 +4,21 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const HERO_BUILD_ITEMS = [
-  "websites",
   "custom software",
-  "automations",
   "AI tools",
-  "marketing websites",
-  "Shopify stores",
+  "automations",
   "client portals",
   "CRM workflows",
+  "e-commerce platforms",
   "booking systems",
   "platform migrations",
+  "marketing websites",
+  "websites",
 ] as const;
 
 /** Crawlable headline — always in DOM as normal visible text. */
 export const HERO_CRAWLABLE_H1 =
-  "We build websites, custom software, automations, and AI tools for service businesses that want more leads with less manual work.";
+  "We build custom software, AI tools, automations, e-commerce platforms, and client portals for service businesses that want more leads with less manual work.";
 
 const LONGEST_PHRASE = HERO_BUILD_ITEMS.reduce((a, b) =>
   a.length >= b.length ? a : b,

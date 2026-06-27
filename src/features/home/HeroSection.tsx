@@ -35,10 +35,10 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
 
               <Reveal delay={0.08} start="top bottom">
                 <p className="mt-6 max-w-md text-[clamp(0.75rem,1.615vw,1.125rem)] leading-relaxed text-zn-text-2">
-                  ZedNova Studios builds websites, ecommerce stores, custom software, CRM
-                  automations, AI receptionists, dashboards, and platform migrations for
-                  clinics, ecommerce brands, professional services firms, startups, and
-                  service businesses.
+                  ZedNova Studios builds custom software, AI receptionists, CRM
+                  automations, e-commerce platforms, client portals, dashboards, and
+                  platform migrations for clinics, ecommerce brands, professional services
+                  firms, startups, and service businesses.
                 </p>
               </Reveal>
             </div>

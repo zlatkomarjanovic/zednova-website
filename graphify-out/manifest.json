@@ -270,7 +270,7 @@
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1782598350.8809063,
+    "mtime": 1782599042.3109474,
     "ast_hash": "b7d815a26c7c263b98879bc96b8cbafd",
     "semantic_hash": ""
   },
@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "src/components/animations/HeroRotatingHeadline.tsx": {
-    "mtime": 1782598254.679562,
-    "ast_hash": "cb7fffaab07f8b7871cae3b65da737fb",
+    "mtime": 1782599402.475452,
+    "ast_hash": "b6d890c9e46fb9cb6841bad639479b39",
     "semantic_hash": ""
   },
   "src/components/animations/LenisProvider.tsx": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "src/features/home/HeroSection.tsx": {
-    "mtime": 1782598254.683774,
-    "ast_hash": "d48fac3252b48a6be3980c08e223ba9e",
+    "mtime": 1782599402.6338322,
+    "ast_hash": "967fd273b52ea6bc3c6b56ec4d232812",
     "semantic_hash": ""
   },
   "src/features/home/HeroWorkGallery.tsx": {
@@ -1485,7 +1485,7 @@
     "semantic_hash": ""
   },
   "public/favicon-32.png": {
-    "mtime": 1782598350.8710613,
+    "mtime": 1782599042.305848,
     "ast_hash": "b2265ec855f1b0afadd09f19154d0c88",
     "semantic_hash": ""
   },
@@ -1495,12 +1495,12 @@
     "semantic_hash": ""
   },
   "src/app/apple-icon.png": {
-    "mtime": 1782598350.8778358,
+    "mtime": 1782599042.3078976,
     "ast_hash": "5c9abaf6c1b75cfc7be7c623e497dfb5",
     "semantic_hash": ""
   },
   "src/app/icon.png": {
-    "mtime": 1782598350.8799,
+    "mtime": 1782599042.3099172,
     "ast_hash": "416381956d5848e5d6612d9d2a0c094e",
     "semantic_hash": ""
   },
@@ -1510,22 +1510,22 @@
     "semantic_hash": ""
   },
   "public/favicon-16x16-light.png": {
-    "mtime": 1782598350.868881,
+    "mtime": 1782599057.406404,
     "ast_hash": "e1d653ae210d9c40e06bcb786eb788cd",
     "semantic_hash": ""
   },
   "public/favicon-16x16.png": {
-    "mtime": 1782598350.8699832,
+    "mtime": 1782599042.304688,
     "ast_hash": "7cf72123d0b309d8d11daa90f2313fdc",
     "semantic_hash": ""
   },
   "public/favicon-32x32-light.png": {
-    "mtime": 1782598350.8710613,
+    "mtime": 1782599057.4074168,
     "ast_hash": "4deeff42c3caf9dbf4614acd348fd2b5",
     "semantic_hash": ""
   },
   "public/favicon-32x32.png": {
-    "mtime": 1782598350.8721292,
+    "mtime": 1782599042.3068883,
     "ast_hash": "175449e6242944ba29906fb0811c3902",
     "semantic_hash": ""
   },
