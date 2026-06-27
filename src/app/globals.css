@@ -37,9 +37,9 @@
   --color-zn-accent: #2a2a2a;
   --color-zn-live: #4ade80;
 
-  /* Sage accent (workflow sections) */
-  --color-zn-sage: #dde6d8;
-  --color-zn-sage-mid: #e9ede4;
+  /* Sage-blue wash (workflow sections) */
+  --color-zn-sage: #d6e3ec;
+  --color-zn-sage-mid: #e8eff4;
 
   /* Product accent washes */
   --color-zn-lavender: #ebe6f0;
@@ -205,7 +205,7 @@
   mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, black 15%, transparent 72%);
 }
 
-/** Sage sections — gradient wash with a very subtle noise fade. */
+/** Sage-blue sections — gradient wash with a very subtle noise fade. */
 @utility zn-sage-surface {
   background-image: linear-gradient(
     to bottom,

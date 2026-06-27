@@ -48,7 +48,7 @@ export function WebsiteBuilderAnimation({ className }: { className?: string }) {
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 rounded-[6px] bg-gradient-to-br from-[#e9ede4] to-[#dde6d8] p-2.5">
+            <div className="mt-3 grid grid-cols-2 gap-2 rounded-[6px] bg-gradient-to-br from-zn-sage-mid to-zn-sage p-2.5">
               <span className="zn-wb-block zn-wb-feature-img aspect-[4/3] rounded-[5px] bg-gradient-to-br from-zn-text/20 to-zn-text/5" />
               <div className="flex flex-col gap-1.5 pt-1">
                 <span className="zn-wb-block zn-wb-fline1 h-1.5 w-full rounded-full bg-zn-text/20" />
