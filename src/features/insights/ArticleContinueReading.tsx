@@ -26,7 +26,7 @@ function buildIntro(current: Post, related: Post[]): string {
   return `Handpicked ZedNova insights related to ${current.category.toLowerCase()} — written for founders and operators who want clearer answers on SEO, web performance, and AI-ready content structure.`;
 }
 
-function ContinueReadingCard({ post }: { post: Post }) {
+export function ContinueReadingCard({ post }: { post: Post }) {
   const summary = post.oneSentenceSummary ?? post.excerpt;
 
   return (
@@ -91,6 +91,48 @@ function ContinueReadingCard({ post }: { post: Post }) {
   );
 }
 
+export function ContinueReadingGrid({ posts }: { posts: Post[] }) {
+  return (
+    <ul className="mt-10 grid list-none gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+      {posts.map((post) => (
+        <li key={post.slug} className="min-h-0">
+          <ContinueReadingCard post={post} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function InsightsContinueReadingBlock({
+  posts,
+  label = "Keep reading",
+  heading = "More from ZedNova",
+  description,
+  headingId = "continue-reading-heading",
+}: {
+  posts: Post[];
+  label?: string;
+  heading?: string;
+  description: string;
+  headingId?: string;
+}) {
+  if (!posts.length) return null;
+
+  return (
+    <>
+      <SectionLabel withRule={false}>{label}</SectionLabel>
+      <h2
+        id={headingId}
+        className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-text"
+      >
+        {heading}
+      </h2>
+      <p className="zn-prose mt-5 max-w-2xl text-zn-text-2">{description}</p>
+      <ContinueReadingGrid posts={posts} />
+    </>
+  );
+}
+
 export function ArticleContinueReading({
   current,
   related,
@@ -103,24 +145,10 @@ export function ArticleContinueReading({
   return (
     <section aria-labelledby="continue-reading-heading" className="relative">
       <div className="zn-container-inset py-14 lg:py-16">
-        <SectionLabel withRule={false}>Keep reading</SectionLabel>
-        <h2
-          id="continue-reading-heading"
-          className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-text"
-        >
-          More from ZedNova
-        </h2>
-        <p className="zn-prose mt-5 max-w-2xl text-zn-text-2">
-          {buildIntro(current, related)}
-        </p>
-
-        <ul className="mt-10 grid list-none gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-          {related.map((post) => (
-            <li key={post.slug} className="min-h-0">
-              <ContinueReadingCard post={post} />
-            </li>
-          ))}
-        </ul>
+        <InsightsContinueReadingBlock
+          posts={related}
+          description={buildIntro(current, related)}
+        />
       </div>
     </section>
   );

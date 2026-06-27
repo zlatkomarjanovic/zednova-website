@@ -5,7 +5,9 @@ import { Minus, Plus } from "lucide-react";
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { SectionLabel } from "@/ui/SectionLabel";
+import { HomepageRecentInsights } from "@/features/home/HomepageRecentInsights";
 import type { FaqItem } from "@/lib/content/faq";
+import type { Post } from "@/lib/types";
 import { groupFaqsByCategory } from "@/lib/content/faq";
 import { cn } from "@/lib/utils";
 
@@ -88,12 +90,14 @@ function FaqCategoryFilters({
 
 export function FaqSection({
   faqs,
+  recentPosts,
   groupByCategory = false,
   filterable = false,
   heading = "Answers before you reach out",
   description = "Websites, Shopify, automations, migrations, AI tools, pricing, ownership, and support covered below.",
 }: {
   faqs: FaqItem[];
+  recentPosts?: Post[];
   groupByCategory?: boolean;
   filterable?: boolean;
   heading?: string;
@@ -176,6 +180,10 @@ export function FaqSection({
           </div>
         </div>
       </div>
+
+      {recentPosts && recentPosts.length > 0 ? (
+        <HomepageRecentInsights posts={recentPosts} />
+      ) : null}
     </section>
   );
 }

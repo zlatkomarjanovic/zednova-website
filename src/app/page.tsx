@@ -5,6 +5,7 @@ import {
   getAllCustomSoftware,
   getAllMigrations,
   getAllServices,
+  getAllPosts,
   getFeaturedCaseStudies,
   getHomepageIndustries,
   getPlatformTestimonials,
@@ -70,7 +71,7 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, customSoftware, migrations, platformTestimonials, settings, homepageIndustries, portfolioProjects] =
+  const [featuredCases, allCases, services, customSoftware, migrations, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
@@ -81,7 +82,10 @@ export default async function HomePage() {
       getSiteSettings(),
       getHomepageIndustries(),
       getPortfolioProjects(),
+      getAllPosts(),
     ]);
+
+  const recentPosts = allPosts.slice(0, 3);
 
   const PILLAR_VISUALS = [
     <WebsiteBuilderAnimation key="website-builder" />,
@@ -292,6 +296,7 @@ export default async function HomePage() {
 
       <FaqSection
         faqs={homepageFaqs}
+        recentPosts={recentPosts}
         description="Websites, Shopify, automations, migrations, AI tools, pricing, and support — the essentials before you reach out."
       />
 
