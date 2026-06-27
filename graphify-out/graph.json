@@ -2401,7 +2401,7 @@
       "label": "RootLayout()",
       "file_type": "code",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L73",
+      "source_location": "L93",
       "id": "app_layout_rootlayout",
       "community": 0,
       "norm_label": "rootlayout()"
@@ -5841,7 +5841,7 @@
       "source_file": "src/lib/content/author-slugs.ts",
       "source_location": "L1",
       "id": "content_author_slugs",
-      "community": 20,
+      "community": 24,
       "norm_label": "author-slugs.ts"
     },
     {
@@ -5850,7 +5850,7 @@
       "source_file": "src/lib/content/author-slugs.ts",
       "source_location": "L2",
       "id": "content_author_slugs_author_slug_aliases",
-      "community": 20,
+      "community": 24,
       "norm_label": "author_slug_aliases"
     },
     {
@@ -5859,7 +5859,7 @@
       "source_file": "src/lib/content/author-slugs.ts",
       "source_location": "L7",
       "id": "content_author_slugs_resolveauthorslugs",
-      "community": 20,
+      "community": 24,
       "norm_label": "resolveauthorslugs()"
     },
     {
@@ -8775,7 +8775,7 @@
       "source_file": "src/lib/types/content-nav.ts",
       "source_location": "L1",
       "id": "types_content_nav",
-      "community": 85,
+      "community": 20,
       "norm_label": "content-nav.ts"
     },
     {
@@ -8784,7 +8784,7 @@
       "source_file": "src/lib/types/content-nav.ts",
       "source_location": "L6",
       "id": "types_content_nav_navmenuitem",
-      "community": 85,
+      "community": 20,
       "norm_label": "navmenuitem"
     },
     {
@@ -8793,7 +8793,7 @@
       "source_file": "src/lib/types/content-nav.ts",
       "source_location": "L16",
       "id": "types_content_nav_navmenugroup",
-      "community": 85,
+      "community": 20,
       "norm_label": "navmenugroup"
     },
     {
@@ -8802,7 +8802,7 @@
       "source_file": "src/lib/types/content-nav.ts",
       "source_location": "L21",
       "id": "types_content_nav_servicemegamenucard",
-      "community": 85,
+      "community": 20,
       "norm_label": "servicemegamenucard"
     },
     {
@@ -8811,7 +8811,7 @@
       "source_file": "src/lib/types/content-nav.ts",
       "source_location": "L28",
       "id": "types_content_nav_customsoftwaregroupsection",
-      "community": 85,
+      "community": 20,
       "norm_label": "customsoftwaregroupsection"
     },
     {
@@ -8820,7 +8820,7 @@
       "source_file": "src/lib/types/content-nav.ts",
       "source_location": "L36",
       "id": "types_content_nav_migration",
-      "community": 85,
+      "community": 20,
       "norm_label": "migration"
     },
     {
@@ -9189,7 +9189,7 @@
       "source_file": "src/sanity/fetchers.ts",
       "source_location": "L235",
       "id": "sanity_fetchers_fetchauthorbyslugfromsanity",
-      "community": 20,
+      "community": 24,
       "norm_label": "fetchauthorbyslugfromsanity()"
     },
     {
@@ -9603,7 +9603,7 @@
       "source_file": "src/sanity/mappers.ts",
       "source_location": "L799",
       "id": "sanity_mappers_mapauthor",
-      "community": 20,
+      "community": 24,
       "norm_label": "mapauthor()"
     },
     {
@@ -10258,7 +10258,7 @@
       "label": "LogoVariant",
       "file_type": "code",
       "source_file": "src/ui/Logo.tsx",
-      "source_location": "L5",
+      "source_location": "L4",
       "id": "ui_logo_logovariant",
       "community": 63,
       "norm_label": "logovariant"
@@ -35213,9 +35213,9 @@
       "source_file": "src/features/home/HomePreloader.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_homepreloader",
-      "target": "fonts_brand_wordmark",
-      "confidence_score": 1.0
+      "target": "fonts_brand_wordmark"
     },
     {
       "relation": "imports",
@@ -35224,9 +35224,9 @@
       "source_file": "src/features/home/HomePreloader.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_homepreloader",
-      "target": "fonts_brand_wordmark_brandwordmark",
-      "confidence_score": 1.0
+      "target": "fonts_brand_wordmark_brandwordmark"
     },
     {
       "relation": "contains",
@@ -42675,9 +42675,9 @@
       "source_file": "src/lib/fonts/brand-wordmark.ts",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fonts_brand_wordmark",
-      "target": "fonts_brand_wordmark_brandwordmark",
-      "confidence_score": 1.0
+      "target": "fonts_brand_wordmark_brandwordmark"
     },
     {
       "relation": "imports_from",
@@ -42686,9 +42686,9 @@
       "source_file": "src/ui/Logo.tsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_logo",
-      "target": "fonts_brand_wordmark",
-      "confidence_score": 1.0
+      "target": "fonts_brand_wordmark"
     },
     {
       "relation": "imports",
@@ -42697,9 +42697,9 @@
       "source_file": "src/ui/Logo.tsx",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "ui_logo",
-      "target": "fonts_brand_wordmark_brandwordmark",
-      "confidence_score": 1.0
+      "target": "fonts_brand_wordmark_brandwordmark"
     },
     {
       "relation": "contains",
@@ -54422,5 +54422,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8dd52801ed88b7e68bf6be13f49d302c1e3a940d"
+  "built_at_commit": "62ccf87fd34987247c5ca3c191fa36cd0b6987fc"
 }

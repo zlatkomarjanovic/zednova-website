@@ -1,7 +1,7 @@
-# Graph Report - zednova-website  (2026-06-27)
+# Graph Report - zednova-website  (2026-06-28)
 
 ## Corpus Check
-- 261 files · ~362,307 words
+- 261 files · ~361,987 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8dd52801`
+- Built from commit: `62ccf87f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -179,7 +179,7 @@ Nodes (27): CustomCursor(), PageTransition(), geistMono, instrumentSerif, metada
 
 ### Community 20 - "Community 20"
 Cohesion: 0.06
-Nodes (61): AUTHOR_SLUG_ALIASES, resolveAuthorSlugs(), Author, SiteSettings, Testimonial, fetchAllCaseStudiesFromSanity(), fetchAllFaqsFromSanity(), fetchAllIndustriesFromSanity() (+53 more)
+Nodes (62): Author, SiteSettings, Testimonial, fetchAllCaseStudiesFromSanity(), fetchAllFaqsFromSanity(), fetchAllIndustriesFromSanity(), fetchAllMigrationsFromSanity(), fetchAllPostsFromSanity() (+54 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.25
@@ -194,8 +194,8 @@ Cohesion: 0.29
 Nodes (5): ASSETS, baseUrl, __dirname, outDir, root
 
 ### Community 24 - "Community 24"
-Cohesion: 0.15
-Nodes (15): getAuthor(), getCaseStudyBySlug(), getPostBySlug(), getServiceBySlug(), sanityClient, sanityFetch(), sanityFetchOptions, hasSanityReadToken() (+7 more)
+Cohesion: 0.11
+Nodes (19): AUTHOR_SLUG_ALIASES, resolveAuthorSlugs(), getAuthor(), getCaseStudyBySlug(), getPostBySlug(), getServiceBySlug(), sanityClient, sanityFetch() (+11 more)
 
 ### Community 25 - "Community 25"
 Cohesion: 0.33
@@ -402,8 +402,8 @@ Cohesion: 0.11
 Nodes (19): metadata, PILLARS, ClientLogo, clientLogos, HOMEPAGE_PRICING_BADGES, HOMEPAGE_PRICING_SLUGS, HomepagePricingPackage, homepagePricingPackages (+11 more)
 
 ### Community 85 - "Community 85"
-Cohesion: 0.14
-Nodes (14): enrichMigration(), getMigrationBySlug(), mapIconRows(), MigrationIconRow, MigrationPlatformIconSet, PlatformIcon, resolveMigrationPlatformIcons(), fetchMigrationBySlugFromSanity() (+6 more)
+Cohesion: 0.22
+Nodes (9): enrichMigration(), getMigrationBySlug(), mapIconRows(), MigrationIconRow, MigrationPlatformIconSet, PlatformIcon, resolveMigrationPlatformIcons(), fetchMigrationBySlugFromSanity() (+1 more)
 
 ## Knowledge Gaps
 - **434 isolated node(s):** `version`, `configurations`, `allow`, `eslintConfig`, `nextConfig` (+429 more)
