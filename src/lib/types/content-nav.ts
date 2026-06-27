@@ -72,4 +72,5 @@ export const megaMenuNavLinks = {
     href: "/custom-software",
   },
   migrations: { label: "Migrations", href: "/migrations" },
+  insights: { label: "Insights", href: "/insights" },
 } as const;

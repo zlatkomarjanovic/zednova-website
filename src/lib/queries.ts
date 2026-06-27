@@ -812,6 +812,22 @@ export async function getFeaturedPost(): Promise<Post> {
   return all.find((p) => p.pinned) ?? all.find((p) => p.featured) ?? all[0];
 }
 
+export type InsightsNavPosts = {
+  featured: Post;
+  latest: Post[];
+};
+
+export async function getInsightsNavPosts(): Promise<InsightsNavPosts | null> {
+  const all = await getAllPosts();
+  if (all.length === 0) return null;
+
+  const featured =
+    all.find((p) => p.pinned) ?? all.find((p) => p.featured) ?? all[0];
+  const latest = all.filter((p) => p.slug !== featured.slug).slice(0, 4);
+
+  return { featured, latest };
+}
+
 export async function getAuthor(slug: string): Promise<Author | null> {
   if (!isSanityConfigured()) {
     const member = team.find((m) => m.slug === slug);

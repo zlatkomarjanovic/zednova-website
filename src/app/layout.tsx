@@ -15,7 +15,7 @@ import { JsonLd } from "@/ui/JsonLd";
 import { sitewideSchemaGraph } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import { team } from "@/lib/content/team";
-import { getAllMigrations, getCustomSoftwareNavItems, getFeaturedHomepageIndustries, getIndustryNavItems, getServiceMegaMenuCards, getSiteSettings } from "@/lib/queries";
+import { getAllMigrations, getCustomSoftwareNavItems, getFeaturedHomepageIndustries, getIndustryNavItems, getInsightsNavPosts, getServiceMegaMenuCards, getSiteSettings } from "@/lib/queries";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -75,7 +75,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [migrations, settings, industryNavItems, customSoftwareNavItems, serviceMegaMenuCards, featuredHomepageIndustries] =
+  const [migrations, settings, industryNavItems, customSoftwareNavItems, serviceMegaMenuCards, featuredHomepageIndustries, insightsNavPosts] =
     await Promise.all([
       getAllMigrations(),
       getSiteSettings(),
@@ -83,6 +83,7 @@ export default async function RootLayout({
       getCustomSoftwareNavItems(),
       getServiceMegaMenuCards(),
       getFeaturedHomepageIndustries(),
+      getInsightsNavPosts(),
     ]);
 
   const founder = team[0];
@@ -139,6 +140,7 @@ export default async function RootLayout({
               customSoftwareNavItems={customSoftwareNavItems}
               migrations={migrations}
               serviceMegaMenuCards={serviceMegaMenuCards}
+              insightsNavPosts={insightsNavPosts}
             />
             <PageTransition className="flex flex-1 flex-col">
               <main id="main" className="flex-1">

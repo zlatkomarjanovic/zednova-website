@@ -14,16 +14,20 @@ import {
 } from "@/ui/HoverHighlight";
 import type { Migration } from "@/lib/types/content-nav";
 import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import type { InsightsNavPosts } from "@/lib/queries";
+import type { Post } from "@/lib/types";
+import { ArticleCover } from "@/features/insights/ArticleCover";
 import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
 import { NavMenuIcon } from "@/ui/NavMenuIcon";
 import { cn } from "@/lib/utils";
 
 type MegaMenuProps = {
-  type: "services" | "industries" | "custom-software" | "migrations";
+  type: "services" | "industries" | "custom-software" | "migrations" | "insights";
   industryNavItems: NavMenuItem[];
   customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
   serviceMegaMenuCards: ServiceMegaMenuCard[];
+  insightsNavPosts: InsightsNavPosts | null;
   theme?: "light" | "dark";
   onNavigate: () => void;
 };
@@ -377,12 +381,190 @@ function NavItemGrid({
   );
 }
 
+function formatInsightDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function LatestInsightLink({
+  post,
+  titleClass,
+  bodyClass,
+  labelClass,
+  onNavigate,
+  highlight,
+  className,
+}: {
+  post: Post;
+  titleClass: string;
+  bodyClass: string;
+  labelClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={`/insights/${post.slug}`}
+      onClick={onNavigate}
+      data-hover-cell
+      onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+      className={cn(
+        "relative z-[1] flex h-full min-h-[2.5rem] flex-col justify-center px-3.5 py-1.5",
+        className,
+      )}
+    >
+      <span className={cn("zn-label mb-0.5 block text-[0.625rem]", labelClass)}>
+        {post.category}
+      </span>
+      <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+        {post.title}
+      </span>
+      {post.excerpt && (
+        <span className={cn("mt-0.5 line-clamp-1 text-[0.78rem] leading-snug", bodyClass)}>
+          {post.excerpt}
+        </span>
+      )}
+      <span className={cn("mt-0.5 block text-[0.78rem] leading-snug", bodyClass)}>
+        {formatInsightDate(post.publishedAt)} · {post.readTime} min read
+      </span>
+    </Link>
+  );
+}
+
+function FeaturedInsightLink({
+  post,
+  titleClass,
+  bodyClass,
+  labelClass,
+  onNavigate,
+  highlight,
+}: {
+  post: Post;
+  titleClass: string;
+  bodyClass: string;
+  labelClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+}) {
+  return (
+    <Link
+      href={`/insights/${post.slug}`}
+      onClick={onNavigate}
+      data-hover-cell
+      onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+      className="group relative z-[1] grid h-full grid-rows-[1fr_1fr]"
+    >
+      <div className="relative min-h-0 overflow-hidden">
+        <ArticleCover
+          post={post}
+          preset="card"
+          className="absolute inset-0 h-full w-full rounded-none"
+          imageClassName="object-cover"
+          sizes="40vw"
+        />
+      </div>
+      <div className="flex min-h-0 flex-col justify-center p-8">
+        <span className={cn("zn-label mb-0.5 block text-[0.625rem]", labelClass)}>
+          Featured · {post.category}
+        </span>
+        <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+          {post.title}
+        </span>
+        {post.excerpt && (
+          <span className={cn("mt-0.5 line-clamp-2 text-[0.78rem] leading-snug", bodyClass)}>
+            {post.excerpt}
+          </span>
+        )}
+        <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
+          {formatInsightDate(post.publishedAt)}
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function InsightsMegaMenuGrid({
+  posts,
+  theme,
+  borderClass,
+  titleClass,
+  bodyClass,
+  labelClass,
+  onNavigate,
+  highlight,
+}: {
+  posts: InsightsNavPosts;
+  theme: "light" | "dark";
+  borderClass: string;
+  titleClass: string;
+  bodyClass: string;
+  labelClass: string;
+  onNavigate: () => void;
+  highlight: ReturnType<typeof useRubberHoverHighlight>;
+}) {
+  const { featured, latest } = posts;
+  const columns = 2;
+
+  return (
+    <div className="relative grid lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-stretch">
+      <div className="relative grid grid-cols-1 sm:grid-cols-2">
+        {latest.map((post, index) => (
+          <div
+            key={post.slug}
+            data-hover-cell
+            onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
+            className={cn(
+              "relative",
+              index % columns !== 0 && cn("sm:border-l", borderClass),
+              index >= columns && cn("border-t", borderClass),
+            )}
+          >
+            {index % columns !== 0 && (
+              <ColumnCrosses theme={theme} showTop={index < columns} />
+            )}
+            <LatestInsightLink
+              post={post}
+              titleClass={titleClass}
+              bodyClass={bodyClass}
+              labelClass={labelClass}
+              onNavigate={onNavigate}
+              highlight={highlight}
+            />
+          </div>
+        ))}
+        {latest.length === 0 && (
+          <div className="col-span-full px-6 py-8">
+            <p className={cn("text-sm", bodyClass)}>No recent articles yet.</p>
+          </div>
+        )}
+      </div>
+
+      <div className={cn("relative flex h-full flex-col border-t lg:border-l lg:border-t-0", borderClass)}>
+        <ColumnCrosses theme={theme} />
+        <FeaturedInsightLink
+          post={featured}
+          titleClass={titleClass}
+          bodyClass={bodyClass}
+          labelClass={labelClass}
+          onNavigate={onNavigate}
+          highlight={highlight}
+        />
+      </div>
+    </div>
+  );
+}
+
 export function MegaMenu({
   type,
   industryNavItems,
   customSoftwareNavItems,
   migrations,
   serviceMegaMenuCards,
+  insightsNavPosts,
   theme = "light",
   onNavigate,
 }: MegaMenuProps) {
@@ -490,6 +672,29 @@ export function MegaMenu({
               onNavigate={onNavigate}
               highlight={highlight}
             />
+          ) : type === "insights" ? (
+            insightsNavPosts ? (
+              <InsightsMegaMenuGrid
+                posts={insightsNavPosts}
+                theme={theme}
+                borderClass={borderClass}
+                titleClass={titleClass}
+                bodyClass={bodyClass}
+                labelClass={labelClass}
+                onNavigate={onNavigate}
+                highlight={highlight}
+              />
+            ) : (
+              <div className="px-6 py-8">
+                <Link
+                  href="/insights"
+                  onClick={onNavigate}
+                  className={cn("text-sm underline-offset-4 hover:underline", titleClass)}
+                >
+                  View all insights
+                </Link>
+              </div>
+            )
           ) : (
             <div className="relative grid lg:grid-cols-2">
               {migrations.map((item, index) => (

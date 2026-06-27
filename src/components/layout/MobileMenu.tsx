@@ -8,15 +8,23 @@ import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { Button } from "@/ui/Button";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
+import type { InsightsNavPosts } from "@/lib/queries";
+import { ArticleCover } from "@/features/insights/ArticleCover";
 import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
 import { NavMenuIcon } from "@/ui/NavMenuIcon";
 
-const LINKS_BEFORE_ABOUT = [{ label: "Work", href: "/work" }];
-
 const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },
-  { label: "Insights", href: "/insights" },
+  { label: "Work", href: "/work" },
 ];
+
+function formatInsightDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export function MobileMenu({
   open,
@@ -25,6 +33,7 @@ export function MobileMenu({
   customSoftwareNavItems,
   migrations,
   serviceMegaMenuCards,
+  insightsNavPosts,
 }: {
   open: boolean;
   onClose: () => void;
@@ -32,9 +41,10 @@ export function MobileMenu({
   customSoftwareNavItems: NavMenuItem[];
   migrations: Migration[];
   serviceMegaMenuCards: ServiceMegaMenuCard[];
+  insightsNavPosts: InsightsNavPosts | null;
 }) {
   const [section, setSection] = useState<
-    "services" | "industries" | "custom-software" | "migrations" | null
+    "services" | "industries" | "custom-software" | "migrations" | "insights" | null
   >(null);
 
   useEffect(() => {
@@ -184,16 +194,71 @@ export function MobileMenu({
               </ul>
             </Accordion>
 
-            {LINKS_BEFORE_ABOUT.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={onClose}
-                className="block border-b border-zn-border-dk py-5 font-sans font-normal text-2xl text-zn-inv"
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Accordion
+              title={megaMenuNavLinks.insights.label}
+              href={megaMenuNavLinks.insights.href}
+              isOpen={section === "insights"}
+              onToggle={() =>
+                setSection(section === "insights" ? null : "insights")
+              }
+              onNavigate={onClose}
+            >
+              {insightsNavPosts ? (
+                <div className="grid gap-4 pb-4">
+                  <ul className="grid gap-2">
+                    {insightsNavPosts.latest.map((post) => (
+                      <li key={post.slug}>
+                        <Link
+                          href={`/insights/${post.slug}`}
+                          onClick={onClose}
+                          className="block rounded-[2px] border border-zn-border-dk px-4 py-3 transition-colors hover:border-zn-inv"
+                        >
+                          <span className="block text-xs uppercase tracking-wide text-zn-inv-2">
+                            {post.category}
+                          </span>
+                          <span className="mt-1 block text-sm text-zn-inv">{post.title}</span>
+                          {post.excerpt && (
+                            <span className="mt-1.5 block text-xs leading-relaxed text-zn-inv-2 line-clamp-2">
+                              {post.excerpt}
+                            </span>
+                          )}
+                          <span className="mt-1 block text-xs text-zn-inv-2">
+                            {formatInsightDate(post.publishedAt)} · {post.readTime} min read
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={`/insights/${insightsNavPosts.featured.slug}`}
+                    onClick={onClose}
+                    className="block overflow-hidden rounded-[2px] border border-zn-border-dk transition-colors hover:border-zn-inv"
+                  >
+                    <ArticleCover
+                      post={insightsNavPosts.featured}
+                      preset="card"
+                      className="aspect-[16/10] w-full rounded-none"
+                      sizes="100vw"
+                    />
+                    <div className="px-4 py-3">
+                      <span className="block text-xs uppercase tracking-wide text-zn-inv-2">
+                        Featured · {insightsNavPosts.featured.category}
+                      </span>
+                      <span className="mt-1 block text-sm text-zn-inv">
+                        {insightsNavPosts.featured.title}
+                      </span>
+                      {insightsNavPosts.featured.excerpt && (
+                        <span className="mt-1.5 block text-xs leading-relaxed text-zn-inv-2 line-clamp-2">
+                          {insightsNavPosts.featured.excerpt}
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                </div>
+              ) : (
+                <p className="pb-4 text-sm text-zn-inv-2">No articles yet.</p>
+              )}
+            </Accordion>
 
             {LINKS_AFTER_INDUSTRIES.map((link) => (
               <Link
