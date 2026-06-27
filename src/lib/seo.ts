@@ -147,7 +147,7 @@ export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
       url: SITE_ORIGIN,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_ORIGIN}/icon.svg`,
+        url: `${SITE_ORIGIN}/icon.png`,
       },
     },
     mainEntityOfPage: {
@@ -468,7 +468,7 @@ export function organizationJsonLd(org?: {
     name: org?.name ?? "ZedNova Studios",
     legalName: org?.legalName,
     url: org?.url ?? SITE_ORIGIN,
-    logo: org?.logo ?? `${SITE_ORIGIN}/icon.svg`,
+    logo: org?.logo ?? `${SITE_ORIGIN}/icon.png`,
     description: org?.description,
     email: org?.email,
     telephone: org?.phone,

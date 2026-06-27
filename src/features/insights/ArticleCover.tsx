@@ -46,9 +46,10 @@ export function ArticleCover({
           <div className="zn-grain absolute inset-0" aria-hidden="true" />
           <ZMark
             className={cn(
-              "absolute bottom-4 right-4 size-20 text-white/[0.05]",
+              "absolute bottom-4 right-4 h-20 w-auto opacity-[0.05]",
               zMarkClassName,
             )}
+            variant="light"
           />
         </>
       )}

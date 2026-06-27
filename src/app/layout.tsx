@@ -68,6 +68,26 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      {
+        url: "/favicon-32x32-light.png",
+        sizes: "32x32",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/favicon-16x16-light.png",
+        sizes: "16x16",
+        type: "image/png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default async function RootLayout({
@@ -101,7 +121,7 @@ export default async function RootLayout({
       name: "ZedNova Studios",
       legalName: "ZedNova Studios LLC",
       url: SITE_ORIGIN,
-      logo: `${SITE_ORIGIN}/icon.svg`,
+      logo: `${SITE_ORIGIN}/icon.png`,
       description: settings.siteDescription,
       email: settings.contactEmail,
       sameAs,

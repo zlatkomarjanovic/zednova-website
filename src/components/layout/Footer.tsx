@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Logo } from "@/ui/Logo";
+import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { FooterAiSummaryLinks } from "@/components/layout/FooterAiSummaryLinks";
@@ -56,7 +56,7 @@ export function Footer({
         <div className="zn-container-inset py-14 lg:py-16">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-md space-y-5">
-              <Logo variant="light" />
+              <LogoHomeLink variant="light" />
               <p className="text-sm leading-relaxed text-zn-inv-2">
                 A software and product studio with 10+ years shipping products for US
                 businesses. We use AI internally to deliver faster, without trading off

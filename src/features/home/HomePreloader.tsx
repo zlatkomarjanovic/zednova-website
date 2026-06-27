@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { brandWordmark } from "@/lib/fonts/brand-wordmark";
+import { ZMark } from "@/ui/Logo";
+import { cn } from "@/lib/utils";
 
 const SESSION_KEY = "zednova-home-preloader-seen";
 const DURATION_MS = 2000;
@@ -70,8 +73,9 @@ export function HomePreloader() {
       transition={{ duration: FADE_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="flex w-[min(18rem,70vw)] flex-col items-center gap-6">
-        <p className="font-sans text-sm font-normal uppercase tracking-[0.14em] text-zn-inv">
-          ZedNova Studios
+        <ZMark variant="light" className="h-10 w-auto" />
+        <p className={cn(brandWordmark.className, "text-base font-bold tracking-[-0.03em] text-zn-inv")}>
+          ZedNova
         </p>
         <div className="h-px w-full overflow-hidden bg-zn-border-dk/70">
           <motion.div

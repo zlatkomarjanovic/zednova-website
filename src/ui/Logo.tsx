@@ -1,61 +1,71 @@
+import { brandWordmark } from "@/lib/fonts/brand-wordmark";
 import { cn } from "@/lib/utils";
 
 type LogoVariant = "dark" | "light";
 
+const MARK_DARK = "/images/brand/zednova-mark-dark.png";
+const MARK_LIGHT = "/images/brand/zednova-mark-light.png";
+
 /**
- * ZedNova wordmark — text only in navigation (no Z mark icon).
+ * ZedNova mark + wordmark for navigation, footer, and brand surfaces.
  */
 export function Logo({
   variant = "dark",
   className,
   withWordmark = true,
+  markOnly = false,
+  markClassName,
 }: {
   variant?: LogoVariant;
   className?: string;
   withWordmark?: boolean;
+  markOnly?: boolean;
+  markClassName?: string;
 }) {
   const ink = variant === "light" ? "text-zn-inv" : "text-zn-text";
-  const sub = variant === "light" ? "text-zn-inv-2" : "text-zn-text-2";
 
   return (
     <span
       role="img"
       aria-label="ZedNova Studios"
-      className={cn("inline-flex items-center", ink, className)}
+      className={cn("inline-flex items-center gap-2", ink, className)}
     >
-      {withWordmark && (
-        <span className="flex flex-col justify-center leading-none">
-          <span className="font-sans text-[0.9rem] font-normal uppercase leading-none tracking-[0.14em]">
-            ZEDNOVA
-          </span>
-          <span
-            className={cn(
-              "mt-[3px] font-sans text-[0.48rem] font-normal uppercase leading-none tracking-[0.32em]",
-              sub,
-            )}
-          >
-            STUDIOS
-          </span>
+      <ZMark
+        className={cn("h-5 w-auto shrink-0", markClassName)}
+        variant={variant}
+      />
+      {withWordmark && !markOnly && (
+        <span
+          className={cn(
+            brandWordmark.className,
+            "text-[1.3rem] font-bold leading-none tracking-[-0.035em]",
+          )}
+        >
+          ZedNova
         </span>
       )}
     </span>
   );
 }
 
-/** The geometric Z mark on its own (uses currentColor). */
-export function ZMark({ className }: { className?: string }) {
+/** ZedNova filled mark — dedicated light/dark assets, no CSS filters. */
+export function ZMark({
+  className,
+  variant = "dark",
+}: {
+  className?: string;
+  variant?: LogoVariant;
+}) {
   return (
-    <svg
-      className={className}
-      viewBox="0 0 48 48"
-      fill="none"
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={variant === "light" ? MARK_LIGHT : MARK_DARK}
+      alt=""
+      width={1002}
+      height={667}
+      decoding="async"
       aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M7 7 L41 7 L41 16 L21 32 L41 32 L41 41 L7 41 L7 32 L27 16 L7 16 Z"
-        fill="currentColor"
-      />
-    </svg>
+      className={cn("block shrink-0 object-contain object-left", className)}
+    />
   );
 }

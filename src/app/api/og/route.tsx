@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { SITE_ORIGIN } from "@/lib/site-url";
 
 export const runtime = "edge";
 
@@ -24,8 +25,19 @@ export async function GET(request: Request) {
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        <div style={{ fontSize: 28, letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.72 }}>
-          ZedNova Studios
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <img
+            src={`${SITE_ORIGIN}/images/brand/zednova-mark-light.png`}
+            alt=""
+            width={56}
+            height={37}
+            style={{
+              objectFit: "contain",
+            }}
+          />
+          <div style={{ fontSize: 28, letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.72 }}>
+            ZedNova Studios
+          </div>
         </div>
         <div>
           <div style={{ fontSize: 64, lineHeight: 1.05, fontWeight: 600, maxWidth: 960 }}>

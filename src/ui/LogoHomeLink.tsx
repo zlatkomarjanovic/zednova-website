@@ -9,6 +9,7 @@ import { Logo } from "@/ui/Logo";
 type LogoHomeLinkProps = {
   variant?: "light" | "dark";
   className?: string;
+  markClassName?: string;
   onNavigate?: () => void;
 };
 
@@ -16,6 +17,7 @@ type LogoHomeLinkProps = {
 export function LogoHomeLink({
   variant = "dark",
   className,
+  markClassName,
   onNavigate,
 }: LogoHomeLinkProps) {
   const pathname = usePathname();
@@ -35,7 +37,7 @@ export function LogoHomeLink({
       className={className}
       onClick={handleClick}
     >
-      <Logo variant={variant} />
+      <Logo variant={variant} markClassName={markClassName} />
     </Link>
   );
 }
