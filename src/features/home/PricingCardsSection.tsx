@@ -8,6 +8,7 @@ import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { BlueprintGridCrosses } from "@/ui/BlueprintGridCrosses";
+import { CAL_BOOKING_URL } from "@/lib/booking";
 import type { HomepagePricingPackage } from "@/lib/content/homepage-pricing";
 import { cn } from "@/lib/utils";
 
@@ -33,8 +34,8 @@ export function PricingCardsSection({
         />
         <Reveal delay={0.08}>
           <p className="zn-prose mt-5 max-w-xl">
-            Fixed scope and clear pricing before we start. Most projects launch as an MVP,
-            then iterate based on real usage, not a six-month strategy deck.
+            Fixed scope and clear pricing before we start. Send what you need, we ship an MVP
+            fast, then iterate from real usage, not months of meetings first.
           </p>
         </Reveal>
       </div>
@@ -70,7 +71,7 @@ export function PricingCardsSection({
                     ) : null}
                   </div>
 
-                  <h3 className="mt-5 font-sans text-lg font-normal tracking-tight text-zn-text md:text-xl">
+                  <h3 className="mt-5 min-h-[1.75rem] font-sans text-lg font-normal leading-snug tracking-tight text-zn-text md:min-h-[1.875rem] md:text-xl">
                     {pkg.title}
                   </h3>
                   <p className="zn-prose mt-3">{pkg.shortDescription}</p>
@@ -84,7 +85,7 @@ export function PricingCardsSection({
                     </p>
                   </div>
 
-                  <ul className="mt-6 flex flex-1 flex-col gap-3">
+                  <ul className="mt-6 flex flex-1 flex-col gap-4 md:gap-[1.125rem]">
                     {pkg.deliverables.map((item) => (
                       <li
                         key={item}
@@ -98,30 +99,19 @@ export function PricingCardsSection({
                       </li>
                     ))}
                   </ul>
-
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <Button
-                      href={pkg.contactHref}
-                      size="sm"
-                      withArrow
-                      className="sm:flex-1"
-                    >
-                      Tell us what you need
-                    </Button>
-                    <Button
-                      href={pkg.detailHref}
-                      variant="outline"
-                      size="sm"
-                      className="sm:flex-1"
-                    >
-                      {pkg.detailLabel}
-                    </Button>
-                  </div>
                 </article>
               ))}
             </Stagger>
           </div>
         </div>
+
+        <Reveal delay={0.1}>
+          <div className="zn-container-inset flex justify-center border-t border-zn-border py-8">
+            <Button href={CAL_BOOKING_URL} size="lg" withArrow>
+              Book a call
+            </Button>
+          </div>
+        </Reveal>
 
         <Reveal delay={0.12}>
           <p className="zn-container-inset mt-6 text-center text-sm text-zn-text-3">

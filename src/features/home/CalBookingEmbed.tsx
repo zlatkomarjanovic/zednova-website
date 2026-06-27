@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+import { CAL_LINK } from "@/lib/booking";
+
 const CAL_ORIGIN = "https://app.cal.com";
 const CAL_SCRIPT = `${CAL_ORIGIN}/embed/embed.js`;
 
@@ -100,7 +102,7 @@ function loadCalScript(): Promise<void> {
 }
 
 export function CalBookingEmbed({
-  calLink = "zlatkom/30min",
+  calLink = CAL_LINK,
   className,
 }: {
   calLink?: string;
