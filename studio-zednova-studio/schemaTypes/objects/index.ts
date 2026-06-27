@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { optionalUrl } from "../shared/validation";
 
 /* ----------------------------- SEO / OG / AEO ----------------------------- */
 
@@ -68,6 +69,7 @@ export const seoFields = defineType({
       title: "Canonical URL override",
       group: "advanced",
       description: "Optional. Leave blank to use the default canonical.",
+      validation: optionalUrl,
     }),
     defineField({
       name: "canonicalUrl",
@@ -75,6 +77,7 @@ export const seoFields = defineType({
       title: "Canonical URL (alias)",
       group: "advanced",
       description: "Optional alias for seoCanonical.",
+      validation: optionalUrl,
     }),
     defineField({
       name: "seoNoIndex",

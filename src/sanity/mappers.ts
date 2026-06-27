@@ -812,7 +812,7 @@ export function mapAuthor(doc: {
     slug: doc.slug,
     name: doc.name,
     role: doc.role ?? "",
-    bio: doc.bio ?? [],
+    bio: doc.bio?.length ? doc.bio : doc.shortBio ? [doc.shortBio] : [],
     shortBio: doc.shortBio,
     linkedin: doc.linkedin,
     twitter: doc.twitter,
