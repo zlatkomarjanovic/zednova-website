@@ -270,7 +270,7 @@
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1782599042.3109474,
+    "mtime": 1782650440.6869383,
     "ast_hash": "b7d815a26c7c263b98879bc96b8cbafd",
     "semantic_hash": ""
   },
@@ -360,7 +360,7 @@
     "semantic_hash": ""
   },
   "src/components/animations/LenisProvider.tsx": {
-    "mtime": 1782598254.6805885,
+    "mtime": 1782650440.6900253,
     "ast_hash": "8de79d22ed71063e8d3c58636ff8b157",
     "semantic_hash": ""
   },
@@ -415,7 +415,7 @@
     "semantic_hash": ""
   },
   "src/components/layout/Navbar.tsx": {
-    "mtime": 1782598254.6826513,
+    "mtime": 1782650440.6911385,
     "ast_hash": "3318ae2e2c10a9401845ac466380b87a",
     "semantic_hash": ""
   },
@@ -1310,7 +1310,7 @@
     "semantic_hash": ""
   },
   "scripts/patch-cover-captions.ts": {
-    "mtime": 1782568078.94747,
+    "mtime": 1782650440.6869383,
     "ast_hash": "415de448e0f2c09987cd23fbd0205de0",
     "semantic_hash": ""
   },
@@ -1485,8 +1485,8 @@
     "semantic_hash": ""
   },
   "public/favicon-32.png": {
-    "mtime": 1782599042.305848,
-    "ast_hash": "b2265ec855f1b0afadd09f19154d0c88",
+    "mtime": 1782650579.6398966,
+    "ast_hash": "b4a033113fbc3505cc5afe8239fb6787",
     "semantic_hash": ""
   },
   "public/images/brand/zednova-mark-transparent.png": {
@@ -1495,13 +1495,13 @@
     "semantic_hash": ""
   },
   "src/app/apple-icon.png": {
-    "mtime": 1782599042.3078976,
-    "ast_hash": "5c9abaf6c1b75cfc7be7c623e497dfb5",
+    "mtime": 1782650579.6292572,
+    "ast_hash": "51d48feadedd14cab555a7944864a9d0",
     "semantic_hash": ""
   },
   "src/app/icon.png": {
-    "mtime": 1782599042.3099172,
-    "ast_hash": "416381956d5848e5d6612d9d2a0c094e",
+    "mtime": 1782650579.6250486,
+    "ast_hash": "b35b05fe35b2449af81d9b9f2e866444",
     "semantic_hash": ""
   },
   "src/lib/fonts/brand-wordmark.ts": {
@@ -1510,23 +1510,23 @@
     "semantic_hash": ""
   },
   "public/favicon-16x16-light.png": {
-    "mtime": 1782599057.406404,
-    "ast_hash": "e1d653ae210d9c40e06bcb786eb788cd",
+    "mtime": 1782650579.6419413,
+    "ast_hash": "7970c2426c805603a4259a1188b5c46c",
     "semantic_hash": ""
   },
   "public/favicon-16x16.png": {
-    "mtime": 1782599042.304688,
-    "ast_hash": "7cf72123d0b309d8d11daa90f2313fdc",
+    "mtime": 1782650579.6350925,
+    "ast_hash": "1f2c0c7fa3b3db72eac8e64495e986d2",
     "semantic_hash": ""
   },
   "public/favicon-32x32-light.png": {
-    "mtime": 1782599057.4074168,
-    "ast_hash": "4deeff42c3caf9dbf4614acd348fd2b5",
+    "mtime": 1782650579.643442,
+    "ast_hash": "c24f694dfbd214751812a2b3e192b0a4",
     "semantic_hash": ""
   },
   "public/favicon-32x32.png": {
-    "mtime": 1782599042.3068883,
-    "ast_hash": "175449e6242944ba29906fb0811c3902",
+    "mtime": 1782650579.6377485,
+    "ast_hash": "b4a033113fbc3505cc5afe8239fb6787",
     "semantic_hash": ""
   },
   "public/images/brand/zednova-mark-dark.png": {
@@ -1547,6 +1547,16 @@
   "public/images/brand/zednova-mark.svg": {
     "mtime": 1782612211.5325944,
     "ast_hash": "53550cef8d168e21955a03be566270f8",
+    "semantic_hash": ""
+  },
+  "scripts/generate-favicons.mjs": {
+    "mtime": 1782650575.5548663,
+    "ast_hash": "c47362e7c3eb8375fbbbe8762cf977d4",
+    "semantic_hash": ""
+  },
+  "public/apple-icon.png": {
+    "mtime": 1782650579.6327832,
+    "ast_hash": "51d48feadedd14cab555a7944864a9d0",
     "semantic_hash": ""
   }
 }
