@@ -50,9 +50,9 @@ async function main() {
   const dark = { bg: "#0F1410", fill: "#F4F6F2" };
 
   const outputs = [
-    { path: "src/app/icon.png", size: 512, ...light },
-    { path: "src/app/apple-icon.png", size: 180, ...light },
+    { path: "public/icon.png", size: 512, ...light },
     { path: "public/apple-icon.png", size: 180, ...light },
+    { path: "public/apple-icon-dark.png", size: 180, ...dark },
     { path: "public/favicon-16x16.png", size: 16, ...light },
     { path: "public/favicon-32x32.png", size: 32, ...light },
     { path: "public/favicon-32.png", size: 32, ...light },
@@ -69,7 +69,6 @@ async function main() {
   const ico32 = await sharp(Buffer.from(iconSvg(32, light.bg, light.fill)))
     .png()
     .toBuffer();
-  writeFileSync(join(root, "src/app/favicon.ico"), ico32);
   writeFileSync(join(root, "public/favicon.ico"), ico32);
   console.log("wrote favicon.ico");
 }

@@ -270,8 +270,8 @@
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1782650440.6869383,
-    "ast_hash": "b7d815a26c7c263b98879bc96b8cbafd",
+    "mtime": 1782650748.889156,
+    "ast_hash": "8fe0197a050a10224fd41cd31247ed4c",
     "semantic_hash": ""
   },
   "src/app/migrations/[slug]/page.tsx": {
@@ -1485,7 +1485,7 @@
     "semantic_hash": ""
   },
   "public/favicon-32.png": {
-    "mtime": 1782650579.6398966,
+    "mtime": 1782650754.8924508,
     "ast_hash": "b4a033113fbc3505cc5afe8239fb6787",
     "semantic_hash": ""
   },
@@ -1494,38 +1494,28 @@
     "ast_hash": "5c9b6794f5ea3467eb4a039c6de32fa5",
     "semantic_hash": ""
   },
-  "src/app/apple-icon.png": {
-    "mtime": 1782650579.6292572,
-    "ast_hash": "51d48feadedd14cab555a7944864a9d0",
-    "semantic_hash": ""
-  },
-  "src/app/icon.png": {
-    "mtime": 1782650579.6250486,
-    "ast_hash": "b35b05fe35b2449af81d9b9f2e866444",
-    "semantic_hash": ""
-  },
   "src/lib/fonts/brand-wordmark.ts": {
     "mtime": 1782612125.9307954,
     "ast_hash": "786c20b467e043e26096ac74f3b6bb6c",
     "semantic_hash": ""
   },
   "public/favicon-16x16-light.png": {
-    "mtime": 1782650579.6419413,
+    "mtime": 1782650754.8939118,
     "ast_hash": "7970c2426c805603a4259a1188b5c46c",
     "semantic_hash": ""
   },
   "public/favicon-16x16.png": {
-    "mtime": 1782650579.6350925,
+    "mtime": 1782650754.8884234,
     "ast_hash": "1f2c0c7fa3b3db72eac8e64495e986d2",
     "semantic_hash": ""
   },
   "public/favicon-32x32-light.png": {
-    "mtime": 1782650579.643442,
+    "mtime": 1782650754.896036,
     "ast_hash": "c24f694dfbd214751812a2b3e192b0a4",
     "semantic_hash": ""
   },
   "public/favicon-32x32.png": {
-    "mtime": 1782650579.6377485,
+    "mtime": 1782650754.8904464,
     "ast_hash": "b4a033113fbc3505cc5afe8239fb6787",
     "semantic_hash": ""
   },
@@ -1550,13 +1540,23 @@
     "semantic_hash": ""
   },
   "scripts/generate-favicons.mjs": {
-    "mtime": 1782650575.5548663,
-    "ast_hash": "c47362e7c3eb8375fbbbe8762cf977d4",
+    "mtime": 1782650749.439751,
+    "ast_hash": "1dab3139cac7b6e67fa6ac63a52470d6",
     "semantic_hash": ""
   },
   "public/apple-icon.png": {
-    "mtime": 1782650579.6327832,
+    "mtime": 1782650754.8831449,
     "ast_hash": "51d48feadedd14cab555a7944864a9d0",
+    "semantic_hash": ""
+  },
+  "public/apple-icon-dark.png": {
+    "mtime": 1782650754.8864133,
+    "ast_hash": "1e0420317582fb76cd1d0ef7b2e6b255",
+    "semantic_hash": ""
+  },
+  "public/icon.png": {
+    "mtime": 1782650754.8787699,
+    "ast_hash": "b35b05fe35b2449af81d9b9f2e866444",
     "semantic_hash": ""
   }
 }

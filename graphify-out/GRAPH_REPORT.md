@@ -1,7 +1,7 @@
 # Graph Report - zednova-website  (2026-06-28)
 
 ## Corpus Check
-- 262 files · ~362,998 words
+- 262 files · ~363,026 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `78b2f95e`
+- Built from commit: `d50c43cd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -330,8 +330,8 @@ Cohesion: 0.15
 Nodes (10): customSoftwareBySlug, customSoftwareItems, DEFAULT_PROCESS, assetCache, client, getOrUploadIconAsset(), ICON_MAP, main() (+2 more)
 
 ### Community 58 - "Community 58"
-Cohesion: 0.22
-Nodes (12): POST(), CONTACT_INDUSTRY_OPTIONS, CONTACT_SERVICE_OPTIONS, ContactPrefill, findIndustryLabel(), findProductLabel(), findServiceLabel(), labelForIndustry() (+4 more)
+Cohesion: 0.57
+Nodes (5): POST(), findIndustryLabel(), findServiceLabel(), labelForIndustry(), labelForService()
 
 ### Community 59 - "Community 59"
 Cohesion: 0.11
@@ -374,8 +374,8 @@ Cohesion: 0.16
 Nodes (21): isIndustryParentRecord(), isIndustrySegment(), isNonEmptyCmsValue(), mergeIndustryRecord(), getAllIndustries(), getCaseStudiesByIndustry(), getIndustryBySlug(), getIndustryPageData() (+13 more)
 
 ### Community 71 - "Community 71"
-Cohesion: 0.36
-Nodes (7): ContactPage(), metadata, STEPS, PageHero(), getContactIndustryOptions(), getContactServiceOptions(), contactPageJsonLd()
+Cohesion: 0.23
+Nodes (11): ContactPage(), metadata, STEPS, findProductLabel(), resolveContactPrefill(), PageHero(), getContactIndustryOptions(), getContactServiceOptions() (+3 more)
 
 ### Community 72 - "Community 72"
 Cohesion: 0.50
@@ -390,8 +390,8 @@ Cohesion: 0.33
 Nodes (5): ArticleContinueReading(), buildIntro(), ContinueReadingCard(), InsightsContinueReadingBlock(), formatDate()
 
 ### Community 75 - "Community 75"
-Cohesion: 0.43
-Nodes (4): BUDGET_OPTIONS, ContactInput, contactSchema, ContactForm()
+Cohesion: 0.27
+Nodes (7): CONTACT_INDUSTRY_OPTIONS, CONTACT_SERVICE_OPTIONS, ContactPrefill, BUDGET_OPTIONS, ContactInput, contactSchema, ContactForm()
 
 ### Community 76 - "Community 76"
 Cohesion: 0.25

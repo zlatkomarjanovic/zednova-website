@@ -2464,7 +2464,7 @@
       "label": "RootLayout()",
       "file_type": "code",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L93",
+      "source_location": "L116",
       "id": "app_layout_rootlayout",
       "community": 1,
       "norm_label": "rootlayout()"
@@ -6012,7 +6012,7 @@
       "source_file": "src/lib/content/contact-options.ts",
       "source_location": "L6",
       "id": "content_contact_options_contact_service_options",
-      "community": 58,
+      "community": 75,
       "norm_label": "contact_service_options"
     },
     {
@@ -6021,7 +6021,7 @@
       "source_file": "src/lib/content/contact-options.ts",
       "source_location": "L15",
       "id": "content_contact_options_contact_industry_options",
-      "community": 58,
+      "community": 75,
       "norm_label": "contact_industry_options"
     },
     {
@@ -6030,7 +6030,7 @@
       "source_file": "src/lib/content/contact-options.ts",
       "source_location": "L23",
       "id": "content_contact_options_contactprefill",
-      "community": 58,
+      "community": 75,
       "norm_label": "contactprefill"
     },
     {
@@ -6057,7 +6057,7 @@
       "source_file": "src/lib/content/contact-options.ts",
       "source_location": "L42",
       "id": "content_contact_options_findproductlabel",
-      "community": 58,
+      "community": 71,
       "norm_label": "findproductlabel()"
     },
     {
@@ -6066,7 +6066,7 @@
       "source_file": "src/lib/content/contact-options.ts",
       "source_location": "L47",
       "id": "content_contact_options_resolvecontactprefill",
-      "community": 58,
+      "community": 71,
       "norm_label": "resolvecontactprefill()"
     },
     {
@@ -7695,7 +7695,7 @@
       "source_file": "src/lib/queries.ts",
       "source_location": "L464",
       "id": "lib_queries_labelforservice",
-      "community": 58,
+      "community": 71,
       "norm_label": "labelforservice()"
     },
     {
@@ -7704,7 +7704,7 @@
       "source_file": "src/lib/queries.ts",
       "source_location": "L469",
       "id": "lib_queries_labelforindustry",
-      "community": 58,
+      "community": 71,
       "norm_label": "labelforindustry()"
     },
     {
@@ -14282,9 +14282,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons",
-      "target": "scripts_generate_favicons_iconsvg",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_iconsvg"
     },
     {
       "relation": "contains",
@@ -14292,9 +14292,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons",
-      "target": "scripts_generate_favicons_main",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_main"
     },
     {
       "relation": "contains",
@@ -14302,9 +14302,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons",
-      "target": "scripts_generate_favicons_mark_paths",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_mark_paths"
     },
     {
       "relation": "contains",
@@ -14312,9 +14312,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons",
-      "target": "scripts_generate_favicons_root",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_root"
     },
     {
       "relation": "contains",
@@ -14322,9 +14322,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons",
-      "target": "scripts_generate_favicons_writeico",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_writeico"
     },
     {
       "relation": "contains",
@@ -14332,9 +14332,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons",
-      "target": "scripts_generate_favicons_writepng",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_writepng"
     },
     {
       "relation": "calls",
@@ -14343,9 +14343,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons_main",
-      "target": "scripts_generate_favicons_iconsvg",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_iconsvg"
     },
     {
       "relation": "calls",
@@ -14354,9 +14354,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons_writepng",
-      "target": "scripts_generate_favicons_iconsvg",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_iconsvg"
     },
     {
       "relation": "calls",
@@ -14365,9 +14365,9 @@
       "source_file": "scripts/generate-favicons.mjs",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_generate_favicons_main",
-      "target": "scripts_generate_favicons_writepng",
-      "confidence_score": 1.0
+      "target": "scripts_generate_favicons_writepng"
     },
     {
       "relation": "contains",
@@ -54597,5 +54597,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "78b2f95e238caebbac9c55edfd6021f232439382"
+  "built_at_commit": "d50c43cd93151ce90b730b353272690b4caf1265"
 }
