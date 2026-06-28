@@ -770,8 +770,8 @@
     "semantic_hash": ""
   },
   "src/ui/Logo.tsx": {
-    "mtime": 1782598350.886608,
-    "ast_hash": "49bc83162075592556c0ce9b353c318c",
+    "mtime": 1782612214.9911888,
+    "ast_hash": "8b1b63516723449ce0a9eba98021599f",
     "semantic_hash": ""
   },
   "src/ui/MediaImage.tsx": {
@@ -1100,8 +1100,8 @@
     "semantic_hash": ""
   },
   "src/app/api/og/route.tsx": {
-    "mtime": 1782598350.8778358,
-    "ast_hash": "2741b08d3f9aad7387a7de6e41c2287a",
+    "mtime": 1782612215.328685,
+    "ast_hash": "4a6ab0ee3cfc416a19c7bde9de681a57",
     "semantic_hash": ""
   },
   "src/app/llms-full.txt/route.ts": {
@@ -1440,8 +1440,8 @@
     "semantic_hash": ""
   },
   "src/features/home/HomePreloader.tsx": {
-    "mtime": 1782598350.8830793,
-    "ast_hash": "fb5b27f663396f4be95ccb2febbe2cf3",
+    "mtime": 1782612126.3557148,
+    "ast_hash": "6e43b3a61e287f7d1382b9d02281d72f",
     "semantic_hash": ""
   },
   "src/features/services/ServiceDirectAnswer.tsx": {
@@ -1505,8 +1505,8 @@
     "semantic_hash": ""
   },
   "src/lib/fonts/brand-wordmark.ts": {
-    "mtime": 1782598350.8840866,
-    "ast_hash": "b54f2b6afcb407c396d351d26cd06190",
+    "mtime": 1782612125.9307954,
+    "ast_hash": "786c20b467e043e26096ac74f3b6bb6c",
     "semantic_hash": ""
   },
   "public/favicon-16x16-light.png": {
@@ -1537,6 +1537,16 @@
   "public/images/brand/zednova-mark-light.png": {
     "mtime": 1782598350.8742414,
     "ast_hash": "ae7ae1a7ecaee1cbfe55a7e8fa212cb0",
+    "semantic_hash": ""
+  },
+  "public/images/brand/zednova-mark-light.svg": {
+    "mtime": 1782612212.8152697,
+    "ast_hash": "479334f29d6d474970e784ed9963ec7a",
+    "semantic_hash": ""
+  },
+  "public/images/brand/zednova-mark.svg": {
+    "mtime": 1782612211.5325944,
+    "ast_hash": "53550cef8d168e21955a03be566270f8",
     "semantic_hash": ""
   }
 }

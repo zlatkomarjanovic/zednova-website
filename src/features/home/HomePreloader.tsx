@@ -74,7 +74,7 @@ export function HomePreloader() {
     >
       <div className="flex w-[min(18rem,70vw)] flex-col items-center gap-6">
         <ZMark variant="light" className="h-10 w-auto" />
-        <p className={cn(brandWordmark.className, "text-base font-bold tracking-[-0.03em] text-zn-inv")}>
+        <p className={cn(brandWordmark.className, "text-base font-semibold tracking-[-0.03em] text-zn-inv")}>
           ZedNova
         </p>
         <div className="h-px w-full overflow-hidden bg-zn-border-dk/70">

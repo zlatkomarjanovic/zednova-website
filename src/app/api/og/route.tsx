@@ -27,10 +27,10 @@ export async function GET(request: Request) {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <img
-            src={`${SITE_ORIGIN}/images/brand/zednova-mark-light.png`}
+            src={`${SITE_ORIGIN}/images/brand/zednova-mark-light.svg`}
             alt=""
-            width={56}
-            height={37}
+            width={58}
+            height={40}
             style={{
               objectFit: "contain",
             }}
