@@ -1,12 +1,10 @@
 /**
- * Fix insights (post) documents: add array _keys, articleBlock _type, and slug objects for FAQ ids.
+ * Fix insights (post) documents: normalize inline FAQ keys.
  * Usage: npm run fix:insights-data
  */
 import fs from "node:fs";
 import path from "node:path";
 import { createClient } from "@sanity/client";
-
-import type { ArticleBlock, ArticleFaq } from "../src/lib/types";
 
 function loadEnvLocal() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -35,68 +33,22 @@ function sanityKey(prefix: string, seed: string) {
     .slice(0, 24);
 }
 
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 60);
-}
+type RawInlineFaq = {
+  _type?: string;
+  _key?: string;
+  question: string;
+  shortAnswer?: string;
+};
 
-function toSanitySlug(current: string) {
-  return { _type: "slug" as const, current };
-}
-
-type RawArticleBlock = ArticleBlock & { _type?: string; _key?: string };
-type RawFaq = { _type?: string; _key?: string; id?: string | { current?: string }; question: string; answer: string };
-
-export function mapArticleBlocksForSanity(blocks: RawArticleBlock[]) {
-  return blocks.map((block, index) => {
-    const { _type: _ignoredType, _key: existingKey, ...rest } = block;
-    return {
-      _type: "articleBlock" as const,
-      _key: existingKey ?? sanityKey("block", `${index}-${block.type}`),
-      type: rest.type,
-      ...(rest.text !== undefined ? { text: rest.text } : {}),
-      ...(rest.items !== undefined ? { items: rest.items } : {}),
-      ...(rest.calloutVariant !== undefined ? { calloutVariant: rest.calloutVariant } : {}),
-      ...(rest.image !== undefined ? { image: rest.image } : {}),
-      ...(rest.imageAlt !== undefined ? { imageAlt: rest.imageAlt } : {}),
-    };
-  });
-}
-
-export function mapFaqsForSanity(faqs: RawFaq[]) {
-  return faqs.map((faq, index) => {
-    const rawId =
-      typeof faq.id === "string"
-        ? faq.id
-        : faq.id?.current ?? slugify(faq.question);
-
-    return {
-      _type: "articleFaq" as const,
-      _key: faq._key ?? sanityKey("faq", rawId || String(index)),
-      id: toSanitySlug(rawId),
-      question: faq.question,
-      answer: faq.answer,
-    };
-  });
-}
-
-function needsArticleBlockFix(blocks?: RawArticleBlock[]) {
-  if (!blocks?.length) return false;
-  return blocks.some((block) => !block._key || block._type !== "articleBlock");
-}
-
-function needsFaqFix(faqs?: RawFaq[]) {
-  if (!faqs?.length) return false;
-  return faqs.some(
-    (faq) =>
-      !faq._key ||
-      faq._type !== "articleFaq" ||
-      typeof faq.id === "string" ||
-      (faq.id != null && typeof faq.id === "object" && !("current" in faq.id)),
-  );
+function normalizeInlineFaqs(faqs?: RawInlineFaq[]) {
+  if (!faqs?.length) return undefined;
+  return faqs.map((faq, index) => ({
+    _type: "inlineFaq" as const,
+    _key: faq._key ?? sanityKey("inline-faq", String(index)),
+    question: faq.question,
+    shortAnswer: faq.shortAnswer ?? "",
+    schemaEnabled: true,
+  }));
 }
 
 loadEnvLocal();
@@ -122,38 +74,27 @@ async function main() {
   console.log(`Fixing insights post data in ${projectId}/${dataset}…`);
 
   const posts = await client.fetch<
-    {
-      _id: string;
-      title: string;
-      articleBlocks?: RawArticleBlock[];
-      faqs?: RawFaq[];
-    }[]
-  >(`*[_type == "post"]{ _id, title, articleBlocks, faqs }`);
+    { _id: string; title: string; inlineFaqs?: RawInlineFaq[] }[]
+  >(`*[_type == "post"]{ _id, title, inlineFaqs[]{ _key, _type, question, shortAnswer } }`);
 
   let patched = 0;
 
   for (const post of posts) {
-    const patch: Record<string, unknown> = {};
-    const fixBlocks = needsArticleBlockFix(post.articleBlocks);
-    const fixFaqs = needsFaqFix(post.faqs);
-
-    if (fixBlocks && post.articleBlocks) {
-      patch.articleBlocks = mapArticleBlocksForSanity(post.articleBlocks);
-    }
-    if (fixFaqs && post.faqs) {
-      patch.faqs = mapFaqsForSanity(post.faqs);
+    const inlineFaqs = normalizeInlineFaqs(post.inlineFaqs);
+    if (!inlineFaqs) {
+      console.log(`· ${post.title} — no inline FAQs`);
+      continue;
     }
 
-    if (Object.keys(patch).length === 0) {
+    const needsFix = post.inlineFaqs?.some((faq) => !faq._key || faq._type !== "inlineFaq");
+    if (!needsFix) {
       console.log(`· ${post.title} — already valid`);
       continue;
     }
 
-    await client.patch(post._id).set(patch).commit();
+    await client.patch(post._id).set({ inlineFaqs }).commit();
     patched += 1;
-    console.log(
-      `✓ ${post.title} — fixed ${[fixBlocks && "articleBlocks", fixFaqs && "faqs"].filter(Boolean).join(", ")}`,
-    );
+    console.log(`✓ ${post.title} — fixed inlineFaqs`);
   }
 
   console.log(`\nDone. Patched ${patched}/${posts.length} post(s).`);

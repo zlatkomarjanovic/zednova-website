@@ -58,70 +58,6 @@ export const bulletItem = defineType({
   ],
 });
 
-export const statItem = defineType({
-  name: "statItem",
-  title: "Stat item",
-  type: "object",
-  fields: [
-    defineField({ name: "value", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "description", type: "text", rows: 2 }),
-  ],
-});
-
-export const deliverableItem = defineType({
-  name: "deliverableItem",
-  title: "Deliverable",
-  type: "object",
-  fields: [
-    defineField({ name: "title", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "description", type: "text", rows: 3 }),
-    defineField({ name: "included", type: "boolean", initialValue: true }),
-    defineField({ name: "category", type: "string" }),
-  ],
-});
-
-export const ctaBlock = defineType({
-  name: "ctaBlock",
-  title: "CTA block",
-  type: "object",
-  fields: [
-    defineField({ name: "eyebrow", type: "string" }),
-    defineField({ name: "title", type: "string" }),
-    defineField({ name: "description", type: "text", rows: 3 }),
-    defineField({ name: "primaryLabel", type: "string", title: "Primary button label" }),
-    defineField({ name: "primaryHref", type: "string", title: "Primary button URL" }),
-    defineField({ name: "secondaryLabel", type: "string", title: "Secondary button label" }),
-    defineField({ name: "secondaryHref", type: "string", title: "Secondary button URL" }),
-  ],
-});
-
-export const internalLink = defineType({
-  name: "internalLink",
-  title: "Internal link",
-  type: "object",
-  fields: [
-    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "href", type: "string", validation: (r) => r.required() }),
-    defineField({
-      name: "reference",
-      type: "reference",
-      title: "Linked document",
-      to: [
-        { type: "post" },
-        { type: "service" },
-        { type: "industryParent" },
-        { type: "industry" },
-        { type: "caseStudy" },
-        { type: "portfolioProject" },
-        { type: "product" },
-        { type: "migration" },
-        { type: "page" },
-      ],
-    }),
-  ],
-});
-
 export const aeoAnswerBlock = defineType({
   name: "aeoAnswerBlock",
   title: "AEO answer block",
@@ -155,29 +91,6 @@ export const aeoAnswerBlock = defineType({
       type: "array",
       of: [{ type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] }],
     }),
-  ],
-});
-
-export const contentSection = defineType({
-  name: "contentSection",
-  title: "Content section",
-  type: "object",
-  fields: [
-    defineField({ name: "eyebrow", type: "string" }),
-    defineField({ name: "title", type: "string" }),
-    defineField({ name: "subtitle", type: "text", rows: 3 }),
-    defineField({
-      name: "body",
-      type: "array",
-      of: [{ type: "block" }],
-    }),
-    defineField({
-      name: "bullets",
-      type: "array",
-      of: [{ type: "bulletItem" }],
-    }),
-    defineField({ name: "image", type: "mediaAsset" }),
-    defineField({ name: "cta", type: "ctaBlock" }),
   ],
 });
 
@@ -330,18 +243,12 @@ export const richTextMembers = [
   defineArrayMember({ type: "calloutBlock" }),
   defineArrayMember({ type: "codeBlock" }),
   defineArrayMember({ type: "inlineFaq" }),
-  defineArrayMember({ type: "ctaBlock" }),
 ];
 
 export const extendedObjectTypes = [
   openGraphFields,
   bulletItem,
-  statItem,
-  deliverableItem,
-  ctaBlock,
-  internalLink,
   aeoAnswerBlock,
-  contentSection,
   inlineFaq,
   schemaMarkupFields,
   calloutBlock,

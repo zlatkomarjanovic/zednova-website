@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createClient } from "@sanity/client";
 import { bodyCharCount } from "../src/lib/content/post-extensions";
-import type { ArticleBlock } from "../src/lib/types";
+import { portableTextToArticleBlocks } from "../src/sanity/portable-text-to-blocks";
 
 function loadEnvLocal() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -36,18 +36,25 @@ const client = createClient({
 
 async function main() {
   const docs = await client.fetch<
-    { title: string; "slug": string; articleBlocks: ArticleBlock[]; "tagCount": number; readTime: number }[]
+    {
+      title: string;
+      slug: string;
+      body: Parameters<typeof portableTextToArticleBlocks>[0];
+      tagCount: number;
+      readTime: number;
+    }[]
   >(`*[_type=="post"] | order(title asc) {
     title,
     "slug": slug.current,
-    articleBlocks[]{ type, text, items },
+    body[]{ ... },
     "tagCount": count(tags),
     readTime
   }`);
 
   for (const doc of docs) {
-    const chars = bodyCharCount(doc.articleBlocks ?? []);
-    console.log(`${doc.slug}: ${chars} chars · ${doc.articleBlocks?.length ?? 0} blocks · ${doc.tagCount} tags · ${doc.readTime} min`);
+    const blocks = portableTextToArticleBlocks(doc.body);
+    const chars = bodyCharCount(blocks);
+    console.log(`${doc.slug}: ${chars} chars · ${blocks.length} blocks · ${doc.tagCount} tags · ${doc.readTime} min`);
   }
 }
 

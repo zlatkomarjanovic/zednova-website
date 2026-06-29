@@ -18,13 +18,13 @@ function assert(condition: boolean, message: string) {
   if (!condition) throw new Error(message);
 }
 
-function main() {
+async function main() {
   let errors = 0;
-  const posts = getNormalizedPosts();
+  const posts = await getNormalizedPosts();
 
   for (const post of posts) {
     try {
-      const graphDoc = buildGraphForPost(post);
+      const graphDoc = await buildGraphForPost(post);
       const graph = graphDoc["@graph"] as Record<string, unknown>[];
       const types = graph.map((n) => n["@type"]);
 
@@ -99,4 +99,7 @@ function main() {
   console.log("\nAll JSON-LD checks passed.");
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

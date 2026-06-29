@@ -72,14 +72,6 @@ export const seoFields = defineType({
       validation: optionalUrl,
     }),
     defineField({
-      name: "canonicalUrl",
-      type: "url",
-      title: "Canonical URL (alias)",
-      group: "advanced",
-      description: "Optional alias for seoCanonical.",
-      validation: optionalUrl,
-    }),
-    defineField({
       name: "seoNoIndex",
       type: "boolean",
       title: "No index",
@@ -208,14 +200,6 @@ export const seoFields = defineType({
       group: "advanced",
       description: "Optional raw JSON-LD to override generated structured data. Must be valid JSON.",
     }),
-    defineField({
-      name: "customJsonLd",
-      type: "text",
-      title: "Custom JSON-LD (alias)",
-      rows: 6,
-      group: "advanced",
-      description: "Optional advanced JSON-LD override.",
-    }),
   ],
 });
 
@@ -231,24 +215,12 @@ export const painPoint = defineType({
   ],
 });
 
-export const caseResult = defineType({
-  name: "caseResult",
-  title: "Result metric",
-  type: "object",
-  fields: [
-    defineField({ name: "value", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "description", type: "text", rows: 2 }),
-  ],
-});
-
 export const processStep = defineType({
   name: "processStep",
   title: "Process step",
   type: "object",
   fields: [
     defineField({ name: "step", type: "number", validation: (r) => r.required() }),
-    defineField({ name: "stepNumber", type: "number", title: "Step number (alias)" }),
     defineField({ name: "title", type: "string", validation: (r) => r.required() }),
     defineField({ name: "description", type: "text", rows: 3 }),
     defineField({
@@ -274,52 +246,6 @@ export const articleFaq = defineType({
     }),
     defineField({ name: "question", type: "string", validation: (r) => r.required() }),
     defineField({ name: "answer", type: "text", rows: 4, validation: (r) => r.required() }),
-  ],
-});
-
-export const articleBlock = defineType({
-  name: "articleBlock",
-  title: "Article block",
-  type: "object",
-  fields: [
-    defineField({
-      name: "type",
-      type: "string",
-      options: {
-        list: [
-          { title: "Paragraph", value: "p" },
-          { title: "Heading 2", value: "h2" },
-          { title: "Heading 3", value: "h3" },
-          { title: "List", value: "ul" },
-          { title: "Quote", value: "quote" },
-          { title: "Callout", value: "callout" },
-          { title: "Image", value: "image" },
-        ],
-      },
-      validation: (r) => r.required(),
-    }),
-    defineField({ name: "text", type: "text", rows: 4 }),
-    defineField({
-      name: "items",
-      type: "array",
-      of: [{ type: "string" }],
-      title: "List items",
-    }),
-    defineField({
-      name: "image",
-      type: "image",
-      title: "Image (for image blocks)",
-      options: { hotspot: true },
-    }),
-    defineField({ name: "imageAlt", type: "string", title: "Image alt text" }),
-    defineField({
-      name: "calloutVariant",
-      type: "string",
-      title: "Callout variant",
-      options: {
-        list: ["info", "warning", "success", "quote"],
-      },
-    }),
   ],
 });
 
@@ -349,7 +275,6 @@ export const portfolioLogo = defineType({
   type: "object",
   fields: [
     defineField({ name: "image", type: "image", title: "Logo image" }),
-    defineField({ name: "imageUrl", type: "string", title: "Logo URL (legacy)" }),
     defineField({ name: "alt", type: "string", title: "Alt text" }),
     defineField({
       name: "lightVariant",
@@ -413,29 +338,18 @@ export const priceTier = defineType({
   ],
 });
 
-export const ctaFields = defineType({
-  name: "ctaFields",
-  title: "Call to action",
-  type: "object",
-  fields: [
-    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "href", type: "string", validation: (r) => r.required() }),
-    defineField({
-      name: "variant",
-      type: "string",
-      options: { list: ["primary", "secondary", "link"] },
-      initialValue: "primary",
-    }),
-  ],
-});
-
 export const mediaAsset = defineType({
   name: "mediaAsset",
   title: "Media asset",
   type: "object",
   fields: [
     defineField({ name: "image", type: "image", options: { hotspot: true } }),
-    defineField({ name: "imageUrl", type: "url", title: "Image URL (legacy)" }),
+    defineField({
+      name: "imageUrl",
+      type: "url",
+      title: "External image URL",
+      description: "Used for inline images in Portable Text when no upload is attached.",
+    }),
     defineField({
       name: "alt",
       type: "string",
@@ -474,40 +388,19 @@ export const migrationPlatformIcon = defineType({
   },
 });
 
-export const resourceLink = defineType({
-  name: "resourceLink",
-  title: "Resource link",
-  type: "object",
-  fields: [
-    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "href", type: "url", validation: (r) => r.required() }),
-    defineField({
-      name: "type",
-      type: "string",
-      options: {
-        list: ["pdf", "guide", "checklist", "template", "freebie", "lead-magnet", "external"],
-      },
-    }),
-  ],
-});
-
 import { extendedObjectTypes } from "./extended";
 
 export const objectTypes = [
   seoFields,
   painPoint,
-  caseResult,
   processStep,
   articleFaq,
-  articleBlock,
   popularServiceLink,
   stat,
   portfolioLogo,
   featureBullet,
   priceTier,
-  ctaFields,
   mediaAsset,
   migrationPlatformIcon,
-  resourceLink,
   ...extendedObjectTypes,
 ];

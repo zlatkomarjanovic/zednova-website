@@ -139,7 +139,6 @@ for (const service of services) {
     pricingSignal: service.pricingSignal,
     startingPrice: undefined,
     timeline: service.timeline,
-    coverImageUrl: service.image || undefined,
     order: service.order,
     relatedCaseStudies: (caseStudiesByService.get(service.slug) ?? [])
       .slice(0, 4)
@@ -452,30 +451,8 @@ for (const member of team) {
   });
 }
 
-for (const member of team) {
-  add({
-    _id: `teamMember-${member.slug}`,
-    _type: "teamMember",
-    name: member.name,
-    slug: { _type: "slug", current: member.slug },
-    role: member.role,
-    shortRole: member.role,
-    bio: member.bio,
-    shortBio: member.bio[0],
-    linkedin: member.linkedin,
-    twitter: member.twitter,
-    upwork: member.upwork,
-    order: 1,
-    seo: {
-      _type: "seoFields",
-      seoTitle: member.name,
-      seoDescription: member.bio[0],
-    },
-  });
-}
-
 for (const post of posts) {
-  const enrichment = buildPostEnrichment(post);
+  const enrichment = buildPostEnrichment(post, posts);
 
   add({
     _id: `post-${post.slug}`,
@@ -581,11 +558,6 @@ for (const testimonial of testimonials) {
     authorTitle: testimonial.authorTitle,
     company: testimonial.company,
     industry: testimonial.industry,
-    avatarUrl: testimonial.image
-      ? testimonial.image.startsWith("http")
-        ? testimonial.image
-        : `https://zednova.com${testimonial.image}`
-      : undefined,
     platform: testimonial.platform ?? false,
     platformSource: "Direct",
     featured: testimonial.featured,
@@ -604,7 +576,6 @@ for (const project of portfolioProjects) {
     client: project.client,
     summary: project.summary,
     href: project.href,
-    coverImageUrl: project.image,
     imageAlt: project.imageAlt,
     videoUrl: project.video,
     accent: project.accent,
@@ -619,7 +590,6 @@ for (const project of portfolioProjects) {
     logo: project.logo
       ? {
           _type: "portfolioLogo",
-          imageUrl: project.logo.src,
           alt: project.logo.alt,
           lightVariant: project.logo.lightVariant,
         }
@@ -663,7 +633,6 @@ for (const study of caseStudies) {
       : undefined,
     featured: study.featured,
     accent: study.accent,
-    coverImageUrl: study.image,
     seo: {
       _type: "seoFields",
       seoTitle: study.title,
@@ -698,74 +667,6 @@ faqs.forEach((item, index) => {
     order: index + 1,
     tags: [],
   });
-});
-
-/* ----------------------------- Static pages ----------------------------- */
-
-const staticPages = [
-  {
-    path: "/about",
-    title: "About ZedNova Studios",
-    heroHeadline: "A studio of one. A standard of ten.",
-  },
-  {
-    path: "/contact",
-    title: "Contact ZedNova Studios",
-    heroHeadline: "Tell us what you need.",
-  },
-  {
-    path: "/work",
-    title: "Work — ZedNova Studios",
-    heroHeadline: "Projects and case studies",
-  },
-  {
-    path: "/insights",
-    title: "Insights — ZedNova Studios",
-    heroHeadline: "Notes on AI search, conversion, and systems",
-  },
-  {
-    path: "/services",
-    title: "Services — ZedNova Studios",
-    heroHeadline: "Website design, Shopify, automation, and AI tools",
-  },
-  {
-    path: "/industries",
-    title: "Industries — ZedNova Studios",
-    heroHeadline: "Industries we serve",
-  },
-  {
-    path: "/migrations",
-    title: "Migrations — ZedNova Studios",
-    heroHeadline: "Move to a modern stack",
-  },
-  {
-    path: "/custom-software",
-    title: "Custom Software — ZedNova Studios",
-    heroHeadline: "Portals, dashboards, and internal tools",
-  },
-  {
-    path: "/resources",
-    title: "Resources — ZedNova Studios",
-    heroHeadline: "Guides, freebies, and software we ship",
-  },
-];
-
-staticPages.forEach((p, i) => {
-  add({
-    _id: `page-${slugify(p.path)}`,
-    _type: "page",
-    title: p.title,
-    slug: { _type: "slug", current: slugify(p.path) || "home" },
-    path: p.path,
-    heroHeadline: p.heroHeadline,
-    seo: {
-      _type: "seoFields",
-      seoTitle: p.title,
-      ogType: "website",
-      twitterCard: "summary_large_image",
-    },
-  });
-  void i;
 });
 
 /* ----------------------------- Commit ----------------------------- */

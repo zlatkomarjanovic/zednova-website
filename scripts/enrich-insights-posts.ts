@@ -6,7 +6,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { createClient } from "@sanity/client";
 
-import { posts } from "../src/lib/content/posts";
+import type { Post } from "../src/lib/types";
+import { getAllPosts } from "../src/lib/queries";
 import { services } from "../src/lib/content/services";
 import {
   bodyCharCount,
@@ -14,10 +15,7 @@ import {
   extendedTagsForPost,
 } from "../src/lib/content/post-extensions";
 import { getInsightOverride } from "../src/lib/content/insight-overrides";
-import {
-  mapArticleBlocksForSanity,
-  mapFaqsForSanity,
-} from "./fix-insights-post-data";
+import { articleBlocksToPortableText } from "../src/sanity/blocks-to-portable-text";
 
 function loadEnvLocal() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -160,7 +158,7 @@ const RELATIONS_BY_SLUG: Record<
   },
 };
 
-function matchedServiceSlugs(post: (typeof posts)[number]) {
+function matchedServiceSlugs(post: Post) {
   const manual = RELATIONS_BY_SLUG[post.slug]?.services ?? [];
   const auto = services
     .filter(
@@ -175,9 +173,9 @@ function matchedServiceSlugs(post: (typeof posts)[number]) {
   return [...new Set([...manual, ...auto])];
 }
 
-function relatedPostSlugs(post: (typeof posts)[number]) {
+function relatedPostSlugs(post: Post, allPosts: Post[]) {
   const manual = RELATIONS_BY_SLUG[post.slug]?.relatedPosts ?? [];
-  const auto = posts
+  const auto = allPosts
     .filter((candidate) => candidate.slug !== post.slug)
     .map((candidate) => ({
       slug: candidate.slug,
@@ -190,11 +188,11 @@ function relatedPostSlugs(post: (typeof posts)[number]) {
   return [...new Set([...manual, ...auto])].slice(0, 3);
 }
 
-export function buildPostEnrichment(post: (typeof posts)[number]) {
+export function buildPostEnrichment(post: Post, allPosts: Post[] = []) {
   const categorySlug = slugify(post.category);
   const relations = RELATIONS_BY_SLUG[post.slug] ?? {};
   const serviceSlugs = matchedServiceSlugs(post);
-  const relatedSlugs = relatedPostSlugs(post);
+  const relatedSlugs = relatedPostSlugs(post, allPosts);
   const override = getInsightOverride(post.slug);
   const faqs = override?.faqs ?? post.faqs ?? [];
   const takeaways = override?.takeaways ?? post.takeaways ?? [];
@@ -215,13 +213,7 @@ export function buildPostEnrichment(post: (typeof posts)[number]) {
     lastReviewedAt: reviewedAt,
     tableOfContentsEnabled: true,
     takeaways,
-    keyTakeaways: takeaways.map((title, index) => ({
-      _type: "bulletItem" as const,
-      _key: sanityKey("takeaway", String(index)),
-      title,
-    })),
-    articleBlocks: mapArticleBlocksForSanity(expandedBody),
-    faqs: faqs.length ? mapFaqsForSanity(faqs) : undefined,
+    body: articleBlocksToPortableText(expandedBody),
     inlineFaqs: faqs.map((faq, index) => ({
       _type: "inlineFaq" as const,
       _key: sanityKey("inline-faq", faq.id ?? String(index)),
@@ -283,44 +275,16 @@ export function buildPostEnrichment(post: (typeof posts)[number]) {
       enableFaqSchema: Boolean(faqs.length),
       enableBreadcrumbSchema: true,
     },
-    primaryCta: {
-      _type: "ctaBlock" as const,
-      eyebrow: "Need help implementing this?",
-      title: "Tell us what you are building",
-      description:
-        "We design and ship websites, automations, and custom software with AI-accelerated delivery.",
-      primaryLabel: "Start a project",
-      primaryHref: "/contact",
-      secondaryLabel: "See services",
-      secondaryHref: "/services",
-    },
     primaryCtaTitle: "Tell us what you are building",
     primaryCtaDescription:
       "We design and ship websites, automations, and custom software with AI-accelerated delivery.",
     primaryCtaLabel: "Start a project",
     primaryCtaHref: "/contact",
-    secondaryCta: {
-      _type: "ctaBlock" as const,
-      title: "Explore related services",
-      description: "See how we help teams turn insight into shipped systems.",
-      primaryLabel: "View services",
-      primaryHref: "/services",
-    },
     secondaryCtaTitle: "Explore related services",
     secondaryCtaDescription: "See how we help teams turn insight into shipped systems.",
     secondaryCtaLabel: "View services",
     secondaryCtaHref: "/services",
-    recommendedNextStep: {
-      _type: "ctaBlock" as const,
-      title: serviceSlugs[0]
-        ? `Next: ${services.find((service) => service.slug === serviceSlugs[0])?.title ?? "Our services"}`
-        : "Book a strategy call",
-      description: "We will map the fastest path from this insight to something live in your business.",
-      primaryLabel: "Book a call",
-      primaryHref: "/contact",
-    },
     category: ref("insightCategory", `insightCategory-${categorySlug}`, categorySlug),
-    coverImageUrl: post.image,
     tags: tagTitles.map((title) => ref("tag", `tag-${slugify(title)}`, slugify(title))),
   };
 }
@@ -399,12 +363,13 @@ async function ensureTagDocuments(tagTitles: string[]) {
 }
 
 async function main() {
+  const posts = await getAllPosts();
   console.log(`Enriching ${posts.length} insight posts in ${projectId}/${dataset}…\n`);
 
   for (const post of posts) {
     const tagTitles = extendedTagsForPost(post.slug, post.tags);
     await ensureTagDocuments(tagTitles);
-    const enrichment = buildPostEnrichment(post);
+    const enrichment = buildPostEnrichment(post, posts);
     const assetId = await uploadCoverImage(post.slug, post.image, post.title);
     const coverImage = imageField(
       assetId,

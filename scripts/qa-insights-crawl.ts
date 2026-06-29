@@ -3,10 +3,19 @@
  * Usage: npx tsx scripts/qa-insights-crawl.ts [--live]
  */
 import fs from "node:fs";
-import { posts } from "./qa/insights-shared";
+import { getAllPosts } from "../src/lib/queries";
+import { SITE_ORIGIN } from "../src/lib/site-url";
 
 const LIVE = process.argv.includes("--live");
-const ORIGIN = process.env.SITE_ORIGIN ?? "https://www.zednova.studio";
+const ORIGIN = process.env.SITE_ORIGIN ?? SITE_ORIGIN;
+
+const STATIC_PAGES = [
+  `${ORIGIN}/robots.txt`,
+  `${ORIGIN}/sitemap.xml`,
+  `${ORIGIN}/services/ai-lead-site`,
+  `${ORIGIN}/migrations/shopify-to-headless-shopify`,
+  `${ORIGIN}/industries/ecommerce-dtc`,
+];
 
 const SPLIT_PATTERNS = [
   /S S e e r r v v/i,
@@ -26,15 +35,6 @@ const DUPLICATE_LABEL_PATTERNS = [
   /\b(See work)\s+\1\b/,
   /\b(Marketing website development)\s+\1\b/,
   /\b(Shopify to Headless Shopify)\s+\1\b/,
-];
-
-const PAGES = [
-  `${ORIGIN}/robots.txt`,
-  `${ORIGIN}/sitemap.xml`,
-  `${ORIGIN}/services/ai-lead-site`,
-  `${ORIGIN}/migrations/shopify-to-headless-shopify`,
-  `${ORIGIN}/industries/ecommerce-dtc`,
-  ...posts.map((p) => `${ORIGIN}/insights/${p.slug}`),
 ];
 
 async function checkRobots(url: string): Promise<string[]> {
@@ -161,7 +161,13 @@ async function main() {
   }
 
   let errors = 0;
-  for (const url of PAGES) {
+  const posts = await getAllPosts();
+  const pages = [
+    ...STATIC_PAGES,
+    ...posts.map((p) => `${ORIGIN}/insights/${p.slug}`),
+  ];
+
+  for (const url of pages) {
     try {
       const pageErrors = url.endsWith("robots.txt")
         ? await checkRobots(url)

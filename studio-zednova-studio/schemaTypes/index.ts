@@ -6,7 +6,6 @@ import { caseStudy } from "./documents/caseStudy";
 import { portfolioProject } from "./documents/portfolioProject";
 import { product } from "./documents/product";
 import { testimonial } from "./documents/testimonial";
-import { teamMember } from "./documents/teamMember";
 import { migration } from "./documents/migration";
 import { siteSettings } from "./documents/siteSettings";
 import { customSoftware } from "./documents/customSoftware";
@@ -16,12 +15,9 @@ import { insightCategory } from "./documents/insightCategory";
 import { tag } from "./documents/tag";
 import { author } from "./documents/author";
 import { faq } from "./documents/faq";
-import { page } from "./documents/page";
-import { redirect } from "./documents/redirect";
 
 export const schemaTypes = [
   ...objectTypes,
-  // Content documents
   post,
   insightCategory,
   tag,
@@ -37,10 +33,6 @@ export const schemaTypes = [
   portfolioProject,
   product,
   testimonial,
-  teamMember,
   migration,
-  page,
-  // Site config
   siteSettings,
-  redirect,
 ];

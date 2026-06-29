@@ -47,13 +47,9 @@ const TRACK_FIELDS = [
   "featured",
   "accent",
   "coverImage",
-  "coverImageUrl",
   "tags",
-  "articleBlocks",
   "body",
   "takeaways",
-  "keyTakeaways",
-  "faqs",
   "inlineFaqs",
   "faqReferences",
   "aiSummary",
@@ -70,7 +66,6 @@ const TRACK_FIELDS = [
   "seo",
   "openGraph",
   "schemaMarkup",
-  "primaryCta",
   "tableOfContentsEnabled",
 ] as const;
 
@@ -101,13 +96,10 @@ async function main() {
       readTime,
       featured,
       coverImage,
-      coverImageUrl,
       "tagCount": count(tags),
-      "articleBlockCount": count(articleBlocks),
-      "faqCount": count(faqs),
+      "bodyBlockCount": count(body),
       "inlineFaqCount": count(inlineFaqs),
       "takeawayCount": count(takeaways),
-      "keyTakeawayCount": count(keyTakeaways),
       "relatedServiceCount": count(relatedServices),
       "relatedIndustryCount": count(relatedIndustries),
       "relatedMigrationCount": count(relatedMigrations),
@@ -123,8 +115,6 @@ async function main() {
       seo,
       openGraph,
       schemaMarkup,
-      primaryCta,
-      secondaryCta,
       tableOfContentsEnabled
     }`);
 
@@ -136,14 +126,14 @@ async function main() {
     console.log(`- slug: ${doc.slug}`);
     console.log(`- status: ${doc.status ?? "—"} · type: ${doc.contentType ?? "—"} · difficulty: ${doc.difficulty ?? "—"}`);
     console.log(`- read time: ${doc.readTime} min · featured: ${doc.featured ? "yes" : "no"}`);
-    console.log(`- cover image: ${doc.coverImage ? "uploaded" : "missing"} · legacy URL: ${doc.coverImageUrl ? "set" : "missing"}`);
-    console.log(`- article blocks: ${doc.articleBlockCount} · FAQs: ${doc.faqCount} · inline FAQs: ${doc.inlineFaqCount}`);
-    console.log(`- takeaways: ${doc.takeawayCount} · key takeaways: ${doc.keyTakeawayCount}`);
+    console.log(`- cover image: ${doc.coverImage ? "uploaded" : "missing"}`);
+    console.log(`- body blocks: ${doc.bodyBlockCount} · inline FAQs: ${doc.inlineFaqCount}`);
+    console.log(`- takeaways: ${doc.takeawayCount}`);
     console.log(`- related: ${doc.relatedServiceCount} services · ${doc.relatedIndustryCount} industries · ${doc.relatedMigrationCount} migrations · ${doc.relatedPostCount} posts`);
     console.log(`- AEO: summary ${doc.aiSummary ? "✓" : "✗"} · llm snippet ${doc.llmSnippet ? "✓" : "✗"} · quick answer ${doc.quickAnswer ? "✓" : "✗"}`);
     console.log(`- search intent: ${doc.searchIntent ?? "—"} · audiences: ${doc.targetAudienceCount} · pain points: ${doc.painPointCount} · questions: ${doc.searchQuestionCount} · entities: ${doc.entityCount}`);
     console.log(`- SEO block: ${doc.seo ? "✓" : "✗"} · Open Graph: ${doc.openGraph ? "✓" : "✗"} · schema: ${doc.schemaMarkup ? "✓" : "✗"}`);
-    console.log(`- CTAs: primary ${doc.primaryCta ? "✓" : "✗"} · secondary ${doc.secondaryCta ? "✓" : "✗"} · TOC: ${doc.tableOfContentsEnabled === false ? "off" : "on"}`);
+    console.log(`- TOC: ${doc.tableOfContentsEnabled === false ? "off" : "on"}`);
     if (missing.length) {
       console.log(`- still empty: ${missing.join(", ")}`);
     } else {

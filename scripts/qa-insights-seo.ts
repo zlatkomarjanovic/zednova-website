@@ -16,9 +16,9 @@ import {
   wordCount,
 } from "./qa/insights-shared";
 
-function main() {
+async function main() {
   let errors = 0;
-  const posts = getNormalizedPosts();
+  const posts = await getNormalizedPosts();
 
   for (const post of posts) {
     const slugErrors: string[] = [
@@ -96,4 +96,7 @@ function main() {
   console.log("\nAll SEO/AEO checks passed.");
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

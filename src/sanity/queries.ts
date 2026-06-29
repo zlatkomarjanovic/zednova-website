@@ -8,15 +8,13 @@ const SEO_PROJECTION = /* groq */ `{
   "focusKeyword": focusKeyword,
   "secondaryKeywords": secondaryKeywords,
   "searchTags": searchTags,
-  "seoCanonical": coalesce(seoCanonical, canonicalUrl),
-  "canonicalUrl": coalesce(canonicalUrl, seoCanonical),
+  "seoCanonical": seoCanonical,
   "seoNoIndex": coalesce(seoNoIndex, robotsIndex == false, false),
   "seoHideFromLists": coalesce(seoHideFromLists, false),
   "robotsIndex": coalesce(robotsIndex, !seoNoIndex, true),
   "robotsFollow": coalesce(robotsFollow, true),
   "structuredDataType": structuredDataType,
-  "jsonLdOverride": coalesce(jsonLdOverride, customJsonLd),
-  "customJsonLd": coalesce(customJsonLd, jsonLdOverride),
+  "jsonLdOverride": jsonLdOverride,
   "ogTitle": ogTitle,
   "ogDescription": ogDescription,
   "ogImage": ogImage.asset->url,
@@ -59,7 +57,7 @@ const FAQ_REF_PROJECTION = /* groq */ `{
   "answer": coalesce(shortAnswer, answer)
 }`;
 
-/** Inline articleFaq items (legacy faqs[] on posts, services, etc.). */
+/** Inline articleFaq items on posts, services, migrations, etc. */
 const INLINE_ARTICLE_FAQS_FIELD = /* groq */ `
   "faqs": faqs[]{
     "id": coalesce(id.current, id),
@@ -85,7 +83,7 @@ export const POST_LIST_FIELDS = /* groq */ `{
   contentType,
   difficulty,
   accent,
-  "image": coalesce(coverImage.asset->url, coverImageUrl),
+  "image": coverImage.asset->url,
   "imageAlt": coalesce(coverImage.alt, title),
   "imageCaption": coalesce(coverImage.caption, ""),
   "tags": tags[]->title,
@@ -113,7 +111,7 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   contentType,
   difficulty,
   accent,
-  "image": coalesce(coverImage.asset->url, coverImageUrl),
+  "image": coverImage.asset->url,
   "imageAlt": coalesce(coverImage.alt, title),
   "imageCaption": coalesce(coverImage.caption, ""),
   "tags": tags[]->title,
@@ -126,8 +124,6 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   "relatedPortfolioProjects": relatedPortfolioProjects[]->slug.current,
   "relatedPosts": relatedPosts[]->slug.current,
   takeaways,
-  "keyTakeaways": keyTakeaways[].title,
-  ${INLINE_ARTICLE_FAQS_FIELD},
   "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
   "inlineFaqs": inlineFaqs[]{
     "id": _key,
@@ -148,14 +144,6 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   tableOfContentsEnabled,
   "openGraph": coalesce(openGraph, {})${OPEN_GRAPH_PROJECTION},
   "schemaMarkup": coalesce(schemaMarkup, {})${SCHEMA_MARKUP_PROJECTION},
-  "articleBlocks": articleBlocks[]{
-    type,
-    text,
-    items,
-    calloutVariant,
-    "image": image.asset->url,
-    imageAlt
-  },
   body[]{
     ...,
     _type == "mediaAsset" => {
@@ -169,33 +157,28 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   },
   "seo": coalesce(seo, {})${SEO_PROJECTION},
   "mergedSeo": {
-    "seoTitle": coalesce(seoTitle, seo.seoTitle, ""),
-    "seoDescription": coalesce(seoDescription, seo.seoDescription, ""),
-    "keywords": coalesce(seo.keywords, secondaryKeywords),
-    "focusKeyword": coalesce(focusKeyword, seo.focusKeyword),
-    "secondaryKeywords": coalesce(seo.secondaryKeywords, secondaryKeywords),
-    "searchTags": coalesce(searchTags, seo.searchTags),
-    "seoCanonical": coalesce(canonicalUrl, seo.seoCanonical, seo.canonicalUrl),
-    "canonicalUrl": coalesce(canonicalUrl, seo.canonicalUrl, seo.seoCanonical),
+    "seoTitle": coalesce(seo.seoTitle, ""),
+    "seoDescription": coalesce(seo.seoDescription, ""),
+    "keywords": seo.keywords,
+    "focusKeyword": seo.focusKeyword,
+    "secondaryKeywords": seo.secondaryKeywords,
+    "searchTags": seo.searchTags,
+    "seoCanonical": seo.seoCanonical,
     "seoNoIndex": coalesce(noIndex, seo.seoNoIndex, seo.robotsIndex == false, false),
-    "seoHideFromLists": coalesce(seoHideFromLists, seo.seoHideFromLists, false),
-    "robotsIndex": coalesce(robotsIndex, seo.robotsIndex, !noIndex, !seo.seoNoIndex, true),
-    "robotsFollow": coalesce(robotsFollow, seo.robotsFollow, true),
-    "structuredDataType": coalesce(schemaType, seo.structuredDataType),
-    "ogTitle": coalesce(openGraphTitle, openGraph.ogTitle, seo.ogTitle),
-    "ogDescription": coalesce(openGraphDescription, openGraph.ogDescription, seo.ogDescription),
-    "ogImage": coalesce(openGraphImage.asset->url, openGraph.ogImage.asset->url, schemaImage.asset->url, seo.ogImage.asset->url, coverImage.asset->url, coverImageUrl),
+    "seoHideFromLists": coalesce(seo.seoHideFromLists, false),
+    "robotsIndex": coalesce(seo.robotsIndex, !noIndex, !seo.seoNoIndex, true),
+    "robotsFollow": coalesce(seo.robotsFollow, true),
+    "structuredDataType": coalesce(schemaMarkup.schemaType, seo.structuredDataType),
+    "jsonLdOverride": seo.jsonLdOverride,
+    "ogTitle": coalesce(openGraph.ogTitle, seo.ogTitle),
+    "ogDescription": coalesce(openGraph.ogDescription, seo.ogDescription),
+    "ogImage": coalesce(openGraph.ogImage.asset->url, seo.ogImage.asset->url, coverImage.asset->url),
     "ogType": coalesce(openGraph.ogType, seo.ogType, "article"),
     "twitterCard": coalesce(openGraph.twitterCardType, seo.twitterCard, "summary_large_image"),
-    "twitterTitle": coalesce(twitterTitle, openGraph.twitterTitle, seo.twitterTitle),
-    "twitterDescription": coalesce(twitterDescription, openGraph.twitterDescription, seo.twitterDescription),
-    "twitterImage": coalesce(twitterImage.asset->url, openGraph.twitterImage.asset->url, seo.twitterImage.asset->url)
+    "twitterTitle": coalesce(openGraph.twitterTitle, seo.twitterTitle),
+    "twitterDescription": coalesce(openGraph.twitterDescription, seo.twitterDescription),
+    "twitterImage": coalesce(openGraph.twitterImage.asset->url, seo.twitterImage.asset->url)
   },
-  quickAnswerQuestion,
-  quickAnswerShort,
-  enableArticleSchema,
-  enableFaqSchema,
-  enableBreadcrumbSchema,
   primaryCtaTitle,
   primaryCtaDescription,
   primaryCtaLabel,
@@ -217,7 +200,7 @@ export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
     twitter,
     upwork,
     website,
-    "avatar": coalesce(image.asset->url, avatar.asset->url, avatarUrl)
+    "avatar": image.asset->url
   }
 `;
 
@@ -272,7 +255,7 @@ export const CASE_STUDIES_QUERY = /* groq */ `
     "relatedInsights": relatedInsights[]->slug.current,
     featured,
     accent,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -285,7 +268,7 @@ export const PORTFOLIO_PROJECTS_QUERY = /* groq */ `
     client,
     summary,
     href,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     imageAlt,
     "video": videoUrl,
     accent,
@@ -296,7 +279,7 @@ export const PORTFOLIO_PROJECTS_QUERY = /* groq */ `
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     order,
     logo {
-      "src": coalesce(image.asset->url, imageUrl),
+      "src": image.asset->url,
       alt,
       lightVariant
     },
@@ -332,7 +315,7 @@ export const SERVICES_QUERY = /* groq */ `
     "relatedInsights": relatedInsights[]->slug.current,
     "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     order,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
@@ -366,7 +349,7 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
     "relatedInsights": relatedInsights[]->slug.current,
     "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     order,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
@@ -417,7 +400,7 @@ export const CUSTOM_SOFTWARE_BY_SLUG_QUERY = /* groq */ `
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     "relatedPortfolioProjects": relatedPortfolioProjects[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -446,7 +429,7 @@ export const CUSTOM_SOFTWARE_QUERY = /* groq */ `
     "relatedServices": relatedServices[]->slug.current,
     "relatedIndustries": relatedIndustries[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -504,7 +487,7 @@ export const MIGRATIONS_QUERY = /* groq */ `
     "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
     order,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -530,7 +513,7 @@ export const MIGRATION_BY_SLUG_QUERY = /* groq */ `
     "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
     order,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -550,16 +533,13 @@ const INDUSTRY_FIELDS_PROJECTION = /* groq */ `{
   "commonProblems": commonProblems[]{ title, description },
   "segmentSpecificProblems": segmentSpecificProblems[]{ title, description },
   popularServices,
-  "recommendedServiceLinks": coalesce(
-    servicesForThisIndustry[]->{ "label": title, "href": "/services/" + slug.current },
-    recommendedServices[]->{ "label": title, "href": "/services/" + slug.current }
-  ),
+  "recommendedServiceLinks": servicesForThisIndustry[]->{ "label": title, "href": "/services/" + slug.current },
   ${INLINE_ARTICLE_FAQS_FIELD},
   "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
   exampleProject,
   commonUseCase,
   icon,
-  "image": coalesce(coverImage.asset->url, heroImage.asset->url, coverImageUrl),
+  "image": coalesce(coverImage.asset->url, heroImage.asset->url),
   order,
   showInMainNav,
   navOrder,
@@ -676,7 +656,7 @@ export const PRODUCTS_QUERY = /* groq */ `
     "relatedServices": relatedServices[]->slug.current,
     "relatedIndustries": relatedIndustries[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     "resourceFile": resourceFile.asset->url,
     externalUrl,
     order,
@@ -692,7 +672,7 @@ export const TESTIMONIALS_QUERY = /* groq */ `
     "authorTitle": coalesce(clientRole, authorTitle),
     "company": coalesce(clientCompany, company),
     industry,
-    "image": coalesce(clientImage.asset->url, avatar.asset->url, avatarUrl),
+    "image": coalesce(clientImage.asset->url, avatar.asset->url),
     platform,
     platformSource,
     platformUrl,
@@ -737,39 +717,7 @@ export const CASE_STUDY_BY_SLUG_QUERY = /* groq */ `
     "relatedInsights": relatedInsights[]->slug.current,
     featured,
     accent,
-    "image": coalesce(coverImage.asset->url, coverImageUrl),
+    "image": coverImage.asset->url,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
-  }
-`;
-
-export const PAGES_QUERY = /* groq */ `
-  *[_type == "page" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(title asc) {
-    "slug": slug.current,
-    title,
-    path,
-    heroHeadline,
-    heroSubhead,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
-  }
-`;
-
-export const PAGE_BY_PATH_QUERY = /* groq */ `
-  *[_type == "page" && path == $path][0] {
-    "slug": slug.current,
-    title,
-    path,
-    heroHeadline,
-    heroSubhead,
-    body,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
-  }
-`;
-
-export const REDIRECTS_QUERY = /* groq */ `
-  *[_type == "redirect"] {
-    "from": from,
-    "to": to,
-    "statusCode": statusCode,
-    "permanent": permanent
   }
 `;

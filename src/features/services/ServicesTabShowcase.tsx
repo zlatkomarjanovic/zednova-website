@@ -137,7 +137,7 @@ function toMigrationItems(items: Migration[]): ShowcaseItem[] {
         category: platformLabel,
         description: item.description,
         href: `/migrations/${item.slug}`,
-        image: item.image ?? item.coverImage?.url ?? item.coverImageUrl,
+        image: item.image ?? item.coverImage?.url,
         ctaLabel: "View migration",
         platformIcons: item.platformIcons,
         meta: [

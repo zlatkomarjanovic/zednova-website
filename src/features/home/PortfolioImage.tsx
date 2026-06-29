@@ -15,9 +15,20 @@ export function PortfolioImage({
   sizes?: string;
   className?: string;
 }) {
+  const imageSrc = src?.trim();
+  if (!imageSrc) {
+    return (
+      <div
+        className={cn("absolute inset-0 bg-zn-bg-2", className)}
+        role="img"
+        aria-label={alt || "Project preview"}
+      />
+    );
+  }
+
   return (
     <Image
-      src={src}
+      src={imageSrc}
       alt={alt}
       fill
       priority={priority}

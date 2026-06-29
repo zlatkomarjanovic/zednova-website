@@ -50,7 +50,6 @@ export type Migration = {
   pricingSignal?: string;
   image?: string;
   coverImage?: { url: string; alt?: string };
-  coverImageUrl?: string;
   fromIcons?: { url?: string; alt?: string }[];
   toIcons?: { url?: string; alt?: string }[];
   platformIcons?: { from: PlatformIcon[]; to: PlatformIcon[] };

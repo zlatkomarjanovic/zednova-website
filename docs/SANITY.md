@@ -69,11 +69,11 @@ Documents use stable `_id`s (e.g. `service-ai-lead-site`) so re-running updates 
 | Document | Maps to |
 |----------|---------|
 | `post` | Insights / blog |
+| `author` | Insight authors |
 | `caseStudy` | Work case studies |
 | `portfolioProject` | Homepage / work portfolio cards |
 | `product` | Products page |
 | `testimonial` | Testimonials |
-| `teamMember` | Authors / founder |
 | `siteSettings` | Singleton site config |
 
 ## Vision (test GROQ)

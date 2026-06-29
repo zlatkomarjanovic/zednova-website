@@ -1,13 +1,4 @@
 import { defineField, defineType } from "sanity";
-import { richTextMembers } from "../objects/extended";
-import {
-  flatConsultationCtaFields,
-  flatOpenGraphFields,
-  flatPrimaryCtaFields,
-  flatSchemaFields,
-  flatSeoFields,
-  flatSettingsFields,
-} from "../shared/flatFields";
 
 export const migration = defineType({
   name: "migration",
@@ -17,12 +8,7 @@ export const migration = defineType({
     { name: "content", title: "Content", default: true },
     { name: "platformIcons", title: "Platform icons" },
     { name: "relationships", title: "Relationships" },
-    { name: "aeo", title: "AEO" },
-    { name: "conversion", title: "Conversion" },
     { name: "seo", title: "SEO" },
-    { name: "og", title: "Open Graph" },
-    { name: "schema", title: "Schema" },
-    { name: "settings", title: "Settings" },
   ],
   fields: [
     defineField({ name: "title", type: "string", group: "content", validation: (r) => r.required() }),
@@ -54,7 +40,6 @@ export const migration = defineType({
       name: "fromIcons",
       type: "array",
       title: "From platform icons",
-      description: "Upload one or more source platform logos (e.g. Webflow). Add alt text for each.",
       group: "platformIcons",
       of: [{ type: "migrationPlatformIcon" }],
       validation: (r) => r.min(1).error("Add at least one source platform icon."),
@@ -63,7 +48,6 @@ export const migration = defineType({
       name: "toIcons",
       type: "array",
       title: "To platform icons",
-      description: "Upload one or more destination platform logos (e.g. Next.js, Sanity). Add alt text for each.",
       group: "platformIcons",
       of: [{ type: "migrationPlatformIcon" }],
       validation: (r) => r.min(1).error("Add at least one destination platform icon."),
@@ -90,125 +74,43 @@ export const migration = defineType({
     defineField({
       name: "faqs",
       type: "array",
-      title: "FAQ (migration-level)",
+      title: "FAQ",
       group: "content",
       of: [{ type: "articleFaq" }],
     }),
     defineField({ name: "timeline", type: "string", group: "content" }),
     defineField({ name: "pricingSignal", type: "string", group: "content" }),
     defineField({
-      name: "body",
-      type: "array",
-      of: richTextMembers,
-      group: "content",
-    }),
-    defineField({
-      name: "longDescription",
-      type: "array",
-      of: richTextMembers,
-      group: "content",
-      description: "Full migration page content in rich text.",
-    }),
-    defineField({
-      name: "whyMigrate",
-      type: "array",
-      title: "Why migrate",
-      group: "content",
-      of: [{ type: "bulletItem" }],
-    }),
-    defineField({
-      name: "commonProblems",
-      type: "array",
-      title: "Common problems",
-      group: "content",
-      of: [{ type: "bulletItem" }],
-    }),
-    defineField({
-      name: "migrationDeliverables",
-      type: "array",
-      title: "Migration deliverables",
-      group: "content",
-      of: [{ type: "deliverableItem" }],
-    }),
-    defineField({
-      name: "risks",
-      type: "array",
-      title: "Risks",
-      group: "content",
-      of: [{ type: "bulletItem" }],
-    }),
-    defineField({
-      name: "startingPrice",
-      type: "number",
-      title: "Starting price (USD)",
-      group: "content",
-    }),
-    defineField({
       name: "coverImage",
       type: "image",
       group: "content",
       options: { hotspot: true },
+      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
     }),
-    defineField({ name: "coverImageUrl", type: "url", title: "Cover URL (legacy)", group: "content" }),
-
-    /* Relationships */
     defineField({
       name: "relatedServices",
       type: "array",
-      title: "Related services",
       group: "relationships",
       of: [{ type: "reference", to: [{ type: "service" }] }],
     }),
     defineField({
       name: "relatedIndustries",
       type: "array",
-      title: "Related industries",
       group: "relationships",
-      of: [
-        { type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] },
-      ],
+      of: [{ type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] }],
     }),
     defineField({
       name: "relatedInsights",
       type: "array",
-      title: "Related insights / posts",
       group: "relationships",
       of: [{ type: "reference", to: [{ type: "post" }] }],
     }),
     defineField({
       name: "relatedMigrations",
       type: "array",
-      title: "Related migrations",
       group: "relationships",
       of: [{ type: "reference", to: [{ type: "migration" }] }],
     }),
-
-    defineField({
-      name: "faqReferences",
-      type: "array",
-      title: "FAQ references",
-      group: "content",
-      of: [{ type: "reference", to: [{ type: "faq" }] }],
-    }),
-    defineField({
-      name: "relatedCaseStudies",
-      type: "array",
-      title: "Related case studies",
-      group: "relationships",
-      of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
-    }),
-    defineField({
-      name: "relatedPortfolioProjects",
-      type: "array",
-      title: "Related portfolio projects",
-      group: "relationships",
-      of: [{ type: "reference", to: [{ type: "portfolioProject" }] }],
-    }),
-    defineField({ name: "quickAnswer", type: "aeoAnswerBlock", group: "aeo" }),
-    defineField({ name: "aiSummary", type: "text", rows: 4, group: "aeo" }),
-    defineField({ name: "primaryCta", type: "ctaBlock", group: "conversion" }),
-
-    /* SEO / AEO */
     defineField({
       name: "tags",
       type: "array",
@@ -216,20 +118,7 @@ export const migration = defineType({
       of: [{ type: "reference", to: [{ type: "tag" }] }],
       options: { layout: "tags" },
     }),
-    defineField({
-      name: "seo",
-      type: "seoFields",
-      group: "seo",
-    }),
-    ...flatSeoFields,
-    ...flatOpenGraphFields,
-    ...flatSchemaFields,
-    ...flatPrimaryCtaFields,
-    ...flatConsultationCtaFields,
-    ...flatSettingsFields,
-    defineField({ name: "openGraph", type: "openGraphFields", group: "og" }),
-    defineField({ name: "schemaMarkup", type: "schemaMarkupFields", group: "schema" }),
-
+    defineField({ name: "seo", type: "seoFields", group: "seo" }),
     defineField({
       name: "order",
       type: "number",
@@ -239,19 +128,6 @@ export const migration = defineType({
   ],
   orderings: [{ title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: {
-    select: {
-      title: "title",
-      subtitle: "shortDescription",
-      fromAlts: "fromIcons[].alt",
-      toAlts: "toIcons[].alt",
-    },
-    prepare({ title, subtitle, fromAlts, toAlts }) {
-      const fromLabel = fromAlts?.filter(Boolean).join(" + ") || "—";
-      const toLabel = toAlts?.filter(Boolean).join(" + ") || "—";
-      return {
-        title,
-        subtitle: subtitle ?? `${fromLabel} → ${toLabel}`,
-      };
-    },
+    select: { title: "title", media: "coverImage" },
   },
 });

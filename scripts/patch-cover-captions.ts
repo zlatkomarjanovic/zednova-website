@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createClient } from "@sanity/client";
 
-import { posts } from "../src/lib/content/posts";
+import { getAllPosts } from "../src/lib/queries";
 
 function loadEnvLocal() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -48,6 +48,7 @@ const client = createClient({
 });
 
 async function main() {
+  const posts = await getAllPosts();
   for (const post of posts) {
     const caption = `Cover illustration for “${post.title}” — ${post.category} insight by ZedNova Studios.`;
     await client

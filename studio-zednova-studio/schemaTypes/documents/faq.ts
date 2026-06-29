@@ -1,6 +1,4 @@
 import { defineField, defineType } from "sanity";
-import { richTextMembers } from "../objects/extended";
-import { flatOpenGraphFields, flatSeoFields } from "../shared/flatFields";
 
 export const faq = defineType({
   name: "faq",
@@ -9,9 +7,6 @@ export const faq = defineType({
   groups: [
     { name: "content", title: "Content", default: true },
     { name: "scope", title: "Scope" },
-    { name: "seo", title: "SEO" },
-    { name: "og", title: "Open Graph" },
-    { name: "settings", title: "Settings" },
   ],
   fields: [
     defineField({
@@ -21,31 +16,18 @@ export const faq = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: "slug",
-      type: "slug",
-      group: "content",
-      options: { source: "question", maxLength: 96 },
-    }),
-    defineField({
       name: "shortAnswer",
       type: "text",
       rows: 3,
       group: "content",
-      description: "Direct answer, 40–80 words.",
+      description: "Direct answer shown on the site.",
     }),
     defineField({
       name: "answer",
       type: "text",
       rows: 5,
       group: "content",
-      description: "Plain-text answer (legacy).",
-    }),
-    defineField({
-      name: "answerRich",
-      type: "array",
-      title: "Answer (Portable Text)",
-      group: "content",
-      of: richTextMembers,
+      description: "Fallback plain-text answer if short answer is empty.",
     }),
     defineField({
       name: "category",
@@ -75,24 +57,9 @@ export const faq = defineType({
       },
     }),
     defineField({
-      name: "audience",
-      type: "string",
-      group: "scope",
-      options: {
-        list: ["SMB", "Clinic", "Ecommerce", "SaaS", "Internal"],
-      },
-    }),
-    defineField({
       name: "scopeServices",
       type: "array",
       title: "Applies to services",
-      group: "scope",
-      of: [{ type: "reference", to: [{ type: "service" }] }],
-    }),
-    defineField({
-      name: "relatedServices",
-      type: "array",
-      title: "Related services",
       group: "scope",
       of: [{ type: "reference", to: [{ type: "service" }] }],
     }),
@@ -101,18 +68,7 @@ export const faq = defineType({
       type: "array",
       title: "Applies to industries",
       group: "scope",
-      of: [
-        { type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] },
-      ],
-    }),
-    defineField({
-      name: "relatedIndustries",
-      type: "array",
-      title: "Related industries",
-      group: "scope",
-      of: [
-        { type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] },
-      ],
+      of: [{ type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] }],
     }),
     defineField({
       name: "scopeMigrations",
@@ -122,36 +78,19 @@ export const faq = defineType({
       of: [{ type: "reference", to: [{ type: "migration" }] }],
     }),
     defineField({
-      name: "relatedInsights",
-      type: "array",
-      title: "Related insights",
-      group: "scope",
-      of: [{ type: "reference", to: [{ type: "post" }] }],
-    }),
-    defineField({
       name: "tags",
       type: "array",
-      group: "seo",
+      group: "scope",
       of: [{ type: "reference", to: [{ type: "tag" }] }],
       options: { layout: "tags" },
     }),
-    defineField({ name: "priority", type: "number", group: "settings" }),
     defineField({
       name: "order",
       type: "number",
-      group: "settings",
-      description: "Legacy sort order.",
+      group: "content",
+      description: "Sort order in FAQ listings.",
     }),
-    defineField({ name: "isFeatured", type: "boolean", group: "settings", initialValue: false }),
-    defineField({ name: "schemaEnabled", type: "boolean", group: "settings", initialValue: true }),
-    ...flatSeoFields,
-    ...flatOpenGraphFields,
-    defineField({ name: "seo", type: "seoFields", group: "seo" }),
-    defineField({ name: "openGraph", type: "openGraphFields", group: "og" }),
   ],
-  orderings: [
-    { title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] },
-    { title: "Priority", name: "priorityAsc", by: [{ field: "priority", direction: "asc" }] },
-  ],
+  orderings: [{ title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: { select: { title: "question", subtitle: "category" } },
 });

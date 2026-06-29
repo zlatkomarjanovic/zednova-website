@@ -2,6 +2,25 @@ import type { StructureResolver } from "sanity/structure";
 
 const SINGLETONS = ["siteSettings"];
 
+const GROUPED_TYPES = [
+  "service",
+  "serviceNavItem",
+  "serviceMegaMenuCard",
+  "customSoftware",
+  "migration",
+  "industryParent",
+  "industry",
+  "portfolioProject",
+  "caseStudy",
+  "testimonial",
+  "post",
+  "insightCategory",
+  "tag",
+  "author",
+  "product",
+  "faq",
+];
+
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
@@ -70,50 +89,14 @@ export const structure: StructureResolver = (S) =>
         .child(S.documentTypeList("product")),
 
       S.listItem()
-        .title("Pages")
-        .child(S.documentTypeList("page")),
-
-      S.listItem()
         .title("FAQ")
         .child(S.documentTypeList("faq")),
-
-      S.divider(),
-
-      S.listItem()
-        .title("Team")
-        .child(S.documentTypeList("teamMember")),
-
-      S.divider(),
-
-      S.listItem()
-        .title("Redirects")
-        .child(S.documentTypeList("redirect")),
 
       S.divider(),
 
       ...S.documentTypeListItems().filter(
         (item) =>
           !SINGLETONS.includes(item.getId() ?? "") &&
-          ![
-            "service",
-            "serviceNavItem",
-            "serviceMegaMenuCard",
-            "customSoftware",
-            "migration",
-            "industryParent",
-            "industry",
-            "portfolioProject",
-            "caseStudy",
-            "testimonial",
-            "post",
-            "insightCategory",
-            "tag",
-            "author",
-            "product",
-            "page",
-            "faq",
-            "teamMember",
-            "redirect",
-          ].includes(item.getId() ?? ""),
+          !GROUPED_TYPES.includes(item.getId() ?? ""),
       ),
     ]);

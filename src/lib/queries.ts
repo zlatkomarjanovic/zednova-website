@@ -775,12 +775,29 @@ export async function getCaseStudiesByIndustry(
 
 /* ----------------------------- Portfolio ----------------------------- */
 
+function withStaticPortfolioMedia(projects: PortfolioProject[]): PortfolioProject[] {
+  const staticBySlug = new Map(staticPortfolioProjects.map((project) => [project.slug, project]));
+
+  return projects.map((project) => {
+    const fallback = staticBySlug.get(project.slug);
+    if (!fallback) return project;
+
+    return {
+      ...project,
+      image: project.image?.trim() ? project.image : fallback.image,
+      video: project.video?.trim() ? project.video : fallback.video,
+      logo: project.logo ?? fallback.logo,
+    };
+  });
+}
+
 export async function getPortfolioProjects() {
-  return fromSanity(
+  const projects = await fromSanity(
     "portfolioProject",
     fetchPortfolioProjectsFromSanity,
     () => staticPortfolioProjects,
   );
+  return withStaticPortfolioMedia(projects);
 }
 
 /* ----------------------------- Posts ----------------------------- */
@@ -1013,7 +1030,9 @@ const staticTestimonialImages = (() => {
     if (!testimonial.image) continue;
     byId.set(testimonial.id, testimonial.image);
     byId.set(`testimonial-${testimonial.id}`, testimonial.image);
-    byAuthor.set(testimonial.authorName.toLowerCase(), testimonial.image);
+    if (testimonial.authorName) {
+      byAuthor.set(testimonial.authorName.toLowerCase(), testimonial.image);
+    }
   }
 
   return { byId, byAuthor };
@@ -1026,7 +1045,9 @@ function applyTestimonialImageFallback(items: Testimonial[]): Testimonial[] {
     const image =
       staticTestimonialImages.byId.get(testimonial.id) ??
       staticTestimonialImages.byId.get(testimonial.id.replace(/^testimonial-/, "")) ??
-      staticTestimonialImages.byAuthor.get(testimonial.authorName.toLowerCase());
+      (testimonial.authorName
+        ? staticTestimonialImages.byAuthor.get(testimonial.authorName.toLowerCase())
+        : undefined);
 
     return image ? { ...testimonial, image } : testimonial;
   });

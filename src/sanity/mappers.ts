@@ -92,19 +92,15 @@ function mapSeo(seo?: Record<string, unknown>): SeoFields | undefined {
     focusKeyword: (seo.focusKeyword as string) || undefined,
     secondaryKeywords: seo.secondaryKeywords as string[] | undefined,
     searchTags: seo.searchTags as string[] | undefined,
-    seoCanonical:
-      (seo.seoCanonical as string) || (seo.canonicalUrl as string) || undefined,
-    canonicalUrl:
-      (seo.canonicalUrl as string) || (seo.seoCanonical as string) || undefined,
+    seoCanonical: (seo.seoCanonical as string) || undefined,
+    canonicalUrl: (seo.seoCanonical as string) || undefined,
     seoNoIndex: noIndex || undefined,
     seoHideFromLists: (seo.seoHideFromLists as boolean) || undefined,
     robotsIndex: seo.robotsIndex as boolean | undefined,
     robotsFollow: seo.robotsFollow as boolean | undefined,
     structuredDataType: (seo.structuredDataType as string) || undefined,
-    jsonLdOverride:
-      (seo.jsonLdOverride as string) || (seo.customJsonLd as string) || undefined,
-    customJsonLd:
-      (seo.customJsonLd as string) || (seo.jsonLdOverride as string) || undefined,
+    jsonLdOverride: (seo.jsonLdOverride as string) || undefined,
+    customJsonLd: (seo.jsonLdOverride as string) || undefined,
     ogTitle: (seo.ogTitle as string) || undefined,
     ogDescription: (seo.ogDescription as string) || undefined,
     ogImage: (seo.ogImage as string) || undefined,
@@ -581,59 +577,10 @@ function mapSchemaMarkup(schema?: Record<string, unknown>) {
   };
 }
 
-type SanityArticleBlock = {
-  type?: string;
-  text?: string;
-  items?: string[];
-  calloutVariant?: string;
-  image?: string;
-  imageAlt?: string;
-};
-
-function mapSanityArticleBlocks(blocks?: SanityArticleBlock[]): ArticleBlock[] {
-  return (blocks ?? [])
-    .map((block) => {
-      const type = block.type ?? "p";
-      if (type === "h2") return { type: "h2" as const, text: block.text ?? "" };
-      if (type === "h3") return { type: "h3" as const, text: block.text ?? "" };
-      if (type === "ul") return { type: "ul" as const, items: block.items ?? [] };
-      if (type === "quote") return { type: "quote" as const, text: block.text ?? "" };
-      if (type === "callout") {
-        return {
-          type: "callout" as const,
-          text: block.text ?? "",
-          calloutVariant: block.calloutVariant,
-        };
-      }
-      if (type === "image" && block.image) {
-        return {
-          type: "image" as const,
-          image: block.image,
-          imageAlt: block.imageAlt,
-          text: block.text,
-        };
-      }
-      return { type: "p" as const, text: block.text ?? "" };
-    })
-    .filter((block) => {
-      if (block.type === "ul") return block.items.length > 0;
-      if (block.type === "image") return Boolean(block.image);
-      return Boolean("text" in block && block.text?.trim());
-    });
-}
-
 function resolvePostBody(doc: {
-  articleBlocks?: SanityArticleBlock[];
   body?: Parameters<typeof portableTextToArticleBlocks>[0];
 }): ArticleBlock[] {
-  const structured = mapSanityArticleBlocks(doc.articleBlocks);
-  if (structured.length) return structured;
   return portableTextToArticleBlocks(doc.body);
-}
-
-function mergeTakeaways(plain?: string[], rich?: string[]): string[] | undefined {
-  const unique = uniqueTakeaways([...(plain ?? []), ...(rich ?? [])]);
-  return unique.length ? unique : undefined;
 }
 
 export function mapPost(doc: {
@@ -667,15 +614,11 @@ export function mapPost(doc: {
   seo?: Record<string, unknown>;
   mergedSeo?: Record<string, unknown>;
   takeaways?: string[];
-  keyTakeaways?: string[];
-  faqs?: SanityFaq[];
   faqReferences?: SanityFaq[];
   inlineFaqs?: SanityFaq[];
   aiSummary?: string;
   llmSnippet?: string;
   quickAnswer?: { question?: string; shortAnswer?: string };
-  quickAnswerQuestion?: string;
-  quickAnswerShort?: string;
   searchIntent?: string;
   targetAudience?: string[];
   painPoints?: string[];
@@ -692,7 +635,6 @@ export function mapPost(doc: {
   tableOfContentsEnabled?: boolean;
   openGraph?: Record<string, unknown>;
   schemaMarkup?: Record<string, unknown>;
-  enableFaqSchema?: boolean;
   primaryCtaTitle?: string;
   primaryCtaDescription?: string;
   primaryCtaLabel?: string;
@@ -701,18 +643,13 @@ export function mapPost(doc: {
   secondaryCtaDescription?: string;
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
-  articleBlocks?: SanityArticleBlock[];
   body?: Parameters<typeof portableTextToArticleBlocks>[0];
 }): Post {
   const seo = mapSeo(doc.mergedSeo ?? doc.seo);
-  const allFaqs = mergePostFaqs(doc.faqs, doc.faqReferences, doc.inlineFaqs);
-  const schemaMarkup = {
-    ...(mapSchemaMarkup(doc.schemaMarkup) ?? {}),
-    ...(doc.enableFaqSchema !== undefined
-      ? { enableFaqSchema: doc.enableFaqSchema }
-      : {}),
-  };
-  const hasSchemaMarkup = Object.values(schemaMarkup).some((value) => value !== undefined);
+  const allFaqs = mergePostFaqs(undefined, doc.faqReferences, doc.inlineFaqs);
+  const schemaMarkup = mapSchemaMarkup(doc.schemaMarkup);
+  const hasSchemaMarkup =
+    schemaMarkup && Object.values(schemaMarkup).some((value) => value !== undefined);
 
   return {
     slug: doc.slug,
@@ -746,20 +683,13 @@ export function mapPost(doc: {
     seoDescription: seo?.seoDescription,
     keywords: seo?.keywords,
     ogImage: seo?.ogImage,
-    takeaways: mergeTakeaways(doc.takeaways, doc.keyTakeaways),
+    takeaways: doc.takeaways?.length ? uniqueTakeaways(doc.takeaways) : undefined,
     faqs: allFaqs,
     faqReferences: mapFaqs(doc.faqReferences),
     inlineFaqs: mapFaqs(doc.inlineFaqs),
     aiSummary: doc.aiSummary,
     llmSnippet: doc.llmSnippet,
-    quickAnswer:
-      doc.quickAnswer ??
-      (doc.quickAnswerQuestion || doc.quickAnswerShort
-        ? {
-            question: doc.quickAnswerQuestion,
-            shortAnswer: doc.quickAnswerShort,
-          }
-        : undefined),
+    quickAnswer: doc.quickAnswer,
     searchIntent: doc.searchIntent,
     targetAudience: doc.targetAudience,
     painPoints: doc.painPoints,
@@ -1025,7 +955,7 @@ export function mapTestimonial(doc: {
   return {
     id: doc.id,
     quote: doc.quote,
-    authorName: doc.authorName,
+    authorName: doc.authorName ?? "",
     authorTitle: doc.authorTitle ?? "",
     company: doc.company ?? "",
     industry: doc.industry ?? "",

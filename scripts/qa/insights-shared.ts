@@ -1,13 +1,13 @@
 import type { ArticleBlock, Post } from "../../src/lib/types";
 import { team } from "../../src/lib/content/team";
 import { normalizeInsightPost } from "../../src/lib/insights/normalize-post";
+import { getAllPosts } from "../../src/lib/queries";
 import {
   insightPageGraphJsonLd,
   SCHEMA_ORG_ID,
   SCHEMA_WEBSITE_ID,
 } from "../../src/lib/seo";
 import { SITE_ORIGIN, absoluteUrl } from "../../src/lib/site-url";
-import { posts } from "../../src/lib/content/posts";
 
 export const SPLIT_LETTER_PATTERN = /S S e e r r v v|C C u u s s t t o o m|M M i i g g r r a a t t i i o o n n s s/;
 
@@ -78,13 +78,15 @@ export function collectEmptyValues(node: unknown, path = "root"): string[] {
   return [];
 }
 
-export function getNormalizedPosts(): Post[] {
+export async function getNormalizedPosts(): Promise<Post[]> {
+  const posts = await getAllPosts();
   return posts.map((post) =>
     normalizeInsightPost(post as Parameters<typeof normalizeInsightPost>[0]),
   );
 }
 
-export function buildGraphForPost(post: Post) {
+export async function buildGraphForPost(post: Post) {
+  const allPosts = await getAllPosts();
   const author = team.find((m) => m.slug === post.author) ?? null;
   return insightPageGraphJsonLd({
     post,
@@ -95,7 +97,7 @@ export function buildGraphForPost(post: Post) {
       { label: post.title },
     ],
     faqs: post.faqs,
-    related: posts.filter((p) => p.slug !== post.slug).slice(0, 2) as Post[],
+    related: allPosts.filter((p) => p.slug !== post.slug).slice(0, 2) as Post[],
     includeToc: post.tableOfContentsEnabled !== false,
     includeFaq: Boolean(post.faqs?.length),
   });
@@ -131,4 +133,4 @@ export function assertDirectAnswer(post: Post): string[] {
   return errors;
 }
 
-export { posts, SITE_ORIGIN, absoluteUrl, SCHEMA_ORG_ID, SCHEMA_WEBSITE_ID };
+export { SITE_ORIGIN, absoluteUrl, SCHEMA_ORG_ID, SCHEMA_WEBSITE_ID };
