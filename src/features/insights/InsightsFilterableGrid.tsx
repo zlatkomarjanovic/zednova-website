@@ -130,13 +130,13 @@ export function InsightsFilterableGrid({
       {/* Results */}
       {filtered.length > 0 ? (
         <div className="relative">
-          <div className="relative grid grid-cols-1 divide-y divide-zn-border md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-3">
+          <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((post) => (
               <Link
                 key={post.slug}
                 href={`/insights/${post.slug}`}
                 aria-label={`Read ${post.title}`}
-                className="group relative z-[2] flex h-full flex-col gap-4 border-zn-border p-6 transition-colors hover:bg-zn-bg-2/50 md:p-8 lg:[&:nth-child(3n)]:border-r-0"
+                className="group relative z-[2] flex h-full flex-col gap-4 border-b border-zn-border p-6 transition-colors hover:bg-zn-bg-2/50 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
               >
                 <ArticleCover post={post} className="aspect-[16/10]" zMarkClassName="size-16" />
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-zn-text-3">
