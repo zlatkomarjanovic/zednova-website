@@ -39,7 +39,7 @@ function ComparisonTableRow({ row }: { row: ComparisonRow }) {
       <td
         className={cn(
           CELL,
-          "min-w-[9rem] border-r border-zn-border-dk bg-[rgba(136,135,128,0.05)] text-[#B4B2A9] transition-colors group-hover:bg-[rgba(136,135,128,0.09)] md:min-w-[10rem]",
+          "min-w-[9rem] border-r border-zn-border-dk bg-[rgba(136,135,128,0.05)] text-[#B4B2A9] lg:transition-colors lg:group-hover:bg-[rgba(136,135,128,0.09)] md:min-w-[10rem]",
         )}
       >
         {row.agencies}
@@ -47,7 +47,7 @@ function ComparisonTableRow({ row }: { row: ComparisonRow }) {
       <td
         className={cn(
           CELL,
-          "min-w-[9rem] bg-[rgba(29,158,117,0.06)] text-zn-inv transition-colors group-hover:bg-[rgba(29,158,117,0.1)] md:min-w-[10rem]",
+          "min-w-[9rem] bg-[rgba(29,158,117,0.06)] text-zn-inv lg:transition-colors lg:group-hover:bg-[rgba(29,158,117,0.1)] md:min-w-[10rem]",
         )}
       >
         <span className="block">{row.zednova}</span>
@@ -72,6 +72,42 @@ function ComparisonTableSection({ section }: { section: ComparisonSection }) {
         <ComparisonTableRow key={row.category} row={row} />
       ))}
     </>
+  );
+}
+
+function ComparisonMobileCards({ sections }: { sections: ComparisonSection[] }) {
+  return (
+    <div className="space-y-8 lg:hidden">
+      {sections.map((section) => (
+        <div key={section.title}>
+          <p className="mb-3 font-mono text-[9px] font-medium uppercase tracking-[0.08em] text-zn-inv-2">
+            {section.title}
+          </p>
+          <ul className="divide-y divide-zn-border-dk rounded-xl border border-zn-border-dk bg-zn-dark overflow-hidden">
+            {section.rows.map((row) => (
+              <li key={row.category} className="px-4 py-4">
+                <p className="font-sans text-sm font-medium text-zn-inv">{row.category}</p>
+                <div className="mt-3 space-y-3">
+                  <div>
+                    <p className="font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-[#B4B2A9]">
+                      Traditional agencies
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-[#B4B2A9]">{row.agencies}</p>
+                  </div>
+                  <div className="rounded-lg bg-[rgba(29,158,117,0.08)] px-3 py-2.5">
+                    <p className="font-mono text-[9px] font-medium uppercase tracking-[0.06em] text-[#5DCAA5]">
+                      ZedNova Studios
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed text-zn-inv">{row.zednova}</p>
+                    <ZednovaPill>{row.zednovaPill}</ZednovaPill>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -129,7 +165,11 @@ export function AgencyComparisonSection({
 
       <div className="zn-container-guides relative mt-8 md:mt-10">
         <Reveal delay={0.06}>
-          <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-zn-border-dk bg-zn-dark">
+          <div className="mx-auto max-w-3xl px-6 lg:px-0">
+            <ComparisonMobileCards sections={sections} />
+          </div>
+
+          <div className="mx-auto hidden max-w-3xl overflow-hidden rounded-xl border border-zn-border-dk bg-zn-dark lg:block">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[28rem] border-collapse text-left">
                 <colgroup>

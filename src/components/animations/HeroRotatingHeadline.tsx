@@ -20,16 +20,12 @@ const HERO_BUILD_ITEMS = [
 export const HERO_CRAWLABLE_H1 =
   "We build custom software, AI tools, automations, e-commerce platforms, and client portals for service businesses that want more leads with less manual work.";
 
-const LONGEST_PHRASE = HERO_BUILD_ITEMS.reduce((a, b) =>
-  a.length >= b.length ? a : b,
-);
-
 const LOOP_MS = 3500;
 const FIRST_CYCLE_MS = 5000;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/** Subtext uses max-w-md; H1 container is ~10% wider. */
-const H1_WRAP_CLASS = "max-w-[calc(28rem*1.1)] lg:max-w-[calc(32rem*1.1)]";
+/** Subtext uses max-w-md; H1 container is ~10% wider on desktop. */
+const H1_WRAP_CLASS = "max-w-full lg:max-w-[calc(32rem*1.1)]";
 const HEADING_CLASS = "zn-h1 font-sans font-normal text-zn-text";
 
 export function HeroRotatingHeadline() {
@@ -76,11 +72,10 @@ export function HeroRotatingHeadline() {
 
       {/* Visual headline for humans — hidden from assistive tech / semantic H1 above */}
       <p aria-hidden="true" className={HEADING_CLASS}>
-        <span className="block">
+        <span className="block whitespace-nowrap max-lg:text-[clamp(1.75rem,7.5vw,2.5rem)]">
           We build{" "}
           <span
-            className="relative inline-block overflow-hidden align-bottom font-[family-name:var(--font-instrument-serif)] italic text-zn-text-3"
-            style={{ minWidth: `${LONGEST_PHRASE.length}ch` }}
+            className="relative inline-block overflow-hidden align-bottom font-[family-name:var(--font-instrument-serif)] italic text-zn-text-3 lg:min-w-[21ch]"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -89,14 +84,14 @@ export function HeroRotatingHeadline() {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
                 transition={{ duration: 0.6, ease: EASE }}
-                className="block whitespace-nowrap"
+                className="inline-block whitespace-nowrap"
               >
                 {phrase}
               </motion.span>
             </AnimatePresence>
           </span>
         </span>
-        <span className="mt-2 block">
+        <span className="mt-2 block max-lg:text-[clamp(1.75rem,7.5vw,2.5rem)]">
           for service businesses that want more leads with less manual work.
         </span>
       </p>

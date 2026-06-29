@@ -37,7 +37,7 @@ export function TemplateSection({
       <div className="zn-container-guides relative">
         <div
           className={cn(
-            "relative border-x border-zn-border",
+            "relative border-x border-zn-border max-lg:border-x-0",
             borderBottom && "border-b",
             dark && "border-zn-border-dk",
           )}

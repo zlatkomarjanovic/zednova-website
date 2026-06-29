@@ -16,12 +16,12 @@ type Variant =
 type Size = "sm" | "md" | "lg";
 
 const VARIANT: Record<Variant, string> = {
-  primary: "bg-zn-text text-zn-inv hover:bg-zn-text/90 rounded-[2px]",
-  inverted: "bg-zn-inv text-zn-text hover:bg-white rounded-[2px]",
+  primary: "bg-zn-text text-zn-inv lg:hover:bg-zn-text/90 rounded-[2px]",
+  inverted: "bg-zn-inv text-zn-text lg:hover:bg-white rounded-[2px]",
   outline:
-    "border border-zn-border text-zn-text hover:border-zn-text hover:bg-zn-text hover:text-zn-inv rounded-[2px]",
+    "border border-zn-border text-zn-text lg:hover:border-zn-text lg:hover:bg-zn-text lg:hover:text-zn-inv rounded-[2px]",
   "outline-inverted":
-    "border border-zn-border-dk text-zn-inv hover:border-zn-text hover:bg-zn-text hover:text-zn-inv rounded-[2px]",
+    "border border-zn-border-dk text-zn-inv lg:hover:border-zn-text lg:hover:bg-zn-text lg:hover:text-zn-inv rounded-[2px]",
   link: "text-current p-0 h-auto",
 };
 
@@ -38,14 +38,14 @@ function FlipArrow({ Icon }: { Icon: LucideIcon }) {
   return (
     <span className="relative inline-block size-4 shrink-0 overflow-hidden align-middle">
       <Icon
-        className={cn(ARROW_FLIP, "group-hover/flip:translate-x-full")}
+        className={cn(ARROW_FLIP, "lg:group-hover/flip:translate-x-full")}
         strokeWidth={2}
         aria-hidden="true"
       />
       <Icon
         className={cn(
           ARROW_FLIP,
-          "absolute inset-0 -translate-x-full group-hover/flip:translate-x-0 motion-reduce:hidden",
+          "absolute inset-0 -translate-x-full max-lg:hidden lg:group-hover/flip:translate-x-0 motion-reduce:hidden",
         )}
         strokeWidth={2}
         aria-hidden="true"

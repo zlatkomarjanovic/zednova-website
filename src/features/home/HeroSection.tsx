@@ -54,7 +54,7 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
               </div>
             </Reveal>
 
-            <div className="mt-[10rem] lg:mt-[12rem]" aria-hidden="true" />
+            <div className="mt-12 sm:mt-16 lg:mt-[12rem]" aria-hidden="true" />
           </div>
         </div>
 

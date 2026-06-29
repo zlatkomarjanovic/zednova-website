@@ -275,6 +275,7 @@ export function Navbar({
         onMouseLeave={scheduleClose}
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ease-out",
+          (openMenu || mobileOpen) && "z-[80]",
           hidden ? "-translate-y-full" : "translate-y-0",
           isDark
             ? "border-zn-border-dk/60 text-zn-inv"
@@ -294,8 +295,8 @@ export function Navbar({
           ref={navBarRef}
           className="zn-container relative flex h-16 items-center justify-between lg:h-18"
         >
-          <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2" />
-          <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2" />
+          <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2 max-lg:hidden" />
+          <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2 max-lg:hidden" />
           <LogoHomeLink variant={isDark ? "light" : "dark"} />
 
           <nav

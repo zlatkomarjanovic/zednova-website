@@ -13,6 +13,36 @@ import { ArticleCover } from "@/features/insights/ArticleCover";
 import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
 import { NavMenuIcon } from "@/ui/NavMenuIcon";
 
+const MENU_EASE = [0.22, 1, 0.36, 1] as const;
+
+const mobilePanel = {
+  hidden: { x: "100%" },
+  show: {
+    x: 0,
+    transition: { duration: 0.38, ease: MENU_EASE },
+  },
+  exit: {
+    x: "100%",
+    transition: { duration: 0.28, ease: MENU_EASE },
+  },
+};
+
+const mobileNav = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.045, delayChildren: 0.12 },
+  },
+};
+
+const mobileNavItem = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.28, ease: MENU_EASE },
+  },
+};
+
 const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
@@ -54,16 +84,31 @@ export function MobileMenu({
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) setSection(null);
+  }, [open]);
+
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[60] flex flex-col bg-zn-dark text-zn-inv lg:hidden"
-        >
+        <>
+          <motion.button
+            type="button"
+            aria-label="Close menu backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[90] bg-zn-dark/40 lg:hidden"
+            onClick={onClose}
+          />
+          <motion.div
+            variants={mobilePanel}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            className="fixed inset-y-0 right-0 z-[100] flex w-full max-w-md flex-col bg-zn-dark text-zn-inv shadow-2xl lg:hidden"
+          >
           <div className="flex h-16 items-center justify-between px-6">
             <LogoHomeLink variant="light" onNavigate={onClose} />
             <button
@@ -75,10 +120,14 @@ export function MobileMenu({
             </button>
           </div>
 
-          <nav
+          <motion.nav
+            variants={mobileNav}
+            initial="hidden"
+            animate="show"
             aria-label="Mobile"
             className="flex-1 overflow-y-auto px-6 py-6"
           >
+            <motion.div variants={mobileNavItem}>
             <Accordion
               title={megaMenuNavLinks.services.label}
               href={megaMenuNavLinks.services.href}
@@ -97,7 +146,7 @@ export function MobileMenu({
                       className="block rounded-[2px] border border-zn-border-dk px-4 py-3 transition-colors hover:border-zn-inv"
                     >
                       <span className="block text-sm text-zn-inv">{card.title}</span>
-                      <span className="mt-1 block text-xs leading-relaxed text-zn-inv-2">
+                      <span className="mt-1 hidden text-xs leading-relaxed text-zn-inv-2 sm:block">
                         {card.shortDescription}
                       </span>
                     </Link>
@@ -105,7 +154,9 @@ export function MobileMenu({
                 ))}
               </ul>
             </Accordion>
+            </motion.div>
 
+            <motion.div variants={mobileNavItem}>
             <Accordion
               title={megaMenuNavLinks["custom-software"].label}
               href={megaMenuNavLinks["custom-software"].href}
@@ -137,7 +188,9 @@ export function MobileMenu({
                 ))}
               </ul>
             </Accordion>
+            </motion.div>
 
+            <motion.div variants={mobileNavItem}>
             <Accordion
               title={megaMenuNavLinks.migrations.label}
               href={megaMenuNavLinks.migrations.href}
@@ -169,7 +222,9 @@ export function MobileMenu({
                 ))}
               </ul>
             </Accordion>
+            </motion.div>
 
+            <motion.div variants={mobileNavItem}>
             <Accordion
               title={megaMenuNavLinks.industries.label}
               href={megaMenuNavLinks.industries.href}
@@ -193,7 +248,9 @@ export function MobileMenu({
                 ))}
               </ul>
             </Accordion>
+            </motion.div>
 
+            <motion.div variants={mobileNavItem}>
             <Accordion
               title={megaMenuNavLinks.insights.label}
               href={megaMenuNavLinks.insights.href}
@@ -259,25 +316,28 @@ export function MobileMenu({
                 <p className="pb-4 text-sm text-zn-inv-2">No articles yet.</p>
               )}
             </Accordion>
+            </motion.div>
 
             {LINKS_AFTER_INDUSTRIES.map((link) => (
+              <motion.div key={link.href} variants={mobileNavItem}>
               <Link
-                key={link.href}
                 href={link.href}
                 onClick={onClose}
                 className="block border-b border-zn-border-dk py-5 font-sans font-normal text-2xl text-zn-inv"
               >
                 {link.label}
               </Link>
+              </motion.div>
             ))}
-          </nav>
+          </motion.nav>
 
           <div className="border-t border-zn-border-dk px-6 py-6">
-            <Button href="/contact" variant="inverted" size="md" className="w-full">
+            <Button href="/contact" variant="inverted" size="md" className="w-full" onClick={onClose}>
               Tell us what you need
             </Button>
           </div>
         </motion.div>
+        </>
       )}
     </AnimatePresence>
   );

@@ -355,8 +355,8 @@
     "semantic_hash": ""
   },
   "src/components/animations/HeroRotatingHeadline.tsx": {
-    "mtime": 1782599402.475452,
-    "ast_hash": "b6d890c9e46fb9cb6841bad639479b39",
+    "mtime": 1782774933.2768056,
+    "ast_hash": "75a20299fd615be198011673e58dd8bc",
     "semantic_hash": ""
   },
   "src/components/animations/LenisProvider.tsx": {
@@ -410,13 +410,13 @@
     "semantic_hash": ""
   },
   "src/components/layout/MobileMenu.tsx": {
-    "mtime": 1782574517.006507,
-    "ast_hash": "de93c997d5aec04b3181071987a7955e",
+    "mtime": 1782774882.2033246,
+    "ast_hash": "97f9e924f8f5fb8d6a54f8cbd0fb8d18",
     "semantic_hash": ""
   },
   "src/components/layout/Navbar.tsx": {
-    "mtime": 1782650440.6911385,
-    "ast_hash": "3318ae2e2c10a9401845ac466380b87a",
+    "mtime": 1782774831.646912,
+    "ast_hash": "ce8afd76a6b7d69d89b13b49ffb0b4dd",
     "semantic_hash": ""
   },
   "src/components/sections/ContactForm.tsx": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "src/features/home/AgencyComparisonSection.tsx": {
-    "mtime": 1782310704.618376,
-    "ast_hash": "ed58c364370c5565f6881a59c5abb15e",
+    "mtime": 1782774933.450307,
+    "ast_hash": "6e4b1c5dc0345dea1df6b10841e46d88",
     "semantic_hash": ""
   },
   "src/features/home/BenefitsGrid.tsx": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "src/features/home/HeroSection.tsx": {
-    "mtime": 1782599402.6338322,
-    "ast_hash": "967fd273b52ea6bc3c6b56ec4d232812",
+    "mtime": 1782774918.1989403,
+    "ast_hash": "05c25973104fa7ceb63f045e572bde3f",
     "semantic_hash": ""
   },
   "src/features/home/HeroWorkGallery.tsx": {
@@ -720,8 +720,8 @@
     "semantic_hash": ""
   },
   "src/ui/BlueprintCross.tsx": {
-    "mtime": 1781909728.0608478,
-    "ast_hash": "af97aec34099ad4e17c93577082e344e",
+    "mtime": 1782774829.2375374,
+    "ast_hash": "6bac8e0fed67149996902a1e54c57981",
     "semantic_hash": ""
   },
   "src/ui/BlueprintGridCrosses.tsx": {
@@ -745,8 +745,8 @@
     "semantic_hash": ""
   },
   "src/ui/Button.tsx": {
-    "mtime": 1782767586.8264904,
-    "ast_hash": "eb177a4e56f1da45730853d0745d3082",
+    "mtime": 1782774850.263996,
+    "ast_hash": "6a426bbd7a3d6234bf60ecceb8fe736a",
     "semantic_hash": ""
   },
   "src/ui/HoverFlip.tsx": {
@@ -1035,8 +1035,8 @@
     "semantic_hash": ""
   },
   "src/ui/TemplateSection.tsx": {
-    "mtime": 1782395387.5723546,
-    "ast_hash": "05a53dbd05e2725fbabc96535203f202",
+    "mtime": 1782774829.2424695,
+    "ast_hash": "daf62dcc5c47380a99a30f966368846c",
     "semantic_hash": ""
   },
   "scripts/generate-vercel-env-csv.mjs": {
@@ -1635,13 +1635,13 @@
     "semantic_hash": ""
   },
   "src/features/insights/InsightsArticleGrid.tsx": {
-    "mtime": 1782771613.0093465,
-    "ast_hash": "84955e7e6f6bf4ff2ba2f392434f65be",
+    "mtime": 1782771841.5100777,
+    "ast_hash": "67e999c0eab8c8a06ec709f8220ab8c7",
     "semantic_hash": ""
   },
   "src/features/insights/InsightsHomePostsSection.tsx": {
-    "mtime": 1782771630.7747238,
-    "ast_hash": "baac8ab19fedd36b5ae425ef77abf232",
+    "mtime": 1782771839.3244066,
+    "ast_hash": "f3af1f5d98fd773d51c5b37ec4ff2fa2",
     "semantic_hash": ""
   }
 }
