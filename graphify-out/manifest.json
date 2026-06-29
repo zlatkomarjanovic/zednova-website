@@ -385,8 +385,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/AiSummaryFab.tsx": {
-    "mtime": 1782598556.454459,
-    "ast_hash": "c7b78f83238ddafba0a8dc8b0332f968",
+    "mtime": 1782764696.4321854,
+    "ast_hash": "6abea4428805ebf9ac8e2d060b68e6c8",
     "semantic_hash": ""
   },
   "src/components/layout/Footer.tsx": {
@@ -395,8 +395,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/FooterAiSummaryLinks.tsx": {
-    "mtime": 1782224888.5931177,
-    "ast_hash": "7b9e6aff9f6bbd6d20f6753e8afb973c",
+    "mtime": 1782764692.6319163,
+    "ast_hash": "2d3c542e7e23fa961009f8d20e4f95b1",
     "semantic_hash": ""
   },
   "src/components/layout/FooterNavLink.tsx": {
@@ -595,8 +595,8 @@
     "semantic_hash": ""
   },
   "src/lib/content/ai-summary-models.ts": {
-    "mtime": 1782598254.6857944,
-    "ast_hash": "c6b7d9c7b367f79cb638e68ed7373524",
+    "mtime": 1782764704.1793537,
+    "ast_hash": "cf0b21de0a280f344fc5ba49eb400044",
     "semantic_hash": ""
   },
   "src/lib/content/case-studies.ts": {
@@ -1577,6 +1577,11 @@
   "src/sanity/blocks-to-portable-text.ts": {
     "mtime": 1782756090.7171435,
     "ast_hash": "e86f2a2f50e6aa5599a5cbb7997195ac",
+    "semantic_hash": ""
+  },
+  "src/lib/use-ai-summary-page.ts": {
+    "mtime": 1782764687.805951,
+    "ast_hash": "970fd0920f3f885396cbd61ece524eed",
     "semantic_hash": ""
   }
 }

@@ -1,13 +1,18 @@
+"use client";
+
 import Image from "next/image";
 
 import {
-  AI_SUMMARY_PROMPT,
   aiSummaryFabModels,
+  buildAiSummaryPrompt,
   summarizeWithLabel,
 } from "@/lib/content/ai-summary-models";
+import { useAiSummaryPage } from "@/lib/use-ai-summary-page";
 import { cn } from "@/lib/utils";
 
 export function FooterAiSummaryLinks({ className }: { className?: string }) {
+  const { pageUrl, pageTitle } = useAiSummaryPage();
+
   return (
     <div className={cn("space-y-3", className)}>
       <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-zn-inv">
@@ -17,7 +22,7 @@ export function FooterAiSummaryLinks({ className }: { className?: string }) {
         {aiSummaryFabModels.map((model) => (
           <a
             key={model.id}
-            href={model.buildUrl(AI_SUMMARY_PROMPT)}
+            href={model.buildUrl(buildAiSummaryPrompt(model.id, pageUrl, pageTitle))}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={summarizeWithLabel(model.name)}

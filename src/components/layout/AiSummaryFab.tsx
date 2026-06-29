@@ -4,13 +4,14 @@ import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 
 import {
-  AI_SUMMARY_PROMPT,
   AI_SUMMARY_FAB_GAP_REM,
   AI_SUMMARY_TRIGGER_ID,
   aiSummaryFabModels,
+  buildAiSummaryPrompt,
   summarizeWithLabel,
   type AiSummaryModel,
 } from "@/lib/content/ai-summary-models";
+import { useAiSummaryPage } from "@/lib/use-ai-summary-page";
 import { cn } from "@/lib/utils";
 
 function AiFabTooltip({
@@ -60,6 +61,8 @@ function AiFabButton({
   tooltipVisible,
   stackRef,
   onHover,
+  pageUrl,
+  pageTitle,
 }: {
   model: AiSummaryModel;
   stackIndex: number;
@@ -68,8 +71,10 @@ function AiFabButton({
   tooltipVisible: boolean;
   stackRef: React.RefObject<HTMLDivElement | null>;
   onHover: (id: string) => void;
+  pageUrl: string;
+  pageTitle: string;
 }) {
-  const url = model.buildUrl(AI_SUMMARY_PROMPT);
+  const url = model.buildUrl(buildAiSummaryPrompt(model.id, pageUrl, pageTitle));
   const label = summarizeWithLabel(model.name);
 
   const handleLeave = (e: React.MouseEvent<HTMLAnchorElement> | React.FocusEvent<HTMLAnchorElement>) => {
@@ -119,6 +124,7 @@ export function AiSummaryFab() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const stackRef = useRef<HTMLDivElement>(null);
   const count = aiSummaryFabModels.length;
+  const { pageUrl, pageTitle } = useAiSummaryPage();
 
   const handleEnter = useCallback(() => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -164,6 +170,8 @@ export function AiSummaryFab() {
               tooltipVisible={hoveredId === model.id}
               stackRef={stackRef}
               onHover={setHoveredId}
+              pageUrl={pageUrl}
+              pageTitle={pageTitle}
             />
           );
         })}
