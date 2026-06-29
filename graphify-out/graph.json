@@ -4048,7 +4048,7 @@
       "label": "MENU_EASE",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "id": "layout_mobilemenu_menu_ease",
       "community": 50,
       "norm_label": "menu_ease"
@@ -4057,7 +4057,7 @@
       "label": "mobilePanel",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L18",
+      "source_location": "L19",
       "id": "layout_mobilemenu_mobilepanel",
       "community": 50,
       "norm_label": "mobilepanel"
@@ -4066,7 +4066,7 @@
       "label": "mobileNav",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L35",
+      "source_location": "L36",
       "id": "layout_mobilemenu_mobilenav",
       "community": 50,
       "norm_label": "mobilenav"
@@ -4075,7 +4075,7 @@
       "label": "mobileNavItem",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L42",
+      "source_location": "L43",
       "id": "layout_mobilemenu_mobilenavitem",
       "community": 50,
       "norm_label": "mobilenavitem"
@@ -4084,7 +4084,7 @@
       "label": "LINKS_AFTER_INDUSTRIES",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L54",
+      "source_location": "L55",
       "id": "layout_mobilemenu_links_after_industries",
       "community": 50,
       "norm_label": "links_after_industries"
@@ -4093,7 +4093,7 @@
       "label": "formatInsightDate()",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L59",
+      "source_location": "L60",
       "id": "layout_mobilemenu_formatinsightdate",
       "community": 50,
       "norm_label": "formatinsightdate()"
@@ -4102,7 +4102,7 @@
       "label": "MobileMenu()",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L67",
+      "source_location": "L68",
       "id": "layout_mobilemenu_mobilemenu",
       "community": 50,
       "norm_label": "mobilemenu()"
@@ -4111,7 +4111,7 @@
       "label": "Accordion()",
       "file_type": "code",
       "source_file": "src/components/layout/MobileMenu.tsx",
-      "source_location": "L353",
+      "source_location": "L343",
       "id": "layout_mobilemenu_accordion",
       "community": 50,
       "norm_label": "accordion()"
@@ -4210,7 +4210,7 @@
       "label": "MegaTrigger()",
       "file_type": "code",
       "source_file": "src/components/layout/Navbar.tsx",
-      "source_location": "L446",
+      "source_location": "L447",
       "id": "layout_navbar_megatrigger",
       "community": 22,
       "norm_label": "megatrigger()"
@@ -39690,9 +39690,9 @@
       "source_file": "src/features/industries/IndustryNavShowcaseGrid.tsx",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "industries_industrynavshowcasegrid",
-      "target": "industries_industrynavshowcasegrid_getdesktopmqserversnapshot",
-      "confidence_score": 1.0
+      "target": "industries_industrynavshowcasegrid_getdesktopmqserversnapshot"
     },
     {
       "relation": "contains",
@@ -39700,9 +39700,9 @@
       "source_file": "src/features/industries/IndustryNavShowcaseGrid.tsx",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "industries_industrynavshowcasegrid",
-      "target": "industries_industrynavshowcasegrid_getdesktopmqsnapshot",
-      "confidence_score": 1.0
+      "target": "industries_industrynavshowcasegrid_getdesktopmqsnapshot"
     },
     {
       "relation": "contains",
@@ -39740,9 +39740,9 @@
       "source_file": "src/features/industries/IndustryNavShowcaseGrid.tsx",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "industries_industrynavshowcasegrid",
-      "target": "industries_industrynavshowcasegrid_subscribedesktopmq",
-      "confidence_score": 1.0
+      "target": "industries_industrynavshowcasegrid_subscribedesktopmq"
     },
     {
       "relation": "contains",
@@ -39750,9 +39750,9 @@
       "source_file": "src/features/industries/IndustryNavShowcaseGrid.tsx",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "industries_industrynavshowcasegrid",
-      "target": "industries_industrynavshowcasegrid_useperslidesize",
-      "confidence_score": 1.0
+      "target": "industries_industrynavshowcasegrid_useperslidesize"
     },
     {
       "relation": "imports_from",
@@ -39805,9 +39805,9 @@
       "source_file": "src/features/industries/IndustryNavShowcaseGrid.tsx",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "industries_industrynavshowcasegrid_industrynavshowcasegrid",
-      "target": "industries_industrynavshowcasegrid_useperslidesize",
-      "confidence_score": 1.0
+      "target": "industries_industrynavshowcasegrid_useperslidesize"
     },
     {
       "relation": "contains",
@@ -58773,5 +58773,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4a72532b285e71036e867635c4b2ffb8a83e5181"
+  "built_at_commit": "14fbee2ff2672bea3f9d7e822b4bc3ac32332751"
 }

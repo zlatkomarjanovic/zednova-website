@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Plus, Minus } from "lucide-react";
+import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { Button } from "@/ui/Button";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
@@ -99,25 +100,15 @@ export function MobileMenu({
   return (
     <AnimatePresence>
       {open && (
-        <>
-          <motion.button
-            type="button"
-            aria-label="Close menu backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[90] bg-zn-dark/40 lg:hidden"
-            onClick={onClose}
-          />
           <motion.div
             variants={mobilePanel}
             initial="hidden"
             animate="show"
             exit="exit"
-            className="fixed inset-x-0 top-16 bottom-0 z-[100] flex flex-col bg-zn-dark text-zn-inv shadow-2xl lg:hidden"
+            className="fixed inset-0 z-[100] flex min-h-dvh flex-col bg-zn-dark text-zn-inv lg:hidden"
           >
-          <div className="flex h-12 shrink-0 items-center justify-end px-4">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-zn-border-dk px-5 pt-[env(safe-area-inset-top,0px)]">
+            <LogoHomeLink variant="light" onNavigate={onClose} />
             <button
               onClick={onClose}
               aria-label="Close menu"
@@ -338,13 +329,12 @@ export function MobileMenu({
             ))}
           </motion.nav>
 
-          <div className="shrink-0 border-t border-zn-border-dk px-5 py-5">
+          <div className="shrink-0 border-t border-zn-border-dk px-5 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))]">
             <Button href="/contact" variant="inverted" size="md" className="w-full" onClick={onClose}>
               Tell us what you need
             </Button>
           </div>
         </motion.div>
-        </>
       )}
     </AnimatePresence>
   );

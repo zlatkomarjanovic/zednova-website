@@ -276,6 +276,7 @@ export function Navbar({
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ease-out",
           (openMenu || mobileOpen) && "z-[80]",
+          mobileOpen && "max-lg:pointer-events-none max-lg:invisible",
           hidden ? "-translate-y-full" : "translate-y-0",
           isDark
             ? "border-zn-border-dk/60 text-zn-inv"
