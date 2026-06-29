@@ -46,8 +46,30 @@ export const caseStudy = defineType({
     defineField({
       name: "techStack",
       type: "array",
+      title: "Tools used",
       group: "content",
       of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "workflow",
+      type: "array",
+      title: "Workflow",
+      group: "content",
+      of: [{ type: "workflowStep" }],
+    }),
+    defineField({
+      name: "timelinePhases",
+      type: "array",
+      title: "Timeline phases",
+      group: "content",
+      of: [{ type: "timelinePhase" }],
+    }),
+    defineField({
+      name: "screenshots",
+      type: "array",
+      title: "Screenshots",
+      group: "content",
+      of: [{ type: "caseStudyScreenshot" }],
     }),
     defineField({
       name: "testimonial",
@@ -81,7 +103,14 @@ export const caseStudy = defineType({
       type: "image",
       group: "content",
       options: { hotspot: true },
-      fields: [defineField({ name: "alt", type: "string", title: "Alt text" })],
+      fields: [
+        defineField({
+          name: "alt",
+          type: "string",
+          title: "Alt text",
+          validation: (r) => r.required().min(1).warning("Cover alt text improves SEO and accessibility"),
+        }),
+      ],
     }),
     defineField({ name: "seo", type: "seoFields", group: "seo" }),
   ],

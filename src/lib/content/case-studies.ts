@@ -49,6 +49,47 @@ export const caseStudies: CaseStudy[] = [
       { value: "0", label: "New front-desk hires needed" },
     ],
     techStack: ["HubSpot", "Google Business Profile", "AI Reply Drafting", "n8n"],
+    screenshots: [
+      {
+        src: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=crop",
+        alt: "Dental clinic reception desk with digital check-in kiosk",
+        caption: "Front desk workflow after online intake and SMS reminders went live.",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1579684385127-1ef15f508118?q=80&w=1200&auto=format&fit=crop",
+        alt: "Google Business Profile reviews dashboard on a laptop",
+        caption: "Automated review requests increased monthly Google review volume.",
+      },
+    ],
+    workflow: [
+      {
+        title: "Audit calls, recall, and reviews",
+        description:
+          "Mapped peak call times, hygiene recall gaps, and existing review volume across locations.",
+      },
+      {
+        title: "Build recall + review automations",
+        description:
+          "Hygiene due sequences, satisfaction-triggered review asks, and AI-drafted reply templates.",
+      },
+      {
+        title: "Add AI overflow coverage",
+        description:
+          "AI receptionist for peak and after-hours so new-patient inquiries never hit voicemail.",
+      },
+      {
+        title: "Measure and tune weekly",
+        description:
+          "Tracked reviews, no-shows, and recovered calls — adjusted timing and messaging in week two.",
+      },
+    ],
+    timelinePhases: [
+      { label: "Discovery", duration: "Days 1–3", description: "Call audit, CRM access, recall rules." },
+      { label: "Build", duration: "Days 4–10", description: "Automations, review system, AI phone routing." },
+      { label: "Launch", duration: "Day 11+", description: "Go-live per location with staff scripts." },
+    ],
+    relatedCaseStudies: ["hvac-ai-receptionist"],
+    relatedInsights: ["crm-automation-for-clinics-without-extra-hires"],
     testimonialId: "t-dental",
     featured: true,
     accent: "#1c1917",

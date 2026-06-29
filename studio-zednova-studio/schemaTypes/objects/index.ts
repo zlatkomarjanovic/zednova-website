@@ -249,16 +249,6 @@ export const articleFaq = defineType({
   ],
 });
 
-export const popularServiceLink = defineType({
-  name: "popularServiceLink",
-  title: "Popular service link",
-  type: "object",
-  fields: [
-    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "href", type: "string", validation: (r) => r.required() }),
-  ],
-});
-
 export const stat = defineType({
   name: "stat",
   title: "Stat",
@@ -266,6 +256,59 @@ export const stat = defineType({
   fields: [
     defineField({ name: "value", type: "string", validation: (r) => r.required() }),
     defineField({ name: "label", type: "string", validation: (r) => r.required() }),
+  ],
+});
+
+export const workflowStep = defineType({
+  name: "workflowStep",
+  title: "Workflow step",
+  type: "object",
+  fields: [
+    defineField({ name: "title", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", type: "text", rows: 3, validation: (r) => r.required() }),
+  ],
+});
+
+export const timelinePhase = defineType({
+  name: "timelinePhase",
+  title: "Timeline phase",
+  type: "object",
+  fields: [
+    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "duration", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", type: "text", rows: 2 }),
+  ],
+});
+
+export const caseStudyScreenshot = defineType({
+  name: "caseStudyScreenshot",
+  title: "Screenshot",
+  type: "object",
+  fields: [
+    defineField({
+      name: "image",
+      type: "image",
+      options: { hotspot: true },
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "alt",
+      type: "string",
+      title: "Alt text",
+      validation: (r) => r.required().min(1).warning("Alt text is required for accessibility and SEO"),
+    }),
+    defineField({ name: "caption", type: "string" }),
+  ],
+  preview: { select: { title: "alt", media: "image" } },
+});
+
+export const popularServiceLink = defineType({
+  name: "popularServiceLink",
+  title: "Popular service link",
+  type: "object",
+  fields: [
+    defineField({ name: "label", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "href", type: "string", validation: (r) => r.required() }),
   ],
 });
 
@@ -397,6 +440,9 @@ export const objectTypes = [
   articleFaq,
   popularServiceLink,
   stat,
+  workflowStep,
+  timelinePhase,
+  caseStudyScreenshot,
   portfolioLogo,
   featureBullet,
   priceTier,

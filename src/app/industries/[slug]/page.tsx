@@ -7,6 +7,7 @@ import {
   getIndustryPageData,
   getIndustryRelatedPortfolioProjects,
   getIndustrySegmentBySlug,
+  getServicesBySlugs,
 } from "@/lib/queries";
 import { breadcrumbJsonLd, industryJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
@@ -25,7 +26,9 @@ import {
   IndustrySpecialtiesGrid,
   ParentIndustryLink,
 } from "@/features/industries/IndustryDetailSections";
-import { isIndustryParentRecord } from "@/lib/industry-content";
+import { isIndustryParentRecord, isIndustrySegment } from "@/lib/industry-content";
+import { CaseStudyCards } from "@/features/work/CaseStudyCards";
+import { InternalLinkGrid } from "@/components/sections/InternalLinkGrid";
 
 export async function generateStaticParams() {
   const slugs = await getAllIndustrySlugs();
@@ -86,7 +89,12 @@ export default async function IndustryDetailPage({
     subIndustries,
     siblingIndustries,
     relatedInsights,
+    relatedCaseStudies,
   } = page;
+
+  const relatedServices = industry.relatedServices?.length
+    ? await getServicesBySlugs(industry.relatedServices)
+    : [];
 
   const relatedWork = await getIndustryRelatedPortfolioProjects(industry);
   const isSub = !isParent;
@@ -103,7 +111,15 @@ export default async function IndustryDetailPage({
 
   return (
     <>
-      <JsonLd data={[industryJsonLd(industry), breadcrumbJsonLd(crumbs)]} />
+      <JsonLd
+        data={[
+          industryJsonLd({
+            ...industry,
+            parentSlug: isIndustrySegment(industry) ? industry.parentSlug : undefined,
+          }),
+          breadcrumbJsonLd(crumbs),
+        ]}
+      />
 
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
@@ -146,7 +162,11 @@ export default async function IndustryDetailPage({
                 ) : null}
                 <Reveal delay={0.12}>
                   <div className="mt-10 flex flex-wrap items-center gap-4">
-                    <Button href={`/contact?industry=${industry.slug}`} withArrow>
+                    <Button
+                      href={`/contact?industry=${industry.slug}`}
+                      withArrow
+                      analyticsLocation={`industry-${industry.slug}-hero`}
+                    >
                       Tell us what you need
                     </Button>
                     <Button href="/industries" variant="link" withArrow>
@@ -300,6 +320,12 @@ export default async function IndustryDetailPage({
         </TemplateSection>
       ) : null}
 
+      {relatedCaseStudies.length > 0 && (
+        <TemplateSection className="bg-zn-bg-2/40">
+          <CaseStudyCards studies={relatedCaseStudies} />
+        </TemplateSection>
+      )}
+
       {relatedWork.length > 0 && (
         <TemplateSection withBlueprintGrid className="bg-zn-bg">
           <Reveal>
@@ -319,7 +345,7 @@ export default async function IndustryDetailPage({
       )}
 
       {relatedInsights.length > 0 && (
-        <TemplateSection borderBottom={false}>
+        <TemplateSection borderBottom={relatedServices.length === 0}>
           <Reveal>
             <SectionLabel withRule={false}>Related insights</SectionLabel>
           </Reveal>
@@ -338,6 +364,19 @@ export default async function IndustryDetailPage({
               </Link>
             ))}
           </div>
+        </TemplateSection>
+      )}
+
+      {relatedServices.length > 0 && (
+        <TemplateSection borderBottom={false}>
+          <InternalLinkGrid
+            title="Related services"
+            ariaLabel="Related services for this industry"
+            items={relatedServices.map((service) => ({
+              label: service.title,
+              href: `/services/${service.slug}`,
+            }))}
+          />
         </TemplateSection>
       )}
 

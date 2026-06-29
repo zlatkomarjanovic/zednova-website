@@ -7,6 +7,7 @@ import { migrations as staticMigrations } from "@/lib/content/migrations";
 import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
 import { industryParents } from "@/lib/content/industry-parents";
 import { industries } from "@/lib/content/industry-subs";
+import { applyIndustryDetailOverride } from "@/lib/content/industry-detail-overrides";
 import { caseStudies as staticCaseStudies } from "@/lib/content/case-studies";
 import { portfolioProjects as staticPortfolioProjects } from "@/lib/content/portfolio-projects";
 import { posts as postsStatic } from "@/lib/content/posts";
@@ -140,6 +141,13 @@ export async function getServicesBySlugs(slugs: string[]): Promise<Service[]> {
   return slugs
     .map((slug) => all.find((s) => s.slug === slug))
     .filter((s): s is Service => Boolean(s));
+}
+
+export async function getPostsBySlugs(slugs: string[]): Promise<Post[]> {
+  const all = await getAllPosts();
+  return slugs
+    .map((slug) => all.find((p) => p.slug === slug))
+    .filter((p): p is Post => Boolean(p));
 }
 
 export async function getServiceGroups(): Promise<
@@ -547,15 +555,20 @@ export async function getIndustryBySlug(
   slug: string,
 ): Promise<Industry | null> {
   const staticIndustry = industries.find((i) => i.slug === slug) ?? null;
-  if (!isSanityConfigured()) return staticIndustry;
+  if (!isSanityConfigured()) {
+    return staticIndustry ? applyIndustryDetailOverride(staticIndustry) : null;
+  }
   try {
     const has = await sanityHasContent("industry");
-    if (!has) return staticIndustry;
+    if (!has) {
+      return staticIndustry ? applyIndustryDetailOverride(staticIndustry) : null;
+    }
     const cms = await fetchIndustryBySlugFromSanity(slug);
-    if (!staticIndustry) return cms;
-    return mergeIndustryRecord(staticIndustry, cms);
+    if (!staticIndustry) return cms ? applyIndustryDetailOverride(cms) : cms;
+    const merged = mergeIndustryRecord(staticIndustry, cms);
+    return applyIndustryDetailOverride(merged);
   } catch {
-    return staticIndustry;
+    return staticIndustry ? applyIndustryDetailOverride(staticIndustry) : null;
   }
 }
 

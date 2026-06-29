@@ -576,12 +576,36 @@ export function serviceAtJsonLd(input: {
   };
 }
 
+/** schema.org/WebPage for the /start service chooser. */
+export function startPageJsonLd() {
+  const url = `${SITE_ORIGIN}/start`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": url,
+    url,
+    name: "Find the Right Service",
+    description:
+      "Interactive guide to choose the best ZedNova Studios service for your goal and industry.",
+    inLanguage: "en-US",
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": SCHEMA_WEBSITE_ID,
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": SCHEMA_ORG_ID,
+    },
+  };
+}
+
 /** schema.org/Service for industry/category pages (treated as a service catalog page). */
 export function industryJsonLd(industry: {
   slug: string;
   title: string;
   shortDescription: string;
   heroHeadline: string;
+  parentSlug?: string;
 }) {
   const url = `${SITE_ORIGIN}/industries/${industry.slug}`;
   return {
@@ -593,15 +617,30 @@ export function industryJsonLd(industry: {
     description: industry.shortDescription,
     headline: industry.heroHeadline,
     inLanguage: "en-US",
+    ...(industry.parentSlug
+      ? {
+          about: {
+            "@type": "CollectionPage",
+            url: `${SITE_ORIGIN}/industries/${industry.parentSlug}`,
+          },
+        }
+      : {}),
+    provider: {
+      "@type": "Organization",
+      "@id": SCHEMA_ORG_ID,
+      name: "ZedNova Studios",
+      url: SITE_ORIGIN,
+    },
     isPartOf: {
       "@type": "WebSite",
+      "@id": SCHEMA_WEBSITE_ID,
       name: "ZedNova Studios",
       url: SITE_ORIGIN,
     },
   };
 }
 
-/** schema.org/CreativeWork for case study / work detail pages. */
+/** schema.org/Article for case study / work detail pages. */
 export function caseStudyJsonLd(c: {
   slug: string;
   title: string;
@@ -610,24 +649,56 @@ export function caseStudyJsonLd(c: {
   resultHeadline: string;
   challenge: string;
   image: string;
+  imageAlt?: string;
+  timeline?: string;
+  techStack?: string[];
 }) {
   const url = `${SITE_ORIGIN}/work/${c.slug}`;
+  const imageUrl = normalizeSchemaImageUrl(c.image);
   return {
     "@context": "https://schema.org",
-    "@type": "CreativeWork",
+    "@type": "Article",
     "@id": url,
     url,
+    headline: c.title,
     name: c.title,
     description: `${c.client}: ${c.resultHeadline}.`,
-    image: c.image,
-    about: c.challenge,
+    abstract: c.challenge,
+    image: imageUrl
+      ? [{ "@type": "ImageObject", url: imageUrl, ...(c.imageAlt ? { name: c.imageAlt } : {}) }]
+      : undefined,
+    about: {
+      "@type": "Thing",
+      name: c.industry,
+    },
+    keywords: c.techStack?.join(", "),
+    temporalCoverage: c.timeline,
+    author: {
+      "@type": "Organization",
+      "@id": SCHEMA_ORG_ID,
+      name: "ZedNova Studios",
+      url: SITE_ORIGIN,
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": SCHEMA_ORG_ID,
+      name: "ZedNova Studios",
+      url: SITE_ORIGIN,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_ORIGIN}/icon.png`,
+      },
+    },
     creator: {
       "@type": "Organization",
       name: "ZedNova Studios",
       url: SITE_ORIGIN,
     },
-    keywords: c.industry,
     inLanguage: "en-US",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
   };
 }
 

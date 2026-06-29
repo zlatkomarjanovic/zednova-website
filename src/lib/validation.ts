@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const BUDGET_OPTIONS = [
-  "Under $1,000",
   "$1,000–$3,000",
   "$3,000–$7,500",
   "$7,500+",

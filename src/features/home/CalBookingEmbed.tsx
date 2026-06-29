@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { CAL_LINK } from "@/lib/booking";
+import { trackConversion } from "@/lib/analytics/track";
 
 const CAL_ORIGIN = "https://app.cal.com";
 const CAL_SCRIPT = `${CAL_ORIGIN}/embed/embed.js`;
@@ -108,12 +109,14 @@ export function CalBookingEmbed({
   className,
   theme = "auto",
   minHeight = "28rem",
+  analyticsSource = "embed",
 }: {
   calLink?: string;
   namespace?: string;
   className?: string;
   theme?: CalTheme;
   minHeight?: string;
+  analyticsSource?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -150,6 +153,16 @@ export function CalBookingEmbed({
           layout: "month_view",
           ...(resolvedTheme ? { theme: resolvedTheme } : {}),
         });
+
+        Cal("on", {
+          action: "bookingSuccessful",
+          callback: () => {
+            trackConversion("calendar_booked", {
+              source: analyticsSource,
+              calLink,
+            });
+          },
+        });
       } catch {
         /* Leave empty container — user can still use /contact */
       }
@@ -159,7 +172,7 @@ export function CalBookingEmbed({
       cancelled = true;
       element.replaceChildren();
     };
-  }, [calLink, theme]);
+  }, [calLink, theme, analyticsSource]);
 
   return (
     <div
@@ -167,6 +180,9 @@ export function CalBookingEmbed({
       className={className}
       style={{ width: "100%", minHeight, overflow: "hidden" }}
       aria-label="Book a 30 minute call"
+      onClick={() => {
+        trackConversion("calendar_click", { source: analyticsSource, calLink });
+      }}
     />
   );
 }

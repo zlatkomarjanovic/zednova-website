@@ -21,6 +21,7 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${SITE_ORIGIN}/insights`, changeFrequency: "daily", priority: 0.8 },
   { url: `${SITE_ORIGIN}/about`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/contact`, changeFrequency: "monthly", priority: 0.6 },
+  { url: `${SITE_ORIGIN}/start`, changeFrequency: "monthly", priority: 0.8 },
   { url: `${SITE_ORIGIN}/legal/privacy-policy`, changeFrequency: "yearly", priority: 0.3 },
   { url: `${SITE_ORIGIN}/legal/terms`, changeFrequency: "yearly", priority: 0.3 },
   { url: `${SITE_ORIGIN}/legal/cookie-settings`, changeFrequency: "monthly", priority: 0.3 },

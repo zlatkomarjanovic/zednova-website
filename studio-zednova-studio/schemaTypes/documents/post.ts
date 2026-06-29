@@ -129,7 +129,12 @@ export const post = defineType({
       options: { hotspot: true },
       group: "content",
       fields: [
-        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({
+          name: "alt",
+          type: "string",
+          title: "Alt text",
+          validation: (r) => r.required().min(1).warning("Cover alt text improves SEO and accessibility"),
+        }),
         defineField({ name: "caption", type: "string", title: "Caption" }),
         defineField({ name: "credit", type: "string", title: "Photo credit" }),
       ],

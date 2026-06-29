@@ -228,6 +228,23 @@ export type Industry = {
 
 export type CaseResult = { value: string; label: string };
 
+export type CaseStudyScreenshot = {
+  src: string;
+  alt: string;
+  caption?: string;
+};
+
+export type WorkflowStep = {
+  title: string;
+  description: string;
+};
+
+export type TimelinePhase = {
+  label: string;
+  duration: string;
+  description?: string;
+};
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -240,6 +257,10 @@ export type CaseStudy = {
   solution: string[];
   results: CaseResult[];
   techStack: string[];
+  screenshots?: CaseStudyScreenshot[];
+  workflow?: WorkflowStep[];
+  timelinePhases?: TimelinePhase[];
+  imageAlt?: string;
   testimonialId?: string;
   faqs?: ArticleFaq[];
   relatedCaseStudies?: string[];

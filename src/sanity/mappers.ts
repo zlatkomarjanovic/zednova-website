@@ -778,9 +778,13 @@ export function mapCaseStudy(doc: {
   timeline?: string;
   resultHeadline: string;
   challenge?: string;
-  solution?: string[];
-  results?: { value: string; label: string }[];
+  solution?: string[] | string;
+  results?: { value: string; label: string }[] | string[];
   techStack?: string[];
+  workflow?: { title: string; description: string }[];
+  timelinePhases?: { label: string; duration: string; description?: string }[];
+  screenshots?: { src?: string; alt: string; caption?: string }[];
+  imageAlt?: string;
   testimonialId?: string;
   faqs?: SanityFaq[];
   relatedCaseStudies?: string[];
@@ -790,6 +794,18 @@ export function mapCaseStudy(doc: {
   image?: string;
   seo?: Record<string, unknown>;
 }): CaseStudy {
+  const solution = Array.isArray(doc.solution)
+    ? doc.solution
+    : doc.solution
+      ? doc.solution.split(/\n\n+/).map((part) => part.trim()).filter(Boolean)
+      : [];
+
+  const results = (doc.results ?? []).map((entry) =>
+    typeof entry === "string"
+      ? { value: entry, label: "" }
+      : entry,
+  );
+
   return {
     slug: doc.slug,
     title: doc.title,
@@ -799,9 +815,19 @@ export function mapCaseStudy(doc: {
     timeline: doc.timeline ?? "",
     resultHeadline: doc.resultHeadline,
     challenge: doc.challenge ?? "",
-    solution: doc.solution ?? [],
-    results: doc.results ?? [],
+    solution,
+    results,
     techStack: doc.techStack ?? [],
+    workflow: doc.workflow,
+    timelinePhases: doc.timelinePhases,
+    screenshots: doc.screenshots
+      ?.filter((shot) => shot.src)
+      .map((shot) => ({
+        src: shot.src!,
+        alt: shot.alt,
+        caption: shot.caption,
+      })),
+    imageAlt: doc.imageAlt,
     testimonialId: doc.testimonialId,
     faqs: mapFaqs(doc.faqs),
     relatedCaseStudies: doc.relatedCaseStudies,

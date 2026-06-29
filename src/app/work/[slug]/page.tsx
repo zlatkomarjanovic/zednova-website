@@ -9,10 +9,11 @@ import {
   getIndustryTitle,
   getServicesBySlugs,
   getTestimonialById,
+  getPostsBySlugs,
 } from "@/lib/queries";
 import { breadcrumbJsonLd, caseStudyJsonLd } from "@/lib/seo";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
-import { Reveal } from "@/components/animations/Reveal";
+import { Reveal, Stagger } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { Tag } from "@/ui/Tag";
@@ -24,6 +25,8 @@ import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { EntitySummary } from "@/ui/EntitySummary";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { InternalLinkGrid } from "@/components/sections/InternalLinkGrid";
+import { CaseStudyCards } from "@/features/work/CaseStudyCards";
 
 export async function generateStaticParams() {
   const caseStudies = await getAllCaseStudies();
@@ -85,12 +88,21 @@ export default async function CaseStudyPage({
   const index = all.findIndex((c) => c.slug === slug);
   const next = all[(index + 1) % all.length];
 
-  const [industryName, servicesUsed, testimonial] = await Promise.all([
+  const [industryName, servicesUsed, testimonial, relatedStudies, relatedInsights] =
+    await Promise.all([
     getIndustryTitle(caseStudy.industry),
     getServicesBySlugs(caseStudy.servicesUsed),
     caseStudy.testimonialId
       ? getTestimonialById(caseStudy.testimonialId)
       : Promise.resolve(null),
+    caseStudy.relatedCaseStudies?.length
+      ? getAllCaseStudies().then((all) =>
+          all.filter((c) => caseStudy.relatedCaseStudies!.includes(c.slug)),
+        )
+      : Promise.resolve([]),
+    caseStudy.relatedInsights?.length
+      ? getPostsBySlugs(caseStudy.relatedInsights)
+      : Promise.resolve([]),
   ]);
 
   const crumbs = [
@@ -107,7 +119,7 @@ export default async function CaseStudyPage({
       <section data-theme="dark" className="relative overflow-hidden bg-zn-dark text-zn-inv">
         <MediaImage
           src={caseStudy.image}
-          alt={caseStudy.title}
+          alt={caseStudy.imageAlt ?? caseStudy.title}
           accent={caseStudy.accent}
           tint={0.6}
           priority
@@ -189,6 +201,71 @@ export default async function CaseStudyPage({
         </div>
       </section>
 
+      {caseStudy.timelinePhases && caseStudy.timelinePhases.length > 0 && (
+        <section data-theme="light" className="zn-section bg-zn-bg-2/40">
+          <div className="zn-container">
+            <Reveal>
+              <SectionLabel withRule={false}>Timeline</SectionLabel>
+            </Reveal>
+            <TextReveal
+              as="h2"
+              text="How the project unfolded"
+              className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+            />
+            <ol className="mt-12 grid gap-6 md:grid-cols-3">
+              {caseStudy.timelinePhases.map((phase, index) => (
+                <li
+                  key={phase.label}
+                  className="rounded-[2px] border border-zn-border bg-zn-bg p-6"
+                >
+                  <span className="font-mono text-sm text-zn-text-3">
+                    Phase {index + 1}
+                  </span>
+                  <p className="mt-3 font-sans text-lg text-zn-text">{phase.label}</p>
+                  <p className="mt-1 text-sm font-medium text-zn-text-2">{phase.duration}</p>
+                  {phase.description ? (
+                    <p className="mt-3 text-sm leading-relaxed text-zn-text-2">
+                      {phase.description}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
+      {caseStudy.workflow && caseStudy.workflow.length > 0 && (
+        <section data-theme="light" className="zn-section">
+          <div className="zn-container">
+            <Reveal>
+              <SectionLabel withRule={false}>Workflow</SectionLabel>
+            </Reveal>
+            <TextReveal
+              as="h2"
+              text="How we delivered it"
+              className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+            />
+            <Stagger className="mt-12 space-y-6" stagger={0.05}>
+              {caseStudy.workflow.map((step, index) => (
+                <div
+                  key={step.title}
+                  className="grid gap-4 border-t border-zn-border pt-6 md:grid-cols-[4rem_1fr]"
+                >
+                  <span className="font-mono text-sm text-zn-text-3">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="font-sans text-lg text-zn-text">{step.title}</h3>
+                    <p className="mt-2 leading-relaxed text-zn-text-2">{step.description}</p>
+                  </div>
+                </div>
+              ))}
+            </Stagger>
+          </div>
+        </section>
+      )}
+
       {/* Solution */}
       <section data-theme="light" className="zn-section">
         <div className="zn-container grid gap-10 lg:grid-cols-[0.8fr_1.4fr]">
@@ -212,6 +289,39 @@ export default async function CaseStudyPage({
         </div>
       </section>
 
+      {caseStudy.screenshots && caseStudy.screenshots.length > 0 && (
+        <section data-theme="light" className="zn-section bg-zn-bg-2/40">
+          <div className="zn-container">
+            <Reveal>
+              <SectionLabel withRule={false}>Screenshots</SectionLabel>
+            </Reveal>
+            <TextReveal
+              as="h2"
+              text="What we shipped"
+              className="mt-6 max-w-2xl zn-h2 font-sans font-normal"
+            />
+            <div className="mt-12 grid gap-8 md:grid-cols-2">
+              {caseStudy.screenshots.map((shot) => (
+                <figure key={shot.src} className="overflow-hidden rounded-[2px] border border-zn-border bg-zn-bg">
+                  <MediaImage
+                    src={shot.src}
+                    alt={shot.alt}
+                    accent={caseStudy.accent}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="aspect-[16/10] w-full"
+                  />
+                  {shot.caption ? (
+                    <figcaption className="px-5 py-4 text-sm text-zn-text-2">
+                      {shot.caption}
+                    </figcaption>
+                  ) : null}
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Results (dark) */}
       <section data-theme="dark" className="zn-section bg-zn-dark text-zn-inv">
         <div className="zn-container">
@@ -233,7 +343,7 @@ export default async function CaseStudyPage({
             />
           </div>
           <div className="mt-16 border-t border-zn-border-dk pt-8">
-            <p className="zn-label mb-4 text-zn-inv-2">Tech used</p>
+            <p className="zn-label mb-4 text-zn-inv-2">Tools used</p>
             <div className="flex flex-wrap gap-2">
               {caseStudy.techStack.map((tech) => (
                 <Tag key={tech} variant="outline-inverted">
@@ -267,6 +377,28 @@ export default async function CaseStudyPage({
 
       {caseStudy.faqs && caseStudy.faqs.length > 0 && (
         <FaqSection faqs={caseStudy.faqs} title="FAQ" />
+      )}
+
+      {relatedStudies.length > 0 && (
+        <section data-theme="light" className="zn-section">
+          <div className="zn-container">
+            <CaseStudyCards studies={relatedStudies} title="More case studies" />
+          </div>
+        </section>
+      )}
+
+      {relatedInsights.length > 0 && (
+        <section data-theme="light" className="zn-section border-t border-zn-border">
+          <div className="zn-container">
+            <InternalLinkGrid
+              title="Related insights"
+              items={relatedInsights.map((post) => ({
+                label: post.title,
+                href: `/insights/${post.slug}`,
+              }))}
+            />
+          </div>
+        </section>
       )}
 
       {/* Next project */}

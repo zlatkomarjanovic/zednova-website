@@ -10,6 +10,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AiSummaryFab } from "@/components/layout/AiSummaryFab";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { ConsentAwareAnalytics } from "@/components/legal/ConsentAwareAnalytics";
+import { OutboundLinkTracker } from "@/components/analytics/OutboundLinkTracker";
 import { CookieConsentProvider } from "@/lib/cookies/CookieConsentProvider";
 import { JsonLd } from "@/ui/JsonLd";
 import { sitewideSchemaGraph } from "@/lib/seo";
@@ -205,6 +206,7 @@ export default async function RootLayout({
           </LenisProvider>
           <CookieBanner />
           <ConsentAwareAnalytics />
+          <OutboundLinkTracker />
         </CookieConsentProvider>
       </body>
     </html>

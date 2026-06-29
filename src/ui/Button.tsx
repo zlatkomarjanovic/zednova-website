@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HoverFlip } from "@/ui/HoverFlip";
+import { trackLinkClick } from "@/lib/analytics/track";
 
 type Variant =
   | "primary" // dark fill, light text (light sections)
@@ -57,6 +60,8 @@ type CommonProps = {
   size?: Size;
   withArrow?: boolean;
   className?: string;
+  analyticsLocation?: string;
+  analyticsKind?: "service" | "cta" | "outbound";
 };
 
 type ButtonAsLink = CommonProps & {
@@ -74,6 +79,8 @@ export function Button(props: ButtonAsLink | ButtonAsButton) {
     size = "md",
     withArrow,
     className,
+    analyticsLocation,
+    analyticsKind,
     ...rest
   } = props;
 
@@ -88,6 +95,14 @@ export function Button(props: ButtonAsLink | ButtonAsButton) {
   const external = "href" in props && props.href?.startsWith("http");
   const Arrow = isLink || external ? ArrowUpRight : ArrowRight;
 
+  const handleTrack = (href: string, label: string) => {
+    trackLinkClick(href, {
+      label,
+      location: analyticsLocation,
+      kind: analyticsKind ?? (external ? "outbound" : href.startsWith("/services/") ? "service" : "cta"),
+    });
+  };
+
   const inner = (
     <>
       <HoverFlip>{children}</HoverFlip>
@@ -97,25 +112,36 @@ export function Button(props: ButtonAsLink | ButtonAsButton) {
 
   let el: React.ReactNode;
   if ("href" in props && props.href !== undefined) {
-    const { href, ...anchorRest } = rest as ButtonAsLink;
+    const { href, onClick, ...anchorRest } = rest as ButtonAsLink;
+    const label = typeof children === "string" ? children : href;
+    const trackClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+      handleTrack(href, label);
+      onClick?.(event);
+    };
     el = external ? (
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
         className={base}
+        onClick={trackClick}
         {...anchorRest}
       >
         {inner}
       </a>
     ) : (
-      <Link href={href} className={base} {...anchorRest}>
+      <Link href={href} className={base} onClick={trackClick} {...anchorRest}>
         {inner}
       </Link>
     );
   } else {
+    const { onClick, ...buttonRest } = rest as ButtonAsButton;
     el = (
-      <button className={base} {...(rest as ButtonAsButton)}>
+      <button
+        className={base}
+        onClick={onClick}
+        {...buttonRest}
+      >
         {inner}
       </button>
     );

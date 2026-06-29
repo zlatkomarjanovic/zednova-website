@@ -10,6 +10,7 @@ import {
   type ContactPrefill,
 } from "@/lib/content/contact-options";
 import { BUDGET_OPTIONS, contactSchema, type ContactInput } from "@/lib/validation";
+import { trackConversion } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 
 const FIELD =
@@ -74,8 +75,17 @@ export function ContactForm({
         throw new Error(payload.error ?? "Something went wrong. Please try again.");
       }
 
+      trackConversion("form_submit", {
+        form: "contact",
+        service: data.service,
+        industry: data.industry,
+      });
       setStatus("success");
     } catch (error) {
+      trackConversion("form_error", {
+        form: "contact",
+        message: error instanceof Error ? error.message : undefined,
+      });
       setStatus("error");
       setErrorMessage(
         error instanceof Error ? error.message : "Something went wrong. Please try again.",

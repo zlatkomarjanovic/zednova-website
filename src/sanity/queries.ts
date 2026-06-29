@@ -249,6 +249,14 @@ export const CASE_STUDIES_QUERY = /* groq */ `
     solution,
     results,
     techStack,
+    workflow,
+    timelinePhases,
+    "screenshots": screenshots[]{
+      "src": image.asset->url,
+      alt,
+      caption
+    },
+    "imageAlt": coverImage.alt,
     "testimonialId": testimonial->_id,
     ${INLINE_ARTICLE_FAQS_FIELD},
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,
@@ -711,6 +719,14 @@ export const CASE_STUDY_BY_SLUG_QUERY = /* groq */ `
     solution,
     results,
     techStack,
+    workflow,
+    timelinePhases,
+    "screenshots": screenshots[]{
+      "src": image.asset->url,
+      alt,
+      caption
+    },
+    "imageAlt": coverImage.alt,
     "testimonialId": testimonial->_id,
     ${INLINE_ARTICLE_FAQS_FIELD},
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,

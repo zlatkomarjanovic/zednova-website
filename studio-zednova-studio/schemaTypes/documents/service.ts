@@ -53,7 +53,12 @@ export const service = defineType({
       group: "content",
       options: { hotspot: true },
       fields: [
-        defineField({ name: "alt", type: "string", title: "Alt text" }),
+        defineField({
+          name: "alt",
+          type: "string",
+          title: "Alt text",
+          validation: (r) => r.required().min(1).warning("Cover alt text improves SEO and accessibility"),
+        }),
         defineField({ name: "caption", type: "string", title: "Caption" }),
       ],
     }),

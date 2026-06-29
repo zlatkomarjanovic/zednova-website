@@ -12,6 +12,7 @@ import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const COMPANY_LINKS = [
+  { label: "Get started", href: "/start" },
   { label: "Insights", href: "/insights" },
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },

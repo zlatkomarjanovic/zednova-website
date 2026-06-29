@@ -43,11 +43,12 @@ function findProductLabel(slug: string): string | undefined {
   return products.find((product) => product.slug === slug)?.title;
 }
 
-/** Map ?service=, ?industry=, and ?product= query params to form defaults. */
+/** Map ?service=, ?industry=, ?product=, and ?message= query params to form defaults. */
 export function resolveContactPrefill(params: {
   service?: string;
   industry?: string;
   product?: string;
+  message?: string;
 }): ContactPrefill {
   const service = params.service ?? "";
   const industry = params.industry ?? "";
@@ -59,11 +60,11 @@ export function resolveContactPrefill(params: {
       industry: industry || "",
       message: productTitle
         ? `I'm interested in ${productTitle}. `
-        : "",
+        : params.message ?? "",
     };
   }
 
-  return { service, industry, message: "" };
+  return { service, industry, message: params.message ?? "" };
 }
 
 export function labelForService(value: string): string {

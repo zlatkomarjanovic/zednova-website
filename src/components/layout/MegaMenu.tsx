@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
+import { trackLinkClick } from "@/lib/analytics/track";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import {
   BlueprintGuides,
@@ -178,7 +179,14 @@ function ServiceMegaCard({
   return (
     <Link
       href={card.href}
-      onClick={onNavigate}
+      onClick={(event) => {
+        trackLinkClick(card.href, {
+          label: card.title,
+          location: "mega-menu-service",
+          kind: "service",
+        });
+        onNavigate();
+      }}
       {...(interactive
         ? {
             "data-hover-cell": true,

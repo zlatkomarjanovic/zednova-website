@@ -49,7 +49,7 @@ const STEPS = [
 export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: Promise<{ service?: string; industry?: string; product?: string }>;
+  searchParams: Promise<{ service?: string; industry?: string; product?: string; message?: string }>;
 }) {
   const params = await searchParams;
   const [settings, serviceOptions, industryOptions] = await Promise.all([
@@ -107,6 +107,7 @@ export default async function ContactPage({
                 <Reveal delay={0.08} className="mt-8">
                   <CalBookingEmbed
                     theme="light"
+                    analyticsSource="contact-page"
                     className="overflow-hidden rounded-[12px] border-b border-zn-border bg-white"
                   />
                 </Reveal>
