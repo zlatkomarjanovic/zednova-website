@@ -74,7 +74,8 @@ export const POST_LIST_FIELDS = /* groq */ `{
   "slug": slug.current,
   excerpt,
   oneSentenceSummary,
-  "category": category->title,
+  "category": coalesce(category->title, category),
+  "categorySlug": category->slug.current,
   "author": author->slug.current,
   publishedAt,
   updatedAt,
@@ -101,7 +102,8 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   "slug": slug.current,
   excerpt,
   oneSentenceSummary,
-  "category": category->title,
+  "category": coalesce(category->title, category),
+  "categorySlug": category->slug.current,
   "author": author->slug.current,
   publishedAt,
   updatedAt,
@@ -176,7 +178,7 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
     "seoCanonical": coalesce(canonicalUrl, seo.seoCanonical, seo.canonicalUrl),
     "canonicalUrl": coalesce(canonicalUrl, seo.canonicalUrl, seo.seoCanonical),
     "seoNoIndex": coalesce(noIndex, seo.seoNoIndex, seo.robotsIndex == false, false),
-    "seoHideFromLists": coalesce(seo.seoHideFromLists, false),
+    "seoHideFromLists": coalesce(seoHideFromLists, seo.seoHideFromLists, false),
     "robotsIndex": coalesce(robotsIndex, seo.robotsIndex, !noIndex, !seo.seoNoIndex, true),
     "robotsFollow": coalesce(robotsFollow, seo.robotsFollow, true),
     "structuredDataType": coalesce(schemaType, seo.structuredDataType),
@@ -219,8 +221,31 @@ export const AUTHOR_BY_SLUG_QUERY = /* groq */ `
   }
 `;
 
+const POST_LIST_VISIBILITY_FILTER = /* groq */ `
+  coalesce(seoHideFromLists, seo.seoHideFromLists, false) == false
+`;
+
 export const POSTS_QUERY = /* groq */ `
-  *[_type == "post" && defined(slug.current) && coalesce(status, "Published") == "Published" && coalesce(seo.seoHideFromLists, false) == false] | order(publishedAt desc) ${POST_LIST_FIELDS}
+  *[_type == "post" && defined(slug.current) && coalesce(status, "Published") == "Published" && ${POST_LIST_VISIBILITY_FILTER}] | order(publishedAt desc) ${POST_LIST_FIELDS}
+`;
+
+export const INSIGHT_CATEGORIES_QUERY = /* groq */ `
+  *[_type == "insightCategory"] | order(order asc) {
+    title,
+    "slug": slug.current,
+    description,
+    icon,
+    colorLabel,
+    order,
+    featured,
+    "postCount": count(*[
+      _type == "post"
+      && references(^._id)
+      && defined(slug.current)
+      && coalesce(status, "Published") == "Published"
+      && ${POST_LIST_VISIBILITY_FILTER}
+    ])
+  }
 `;
 
 export const POST_BY_SLUG_QUERY = /* groq */ `

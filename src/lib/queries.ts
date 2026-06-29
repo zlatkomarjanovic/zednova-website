@@ -50,7 +50,9 @@ import type {
   SiteSettings,
   TeamMember,
   Testimonial,
+  InsightCategory,
 } from "@/lib/types";
+import { slugify } from "@/lib/utils";
 import {
   fetchAllIndustriesFromSanity,
   fetchAllMigrationsFromSanity,
@@ -65,6 +67,7 @@ import {
   fetchIndustryParentsFromSanity,
   fetchMigrationBySlugFromSanity,
   fetchAllPostsFromSanity,
+  fetchAllInsightCategoriesFromSanity,
   fetchAllCaseStudiesFromSanity,
   fetchAllFaqsFromSanity,
   fetchAllProductsFromSanity,
@@ -787,6 +790,28 @@ export async function getAllPosts(): Promise<Post[]> {
   return [...all].sort(
     (a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt),
   );
+}
+
+function staticInsightCategories(): InsightCategory[] {
+  const titles = [...new Set(postsStatic.map((post) => post.category).filter(Boolean))];
+  return titles.map((title, index) => ({
+    title,
+    slug: slugify(title),
+    order: index + 1,
+    postCount: postsStatic.filter((post) => post.category === title).length,
+  }));
+}
+
+export async function getAllInsightCategories(): Promise<InsightCategory[]> {
+  const categories = await fromSanity(
+    "insightCategory",
+    fetchAllInsightCategoriesFromSanity,
+    staticInsightCategories,
+  );
+
+  return categories
+    .filter((category) => (category.postCount ?? 0) > 0)
+    .sort((a, b) => a.order - b.order);
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {

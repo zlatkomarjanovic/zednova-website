@@ -483,6 +483,10 @@ for (const post of posts) {
     title: post.title,
     slug: { _type: "slug", current: post.slug },
     excerpt: post.excerpt,
+    category: {
+      _type: "reference",
+      _ref: `insightCategory-${slugify(post.category)}`,
+    },
     author: {
       _type: "reference",
       _ref: `author-${post.author}`,

@@ -13,6 +13,7 @@ import {
   mapIndustry,
   mapIndustryNavItem,
   mapIndustryParent,
+  mapInsightCategory,
   mapMegaMenuCard,
   mapMigration,
   mapCustomSoftware,
@@ -36,6 +37,7 @@ import {
   INDUSTRY_NAV_QUERY,
   INDUSTRY_PARENT_BY_SLUG_QUERY,
   INDUSTRY_PARENTS_QUERY,
+  INSIGHT_CATEGORIES_QUERY,
   MIGRATION_BY_SLUG_QUERY,
   MIGRATIONS_QUERY,
   PORTFOLIO_PROJECTS_QUERY,
@@ -220,6 +222,15 @@ export async function fetchAllPostsFromSanity(): Promise<Post[]> {
     query: POSTS_QUERY,
   });
   return docs.map(mapPost);
+}
+
+export async function fetchAllInsightCategoriesFromSanity(): Promise<
+  import("@/lib/types").InsightCategory[]
+> {
+  const docs = await sanityFetch<Parameters<typeof mapInsightCategory>[0][]>({
+    query: INSIGHT_CATEGORIES_QUERY,
+  });
+  return docs.filter((doc) => doc.slug && doc.title).map(mapInsightCategory);
 }
 
 export async function fetchPostBySlugFromSanity(

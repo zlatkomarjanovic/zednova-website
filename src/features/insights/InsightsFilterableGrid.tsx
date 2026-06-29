@@ -34,11 +34,20 @@ type FilterPost = Pick<
  * Filterable + searchable insights grid. Renders all posts and filters
  * client-side by category and free-text query. Empty state included.
  */
-export function InsightsFilterableGrid({ posts }: { posts: FilterPost[] }) {
+export function InsightsFilterableGrid({
+  posts,
+  categories: categoryLabels,
+}: {
+  posts: FilterPost[];
+  categories?: string[];
+}) {
   const categories = useMemo(() => {
-    const set = new Set(posts.map((p) => p.category));
+    if (categoryLabels?.length) {
+      return ["All", ...categoryLabels];
+    }
+    const set = new Set(posts.map((p) => p.category).filter(Boolean));
     return ["All", ...Array.from(set)];
-  }, [posts]);
+  }, [posts, categoryLabels]);
 
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [query, setQuery] = useState("");

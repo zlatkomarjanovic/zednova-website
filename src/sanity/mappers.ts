@@ -8,6 +8,7 @@ import type {
   Industry,
   IndustryCategory,
   IndustryParent,
+  InsightCategory,
   Post,
   PriceTier,
   Product,
@@ -1101,5 +1102,27 @@ export function mapFaq(doc: {
     scopeMigrations: doc.scopeMigrations,
     tags: doc.tags,
     order: doc.order,
+  };
+}
+
+export function mapInsightCategory(doc: {
+  title: string;
+  slug: string;
+  description?: string;
+  icon?: string;
+  colorLabel?: string;
+  order: number;
+  featured?: boolean;
+  postCount?: number;
+}): InsightCategory {
+  return {
+    title: doc.title,
+    slug: doc.slug,
+    description: doc.description,
+    icon: doc.icon,
+    colorLabel: doc.colorLabel,
+    order: doc.order,
+    featured: doc.featured,
+    postCount: doc.postCount ?? 0,
   };
 }

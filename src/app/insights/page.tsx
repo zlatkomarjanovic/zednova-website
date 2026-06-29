@@ -10,7 +10,7 @@ import { FaqSection } from "@/features/home/FaqSection";
 import { FounderSection } from "@/features/about/FounderSection";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { SectionLabel } from "@/ui/SectionLabel";
-import { getAllFaqs, getAllPosts, getFeaturedPost } from "@/lib/queries";
+import { getAllFaqs, getAllInsightCategories, getAllPosts, getFeaturedPost } from "@/lib/queries";
 
 export const metadata: Metadata = {
   title: "Insights on AI Search, Websites & Automations | ZedNova",
@@ -28,12 +28,14 @@ export const metadata: Metadata = {
 };
 
 export default async function InsightsPage() {
-  const [featured, allPosts, faqs] = await Promise.all([
+  const [featured, allPosts, categories, faqs] = await Promise.all([
     getFeaturedPost(),
     getAllPosts(),
+    getAllInsightCategories(),
     getAllFaqs(),
   ]);
   const filterable = allPosts.filter((p) => p.slug !== featured.slug);
+  const categoryLabels = categories.map((category) => category.title);
 
   return (
     <>
@@ -89,7 +91,7 @@ export default async function InsightsPage() {
               </div>
             </div>
 
-            <InsightsFilterableGrid posts={filterable} />
+            <InsightsFilterableGrid posts={filterable} categories={categoryLabels} />
 
             <FaqSection
               embedded

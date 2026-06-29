@@ -310,6 +310,17 @@ export type ArticleFaq = {
   answer: string;
 };
 
+export type InsightCategory = {
+  title: string;
+  slug: string;
+  description?: string;
+  icon?: string;
+  colorLabel?: string;
+  order: number;
+  featured?: boolean;
+  postCount?: number;
+};
+
 export type Post = {
   slug: string;
   title: string;
