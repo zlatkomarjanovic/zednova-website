@@ -6,7 +6,7 @@ import { Minus, Plus } from "lucide-react";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { Button } from "@/ui/Button";
-import { InsightsContinueReadingBlock } from "@/features/insights/ArticleContinueReading";
+import { InsightsHomePostsSection } from "@/features/insights/InsightsHomePostsSection";
 import { SectionLabel } from "@/ui/SectionLabel";
 import type { FaqItem } from "@/lib/content/faq";
 import type { Post } from "@/lib/types";
@@ -193,24 +193,18 @@ export function FaqSection({
           <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
           <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
-          <div
-            className="zn-container-inset py-14 lg:py-16"
-            aria-labelledby="homepage-recent-insights-heading"
-          >
-            <InsightsContinueReadingBlock
-              posts={recentPosts}
-              label="Insights"
-              heading="Recent blog posts"
-              headingId="homepage-recent-insights-heading"
-              description={HOMEPAGE_INSIGHTS_DESCRIPTION}
-              transparentCards
-              action={
-                <Button href="/insights" variant="link" withArrow>
-                  All insights
-                </Button>
-              }
-            />
-          </div>
+          <InsightsHomePostsSection
+            posts={recentPosts}
+            label="Insights"
+            heading="Recent blog posts"
+            headingId="homepage-recent-insights-heading"
+            description={HOMEPAGE_INSIGHTS_DESCRIPTION}
+            action={
+              <Button href="/insights" variant="link" withArrow>
+                All insights
+              </Button>
+            }
+          />
         </div>
       ) : null}
     </>

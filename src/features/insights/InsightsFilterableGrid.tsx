@@ -1,34 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import { ArrowUpRight, Search, X } from "lucide-react";
-import { Tag } from "@/ui/Tag";
-import type { Post } from "@/lib/types";
+import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ArticleCover } from "@/features/insights/ArticleCover";
+import { InsightsArticleGrid, type InsightsGridPost } from "@/features/insights/InsightsArticleGrid";
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-type FilterPost = Pick<
-  Post,
-  | "slug"
-  | "title"
-  | "excerpt"
-  | "category"
-  | "publishedAt"
-  | "readTime"
-  | "accent"
-  | "tags"
-  | "image"
-  | "imageAlt"
->;
+type FilterPost = InsightsGridPost;
 
 /**
  * Filterable + searchable insights grid. Renders all posts and filters
@@ -129,37 +106,7 @@ export function InsightsFilterableGrid({
 
       {/* Results */}
       {filtered.length > 0 ? (
-        <div className="relative">
-          <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/insights/${post.slug}`}
-                aria-label={`Read ${post.title}`}
-                className="group relative z-[2] flex h-full flex-col gap-4 border-b border-zn-border p-6 transition-colors hover:bg-zn-bg-2/50 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
-              >
-                <ArticleCover post={post} className="aspect-[16/10]" zMarkClassName="size-16" />
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-zn-text-3">
-                  <Tag>{post.category}</Tag>
-                  <span>{formatDate(post.publishedAt)}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{post.readTime} min read</span>
-                </div>
-                <h3 className="font-sans text-base font-normal leading-snug text-zn-text transition-opacity group-hover:opacity-70 md:text-lg">
-                  {post.title}
-                </h3>
-                <p className="zn-prose line-clamp-3">{post.excerpt}</p>
-                <span className="mt-auto inline-flex items-center gap-1 text-[0.8125rem] text-zn-text-3">
-                  Read article
-                  <ArrowUpRight
-                    className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    aria-hidden="true"
-                  />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <InsightsArticleGrid posts={filtered} />
       ) : (
         <div className="relative">
           <div className="zn-container-inset py-20 text-center">
