@@ -361,23 +361,13 @@
   }
 }
 
-/* ---------------- Mobile / touch — disable hover chrome, simplify layout ---------------- */
+/* ---------------- Mobile / touch — disable hover chrome ---------------- */
 @media (max-width: 1023px) {
-  /* HoverFlip: show plain label text (fixes footer/link clipping) */
-  .hover-flip > .hover-flip[aria-hidden="true"] {
-    display: none;
-  }
-
-  .hover-flip .sr-only {
-    position: static !important;
-    width: auto !important;
-    height: auto !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    overflow: visible !important;
-    clip: auto !important;
-    white-space: normal !important;
-    border: 0 !important;
+  .hover-flip[aria-hidden="true"],
+  .hover-flip-char,
+  .hover-flip-char::before,
+  .hover-flip-char::after {
+    display: none !important;
   }
 
   .group\/flip:hover .hover-flip-char::before,
@@ -385,7 +375,6 @@
     translate: none !important;
   }
 
-  /* Button / link underline and arrow flip */
   .group\/flip:hover .zn-underline {
     background-size: 0 1px !important;
   }
@@ -397,19 +386,6 @@
 
   .group\/flip .absolute.inset-0.-translate-x-full {
     display: none !important;
-  }
-
-  /* Remove vertical guide frame borders inside blueprint columns */
-  .zn-container-guides > .relative.border-x,
-  .zn-container-guides > .border-x {
-    border-left-width: 0 !important;
-    border-right-width: 0 !important;
-  }
-
-  /* BlueprintGuides side lines */
-  [data-blueprint-line].left-0.w-px,
-  [data-blueprint-line].right-0.w-px {
-    opacity: 0 !important;
   }
 }
 

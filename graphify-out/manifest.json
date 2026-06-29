@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "src/app/work/page.tsx": {
-    "mtime": 1782598254.678552,
-    "ast_hash": "e4dd6b1600073d76355b406d0951bb6a",
+    "mtime": 1782775410.198272,
+    "ast_hash": "900fca3a5e3ccf928ac5f4cfa3e83617",
     "semantic_hash": ""
   },
   "src/components/animations/AIChatbotAnimation.tsx": {
@@ -410,8 +410,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/MobileMenu.tsx": {
-    "mtime": 1782774882.2033246,
-    "ast_hash": "97f9e924f8f5fb8d6a54f8cbd0fb8d18",
+    "mtime": 1782775429.0495133,
+    "ast_hash": "60d5014a15d0aac41fc3608c4bb176ba",
     "semantic_hash": ""
   },
   "src/components/layout/Navbar.tsx": {
@@ -520,8 +520,8 @@
     "semantic_hash": ""
   },
   "src/features/industries/IndustryNavShowcaseGrid.tsx": {
-    "mtime": 1782310704.6345525,
-    "ast_hash": "6713719e4f6ccfed3ea30d3beef36dd4",
+    "mtime": 1782775645.2176821,
+    "ast_hash": "26648b74735b4b67be3db4fe73b6745c",
     "semantic_hash": ""
   },
   "src/features/insights/ArticleBody.tsx": {
@@ -585,8 +585,8 @@
     "semantic_hash": ""
   },
   "src/features/work/PortfolioWorkGrid.tsx": {
-    "mtime": 1782395387.5713384,
-    "ast_hash": "425668b87145094aa6a5b08c7dd38965",
+    "mtime": 1782775421.1476874,
+    "ast_hash": "34110030dd1f2173a9c37918822ddd0d",
     "semantic_hash": ""
   },
   "src/lib/content/agency-comparison.ts": {
@@ -750,8 +750,8 @@
     "semantic_hash": ""
   },
   "src/ui/HoverFlip.tsx": {
-    "mtime": 1782515790.0491967,
-    "ast_hash": "960d280839ad61ea7ae6a3f4b3bd0870",
+    "mtime": 1782775395.3637066,
+    "ast_hash": "0abc5a13df8a402a6caea2fcd81474af",
     "semantic_hash": ""
   },
   "src/ui/HoverHighlight.tsx": {
@@ -1035,8 +1035,8 @@
     "semantic_hash": ""
   },
   "src/ui/TemplateSection.tsx": {
-    "mtime": 1782774829.2424695,
-    "ast_hash": "daf62dcc5c47380a99a30f966368846c",
+    "mtime": 1782775397.6304119,
+    "ast_hash": "05a53dbd05e2725fbabc96535203f202",
     "semantic_hash": ""
   },
   "scripts/generate-vercel-env-csv.mjs": {
@@ -1610,8 +1610,8 @@
     "semantic_hash": ""
   },
   "src/features/work/CaseStudyCards.tsx": {
-    "mtime": 1782767699.8791127,
-    "ast_hash": "a757aba0f913cdebbaf1deeef2815ffa",
+    "mtime": 1782775410.073678,
+    "ast_hash": "47a9b98588a9bb9da908324808792fb2",
     "semantic_hash": ""
   },
   "src/lib/analytics/events.ts": {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -10,8 +10,32 @@ import type { HomepageIndustry } from "@/lib/content/homepage-industries";
 import { cn } from "@/lib/utils";
 
 const SLIDE_EASE = [0.45, 0, 0.2, 1] as const;
-const PER_SLIDE = 3;
+const PER_SLIDE_DESKTOP = 3;
+const DESKTOP_MQ = "(min-width: 768px)";
 const AUTOPLAY_MS = 7000;
+
+function subscribeDesktopMq(onChange: () => void) {
+  const mq = window.matchMedia(DESKTOP_MQ);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getDesktopMqSnapshot() {
+  return window.matchMedia(DESKTOP_MQ).matches;
+}
+
+function getDesktopMqServerSnapshot() {
+  return true;
+}
+
+function usePerSlideSize() {
+  const isDesktop = useSyncExternalStore(
+    subscribeDesktopMq,
+    getDesktopMqSnapshot,
+    getDesktopMqServerSnapshot,
+  );
+  return isDesktop ? PER_SLIDE_DESKTOP : 1;
+}
 
 function chunkIndustries(items: HomepageIndustry[], size: number) {
   const slides: HomepageIndustry[][] = [];
@@ -23,7 +47,7 @@ function chunkIndustries(items: HomepageIndustry[], size: number) {
 
 function IndustryCard({ industry }: { industry: HomepageIndustry }) {
   return (
-    <div className="flex h-full flex-col border-r border-zn-border bg-white last:border-r-0">
+    <div className="flex h-full flex-col border-zn-border bg-white md:border-r md:last:border-r-0">
       <Link
         href={industry.href}
         className="flex h-full flex-col gap-5 px-6 py-7 md:px-7 md:py-8"
@@ -55,12 +79,22 @@ function IndustryCard({ industry }: { industry: HomepageIndustry }) {
 }
 
 export function IndustryNavShowcaseGrid({ industries }: { industries: HomepageIndustry[] }) {
-  const slides = useMemo(() => chunkIndustries(industries, PER_SLIDE), [industries]);
+  const perSlide = usePerSlideSize();
+  const slides = useMemo(
+    () => chunkIndustries(industries, perSlide),
+    [industries, perSlide],
+  );
   const [activeSlide, setActiveSlide] = useState(0);
   const [paused, setPaused] = useState(false);
   const activeSlideRef = useRef(activeSlide);
 
   activeSlideRef.current = activeSlide;
+
+  useEffect(() => {
+    setActiveSlide((current) =>
+      slides.length === 0 ? 0 : Math.min(current, slides.length - 1),
+    );
+  }, [slides.length, perSlide]);
 
   const goTo = useCallback(
     (index: number) => {
@@ -105,7 +139,7 @@ export function IndustryNavShowcaseGrid({ industries }: { industries: HomepageIn
               type="button"
               onClick={goPrev}
               aria-label="Previous industries"
-              className="flex size-8 items-center justify-center border border-zn-border bg-white text-zn-text transition-colors hover:border-zn-text"
+              className="flex size-8 items-center justify-center border border-zn-border bg-white text-zn-text transition-colors lg:hover:border-zn-text"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
             </button>
@@ -113,7 +147,7 @@ export function IndustryNavShowcaseGrid({ industries }: { industries: HomepageIn
               type="button"
               onClick={goNext}
               aria-label="Next industries"
-              className="flex size-8 items-center justify-center border border-zn-border bg-white text-zn-text transition-colors hover:border-zn-text"
+              className="flex size-8 items-center justify-center border border-zn-border bg-white text-zn-text transition-colors lg:hover:border-zn-text"
             >
               <ChevronRight className="size-4" aria-hidden="true" />
             </button>
@@ -128,7 +162,7 @@ export function IndustryNavShowcaseGrid({ industries }: { industries: HomepageIn
           >
             {slides.map((slide, slideIndex) => (
               <div
-                key={slideIndex}
+                key={`${perSlide}-${slideIndex}`}
                 className="grid w-full shrink-0 grid-cols-1 md:grid-cols-3"
               >
                 {slide.map((industry) => (
@@ -152,7 +186,7 @@ export function IndustryNavShowcaseGrid({ industries }: { industries: HomepageIn
               <span
                 className={cn(
                   "absolute inset-y-0 left-0 bg-zn-text transition-all duration-500 ease-out",
-                  index === activeSlide ? "w-full" : "w-0 group-hover:w-1/2",
+                  index === activeSlide ? "w-full" : "w-0 lg:group-hover:w-1/2",
                 )}
               />
               <span className="block h-px w-full bg-zn-border" />

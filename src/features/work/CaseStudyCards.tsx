@@ -19,7 +19,7 @@ export function CaseStudyCards({
       <Reveal>
         <SectionLabel withRule={false}>{title}</SectionLabel>
       </Reveal>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
         {studies.map((study) => (
           <Link
             key={study.slug}

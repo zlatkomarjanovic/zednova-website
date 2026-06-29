@@ -10,12 +10,12 @@ type PortfolioWorkGridProps = {
 /** Our Work section — info cards that reveal mockup images on hover. */
 export function PortfolioWorkGrid({ projects, className }: PortfolioWorkGridProps) {
   return (
-    <div className={cn("mt-14 grid grid-cols-1 gap-6 md:grid-cols-2", className)}>
+    <div className={cn("mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2", className)}>
       {projects.map((project, index) => (
         <PortfolioShowcaseCard
           key={project.slug}
           project={project}
-          className={cn(index % 2 === 0 ? "md:-translate-y-6" : "md:translate-y-6")}
+          className={cn(index % 2 === 0 ? "lg:-translate-y-6" : "lg:translate-y-6")}
         />
       ))}
     </div>

@@ -163,7 +163,7 @@ export default async function WorkPage() {
                   </Reveal>
                 </div>
 
-                <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
                   {caseStudies.map((caseStudy, index) => (
                     <Reveal key={caseStudy.slug} delay={0.04 * index}>
                       <CaseStudyCard

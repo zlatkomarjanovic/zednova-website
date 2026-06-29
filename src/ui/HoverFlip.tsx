@@ -1,8 +1,28 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
 
 const FLIP_STAGGER_MS = 18;
+const MOBILE_MQ = "(max-width: 1023px)";
+
+function subscribeMobileMq(onChange: () => void) {
+  const mq = window.matchMedia(MOBILE_MQ);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getMobileMqSnapshot() {
+  return window.matchMedia(MOBILE_MQ).matches;
+}
+
+function getMobileMqServerSnapshot() {
+  return false;
+}
+
+function useMobileTouchUi() {
+  return useSyncExternalStore(subscribeMobileMq, getMobileMqSnapshot, getMobileMqServerSnapshot);
+}
 
 /**
  * Split-letter hover flip for nav/footer/button links.
@@ -21,7 +41,17 @@ export function HoverFlip({
   /** @deprecated Ignored — sr-only + data-char rendering is always used. */
   decorative?: boolean;
 }) {
+  const mobileTouchUi = useMobileTouchUi();
+
   if (typeof children !== "string") {
+    return (
+      <span className={cn("inline-block align-bottom leading-none", className)}>
+        {children}
+      </span>
+    );
+  }
+
+  if (mobileTouchUi) {
     return (
       <span className={cn("inline-block align-bottom leading-none", className)}>
         {children}

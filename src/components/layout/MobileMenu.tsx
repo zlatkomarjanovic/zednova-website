@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Plus, Minus } from "lucide-react";
-import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { Button } from "@/ui/Button";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
@@ -12,36 +11,45 @@ import type { InsightsNavPosts } from "@/lib/queries";
 import { ArticleCover } from "@/features/insights/ArticleCover";
 import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
 import { NavMenuIcon } from "@/ui/NavMenuIcon";
+import { cn } from "@/lib/utils";
 
 const MENU_EASE = [0.22, 1, 0.36, 1] as const;
 
 const mobilePanel = {
-  hidden: { x: "100%" },
+  hidden: {
+    clipPath: "inset(0 0 100% 0)",
+    opacity: 0,
+  },
   show: {
-    x: 0,
-    transition: { duration: 0.38, ease: MENU_EASE },
+    clipPath: "inset(0 0 0 0)",
+    opacity: 1,
+    transition: { duration: 0.42, ease: MENU_EASE },
   },
   exit: {
-    x: "100%",
-    transition: { duration: 0.28, ease: MENU_EASE },
+    clipPath: "inset(0 0 100% 0)",
+    opacity: 0,
+    transition: { duration: 0.3, ease: MENU_EASE },
   },
 };
 
 const mobileNav = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.045, delayChildren: 0.12 },
+    transition: { staggerChildren: 0.04, delayChildren: 0.22 },
   },
 };
 
 const mobileNavItem = {
-  hidden: { opacity: 0, y: 14 },
+  hidden: { opacity: 0, y: 10 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.28, ease: MENU_EASE },
+    transition: { duration: 0.24, ease: MENU_EASE },
   },
 };
+
+const MOBILE_NAV_MAIN = "text-[1.1rem] font-normal leading-snug";
+const MOBILE_NAV_SUB = "text-xs leading-snug";
 
 const LINKS_AFTER_INDUSTRIES = [
   { label: "About", href: "/about" },
@@ -107,10 +115,9 @@ export function MobileMenu({
             initial="hidden"
             animate="show"
             exit="exit"
-            className="fixed inset-y-0 right-0 z-[100] flex w-full max-w-md flex-col bg-zn-dark text-zn-inv shadow-2xl lg:hidden"
+            className="fixed inset-x-0 top-16 bottom-0 z-[100] flex flex-col bg-zn-dark text-zn-inv shadow-2xl lg:hidden"
           >
-          <div className="flex h-16 items-center justify-between px-6">
-            <LogoHomeLink variant="light" onNavigate={onClose} />
+          <div className="flex h-12 shrink-0 items-center justify-end px-4">
             <button
               onClick={onClose}
               aria-label="Close menu"
@@ -125,7 +132,7 @@ export function MobileMenu({
             initial="hidden"
             animate="show"
             aria-label="Mobile"
-            className="flex-1 overflow-y-auto px-6 py-6"
+            className="flex-1 overflow-y-auto px-5 pb-4"
           >
             <motion.div variants={mobileNavItem}>
             <Accordion
@@ -143,9 +150,9 @@ export function MobileMenu({
                     <Link
                       href={card.href}
                       onClick={onClose}
-                      className="block rounded-[2px] border border-zn-border-dk px-4 py-3 transition-colors hover:border-zn-inv"
+                      className="block rounded-[2px] border border-zn-border-dk px-3 py-2.5 transition-colors hover:border-zn-inv"
                     >
-                      <span className="block text-sm text-zn-inv">{card.title}</span>
+                      <span className={cn("block text-zn-inv", MOBILE_NAV_SUB)}>{card.title}</span>
                       <span className="mt-1 hidden text-xs leading-relaxed text-zn-inv-2 sm:block">
                         {card.shortDescription}
                       </span>
@@ -172,17 +179,17 @@ export function MobileMenu({
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="flex items-start gap-3 py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                      className="flex items-start gap-2.5 py-2 text-zn-inv-2 transition-colors hover:text-zn-inv"
                     >
                       {item.icon && (
                         <NavMenuIcon
                           src={item.icon.src}
                           alt={item.icon.alt}
                           theme="dark"
-                          className="mt-0.5"
+                          className="mt-0.5 scale-90"
                         />
                       )}
-                      <span>{item.title}</span>
+                      <span className={MOBILE_NAV_SUB}>{item.title}</span>
                     </Link>
                   </li>
                 ))}
@@ -206,17 +213,17 @@ export function MobileMenu({
                     <Link
                       href={`/migrations/${item.slug}`}
                       onClick={onClose}
-                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                      className="block py-2 text-zn-inv-2 transition-colors hover:text-zn-inv"
                     >
                       {item.platformIcons && (
                         <MigrationPlatformPill
                           from={item.platformIcons.from}
                           to={item.platformIcons.to}
                           theme="dark"
-                          className="mb-2"
+                          className="mb-1.5 scale-90 origin-left"
                         />
                       )}
-                      {item.title}
+                      <span className={MOBILE_NAV_SUB}>{item.title}</span>
                     </Link>
                   </li>
                 ))}
@@ -240,9 +247,9 @@ export function MobileMenu({
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="block py-2.5 text-sm text-zn-inv-2 transition-colors hover:text-zn-inv"
+                      className="block py-2 text-zn-inv-2 transition-colors hover:text-zn-inv"
                     >
-                      {item.title}
+                      <span className={MOBILE_NAV_SUB}>{item.title}</span>
                     </Link>
                   </li>
                 ))}
@@ -323,15 +330,15 @@ export function MobileMenu({
               <Link
                 href={link.href}
                 onClick={onClose}
-                className="block border-b border-zn-border-dk py-5 font-sans font-normal text-2xl text-zn-inv"
+                className="block border-b border-zn-border-dk py-4 font-sans text-zn-inv"
               >
-                {link.label}
+                <span className={MOBILE_NAV_MAIN}>{link.label}</span>
               </Link>
               </motion.div>
             ))}
           </motion.nav>
 
-          <div className="border-t border-zn-border-dk px-6 py-6">
+          <div className="shrink-0 border-t border-zn-border-dk px-5 py-5">
             <Button href="/contact" variant="inverted" size="md" className="w-full" onClick={onClose}>
               Tell us what you need
             </Button>
@@ -360,11 +367,11 @@ function Accordion({
 }) {
   return (
     <div className="border-b border-zn-border-dk">
-      <div className="flex items-center justify-between py-5">
+      <div className="flex items-center justify-between py-3.5">
         <Link
           href={href}
           onClick={onNavigate}
-          className="font-sans text-2xl font-normal text-zn-inv"
+          className={cn("font-sans text-zn-inv", MOBILE_NAV_MAIN)}
         >
           {title}
         </Link>
