@@ -3,6 +3,7 @@ import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { FooterAiSummaryLinks } from "@/components/layout/FooterAiSummaryLinks";
+import { FooterProfileLinks } from "@/components/layout/FooterProfileLinks";
 import { FooterNavLink } from "@/components/layout/FooterNavLink";
 import type { HomepageIndustry } from "@/lib/content/homepage-industries";
 import { featuredHomepageIndustries as staticFeaturedHomepageIndustries } from "@/lib/content/homepage-industries";
@@ -64,11 +65,14 @@ export function Footer({
               </p>
               <FooterAiSummaryLinks />
             </div>
-            <div className="flex flex-col gap-5 lg:items-end lg:text-right">
-              <div className="space-y-2 text-sm text-zn-inv-2">
-                <p>CST (Texas) · We work async</p>
-              </div>
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col gap-4 lg:items-end lg:text-right">
+              <p className="text-sm text-zn-inv-2">CST (Texas) · We work async</p>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 lg:justify-end">
+                <FooterProfileLinks profileLinks={settings.profileLinks} />
+                <span
+                  aria-hidden="true"
+                  className="mx-1 hidden h-4 w-px bg-zn-border-dk sm:inline-block"
+                />
                 {settings.socialLinks.linkedin && (
                   <Social href={settings.socialLinks.linkedin} label="LinkedIn">
                     <LinkedInIcon />

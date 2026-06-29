@@ -137,6 +137,10 @@ export default async function RootLayout({
     settings.socialLinks.linkedin,
     settings.socialLinks.twitter,
     settings.socialLinks.github,
+    settings.profileLinks.crunchbase,
+    settings.profileLinks.clutch,
+    settings.profileLinks.goodfirms,
+    settings.profileLinks.linkedinCompany,
   ].filter(Boolean) as string[];
 
   const schemaGraph = sitewideSchemaGraph({

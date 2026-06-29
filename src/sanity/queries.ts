@@ -650,6 +650,7 @@ export const SITE_SETTINGS_QUERY = /* groq */ `
     address,
     officeHours,
     socialLinks,
+    profileLinks,
     stats,
     twitterCreator,
     "defaultOgImage": defaultOgImage.asset->url,

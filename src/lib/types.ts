@@ -474,6 +474,13 @@ export type FaqItem = {
   order: number;
 };
 
+export type ProfileLinks = {
+  crunchbase?: string;
+  clutch?: string;
+  goodfirms?: string;
+  linkedinCompany?: string;
+};
+
 export type SiteSettings = {
   siteTitle: string;
   siteDescription: string;
@@ -491,6 +498,7 @@ export type SiteSettings = {
     instagram?: string;
     youtube?: string;
   };
+  profileLinks: ProfileLinks;
   stats: { value: string; label: string }[];
   twitterCreator?: string;
   defaultOgImage?: string;

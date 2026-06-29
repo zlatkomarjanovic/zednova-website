@@ -86,6 +86,23 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
+      name: "profileLinks",
+      type: "object",
+      title: "Directory & company profiles",
+      group: "social",
+      description: "Crunchbase, Clutch, GoodFirms, LinkedIn company page, etc.",
+      fields: [
+        defineField({ name: "crunchbase", type: "url", title: "Crunchbase" }),
+        defineField({ name: "clutch", type: "url", title: "Clutch" }),
+        defineField({ name: "goodfirms", type: "url", title: "GoodFirms" }),
+        defineField({
+          name: "linkedinCompany",
+          type: "url",
+          title: "LinkedIn company page",
+        }),
+      ],
+    }),
+    defineField({
       name: "socialLinksList",
       type: "array",
       title: "Social links (extended)",

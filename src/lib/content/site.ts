@@ -1,4 +1,5 @@
 import type { SiteSettings } from "@/lib/types";
+import { defaultProfileLinks } from "@/lib/content/profile-links";
 
 export const siteSettings: SiteSettings = {
   siteTitle: "ZedNova Studios",
@@ -11,6 +12,10 @@ export const siteSettings: SiteSettings = {
     linkedin: "https://www.linkedin.com/in/zlatkomarjanovic",
     twitter: "https://x.com/thezlatkom",
     github: "https://github.com/zlatkomarjanovic",
+  },
+  profileLinks: {
+    ...defaultProfileLinks,
+    goodfirms: "https://www.goodfirms.co/company/zednova-studios",
   },
   stats: [
     { value: "120+", label: "Projects completed" },

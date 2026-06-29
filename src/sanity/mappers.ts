@@ -19,6 +19,7 @@ import type {
   Testimonial,
 } from "@/lib/types";
 import { uniqueFaqs, uniqueTakeaways } from "@/lib/insights/dedupe-aeo";
+import { defaultProfileLinks } from "@/lib/content/profile-links";
 import type { Migration } from "@/lib/types/content-nav";
 import type {
   CustomSoftwareGroupSection,
@@ -1056,6 +1057,12 @@ export function mapSiteSettings(doc: {
     instagram?: string;
     youtube?: string;
   };
+  profileLinks?: {
+    crunchbase?: string;
+    clutch?: string;
+    goodfirms?: string;
+    linkedinCompany?: string;
+  };
   stats: { value: string; label: string }[];
   twitterCreator?: string;
   defaultOgImage?: string;
@@ -1073,6 +1080,10 @@ export function mapSiteSettings(doc: {
     address: doc.address,
     officeHours: doc.officeHours,
     socialLinks: doc.socialLinks,
+    profileLinks: {
+      ...defaultProfileLinks,
+      ...doc.profileLinks,
+    },
     stats: doc.stats,
     twitterCreator: doc.twitterCreator,
     defaultOgImage: doc.defaultOgImage,
