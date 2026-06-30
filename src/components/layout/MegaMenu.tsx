@@ -461,7 +461,8 @@ function FeaturedInsightLink({
       onClick={onNavigate}
       data-hover-cell
       onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-      className="group relative z-[1] grid h-full grid-rows-[1.35fr_1fr]"
+      className="group relative z-[1] grid h-full min-h-0"
+      style={{ gridTemplateRows: "2.1fr 1fr" }}
     >
       <div className="relative min-h-0 overflow-hidden">
         <ArticleCover
