@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import {
@@ -13,6 +13,20 @@ import {
 } from "@/lib/content/ai-summary-models";
 import { useAiSummaryPage } from "@/lib/use-ai-summary-page";
 import { cn } from "@/lib/utils";
+
+function useTouchUi() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: none), (pointer: coarse)");
+    const update = () => setIsTouch(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return isTouch;
+}
 
 function AiFabTooltip({
   label,
@@ -63,6 +77,8 @@ function AiFabButton({
   onHover,
   pageUrl,
   pageTitle,
+  isTouch,
+  onExpand,
 }: {
   model: AiSummaryModel;
   stackIndex: number;
@@ -73,14 +89,34 @@ function AiFabButton({
   onHover: (id: string) => void;
   pageUrl: string;
   pageTitle: string;
+  isTouch: boolean;
+  onExpand: () => void;
 }) {
   const url = model.buildUrl(buildAiSummaryPrompt(model.id, pageUrl, pageTitle));
   const label = summarizeWithLabel(model.name);
+  const expandOnly = isTouch && isTrigger && !open;
 
-  const handleLeave = (e: React.MouseEvent<HTMLAnchorElement> | React.FocusEvent<HTMLAnchorElement>) => {
+  const handleLeave = (
+    e: React.MouseEvent<HTMLAnchorElement> | React.FocusEvent<HTMLAnchorElement>,
+  ) => {
     const related = e.relatedTarget;
     if (related instanceof Node && stackRef.current?.contains(related)) return;
     onHover("");
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isTouch) return;
+
+    if (expandOnly) {
+      e.preventDefault();
+      e.stopPropagation();
+      onExpand();
+      return;
+    }
+
+    if (!open && !isTrigger) {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -88,10 +124,12 @@ function AiFabButton({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={label}
-      onMouseEnter={() => onHover(model.id)}
+      aria-label={expandOnly ? "Show AI summary options" : label}
+      aria-expanded={isTrigger ? open : undefined}
+      onClick={handleClick}
+      onMouseEnter={() => !isTouch && onHover(model.id)}
       onMouseLeave={handleLeave}
-      onFocus={() => onHover(model.id)}
+      onFocus={() => !isTouch && onHover(model.id)}
       onBlur={handleLeave}
       style={
         {
@@ -112,7 +150,7 @@ function AiFabButton({
         open || isTrigger ? "pointer-events-auto" : "pointer-events-none",
       )}
     >
-      <AiFabTooltip label={label} visible={tooltipVisible} />
+      <AiFabTooltip label={label} visible={!isTouch && tooltipVisible} />
       <AiFabLogo model={model} />
     </a>
   );
@@ -123,25 +161,49 @@ export function AiSummaryFab() {
   const [hoveredId, setHoveredId] = useState("");
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const stackRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const count = aiSummaryFabModels.length;
   const { pageUrl, pageTitle } = useAiSummaryPage();
+  const isTouch = useTouchUi();
 
   const handleEnter = useCallback(() => {
+    if (isTouch) return;
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpen(true);
-  }, []);
+  }, [isTouch]);
 
   const handleLeave = useCallback(() => {
+    if (isTouch) return;
     closeTimer.current = setTimeout(() => {
       setOpen(false);
       setHoveredId("");
     }, 120);
+  }, [isTouch]);
+
+  const handleExpand = useCallback(() => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
   }, []);
+
+  useEffect(() => {
+    if (!isTouch || !open) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Node) || rootRef.current?.contains(target)) return;
+      setOpen(false);
+      setHoveredId("");
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [isTouch, open]);
 
   const stackHeight = `calc(2.75rem + ${(count - 1) * AI_SUMMARY_FAB_GAP_REM}rem)`;
 
   return (
     <div
+      ref={rootRef}
       className="fixed bottom-6 right-3 z-[60] sm:bottom-8 sm:right-5"
       aria-label="Ask AI to summarize this site"
       onMouseEnter={handleEnter}
@@ -172,6 +234,8 @@ export function AiSummaryFab() {
               onHover={setHoveredId}
               pageUrl={pageUrl}
               pageTitle={pageTitle}
+              isTouch={isTouch}
+              onExpand={handleExpand}
             />
           );
         })}
