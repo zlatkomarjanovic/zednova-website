@@ -385,8 +385,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/AiSummaryFab.tsx": {
-    "mtime": 1782764696.4321854,
-    "ast_hash": "6abea4428805ebf9ac8e2d060b68e6c8",
+    "mtime": 1782843063.6238887,
+    "ast_hash": "a3238df4f94744c4acde7a25950ef39e",
     "semantic_hash": ""
   },
   "src/components/layout/Footer.tsx": {
@@ -405,8 +405,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/MegaMenu.tsx": {
-    "mtime": 1782832804.1582918,
-    "ast_hash": "3a893ad8d64f7aa5a5252261292ddd03",
+    "mtime": 1782845443.0090966,
+    "ast_hash": "0e282d24eaf3d50811ba6b8af159a7fb",
     "semantic_hash": ""
   },
   "src/components/layout/MobileMenu.tsx": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "src/features/home/LogoTicker.tsx": {
-    "mtime": 1782517895.0946841,
-    "ast_hash": "6b9e1e72bf38efea5bf155e85ef5ebb4",
+    "mtime": 1782841737.7506745,
+    "ast_hash": "8d9bbf5925607b341ca7ec66053eed17",
     "semantic_hash": ""
   },
   "src/features/home/PageHero.tsx": {
@@ -695,8 +695,8 @@
     "semantic_hash": ""
   },
   "src/lib/queries.ts": {
-    "mtime": 1782836265.9287846,
-    "ast_hash": "01ab570a208f2fe534a61b2e272c044c",
+    "mtime": 1782845445.4112263,
+    "ast_hash": "e7e23af310c40fc2a3d8a0bf550c7b7a",
     "semantic_hash": ""
   },
   "src/lib/seo.ts": {

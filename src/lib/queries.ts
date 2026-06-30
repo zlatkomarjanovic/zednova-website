@@ -824,6 +824,17 @@ export async function getAllPosts(): Promise<Post[]> {
   );
 }
 
+/** Newest featured post for nav surfaces; falls back to newest pinned, then newest overall. */
+function pickNewestFeaturedInsight(posts: Post[]): Post {
+  const featured = posts.filter((post) => post.featured);
+  if (featured.length > 0) return featured[0];
+
+  const pinned = posts.filter((post) => post.pinned);
+  if (pinned.length > 0) return pinned[0];
+
+  return posts[0];
+}
+
 function staticInsightCategories(): InsightCategory[] {
   const titles = [...new Set(postsStatic.map((post) => post.category).filter(Boolean))];
   return titles.map((title, index) => ({
@@ -866,7 +877,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 export async function getFeaturedPost(): Promise<Post> {
   const all = await getAllPosts();
-  return all.find((p) => p.pinned) ?? all.find((p) => p.featured) ?? all[0];
+  return pickNewestFeaturedInsight(all);
 }
 
 export type InsightsNavPosts = {
@@ -878,9 +889,8 @@ export async function getInsightsNavPosts(): Promise<InsightsNavPosts | null> {
   const all = await getAllPosts();
   if (all.length === 0) return null;
 
-  const featured =
-    all.find((p) => p.pinned) ?? all.find((p) => p.featured) ?? all[0];
-  const latest = all.filter((p) => p.slug !== featured.slug).slice(0, 4);
+  const featured = pickNewestFeaturedInsight(all);
+  const latest = all.filter((post) => post.slug !== featured.slug).slice(0, 4);
 
   return { featured, latest };
 }
