@@ -15,7 +15,7 @@ import {
 } from "@/ui/HoverHighlight";
 import { MegaMenu } from "@/components/layout/MegaMenu";
 import { MobileMenu } from "@/components/layout/MobileMenu";
-import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
 import type { InsightsNavPosts } from "@/lib/queries";
 import { cn } from "@/lib/utils";
@@ -40,25 +40,21 @@ function resolveNavbarTheme(probeY: number): "light" | "dark" {
 
 type NavbarProps = {
   industryNavItems: NavMenuItem[];
-  customSoftwareNavItems: NavMenuItem[];
-  migrations: Migration[];
   serviceMegaMenuCards: ServiceMegaMenuCard[];
   insightsNavPosts: InsightsNavPosts | null;
 };
 
-type MegaMenuType = "services" | "industries" | "custom-software" | "migrations" | "insights";
+type MegaMenuType = "services" | "industries" | "insights";
 
 const MENU_ORDER: MegaMenuType[] = [
   "services",
-  "custom-software",
-  "migrations",
   "industries",
   "insights",
 ];
 
 const LINKS_AFTER_INDUSTRIES = [
-  { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const MENU_EASE = [0.22, 1, 0.36, 1] as const;
@@ -147,8 +143,6 @@ function MegaMenuShell({
 
 export function Navbar({
   industryNavItems,
-  customSoftwareNavItems,
-  migrations,
   serviceMegaMenuCards,
   insightsNavPosts,
 }: NavbarProps) {
@@ -324,22 +318,6 @@ export function Navbar({
               onHighlight={navHighlight.snapTo}
             />
             <MegaTrigger
-              label={megaMenuNavLinks["custom-software"].label}
-              href={megaMenuNavLinks["custom-software"].href}
-              isOpen={openMenu === "custom-software"}
-              onEnter={() => openPanel("custom-software")}
-              onToggle={() => togglePanel("custom-software")}
-              onHighlight={navHighlight.snapTo}
-            />
-            <MegaTrigger
-              label={megaMenuNavLinks.migrations.label}
-              href={megaMenuNavLinks.migrations.href}
-              isOpen={openMenu === "migrations"}
-              onEnter={() => openPanel("migrations")}
-              onToggle={() => togglePanel("migrations")}
-              onHighlight={navHighlight.snapTo}
-            />
-            <MegaTrigger
               label={megaMenuNavLinks.industries.label}
               href={megaMenuNavLinks.industries.href}
               isOpen={openMenu === "industries"}
@@ -418,8 +396,6 @@ export function Navbar({
                 <MegaMenu
                   type={openMenu}
                   industryNavItems={industryNavItems}
-                  customSoftwareNavItems={customSoftwareNavItems}
-                  migrations={migrations}
                   serviceMegaMenuCards={serviceMegaMenuCards}
                   insightsNavPosts={insightsNavPosts}
                   theme={isDark ? "dark" : "light"}
@@ -435,8 +411,6 @@ export function Navbar({
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         industryNavItems={industryNavItems}
-        customSoftwareNavItems={customSoftwareNavItems}
-        migrations={migrations}
         serviceMegaMenuCards={serviceMegaMenuCards}
         insightsNavPosts={insightsNavPosts}
       />

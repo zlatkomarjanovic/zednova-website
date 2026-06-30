@@ -35,10 +35,10 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
 
               <Reveal delay={0.08} start="top bottom">
                 <p className="mt-6 max-w-md text-[clamp(0.75rem,1.615vw,1.125rem)] leading-relaxed text-zn-text-2">
-                  ZedNova Studios builds custom software, AI receptionists, CRM
-                  automations, e-commerce platforms, client portals, dashboards, and
-                  platform migrations for clinics, ecommerce brands, professional services
-                  firms, startups, and service businesses.
+                  We build fast lead-gen websites, connect every form and call to your
+                  CRM, automate follow-up by email and SMS, and add AI receptionists where
+                  they save time — for clinics, local services, coaching, and professional
+                  firms that want more booked calls and less manual admin.
                 </p>
               </Reveal>
             </div>

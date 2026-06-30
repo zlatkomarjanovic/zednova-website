@@ -13,8 +13,7 @@ import {
   RubberHoverHighlightLayer,
   useRubberHoverHighlight,
 } from "@/ui/HoverHighlight";
-import type { Migration } from "@/lib/types/content-nav";
-import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import type { NavMenuItem, ServiceMegaMenuCard, Migration } from "@/lib/types/content-nav";
 import type { InsightsNavPosts } from "@/lib/queries";
 import type { Post } from "@/lib/types";
 import { ArticleCover } from "@/features/insights/ArticleCover";
@@ -23,10 +22,8 @@ import { NavMenuIcon } from "@/ui/NavMenuIcon";
 import { cn } from "@/lib/utils";
 
 type MegaMenuProps = {
-  type: "services" | "industries" | "custom-software" | "migrations" | "insights";
+  type: "services" | "industries" | "insights";
   industryNavItems: NavMenuItem[];
-  customSoftwareNavItems: NavMenuItem[];
-  migrations: Migration[];
   serviceMegaMenuCards: ServiceMegaMenuCard[];
   insightsNavPosts: InsightsNavPosts | null;
   theme?: "light" | "dark";
@@ -569,8 +566,6 @@ function InsightsMegaMenuGrid({
 export function MegaMenu({
   type,
   industryNavItems,
-  customSoftwareNavItems,
-  migrations,
   serviceMegaMenuCards,
   insightsNavPosts,
   theme = "light",
@@ -668,18 +663,6 @@ export function MegaMenu({
               onNavigate={onNavigate}
               highlight={highlight}
             />
-          ) : type === "custom-software" ? (
-            <NavItemGrid
-              items={customSoftwareNavItems}
-              columns={5}
-              rows={2}
-              theme={theme}
-              borderClass={borderClass}
-              titleClass={titleClass}
-              bodyClass={bodyClass}
-              onNavigate={onNavigate}
-              highlight={highlight}
-            />
           ) : type === "insights" ? (
             insightsNavPosts ? (
               <InsightsMegaMenuGrid
@@ -703,30 +686,7 @@ export function MegaMenu({
                 </Link>
               </div>
             )
-          ) : (
-            <div className="relative grid lg:grid-cols-2">
-              {migrations.map((item, index) => (
-                <div
-                  key={item.slug}
-                  className={cn(
-                    "relative",
-                    index % 2 === 1 && cn("border-l", borderClass),
-                    index >= 2 && cn("border-t", borderClass),
-                  )}
-                >
-                  {index % 2 === 1 && <ColumnCrosses theme={theme} showTop={index < 2} />}
-                  <MigrationNavMenuItemLink
-                    item={item}
-                    titleClass={titleClass}
-                    bodyClass={bodyClass}
-                    theme={theme}
-                    onNavigate={onNavigate}
-                    highlight={highlight}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

@@ -35,10 +35,21 @@ const SERVICE_IMAGE_CLASS: Record<string, string> = {
     "object-contain object-center p-4 md:p-6 transition-transform duration-[900ms] ease-out group-hover:scale-[1.01] motion-reduce:transition-none",
 };
 
-const SERVICE_FILTER_ORDER: ServiceFilter[] = ["Websites", "Automation", "AI Tools"];
+const SERVICE_FILTER_ORDER: ServiceFilter[] = [
+  "Lead-Gen Websites & AI Search",
+  "CRM & Follow-Up Automation",
+  "AI Receptionist & Booking Automation",
+  "Custom Portals & Dashboards",
+  "Monthly Support & Improvements",
+];
 
 const FILTER_LABELS: Record<ShowcaseFilter, string> = {
-  Websites: "Marketing websites",
+  "Lead-Gen Websites & AI Search": "Lead-Gen Websites",
+  "CRM & Follow-Up Automation": "CRM & Follow-Up",
+  "AI Receptionist & Booking Automation": "AI Receptionist",
+  "Custom Portals & Dashboards": "Portals & Dashboards",
+  "Monthly Support & Improvements": "Monthly Support",
+  Websites: "Websites",
   Automation: "Automation",
   "AI Tools": "AI tools",
   Ecommerce: "E-commerce",
@@ -262,9 +273,9 @@ export function ServicesTabShowcase({
     return [...serviceFilters, ...extraFilters];
   }, [customSoftware, migrations, services]);
 
-  const defaultFilter: ShowcaseFilter = filters.some((entry) => entry.filter === "Websites")
-    ? "Websites"
-    : (filters[0]?.filter ?? "Websites");
+  const defaultFilter: ShowcaseFilter = filters.some((entry) => entry.filter === "Lead-Gen Websites & AI Search")
+    ? "Lead-Gen Websites & AI Search"
+    : (filters[0]?.filter ?? "Lead-Gen Websites & AI Search");
 
   const defaultItems =
     filters.find((entry) => entry.filter === defaultFilter)?.items ?? filters[0]?.items ?? [];

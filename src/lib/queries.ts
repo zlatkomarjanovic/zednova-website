@@ -2,7 +2,6 @@
  * Content queries — Sanity CMS with static fallback when CMS is empty or unavailable.
  */
 import { services } from "@/lib/content/services";
-import { ecommerceNavServices } from "@/lib/content/ecommerce-nav";
 import { migrations as staticMigrations } from "@/lib/content/migrations";
 import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
 import { industryParents } from "@/lib/content/industry-parents";
@@ -155,17 +154,15 @@ export async function getServiceGroups(): Promise<
 > {
   const allServices = await getAllServices();
   const groups: ServiceGroup[] = [
-    "Websites",
-    "Automation",
-    "AI Tools",
-    "Ecommerce",
+    "Lead-Gen Websites & AI Search",
+    "CRM & Follow-Up Automation",
+    "AI Receptionist & Booking Automation",
+    "Custom Portals & Dashboards",
+    "Monthly Support & Improvements",
   ];
   return groups.map((group) => ({
     group,
-    services:
-      group === "Ecommerce"
-        ? [...ecommerceNavServices].sort(byOrder)
-        : [...allServices].sort(byOrder).filter((s) => s.group === group),
+    services: [...allServices].sort(byOrder).filter((s) => s.group === group),
   }));
 }
 

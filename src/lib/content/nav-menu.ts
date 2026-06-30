@@ -13,244 +13,276 @@ export type {
   CustomSoftwareGroupSection,
 } from "@/lib/types/content-nav";
 
-export { megaMenuNavLinks } from "@/lib/types/content-nav";
+export { megaMenuNavLinks, PARENT_SERVICE_LABELS } from "@/lib/types/content-nav";
 
 function cs(slug: string) {
   return `/custom-software/${slug}`;
 }
 
+/**
+ * Homepage cards, services page "Core" grid, and services mega menu.
+ * Ecommerce/Shopify is intentionally NOT a primary card.
+ */
 export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
   {
-    title: "Marketing website development",
+    title: "Lead-Gen Websites",
     shortDescription:
-      "B2B and B2C marketing websites, landing pages, and CMS setups for brands that need to convert traffic into leads.",
-    includes: "Next.js, Webflow, Sanity, SEO setup",
+      "Fast websites that explain your offer, rank on Google and AI search, and turn visitors into calls, forms, and bookings.",
+    includes: "Next.js, Webflow, Sanity, SEO & AEO setup",
     href: "/services/ai-lead-site",
+    startingPrice: "From $3,500",
+    isFeatured: true,
   },
   {
-    title: "E-commerce development",
+    title: "CRM & Follow-Up Automation",
     shortDescription:
-      "Shopify stores, product pages, checkout flows, email sequences, and ecommerce dashboards.",
-    includes: "Shopify, headless Shopify, Klaviyo, cart recovery",
-    href: "/industries/ecommerce-dtc",
-  },
-  {
-    title: "Custom in-house software development",
-    shortDescription:
-      "Client portals, staff dashboards, booking systems, admin panels, and internal tools built for your team.",
-    includes: "client portals, staff dashboards, booking flows",
-    href: "/custom-software",
-  },
-  {
-    title: "CRM & Workflow Automation",
-    shortDescription:
-      "Automations that connect forms, leads, bookings, email, SMS, and internal tasks across your existing tools.",
-    includes: "CRM setup, n8n, Make, Airtable, Zapier",
+      "Forms, calls, bookings, email, SMS, and pipeline stages wired together so no lead gets lost.",
+    includes: "HubSpot, GoHighLevel, pipeline stages, email & SMS",
     href: "/services/crm-pipeline-automation",
+    startingPrice: "From $2,500",
+    isFeatured: true,
   },
   {
-    title: "AI Chatbots & Phone Assistants",
+    title: "AI Receptionists",
     shortDescription:
-      "AI tools that answer questions, collect details, qualify leads, and handle missed calls.",
-    includes: "website chatbots, intake chatbots, AI phone assistants",
+      "AI voice/chat agents that answer questions, qualify leads, book appointments, and text back missed calls.",
+    includes: "AI phone, website chat, missed-call text-back, booking",
     href: "/services/ai-receptionist",
+    startingPrice: "From $1,200 + $299/mo",
+    isFeatured: true,
   },
   {
-    title: "Ongoing Support",
+    title: "Portals & Dashboards",
     shortDescription:
-      "Updates, fixes, improvements, monitoring, and new features after launch.",
-    includes: "website updates, automation fixes, new pages",
+      "Client portals, staff dashboards, booking systems, and internal tools for teams outgrowing spreadsheets.",
+    includes: "client portals, patient portals, dashboards, booking systems",
+    href: "/custom-software",
+    startingPrice: "From $4,999",
+    isFeatured: true,
+  },
+  {
+    title: "Monthly Support",
+    shortDescription:
+      "Ongoing help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations.",
+    includes: "website updates, automation fixes, new pages, monitoring",
     href: "/services/ai-systems-retainer",
+    startingPrice: "From $349/mo",
+    isFeatured: false,
   },
 ];
 
+/**
+ * Service nav groups aligned to the 5 parent services.
+ * Shopify & Ecommerce is now a legacy/hidden group, kept for SEO only.
+ */
 export const serviceNavGroups: NavMenuGroup[] = [
   {
-    group: "Websites",
+    group: "Lead-Gen Websites & AI Search",
     items: [
       {
-        title: "Website Design & Development",
-        shortDescription: "Custom business websites built on Next.js or Webflow.",
+        title: "AI-Cited Lead Gen Site",
+        shortDescription: "Fast, clear website that ranks on Google and gets cited by AI tools.",
         href: "/services/ai-lead-site",
       },
       {
-        title: "Next.js Website Development",
-        shortDescription: "Fast, SEO-friendly websites with a modern React stack.",
+        title: "Website Redesign",
+        shortDescription: "Rebuild your site to convert visitors into calls, forms, and bookings.",
         href: "/services/ai-lead-site",
       },
       {
-        title: "Sanity CMS Development",
-        shortDescription: "Content editing setup so your team can update pages easily.",
-        href: "/services/ai-lead-site",
-      },
-      {
-        title: "Landing Page Design",
+        title: "Landing & Offer Pages",
         shortDescription: "Focused pages for offers, consults, and lead capture.",
         href: "/services/ai-lead-site",
       },
       {
-        title: "Clinic Website Design",
-        shortDescription:
-          "Websites for dental, medical, peptide, TRT, longevity, and wellness clinics.",
-        href: "/industries/healthcare-wellness",
+        title: "Service & Local SEO Pages",
+        shortDescription: "Pages that show up for the terms your buyers actually search.",
+        href: "/services/seo-aeo-content",
       },
       {
-        title: "Dental Website Design",
-        shortDescription: "Websites with booking, recall, and new-patient intake.",
-        href: "/industries/dental-clinics",
+        title: "SEO & AEO Content",
+        shortDescription: "Content structured to rank and get cited in AI answers.",
+        href: "/services/seo-aeo-content",
       },
       {
-        title: "Shopify Website Design",
-        shortDescription: "Storefront pages and brand sites connected to Shopify.",
-        href: "/industries/ecommerce-dtc",
+        title: "Schema, FAQ & llms.txt Setup",
+        shortDescription: "Technical setup so Google and AI tools can find and cite your business.",
+        href: "/services/seo-aeo-content",
       },
-    ],
-  },
-  {
-    group: "Shopify & Ecommerce",
-    items: [
       {
-        title: "Shopify Development",
-        shortDescription:
-          "Custom Shopify stores, product pages, checkout improvements, and ecommerce sections.",
+        title: "Website Performance Cleanup",
+        shortDescription: "Fix slow loads, Core Web Vitals, and broken conversion paths.",
         href: "/services/ai-lead-site",
       },
       {
-        title: "Headless Shopify Development",
-        shortDescription: "Custom Next.js storefront with Shopify for products and checkout.",
-        href: "/migrations/shopify-to-headless-shopify",
-      },
-      {
-        title: "Product Page Design",
-        shortDescription: "Product pages that explain the offer and drive add-to-cart.",
-        href: "/services/ai-lead-site",
-      },
-      {
-        title: "Klaviyo Email Flows",
-        shortDescription: "Welcome, browse, cart, and post-purchase email sequences.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Cart Abandonment Emails",
-        shortDescription: "Timed emails and SMS to recover shoppers who leave checkout.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Post-Purchase Email Flows",
-        shortDescription: "Onboarding, education, and repeat-order emails after purchase.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Ecommerce Dashboard",
-        shortDescription: "Simple dashboards for orders, revenue, and campaign performance.",
-        href: "/services/reporting-dashboards",
+        title: "Platform Migrations",
+        shortDescription: "Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity.",
+        href: "/migrations",
       },
     ],
   },
   {
-    group: "Custom Software",
+    group: "CRM & Follow-Up Automation",
     items: [
       {
-        title: "Custom Web App Development",
-        shortDescription:
-          "Simple web apps, portals, dashboards, and internal tools for small businesses.",
-        href: "/custom-software",
-      },
-      {
-        title: "Client Portal Development",
-        shortDescription: "Login areas for clients to view status, files, and updates.",
-        href: "/industries/portal-dashboard-booking-needs",
-      },
-      {
-        title: "Internal Dashboard Development",
-        shortDescription: "Staff dashboards that replace spreadsheets and manual tracking.",
-        href: "/services/reporting-dashboards",
-      },
-      {
-        title: "Booking System Development",
-        shortDescription: "Online scheduling with confirmations, reminders, and intake.",
+        title: "CRM Setup",
+        shortDescription: "HubSpot, GoHighLevel, or Salesforce setup with clean pipeline stages.",
         href: "/services/crm-pipeline-automation",
       },
       {
-        title: "Form & Intake System Development",
-        shortDescription: "Patient, client, and lead intake forms connected to your CRM.",
-        href: "/services/custom-ai-agents",
-      },
-      {
-        title: "Admin Panel Development",
-        shortDescription: "Back-office tools to manage records, orders, and team workflows.",
-        href: "/custom-software",
-      },
-    ],
-  },
-  {
-    group: "Automation",
-    items: [
-      {
-        title: "CRM Automation",
-        shortDescription:
-          "Connect forms, leads, email, SMS, reminders, and follow-up tasks.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Appointment Booking Automation",
-        shortDescription: "Online booking, reminders, and calendar sync for clinics and services.",
+        title: "Form-to-CRM Connection",
+        shortDescription: "Every form fill lands in your CRM and alerts your team instantly.",
         href: "/services/crm-pipeline-automation",
       },
       {
         title: "Email & SMS Follow-Up",
-        shortDescription: "Automated sequences after form fills, calls, and purchases.",
-        href: "/services/outbound-lead-gen",
+        shortDescription: "Automated sequences after form fills, calls, and bookings.",
+        href: "/services/crm-pipeline-automation",
       },
       {
-        title: "Google Review Automation",
-        shortDescription: "Review requests and reply drafts after completed jobs or visits.",
+        title: "Missed-Lead Follow-Up",
+        shortDescription: "Stale leads get automatic re-engagement so nothing slips through.",
+        href: "/services/crm-pipeline-automation",
+      },
+      {
+        title: "Appointment Reminders",
+        shortDescription: "Automated SMS and email reminders that reduce no-shows.",
+        href: "/services/crm-pipeline-automation",
+      },
+      {
+        title: "Review Request Automation",
+        shortDescription: "Review requests sent at the right moment after a job or visit.",
         href: "/services/review-reputation",
       },
       {
-        title: "n8n Automation",
-        shortDescription: "Custom workflows in n8n for reporting, routing, and notifications.",
-        href: "/services/ops-automation",
-      },
-      {
-        title: "Make Automation",
-        shortDescription: "Make scenarios that connect your apps and remove manual steps.",
-        href: "/services/ops-automation",
-      },
-      {
-        title: "Airtable Automation",
-        shortDescription: "Automations and views that extend Airtable into daily workflows.",
-        href: "/services/ops-automation",
+        title: "CRM Dashboard",
+        shortDescription: "A simple view of pipeline value, lead source, and follow-up status.",
+        href: "/services/reporting-dashboards",
       },
     ],
   },
   {
-    group: "AI Tools",
+    group: "AI Receptionist & Booking Automation",
     items: [
       {
-        title: "AI Chatbot for Website",
-        shortDescription: "Website chat that answers questions and captures leads.",
-        href: "/services/custom-ai-agents",
-      },
-      {
-        title: "AI Phone Assistant",
-        shortDescription: "Answers calls, qualifies callers, and sends missed-call texts.",
+        title: "AI Phone Receptionist",
+        shortDescription: "Answers calls, qualifies callers, and books appointments 24/7.",
         href: "/services/ai-receptionist",
       },
       {
-        title: "Patient Intake Chatbot",
-        shortDescription: "Collects patient details and routes them before the visit.",
-        href: "/services/custom-ai-agents",
+        title: "Missed-Call Text-Back",
+        shortDescription: "Every missed call gets an instant text so leads don't call competitors.",
+        href: "/services/ai-receptionist",
       },
       {
-        title: "Customer Support Chatbot",
-        shortDescription: "Handles common support questions and escalates when needed.",
-        href: "/services/custom-ai-agents",
+        title: "AI Website Assistant",
+        shortDescription: "Website chat that answers questions and captures lead details.",
+        href: "/services/ai-receptionist",
       },
       {
-        title: "Document Processing AI",
-        shortDescription: "Extracts data from forms, PDFs, and uploads into your systems.",
-        href: "/services/custom-ai-agents",
+        title: "Lead Qualification Chatbot",
+        shortDescription: "Qualifies leads before they reach your team.",
+        href: "/services/ai-receptionist",
+      },
+      {
+        title: "Appointment Booking Assistant",
+        shortDescription: "Books appointments directly into your calendar.",
+        href: "/services/ai-receptionist",
+      },
+      {
+        title: "After-Hours Answering",
+        shortDescription: "Captures every after-hours call and inquiry.",
+        href: "/services/ai-receptionist",
+      },
+    ],
+  },
+  {
+    group: "Custom Portals & Dashboards",
+    items: [
+      {
+        title: "Client Portal Development",
+        shortDescription: "Login areas for clients to view status, files, and updates.",
+        href: cs("client-portal-development"),
+      },
+      {
+        title: "Patient Portal Development",
+        shortDescription: "Secure portals for patients to book, complete intake, and view info.",
+        href: cs("patient-portal-development"),
+      },
+      {
+        title: "Staff Dashboard",
+        shortDescription: "Internal dashboards that replace spreadsheets and manual tracking.",
+        href: cs("internal-dashboard-development"),
+      },
+      {
+        title: "Booking System",
+        shortDescription: "Online scheduling with confirmations, reminders, and intake.",
+        href: cs("booking-system-development"),
+      },
+      {
+        title: "Admin Panel",
+        shortDescription: "Back-office tools to manage records, orders, and team workflows.",
+        href: cs("admin-panel-development"),
+      },
+      {
+        title: "Document Upload Portal",
+        shortDescription: "Secure upload, review, and approval flows for files.",
+        href: cs("document-upload-portals"),
+      },
+      {
+        title: "Reporting Dashboard",
+        shortDescription: "One live view of pipeline, revenue, and operations.",
+        href: "/services/reporting-dashboards",
+      },
+    ],
+  },
+  {
+    group: "Monthly Support & Improvements",
+    items: [
+      {
+        title: "Website Support",
+        shortDescription: "Updates, fixes, and new pages after launch.",
+        href: "/services/ai-systems-retainer",
+      },
+      {
+        title: "CRM & Automation Support",
+        shortDescription: "Keep automations running and fix what breaks.",
+        href: "/services/ai-systems-retainer",
+      },
+      {
+        title: "AI Receptionist Monitoring",
+        shortDescription: "Tune scripts, add services, and review call logs.",
+        href: "/services/ai-systems-retainer",
+      },
+      {
+        title: "Analytics & Conversion Review",
+        shortDescription: "Monthly review of what's working and what to fix next.",
+        href: "/services/ai-systems-retainer",
+      },
+    ],
+  },
+  {
+    group: "Shopify & Ecommerce (Legacy)",
+    items: [
+      {
+        title: "Shopify Development",
+        shortDescription: "Custom Shopify stores, product pages, and checkout flows.",
+        href: "/services/ai-lead-site",
+      },
+      {
+        title: "Headless Shopify Development",
+        shortDescription: "Custom Next.js storefront with Shopify checkout.",
+        href: "/migrations/shopify-to-headless-shopify",
+      },
+      {
+        title: "Klaviyo Email Flows",
+        shortDescription: "Welcome, cart recovery, and post-purchase sequences.",
+        href: "/services/crm-pipeline-automation",
+      },
+      {
+        title: "Cart Abandonment Automation",
+        shortDescription: "Timed emails and SMS to recover abandoned carts.",
+        href: "/services/crm-pipeline-automation",
       },
     ],
   },

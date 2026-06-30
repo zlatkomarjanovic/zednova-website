@@ -185,8 +185,6 @@ export default async function RootLayout({
             <CustomCursor />
             <Navbar
               industryNavItems={industryNavItems}
-              customSoftwareNavItems={customSoftwareNavItems}
-              migrations={migrations}
               serviceMegaMenuCards={serviceMegaMenuCards}
               insightsNavPosts={insightsNavPosts}
             />

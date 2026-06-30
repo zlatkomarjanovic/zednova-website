@@ -4,21 +4,19 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const HERO_BUILD_ITEMS = [
-  "custom software",
-  "AI tools",
-  "automations",
-  "client portals",
-  "CRM workflows",
-  "e-commerce platforms",
+  "lead-gen websites",
+  "CRM automations",
+  "AI receptionists",
+  "follow-up flows",
   "booking systems",
-  "platform migrations",
-  "marketing websites",
-  "websites",
+  "client portals",
+  "dashboards",
+  "missed-call text-back",
 ] as const;
 
 /** Crawlable headline — always in DOM as normal visible text. */
 export const HERO_CRAWLABLE_H1 =
-  "We build custom software, AI tools, automations, e-commerce platforms, and client portals for service businesses that want more leads with less manual work.";
+  "We build lead-gen websites, CRM automations, and AI receptionists for small businesses that want more booked calls and less manual follow-up.";
 
 const LOOP_MS = 3500;
 const FIRST_CYCLE_MS = 5000;
@@ -92,7 +90,7 @@ export function HeroRotatingHeadline() {
           </span>
         </span>
         <span className="mt-2 block max-lg:text-[clamp(1.75rem,7.5vw,2.5rem)]">
-          for service businesses that want more leads with less manual work.
+          for small businesses that want more booked calls and less manual follow-up.
         </span>
       </p>
     </div>

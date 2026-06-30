@@ -23,271 +23,136 @@ import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import type { TableGridItem } from "@/ui/BlueprintTableGrid";
 
 export const metadata: Metadata = {
-  title: "Services — Websites, Shopify, Automations & AI Tools | ZedNova",
+  title: "Services — Lead-Gen Websites, CRM, AI Receptionists & Dashboards | ZedNova",
   description:
-    "Website design, Shopify development, CRM automation, AI chatbots, AI receptionists, custom software, dashboards, and migrations for clinics, ecommerce, and service businesses.",
+    "Lead-gen websites, CRM follow-up automation, AI receptionists, custom portals and dashboards, and monthly support for small businesses that want more booked calls and less manual admin.",
   alternates: { canonical: "/services" },
   openGraph: {
     type: "website",
     url: "/services",
     title: "Services — ZedNova Studios",
     description:
-      "Website design, Shopify development, CRM automation, AI chatbots, custom software, dashboards, and migrations.",
+      "Lead-gen websites, CRM automation, AI receptionists, portals and dashboards, and monthly support for small businesses.",
   },
   robots: { index: true, follow: true },
 };
 
-
-
 const GROUP_TAGLINES: Record<string, string> = {
-
-  "AI Tools":
-
-    "Phone assistants, chatbots, and AI agents — what teams ask for most right now.",
-
-  Automation:
-
-    "CRM, booking, email, SMS, and workflow automation that runs without you watching.",
-
-  Websites: "Sites that load fast, rank, and convert.",
-
-  Ecommerce: "Stores that turn first-time buyers into repeat customers.",
-
-  "Custom software":
-
-    "Portals, dashboards, booking flows, and internal tools built for your team.",
-
+  "Lead-Gen Websites & AI Search":
+    "Fast websites that explain your offer, rank on Google and AI search, and turn visitors into calls, forms, and bookings.",
+  "CRM & Follow-Up Automation":
+    "Every form, call, and booking request gets captured, followed up with, and tracked until it becomes a booked call or customer.",
+  "AI Receptionist & Booking Automation":
+    "AI voice and chat assistants that answer calls, qualify leads, book appointments, and text back missed calls.",
+  "Custom Portals & Dashboards":
+    "Client portals, staff dashboards, booking systems, and internal tools for teams outgrowing spreadsheets.",
+  "Monthly Support & Improvements":
+    "Ongoing help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations.",
+  "Shopify & Ecommerce (Legacy)":
+    "Shopify, Klaviyo, and ecommerce work — kept for SEO. Not a primary offering.",
   Migrations:
-
-    "Move from Webflow, WordPress, Framer, Wix, Squarespace, or Shopify to a modern stack.",
-
+    "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity.",
 };
 
-
-
 export default async function ServicesPage() {
-
-  const [
-
-    groups,
-
-    serviceNavGroups,
-
-    customSoftwareNavItems,
-
-    migrations,
-
-    serviceMegaMenuCards,
-
-  ] = await Promise.all([
-
-    getServiceGroups(),
-
-    getServiceNavGroups(),
-
-    getCustomSoftwareNavItems(),
-
-    getAllMigrations(),
-
-    getServiceMegaMenuCards(),
-
-  ]);
-
-
+  const [groups, serviceNavGroups, customSoftwareNavItems, migrations, serviceMegaMenuCards] =
+    await Promise.all([
+      getServiceGroups(),
+      getServiceNavGroups(),
+      getCustomSoftwareNavItems(),
+      getAllMigrations(),
+      getServiceMegaMenuCards(),
+    ]);
 
   const navGroupItems = (groupName: string): TableGridItem[] => {
-
     const group = serviceNavGroups.find((g) => g.group === groupName);
-
     if (!group) return [];
-
     return group.items.map((item) => ({
-
       href: item.href,
-
       title: item.title,
-
       description: item.shortDescription,
-
     }));
-
   };
-
-
-
-  const serviceGroupItems = (groupName: string): TableGridItem[] => {
-
-    const match = groups.find((g) => g.group === groupName);
-
-    if (!match) return [];
-
-    return match.services.map((service) => ({
-
-      href: `/services/${service.slug}`,
-
-      title: service.title,
-
-      description: service.shortDescription,
-
-      icon: service.icon,
-
-    }));
-
-  };
-
-
 
   const gridGroups = [
-
     {
-
-      id: "ai-tools",
-
-      label: "AI Tools",
-
-      headline: GROUP_TAGLINES["AI Tools"],
-
-      items: navGroupItems("AI Tools"),
-
+      id: "lead-gen-websites",
+      label: "Lead-Gen Websites & AI Search",
+      headline: GROUP_TAGLINES["Lead-Gen Websites & AI Search"],
+      items: navGroupItems("Lead-Gen Websites & AI Search"),
     },
-
     {
-
-      id: "automation",
-
-      label: "AI automation",
-
-      headline: GROUP_TAGLINES.Automation,
-
-      items: navGroupItems("Automation"),
-
+      id: "crm-automation",
+      label: "CRM & Follow-Up Automation",
+      headline: GROUP_TAGLINES["CRM & Follow-Up Automation"],
+      items: navGroupItems("CRM & Follow-Up Automation"),
     },
-
     {
-
-      id: "websites",
-
-      label: "Websites",
-
-      headline: GROUP_TAGLINES.Websites,
-
-      items: serviceGroupItems("Websites"),
-
+      id: "ai-receptionist",
+      label: "AI Receptionist & Booking",
+      headline: GROUP_TAGLINES["AI Receptionist & Booking Automation"],
+      items: navGroupItems("AI Receptionist & Booking Automation"),
     },
-
     {
-
-      id: "ecommerce",
-
-      label: "Ecommerce",
-
-      headline: GROUP_TAGLINES.Ecommerce,
-
-      items: navGroupItems("Shopify & Ecommerce"),
-
-    },
-
-    {
-
-      id: "custom-software",
-
-      label: "Custom software",
-
-      headline: GROUP_TAGLINES["Custom software"],
-
+      id: "portals-dashboards",
+      label: "Custom Portals & Dashboards",
+      headline: GROUP_TAGLINES["Custom Portals & Dashboards"],
       items: customSoftwareNavItems.map((item) => ({
-
         href: item.href,
-
         title: item.title,
-
         description: item.shortDescription,
-
       })),
-
       exploreHref: "/custom-software",
-
       exploreLabel: "All custom software",
-
     },
-
     {
-
       id: "migrations",
-
       label: "Migrations",
-
       headline: GROUP_TAGLINES.Migrations,
-
       items: [...migrations]
-
         .sort((a, b) => a.order - b.order)
-
         .map((item) => ({
-
           href: `/migrations/${item.slug}`,
-
           title: item.title,
-
           description: item.shortDescription,
-
         })),
-
       exploreHref: "/migrations",
-
       exploreLabel: "All migrations",
-
     },
-
+    {
+      id: "monthly-support",
+      label: "Monthly Support",
+      headline: GROUP_TAGLINES["Monthly Support & Improvements"],
+      items: navGroupItems("Monthly Support & Improvements"),
+    },
   ];
-
-
 
   const coreServices = serviceMegaMenuCards.map((card) => ({
-
     href: card.href,
-
     title: card.title,
-
     description: card.shortDescription,
-
     includes: card.includes,
-
   }));
 
-
-
   const allServices: ServiceGridEntry[] = [
-
     ...coreServices.map((service) => ({ ...service, category: "Core" })),
-
     ...gridGroups.flatMap((group) =>
-
       group.items.map((item) => ({
-
         ...item,
-
         category: group.label,
-
       })),
-
     ),
-
   ];
 
-
-
   return (
-
     <>
-
       <JsonLd
         data={[
           collectionPageJsonLd({
             path: "/services",
             name: "Services — ZedNova Studios",
             description:
-              "Website design, Shopify development, CRM automation, AI chatbots, AI receptionists, custom software, dashboards, and migrations for clinics, ecommerce, and service businesses.",
+              "Lead-gen websites, CRM automation, AI receptionists, portals and dashboards, and monthly support for small businesses.",
           }),
           breadcrumbJsonLd([
             { label: "Home", href: "/" },
@@ -297,19 +162,12 @@ export default async function ServicesPage() {
       />
 
       <section data-theme="light" className="relative bg-zn-bg">
-
         <div className="zn-container-guides relative">
-
           <BlueprintColumnFrame>
-
             <div className="relative border-b border-zn-border">
-
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
-
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
-
               <div className="zn-container-inset pb-14 pt-36 lg:pb-16 lg:pt-44">
-
                 <Breadcrumbs
                   items={[
                     { label: "Home", href: "/" },
@@ -317,84 +175,44 @@ export default async function ServicesPage() {
                   ]}
                   className="mb-8"
                 />
-
                 <Reveal>
-
                   <SectionLabel withRule={false}>What we build</SectionLabel>
-
                 </Reveal>
-
                 <TextReveal
-
                   as="h1"
-
-                  text="Website design, Shopify, automation, and AI tools"
-
+                  text="Websites, CRM automations, and AI receptionists for small businesses"
                   className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
-
                 />
-
                 <Reveal delay={0.1}>
-
                   <p className="mt-6 max-w-2xl zn-prose">
-
-                    Pick one service or combine a few. We scope each project
-
-                    around what your business actually needs.
-
+                    Choose the part of the business that is leaking leads, calls,
+                    bookings, or admin time. We build the website, CRM automation, AI
+                    receptionist, or dashboard that fixes it.
                   </p>
-
                 </Reveal>
-
                 <Reveal delay={0.15}>
-
                   <div className="mt-10 flex flex-wrap items-center gap-4">
-
                     <Button href="/contact" withArrow>
-
                       Tell us what you need
-
                     </Button>
-
                     <Button href="/work" variant="link" withArrow>
-
                       See our work
-
                     </Button>
-
                   </div>
-
                 </Reveal>
-
               </div>
-
             </div>
 
-
-
             <ServicesFilterableGrids
-
               coreServices={coreServices}
-
               groups={gridGroups}
-
               allServices={allServices}
-
             />
-
           </BlueprintColumnFrame>
-
         </div>
-
       </section>
 
-
-
       <DarkCTA />
-
     </>
-
   );
-
 }
-

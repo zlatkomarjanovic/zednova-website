@@ -1,10 +1,15 @@
 import { defineField, defineType } from "sanity";
 
 const serviceGroups = [
-  { title: "Websites", value: "Websites" },
-  { title: "Automation", value: "Automation" },
-  { title: "AI Tools", value: "AI Tools" },
-  { title: "Ecommerce", value: "Ecommerce" },
+  { title: "Lead-Gen Websites & AI Search", value: "Lead-Gen Websites & AI Search" },
+  { title: "CRM & Follow-Up Automation", value: "CRM & Follow-Up Automation" },
+  { title: "AI Receptionist & Booking Automation", value: "AI Receptionist & Booking Automation" },
+  { title: "Custom Portals & Dashboards", value: "Custom Portals & Dashboards" },
+  { title: "Monthly Support & Improvements", value: "Monthly Support & Improvements" },
+  { title: "Websites (legacy)", value: "Websites" },
+  { title: "Automation (legacy)", value: "Automation" },
+  { title: "AI Tools (legacy)", value: "AI Tools" },
+  { title: "Ecommerce (legacy)", value: "Ecommerce" },
 ];
 
 export const service = defineType({
@@ -37,6 +42,77 @@ export const service = defineType({
     }),
     defineField({ name: "category", type: "string", title: "Category tag", group: "content" }),
     defineField({ name: "icon", type: "string", title: "Icon key", group: "content" }),
+    defineField({
+      name: "parentService",
+      type: "string",
+      title: "Parent service",
+      group: "content",
+      options: {
+        list: [
+          { title: "Lead-Gen Websites & AI Search", value: "lead-gen-websites" },
+          { title: "CRM & Follow-Up Automation", value: "crm-automation" },
+          { title: "AI Receptionist & Booking Automation", value: "ai-receptionist" },
+          { title: "Custom Portals & Dashboards", value: "portals-dashboards" },
+          { title: "Monthly Support & Improvements", value: "monthly-support" },
+        ],
+      },
+    }),
+    defineField({
+      name: "isFeatured",
+      type: "boolean",
+      title: "Featured on homepage",
+      group: "content",
+      initialValue: false,
+    }),
+    defineField({
+      name: "showOnHomepage",
+      type: "boolean",
+      title: "Show on homepage",
+      group: "content",
+      initialValue: true,
+    }),
+    defineField({
+      name: "showInPrimaryServices",
+      type: "boolean",
+      title: "Show in primary services",
+      group: "content",
+      initialValue: true,
+    }),
+    defineField({
+      name: "isLegacy",
+      type: "boolean",
+      title: "Legacy / hidden from primary surfaces",
+      group: "content",
+      initialValue: false,
+    }),
+    defineField({
+      name: "isSecondary",
+      type: "boolean",
+      title: "Secondary service",
+      group: "content",
+      initialValue: false,
+    }),
+    defineField({
+      name: "plainPromise",
+      type: "text",
+      title: "Plain promise (what it does, who it's for, what outcome)",
+      rows: 2,
+      group: "content",
+    }),
+    defineField({
+      name: "problemSolved",
+      type: "text",
+      title: "Problem solved",
+      rows: 2,
+      group: "content",
+    }),
+    defineField({
+      name: "bestFor",
+      type: "array",
+      title: "Best for",
+      group: "content",
+      of: [{ type: "string" }],
+    }),
     defineField({
       name: "shortDescription",
       type: "text",
@@ -100,6 +176,12 @@ export const service = defineType({
       name: "startingPrice",
       type: "number",
       title: "Starting price (USD)",
+      group: "deliverables",
+    }),
+    defineField({
+      name: "monthlyPrice",
+      type: "number",
+      title: "Monthly price (USD)",
       group: "deliverables",
     }),
     defineField({

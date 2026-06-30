@@ -4,6 +4,11 @@
  */
 
 export type ServiceGroup =
+  | "Lead-Gen Websites & AI Search"
+  | "CRM & Follow-Up Automation"
+  | "AI Receptionist & Booking Automation"
+  | "Custom Portals & Dashboards"
+  | "Monthly Support & Improvements"
   | "Websites"
   | "Automation"
   | "AI Tools"

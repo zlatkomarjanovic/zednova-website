@@ -13,14 +13,17 @@ export type HomepagePricingPackage = {
   deliverables: string[];
 };
 
-/** Homepage pricing row: growth stack, migration, custom software. */
+/**
+ * Homepage pricing cards aligned to the 5 parent services.
+ * The first card (Lead-Gen Website + CRM + AI Receptionist) is the flagship package.
+ */
 export const homepagePricingPackages: HomepagePricingPackage[] = [
   {
-    slug: "growth-stack",
-    group: "Websites + automation + AI",
-    title: "Complete growth stack",
+    slug: "lead-gen-stack",
+    group: "Website + CRM + AI Receptionist",
+    title: "Lead-Gen Website + CRM + AI Receptionist",
     shortDescription:
-      "Most service businesses lose leads because their site doesn't convert and nobody follows up fast enough. This fixes both.",
+      "Most service businesses lose leads because their site doesn't convert, follow-up is slow, and calls go unanswered. This fixes all three.",
     pricing: {
       setupAmount: "$3,500",
       setupLabel: "setup",
@@ -29,9 +32,9 @@ export const homepagePricingPackages: HomepagePricingPackage[] = [
     timeline: "Live in 7 to 10 business days, then we improve it together",
     badge: "Most common starting point",
     deliverables: [
-      "Visitors know what to do: book, quote, or buy",
-      "Homepage and offer pages built to convert traffic",
-      "Every lead hits your CRM and alerts your team",
+      "A fast website that explains your offer and converts visitors",
+      "Homepage and offer pages built to turn traffic into calls and forms",
+      "Every lead hits your CRM and alerts your team instantly",
       "Pipeline stages so every lead has a next step",
       "Quiet leads get automatic email and SMS follow-up",
       "Missed calls get a text back in under 60 seconds",
@@ -42,32 +45,59 @@ export const homepagePricingPackages: HomepagePricingPackage[] = [
     ],
   },
   {
-    slug: "platform-migration",
-    group: "Migrations",
-    title: "Fast platform migration",
+    slug: "crm-follow-up",
+    group: "CRM & Follow-Up Automation",
+    title: "CRM & Follow-Up Automation",
     shortDescription:
-      "Stuck on WordPress, Wix, Squarespace, Webflow, or Framer? We move everything over cleanly, protect your SEO, and launch you on a site that actually loads fast.",
+      "Every form, call, and booking request gets captured, assigned, followed up with, and tracked until it becomes a booked call or customer.",
     pricing: {
-      setupAmount: "$4,500",
+      setupAmount: "$2,500",
+      setupLabel: "setup",
+      monthlyAmount: "$299/mo",
     },
-    timeline: "MVP in 5 to 8 business days, then we iterate and maintain after launch",
+    timeline: "Live in 3 to 7 business days, then we improve it together",
     deliverables: [
-      "Every page, post, and asset moves with you",
-      "301 redirects keep your Google rankings intact",
-      "A faster site that converts better than before",
-      "Edit pages and blog posts without breaking design",
-      "Blog and resource content migrated and formatted",
-      "Forms still work and feed your CRM",
-      "SEO metadata and structured data preserved",
-      "Analytics and tracking stay connected after launch",
-      "You approve staging before we go live",
-      "30 days of redirect monitoring and fixes",
+      "CRM setup on HubSpot, GoHighLevel, or Salesforce",
+      "Pipeline stages with clear entry and exit criteria",
+      "Form-to-CRM connection with instant lead alerts",
+      "Email and SMS follow-up sequences per stage",
+      "Missed-lead and stale-lead re-engagement flows",
+      "Appointment reminders that reduce no-shows",
+      "Review request automation after job completion",
+      "Owner notification flows for new leads",
+      "A pipeline number you can trust at a glance",
+      "30-day adoption check-in and workflow tweaks",
     ],
   },
   {
-    slug: "custom-software",
-    group: "Custom software",
-    title: "Custom internal software",
+    slug: "ai-receptionist",
+    group: "AI Receptionist & Booking",
+    title: "AI Receptionist & Booking",
+    shortDescription:
+      "AI voice and chat assistants that answer common questions, capture lead details, book appointments, and text back missed calls.",
+    pricing: {
+      setupAmount: "$1,200",
+      setupLabel: "setup",
+      monthlyAmount: "$299/mo",
+    },
+    timeline: "Live in 1 to 3 business days, then we tune it together",
+    deliverables: [
+      "AI phone or chat agent for your top 5 call types",
+      "Missed-call text-back within 60 seconds",
+      "Lead qualification questions and routing rules",
+      "Calendar booking for qualified callers",
+      "CRM contact creation on every call",
+      "Business-hours and after-hours behavior rules",
+      "Human escalation for complex calls",
+      "Call summary logged to CRM after each interaction",
+      "Test call suite before go-live",
+      "48-hour post-launch script tuning",
+    ],
+  },
+  {
+    slug: "custom-portal-dashboard",
+    group: "Custom Portals & Dashboards",
+    title: "Custom Portal or Dashboard",
     shortDescription:
       "If your team is living in spreadsheets, email threads, and shared drives to run the business — this replaces all of it with one tool built specifically for you.",
     pricing: {

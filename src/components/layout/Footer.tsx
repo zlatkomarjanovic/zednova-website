@@ -19,6 +19,19 @@ const COMPANY_LINKS = [
   { label: "Contact", href: "/contact" },
 ] as const;
 
+const SECONDARY_TECH_LINKS = [
+  { label: "Website Migrations", href: "/migrations" },
+  { label: "Sanity CMS", href: "/services/ai-lead-site" },
+  { label: "Next.js Websites", href: "/services/ai-lead-site" },
+  { label: "Automation Integrations", href: "/services/crm-pipeline-automation" },
+  { label: "AI Search / AEO", href: "/services/seo-aeo-content" },
+] as const;
+
+const LEGACY_LINKS = [
+  { label: "Shopify", href: "/industries/ecommerce-dtc" },
+  { label: "Ecommerce", href: "/industries/ecommerce-dtc" },
+] as const;
+
 export function Footer({
   migrations,
   settings,
@@ -35,7 +48,7 @@ export function Footer({
   className?: string;
 }) {
   const year = new Date().getFullYear();
-  const customSoftwareFooter = customSoftwareNavItems.slice(0, 6);
+  const primaryServiceLinks = serviceMegaMenuCards.filter((c) => c.isFeatured !== false);
 
   return (
     <footer data-theme="dark" className={cn("relative bg-zn-dark text-zn-inv", className)}>
@@ -60,9 +73,9 @@ export function Footer({
             <div className="max-w-md space-y-5">
               <LogoHomeLink variant="light" />
               <p className="text-sm leading-relaxed text-zn-inv-2">
-                A software and product studio with 10+ years shipping products for US
-                businesses. We use AI internally to deliver faster, without trading off
-                quality or follow-up.
+                We build lead-gen websites, CRM follow-up automation, AI receptionists,
+                and custom portals for small businesses that want more booked calls and
+                less manual admin. 120+ projects. 10+ years. Senior-led delivery.
               </p>
               <FooterAiSummaryLinks />
             </div>
@@ -126,8 +139,8 @@ export function Footer({
               <FooterNavLink href="/industries" label="All industries" />
             </FooterCol>
 
-            <FooterCol title="Custom software">
-              {customSoftwareFooter.map((item) => (
+            <FooterCol title="Portals & Dashboards">
+              {customSoftwareNavItems.slice(0, 6).map((item) => (
                 <FooterNavLink
                   key={item.href + item.title}
                   href={item.href}
@@ -140,15 +153,13 @@ export function Footer({
               />
             </FooterCol>
 
-            <FooterCol title="Migrations">
-              {migrations.map((migration) => (
-                <FooterNavLink
-                  key={migration.slug}
-                  href={`/migrations/${migration.slug}`}
-                  label={migration.title}
-                />
+            <FooterCol title="Technical">
+              {SECONDARY_TECH_LINKS.map((link) => (
+                <FooterNavLink key={link.href} href={link.href} label={link.label} />
               ))}
-              <FooterNavLink href="/migrations" label="All migrations" />
+              {LEGACY_LINKS.map((link) => (
+                <FooterNavLink key={link.href} href={link.href} label={link.label} />
+              ))}
             </FooterCol>
 
             <FooterCol title="Company">

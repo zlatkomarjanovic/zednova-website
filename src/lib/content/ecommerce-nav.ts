@@ -1,6 +1,10 @@
 import type { Service } from "@/lib/types";
 
-/** Ecommerce mega-menu entries that link to existing service and migration pages. */
+/**
+ * Legacy ecommerce mega-menu entries — kept for SEO and internal linking only.
+ * Not shown on homepage, primary services, main nav, or footer primary links.
+ * Links to existing service and migration pages so URLs stay indexed.
+ */
 export const ecommerceNavServices: Service[] = [
   {
     slug: "ai-lead-site",

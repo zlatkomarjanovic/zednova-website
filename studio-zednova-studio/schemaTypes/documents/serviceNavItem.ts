@@ -14,11 +14,12 @@ export const serviceNavItem = defineType({
       title: "Nav group",
       options: {
         list: [
-          "Websites",
-          "Shopify & Ecommerce",
-          "Custom Software",
-          "Automation",
-          "AI Tools",
+          "Lead-Gen Websites & AI Search",
+          "CRM & Follow-Up Automation",
+          "AI Receptionist & Booking Automation",
+          "Custom Portals & Dashboards",
+          "Monthly Support & Improvements",
+          "Shopify & Ecommerce (Legacy)",
         ],
       },
       validation: (r) => r.required(),

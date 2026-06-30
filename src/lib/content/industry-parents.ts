@@ -2,9 +2,9 @@ import type { IndustryParent } from "@/lib/types";
 
 export const CANONICAL_INDUSTRY_PARENT_SLUGS = [
   "healthcare-wellness",
-  "ecommerce-dtc",
   "fitness-coaching-performance",
   "professional-services",
+  "ecommerce-dtc",
   "b2b-saas-technology",
   "real-estate-property",
 ] as const;
@@ -42,7 +42,7 @@ export const industryParents: IndustryParent[] = [
       },
     ],
     popularServices: [
-      { label: "Clinic Website Design", href: "/services/ai-lead-site" },
+      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
       { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
       { label: "AI Receptionist", href: "/services/ai-receptionist" },
       { label: "Review Automation", href: "/services/review-reputation" },
@@ -53,6 +53,76 @@ export const industryParents: IndustryParent[] = [
       "A new patient finds the clinic on Google, books online, completes intake on their phone, and gets reminder texts before the visit.",
     icon: "healthcare",
     order: 1,
+  },
+  {
+    slug: "fitness-coaching-performance",
+    title: "Fitness, Coaching & Performance",
+    category: "Fitness, Coaching & Performance",
+    whoItIsFor:
+      "Gyms, fitness coaches, online coaches, personal trainers, martial arts gyms, nutrition coaches, and performance businesses selling programs and memberships.",
+    whatWeBuild:
+      "Landing pages, booking systems, client portals, payment flows, onboarding forms, automations, and simple performance dashboards.",
+    problemSolved:
+      "Leads book through DMs and spreadsheets, client onboarding is manual, and there is no simple system for payments, check-ins, or follow-up.",
+    heroHeadline:
+      "Websites, booking, and client systems for fitness, coaching, and performance businesses.",
+    hook: "Coaches and gyms that need landing pages, booking, client portals, and payment automation.",
+    shortDescription:
+      "We build landing pages, booking flows, client portals, payment systems, onboarding forms, and automations for fitness and coaching businesses.",
+    industryOverview:
+      "Fitness and coaching businesses need fast landing pages, reliable booking, and lightweight client systems — without enterprise software complexity.",
+    painPoints: [
+      { title: "Leads live in DMs", description: "Inquiries get lost and booking happens through back-and-forth messages." },
+      { title: "Onboarding is manual", description: "New clients repeat the same intake steps every time." },
+      { title: "No client portal or progress tracking", description: "Check-ins, programs, and payments are scattered across tools." },
+    ],
+    popularServices: [
+      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
+      { label: "Client Portal", href: "/custom-software" },
+      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
+      { label: "Booking Automation", href: "/services/crm-pipeline-automation" },
+    ],
+    exampleProject:
+      "A coach site with program landing pages, Stripe checkout, client onboarding forms, and automated check-in reminders.",
+    commonUseCase:
+      "A lead books a discovery call, pays for a program online, and receives onboarding forms and session reminders automatically.",
+    icon: "fitness",
+    order: 2,
+  },
+  {
+    slug: "professional-services",
+    title: "Professional Services",
+    category: "Professional Services",
+    whoItIsFor:
+      "Consultants, accounting firms, recruiting firms, architecture studios, engineering consultants, B2B service firms, marketing agencies, and operations consultants.",
+    whatWeBuild:
+      "Authority websites, case study pages, lead capture, CRM automation, proposal workflows, dashboards, and content systems.",
+    problemSolved:
+      "Strong expertise is hidden behind weak websites, manual lead handling, and slow follow-up that loses deals to faster competitors.",
+    heroHeadline:
+      "Websites, lead systems, and automation for professional services firms that sell expertise.",
+    hook: "Consultancies and agencies that need authority sites, lead capture, and CRM automation.",
+    shortDescription:
+      "We build authority websites, case studies, lead capture, CRM automation, proposal workflows, and dashboards for professional services firms.",
+    industryOverview:
+      "Professional services firms win on trust and speed — they need polished websites, clear positioning, and automated lead handling to convert inbound interest.",
+    painPoints: [
+      { title: "Website undersells expertise", description: "Prospects cannot quickly understand services, proof, or next steps." },
+      { title: "Lead follow-up is inconsistent", description: "Inquiries sit in inboxes until someone manually responds." },
+      { title: "Proposals and onboarding are slow", description: "Every new client requires repetitive manual setup." },
+    ],
+    popularServices: [
+      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
+      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
+      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
+      { label: "Custom Software", href: "/custom-software" },
+    ],
+    exampleProject:
+      "A consulting site with service pages, case studies, lead scoring, and automated proposal follow-up sequences.",
+    commonUseCase:
+      "A prospect submits a form, receives a tailored follow-up sequence, and books a discovery call within 24 hours.",
+    icon: "consulting",
+    order: 3,
   },
   {
     slug: "ecommerce-dtc",
@@ -79,7 +149,7 @@ export const industryParents: IndustryParent[] = [
     popularServices: [
       { label: "Shopify Development", href: "/services/ai-lead-site" },
       { label: "Klaviyo Email Flows", href: "/services/crm-pipeline-automation" },
-      { label: "Cart Abandonment Automation", href: "/services/ops-automation" },
+      { label: "Cart Abandonment Automation", href: "/services/crm-pipeline-automation" },
       { label: "Ecommerce Dashboard", href: "/services/reporting-dashboards" },
     ],
     exampleProject:
@@ -87,76 +157,6 @@ export const industryParents: IndustryParent[] = [
     commonUseCase:
       "A shopper abandons cart, returns via email, completes checkout, then receives a post-purchase flow that drives a second order.",
     icon: "ecommerce",
-    order: 2,
-  },
-  {
-    slug: "fitness-coaching-performance",
-    title: "Fitness, Coaching & Performance",
-    category: "Fitness, Coaching & Performance",
-    whoItIsFor:
-      "Gyms, fitness coaches, online coaches, personal trainers, martial arts gyms, nutrition coaches, and performance businesses selling programs and memberships.",
-    whatWeBuild:
-      "Landing pages, booking systems, client portals, payment flows, onboarding forms, automations, and simple performance dashboards.",
-    problemSolved:
-      "Leads book through DMs and spreadsheets, client onboarding is manual, and there is no simple system for payments, check-ins, or follow-up.",
-    heroHeadline:
-      "Websites, booking, and client systems for fitness, coaching, and performance businesses.",
-    hook: "Coaches and gyms that need landing pages, booking, client portals, and payment automation.",
-    shortDescription:
-      "We build landing pages, booking flows, client portals, payment systems, onboarding forms, and automations for fitness and coaching businesses.",
-    industryOverview:
-      "Fitness and coaching businesses need fast landing pages, reliable booking, and lightweight client systems — without enterprise software complexity.",
-    painPoints: [
-      { title: "Leads live in DMs", description: "Inquiries get lost and booking happens through back-and-forth messages." },
-      { title: "Onboarding is manual", description: "New clients repeat the same intake steps every time." },
-      { title: "No client portal or progress tracking", description: "Check-ins, programs, and payments are scattered across tools." },
-    ],
-    popularServices: [
-      { label: "Lead Site", href: "/services/ai-lead-site" },
-      { label: "Client Portal", href: "/custom-software" },
-      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
-      { label: "Booking Automation", href: "/services/ops-automation" },
-    ],
-    exampleProject:
-      "A coach site with program landing pages, Stripe checkout, client onboarding forms, and automated check-in reminders.",
-    commonUseCase:
-      "A lead books a discovery call, pays for a program online, and receives onboarding forms and session reminders automatically.",
-    icon: "fitness",
-    order: 3,
-  },
-  {
-    slug: "professional-services",
-    title: "Professional Services",
-    category: "Professional Services",
-    whoItIsFor:
-      "Consultants, accounting firms, recruiting firms, architecture studios, engineering consultants, B2B service firms, marketing agencies, and operations consultants.",
-    whatWeBuild:
-      "Authority websites, case study pages, lead capture, CRM automation, proposal workflows, dashboards, and content systems.",
-    problemSolved:
-      "Strong expertise is hidden behind weak websites, manual lead handling, and slow follow-up that loses deals to faster competitors.",
-    heroHeadline:
-      "Websites, lead systems, and automation for professional services firms that sell expertise.",
-    hook: "Consultancies and agencies that need authority sites, lead capture, and CRM automation.",
-    shortDescription:
-      "We build authority websites, case studies, lead capture, CRM automation, proposal workflows, and dashboards for professional services firms.",
-    industryOverview:
-      "Professional services firms win on trust and speed — they need polished websites, clear positioning, and automated lead handling to convert inbound interest.",
-    painPoints: [
-      { title: "Website undersells expertise", description: "Prospects cannot quickly understand services, proof, or next steps." },
-      { title: "Lead follow-up is inconsistent", description: "Inquiries sit in inboxes until someone manually responds." },
-      { title: "Proposals and onboarding are slow", description: "Every new client requires repetitive manual setup." },
-    ],
-    popularServices: [
-      { label: "Lead Site", href: "/services/ai-lead-site" },
-      { label: "CRM Pipeline Automation", href: "/services/crm-pipeline-automation" },
-      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
-      { label: "Custom Software", href: "/custom-software" },
-    ],
-    exampleProject:
-      "A consulting site with service pages, case studies, lead scoring, and automated proposal follow-up sequences.",
-    commonUseCase:
-      "A prospect submits a form, receives a tailored follow-up sequence, and books a discovery call within 24 hours.",
-    icon: "consulting",
     order: 4,
   },
   {
@@ -183,7 +183,7 @@ export const industryParents: IndustryParent[] = [
     ],
     popularServices: [
       { label: "Next.js Development", href: "/services/ai-lead-site" },
-      { label: "Custom AI Agents", href: "/services/custom-ai-agents" },
+      { label: "Custom AI Agents", href: "/services/ai-receptionist" },
       { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
       { label: "Platform Migrations", href: "/migrations" },
     ],
@@ -217,7 +217,7 @@ export const industryParents: IndustryParent[] = [
       { title: "Follow-up depends on agents", description: "Speed-to-lead varies and hot inquiries go cold." },
     ],
     popularServices: [
-      { label: "Lead Site", href: "/services/ai-lead-site" },
+      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
       { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
       { label: "Client Portal", href: "/custom-software" },
       { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },

@@ -6,12 +6,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X, Plus, Minus } from "lucide-react";
 import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { Button } from "@/ui/Button";
-import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
 import type { InsightsNavPosts } from "@/lib/queries";
 import { ArticleCover } from "@/features/insights/ArticleCover";
-import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
-import { NavMenuIcon } from "@/ui/NavMenuIcon";
 import { cn } from "@/lib/utils";
 
 const MENU_EASE = [0.22, 1, 0.36, 1] as const;
@@ -52,9 +50,9 @@ const mobileNavItem = {
 const MOBILE_NAV_MAIN = "text-[1.1rem] font-normal leading-snug";
 const MOBILE_NAV_SUB = "text-xs leading-snug";
 
-const LINKS_AFTER_INDUSTRIES = [
-  { label: "About", href: "/about" },
+const PLAIN_LINKS = [
   { label: "Work", href: "/work" },
+  { label: "Contact", href: "/contact" },
 ];
 
 function formatInsightDate(iso: string) {
@@ -69,21 +67,17 @@ export function MobileMenu({
   open,
   onClose,
   industryNavItems,
-  customSoftwareNavItems,
-  migrations,
   serviceMegaMenuCards,
   insightsNavPosts,
 }: {
   open: boolean;
   onClose: () => void;
   industryNavItems: NavMenuItem[];
-  customSoftwareNavItems: NavMenuItem[];
-  migrations: Migration[];
   serviceMegaMenuCards: ServiceMegaMenuCard[];
   insightsNavPosts: InsightsNavPosts | null;
 }) {
   const [section, setSection] = useState<
-    "services" | "industries" | "custom-software" | "migrations" | "insights" | null
+    "services" | "industries" | "insights" | null
   >(null);
 
   useEffect(() => {
@@ -147,74 +141,6 @@ export function MobileMenu({
                       <span className="mt-1 hidden text-xs leading-relaxed text-zn-inv-2 sm:block">
                         {card.shortDescription}
                       </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Accordion>
-            </motion.div>
-
-            <motion.div variants={mobileNavItem}>
-            <Accordion
-              title={megaMenuNavLinks["custom-software"].label}
-              href={megaMenuNavLinks["custom-software"].href}
-              isOpen={section === "custom-software"}
-              onToggle={() =>
-                setSection(section === "custom-software" ? null : "custom-software")
-              }
-              onNavigate={onClose}
-            >
-              <ul className="grid gap-1 pb-2">
-                {customSoftwareNavItems.map((item) => (
-                  <li key={item.title}>
-                    <Link
-                      href={item.href}
-                      onClick={onClose}
-                      className="flex items-start gap-2.5 py-2 text-zn-inv-2 transition-colors hover:text-zn-inv"
-                    >
-                      {item.icon && (
-                        <NavMenuIcon
-                          src={item.icon.src}
-                          alt={item.icon.alt}
-                          theme="dark"
-                          className="mt-0.5 scale-90"
-                        />
-                      )}
-                      <span className={MOBILE_NAV_SUB}>{item.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Accordion>
-            </motion.div>
-
-            <motion.div variants={mobileNavItem}>
-            <Accordion
-              title={megaMenuNavLinks.migrations.label}
-              href={megaMenuNavLinks.migrations.href}
-              isOpen={section === "migrations"}
-              onToggle={() =>
-                setSection(section === "migrations" ? null : "migrations")
-              }
-              onNavigate={onClose}
-            >
-              <ul className="grid gap-1 pb-2">
-                {migrations.map((item) => (
-                  <li key={item.slug}>
-                    <Link
-                      href={`/migrations/${item.slug}`}
-                      onClick={onClose}
-                      className="block py-2 text-zn-inv-2 transition-colors hover:text-zn-inv"
-                    >
-                      {item.platformIcons && (
-                        <MigrationPlatformPill
-                          from={item.platformIcons.from}
-                          to={item.platformIcons.to}
-                          theme="dark"
-                          className="mb-1.5 scale-90 origin-left"
-                        />
-                      )}
-                      <span className={MOBILE_NAV_SUB}>{item.title}</span>
                     </Link>
                   </li>
                 ))}
@@ -316,7 +242,7 @@ export function MobileMenu({
             </Accordion>
             </motion.div>
 
-            {LINKS_AFTER_INDUSTRIES.map((link) => (
+            {PLAIN_LINKS.map((link) => (
               <motion.div key={link.href} variants={mobileNavItem}>
               <Link
                 href={link.href}

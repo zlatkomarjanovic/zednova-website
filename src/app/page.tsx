@@ -47,28 +47,28 @@ import { homepageGraphJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Websites, Custom Software & AI Tools | ZedNova",
+    absolute: "Lead-Gen Websites, CRM Automations & AI Receptionists | ZedNova",
   },
   description:
-    "We build Next.js websites, Shopify stores, custom software, CRM automations, and AI tools for clinics, ecommerce brands, and growing businesses.",
+    "We build lead-gen websites, CRM follow-up automation, and AI receptionists for small businesses that want more booked calls and less manual admin.",
 };
 
 
 const PILLARS = [
   {
-    tagline: "Marketing websites",
-    title: "We design and build the site",
-    body: "B2B and B2C marketing websites, landing pages, and Sanity or Webflow CMS setups that load fast and convert visitors.",
+    tagline: "Lead-gen websites",
+    title: "We build the website",
+    body: "Fast, clear websites that explain your offer, rank on Google and AI search, and turn visitors into calls, forms, and bookings.",
   },
   {
-    tagline: "Automation",
+    tagline: "CRM & follow-up",
     title: "We connect your follow-up",
-    body: "CRM automations, booking flows, email and SMS sequences, and n8n or Make workflows so no lead sits idle.",
+    body: "Every form, call, and booking request gets captured, assigned, followed up with by email and SMS, and tracked until it becomes a booked call or customer.",
   },
   {
-    tagline: "AI tools",
-    title: "We add AI where it actually helps",
-    body: "Website chatbots, AI phone assistants for missed calls, and intake flows that book appointments without anyone picking up the phone.",
+    tagline: "AI receptionists",
+    title: "We add AI where it saves time",
+    body: "AI voice and chat assistants that answer calls, qualify leads, book appointments, and text back missed calls before they call your competitor.",
   },
 ];
 
@@ -192,7 +192,7 @@ export default async function HomePage() {
           </Reveal>
           <TextReveal
             as="h2"
-            text="An experienced software and product studio. We build web apps, mobile apps, desktop software, ecommerce stores, marketing websites, and automations, using AI internally to deliver faster and more cost-effectively, without adding headcount."
+            text="Choose the part of the business that is leaking leads, calls, bookings, or admin time. We build the website, CRM automation, AI receptionist, or dashboard that fixes it."
             className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
           />
         </div>
@@ -262,9 +262,9 @@ export default async function HomePage() {
               />
               <Reveal delay={0.08}>
                 <p className="zn-prose mt-5 max-w-lg">
-                  Marketing website design, e-commerce development, custom software,
-                  CRM automation, dashboards, and migrations for clinics, ecommerce
-                  brands, and growing businesses.
+                  Lead-gen websites, CRM follow-up automation, AI receptionists,
+                  custom portals and dashboards, and monthly support for small
+                  businesses that want more booked calls and less manual admin.
                 </p>
               </Reveal>
             </div>
