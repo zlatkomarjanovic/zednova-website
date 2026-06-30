@@ -18,12 +18,12 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
       <BlueprintGrid immediate />
 
       <div className="zn-container-guides relative flex flex-col pb-6 lg:pb-8">
-        <div className="relative" data-hero-wave-zone>
+        <div className="relative min-h-0" data-hero-wave-zone>
           <div className="absolute inset-x-0 top-16 bottom-0 z-0 lg:top-18">
-            <HeroLineWave />
+            <HeroLineWave className="h-full" />
           </div>
 
-          <div className="zn-container-inset relative z-10 flex shrink-0 flex-col pt-28 pb-4 lg:pt-32 lg:pb-6">
+          <div className="zn-container-inset relative z-10 flex shrink-0 flex-col pt-28 pb-4 lg:pt-32 lg:pb-28">
             <Reveal start="top bottom">
               <p className="text-sm text-zn-text-3">
                 120+ projects. 10+ years shipping products.
@@ -35,10 +35,9 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
 
               <Reveal delay={0.08} start="top bottom">
                 <p className="mt-6 max-w-md text-[clamp(0.75rem,1.615vw,1.125rem)] leading-relaxed text-zn-text-2">
-                  We build fast lead-gen websites, connect every form and call to your
-                  CRM, automate follow-up by email and SMS, and add AI receptionists where
-                  they save time — for clinics, local services, coaching, and professional
-                  firms that want more booked calls and less manual admin.
+                  Lead-gen websites, CRM follow-up, and AI receptionists for clinics,
+                  local services, coaching, and professional firms that want more booked
+                  calls with less manual admin.
                 </p>
               </Reveal>
             </div>
@@ -56,7 +55,7 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
           </div>
         </div>
 
-        <Reveal delay={0.22} start="top bottom" className="mt-8 lg:mt-10">
+        <Reveal delay={0.22} start="top bottom" className="mt-8 lg:mt-0">
           <HeroWorkGallery projects={projects} />
         </Reveal>
       </div>

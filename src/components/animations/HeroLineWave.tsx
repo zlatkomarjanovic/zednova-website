@@ -154,6 +154,7 @@ export function HeroLineWave({ className }: HeroLineWaveProps) {
       const rotSign = Math.sign(centerX - pivotX) || 1;
 
       ctx.beginPath();
+      let lastPx = centerX;
       for (let y = 0; y <= height; y += Y_STEP) {
         const primary = Math.sin(y * freq + phase) * amp;
         const secondary = Math.sin(y * freq * 1.85 + phase * 1.25) * amp * 0.38;
@@ -169,8 +170,12 @@ export function HeroLineWave({ className }: HeroLineWaveProps) {
           px = pivotX + lx * Math.cos(angle) - ly * Math.sin(angle);
         }
 
+        lastPx = px;
         if (y === 0) ctx.moveTo(px, y);
         else ctx.lineTo(px, y);
+      }
+      if (height % Y_STEP !== 0) {
+        ctx.lineTo(lastPx, height);
       }
       ctx.stroke();
     };
