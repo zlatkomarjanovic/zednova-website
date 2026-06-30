@@ -25,6 +25,7 @@ import { customSoftwareItems, customSoftwareBySlug } from "@/lib/content/custom-
 import {
   customSoftwareGroups as staticCustomSoftwareGroups,
   customSoftwareNavItems as staticCustomSoftwareNavItems,
+  PRIMARY_SERVICE_GROUPS,
   serviceMegaMenuCards as staticServiceMegaMenuCards,
   serviceNavGroups as staticServiceNavGroups,
 } from "@/lib/content/nav-menu";
@@ -167,9 +168,13 @@ export async function getServiceGroups(): Promise<
 }
 
 export async function getServiceNavGroups(): Promise<NavMenuGroup[]> {
-  return fromSanity("serviceNavItem", fetchServiceNavGroupsFromSanity, () =>
+  const groups = await fromSanity("serviceNavItem", fetchServiceNavGroupsFromSanity, () =>
     staticServiceNavGroups,
   );
+  const hasPrimaryGroups = PRIMARY_SERVICE_GROUPS.some((group) =>
+    groups.some((entry) => entry.group === group && entry.items.length > 0),
+  );
+  return hasPrimaryGroups ? groups : staticServiceNavGroups;
 }
 
 export async function getServiceMegaMenuCards(): Promise<ServiceMegaMenuCard[]> {

@@ -13,17 +13,17 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
     <section
       id="top"
       data-theme="light"
-      className="relative flex min-h-dvh flex-col overflow-hidden bg-zn-bg"
+      className="relative flex flex-col overflow-hidden bg-zn-bg"
     >
       <BlueprintGrid immediate />
 
-      <div className="zn-container-guides relative flex min-h-0 flex-1 flex-col pb-8 lg:pb-10">
+      <div className="zn-container-guides relative flex flex-col pb-6 lg:pb-8">
         <div className="relative" data-hero-wave-zone>
           <div className="absolute inset-x-0 top-16 bottom-0 z-0 lg:top-18">
             <HeroLineWave />
           </div>
 
-          <div className="zn-container-inset relative z-10 flex shrink-0 flex-col pt-28 pb-8 lg:pt-32 lg:pb-10">
+          <div className="zn-container-inset relative z-10 flex shrink-0 flex-col pt-28 pb-4 lg:pt-32 lg:pb-6">
             <Reveal start="top bottom">
               <p className="text-sm text-zn-text-3">
                 120+ projects. 10+ years shipping products.
@@ -53,12 +53,10 @@ export function HeroSection({ projects }: { projects: PortfolioProject[] }) {
                 </Button>
               </div>
             </Reveal>
-
-            <div className="mt-12 sm:mt-16 lg:mt-[12rem]" aria-hidden="true" />
           </div>
         </div>
 
-        <Reveal delay={0.22} start="top bottom" className="min-h-0">
+        <Reveal delay={0.22} start="top bottom" className="mt-8 lg:mt-10">
           <HeroWorkGallery projects={projects} />
         </Reveal>
       </div>

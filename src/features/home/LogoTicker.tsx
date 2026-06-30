@@ -99,7 +99,7 @@ export function LogoTicker({
   );
 
   return (
-    <section className="relative bg-zn-bg py-10" aria-label={label}>
+    <section className="relative bg-zn-bg pt-6 pb-10 lg:pt-8" aria-label={label}>
       <BlueprintGrid />
 
       <div className="zn-container relative">

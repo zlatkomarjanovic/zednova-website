@@ -18,6 +18,7 @@ export const serviceNavItem = defineType({
           "CRM & Follow-Up Automation",
           "AI Receptionist & Booking Automation",
           "Custom Portals & Dashboards",
+          "Platform Migrations",
           "Monthly Support & Improvements",
           "Shopify & Ecommerce (Legacy)",
         ],

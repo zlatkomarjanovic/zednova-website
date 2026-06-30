@@ -427,9 +427,9 @@ export const services: Service[] = [
     category: "Monthly Support",
     icon: "retainer",
     shortDescription:
-      "Ongoing support for the website, CRM automations, AI receptionist, dashboards, forms, integrations, and reporting after launch.",
+      "Monthly support for the website, CRM automations, AI receptionist, dashboards, forms, integrations, and reporting after launch.",
     whatItIs:
-      "An ongoing monthly partnership. We maintain, iterate, and expand your website, CRM automations, AI receptionist, dashboards, and integrations — adding new automations, improving agents, A/B testing sequences, and staying ahead of what's breaking or underperforming.",
+      "A monthly partnership after launch. We maintain, iterate, and expand your website, CRM automations, AI receptionist, dashboards, and integrations — adding new automations, improving agents, A/B testing sequences, and staying ahead of what's breaking or underperforming.",
     deliverables: [
       "Monthly strategy call (priorities & backlog)",
       "Unlimited small fixes on live automations (<2hr each)",
@@ -461,7 +461,7 @@ export const services: Service[] = [
       "One less vendor to chase, one more system that compounds",
     ],
     pricingSignal: "Basic from $349/mo · Growth from $549/mo · Partner from $1,500/mo",
-    timeline: "Ongoing monthly partnership",
+    timeline: "Monthly partnership after launch",
     image:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop",
     order: 5,

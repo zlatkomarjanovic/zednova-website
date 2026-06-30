@@ -79,14 +79,14 @@ export const megaMenuNavLinks = {
 } as const;
 
 /**
- * The 5 parent services that drive homepage cards, services page, footer, and nav.
- * Monthly Support is a support layer, not a primary homepage card unless needed.
+ * The 6 parent services that drive homepage cards, services page, footer, and nav.
  */
 export const PARENT_SERVICE_SLUGS = [
   "lead-gen-websites",
   "crm-automation",
   "ai-receptionist",
   "portals-dashboards",
+  "platform-migrations",
   "monthly-support",
 ] as const;
 
@@ -113,6 +113,11 @@ export const PARENT_SERVICE_LABELS: Record<
     label: "Custom Portals & Dashboards",
     shortLabel: "Portals & Dashboards",
     href: "/custom-software",
+  },
+  "platform-migrations": {
+    label: "Platform Migrations",
+    shortLabel: "Platform Migrations",
+    href: "/migrations",
   },
   "monthly-support": {
     label: "Monthly Support & Improvements",

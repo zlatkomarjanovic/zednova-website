@@ -78,14 +78,17 @@ export function PricingCardsSection({
           <BlueprintCross anchor="right" className="top-0 -translate-y-1/2" />
 
           <div className="relative border-y border-zn-border">
-            <div className="pointer-events-none absolute inset-0 hidden md:block">
-              <BlueprintGridCrosses columns={packages.length} rows={1} />
+            <div className="pointer-events-none absolute inset-0 hidden lg:block">
+              <BlueprintGridCrosses columns={Math.min(packages.length, 4)} rows={1} />
             </div>
 
             <Stagger
               className={cn(
                 "grid divide-y divide-zn-border",
+                packages.length >= 4 &&
+                  "md:grid-cols-2 md:divide-x lg:grid-cols-4 lg:divide-y-0",
                 packages.length === 3 && "md:grid-cols-3 md:divide-x md:divide-y-0",
+                packages.length === 2 && "md:grid-cols-2 md:divide-x md:divide-y-0",
               )}
               stagger={0.06}
             >
@@ -141,11 +144,7 @@ export function PricingCardsSection({
         </div>
 
         <Reveal delay={0.1}>
-          <p className="zn-container-inset border-t border-zn-border pt-6 text-center text-sm leading-relaxed text-zn-text-3">
-            Need more pages, integrations, or custom logic? Scope goes up and so does the price.
-            We quote the full number on your call before work begins.
-          </p>
-          <div className="zn-container-inset flex justify-center py-8">
+          <div className="zn-container-inset flex justify-center border-t border-zn-border py-8">
             <Button href={CAL_BOOKING_URL} size="lg" withArrow>
               Book a call
             </Button>

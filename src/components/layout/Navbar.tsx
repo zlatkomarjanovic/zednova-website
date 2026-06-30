@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { Button } from "@/ui/Button";
@@ -14,7 +14,7 @@ import {
   useRubberHoverHighlight,
 } from "@/ui/HoverHighlight";
 import { MegaMenu } from "@/components/layout/MegaMenu";
-import { MobileMenu } from "@/components/layout/MobileMenu";
+import { MobileNavPanel } from "@/components/layout/MobileMenu";
 import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import { megaMenuNavLinks } from "@/lib/types/content-nav";
 import type { InsightsNavPosts } from "@/lib/queries";
@@ -166,7 +166,7 @@ export function Navbar({
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 8);
-      if (openMenu) {
+      if (openMenu || mobileOpen) {
         setHidden(false);
       } else if (y > 100 && y > last + 4) {
         setHidden(true);
@@ -177,7 +177,7 @@ export function Navbar({
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [openMenu]);
+  }, [openMenu, mobileOpen]);
 
   useEffect(() => {
     setOpenMenu(null);
@@ -228,6 +228,35 @@ export function Navbar({
     setOpenMenu(null);
   }, []);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    setHidden(false);
+    setSlideDirection(0);
+    setOpenMenu(null);
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const closeMobile = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
+
+  const toggleMobile = useCallback(() => {
+    setMobileOpen((open) => {
+      if (!open) {
+        setSlideDirection(0);
+        setOpenMenu(null);
+      }
+      return !open;
+    });
+  }, []);
+
   const scheduleClose = useCallback(() => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(closePanel, 140);
@@ -261,38 +290,42 @@ export function Navbar({
     openPanel(menu);
   };
 
-  const isDark = theme === "dark";
+  const isDark = mobileOpen ? true : theme === "dark";
 
   return (
     <>
       <header
         onMouseLeave={scheduleClose}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ease-out",
+          "fixed inset-x-0 top-0 z-50 flex flex-col border-b transition-[transform,background-color,border-color,height] duration-500 ease-out",
           (openMenu || mobileOpen) && "z-[80]",
-          mobileOpen && "max-lg:pointer-events-none max-lg:invisible",
-          hidden ? "-translate-y-full" : "translate-y-0",
+          mobileOpen && "max-lg:h-dvh max-lg:bg-zn-dark max-lg:text-zn-inv max-lg:border-zn-border-dk",
+          hidden && !mobileOpen ? "-translate-y-full" : "translate-y-0",
           isDark
             ? "border-zn-border-dk/60 text-zn-inv"
             : "border-zn-border/60 text-zn-text",
-          openMenu
-            ? isDark
-              ? "bg-zn-dark"
-              : "bg-zn-bg"
-            : scrolled
+          !mobileOpen &&
+            (openMenu
               ? isDark
-                ? "bg-zn-dark/80 backdrop-blur-xl"
-                : "bg-zn-bg/80 backdrop-blur-xl"
-              : "bg-transparent",
+                ? "bg-zn-dark"
+                : "bg-zn-bg"
+              : scrolled
+                ? isDark
+                  ? "bg-zn-dark/80 backdrop-blur-xl"
+                  : "bg-zn-bg/80 backdrop-blur-xl"
+                : "bg-transparent"),
         )}
       >
         <div
           ref={navBarRef}
-          className="zn-container relative flex h-16 items-center justify-between lg:h-18"
+          className="zn-container relative flex h-16 shrink-0 items-center justify-between pt-[env(safe-area-inset-top,0px)] lg:h-18"
         >
           <BlueprintCross anchor="left" className="bottom-0 translate-y-1/2 max-lg:hidden" />
           <BlueprintCross anchor="right" className="bottom-0 translate-y-1/2 max-lg:hidden" />
-          <LogoHomeLink variant={isDark ? "light" : "dark"} />
+          <LogoHomeLink
+            variant={isDark ? "light" : "dark"}
+            onNavigate={mobileOpen ? closeMobile : undefined}
+          />
 
           <nav
             ref={navHighlight.rootRef}
@@ -361,14 +394,39 @@ export function Navbar({
               </Button>
             </div>
             <button
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
-              className="flex size-10 items-center justify-center rounded-[2px] lg:hidden"
+              type="button"
+              onClick={toggleMobile}
+              aria-expanded={mobileOpen}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              className={cn(
+                "flex size-10 items-center justify-center rounded-[2px] transition-colors lg:hidden",
+                mobileOpen && "border border-zn-border-dk",
+              )}
             >
-              <Menu className="size-6" />
+              {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
             </button>
           </div>
         </div>
+
+        <AnimatePresence initial={false}>
+          {mobileOpen && (
+            <motion.div
+              key="mobile-panel"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.32, ease: MENU_EASE }}
+              className="flex min-h-0 flex-1 flex-col lg:hidden"
+            >
+              <MobileNavPanel
+                onClose={closeMobile}
+                industryNavItems={industryNavItems}
+                serviceMegaMenuCards={serviceMegaMenuCards}
+                insightsNavPosts={insightsNavPosts}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence
           initial={false}
@@ -377,7 +435,7 @@ export function Navbar({
             setPanelHeight(0);
           }}
         >
-          {openMenu && (
+          {openMenu && !mobileOpen && (
             <motion.div
               key="mega-shell"
               initial={{ height: 0, opacity: 0 }}
@@ -406,14 +464,6 @@ export function Navbar({
           )}
         </AnimatePresence>
       </header>
-
-      <MobileMenu
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        industryNavItems={industryNavItems}
-        serviceMegaMenuCards={serviceMegaMenuCards}
-        insightsNavPosts={insightsNavPosts}
-      />
     </>
   );
 }

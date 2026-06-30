@@ -10,6 +10,7 @@ import {
   getHomepageIndustries,
   getPlatformTestimonials,
   getPortfolioProjects,
+  getServiceNavGroups,
   getSiteSettings,
 } from "@/lib/queries";
 import { homepageFaqs } from "@/lib/content/faq";
@@ -73,13 +74,14 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, customSoftware, migrations, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
+  const [featuredCases, allCases, services, customSoftware, migrations, serviceNavGroups, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
       getAllServices(),
       getAllCustomSoftware(),
       getAllMigrations(),
+      getServiceNavGroups(),
       getPlatformTestimonials(),
       getSiteSettings(),
       getHomepageIndustries(),
@@ -277,6 +279,7 @@ export default async function HomePage() {
         </div>
         <div className="zn-container-guides relative">
           <ServicesTabShowcase
+            serviceNavGroups={serviceNavGroups}
             services={services}
             customSoftware={customSoftware}
             migrations={migrations}

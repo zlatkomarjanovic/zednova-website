@@ -65,6 +65,31 @@ function industryRef(slug: string) {
   return { _type: "reference", _ref: `industry-${slug}` };
 }
 
+const PARENT_SERVICE_BY_GROUP: Record<string, string> = {
+  "Lead-Gen Websites & AI Search": "lead-gen-websites",
+  "CRM & Follow-Up Automation": "crm-automation",
+  "AI Receptionist & Booking Automation": "ai-receptionist",
+  "Custom Portals & Dashboards": "portals-dashboards",
+  "Monthly Support & Improvements": "monthly-support",
+};
+
+const MEGA_CARD_PARENT: Record<string, string> = {
+  "Lead-Gen Websites": "lead-gen-websites",
+  "CRM & Follow-Up Automation": "crm-automation",
+  "AI Receptionists": "ai-receptionist",
+  "Portals & Dashboards": "portals-dashboards",
+  "Platform Migrations": "platform-migrations",
+  "Monthly Support": "monthly-support",
+};
+
+const LEGACY_SERVICE_GROUPS = new Set([
+  "Websites",
+  "Automation",
+  "AI Tools",
+  "Ecommerce",
+  "Shopify & Ecommerce (Legacy)",
+]);
+
 loadEnvLocal();
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "umo6y27o";
@@ -110,6 +135,7 @@ for (const study of caseStudies) {
 }
 
 for (const service of services) {
+  const isLegacy = LEGACY_SERVICE_GROUPS.has(service.group);
   add({
     _id: `service-${service.slug}`,
     _type: "service",
@@ -119,6 +145,14 @@ for (const service of services) {
     group: service.group,
     category: service.category,
     icon: service.icon,
+    parentService: PARENT_SERVICE_BY_GROUP[service.group],
+    isFeatured: service.order <= 4,
+    showOnHomepage: !isLegacy,
+    showInPrimaryServices: !isLegacy,
+    isLegacy,
+    isSecondary: isLegacy,
+    plainPromise: service.shortDescription,
+    problemSolved: service.whatItIs,
     shortDescription: service.shortDescription,
     whatItIs: service.whatItIs,
     heroHeadline: service.title,
@@ -137,7 +171,6 @@ for (const service of services) {
     })),
     results: service.results,
     pricingSignal: service.pricingSignal,
-    startingPrice: undefined,
     timeline: service.timeline,
     order: service.order,
     relatedCaseStudies: (caseStudiesByService.get(service.slug) ?? [])
@@ -168,6 +201,10 @@ serviceMegaMenuCards.forEach((card, index) => {
     shortDescription: card.shortDescription,
     includes: card.includes,
     href: card.href,
+    startingPrice: card.startingPrice,
+    isFeatured: card.isFeatured ?? true,
+    isLegacy: card.isLegacy ?? false,
+    parentService: MEGA_CARD_PARENT[card.title],
     order: index + 1,
   });
 });

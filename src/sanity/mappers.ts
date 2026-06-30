@@ -470,12 +470,18 @@ export function mapMegaMenuCard(doc: {
   shortDescription: string;
   includes: string;
   href: string;
+  startingPrice?: string;
+  isFeatured?: boolean;
+  isLegacy?: boolean;
 }): ServiceMegaMenuCard {
   return {
     title: doc.title,
     shortDescription: doc.shortDescription,
     includes: doc.includes,
     href: doc.href,
+    startingPrice: doc.startingPrice,
+    isFeatured: doc.isFeatured,
+    isLegacy: doc.isLegacy,
   };
 }
 
@@ -483,27 +489,44 @@ export function groupServiceNavItems(
   items: (NavMenuItem & { navGroup: string; order: number })[],
 ): NavMenuGroup[] {
   const groups = new Map<string, NavMenuItem[]>();
-  const groupOrder = [
-    "Websites",
-    "Shopify & Ecommerce",
-    "Custom Software",
-    "Automation",
-    "AI Tools",
+  const primaryGroupOrder = [
+    "Lead-Gen Websites & AI Search",
+    "CRM & Follow-Up Automation",
+    "AI Receptionist & Booking Automation",
+    "Custom Portals & Dashboards",
+    "Platform Migrations",
+    "Monthly Support & Improvements",
   ];
 
+  /** Map legacy Sanity navGroup values onto current parent groups. */
+  const navGroupAliases: Record<string, string> = {
+    Websites: "Lead-Gen Websites & AI Search",
+    Automation: "CRM & Follow-Up Automation",
+    "AI Tools": "AI Receptionist & Booking Automation",
+    "Custom Software": "Custom Portals & Dashboards",
+    "Website Migrations": "Platform Migrations",
+  };
+
   for (const item of [...items].sort((a, b) => a.order - b.order)) {
-    const list = groups.get(item.navGroup) ?? [];
+    const groupKey = navGroupAliases[item.navGroup] ?? item.navGroup;
+    const list = groups.get(groupKey) ?? [];
     list.push({
       title: item.title,
       shortDescription: item.shortDescription,
       href: item.href,
     });
-    groups.set(item.navGroup, list);
+    groups.set(groupKey, list);
   }
 
-  return groupOrder
+  const orderedPrimary = primaryGroupOrder
     .filter((g) => groups.has(g))
     .map((group) => ({ group, items: groups.get(group)! }));
+
+  const legacy = [...groups.keys()]
+    .filter((g) => !primaryGroupOrder.includes(g))
+    .map((group) => ({ group, items: groups.get(group)! }));
+
+  return [...orderedPrimary, ...legacy];
 }
 
 export function buildCustomSoftwareGroups(

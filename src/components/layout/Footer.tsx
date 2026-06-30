@@ -20,7 +20,7 @@ const COMPANY_LINKS = [
 ] as const;
 
 const SECONDARY_TECH_LINKS = [
-  { label: "Website Migrations", href: "/migrations" },
+  { label: "Platform Migrations", href: "/migrations" },
   { label: "Sanity CMS", href: "/services/ai-lead-site" },
   { label: "Next.js Websites", href: "/services/ai-lead-site" },
   { label: "Automation Integrations", href: "/services/crm-pipeline-automation" },
@@ -155,10 +155,10 @@ export function Footer({
 
             <FooterCol title="Technical">
               {SECONDARY_TECH_LINKS.map((link) => (
-                <FooterNavLink key={link.href} href={link.href} label={link.label} />
+                <FooterNavLink key={link.label} href={link.href} label={link.label} />
               ))}
               {LEGACY_LINKS.map((link) => (
-                <FooterNavLink key={link.href} href={link.href} label={link.label} />
+                <FooterNavLink key={link.label} href={link.href} label={link.label} />
               ))}
             </FooterCol>
 

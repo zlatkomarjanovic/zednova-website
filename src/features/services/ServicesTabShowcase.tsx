@@ -8,13 +8,16 @@ import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { CmsImage } from "@/ui/CmsImage";
 import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
-import type { Migration } from "@/lib/types/content-nav";
+import type { Migration, NavMenuGroup } from "@/lib/types/content-nav";
 import type { CustomSoftware } from "@/lib/types/custom-software";
-import type { Service, ServiceGroup } from "@/lib/types";
+import type { Service } from "@/lib/types";
+import {
+  PRIMARY_SERVICE_GROUPS,
+  PRIMARY_SERVICE_TAB_LABELS,
+  serviceNavGroups as staticServiceNavGroups,
+  type PrimaryServiceGroup,
+} from "@/lib/content/nav-menu";
 import { cn } from "@/lib/utils";
-
-type ServiceFilter = ServiceGroup;
-type ShowcaseFilter = ServiceFilter | "custom-software" | "migrations";
 
 type ShowcaseItem = {
   id: string;
@@ -35,28 +38,6 @@ const SERVICE_IMAGE_CLASS: Record<string, string> = {
     "object-contain object-center p-4 md:p-6 transition-transform duration-[900ms] ease-out group-hover:scale-[1.01] motion-reduce:transition-none",
 };
 
-const SERVICE_FILTER_ORDER: ServiceFilter[] = [
-  "Lead-Gen Websites & AI Search",
-  "CRM & Follow-Up Automation",
-  "AI Receptionist & Booking Automation",
-  "Custom Portals & Dashboards",
-  "Monthly Support & Improvements",
-];
-
-const FILTER_LABELS: Record<ShowcaseFilter, string> = {
-  "Lead-Gen Websites & AI Search": "Lead-Gen Websites",
-  "CRM & Follow-Up Automation": "CRM & Follow-Up",
-  "AI Receptionist & Booking Automation": "AI Receptionist",
-  "Custom Portals & Dashboards": "Portals & Dashboards",
-  "Monthly Support & Improvements": "Monthly Support",
-  Websites: "Websites",
-  Automation: "Automation",
-  "AI Tools": "AI tools",
-  Ecommerce: "E-commerce",
-  "custom-software": "Custom software",
-  migrations: "Migrations",
-};
-
 const PANEL_EASE = [0.22, 1, 0.36, 1] as const;
 
 const panelVariants = {
@@ -66,107 +47,133 @@ const panelVariants = {
 };
 
 type ServicesTabShowcaseProps = {
+  serviceNavGroups: NavMenuGroup[];
   services: Service[];
   customSoftware: CustomSoftware[];
   migrations: Migration[];
   className?: string;
 };
 
-function formatPrice(amount?: number): string | undefined {
-  if (amount == null) return undefined;
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(amount);
+function slugFromHref(href: string): string {
+  const parts = href.split("/").filter(Boolean);
+  return parts[parts.length - 1] ?? href;
 }
 
-function toServiceItems(services: Service[], group: ServiceFilter): ShowcaseItem[] {
-  return services
-    .filter((service) => service.group === group)
-    .sort((a, b) => a.order - b.order)
-    .map((service) => ({
-      id: `service-${service.slug}`,
-      slug: service.slug,
-      title: service.title,
-      category: service.category,
-      description: service.whatItIs,
-      href: `/services/${service.slug}`,
-      image: service.image || undefined,
-      imageClassName: SERVICE_IMAGE_CLASS[service.slug],
-      ctaLabel: "See this service",
-      meta: [
-        { label: "Starting at", value: service.pricingSignal },
-        { label: "Timeline", value: service.timeline },
-        { label: "Best for", value: service.idealClients[0] ?? "Growing businesses" },
-      ],
-    }));
-}
+function enrichNavItem(
+  item: { title: string; shortDescription: string; href: string },
+  group: PrimaryServiceGroup,
+  services: Service[],
+  customSoftware: CustomSoftware[],
+  migrations: Migration[],
+): ShowcaseItem {
+  const tabLabel = PRIMARY_SERVICE_TAB_LABELS[group];
+  const id = `${item.href}::${item.title}`;
 
-function toCustomSoftwareItems(items: CustomSoftware[]): ShowcaseItem[] {
-  return [...items]
-    .sort((a, b) => a.order - b.order)
-    .map((item) => ({
-      id: `custom-software-${item.slug}`,
-      slug: item.slug,
-      title: item.title,
-      category: item.softwareType ?? "Custom software",
-      description: item.whatItIs ?? item.shortDescription,
-      href: `/custom-software/${item.slug}`,
-      image: item.image,
-      ctaLabel: "View custom software",
-      meta: [
-        {
-          label: "Starting at",
-          value: formatPrice(item.startingPrice) ?? "Scoped after discovery",
-        },
-        {
-          label: "Timeline",
-          value: item.timeline ?? "MVP in 5–10 business days",
-        },
-        {
-          label: "Best for",
-          value: item.targetAudience?.[0] ?? "Teams outgrowing spreadsheets",
-        },
-      ],
-    }));
-}
+  const serviceMatch = item.href.match(/^\/services\/([^/]+)/);
+  if (serviceMatch) {
+    const service = services.find((entry) => entry.slug === serviceMatch[1]);
+    if (service) {
+      return {
+        id,
+        slug: service.slug,
+        title: item.title,
+        category: tabLabel,
+        description: item.shortDescription,
+        href: item.href,
+        image: service.image || undefined,
+        imageClassName: SERVICE_IMAGE_CLASS[service.slug],
+        ctaLabel: "See this service",
+        meta: [
+          { label: "Starting at", value: service.pricingSignal },
+          { label: "Timeline", value: service.timeline },
+          { label: "Best for", value: service.idealClients[0] ?? "Growing businesses" },
+        ],
+      };
+    }
+  }
 
-function toMigrationItems(items: Migration[]): ShowcaseItem[] {
-  return [...items]
-    .sort((a, b) => a.order - b.order)
-    .map((item) => {
-      const platformLabel =
-        item.sourcePlatform && item.targetPlatform
-          ? `${item.sourcePlatform} → ${item.targetPlatform}`
-          : "Platform migration";
+  const customSoftwareMatch = item.href.match(/^\/custom-software\/([^/]+)/);
+  if (customSoftwareMatch) {
+    const cs = customSoftware.find((entry) => entry.slug === customSoftwareMatch[1]);
+    if (cs) {
+      const price =
+        cs.startingPrice != null
+          ? new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+              maximumFractionDigits: 0,
+            }).format(cs.startingPrice)
+          : "Scoped after discovery";
 
       return {
-        id: `migration-${item.slug}`,
-        slug: item.slug,
+        id,
+        slug: cs.slug,
         title: item.title,
-        category: platformLabel,
-        description: item.description,
-        href: `/migrations/${item.slug}`,
-        image: item.image ?? item.coverImage?.url,
-        ctaLabel: "View migration",
-        platformIcons: item.platformIcons,
+        category: tabLabel,
+        description: item.shortDescription,
+        href: item.href,
+        image: cs.image,
+        ctaLabel: "View custom software",
         meta: [
-          {
-            label: "Starting at",
-            value: item.pricingSignal ?? "Scoped after audit",
-          },
-          {
-            label: "Timeline",
-            value: item.timeline ?? "Typical cutover in 4–8 weeks",
-          },
+          { label: "Starting at", value: price },
+          { label: "Timeline", value: cs.timeline ?? "MVP in 5–10 business days" },
           {
             label: "Best for",
-            value: item.shortDescription,
+            value: cs.targetAudience?.[0] ?? "Teams outgrowing spreadsheets",
           },
         ],
       };
-    });
+    }
+  }
+
+  const migrationMatch = item.href.match(/^\/migrations\/([^/]+)/);
+  if (migrationMatch) {
+    const migration = migrations.find((entry) => entry.slug === migrationMatch[1]);
+    if (migration) {
+      const platformLabel =
+        migration.sourcePlatform && migration.targetPlatform
+          ? `${migration.sourcePlatform} → ${migration.targetPlatform}`
+          : "Platform migration";
+
+      return {
+        id,
+        slug: migration.slug,
+        title: item.title,
+        category: platformLabel,
+        description: item.shortDescription,
+        href: item.href,
+        image: migration.image ?? migration.coverImage?.url,
+        ctaLabel: "View migration",
+        platformIcons: migration.platformIcons,
+        meta: [
+          {
+            label: "Starting at",
+            value: migration.pricingSignal ?? "Scoped after audit",
+          },
+          {
+            label: "Timeline",
+            value: migration.timeline ?? "Typical cutover in 4–8 weeks",
+          },
+          { label: "Best for", value: migration.shortDescription },
+        ],
+      };
+    }
+  }
+
+  return {
+    id,
+    slug: slugFromHref(item.href),
+    title: item.title,
+    category: tabLabel,
+    description: item.shortDescription,
+    href: item.href,
+    ctaLabel: "Learn more",
+    meta: [
+      { label: "Category", value: tabLabel },
+      { label: "What it is", value: item.shortDescription },
+      { label: "Next step", value: "Tell us what you need on a quick call" },
+    ],
+  };
 }
 
 function ShowcasePanel({ item }: { item: ShowcaseItem }) {
@@ -245,42 +252,39 @@ function ShowcasePanel({ item }: { item: ShowcaseItem }) {
 }
 
 export function ServicesTabShowcase({
+  serviceNavGroups,
   services,
   customSoftware,
   migrations,
   className,
 }: ServicesTabShowcaseProps) {
+  const resolvedNavGroups = useMemo(() => {
+    const hasPrimaryItems = PRIMARY_SERVICE_GROUPS.some((group) =>
+      serviceNavGroups.some((entry) => entry.group === group && entry.items.length > 0),
+    );
+    return hasPrimaryItems ? serviceNavGroups : staticServiceNavGroups;
+  }, [serviceNavGroups]);
+
   const filters = useMemo(() => {
-    const serviceFilters = SERVICE_FILTER_ORDER.filter((group) =>
-      services.some((service) => service.group === group),
-    ).map((group) => ({
-      filter: group as ShowcaseFilter,
-      items: toServiceItems(services, group),
-    }));
+    return PRIMARY_SERVICE_GROUPS.map((group) => {
+      const navGroup = resolvedNavGroups.find((entry) => entry.group === group);
+      const items = (navGroup?.items ?? []).map((item) =>
+        enrichNavItem(item, group, services, customSoftware, migrations),
+      );
+      return { filter: group, items };
+    }).filter((entry) => entry.items.length > 0);
+  }, [customSoftware, migrations, resolvedNavGroups, services]);
 
-    const extraFilters: { filter: ShowcaseFilter; items: ShowcaseItem[] }[] = [];
-
-    const customSoftwareItems = toCustomSoftwareItems(customSoftware);
-    if (customSoftwareItems.length > 0) {
-      extraFilters.push({ filter: "custom-software", items: customSoftwareItems });
-    }
-
-    const migrationItems = toMigrationItems(migrations);
-    if (migrationItems.length > 0) {
-      extraFilters.push({ filter: "migrations", items: migrationItems });
-    }
-
-    return [...serviceFilters, ...extraFilters];
-  }, [customSoftware, migrations, services]);
-
-  const defaultFilter: ShowcaseFilter = filters.some((entry) => entry.filter === "Lead-Gen Websites & AI Search")
+  const defaultFilter: PrimaryServiceGroup = filters.some(
+    (entry) => entry.filter === "Lead-Gen Websites & AI Search",
+  )
     ? "Lead-Gen Websites & AI Search"
     : (filters[0]?.filter ?? "Lead-Gen Websites & AI Search");
 
   const defaultItems =
     filters.find((entry) => entry.filter === defaultFilter)?.items ?? filters[0]?.items ?? [];
 
-  const [activeFilter, setActiveFilter] = useState<ShowcaseFilter>(defaultFilter);
+  const [activeFilter, setActiveFilter] = useState<PrimaryServiceGroup>(defaultFilter);
   const [activeId, setActiveId] = useState(() => defaultItems[0]?.id ?? "");
 
   const filterItems = useMemo(() => {
@@ -303,7 +307,7 @@ export function ServicesTabShowcase({
   }, [activeId, filterItems]);
 
   const selectFilter = useCallback(
-    (filter: ShowcaseFilter) => {
+    (filter: PrimaryServiceGroup) => {
       setActiveFilter(filter);
       const nextItems = filters.find((entry) => entry.filter === filter)?.items ?? [];
       if (nextItems[0]) setActiveId(nextItems[0].id);
@@ -323,7 +327,13 @@ export function ServicesTabShowcase({
     setActiveId(filterItems[(index + 1) % filterItems.length].id);
   }, [activeIndex, filterItems]);
 
-  if (!active) return null;
+  if (!active) {
+    return (
+      <div className={cn("relative mt-14 w-full min-w-0 px-6 py-12 text-center md:px-8", className)}>
+        <p className="text-sm text-zn-text-2">Services are loading. Refresh or visit the services page.</p>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("relative mt-14 w-full min-w-0", className)}>
@@ -350,7 +360,7 @@ export function ServicesTabShowcase({
                     : "border-zn-border bg-white text-zn-text-2 hover:border-zn-text hover:text-zn-text",
                 )}
               >
-                {FILTER_LABELS[filter]}
+                {PRIMARY_SERVICE_TAB_LABELS[filter]}
               </button>
             );
           })}

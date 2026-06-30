@@ -102,7 +102,7 @@ export function BlueprintTableGrid({
   showEdgeCrosses = true,
 }: {
   items: TableGridItem[];
-  columns?: 3 | 5;
+  columns?: 3 | 4 | 5;
   showEdgeCrosses?: boolean;
 }) {
   const desktopRows = chunkRows(items, columns);

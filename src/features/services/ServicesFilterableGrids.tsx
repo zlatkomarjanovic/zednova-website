@@ -25,18 +25,11 @@ export function ServicesFilterableGrids({
   allServices,
 }: ServicesFilterableGridsProps) {
   const categories = useMemo(() => {
-    const order = [
-      "Core",
-      "AI Tools",
-      "AI automation",
-      "Websites",
-      "Ecommerce",
-      "Custom software",
-      "Migrations",
-    ];
+    const groupLabels = groups.map((g) => g.label);
+    const order = ["Core", ...groupLabels];
     const present = new Set(allServices.map((s) => s.category));
     return order.filter((cat) => present.has(cat));
-  }, [allServices]);
+  }, [allServices, groups]);
 
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -137,7 +130,7 @@ export function ServicesFilterableGrids({
 
       {isFiltering ? (
         filtered.length > 0 ? (
-          <BlueprintTableGrid items={filtered} columns={3} showEdgeCrosses={false} />
+          <BlueprintTableGrid items={filtered} columns={4} showEdgeCrosses={false} />
         ) : (
           <div className="zn-container-inset py-20 text-center">
               <p className="zn-label text-zn-text-3">No results</p>

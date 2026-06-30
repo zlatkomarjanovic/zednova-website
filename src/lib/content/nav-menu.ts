@@ -5,6 +5,7 @@ import type {
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";
 import { industryParents } from "@/lib/content/industry-parents";
+import { migrations } from "@/lib/content/migrations";
 
 export type {
   NavMenuItem,
@@ -14,6 +15,42 @@ export type {
 } from "@/lib/types/content-nav";
 
 export { megaMenuNavLinks, PARENT_SERVICE_LABELS } from "@/lib/types/content-nav";
+
+/** Parent service groups — same order as mega menu cards and /services page. */
+export const PRIMARY_SERVICE_GROUPS = [
+  "Lead-Gen Websites & AI Search",
+  "CRM & Follow-Up Automation",
+  "AI Receptionist & Booking Automation",
+  "Custom Portals & Dashboards",
+  "Platform Migrations",
+  "Monthly Support & Improvements",
+] as const;
+
+export type PrimaryServiceGroup = (typeof PRIMARY_SERVICE_GROUPS)[number];
+
+export const PRIMARY_SERVICE_TAB_LABELS: Record<PrimaryServiceGroup, string> = {
+  "Lead-Gen Websites & AI Search": "Lead-Gen Websites",
+  "CRM & Follow-Up Automation": "CRM & Follow-Up",
+  "AI Receptionist & Booking Automation": "AI Receptionist",
+  "Custom Portals & Dashboards": "Portals & Dashboards",
+  "Platform Migrations": "Platform Migrations",
+  "Monthly Support & Improvements": "Monthly Support",
+};
+
+export const PRIMARY_SERVICE_TAGLINES: Record<PrimaryServiceGroup, string> = {
+  "Lead-Gen Websites & AI Search":
+    "Fast websites that explain your offer, rank on Google and AI search, and turn visitors into calls, forms, and bookings.",
+  "CRM & Follow-Up Automation":
+    "Every form, call, and booking request gets captured, followed up with, and tracked until it becomes a booked call or customer.",
+  "AI Receptionist & Booking Automation":
+    "AI voice and chat assistants that answer calls, qualify leads, book appointments, and text back missed calls.",
+  "Custom Portals & Dashboards":
+    "Client portals, staff dashboards, booking systems, and internal tools for teams outgrowing spreadsheets.",
+  "Platform Migrations":
+    "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity without losing SEO or content.",
+  "Monthly Support & Improvements":
+    "Monthly help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations.",
+};
 
 function cs(slug: string) {
   return `/custom-software/${slug}`;
@@ -61,9 +98,18 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     isFeatured: true,
   },
   {
+    title: "Platform Migrations",
+    shortDescription:
+      "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity without losing SEO or content.",
+    includes: "Webflow, WordPress, Framer, Wix, Squarespace",
+    href: "/migrations",
+    startingPrice: "From $3,500",
+    isFeatured: true,
+  },
+  {
     title: "Monthly Support",
     shortDescription:
-      "Ongoing help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations.",
+      "Monthly help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations after launch.",
     includes: "website updates, automation fixes, new pages, monitoring",
     href: "/services/ai-systems-retainer",
     startingPrice: "From $349/mo",
@@ -113,11 +159,6 @@ export const serviceNavGroups: NavMenuGroup[] = [
         title: "Website Performance Cleanup",
         shortDescription: "Fix slow loads, Core Web Vitals, and broken conversion paths.",
         href: "/services/ai-lead-site",
-      },
-      {
-        title: "Platform Migrations",
-        shortDescription: "Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity.",
-        href: "/migrations",
       },
     ],
   },
@@ -235,6 +276,17 @@ export const serviceNavGroups: NavMenuGroup[] = [
         href: "/services/reporting-dashboards",
       },
     ],
+  },
+  {
+    group: "Platform Migrations",
+    items: migrations
+      .filter((m) => !m.slug.includes("shopify"))
+      .slice(0, 8)
+      .map((migration) => ({
+        title: migration.title,
+        shortDescription: migration.shortDescription,
+        href: `/migrations/${migration.slug}`,
+      })),
   },
   {
     group: "Monthly Support & Improvements",

@@ -374,11 +374,15 @@ export const SERVICE_NAV_ITEMS_QUERY = /* groq */ `
 `;
 
 export const SERVICE_MEGA_MENU_CARDS_QUERY = /* groq */ `
-  *[_type == "serviceMegaMenuCard"] | order(order asc) {
+  *[_type == "serviceMegaMenuCard" && isLegacy != true] | order(order asc) {
     title,
     shortDescription,
     includes,
     href,
+    startingPrice,
+    isFeatured,
+    isLegacy,
+    parentService,
     order
   }
 `;

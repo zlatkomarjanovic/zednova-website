@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { CAL_LINK } from "@/lib/booking";
+import { CAL_BOOKING_URL, CAL_LINK } from "@/lib/booking";
 import { trackConversion } from "@/lib/analytics/track";
 
 const CAL_ORIGIN = "https://app.cal.com";
@@ -119,6 +119,7 @@ export function CalBookingEmbed({
   analyticsSource?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [loadState, setLoadState] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     const element = containerRef.current;
@@ -132,7 +133,10 @@ export function CalBookingEmbed({
         if (cancelled || !containerRef.current) return;
 
         const Cal = window.Cal;
-        if (!Cal) return;
+        if (!Cal) {
+          setLoadState("error");
+          return;
+        }
 
         Cal("init", { origin: CAL_ORIGIN });
 
@@ -163,8 +167,10 @@ export function CalBookingEmbed({
             });
           },
         });
+
+        if (!cancelled) setLoadState("ready");
       } catch {
-        /* Leave empty container — user can still use /contact */
+        if (!cancelled) setLoadState("error");
       }
     })();
 
@@ -176,13 +182,40 @@ export function CalBookingEmbed({
 
   return (
     <div
-      ref={containerRef}
       className={className}
-      style={{ width: "100%", minHeight, overflow: "hidden" }}
-      aria-label="Book a 30 minute call"
-      onClick={() => {
-        trackConversion("calendar_click", { source: analyticsSource, calLink });
-      }}
-    />
+      style={{ position: "relative", width: "100%", minHeight, overflow: "hidden" }}
+    >
+      {loadState === "loading" ? (
+        <div
+          className="absolute inset-0 z-[1] flex items-center justify-center border border-zn-border-dk bg-zn-dark-2/40 text-sm text-zn-inv-2"
+          aria-hidden="true"
+        >
+          Loading calendar…
+        </div>
+      ) : null}
+      {loadState === "error" ? (
+        <div
+          className="absolute inset-0 z-[1] flex flex-col items-center justify-center gap-4 border border-zn-border-dk bg-zn-dark-2/40 px-6 py-10 text-center text-sm text-zn-inv-2"
+        >
+          <p>Calendar could not load here.</p>
+          <a
+            href={CAL_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zn-inv underline underline-offset-4"
+          >
+            Book a call in a new tab
+          </a>
+        </div>
+      ) : null}
+      <div
+        ref={containerRef}
+        style={{ width: "100%", minHeight, overflow: "hidden" }}
+        aria-label="Book a 30 minute call"
+        onClick={() => {
+          trackConversion("calendar_click", { source: analyticsSource, calLink });
+        }}
+      />
+    </div>
   );
 }

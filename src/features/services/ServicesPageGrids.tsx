@@ -27,25 +27,22 @@ export function ServicesPageGrids({
     <>
       <div>
         <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
-          <SectionLabel withRule={false}>Core services</SectionLabel>
+          <SectionLabel withRule={false}>Core offers</SectionLabel>
           <h2 className="mt-5 max-w-2xl zn-h2 font-sans font-normal text-zn-text">
-            Six ways we help you grow
+            Six parent offers for small businesses that want more booked calls
           </h2>
           <p className="zn-prose mt-5 max-w-2xl">
-            Start here. Each core service is a full scope with clear
-            deliverables — websites, stores, custom software, automation, AI
-            tools, and ongoing support after launch.
+            Start here. Each offer is a clear scope — lead-gen websites, CRM
+            follow-up, AI receptionists, portals and dashboards, platform
+            migrations, or monthly support after launch.
           </p>
         </div>
 
-        <BlueprintTableGrid items={coreServices} columns={3} />
+        <BlueprintTableGrid items={coreServices} columns={4} />
       </div>
 
       {groups.map((group, index) => (
-        <div
-          key={group.id}
-          className="[content-visibility:auto]"
-        >
+        <div key={group.id}>
           <div className="zn-container-inset border-b border-zn-border bg-zn-bg-2 py-[7rem]">
             <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div className="max-w-2xl">
@@ -71,7 +68,7 @@ export function ServicesPageGrids({
 
           <BlueprintTableGrid
             items={group.items}
-            columns={3}
+            columns={4}
             showEdgeCrosses={index < groups.length - 1}
           />
         </div>
