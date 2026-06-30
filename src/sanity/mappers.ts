@@ -623,6 +623,8 @@ export function mapPost(doc: {
   difficulty?: string;
   accent: string;
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   imageAlt?: string;
   imageCaption?: string;
   tags?: string[];
@@ -691,6 +693,8 @@ export function mapPost(doc: {
     difficulty: doc.difficulty,
     accent: doc.accent,
     image: doc.image ?? "",
+    imageWidth: doc.imageWidth,
+    imageHeight: doc.imageHeight,
     imageAlt: doc.imageAlt,
     imageCaption: doc.imageCaption,
     tags: doc.tags ?? [],

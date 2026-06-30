@@ -35,7 +35,7 @@ import { Button } from "@/ui/Button";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Tag } from "@/ui/Tag";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -164,6 +164,11 @@ export default async function ArticlePage({
     post.imageCaption?.trim() ||
     (post.imageAlt && post.imageAlt !== post.title ? post.imageAlt : null);
 
+  const coverDeliveryWidth = Math.min(
+    Math.max(post.imageWidth ?? 3840, 3840),
+    4096,
+  );
+
   const enableFaqSchema =
     hasFaq && post.schemaMarkup?.enableFaqSchema !== false;
 
@@ -187,7 +192,7 @@ export default async function ArticlePage({
         className="relative bg-zn-bg"
       >
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-b border-zn-border">
+          <div className="relative border-x border-b border-zn-border pb-28">
             <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
             <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
@@ -263,15 +268,18 @@ export default async function ArticlePage({
             <figure className="relative border-b border-zn-border">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
-              <div className="relative aspect-[16/9] w-full md:aspect-[21/9]">
+              <div className="relative w-full">
                 <CmsImage
                   src={post.image}
                   alt={post.imageAlt ?? post.title}
-                  fill
+                  width={post.imageWidth ?? 1920}
+                  height={post.imageHeight ?? 1080}
                   priority
                   preset="hero"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1920px) 100vw, 1920px"
-                  className="object-cover"
+                  maxWidth={coverDeliveryWidth}
+                  quality={95}
+                  sizes="100vw"
+                  className="block h-auto w-full"
                 />
               </div>
               {imageCaption && (
@@ -380,7 +388,12 @@ export default async function ArticlePage({
 
             {/* Previous / Next */}
             {(adjacent.previous || adjacent.next) && (
-              <div className="relative border-b border-zn-border">
+              <div
+                className={cn(
+                  "relative bg-zn-bg-2",
+                  related.length > 0 && "border-b border-zn-border",
+                )}
+              >
                 <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
                 <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
                 <div className="grid md:grid-cols-2">
@@ -393,6 +406,15 @@ export default async function ArticlePage({
                         <ArrowLeft className="size-3.5" aria-hidden="true" />
                         Older article
                       </span>
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-zn-text-3">
+                        <Tag>{adjacent.previous.category}</Tag>
+                        <span>
+                          Published{" "}
+                          <time dateTime={adjacent.previous.publishedAt}>
+                            {formatDate(adjacent.previous.publishedAt)}
+                          </time>
+                        </span>
+                      </div>
                       <span className="font-sans font-normal text-lg leading-snug text-zn-text transition-opacity group-hover:opacity-70 lg:text-xl">
                         {adjacent.previous.title}
                       </span>
@@ -414,6 +436,15 @@ export default async function ArticlePage({
                         Newer article
                         <ArrowRight className="size-3.5" aria-hidden="true" />
                       </span>
+                      <div className="flex flex-wrap items-end justify-end gap-x-3 gap-y-2 text-xs text-zn-text-3">
+                        <Tag>{adjacent.next.category}</Tag>
+                        <span>
+                          Published{" "}
+                          <time dateTime={adjacent.next.publishedAt}>
+                            {formatDate(adjacent.next.publishedAt)}
+                          </time>
+                        </span>
+                      </div>
                       <span className="text-right font-sans font-normal text-lg leading-snug text-zn-text transition-opacity group-hover:opacity-70 lg:text-xl">
                         {adjacent.next.title}
                       </span>
@@ -430,7 +461,7 @@ export default async function ArticlePage({
 
             {/* Related */}
             {related.length > 0 && (
-              <div className="relative border-b border-zn-border">
+              <div className="relative">
                 <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
                 <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
                 <ArticleContinueReading current={post} related={related} />

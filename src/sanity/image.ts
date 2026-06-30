@@ -3,7 +3,7 @@
 export type CmsImagePreset = "hero" | "showcase" | "card" | "article" | "thumb";
 
 export const CMS_IMAGE_WIDTHS: Record<CmsImagePreset, number> = {
-  hero: 2400,
+  hero: 3840,
   showcase: 1920,
   card: 1280,
   article: 1440,

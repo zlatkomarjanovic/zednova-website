@@ -365,6 +365,8 @@ export type Post = {
   difficulty?: string;
   accent: string;
   image: string;
+  imageWidth?: number;
+  imageHeight?: number;
   imageAlt?: string;
   imageCaption?: string;
   tags: string[];

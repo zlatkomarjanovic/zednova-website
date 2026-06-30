@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "src/app/insights/[slug]/page.tsx": {
-    "mtime": 1782572665.0518663,
-    "ast_hash": "a575d8e591ed29f4a65360d522589534",
+    "mtime": 1782847833.6605923,
+    "ast_hash": "959ed672ee4ea47d16db649dffaffb25",
     "semantic_hash": ""
   },
   "src/app/insights/page.tsx": {
@@ -405,8 +405,8 @@
     "semantic_hash": ""
   },
   "src/components/layout/MegaMenu.tsx": {
-    "mtime": 1782845443.0090966,
-    "ast_hash": "0e282d24eaf3d50811ba6b8af159a7fb",
+    "mtime": 1782846751.2771444,
+    "ast_hash": "c3499dcfb95fc44acde8a04bd9b3902c",
     "semantic_hash": ""
   },
   "src/components/layout/MobileMenu.tsx": {
@@ -705,8 +705,8 @@
     "semantic_hash": ""
   },
   "src/lib/types.ts": {
-    "mtime": 1782827879.7407713,
-    "ast_hash": "82e4816c0625015b9bc760363ea02d6d",
+    "mtime": 1782847642.625628,
+    "ast_hash": "cfecc12b9c93df4ebf8d91867270c943",
     "semantic_hash": ""
   },
   "src/lib/utils.ts": {
@@ -830,8 +830,8 @@
     "semantic_hash": ""
   },
   "src/sanity/queries.ts": {
-    "mtime": 1782831747.723805,
-    "ast_hash": "d0689c7924f9017048569ecec274a129",
+    "mtime": 1782847642.6251204,
+    "ast_hash": "6c974b75f97b844115be6737733b3f73",
     "semantic_hash": ""
   },
   "studio-zednova-studio/package.json": {
@@ -935,8 +935,8 @@
     "semantic_hash": ""
   },
   "src/sanity/mappers.ts": {
-    "mtime": 1782836239.7979214,
-    "ast_hash": "b1d8932c210fdede0ed42aa1d2176db2",
+    "mtime": 1782847653.6287372,
+    "ast_hash": "0d0a5ea1f37171d1fe1c533d6960130d",
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/documents/customSoftware.ts": {
@@ -1210,8 +1210,8 @@
     "semantic_hash": ""
   },
   "src/sanity/image.ts": {
-    "mtime": 1782487057.6781726,
-    "ast_hash": "f190b6ac7f954c131c050f5c587e0fa9",
+    "mtime": 1782847831.9989312,
+    "ast_hash": "e05058679dad1db5c17c00ab9e5bf759",
     "semantic_hash": ""
   },
   "src/ui/CmsImage.tsx": {

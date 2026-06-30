@@ -4,6 +4,7 @@ import { Reveal } from "@/components/animations/Reveal";
 import { InsightsArticleGrid } from "@/features/insights/InsightsArticleGrid";
 import { SectionLabel } from "@/ui/SectionLabel";
 import type { Post } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 /** Homepage insights block — same full-bleed grid as /insights, no hero featured layout. */
 export function InsightsHomePostsSection({
@@ -13,6 +14,9 @@ export function InsightsHomePostsSection({
   headingId,
   description,
   action,
+  insetClassName,
+  descriptionClassName,
+  gridClassName,
 }: {
   posts: Post[];
   label?: string;
@@ -20,12 +24,15 @@ export function InsightsHomePostsSection({
   headingId?: string;
   description?: string;
   action?: ReactNode;
+  insetClassName?: string;
+  descriptionClassName?: string;
+  gridClassName?: string;
 }) {
   if (!posts.length) return null;
 
   return (
     <div className="relative">
-      <div className="zn-container-inset py-6 md:py-8">
+      <div className={cn("zn-container-inset", insetClassName ?? "py-6 md:py-8")}>
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="min-w-0">
             <Reveal>
@@ -38,14 +45,26 @@ export function InsightsHomePostsSection({
               {heading}
             </h2>
             {description ? (
-              <p className="zn-prose mt-5 max-w-2xl text-zn-text-2">{description}</p>
+              <p
+                className={cn(
+                  "zn-prose mt-5 max-w-2xl text-zn-text-2",
+                  descriptionClassName,
+                )}
+              >
+                {description}
+              </p>
             ) : null}
           </div>
           {action ? <div className="shrink-0">{action}</div> : null}
         </div>
       </div>
 
-      <InsightsArticleGrid posts={posts} borderTop solidHover />
+      <InsightsArticleGrid
+        posts={posts}
+        borderTop
+        solidHover
+        className={gridClassName}
+      />
     </div>
   );
 }

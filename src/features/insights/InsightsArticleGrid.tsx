@@ -25,17 +25,19 @@ export function InsightsArticleGrid({
   posts,
   borderTop = false,
   solidHover = false,
+  className,
 }: {
   posts: InsightsGridPost[];
   /** Adds top border on each cell (homepage sage section). */
   borderTop?: boolean;
   /** Full white hover fill (homepage). Default is semi-transparent. */
   solidHover?: boolean;
+  className?: string;
 }) {
   if (!posts.length) return null;
 
   return (
-    <div className="relative">
+    <div className={cn("relative", className)}>
       <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <Link
