@@ -25,6 +25,7 @@ import { Button } from "@/ui/Button";
 import { CmsImage } from "@/ui/CmsImage";
 import { PortfolioWorkGrid } from "@/features/work/PortfolioWorkGrid";
 import { LogoTicker } from "@/features/home/LogoTicker";
+import { OurApproachSection } from "@/features/home/OurApproachSection";
 import { TestimonialCarousel } from "@/features/home/TestimonialCarousel";
 import { ServicePageCTA } from "@/features/services/ServicePageCTA";
 import { ServiceProblemsSection } from "@/features/services/ServiceProblemsSection";
@@ -157,6 +158,8 @@ export function ServiceDetailView({
 
       {/* Logo carousel */}
       <LogoTicker label="Trusted by teams across the US" />
+
+      <OurApproachSection />
 
       {/* Project highlights + 6 reasons (shared container, CMS-driven problems) */}
       {(relatedWork.length > 0 || problems.length > 0) && (

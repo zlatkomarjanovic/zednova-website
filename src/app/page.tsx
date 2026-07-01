@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import {
-  getAllCaseStudies,
   getAllCustomSoftware,
   getAllMigrations,
   getAllServices,
@@ -22,9 +21,6 @@ import { team } from "@/lib/content/team";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
-import { WebsiteBuilderAnimation } from "@/components/animations/WebsiteBuilderAnimation";
-import { CRMAutomationAnimation } from "@/components/animations/CRMAutomationAnimation";
-import { AIChatbotAnimation } from "@/components/animations/AIChatbotAnimation";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { PortfolioWorkGrid } from "@/features/work/PortfolioWorkGrid";
@@ -33,7 +29,7 @@ import { IndustryNavShowcaseGrid } from "@/features/industries/IndustryNavShowca
 import { LogoTicker } from "@/features/home/LogoTicker";
 import { HeroSection } from "@/features/home/HeroSection";
 import { StatsRow } from "@/features/home/StatsRow";
-import { BenefitsGrid } from "@/features/home/BenefitsGrid";
+import { OurApproachSection } from "@/features/home/OurApproachSection";
 import { TechStackShowcase } from "@/features/home/TechStackShowcase";
 import { techStackGroups } from "@/lib/content/tech-stack";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
@@ -46,6 +42,7 @@ import { homepagePricingPackages } from "@/lib/content/homepage-pricing";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { homepageGraphJsonLd } from "@/lib/seo";
+import { HOMEPAGE_PILLARS } from "@/lib/content/homepage-pillars";
 
 export const metadata: Metadata = {
   title: {
@@ -56,29 +53,10 @@ export const metadata: Metadata = {
 };
 
 
-const PILLARS = [
-  {
-    tagline: "Lead-gen websites",
-    title: "We build the website",
-    body: "Fast, clear websites that explain your offer, rank on Google and AI search, and turn visitors into calls, forms, and bookings.",
-  },
-  {
-    tagline: "CRM & follow-up",
-    title: "We connect your follow-up",
-    body: "Every form, call, and booking request gets captured, assigned, followed up with by email and SMS, and tracked until it becomes a booked call or customer.",
-  },
-  {
-    tagline: "AI receptionists",
-    title: "We add AI where it saves time",
-    body: "AI voice and chat assistants that answer calls, qualify leads, book appointments, and text back missed calls before they call your competitor.",
-  },
-];
-
 export default async function HomePage() {
-  const [featuredCases, allCases, services, customSoftware, migrations, serviceNavGroups, serviceMegaMenuCards, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
+  const [featuredCases, services, customSoftware, migrations, serviceNavGroups, serviceMegaMenuCards, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
     await Promise.all([
       getFeaturedCaseStudies(3),
-      getAllCaseStudies(),
       getAllServices(),
       getAllCustomSoftware(),
       getAllMigrations(),
@@ -93,26 +71,13 @@ export default async function HomePage() {
 
   const recentPosts = allPosts.slice(0, 3);
 
-  const PILLAR_VISUALS = [
-    <WebsiteBuilderAnimation key="website-builder" />,
-    <CRMAutomationAnimation key="crm-automation" />,
-    <AIChatbotAnimation key="ai-chatbot" />,
-  ];
-
-  const benefits = PILLARS.map((pillar, i) => ({
-    ...pillar,
-    image: allCases[i % allCases.length]?.image ?? "",
-    accent: allCases[i % allCases.length]?.accent,
-    visual: PILLAR_VISUALS[i],
-  }));
-
   const founder = team[0];
 
   return (
     <>
       <JsonLd
         data={homepageGraphJsonLd({
-          pillars: PILLARS,
+          pillars: HOMEPAGE_PILLARS,
           clientLogos: clientLogos.map((logo) => logo.alt),
           portfolioProjects: portfolioProjects.map((project) => ({
             slug: project.slug,
@@ -187,23 +152,7 @@ export default async function HomePage() {
 
       <LogoTicker />
 
-      {/* What we build */}
-      <section data-theme="light" className="relative zn-section">
-        <BlueprintGrid />
-        <div className="zn-container relative">
-          <Reveal>
-            <SectionLabel withRule={false}>Our approach</SectionLabel>
-          </Reveal>
-          <TextReveal
-            as="h2"
-            text="Choose the part of the business that is leaking leads, calls, bookings, or admin time. We build the website, CRM automation, AI receptionist, or dashboard that fixes it."
-            className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
-          />
-        </div>
-        <div className="zn-container-guides relative mt-14">
-          <BenefitsGrid items={benefits} />
-        </div>
-      </section>
+      <OurApproachSection />
 
       {/* Case studies */}
       <section data-theme="light" className="relative zn-section bg-zn-bg">

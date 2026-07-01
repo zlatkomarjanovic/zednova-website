@@ -35,11 +35,11 @@ const edge = (aKey: string, bKey: string) => {
 };
 
 const LINKS = [
-  { d: edge("lead", "route"), flow: "zn-auto-flow-1", pktStart: 8, pktEnd: 18 },
-  { d: edge("route", "email"), flow: "zn-auto-flow-2a", pktStart: 24, pktEnd: 34 },
-  { d: edge("route", "sms"), flow: "zn-auto-flow-2b", pktStart: 26, pktEnd: 36 },
-  { d: edge("email", "done"), flow: "zn-auto-flow-3a", pktStart: 40, pktEnd: 50 },
-  { d: edge("sms", "done"), flow: "zn-auto-flow-3b", pktStart: 56, pktEnd: 66 },
+  { d: edge("lead", "route"), flow: "zn-auto-flow-1", pktStart: 8, pktEnd: 22 },
+  { d: edge("route", "email"), flow: "zn-auto-flow-2a", pktStart: 24, pktEnd: 38 },
+  { d: edge("route", "sms"), flow: "zn-auto-flow-2b", pktStart: 40, pktEnd: 54 },
+  { d: edge("email", "done"), flow: "zn-auto-flow-3a", pktStart: 49, pktEnd: 69 },
+  { d: edge("sms", "done"), flow: "zn-auto-flow-3b", pktStart: 65, pktEnd: 70 },
 ] as const;
 
 const flowKeyframes = LINKS.map(
@@ -146,20 +146,20 @@ export function CRMAutomationAnimation({ className }: { className?: string }) {
       <div className="pointer-events-none absolute inset-0 z-10">
         <div className="absolute left-[4%] top-[8%] flex items-center gap-1.5 rounded-full border border-black/[0.06] bg-white/92 px-2.5 py-1.5 shadow-[0_8px_20px_-10px_rgba(0,0,0,0.28)]">
           <span className="zn-auto-hud-dot size-1.5 shrink-0 rounded-full bg-[#7aab8a]" />
-          <span className="relative inline-block h-[10px] w-[48px]">
-            <span className="zn-auto-hud-stage zn-auto-hud-stage-1 absolute inset-0 flex items-center whitespace-nowrap text-[8px] font-medium text-zn-text/60">
+          <span className="inline-grid [&_.zn-auto-hud-stage]:col-start-1 [&_.zn-auto-hud-stage]:row-start-1">
+            <span className="zn-auto-hud-stage zn-auto-hud-stage-1 whitespace-nowrap text-[8px] font-medium text-zn-text/60">
               New lead
             </span>
-            <span className="zn-auto-hud-stage zn-auto-hud-stage-2 absolute inset-0 flex items-center whitespace-nowrap text-[8px] font-medium text-zn-text/60">
+            <span className="zn-auto-hud-stage zn-auto-hud-stage-2 whitespace-nowrap text-[8px] font-medium text-zn-text/60">
               Routing
             </span>
-            <span className="zn-auto-hud-stage zn-auto-hud-stage-3 absolute inset-0 flex items-center whitespace-nowrap text-[8px] font-medium text-zn-text/60">
+            <span className="zn-auto-hud-stage zn-auto-hud-stage-3 whitespace-nowrap text-[8px] font-medium text-zn-text/60">
               Email
             </span>
-            <span className="zn-auto-hud-stage zn-auto-hud-stage-4 absolute inset-0 flex items-center whitespace-nowrap text-[8px] font-medium text-zn-text/60">
+            <span className="zn-auto-hud-stage zn-auto-hud-stage-4 whitespace-nowrap text-[8px] font-medium text-zn-text/60">
               SMS
             </span>
-            <span className="zn-auto-hud-stage zn-auto-hud-stage-5 absolute inset-0 flex items-center whitespace-nowrap text-[8px] font-medium text-zn-text/60">
+            <span className="zn-auto-hud-stage zn-auto-hud-stage-5 whitespace-nowrap text-[8px] font-medium text-zn-text/60">
               Booked
             </span>
           </span>
@@ -186,19 +186,19 @@ export function CRMAutomationAnimation({ className }: { className?: string }) {
             transform-origin: ${FOCUS.lead.ox}% ${FOCUS.lead.oy}%;
             transform: translate(${FOCUS.lead.tx}%, ${FOCUS.lead.ty}%) scale(${FOCUS.lead.s});
           }
-          22%, 36% {
+          24%, 40% {
             transform-origin: ${FOCUS.route.ox}% ${FOCUS.route.oy}%;
             transform: translate(${FOCUS.route.tx}%, ${FOCUS.route.ty}%) scale(${FOCUS.route.s});
           }
-          38%, 52% {
+          42%, 56% {
             transform-origin: ${FOCUS.email.ox}% ${FOCUS.email.oy}%;
             transform: translate(${FOCUS.email.tx}%, ${FOCUS.email.ty}%) scale(${FOCUS.email.s});
           }
-          54%, 68% {
+          58%, 72% {
             transform-origin: ${FOCUS.sms.ox}% ${FOCUS.sms.oy}%;
             transform: translate(${FOCUS.sms.tx}%, ${FOCUS.sms.ty}%) scale(${FOCUS.sms.s});
           }
-          70%, 86% {
+          74%, 90% {
             transform-origin: ${FOCUS.done.ox}% ${FOCUS.done.oy}%;
             transform: translate(${FOCUS.done.tx}%, ${FOCUS.done.ty}%) scale(${FOCUS.done.s});
           }
@@ -235,24 +235,24 @@ export function CRMAutomationAnimation({ className }: { className?: string }) {
           20%, 100% { z-index: 1; }
         }
         @keyframes zn-auto-glow-route {
-          0%, 21% { z-index: 1; }
-          23%, 32% { z-index: 20; }
-          36%, 100% { z-index: 1; }
+          0%, 24% { z-index: 1; }
+          25%, 34% { z-index: 20; }
+          38%, 100% { z-index: 1; }
         }
         @keyframes zn-auto-glow-email {
-          0%, 37% { z-index: 1; }
-          39%, 48% { z-index: 20; }
-          52%, 100% { z-index: 1; }
+          0%, 40% { z-index: 1; }
+          41%, 50% { z-index: 20; }
+          54%, 100% { z-index: 1; }
         }
         @keyframes zn-auto-glow-sms {
-          0%, 53% { z-index: 1; }
-          55%, 64% { z-index: 20; }
-          68%, 100% { z-index: 1; }
+          0%, 56% { z-index: 1; }
+          57%, 66% { z-index: 20; }
+          70%, 100% { z-index: 1; }
         }
         @keyframes zn-auto-glow-done {
-          0%, 69% { z-index: 1; }
-          71%, 82% { z-index: 20; }
-          86%, 100% { z-index: 1; }
+          0%, 72% { z-index: 1; }
+          73%, 84% { z-index: 20; }
+          88%, 100% { z-index: 1; }
         }
 
         .zn-auto-glow-lead .zn-auto-node { animation: zn-auto-node-glow-lead ${CYCLE} ease-in-out infinite; }
@@ -267,24 +267,24 @@ export function CRMAutomationAnimation({ className }: { className?: string }) {
           20%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
         }
         @keyframes zn-auto-node-glow-route {
-          0%, 21% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
-          23%, 32% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
-          36%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          0%, 24% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          25%, 34% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
+          38%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
         }
         @keyframes zn-auto-node-glow-email {
-          0%, 37% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
-          39%, 48% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
-          52%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          0%, 40% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          41%, 50% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
+          54%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
         }
         @keyframes zn-auto-node-glow-sms {
-          0%, 53% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
-          55%, 64% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
-          68%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          0%, 56% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          57%, 66% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
+          70%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
         }
         @keyframes zn-auto-node-glow-done {
-          0%, 69% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
-          71%, 82% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
-          86%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          0%, 72% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
+          73%, 84% { box-shadow: 0 0 0 7px color-mix(in srgb, ${ACTIVE_GREEN} 42%, transparent); border-color: ${ACTIVE_GREEN}; }
+          88%, 100% { box-shadow: 0 0 0 0 transparent; border-color: color-mix(in srgb, var(--color-zn-text) 14%, transparent); }
         }
 
         .zn-auto-flow-1, .zn-auto-flow-2a, .zn-auto-flow-2b, .zn-auto-flow-3a, .zn-auto-flow-3b {
@@ -311,10 +311,10 @@ export function CRMAutomationAnimation({ className }: { className?: string }) {
         .zn-auto-hud-stage-4 { animation-name: zn-auto-hud-stage-4; }
         .zn-auto-hud-stage-5 { animation-name: zn-auto-hud-stage-5; }
         @keyframes zn-auto-hud-stage-1 { 0%, 4% { opacity: 0; } 7%, 19% { opacity: 1; } 22%, 100% { opacity: 0; } }
-        @keyframes zn-auto-hud-stage-2 { 0%, 20% { opacity: 0; } 23%, 35% { opacity: 1; } 38%, 100% { opacity: 0; } }
-        @keyframes zn-auto-hud-stage-3 { 0%, 36% { opacity: 0; } 39%, 51% { opacity: 1; } 54%, 100% { opacity: 0; } }
-        @keyframes zn-auto-hud-stage-4 { 0%, 52% { opacity: 0; } 55%, 67% { opacity: 1; } 70%, 100% { opacity: 0; } }
-        @keyframes zn-auto-hud-stage-5 { 0%, 68% { opacity: 0; } 71%, 85% { opacity: 1; } 88%, 100% { opacity: 0; } }
+        @keyframes zn-auto-hud-stage-2 { 0%, 24% { opacity: 0; } 25%, 37% { opacity: 1; } 40%, 100% { opacity: 0; } }
+        @keyframes zn-auto-hud-stage-3 { 0%, 40% { opacity: 0; } 41%, 53% { opacity: 1; } 56%, 100% { opacity: 0; } }
+        @keyframes zn-auto-hud-stage-4 { 0%, 56% { opacity: 0; } 57%, 69% { opacity: 1; } 72%, 100% { opacity: 0; } }
+        @keyframes zn-auto-hud-stage-5 { 0%, 72% { opacity: 0; } 73%, 87% { opacity: 1; } 90%, 100% { opacity: 0; } }
 
         .zn-auto-toast {
           opacity: 0;
@@ -322,10 +322,10 @@ export function CRMAutomationAnimation({ className }: { className?: string }) {
           animation: zn-auto-toast ${CYCLE} cubic-bezier(0.22, 1, 0.36, 1) infinite;
         }
         @keyframes zn-auto-toast {
-          0%, 72% { opacity: 0; transform: translateY(-6px) scale(0.94); }
-          76% { opacity: 1; transform: translateY(0) scale(1); }
-          88% { opacity: 1; transform: translateY(0) scale(1); }
-          92%, 100% { opacity: 0; transform: translateY(-6px) scale(0.94); }
+          0%, 75% { opacity: 0; transform: translateY(-6px) scale(0.94); }
+          79% { opacity: 1; transform: translateY(0) scale(1); }
+          89% { opacity: 1; transform: translateY(0) scale(1); }
+          93%, 100% { opacity: 0; transform: translateY(-6px) scale(0.94); }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -337,6 +337,7 @@ export function CRMAutomationAnimation({ className }: { className?: string }) {
           .zn-auto-hud-dot, .zn-auto-hud-stage, .zn-auto-toast {
             animation: none !important;
           }
+          .zn-auto-hud-stage-1 { opacity: 1; }
           .zn-auto-flow-1, .zn-auto-flow-2a, .zn-auto-flow-2b, .zn-auto-flow-3a, .zn-auto-flow-3b {
             opacity: 1;
             stroke-dashoffset: 0;

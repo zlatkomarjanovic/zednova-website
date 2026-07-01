@@ -84,7 +84,7 @@ export function PricingCardsSection({
 
             <Stagger
               className={cn(
-                "grid divide-y divide-zn-border",
+                "grid items-stretch divide-y divide-zn-border",
                 packages.length >= 4 &&
                   "md:grid-cols-2 md:divide-x lg:grid-cols-4 lg:divide-y-0",
                 packages.length === 3 && "md:grid-cols-3 md:divide-x md:divide-y-0",
@@ -95,23 +95,27 @@ export function PricingCardsSection({
               {packages.map((pkg) => (
                 <article
                   key={pkg.slug}
-                  className="flex flex-col bg-zn-bg-2/40 px-6 py-8 md:px-8 md:py-10"
+                  className={cn(
+                    "relative flex h-full min-h-0 flex-col bg-zn-bg-2/40 px-6 py-8 md:px-8 md:py-10",
+                    pkg.badge && "pt-11 md:pt-12",
+                  )}
                 >
-                  <div className="flex flex-wrap items-center gap-2">
+                  {pkg.badge ? (
+                    <span className="absolute left-0 top-0 z-[1] bg-[#2563eb] px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-white">
+                      {pkg.badge}
+                    </span>
+                  ) : null}
+
+                  <div className="flex min-h-[1.25rem] flex-col">
                     <span className="zn-label text-zn-text-3">{pkg.group}</span>
-                    {pkg.badge ? (
-                      <span className="rounded-full border border-zn-border bg-zn-bg px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.06em] text-zn-text-2">
-                        {pkg.badge}
-                      </span>
-                    ) : null}
                   </div>
 
-                  <h3 className="mt-5 min-h-[1.75rem] font-sans text-lg font-normal leading-snug tracking-tight text-zn-text md:min-h-[1.875rem] md:text-xl">
+                  <h3 className="mt-5 min-h-[4.5rem] font-sans text-lg font-normal leading-snug tracking-tight text-zn-text md:min-h-[5rem] md:text-xl">
                     {pkg.title}
                   </h3>
-                  <p className="zn-prose mt-3">{pkg.shortDescription}</p>
+                  <p className="zn-prose mt-3 min-h-[5.25rem] md:min-h-[4.75rem]">{pkg.shortDescription}</p>
 
-                  <div className="mt-6 border-t border-zn-border pt-6">
+                  <div className="mt-6 min-h-[8.75rem] border-t border-zn-border pt-6">
                     <PricingAmount
                       setupAmount={pkg.pricing.setupAmount}
                       setupLabel={pkg.pricing.setupLabel}

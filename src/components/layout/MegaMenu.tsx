@@ -35,6 +35,14 @@ const HIGHLIGHT_LIGHT_FILL_OPACITY = 0.7;
 const HIGHLIGHT_DARK_FILL = "var(--color-zn-dark-2)";
 const HIGHLIGHT_DARK_FILL_OPACITY = 0.9;
 
+/** Shared mega menu typography — Services, Industries, and Insights use the same scale. */
+const MEGA_MENU_TITLE_CLASS =
+  "text-[0.95rem] font-normal leading-snug md:text-base";
+const MEGA_MENU_BODY_CLASS =
+  "text-[0.8125rem] leading-relaxed md:text-[0.84rem]";
+const MEGA_MENU_LABEL_CLASS = "text-[0.625rem] leading-relaxed";
+const MEGA_MENU_BODY_GAP = "mt-2.5";
+
 function ColumnCrosses({
   showTop = true,
   theme,
@@ -93,10 +101,10 @@ function MigrationNavMenuItemLink({
           className="mb-2.5"
         />
       )}
-      <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+      <span className={cn("block", MEGA_MENU_TITLE_CLASS, titleClass)}>
         {item.title}
       </span>
-      <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
+      <span className={cn("block", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
         {item.shortDescription}
       </span>
     </Link>
@@ -144,10 +152,10 @@ function NavMenuItemLink({
       {icon && (
         <NavMenuIcon src={icon.src} alt={icon.alt} theme={theme} className="mb-2.5" />
       )}
-      <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+      <span className={cn("block", MEGA_MENU_TITLE_CLASS, titleClass)}>
         {title}
       </span>
-      <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
+      <span className={cn("block", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
         {shortDescription}
       </span>
     </Link>
@@ -196,13 +204,13 @@ function ServiceMegaCard({
         className,
       )}
     >
-      <span className={cn("block text-[0.95rem] font-normal leading-snug md:text-base", titleClass)}>
+      <span className={cn("block", MEGA_MENU_TITLE_CLASS, titleClass)}>
         {card.title}
       </span>
-      <span className={cn("mt-2.5 block text-[0.8125rem] leading-relaxed md:text-[0.84rem]", bodyClass)}>
+      <span className={cn("block", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
         {card.shortDescription}
       </span>
-      <span className={cn("zn-label mt-auto block pt-5 text-[0.625rem] leading-relaxed", labelClass)}>
+      <span className={cn("zn-label mt-auto block pt-5", MEGA_MENU_LABEL_CLASS, labelClass)}>
         Includes: {card.includes}
       </span>
     </Link>
@@ -291,7 +299,7 @@ function IndustryMegaMenuGrid({
           data-hover-cell
           onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
           className={cn(
-            "relative flex h-full min-h-[10.5rem]",
+            "relative flex h-full min-h-[11rem] md:min-h-[10.5rem]",
             index % columns !== 0 && cn("lg:border-l", borderClass),
             index > 0 && cn("border-t lg:border-t-0", borderClass),
             index >= columns && cn("lg:border-t", borderClass),
@@ -418,22 +426,22 @@ function LatestInsightLink({
       data-hover-cell
       onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
       className={cn(
-        "relative z-[1] flex h-full min-h-[2.5rem] flex-col justify-center px-3.5 py-1.5",
+        "relative z-[1] flex h-full min-h-[11rem] flex-col justify-center px-6 py-5 md:min-h-[10.5rem] md:py-6",
         className,
       )}
     >
-      <span className={cn("zn-label mb-0.5 block text-[0.625rem]", labelClass)}>
+      <span className={cn("zn-label mb-1 block", MEGA_MENU_LABEL_CLASS, labelClass)}>
         {post.category}
       </span>
-      <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+      <span className={cn("block", MEGA_MENU_TITLE_CLASS, titleClass)}>
         {post.title}
       </span>
       {post.excerpt && (
-        <span className={cn("mt-0.5 line-clamp-1 text-[0.78rem] leading-snug", bodyClass)}>
+        <span className={cn("line-clamp-1", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
           {post.excerpt}
         </span>
       )}
-      <span className={cn("mt-0.5 block text-[0.78rem] leading-snug", bodyClass)}>
+      <span className={cn("block", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
         {formatInsightDate(post.publishedAt)} · {post.readTime} min read
       </span>
     </Link>
@@ -474,18 +482,18 @@ function FeaturedInsightLink({
         />
       </div>
       <div className="flex min-h-0 flex-col justify-center p-8">
-        <span className={cn("zn-label mb-0.5 block text-[0.625rem]", labelClass)}>
+        <span className={cn("zn-label mb-1 block", MEGA_MENU_LABEL_CLASS, labelClass)}>
           Featured · {post.category}
         </span>
-        <span className={cn("block text-[0.9rem] font-normal leading-snug", titleClass)}>
+        <span className={cn("block", MEGA_MENU_TITLE_CLASS, titleClass)}>
           {post.title}
         </span>
         {post.excerpt && (
-          <span className={cn("mt-0.5 line-clamp-2 text-[0.78rem] leading-snug", bodyClass)}>
+          <span className={cn("line-clamp-2", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
             {post.excerpt}
           </span>
         )}
-        <span className={cn("mt-1 block text-[0.78rem] leading-snug", bodyClass)}>
+        <span className={cn("block", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
           {formatInsightDate(post.publishedAt)}
         </span>
       </div>
