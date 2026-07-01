@@ -114,6 +114,7 @@ export function FaqSection({
   groupByCategory = false,
   filterable = false,
   embedded = false,
+  frameless = false,
   showBlueprintCrosses = true,
   label = "FAQ",
   heading = "Answers before you reach out",
@@ -125,6 +126,8 @@ export function FaqSection({
   filterable?: boolean;
   /** Renders inside a parent blueprint frame (e.g. insights page) — no extra side borders or gap. */
   embedded?: boolean;
+  /** Renders FAQ content only — parent supplies BlueprintColumnFrame / borders. */
+  frameless?: boolean;
   /** Plus markers on the guide-line corners. Off on service detail pages. */
   showBlueprintCrosses?: boolean;
   label?: string;
@@ -234,6 +237,14 @@ export function FaqSection({
       ) : null}
     </>
   );
+
+  if (frameless) {
+    return (
+      <div className="relative border-b border-zn-border" aria-label="FAQ">
+        {faqContent}
+      </div>
+    );
+  }
 
   if (embedded) {
     return (

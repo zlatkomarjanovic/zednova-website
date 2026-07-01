@@ -16,6 +16,7 @@ import { LogoTicker } from "@/features/home/LogoTicker";
 import { TestimonialCarousel } from "@/features/home/TestimonialCarousel";
 import { ServicePageCTA } from "@/features/services/ServicePageCTA";
 import { FaqSection } from "@/features/home/FaqSection";
+import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
 import { InsightsHomePostsSection } from "@/features/insights/InsightsHomePostsSection";
 import { JsonLd } from "@/ui/JsonLd";
 import {
@@ -67,6 +68,7 @@ export function IndustryPageTemplate({
   ];
 
   const faqs = page.faq.items;
+  const showFaq = hasSectionContent(faqs) && Boolean(page.faq.heading);
 
   return (
     <>
@@ -189,16 +191,26 @@ export function IndustryPageTemplate({
         ctaHref={page.cta.primaryCta.href}
         secondaryLabel={page.cta.secondaryCta.label}
         secondaryHref={page.cta.secondaryCta.href}
+        guideBottomInset
+        guideShowBottomRail={!showFaq}
+        guideShowBottomCrosses={!showFaq}
       />
 
-      {hasSectionContent(faqs) && page.faq.heading ? (
-        <FaqSection
-          faqs={faqs}
-          showBlueprintCrosses={false}
-          label={page.faq.eyebrow ?? "FAQ"}
-          heading={page.faq.heading}
-          description={page.faq.subheading ?? ""}
-        />
+      {showFaq ? (
+        <section data-theme="light" className="relative bg-zn-bg">
+          <div className="zn-container-guides relative">
+            <BlueprintColumnFrame showTopCrosses={false}>
+              <FaqSection
+                frameless
+                faqs={faqs}
+                showBlueprintCrosses={false}
+                label={page.faq.eyebrow ?? "FAQ"}
+                heading={page.faq.heading}
+                description={page.faq.subheading ?? ""}
+              />
+            </BlueprintColumnFrame>
+          </div>
+        </section>
       ) : null}
     </>
   );

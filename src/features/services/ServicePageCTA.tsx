@@ -4,6 +4,7 @@ import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { CONTACT_EMAIL } from "@/lib/content/site";
 import { Button } from "@/ui/Button";
+import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
 import { SectionLabel } from "@/ui/SectionLabel";
 
 const TRUST_ITEMS = [
@@ -21,6 +22,10 @@ export function ServicePageCTA({
   secondaryLabel = "View our work",
   secondaryHref = "/work",
   eyebrow = "Next step",
+  guideBottomInset = false,
+  guideShowBottomRail = true,
+  guideShowBottomCrosses = true,
+  guideShowTopCrosses = true,
 }: {
   heading?: string;
   sub?: string;
@@ -29,19 +34,30 @@ export function ServicePageCTA({
   secondaryLabel?: string;
   secondaryHref?: string;
   eyebrow?: string;
+  /** Extend side guide rails through bottom padding (e.g. before FAQ or footer CTA). */
+  guideBottomInset?: boolean;
+  guideShowBottomRail?: boolean;
+  guideShowBottomCrosses?: boolean;
+  guideShowTopCrosses?: boolean;
 }) {
   return (
     <section data-theme="light" className="relative bg-zn-bg" aria-label="Get started">
       <BlueprintGrid />
 
       <div className="zn-container-guides relative">
-        <div className="relative border-x border-b border-zn-border">
-          <div
-            className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-zn-border lg:block"
-            aria-hidden="true"
-          />
+        <BlueprintColumnFrame
+          bottomInset={guideBottomInset}
+          showBottomRail={guideShowBottomRail}
+          showBottomCrosses={guideShowBottomCrosses}
+          showTopCrosses={guideShowTopCrosses}
+        >
+          <div className="relative">
+            <div
+              className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-zn-border lg:block"
+              aria-hidden="true"
+            />
 
-          <div className="zn-container-inset grid gap-12 py-[clamp(5rem,10vw,8rem)] lg:grid-cols-2 lg:gap-0 lg:py-[clamp(6rem,11vw,9rem)]">
+            <div className="zn-container-inset grid gap-12 py-[clamp(5rem,10vw,8rem)] lg:grid-cols-2 lg:gap-0 lg:py-[clamp(6rem,11vw,9rem)]">
             <div className="flex flex-col justify-end lg:pr-14 xl:pr-20">
               <Reveal>
                 <SectionLabel withRule={false}>{eyebrow}</SectionLabel>
@@ -100,8 +116,9 @@ export function ServicePageCTA({
                 </ul>
               </Reveal>
             </div>
+            </div>
           </div>
-        </div>
+        </BlueprintColumnFrame>
       </div>
     </section>
   );
