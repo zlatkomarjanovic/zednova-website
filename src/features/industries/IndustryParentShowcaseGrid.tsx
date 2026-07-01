@@ -34,6 +34,16 @@ const BENTO_SPANS = [
 /** Cells whose right edge touches the container edge (no right border). */
 const BENTO_LAST_IN_ROW = new Set([1, 3, 5]);
 
+function showcaseCellBorderClass(index: number) {
+  return cn(
+    "border-b border-zn-border",
+    index % 2 === 0 && "md:border-r",
+    index % 2 === 1 && "md:border-r-0",
+    !BENTO_LAST_IN_ROW.has(index) && "lg:border-r",
+    BENTO_LAST_IN_ROW.has(index) && "lg:border-r-0",
+  );
+}
+
 function specialtiesLine(card: ParentShowcaseCard): string {
   const shown = card.topSpecialties.slice(0, 3);
   const rest = card.specialtyCount - shown.length;
@@ -47,7 +57,10 @@ export function IndustryParentShowcaseGrid({
   parents: ParentShowcaseCard[];
 }) {
   return (
-    <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6" stagger={0.06}>
+    <Stagger
+      className="grid auto-rows-fr grid-cols-1 border-t border-zn-border md:grid-cols-2 lg:grid-cols-6"
+      stagger={0.06}
+    >
       {parents.map((parent, index) => {
         const isFeatured = BENTO_SPANS[index]?.includes("col-span-4");
 
@@ -56,12 +69,11 @@ export function IndustryParentShowcaseGrid({
             key={parent.slug}
             href={parent.href}
             className={cn(
-              "group relative flex flex-col justify-between",
-              "border-b border-zn-border transition-colors duration-300 hover:bg-zn-bg-2/60",
+              "group relative flex h-full flex-col justify-between",
+              "transition-colors duration-300 hover:bg-zn-bg-2/60",
               "px-8 py-10 sm:px-10 lg:px-12 lg:py-14",
               isFeatured ? "min-h-[20rem] lg:min-h-[24rem]" : "min-h-[20rem]",
-              "md:odd:border-r lg:odd:border-r-0",
-              !BENTO_LAST_IN_ROW.has(index) && "lg:border-r",
+              showcaseCellBorderClass(index),
               BENTO_SPANS[index],
             )}
           >
