@@ -5,6 +5,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
+import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
 import { IndustryParentShowcaseGrid } from "@/features/industries/IndustryParentShowcaseGrid";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
@@ -63,15 +64,9 @@ export default async function IndustriesPage() {
           breadcrumbJsonLd(crumbs),
         ]}
       />
-      <section
-        data-theme="light"
-        className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
-      >
+      <section data-theme="light" className="relative bg-zn-bg">
         <div className="zn-container-guides relative">
-          <div className="relative overflow-hidden border-x border-b border-zn-border">
-            <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
-            <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
-
+          <BlueprintColumnFrame showBottomRail={false} showBottomCrosses={false}>
             {/* Hero */}
             <div className="relative border-b border-zn-border">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
@@ -107,10 +102,7 @@ export default async function IndustriesPage() {
             </div>
 
             <IndustryParentShowcaseGrid parents={parentCards} />
-
-            <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
-            <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />
-          </div>
+          </BlueprintColumnFrame>
         </div>
       </section>
 
