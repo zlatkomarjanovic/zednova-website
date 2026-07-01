@@ -86,7 +86,7 @@ export function IndustryPageTemplate({
       <IndustryHeroSection page={page} crumbs={crumbs} />
 
       {page.logoCarousel.show ? (
-        <section data-theme="light" className="relative border-b border-zn-border bg-zn-bg">
+        <section data-theme="light" className="relative bg-zn-bg">
           <LogoTicker label={page.logoCarousel.label} />
         </section>
       ) : null}
