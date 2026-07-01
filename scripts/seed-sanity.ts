@@ -19,6 +19,8 @@ import { caseStudies } from "../src/lib/content/case-studies";
 import { portfolioProjects } from "../src/lib/content/portfolio-projects";
 import { faqs } from "../src/lib/content/faq";
 import { industryParents } from "../src/lib/content/industry-parents";
+import { INDUSTRY_FAQ_FALLBACKS } from "../src/lib/content/industry-faq-fallbacks";
+import type { ParentIndustrySlug } from "../src/lib/content/industry-routes";
 import { getIndustryLandingCopy } from "../src/lib/content/industry-detail-fallbacks";
 import {
   SERVICE_SLUG_BY_PARENT,
@@ -540,7 +542,7 @@ for (const parent of industryParents) {
     faqEyebrow: landing?.faqEyebrow,
     faqHeadline: landing?.faqHeadline,
     faqSubtext: landing?.faqSubtext,
-    faqs: landing?.faqs,
+    faqs: INDUSTRY_FAQ_FALLBACKS[parent.slug as ParentIndustrySlug],
     ctaHeading: landing?.ctaHeading,
     ctaSub: landing?.ctaSub,
     showLogoCarousel: true,

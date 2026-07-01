@@ -191,8 +191,8 @@ export function IndustryPageTemplate({
         ctaHref={page.cta.primaryCta.href}
         secondaryLabel={page.cta.secondaryCta.label}
         secondaryHref={page.cta.secondaryCta.href}
-        guideBottomInset
-        guideShowBottomRail={!showFaq}
+        guideBottomInset={showFaq}
+        guideShowBottomRail
         guideShowBottomCrosses={!showFaq}
       />
 

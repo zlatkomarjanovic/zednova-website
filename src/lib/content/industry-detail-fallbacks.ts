@@ -1,5 +1,6 @@
 import type { ArticleFaq, IndustryParent, PainPoint } from "@/lib/types";
 import type { ParentIndustrySlug } from "@/lib/content/industry-routes";
+import { INDUSTRY_FAQ_FALLBACKS } from "@/lib/content/industry-faq-fallbacks";
 
 export type IndustryLandingCopy = {
   heroEyebrow: string;
@@ -568,6 +569,17 @@ const LANDING_COPY: Record<ParentIndustrySlug, IndustryLandingCopy> = {
   },
 };
 
+const MIN_INDUSTRY_FAQ_COUNT = 10;
+
+function resolveIndustryFaqs(
+  slug: string,
+  parentFaqs?: ArticleFaq[],
+): ArticleFaq[] {
+  const fallback = INDUSTRY_FAQ_FALLBACKS[slug as ParentIndustrySlug];
+  if (parentFaqs && parentFaqs.length >= MIN_INDUSTRY_FAQ_COUNT) return parentFaqs;
+  return fallback ?? parentFaqs ?? [];
+}
+
 export function getIndustryLandingCopy(slug: string): IndustryLandingCopy | null {
   if (!(slug in LANDING_COPY)) return null;
   return LANDING_COPY[slug as ParentIndustrySlug];
@@ -629,7 +641,7 @@ export function mergeIndustryLandingCopy(
     faqEyebrow: parent.faqEyebrow ?? fallback?.faqEyebrow ?? "FAQ",
     faqHeadline: parent.faqHeadline ?? fallback?.faqHeadline ?? "Common questions",
     faqSubtext: parent.faqSubtext ?? fallback?.faqSubtext ?? "",
-    faqs: parent.faqs?.length ? parent.faqs : (fallback?.faqs ?? []),
+    faqs: resolveIndustryFaqs(parent.slug, parent.faqs),
     ctaHeading:
       parent.ctaHeading ?? fallback?.ctaHeading ?? "Ready to get started?",
     ctaSub: parent.ctaSub ?? fallback?.ctaSub ?? "",
@@ -663,7 +675,7 @@ export function mergeIndustryParentWithStaticFallback(
     faqEyebrow: parent.faqEyebrow ?? fallback.faqEyebrow,
     faqHeadline: parent.faqHeadline ?? fallback.faqHeadline,
     faqSubtext: parent.faqSubtext ?? fallback.faqSubtext,
-    faqs: parent.faqs?.length ? parent.faqs : fallback.faqs,
+    faqs: resolveIndustryFaqs(parent.slug, parent.faqs),
     ctaHeading: parent.ctaHeading ?? fallback.ctaHeading,
     ctaSub: parent.ctaSub ?? fallback.ctaSub,
   };
