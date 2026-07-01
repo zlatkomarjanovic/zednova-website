@@ -168,7 +168,7 @@ export function IndustryAtGlanceSection({
             </div>
           </div>
 
-          <Stagger className="grid grid-cols-1 lg:grid-cols-3" stagger={0.06}>
+          <Stagger className="grid grid-cols-1 border-t border-zn-border lg:grid-cols-3" stagger={0.06}>
             {section.items.map((item, index) => (
               <article
                 key={item.title}
