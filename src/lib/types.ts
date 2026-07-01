@@ -7,7 +7,8 @@ export type ServiceGroup =
   | "Lead-Gen Websites & AI Search"
   | "CRM & Follow-Up Automation"
   | "AI Receptionist & Booking Automation"
-  | "Custom Portals & Dashboards"
+  | "Custom In-House Software for SMBs"
+  | "Platform Migrations"
   | "Monthly Support & Improvements"
   | "Websites"
   | "Automation"
@@ -132,8 +133,11 @@ export type Service = {
   whatsIncluded?: FeatureBullet[];
   deliverables: string[];
   idealClients: string[];
-  processSteps: { step: number; title: string; description: string }[];
+  processSteps: ProcessStep[];
   results: string[];
+  faqEyebrow?: string;
+  faqHeadline?: string;
+  faqSubtext?: string;
   faqs?: ArticleFaq[];
   pricingSignal: string;
   pricingTiers?: PriceTier[];
@@ -147,6 +151,12 @@ export type Service = {
   tags?: string[];
   image: string;
   order: number;
+  heroEyebrow?: string;
+  problemsHeadline?: string;
+  problems?: PainPoint[];
+  subServices?: SubServiceCard[];
+  values?: ValueItem[];
+  testimonials?: TestimonialItem[];
   seo?: SeoFields;
 } & CtaFields & SchemaMarkupFields & {
   openGraph?: OpenGraphFields;
@@ -164,7 +174,43 @@ export type Service = {
   quickAnswer?: AeoAnswerBlock;
 };
 
-export type PainPoint = { title: string; description: string };
+export type ProcessStep = {
+  step: number;
+  title: string;
+  description: string;
+  deliverables?: string[];
+  estimatedTime?: string;
+  icon?: string;
+  subtext?: string;
+};
+
+export type SubServiceCard = {
+  title: string;
+  description?: string;
+  icon?: string;
+  span?: "1x1" | "2x1" | "1x2" | "2x2";
+};
+
+export type ValueItem = {
+  title: string;
+  description: string;
+  icon?: string;
+};
+
+export type TestimonialItem = {
+  quote: string;
+  author: string;
+  role?: string;
+  avatar?: string;
+  rating?: number;
+};
+
+export type PainPoint = {
+  title: string;
+  subheading?: string;
+  description?: string;
+  icon?: string;
+};
 
 export type IndustryCategory =
   | "Healthcare & Wellness"

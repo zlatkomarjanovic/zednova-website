@@ -1,7 +1,10 @@
 /**
  * Content queries — Sanity CMS with static fallback when CMS is empty or unavailable.
  */
-import { services } from "@/lib/content/services";
+import { services as staticServices } from "@/lib/content/services";
+import {
+  mergeServiceWithStaticFallback,
+} from "@/lib/content/service-detail-fallbacks";
 import { migrations as staticMigrations } from "@/lib/content/migrations";
 import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
 import { industryParents } from "@/lib/content/industry-parents";
@@ -9,6 +12,7 @@ import { industries } from "@/lib/content/industry-subs";
 import { applyIndustryDetailOverride } from "@/lib/content/industry-detail-overrides";
 import { caseStudies as staticCaseStudies } from "@/lib/content/case-studies";
 import { portfolioProjects as staticPortfolioProjects } from "@/lib/content/portfolio-projects";
+import { SERVICE_PORTFOLIO_HIGHLIGHTS } from "@/lib/content/service-portfolio-highlights";
 import { posts as postsStatic } from "@/lib/content/posts";
 import { products as staticProducts } from "@/lib/content/products";
 import { testimonials as staticTestimonials } from "@/lib/content/testimonials";
@@ -80,7 +84,7 @@ import {
   fetchTestimonialsFromSanity,
   fetchServiceBySlugFromSanity,
   fetchServiceMegaMenuCardsFromSanity,
-  fetchServiceNavGroupsFromSanity,
+  fetchSubServicesFromSanity,
   sanityHasContent,
 } from "@/sanity/fetchers";
 import { isSanityConfigured } from "@/sanity/env";
@@ -119,28 +123,33 @@ async function fromSanity<T>(
 
 export async function getAllServices(): Promise<Service[]> {
   return fromSanity("service", fetchAllServicesFromSanity, () =>
-    [...services].sort(byOrder),
+    [...staticServices].sort(byOrder),
   );
 }
 
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
   if (!isSanityConfigured()) {
-    return services.find((s) => s.slug === slug) ?? null;
+    const service = staticServices.find((s) => s.slug === slug) ?? null;
+    return service ? mergeServiceWithStaticFallback(service) : null;
   }
   try {
     const has = await sanityHasContent("service");
-    if (!has) return services.find((s) => s.slug === slug) ?? null;
-    return (await fetchServiceBySlugFromSanity(slug)) ?? null;
+    if (!has) {
+      const service = staticServices.find((s) => s.slug === slug) ?? null;
+      return service ? mergeServiceWithStaticFallback(service) : null;
+    }
+    const cms = (await fetchServiceBySlugFromSanity(slug)) ?? null;
+    if (!cms) return null;
+    return mergeServiceWithStaticFallback(cms);
   } catch {
-    return services.find((s) => s.slug === slug) ?? null;
+    const service = staticServices.find((s) => s.slug === slug) ?? null;
+    return service ? mergeServiceWithStaticFallback(service) : null;
   }
 }
 
 export async function getServicesBySlugs(slugs: string[]): Promise<Service[]> {
-  const all = await getAllServices();
-  return slugs
-    .map((slug) => all.find((s) => s.slug === slug))
-    .filter((s): s is Service => Boolean(s));
+  const results = await Promise.all(slugs.map((slug) => getServiceBySlug(slug)));
+  return results.filter((s): s is Service => Boolean(s));
 }
 
 export async function getPostsBySlugs(slugs: string[]): Promise<Post[]> {
@@ -158,7 +167,8 @@ export async function getServiceGroups(): Promise<
     "Lead-Gen Websites & AI Search",
     "CRM & Follow-Up Automation",
     "AI Receptionist & Booking Automation",
-    "Custom Portals & Dashboards",
+    "Custom In-House Software for SMBs",
+    "Platform Migrations",
     "Monthly Support & Improvements",
   ];
   return groups.map((group) => ({
@@ -168,21 +178,35 @@ export async function getServiceGroups(): Promise<
 }
 
 export async function getServiceNavGroups(): Promise<NavMenuGroup[]> {
-  const groups = await fromSanity("serviceNavItem", fetchServiceNavGroupsFromSanity, () =>
-    staticServiceNavGroups,
-  );
-  const hasPrimaryGroups = PRIMARY_SERVICE_GROUPS.some((group) =>
-    groups.some((entry) => entry.group === group && entry.items.length > 0),
-  );
-  return hasPrimaryGroups ? groups : staticServiceNavGroups;
+  // Sub-service pages were removed; parent-group nav is code-defined so hrefs stay current.
+  return staticServiceNavGroups;
 }
 
 export async function getServiceMegaMenuCards(): Promise<ServiceMegaMenuCard[]> {
-  return fromSanity(
+  const cards = await fromSanity(
     "serviceMegaMenuCard",
     fetchServiceMegaMenuCardsFromSanity,
     () => staticServiceMegaMenuCards,
   );
+
+  // Code-defined cards always win for href/title/copy so nav stays correct even if CMS is stale.
+  return cards
+    .map((card, index) => {
+      const source = staticServiceMegaMenuCards[index];
+      if (!source) return card;
+      return {
+        ...card,
+        title: source.title,
+        shortDescription: source.shortDescription,
+        includes: source.includes,
+        href: source.href,
+        startingPrice: source.startingPrice ?? card.startingPrice,
+        isFeatured: source.isFeatured ?? card.isFeatured,
+        isLegacy: source.isLegacy ?? card.isLegacy,
+      };
+    })
+    .filter((card) => card.isLegacy !== true)
+    .slice(0, staticServiceMegaMenuCards.length);
 }
 
 /* ----------------------------- Custom software ----------------------------- */
@@ -699,6 +723,11 @@ export async function getServiceRelatedPortfolioProjects(
       ordered.push(project);
     }
   };
+
+  const highlightSlugs = SERVICE_PORTFOLIO_HIGHLIGHTS[service.slug];
+  if (highlightSlugs?.length) {
+    push(allPortfolio.filter((project) => highlightSlugs.includes(project.slug)));
+  }
 
   if (service.relatedCaseStudies?.length) {
     const caseSlugs = new Set(service.relatedCaseStudies);

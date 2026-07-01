@@ -8,10 +8,10 @@ import { defaultAiSummaryPageUrl } from "@/lib/content/ai-summary-models";
 export function useAiSummaryPage() {
   const pathname = usePathname();
   const pageUrl = defaultAiSummaryPageUrl(pathname || "/");
-  const [pageTitle, setPageTitle] = useState("ZedNova Studios");
+  const [pageTitle, setPageTitle] = useState("ZedNova Studio");
 
   useEffect(() => {
-    setPageTitle(document.title || "ZedNova Studios");
+    setPageTitle(document.title || "ZedNova Studio");
   }, [pathname]);
 
   return { pageUrl, pageTitle };

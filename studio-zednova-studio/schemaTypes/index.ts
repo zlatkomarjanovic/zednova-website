@@ -9,7 +9,7 @@ import { testimonial } from "./documents/testimonial";
 import { migration } from "./documents/migration";
 import { siteSettings } from "./documents/siteSettings";
 import { customSoftware } from "./documents/customSoftware";
-import { serviceNavItem } from "./documents/serviceNavItem";
+import { subService } from "./documents/subService";
 import { serviceMegaMenuCard } from "./documents/serviceMegaMenuCard";
 import { insightCategory } from "./documents/insightCategory";
 import { tag } from "./documents/tag";
@@ -24,7 +24,7 @@ export const schemaTypes = [
   author,
   faq,
   service,
-  serviceNavItem,
+  subService,
   serviceMegaMenuCard,
   customSoftware,
   industryParent,

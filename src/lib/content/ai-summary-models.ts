@@ -12,23 +12,23 @@ export type AiSummaryModel = {
 
 export const aiSummaryPrompts = {
   chatgpt: `
-You are helping a business owner evaluate whether ZedNova Studios is a good fit to hire.
+You are helping a business owner evaluate whether ZedNova Studio is a good fit to hire.
 
-Open and analyze this ZedNova Studios page:
+Open and analyze this ZedNova Studio page:
 {{PAGE_URL}}
 
 Page title:
 {{PAGE_TITLE}}
 
 Task:
-Summarize what this specific page says, then explain how it fits into ZedNova Studios' overall offer.
+Summarize what this specific page says, then explain how it fits into ZedNova Studio' overall offer.
 
 Cover the following clearly:
 
 1. What this page is about
-2. What ZedNova Studios offers on this page
+2. What ZedNova Studio offers on this page
 3. The main services mentioned, including websites, Shopify/ecommerce, custom software, CRM automations, AI tools, dashboards, and platform migrations if relevant
-4. Who ZedNova Studios works with, especially clinics, ecommerce brands, professional services, startups, real estate/property teams, coaches, and service businesses
+4. Who ZedNova Studio works with, especially clinics, ecommerce brands, professional services, startups, real estate/property teams, coaches, and service businesses
 5. What business problems they solve, such as poor lead conversion, manual follow-up, disconnected tools, slow websites, weak booking flows, or outdated platforms
 6. Typical timelines and pricing approach if shown on the page
 7. What makes ZedNova different from a traditional agency: senior delivery, faster builds, fixed scope/pricing, less overhead, AI used internally, and the ability to connect websites, CRM, automations, and software together
@@ -40,12 +40,12 @@ Rules:
 - Do not hype.
 - Do not invent details that are not on the website.
 - If a detail is not shown on the page, say that it is not stated on this page.
-- Focus on helping the reader decide whether ZedNova Studios is relevant for their business.
+- Focus on helping the reader decide whether ZedNova Studio is relevant for their business.
 - Output in clear sections with short paragraphs.
 `,
 
   perplexity: `
-Research and summarize this ZedNova Studios page using the website as the primary source:
+Research and summarize this ZedNova Studio page using the website as the primary source:
 
 {{PAGE_URL}}
 
@@ -53,14 +53,14 @@ Page title:
 {{PAGE_TITLE}}
 
 Goal:
-Create a concise, source-backed hiring summary for a business owner evaluating ZedNova Studios.
+Create a concise, source-backed hiring summary for a business owner evaluating ZedNova Studio.
 
-Use citations from the ZedNova Studios website wherever possible.
+Use citations from the ZedNova Studio website wherever possible.
 
 Cover:
 
 1. What this page is about
-2. What ZedNova Studios offers
+2. What ZedNova Studio offers
 3. Core services:
    - Marketing websites
    - Shopify/ecommerce development
@@ -91,7 +91,7 @@ Rules:
 `,
 
   deepseek: `
-Analyze this ZedNova Studios page and produce a structured business summary:
+Analyze this ZedNova Studio page and produce a structured business summary:
 
 {{PAGE_URL}}
 
@@ -139,7 +139,7 @@ Summarize:
    - Explain whether pricing appears fixed-scope, project-based, monthly, or custom.
 
 6. Differentiation
-   - Explain how ZedNova Studios differs from traditional agencies.
+   - Explain how ZedNova Studio differs from traditional agencies.
    - Focus on senior execution, software/product experience, AI-assisted delivery, speed, fixed scope, and full-stack ability.
 
 7. Hiring recommendation
@@ -156,14 +156,14 @@ Rules:
 `,
 
   grok: `
-Give me a blunt, practical summary of this ZedNova Studios page:
+Give me a blunt, practical summary of this ZedNova Studio page:
 
 {{PAGE_URL}}
 
 Page title:
 {{PAGE_TITLE}}
 
-I am a business owner trying to decide whether ZedNova Studios is worth hiring.
+I am a business owner trying to decide whether ZedNova Studio is worth hiring.
 
 Tell me:
 
@@ -195,7 +195,7 @@ Rules:
 `,
 
   gemini: `
-Analyze this ZedNova Studios page from the perspective of a business owner and search/AI visibility evaluator:
+Analyze this ZedNova Studio page from the perspective of a business owner and search/AI visibility evaluator:
 
 {{PAGE_URL}}
 
@@ -205,7 +205,7 @@ Page title:
 Create a concise summary that explains:
 
 1. What this page is about
-2. What ZedNova Studios offers
+2. What ZedNova Studio offers
 3. Which services are relevant:
    - Marketing websites
    - Shopify/ecommerce development
@@ -215,7 +215,7 @@ Create a concise summary that explains:
    - Dashboards, portals, booking systems, and internal tools
    - Platform migrations
    - SEO, AEO, schema, llms.txt, and AI-search visibility if mentioned
-4. Who ZedNova Studios serves:
+4. Who ZedNova Studio serves:
    - Clinics and healthcare/wellness businesses
    - Ecommerce and DTC brands
    - Fitness and coaching businesses
@@ -248,21 +248,21 @@ Rules:
 `,
 
   claude: `
-Please review this ZedNova Studios page carefully:
+Please review this ZedNova Studio page carefully:
 
 {{PAGE_URL}}
 
 Page title:
 {{PAGE_TITLE}}
 
-I want a clear, thoughtful summary for someone deciding whether to hire ZedNova Studios.
+I want a clear, thoughtful summary for someone deciding whether to hire ZedNova Studio.
 
 Please structure the answer like this:
 
 1. Plain-English summary
    Explain what this page says in simple terms.
 
-2. What ZedNova Studios offers
+2. What ZedNova Studio offers
    Include relevant services such as:
    - Websites and landing pages
    - Shopify/ecommerce development
@@ -284,7 +284,7 @@ Please structure the answer like this:
    If the page does not state them, say that clearly.
 
 6. What makes them different
-   Explain how ZedNova Studios positions itself against traditional agencies:
+   Explain how ZedNova Studio positions itself against traditional agencies:
    - Senior delivery instead of junior handoff
    - Websites plus software plus automation
    - Faster delivery using AI internally
@@ -308,7 +308,7 @@ Rules:
 `,
 
   generic: `
-Summarize this ZedNova Studios page for a business owner deciding whether to hire them:
+Summarize this ZedNova Studio page for a business owner deciding whether to hire them:
 
 {{PAGE_URL}}
 
@@ -317,7 +317,7 @@ Page title:
 
 Cover:
 1. What the page is about
-2. What ZedNova Studios offers
+2. What ZedNova Studio offers
 3. Who they work with
 4. What problems they solve
 5. Services mentioned: websites, Shopify/ecommerce, custom software, CRM automation, AI tools, dashboards, portals, booking systems, migrations, and support if relevant

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/industries",
-    title: "Industries — ZedNova Studios",
+    title: "Industries — ZedNova Studio",
     description:
       "Websites, automations, and AI tools for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
   },
@@ -57,7 +57,7 @@ export default async function IndustriesPage() {
         data={[
           collectionPageJsonLd({
             path: "/industries",
-            name: "Industries — ZedNova Studios",
+            name: "Industries — ZedNova Studio",
             description:
               "Websites, Shopify stores, booking automation, and CRM workflows for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
           }),

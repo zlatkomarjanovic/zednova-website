@@ -10,14 +10,14 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { SectionLabel } from "@/ui/SectionLabel";
 
 export const metadata: Metadata = {
-  title: "Find the Right Service — ZedNova Studios",
+  title: "Find the Right Service — ZedNova Studio",
   description:
     "Answer two quick questions and get a recommended ZedNova service for websites, Shopify, CRM automation, AI tools, or migrations.",
   alternates: { canonical: "/start" },
   openGraph: {
     type: "website",
     url: "/start",
-    title: "Find the Right Service — ZedNova Studios",
+    title: "Find the Right Service — ZedNova Studio",
     description:
       "Choose your goal and industry — we will point you to the best-fit service or a scoping call.",
   },

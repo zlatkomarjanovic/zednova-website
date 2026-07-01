@@ -210,9 +210,25 @@ export const painPoint = defineType({
   title: "Pain point",
   type: "object",
   fields: [
-    defineField({ name: "title", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "description", type: "text", rows: 3 }),
+    defineField({
+      name: "icon",
+      type: "image",
+      title: "Icon (SVG)",
+      description: "Small SVG icon shown above the card heading.",
+      options: { accept: "image/svg+xml" },
+    }),
+    defineField({ name: "title", type: "string", title: "Heading", validation: (r) => r.required() }),
+    defineField({
+      name: "subheading",
+      type: "string",
+      title: "Subheading",
+      description: "Shorter line under the main heading.",
+    }),
+    defineField({ name: "description", type: "text", rows: 4, title: "Paragraph" }),
   ],
+  preview: {
+    select: { title: "title", subtitle: "subheading", media: "icon" },
+  },
 });
 
 export const processStep = defineType({
@@ -228,7 +244,22 @@ export const processStep = defineType({
       type: "array",
       of: [{ type: "string" }],
     }),
-    defineField({ name: "estimatedTime", type: "string" }),
+    defineField({ name: "estimatedTime", type: "string", hidden: true }),
+    defineField({
+      name: "icon",
+      type: "image",
+      title: "Icon (SVG)",
+      description: "Small SVG icon shown above the step title.",
+      options: { accept: "image/svg+xml" },
+    }),
+    defineField({
+      name: "subtext",
+      type: "text",
+      rows: 2,
+      title: "Subtext",
+      hidden: true,
+      description: "Deprecated — no longer shown on the service page.",
+    }),
   ],
 });
 
@@ -433,6 +464,67 @@ export const migrationPlatformIcon = defineType({
 
 import { extendedObjectTypes } from "./extended";
 
+export const subServiceCard = defineType({
+  name: "subServiceCard",
+  title: "Sub-service (bento card)",
+  type: "object",
+  fields: [
+    defineField({ name: "title", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", type: "text", rows: 2 }),
+    defineField({
+      name: "icon",
+      type: "string",
+      title: "Icon key",
+      description: "Optional icon key resolved by the front-end icon map.",
+    }),
+    defineField({
+      name: "span",
+      type: "string",
+      title: "Bento span",
+      options: { list: ["1x1", "2x1", "1x2", "2x2"], layout: "radio" },
+      initialValue: "1x1",
+    }),
+  ],
+  preview: {
+    select: { title: "title", subtitle: "description" },
+  },
+});
+
+export const valueItem = defineType({
+  name: "valueItem",
+  title: "Agency value",
+  type: "object",
+  fields: [
+    defineField({ name: "title", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", type: "text", rows: 3, validation: (r) => r.required() }),
+    defineField({
+      name: "icon",
+      type: "string",
+      title: "Icon key",
+      description: "Optional icon key resolved by the front-end icon map.",
+    }),
+  ],
+  preview: {
+    select: { title: "title", subtitle: "description" },
+  },
+});
+
+export const testimonialItem = defineType({
+  name: "testimonialItem",
+  title: "Testimonial",
+  type: "object",
+  fields: [
+    defineField({ name: "quote", type: "text", rows: 4, validation: (r) => r.required() }),
+    defineField({ name: "author", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "role", type: "string", title: "Role / company" }),
+    defineField({ name: "avatar", type: "image", options: { hotspot: true } }),
+    defineField({ name: "rating", type: "number", title: "Rating (1-5)" }),
+  ],
+  preview: {
+    select: { title: "author", subtitle: "quote", media: "avatar" },
+  },
+});
+
 export const objectTypes = [
   seoFields,
   painPoint,
@@ -448,5 +540,8 @@ export const objectTypes = [
   priceTier,
   mediaAsset,
   migrationPlatformIcon,
+  subServiceCard,
+  valueItem,
+  testimonialItem,
   ...extendedObjectTypes,
 ];

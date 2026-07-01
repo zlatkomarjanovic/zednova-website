@@ -7,6 +7,7 @@ import path from "node:path";
 import { createClient } from "@sanity/client";
 
 import { services } from "../src/lib/content/services";
+import { FAQ_SECTION_COPY } from "../src/lib/content/service-detail-fallbacks";
 import { migrations } from "../src/lib/content/migrations";
 import { team } from "../src/lib/content/team";
 import { industries } from "../src/lib/content/industry-subs";
@@ -65,19 +66,32 @@ function industryRef(slug: string) {
   return { _type: "reference", _ref: `industry-${slug}` };
 }
 
-const PARENT_SERVICE_BY_GROUP: Record<string, string> = {
-  "Lead-Gen Websites & AI Search": "lead-gen-websites",
-  "CRM & Follow-Up Automation": "crm-automation",
-  "AI Receptionist & Booking Automation": "ai-receptionist",
-  "Custom Portals & Dashboards": "portals-dashboards",
-  "Monthly Support & Improvements": "monthly-support",
+const PARENT_SERVICE_REF_BY_GROUP: Record<string, string> = {
+  "Lead-Gen Websites & AI Search": "serviceMegaMenuCard-1",
+  "CRM & Follow-Up Automation": "serviceMegaMenuCard-2",
+  "AI Receptionist & Booking Automation": "serviceMegaMenuCard-3",
+  "Custom In-House Software for SMBs": "serviceMegaMenuCard-4",
+  "Platform Migrations": "serviceMegaMenuCard-5",
+  "Monthly Support & Improvements": "serviceMegaMenuCard-6",
 };
+
+function parentServiceReference(group: string) {
+  const ref = PARENT_SERVICE_REF_BY_GROUP[group];
+  if (!ref) return undefined;
+  return { _type: "reference" as const, _ref: ref };
+}
+
+function metaDescription(text: string) {
+  const normalized = text.replace(/\s+/g, " ").trim();
+  if (normalized.length <= 155) return normalized;
+  return `${normalized.slice(0, 152).trimEnd()}…`;
+}
 
 const MEGA_CARD_PARENT: Record<string, string> = {
   "Lead-Gen Websites": "lead-gen-websites",
   "CRM & Follow-Up Automation": "crm-automation",
   "AI Receptionists": "ai-receptionist",
-  "Portals & Dashboards": "portals-dashboards",
+  "Custom In-House Software": "custom-in-house-software",
   "Platform Migrations": "platform-migrations",
   "Monthly Support": "monthly-support",
 };
@@ -123,6 +137,24 @@ function patch(id: string, set: Record<string, unknown>) {
   mutations.push({ patch: { id, set } });
 }
 
+/* ----------------------------- Service mega menu cards (before services — parent refs) ----------------------------- */
+
+serviceMegaMenuCards.forEach((card, index) => {
+  add({
+    _id: `serviceMegaMenuCard-${index + 1}`,
+    _type: "serviceMegaMenuCard",
+    title: card.title,
+    shortDescription: card.shortDescription,
+    includes: card.includes,
+    href: card.href,
+    startingPrice: card.startingPrice,
+    isFeatured: card.isFeatured ?? true,
+    isLegacy: card.isLegacy ?? false,
+    parentService: MEGA_CARD_PARENT[card.title],
+    order: index + 1,
+  });
+});
+
 /* ----------------------------- Services ----------------------------- */
 
 const caseStudiesByService = new Map<string, string[]>();
@@ -145,7 +177,9 @@ for (const service of services) {
     group: service.group,
     category: service.category,
     icon: service.icon,
-    parentService: PARENT_SERVICE_BY_GROUP[service.group],
+    ...(parentServiceReference(service.group)
+      ? { parentService: parentServiceReference(service.group) }
+      : {}),
     isFeatured: service.order <= 4,
     showOnHomepage: !isLegacy,
     showInPrimaryServices: !isLegacy,
@@ -170,6 +204,27 @@ for (const service of services) {
       _key: `step-${step.step}`,
     })),
     results: service.results,
+    ...(service.faqs?.length
+      ? {
+          faqs: service.faqs.map((faq, index) => {
+            const anchor = slugify(faq.question).slice(0, 60) || `faq-${index + 1}`;
+            return {
+              _type: "articleFaq",
+              _key: anchor.slice(0, 20),
+              id: { _type: "slug", current: anchor },
+              question: faq.question,
+              answer: faq.answer,
+            };
+          }),
+        }
+      : {}),
+    ...(FAQ_SECTION_COPY[service.slug]
+      ? {
+          faqEyebrow: FAQ_SECTION_COPY[service.slug].eyebrow,
+          faqHeadline: FAQ_SECTION_COPY[service.slug].headline,
+          faqSubtext: FAQ_SECTION_COPY[service.slug].subtext,
+        }
+      : {}),
     pricingSignal: service.pricingSignal,
     timeline: service.timeline,
     order: service.order,
@@ -183,31 +238,13 @@ for (const service of services) {
     seo: {
       _type: "seoFields",
       seoTitle: service.title,
-      seoDescription: service.whatItIs,
+      seoDescription: metaDescription(service.shortDescription),
       keywords: [service.category, service.group],
       ogType: "website",
       twitterCard: "summary_large_image",
     },
   });
 }
-
-/* ----------------------------- Service mega menu cards ----------------------------- */
-
-serviceMegaMenuCards.forEach((card, index) => {
-  add({
-    _id: `serviceMegaMenuCard-${index + 1}`,
-    _type: "serviceMegaMenuCard",
-    title: card.title,
-    shortDescription: card.shortDescription,
-    includes: card.includes,
-    href: card.href,
-    startingPrice: card.startingPrice,
-    isFeatured: card.isFeatured ?? true,
-    isLegacy: card.isLegacy ?? false,
-    parentService: MEGA_CARD_PARENT[card.title],
-    order: index + 1,
-  });
-});
 
 /* ----------------------------- Service nav items ----------------------------- */
 
@@ -216,8 +253,8 @@ for (const group of serviceNavGroups) {
   group.items.forEach((item) => {
     navItemIndex += 1;
     add({
-      _id: `serviceNavItem-${navItemIndex}`,
-      _type: "serviceNavItem",
+      _id: `subService-${navItemIndex}`,
+      _type: "subService",
       title: item.title,
       shortDescription: item.shortDescription,
       href: item.href,
@@ -445,13 +482,13 @@ categoryTitles.forEach((title, index) => {
     _type: "insightCategory",
     title,
     slug: { _type: "slug", current: categorySlug },
-    description: `Insights about ${title.toLowerCase()} from ZedNova Studios.`,
+    description: `Insights about ${title.toLowerCase()} from ZedNova Studio.`,
     icon: CATEGORY_ICONS[title] ?? "insights",
     order: index + 1,
     seo: {
       _type: "seoFields",
       seoTitle: `${title} Insights`,
-      seoDescription: `Insights about ${title.toLowerCase()} from ZedNova Studios.`,
+      seoDescription: `Insights about ${title.toLowerCase()} from ZedNova Studio.`,
     },
   });
 });

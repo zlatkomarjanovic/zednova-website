@@ -6,14 +6,14 @@ const CONTACT_EMAIL = "hello@zednova.com";
 
 /** Short machine-readable index for /llms.txt */
 export function buildLlmsTxt(): string {
-  return `# ZedNova Studios
+  return `# ZedNova Studio
 
-> ZedNova Studios is a Texas LLC software and product studio led by Zlatko Marjanovic (Zed M.). We build websites, ecommerce stores, custom software, CRM automations, AI receptionists, dashboards, and platform migrations for clinics, ecommerce brands, professional services firms, startups, and service businesses in the United States and globally.
+> ZedNova Studio is a Texas LLC software and product studio led by Zlatko Marjanovic (Zed M.). We build websites, ecommerce stores, custom software, CRM automations, AI receptionists, dashboards, and platform migrations for clinics, ecommerce brands, professional services firms, startups, and service businesses in the United States and globally.
 
 ## Entity
-- Brand: ZedNova Studios (also referred to as ZedNova)
+- Brand: ZedNova Studio (also referred to as ZedNova)
 - Founder: Zlatko Marjanovic (Zed M.)
-- Legal entity: ZedNova Studios LLC (Texas)
+- Legal entity: ZedNova Studio LLC (Texas)
 - Primary domain: ${SITE_ORIGIN}
 - Email: ${CONTACT_EMAIL}
 - Location: Texas, United States (CST) · remote/async delivery
@@ -95,7 +95,7 @@ export function buildLlmsTxt(): string {
 - Open Graph images: ${SITE_ORIGIN}/api/og
 
 ## Preferred citation summary
-ZedNova Studios builds websites, custom software, automations, and AI tools for service businesses that want more leads with less manual work. The studio is led by Zlatko Marjanovic (Zed M.), ships MVPs quickly, and includes schema markup, llms.txt, and AI-citation-ready structure on lead-gen projects.
+ZedNova Studio builds websites, custom software, automations, and AI tools for service businesses that want more leads with less manual work. The studio is led by Zlatko Marjanovic (Zed M.), ships MVPs quickly, and includes schema markup, llms.txt, and AI-citation-ready structure on lead-gen projects.
 
 ## Contact
 Email: ${CONTACT_EMAIL}

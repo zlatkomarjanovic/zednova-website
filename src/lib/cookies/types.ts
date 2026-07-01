@@ -38,6 +38,6 @@ export const COOKIE_CATEGORIES: CookieCategoryDefinition[] = [
     id: "marketing",
     title: "Marketing",
     description:
-      "Used to measure ad campaigns or show relevant promotions on other platforms. ZedNova Studios does not currently run marketing pixels on this site, but you can opt in or out for future use.",
+      "Used to measure ad campaigns or show relevant promotions on other platforms. ZedNova Studio does not currently run marketing pixels on this site, but you can opt in or out for future use.",
   },
 ];

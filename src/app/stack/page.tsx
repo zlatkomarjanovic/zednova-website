@@ -14,12 +14,12 @@ import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Tech Stack — Next.js, Sanity, n8n, AI & Automation | ZedNova",
   description:
-    "The tools ZedNova Studios builds with — Next.js, React, TypeScript, Sanity, Supabase, n8n, Make, Vapi, Twilio, Claude, GPT-5, Stripe, and more. Frontend, backend, CMS, automation, AI, CRM, and analytics.",
+    "The tools ZedNova Studio builds with — Next.js, React, TypeScript, Sanity, Supabase, n8n, Make, Vapi, Twilio, Claude, GPT-5, Stripe, and more. Frontend, backend, CMS, automation, AI, CRM, and analytics.",
   alternates: { canonical: "/stack" },
   openGraph: {
     type: "website",
     url: "/stack",
-    title: "Tech Stack — ZedNova Studios",
+    title: "Tech Stack — ZedNova Studio",
     description:
       "Next.js, Sanity, n8n, Vapi, Twilio, Claude, Stripe, and more — the tools we wire together.",
   },
@@ -38,9 +38,9 @@ export default function StackPage() {
         data={[
           collectionPageJsonLd({
             path: "/stack",
-            name: "Tech Stack — ZedNova Studios",
+            name: "Tech Stack — ZedNova Studio",
             description:
-              "The tools ZedNova Studios builds with — frontend, backend, CMS, automation, AI, CRM, communication, analytics, and payments.",
+              "The tools ZedNova Studio builds with — frontend, backend, CMS, automation, AI, CRM, communication, analytics, and payments.",
           }),
           breadcrumbJsonLd(crumbs),
         ]}
@@ -117,7 +117,7 @@ export default function StackPage() {
           <dl className="mt-6 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
             <div>
               <dt className="zn-label text-zn-text-3">Company</dt>
-              <dd className="mt-1 text-sm text-zn-text">ZedNova Studios</dd>
+              <dd className="mt-1 text-sm text-zn-text">ZedNova Studio</dd>
             </div>
             <div>
               <dt className="zn-label text-zn-text-3">Stack focus</dt>

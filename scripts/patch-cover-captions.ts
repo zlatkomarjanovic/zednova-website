@@ -50,7 +50,7 @@ const client = createClient({
 async function main() {
   const posts = await getAllPosts();
   for (const post of posts) {
-    const caption = `Cover illustration for “${post.title}” — ${post.category} insight by ZedNova Studios.`;
+    const caption = `Cover illustration for “${post.title}” — ${post.category} insight by ZedNova Studio.`;
     await client
       .patch(`post-${post.slug}`)
       .set({ "coverImage.caption": caption })

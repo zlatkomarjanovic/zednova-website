@@ -2,7 +2,7 @@ import type { SiteSettings } from "@/lib/types";
 import { defaultProfileLinks } from "@/lib/content/profile-links";
 
 export const siteSettings: SiteSettings = {
-  siteTitle: "ZedNova Studios",
+  siteTitle: "ZedNova Studio",
   siteDescription:
     "An experienced software and product studio. We design and build Next.js websites, Shopify stores, custom software, CRM automations, and migrations for clinics, ecommerce brands, and growing businesses.",
   contactEmail: "hello@zednova.com",

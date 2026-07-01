@@ -5,7 +5,13 @@ import type {
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";
 import { industryParents } from "@/lib/content/industry-parents";
-import { migrations } from "@/lib/content/migrations";
+import {
+  PRIMARY_SERVICE_GROUPS,
+  PRIMARY_SERVICE_TAB_LABELS,
+  PRIMARY_SERVICE_TAGLINES,
+  type PrimaryServiceGroup,
+} from "@/lib/content/service-groups";
+import { buildServiceNavGroups, getServicePublicPath, parentServicePath, getParentSlug } from "@/lib/content/service-routes";
 
 export type {
   NavMenuItem,
@@ -16,41 +22,12 @@ export type {
 
 export { megaMenuNavLinks, PARENT_SERVICE_LABELS } from "@/lib/types/content-nav";
 
-/** Parent service groups — same order as mega menu cards and /services page. */
-export const PRIMARY_SERVICE_GROUPS = [
-  "Lead-Gen Websites & AI Search",
-  "CRM & Follow-Up Automation",
-  "AI Receptionist & Booking Automation",
-  "Custom Portals & Dashboards",
-  "Platform Migrations",
-  "Monthly Support & Improvements",
-] as const;
-
-export type PrimaryServiceGroup = (typeof PRIMARY_SERVICE_GROUPS)[number];
-
-export const PRIMARY_SERVICE_TAB_LABELS: Record<PrimaryServiceGroup, string> = {
-  "Lead-Gen Websites & AI Search": "Lead-Gen Websites",
-  "CRM & Follow-Up Automation": "CRM & Follow-Up",
-  "AI Receptionist & Booking Automation": "AI Receptionist",
-  "Custom Portals & Dashboards": "Portals & Dashboards",
-  "Platform Migrations": "Platform Migrations",
-  "Monthly Support & Improvements": "Monthly Support",
-};
-
-export const PRIMARY_SERVICE_TAGLINES: Record<PrimaryServiceGroup, string> = {
-  "Lead-Gen Websites & AI Search":
-    "Fast websites that explain your offer, rank on Google and AI search, and turn visitors into calls, forms, and bookings.",
-  "CRM & Follow-Up Automation":
-    "Every form, call, and booking request gets captured, followed up with, and tracked until it becomes a booked call or customer.",
-  "AI Receptionist & Booking Automation":
-    "AI voice and chat assistants that answer calls, qualify leads, book appointments, and text back missed calls.",
-  "Custom Portals & Dashboards":
-    "Client portals, staff dashboards, booking systems, and internal tools for teams outgrowing spreadsheets.",
-  "Platform Migrations":
-    "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity without losing SEO or content.",
-  "Monthly Support & Improvements":
-    "Monthly help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations.",
-};
+export {
+  PRIMARY_SERVICE_GROUPS,
+  PRIMARY_SERVICE_TAB_LABELS,
+  PRIMARY_SERVICE_TAGLINES,
+  type PrimaryServiceGroup,
+} from "@/lib/content/service-groups";
 
 function cs(slug: string) {
   return `/custom-software/${slug}`;
@@ -66,7 +43,7 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     shortDescription:
       "Fast websites that explain your offer, rank on Google and AI search, and turn visitors into calls, forms, and bookings.",
     includes: "Next.js, Webflow, Sanity, SEO & AEO setup",
-    href: "/services/ai-lead-site",
+    href: parentServicePath(getParentSlug("Lead-Gen Websites & AI Search")),
     startingPrice: "From $3,500",
     isFeatured: true,
   },
@@ -75,7 +52,7 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     shortDescription:
       "Forms, calls, bookings, email, SMS, and pipeline stages wired together so no lead gets lost.",
     includes: "HubSpot, GoHighLevel, pipeline stages, email & SMS",
-    href: "/services/crm-pipeline-automation",
+    href: parentServicePath(getParentSlug("CRM & Follow-Up Automation")),
     startingPrice: "From $2,500",
     isFeatured: true,
   },
@@ -84,16 +61,16 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     shortDescription:
       "AI voice/chat agents that answer questions, qualify leads, book appointments, and text back missed calls.",
     includes: "AI phone, website chat, missed-call text-back, booking",
-    href: "/services/ai-receptionist",
+    href: parentServicePath(getParentSlug("AI Receptionist & Booking Automation")),
     startingPrice: "From $1,200 + $299/mo",
     isFeatured: true,
   },
   {
-    title: "Portals & Dashboards",
+    title: "Custom In-House Software",
     shortDescription:
-      "Client portals, staff dashboards, booking systems, and internal tools for teams outgrowing spreadsheets.",
-    includes: "client portals, patient portals, dashboards, booking systems",
-    href: "/custom-software",
+      "Client portals, internal tools, booking systems, and dashboards built for SMB teams outgrowing spreadsheets.",
+    includes: "client portals, staff dashboards, booking systems, admin panels",
+    href: parentServicePath(getParentSlug("Custom In-House Software for SMBs")),
     startingPrice: "From $4,999",
     isFeatured: true,
   },
@@ -102,7 +79,7 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     shortDescription:
       "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity without losing SEO or content.",
     includes: "Webflow, WordPress, Framer, Wix, Squarespace",
-    href: "/migrations",
+    href: parentServicePath(getParentSlug("Platform Migrations")),
     startingPrice: "From $3,500",
     isFeatured: true,
   },
@@ -111,233 +88,44 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     shortDescription:
       "Monthly help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations after launch.",
     includes: "website updates, automation fixes, new pages, monitoring",
-    href: "/services/ai-systems-retainer",
+    href: parentServicePath(getParentSlug("Monthly Support & Improvements")),
     startingPrice: "From $349/mo",
     isFeatured: false,
   },
 ];
 
 /**
- * Service nav groups aligned to the 5 parent services.
- * Shopify & Ecommerce is now a legacy/hidden group, kept for SEO only.
+ * Nested sub-service links per parent group, plus legacy ecommerce (hidden from primary nav).
  */
+const legacyEcommerceNavGroup: NavMenuGroup = {
+  group: "Shopify & Ecommerce (Legacy)",
+  items: [
+    {
+      title: "Shopify Development",
+      shortDescription: "Custom Shopify stores, product pages, and checkout flows.",
+      href: getServicePublicPath("ai-lead-site"),
+    },
+    {
+      title: "Headless Shopify Development",
+      shortDescription: "Custom Next.js storefront with Shopify checkout.",
+      href: "/migrations/shopify-to-headless-shopify",
+    },
+    {
+      title: "Klaviyo Email Flows",
+      shortDescription: "Welcome, cart recovery, and post-purchase sequences.",
+      href: getServicePublicPath("crm-pipeline-automation"),
+    },
+    {
+      title: "Cart Abandonment Automation",
+      shortDescription: "Timed emails and SMS to recover abandoned carts.",
+      href: getServicePublicPath("crm-pipeline-automation"),
+    },
+  ],
+};
+
 export const serviceNavGroups: NavMenuGroup[] = [
-  {
-    group: "Lead-Gen Websites & AI Search",
-    items: [
-      {
-        title: "AI-Cited Lead Gen Site",
-        shortDescription: "Fast, clear website that ranks on Google and gets cited by AI tools.",
-        href: "/services/ai-lead-site",
-      },
-      {
-        title: "Website Redesign",
-        shortDescription: "Rebuild your site to convert visitors into calls, forms, and bookings.",
-        href: "/services/ai-lead-site",
-      },
-      {
-        title: "Landing & Offer Pages",
-        shortDescription: "Focused pages for offers, consults, and lead capture.",
-        href: "/services/ai-lead-site",
-      },
-      {
-        title: "Service & Local SEO Pages",
-        shortDescription: "Pages that show up for the terms your buyers actually search.",
-        href: "/services/seo-aeo-content",
-      },
-      {
-        title: "SEO & AEO Content",
-        shortDescription: "Content structured to rank and get cited in AI answers.",
-        href: "/services/seo-aeo-content",
-      },
-      {
-        title: "Schema, FAQ & llms.txt Setup",
-        shortDescription: "Technical setup so Google and AI tools can find and cite your business.",
-        href: "/services/seo-aeo-content",
-      },
-      {
-        title: "Website Performance Cleanup",
-        shortDescription: "Fix slow loads, Core Web Vitals, and broken conversion paths.",
-        href: "/services/ai-lead-site",
-      },
-    ],
-  },
-  {
-    group: "CRM & Follow-Up Automation",
-    items: [
-      {
-        title: "CRM Setup",
-        shortDescription: "HubSpot, GoHighLevel, or Salesforce setup with clean pipeline stages.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Form-to-CRM Connection",
-        shortDescription: "Every form fill lands in your CRM and alerts your team instantly.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Email & SMS Follow-Up",
-        shortDescription: "Automated sequences after form fills, calls, and bookings.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Missed-Lead Follow-Up",
-        shortDescription: "Stale leads get automatic re-engagement so nothing slips through.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Appointment Reminders",
-        shortDescription: "Automated SMS and email reminders that reduce no-shows.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Review Request Automation",
-        shortDescription: "Review requests sent at the right moment after a job or visit.",
-        href: "/services/review-reputation",
-      },
-      {
-        title: "CRM Dashboard",
-        shortDescription: "A simple view of pipeline value, lead source, and follow-up status.",
-        href: "/services/reporting-dashboards",
-      },
-    ],
-  },
-  {
-    group: "AI Receptionist & Booking Automation",
-    items: [
-      {
-        title: "AI Phone Receptionist",
-        shortDescription: "Answers calls, qualifies callers, and books appointments 24/7.",
-        href: "/services/ai-receptionist",
-      },
-      {
-        title: "Missed-Call Text-Back",
-        shortDescription: "Every missed call gets an instant text so leads don't call competitors.",
-        href: "/services/ai-receptionist",
-      },
-      {
-        title: "AI Website Assistant",
-        shortDescription: "Website chat that answers questions and captures lead details.",
-        href: "/services/ai-receptionist",
-      },
-      {
-        title: "Lead Qualification Chatbot",
-        shortDescription: "Qualifies leads before they reach your team.",
-        href: "/services/ai-receptionist",
-      },
-      {
-        title: "Appointment Booking Assistant",
-        shortDescription: "Books appointments directly into your calendar.",
-        href: "/services/ai-receptionist",
-      },
-      {
-        title: "After-Hours Answering",
-        shortDescription: "Captures every after-hours call and inquiry.",
-        href: "/services/ai-receptionist",
-      },
-    ],
-  },
-  {
-    group: "Custom Portals & Dashboards",
-    items: [
-      {
-        title: "Client Portal Development",
-        shortDescription: "Login areas for clients to view status, files, and updates.",
-        href: cs("client-portal-development"),
-      },
-      {
-        title: "Patient Portal Development",
-        shortDescription: "Secure portals for patients to book, complete intake, and view info.",
-        href: cs("patient-portal-development"),
-      },
-      {
-        title: "Staff Dashboard",
-        shortDescription: "Internal dashboards that replace spreadsheets and manual tracking.",
-        href: cs("internal-dashboard-development"),
-      },
-      {
-        title: "Booking System",
-        shortDescription: "Online scheduling with confirmations, reminders, and intake.",
-        href: cs("booking-system-development"),
-      },
-      {
-        title: "Admin Panel",
-        shortDescription: "Back-office tools to manage records, orders, and team workflows.",
-        href: cs("admin-panel-development"),
-      },
-      {
-        title: "Document Upload Portal",
-        shortDescription: "Secure upload, review, and approval flows for files.",
-        href: cs("document-upload-portals"),
-      },
-      {
-        title: "Reporting Dashboard",
-        shortDescription: "One live view of pipeline, revenue, and operations.",
-        href: "/services/reporting-dashboards",
-      },
-    ],
-  },
-  {
-    group: "Platform Migrations",
-    items: migrations
-      .filter((m) => !m.slug.includes("shopify"))
-      .slice(0, 8)
-      .map((migration) => ({
-        title: migration.title,
-        shortDescription: migration.shortDescription,
-        href: `/migrations/${migration.slug}`,
-      })),
-  },
-  {
-    group: "Monthly Support & Improvements",
-    items: [
-      {
-        title: "Website Support",
-        shortDescription: "Updates, fixes, and new pages after launch.",
-        href: "/services/ai-systems-retainer",
-      },
-      {
-        title: "CRM & Automation Support",
-        shortDescription: "Keep automations running and fix what breaks.",
-        href: "/services/ai-systems-retainer",
-      },
-      {
-        title: "AI Receptionist Monitoring",
-        shortDescription: "Tune scripts, add services, and review call logs.",
-        href: "/services/ai-systems-retainer",
-      },
-      {
-        title: "Analytics & Conversion Review",
-        shortDescription: "Monthly review of what's working and what to fix next.",
-        href: "/services/ai-systems-retainer",
-      },
-    ],
-  },
-  {
-    group: "Shopify & Ecommerce (Legacy)",
-    items: [
-      {
-        title: "Shopify Development",
-        shortDescription: "Custom Shopify stores, product pages, and checkout flows.",
-        href: "/services/ai-lead-site",
-      },
-      {
-        title: "Headless Shopify Development",
-        shortDescription: "Custom Next.js storefront with Shopify checkout.",
-        href: "/migrations/shopify-to-headless-shopify",
-      },
-      {
-        title: "Klaviyo Email Flows",
-        shortDescription: "Welcome, cart recovery, and post-purchase sequences.",
-        href: "/services/crm-pipeline-automation",
-      },
-      {
-        title: "Cart Abandonment Automation",
-        shortDescription: "Timed emails and SMS to recover abandoned carts.",
-        href: "/services/crm-pipeline-automation",
-      },
-    ],
-  },
+  ...buildServiceNavGroups(),
+  legacyEcommerceNavGroup,
 ];
 
 export const industryNavItems: NavMenuItem[] = industryParents.map((parent) => ({

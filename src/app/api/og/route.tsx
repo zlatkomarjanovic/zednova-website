@@ -5,7 +5,7 @@ export const runtime = "edge";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get("title") ?? "ZedNova Studios";
+  const title = searchParams.get("title") ?? "ZedNova Studio";
   const description =
     searchParams.get("description") ??
     "Websites, custom software, automations, and AI tools for service businesses.";
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
             }}
           />
           <div style={{ fontSize: 28, letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.72 }}>
-            ZedNova Studios
+            ZedNova Studio
           </div>
         </div>
         <div>

@@ -82,7 +82,7 @@ export async function generateMetadata({
       type: "article",
       locale: "en_US",
       url: canonicalAbsolute,
-      siteName: "ZedNova Studios",
+      siteName: "ZedNova Studio",
       title: ogTitle,
       description: ogDescription,
       publishedTime: post.publishedAt,

@@ -32,7 +32,7 @@ export function ServicesPageGrids({
             Six parent offers for small businesses that want more booked calls
           </h2>
           <p className="zn-prose mt-5 max-w-2xl">
-            Start here. Each offer is a clear scope — lead-gen websites, CRM
+            Start here. Each offer is a clear scope: lead-gen websites, CRM
             follow-up, AI receptionists, portals and dashboards, platform
             migrations, or monthly support after launch.
           </p>

@@ -296,7 +296,7 @@ const PLATFORM_PROFILES: Record<string, { source: string; url: string }> = {
   },
   Google: {
     source: "Google",
-    url: "https://www.google.com/search?q=ZedNova+Studios+reviews",
+    url: "https://www.google.com/search?q=ZedNova+Studio+reviews",
   },
 };
 

@@ -29,7 +29,7 @@ export function Logo({
   return (
     <span
       role="img"
-      aria-label="ZedNova Studios"
+      aria-label="ZedNova Studio"
       className={cn("inline-flex items-center gap-2.5", ink, className)}
     >
       <ZMark

@@ -127,7 +127,7 @@ export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
     isPartOf: {
       "@type": "WebSite",
       "@id": `${SITE_ORIGIN}/#website`,
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
     },
     author: author
@@ -139,11 +139,11 @@ export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
           url: `${SITE_ORIGIN}/about`,
           ...(authorSameAs.length ? { sameAs: authorSameAs } : {}),
         }
-      : { "@type": "Organization", name: "ZedNova Studios", url: SITE_ORIGIN },
+      : { "@type": "Organization", name: "ZedNova Studio", url: SITE_ORIGIN },
     publisher: {
       "@type": "Organization",
       "@id": `${SITE_ORIGIN}/#organization`,
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
       logo: {
         "@type": "ImageObject",
@@ -249,7 +249,7 @@ export function relatedArticlesJsonLd(related: Post[], currentTitle: string) {
         ...(post.contentType ? { genre: post.contentType } : {}),
         author: {
           "@type": "Organization",
-          name: "ZedNova Studios",
+          name: "ZedNova Studio",
           url: SITE_ORIGIN,
         },
       },
@@ -465,7 +465,7 @@ export function organizationJsonLd(org?: {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${SITE_ORIGIN}/#organization`,
-    name: org?.name ?? "ZedNova Studios",
+    name: org?.name ?? "ZedNova Studio",
     legalName: org?.legalName,
     url: org?.url ?? SITE_ORIGIN,
     logo: org?.logo ?? `${SITE_ORIGIN}/icon.png`,
@@ -486,7 +486,7 @@ export function organizationJsonLd(org?: {
 }
 
 /** schema.org/WebSite — site-wide search/discovery. */
-export function websiteJsonLd(siteName = "ZedNova Studios") {
+export function websiteJsonLd(siteName = "ZedNova Studio") {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -519,7 +519,7 @@ export function serviceJsonLd(service: {
     image: service.image,
     provider: {
       "@type": "Organization",
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
     },
     areaServed: { "@type": "Country", name: "United States" },
@@ -556,7 +556,7 @@ export function serviceAtJsonLd(input: {
     image: input.image,
     provider: {
       "@type": "Organization",
-      name: input.providerName ?? "ZedNova Studios",
+      name: input.providerName ?? "ZedNova Studio",
       url: SITE_ORIGIN,
     },
     areaServed: { "@type": "Country", name: "United States" },
@@ -586,7 +586,7 @@ export function startPageJsonLd() {
     url,
     name: "Find the Right Service",
     description:
-      "Interactive guide to choose the best ZedNova Studios service for your goal and industry.",
+      "Interactive guide to choose the best ZedNova Studio service for your goal and industry.",
     inLanguage: "en-US",
     isPartOf: {
       "@type": "WebSite",
@@ -628,13 +628,13 @@ export function industryJsonLd(industry: {
     provider: {
       "@type": "Organization",
       "@id": SCHEMA_ORG_ID,
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
     },
     isPartOf: {
       "@type": "WebSite",
       "@id": SCHEMA_WEBSITE_ID,
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
     },
   };
@@ -676,13 +676,13 @@ export function caseStudyJsonLd(c: {
     author: {
       "@type": "Organization",
       "@id": SCHEMA_ORG_ID,
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
     },
     publisher: {
       "@type": "Organization",
       "@id": SCHEMA_ORG_ID,
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
       logo: {
         "@type": "ImageObject",
@@ -691,7 +691,7 @@ export function caseStudyJsonLd(c: {
     },
     creator: {
       "@type": "Organization",
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       url: SITE_ORIGIN,
     },
     inLanguage: "en-US",
@@ -741,7 +741,7 @@ export function contactPageJsonLd(email: string) {
     "@type": "ContactPage",
     "@id": `${SITE_ORIGIN}/contact`,
     url: `${SITE_ORIGIN}/contact`,
-    name: "Contact ZedNova Studios",
+    name: "Contact ZedNova Studio",
     description:
       "Tell ZedNova what you need — websites, custom software, automations, and AI tools for service businesses.",
     mainEntity: {
@@ -889,7 +889,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
     potentialAction: {
       "@type": "ReserveAction",
       target: `${SITE_ORIGIN}/contact`,
-      name: "Book a call with ZedNova Studios",
+      name: "Book a call with ZedNova Studio",
     },
   });
 
@@ -914,7 +914,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
   graph.push({
     "@type": "ProfessionalService",
     "@id": `${SITE_ORIGIN}/#professional-service`,
-    name: "ZedNova Studios",
+    name: "ZedNova Studio",
     url: SITE_ORIGIN,
     description:
       "We build websites, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
@@ -924,7 +924,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
       ? {
           hasOfferCatalog: {
             "@type": "OfferCatalog",
-            name: "ZedNova Studios services",
+            name: "ZedNova Studio services",
             itemListElement: serviceOffers.map((service, index) => ({
               "@type": "Offer",
               position: index + 1,
@@ -993,7 +993,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
   pushSection(
     homepageItemList(
       `${SITE_ORIGIN}/#stats`,
-      "ZedNova Studios at a glance",
+      "ZedNova Studio at a glance",
       (input.stats ?? []).map((stat) => ({
         name: `${stat.value} ${stat.label}`,
         type: "QuantitativeValue",
@@ -1080,7 +1080,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
     graph.push({
       "@type": "OfferCatalog",
       "@id": `${SITE_ORIGIN}/#pricing`,
-      name: "ZedNova Studios pricing",
+      name: "ZedNova Studio pricing",
       itemListElement: input.pricingPackages.map((pkg, index) => ({
         "@type": "Offer",
         position: index + 1,
@@ -1126,7 +1126,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
   if (input.recentPosts?.length) {
     const relatedList = relatedArticlesJsonLd(
       input.recentPosts,
-      "Recent blog posts from ZedNova Studios",
+      "Recent blog posts from ZedNova Studio",
     );
     if (relatedList) {
       graph.push({
@@ -1180,9 +1180,9 @@ export function aboutPageJsonLd(founder?: {
     "@type": "AboutPage",
     "@id": `${SITE_ORIGIN}/about`,
     url: `${SITE_ORIGIN}/about`,
-    name: "About ZedNova Studios",
+    name: "About ZedNova Studio",
     description:
-      "ZedNova Studios is a software and product studio led by Zlatko Marjanovic, building websites, ecommerce, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
+      "ZedNova Studio is a software and product studio led by Zlatko Marjanovic, building websites, ecommerce, custom software, automations, and AI tools for clinics, ecommerce brands, and service businesses.",
     mainEntity: founder
       ? {
           "@type": "Organization",

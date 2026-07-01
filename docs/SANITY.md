@@ -47,7 +47,7 @@ npm run build           # Production build
 |----------|---------|
 | `service` | Service pages, homepage showcase, contact form |
 | `serviceMegaMenuCard` | Mega menu, mobile nav, footer, services page |
-| `serviceNavItem` | Mega menu groups, services page grids |
+| `subService` | Sub services under each parent (homepage deliverables list, services page grids) |
 | `customSoftware` | Custom software page, nav, services page |
 | `migration` | Migrations pages, mega menu, footer |
 | `industryParent` / `industry` | Industry pages, nav, homepage carousel, contact form |

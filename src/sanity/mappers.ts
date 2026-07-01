@@ -139,8 +139,19 @@ type SanityService = {
   whatsIncluded?: SanityFeatureBullet[];
   deliverables?: string[];
   idealClients?: string[];
-  processSteps?: { step: number; title: string; description: string }[];
+  processSteps?: {
+    step: number;
+    title: string;
+    description: string;
+    deliverables?: string[];
+    estimatedTime?: string;
+    icon?: string;
+    subtext?: string;
+  }[];
   results?: string[];
+  faqEyebrow?: string;
+  faqHeadline?: string;
+  faqSubtext?: string;
   faqs?: SanityFaq[];
   pricingSignal?: string;
   pricingTiers?: SanityPriceTier[];
@@ -154,6 +165,18 @@ type SanityService = {
   tags?: string[];
   image?: string;
   order: number;
+  heroEyebrow?: string;
+  problemsHeadline?: string;
+  problems?: { title: string; subheading?: string; description?: string; icon?: string }[];
+  subServices?: { title: string; description?: string; icon?: string; span?: string }[];
+  values?: { title: string; description: string; icon?: string }[];
+  testimonials?: {
+    quote: string;
+    author: string;
+    role?: string;
+    avatar?: string;
+    rating?: number;
+  }[];
   seo?: Record<string, unknown>;
 };
 
@@ -172,8 +195,17 @@ export function mapService(doc: SanityService): Service {
     whatsIncluded: mapFeatureBullets(doc.whatsIncluded),
     deliverables: doc.deliverables ?? [],
     idealClients: doc.idealClients ?? [],
-    processSteps: doc.processSteps ?? [],
+    processSteps: (doc.processSteps ?? []).map((step) => ({
+      step: step.step,
+      title: step.title,
+      description: step.description,
+      deliverables: step.deliverables,
+      icon: step.icon,
+    })),
     results: doc.results ?? [],
+    faqEyebrow: doc.faqEyebrow,
+    faqHeadline: doc.faqHeadline,
+    faqSubtext: doc.faqSubtext,
     faqs: mapFaqs(doc.faqs),
     pricingSignal: doc.pricingSignal ?? "",
     pricingTiers: mapPriceTiers(doc.pricingTiers),
@@ -187,6 +219,28 @@ export function mapService(doc: SanityService): Service {
     tags: doc.tags ?? [],
     image: doc.image ?? "",
     order: doc.order,
+    heroEyebrow: doc.heroEyebrow,
+    problemsHeadline: doc.problemsHeadline,
+    problems: (doc.problems ?? []).map((p) => ({
+      title: p.title,
+      subheading: p.subheading,
+      description: p.description,
+      icon: p.icon,
+    })),
+    subServices: (doc.subServices ?? []).map((s) => ({
+      title: s.title,
+      description: s.description,
+      icon: s.icon,
+      span: (s.span as "1x1" | "2x1" | "1x2" | "2x2" | undefined) ?? "1x1",
+    })),
+    values: doc.values ?? [],
+    testimonials: (doc.testimonials ?? []).map((t) => ({
+      quote: t.quote,
+      author: t.author,
+      role: t.role,
+      avatar: t.avatar,
+      rating: t.rating,
+    })),
     seo: mapSeo(doc.seo),
   };
 }
@@ -486,14 +540,14 @@ export function mapMegaMenuCard(doc: {
 }
 
 export function groupServiceNavItems(
-  items: (NavMenuItem & { navGroup: string; order: number })[],
+  items: (NavMenuItem & { navGroup: string; order: number; image?: string })[],
 ): NavMenuGroup[] {
   const groups = new Map<string, NavMenuItem[]>();
   const primaryGroupOrder = [
     "Lead-Gen Websites & AI Search",
     "CRM & Follow-Up Automation",
     "AI Receptionist & Booking Automation",
-    "Custom Portals & Dashboards",
+    "Custom In-House Software for SMBs",
     "Platform Migrations",
     "Monthly Support & Improvements",
   ];
@@ -503,7 +557,7 @@ export function groupServiceNavItems(
     Websites: "Lead-Gen Websites & AI Search",
     Automation: "CRM & Follow-Up Automation",
     "AI Tools": "AI Receptionist & Booking Automation",
-    "Custom Software": "Custom Portals & Dashboards",
+    "Custom Software": "Custom In-House Software for SMBs",
     "Website Migrations": "Platform Migrations",
   };
 
@@ -514,6 +568,7 @@ export function groupServiceNavItems(
       title: item.title,
       shortDescription: item.shortDescription,
       href: item.href,
+      ...(item.image ? { image: item.image } : {}),
     });
     groups.set(groupKey, list);
   }

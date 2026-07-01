@@ -16,28 +16,28 @@ import { aboutPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { team } from "@/lib/content/team";
 
 export const metadata: Metadata = {
-  title: "About ZedNova Studios — Senior-Led Software & Website Studio",
+  title: "About ZedNova Studio — Senior-Led Software & Website Studio",
   description:
-    "ZedNova Studios is a software and product studio led by Zlatko Marjanovic, building websites, ecommerce, custom software, automations, and AI tools for US and global businesses.",
+    "ZedNova Studio is a software and product studio led by Zlatko Marjanovic, building websites, ecommerce, custom software, automations, and AI tools for US and global businesses.",
   alternates: { canonical: "/about" },
   openGraph: {
     type: "website",
     url: "/about",
-    title: "About ZedNova Studios",
+    title: "About ZedNova Studio",
     description:
       "Senior-led software and product studio building websites, ecommerce, custom software, automations, and AI tools.",
     images: [
       {
-        url: "/api/og?title=About%20ZedNova%20Studios&description=Senior-led%20software%20studio%20for%20websites%2C%20automations%2C%20and%20AI%20tools.",
+        url: "/api/og?title=About%20ZedNova%20Studio&description=Senior-led%20software%20studio%20for%20websites%2C%20automations%2C%20and%20AI%20tools.",
         width: 1200,
         height: 630,
-        alt: "About ZedNova Studios",
+        alt: "About ZedNova Studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About ZedNova Studios",
+    title: "About ZedNova Studio",
     description:
       "Senior-led software and product studio building websites, ecommerce, custom software, automations, and AI tools.",
   },
@@ -93,7 +93,7 @@ const REMOTE_STEPS = [
     step: 4,
     title: "A US entity, real accountability",
     description:
-      "ZedNova Studios is a Texas LLC. Remote delivery with the structure and accountability of a real business partner.",
+      "ZedNova Studio is a Texas LLC. Remote delivery with the structure and accountability of a real business partner.",
   },
 ];
 
@@ -141,10 +141,10 @@ export default function AboutPage() {
               />
               <Reveal delay={0.08}>
                 <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
-                  ZedNova Studios is a software and product studio led by Zlatko Marjanovic,
+                  ZedNova Studio is a software and product studio led by Zlatko Marjanovic,
                   also known as Zed M. The studio builds websites, ecommerce stores, custom
                   software, automations, and AI tools for US and global businesses. ZedNova
-                  Studios LLC is a Texas-based company with 10+ years of delivery and 120+
+                  Studio LLC is a Texas-based company with 10+ years of delivery and 120+
                   completed projects.
                 </p>
               </Reveal>
@@ -242,7 +242,7 @@ export default function AboutPage() {
             label: "Markets served",
             value: "United States and Europe (remote, async)",
           },
-          { label: "Company", value: "ZedNova Studios LLC (Texas)" },
+          { label: "Company", value: "ZedNova Studio LLC (Texas)" },
         ]}
         links={[
           { label: "Services", href: "/services" },
@@ -250,7 +250,7 @@ export default function AboutPage() {
           { label: "Tech stack", href: "/stack" },
           { label: "Contact", href: "/contact" },
         ]}
-        intro="Zlatko Marjanovic = ZedNova Studios = websites, custom software, automations, and AI tools for service businesses."
+        intro="Zlatko Marjanovic = ZedNova Studio = websites, custom software, automations, and AI tools for service businesses."
       />
 
       <DarkCTA

@@ -96,10 +96,10 @@ export const homepagePricingPackages: HomepagePricingPackage[] = [
   },
   {
     slug: "custom-portal-dashboard",
-    group: "Custom Portals & Dashboards",
+    group: "Custom In-House Software for SMBs",
     title: "Custom Portal or Dashboard",
     shortDescription:
-      "If your team is living in spreadsheets, email threads, and shared drives to run the business — this replaces all of it with one tool built specifically for you.",
+      "If your team is living in spreadsheets, email threads, and shared drives to run the business, this replaces all of it with one tool built specifically for you.",
     pricing: {
       setupAmount: "$4,999",
       setupLabel: "MVP",

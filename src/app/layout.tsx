@@ -35,36 +35,36 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "ZedNova Studios — Websites, Shopify & Automations",
-    template: "%s | ZedNova Studios",
+    default: "ZedNova Studio — Websites, Shopify & Automations",
+    template: "%s | ZedNova Studio",
   },
   description:
     "We design and build Next.js websites, Shopify stores, booking flows, CRM automations, AI chatbots, and migration projects for clinics, ecommerce brands, and small businesses.",
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "ZedNova Studios",
-    title: "ZedNova Studios — Websites, Shopify & Automations",
+    siteName: "ZedNova Studio",
+    title: "ZedNova Studio — Websites, Shopify & Automations",
     description:
       "Next.js websites, Shopify development, CRM automations, AI chatbots, and migrations for clinics, ecommerce brands, and small businesses.",
     url: "/",
     images: [
       {
-        url: "/api/og?title=ZedNova%20Studios&description=Websites%2C%20custom%20software%2C%20automations%2C%20and%20AI%20tools%20for%20service%20businesses.",
+        url: "/api/og?title=ZedNova%20Studio&description=Websites%2C%20custom%20software%2C%20automations%2C%20and%20AI%20tools%20for%20service%20businesses.",
         width: 1200,
         height: 630,
-        alt: "ZedNova Studios",
+        alt: "ZedNova Studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     creator: "@thezlatkom",
-    title: "ZedNova Studios — Websites, Shopify & Automations",
+    title: "ZedNova Studio — Websites, Shopify & Automations",
     description:
       "Next.js websites, Shopify stores, booking flows, CRM automations, and AI chatbots for clinics, ecommerce, and small business.",
     images: [
-      "/api/og?title=ZedNova%20Studios&description=Websites%2C%20custom%20software%2C%20automations%2C%20and%20AI%20tools%20for%20service%20businesses.",
+      "/api/og?title=ZedNova%20Studio&description=Websites%2C%20custom%20software%2C%20automations%2C%20and%20AI%20tools%20for%20service%20businesses.",
     ],
   },
   robots: { index: true, follow: true },
@@ -146,8 +146,8 @@ export default async function RootLayout({
 
   const schemaGraph = sitewideSchemaGraph({
     org: {
-      name: "ZedNova Studios",
-      legalName: "ZedNova Studios LLC",
+      name: "ZedNova Studio",
+      legalName: "ZedNova Studio LLC",
       url: SITE_ORIGIN,
       logo: `${SITE_ORIGIN}/icon.png`,
       description: settings.siteDescription,

@@ -1,103 +1,85 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+import { getAllServices } from "@/lib/queries";
 import {
-  getServiceMegaMenuCards,
-  getServiceNavGroups,
-} from "@/lib/queries";
+  getParentSlugForServiceSlug,
+  parentServicePath,
+} from "@/lib/content/service-routes";
 import {
   PRIMARY_SERVICE_GROUPS,
-  PRIMARY_SERVICE_TAGLINES,
-} from "@/lib/content/nav-menu";
+  PRIMARY_SERVICE_TAB_LABELS,
+} from "@/lib/content/service-groups";
+import type { Service } from "@/lib/types";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
-import {
-  ServicesFilterableGrids,
-  type ServiceGridEntry,
-} from "@/features/services/ServicesFilterableGrids";
+import { CmsImage } from "@/ui/CmsImage";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
-import type { TableGridItem } from "@/ui/BlueprintTableGrid";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Services — Lead-Gen Websites, CRM, AI Receptionists & Dashboards | ZedNova",
+  title: "Services | Lead-Gen Websites, CRM, AI Receptionists & Custom Software | ZedNova",
   description:
-    "Lead-gen websites, CRM follow-up automation, AI receptionists, custom portals and dashboards, and monthly support for small businesses that want more booked calls and less manual admin.",
+    "Lead-gen websites, CRM follow-up automation, AI receptionists, custom in-house software for SMBs, platform migrations, and monthly support for small businesses.",
   alternates: { canonical: "/services" },
   openGraph: {
     type: "website",
     url: "/services",
-    title: "Services — ZedNova Studios",
+    title: "Services | ZedNova Studio",
     description:
-      "Lead-gen websites, CRM automation, AI receptionists, portals and dashboards, and monthly support for small businesses.",
+      "Lead-gen websites, CRM automation, AI receptionists, custom software, platform migrations, and monthly support for small businesses.",
   },
   robots: { index: true, follow: true },
 };
 
-const GROUP_TAGLINES = PRIMARY_SERVICE_TAGLINES;
+type ServiceCard = {
+  slug: string;
+  parentSlug: string;
+  label: string;
+  title: string;
+  shortDescription: string;
+  image: string;
+  startingPrice?: string;
+  timeline: string;
+  icon: string;
+};
 
-const PRIMARY_NAV_GROUPS = PRIMARY_SERVICE_GROUPS;
+function pickPrimaryServices(services: Service[]): ServiceCard[] {
+  const cards: ServiceCard[] = [];
+
+  for (const group of PRIMARY_SERVICE_GROUPS) {
+    const service = services.find(
+      (s) => s.group === group && getParentSlugForServiceSlug(s.slug) != null,
+    );
+    if (!service) continue;
+
+    cards.push({
+      slug: service.slug,
+      parentSlug: getParentSlugForServiceSlug(service.slug)!,
+      label: PRIMARY_SERVICE_TAB_LABELS[group],
+      title: service.heroHeadline ?? service.title,
+      shortDescription: service.shortDescription,
+      image: service.image,
+      startingPrice: service.pricingSignal,
+      timeline: service.timeline,
+      icon: service.icon,
+    });
+  }
+
+  return cards;
+}
 
 export default async function ServicesPage() {
-  const [serviceNavGroups, serviceMegaMenuCards] = await Promise.all([
-    getServiceNavGroups(),
-    getServiceMegaMenuCards(),
-  ]);
-
-  const navGroupItems = (groupName: string): TableGridItem[] => {
-    const group = serviceNavGroups.find((g) => g.group === groupName);
-    if (!group) return [];
-    return group.items.map((item) => ({
-      href: item.href,
-      title: item.title,
-      description: item.shortDescription,
-    }));
-  };
-
-  const gridGroups = PRIMARY_NAV_GROUPS.map((groupName) => {
-    const shortLabels: Record<string, string> = {
-      "AI Receptionist & Booking Automation": "AI Receptionist & Booking",
-      "Monthly Support & Improvements": "Monthly Support",
-      "Platform Migrations": "Platform Migrations",
-    };
-
-    return {
-      id: groupName
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, ""),
-      label: shortLabels[groupName] ?? groupName,
-      headline: GROUP_TAGLINES[groupName],
-      items: navGroupItems(groupName),
-      ...(groupName === "Custom Portals & Dashboards"
-        ? { exploreHref: "/custom-software", exploreLabel: "All portals & dashboards" }
-        : {}),
-      ...(groupName === "Platform Migrations"
-        ? { exploreHref: "/migrations", exploreLabel: "All migrations" }
-        : {}),
-    };
-  });
-
-  const coreServices = serviceMegaMenuCards.map((card) => ({
-    href: card.href,
-    title: card.title,
-    description: card.shortDescription,
-    includes: card.includes,
-  }));
-
-  const allServices: ServiceGridEntry[] = [
-    ...coreServices.map((service) => ({ ...service, category: "Core" })),
-    ...gridGroups.flatMap((group) =>
-      group.items.map((item) => ({
-        ...item,
-        category: group.label,
-      })),
-    ),
-  ];
+  const allServices = await getAllServices();
+  const cards = pickPrimaryServices(allServices);
 
   return (
     <>
@@ -105,7 +87,7 @@ export default async function ServicesPage() {
         data={[
           collectionPageJsonLd({
             path: "/services",
-            name: "Services — ZedNova Studios",
+            name: "Services — ZedNova Studio",
             description:
               "Lead-gen websites, CRM automation, AI receptionists, portals and dashboards, and monthly support for small businesses.",
           }),
@@ -135,14 +117,14 @@ export default async function ServicesPage() {
                 </Reveal>
                 <TextReveal
                   as="h1"
-                  text="Websites, CRM automations, and AI receptionists for small businesses"
+                  text="Six services that fix where your business leaks leads, calls, and time"
                   className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
                 />
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
-                    Choose the part of the business that is leaking leads, calls,
-                    bookings, or admin time. We build the website, CRM automation, AI
-                    receptionist, or dashboard that fixes it.
+                    Each service targets a specific part of the funnel — the website,
+                    the follow-up, the receptionist, the portals, the migration, and
+                    the ongoing support. Pick the one leaking the most, or combine them.
                   </p>
                 </Reveal>
                 <Reveal delay={0.15}>
@@ -158,11 +140,82 @@ export default async function ServicesPage() {
               </div>
             </div>
 
-            <ServicesFilterableGrids
-              coreServices={coreServices}
-              groups={gridGroups}
-              allServices={allServices}
-            />
+            {/* Zigzag services grid */}
+            <div className="zn-container-inset py-[clamp(3rem,6vw,5rem)]">
+              <div className="flex flex-col gap-[clamp(3rem,7vw,6rem)]">
+                {cards.map((card, index) => {
+                  const reversed = index % 2 === 1;
+                  const href = parentServicePath(card.parentSlug);
+                  return (
+                    <Reveal key={card.slug} delay={index * 0.04}>
+                      <div
+                        className={cn(
+                          "grid items-center gap-8 md:gap-12 lg:grid-cols-2 lg:gap-16",
+                        )}
+                      >
+                        {/* Content */}
+                        <div className={cn(reversed ? "lg:order-2" : "lg:order-1")}>
+                          <div className="flex items-center gap-3">
+                            <span className="font-mono text-sm text-zn-text-3">
+                              0{index + 1}
+                            </span>
+                            <span className="zn-label text-zn-text-3">
+                              {card.label}
+                            </span>
+                          </div>
+                          <h2 className="mt-4 max-w-xl zn-h2 font-sans font-normal text-zn-text">
+                            {card.title}
+                          </h2>
+                          <p className="mt-5 max-w-lg text-lg leading-relaxed text-zn-text-2">
+                            {card.shortDescription}
+                          </p>
+                          <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+                            {card.startingPrice && (
+                              <div>
+                                <dt className="zn-label text-zn-text-3">Starting at</dt>
+                                <dd className="mt-1 font-mono text-sm text-zn-text">
+                                  {card.startingPrice}
+                                </dd>
+                              </div>
+                            )}
+                            <div>
+                              <dt className="zn-label text-zn-text-3">Timeline</dt>
+                              <dd className="mt-1 font-mono text-sm text-zn-text">
+                                {card.timeline}
+                              </dd>
+                            </div>
+                          </dl>
+                          <div className="mt-8">
+                            <Button href={href} withArrow>
+                              Explore {card.label}
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Image */}
+                        <div className={cn(reversed ? "lg:order-1" : "lg:order-2")}>
+                          <Link
+                            href={href}
+                            className="group relative block aspect-[4/3] w-full overflow-hidden rounded-[2px] border border-zn-border bg-zn-bg-2"
+                          >
+                            <CmsImage
+                              src={card.image}
+                              alt={card.title}
+                              fill
+                              sizes="(min-width: 1024px) 50vw, 100vw"
+                              className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
+                            />
+                            <div className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full border border-zn-border bg-zn-bg/80 backdrop-blur-sm transition-colors group-hover:bg-zn-text">
+                              <ArrowUpRight className="size-4 text-zn-text transition-colors group-hover:text-zn-bg" aria-hidden="true" />
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+                    </Reveal>
+                  );
+                })}
+              </div>
+            </div>
           </BlueprintColumnFrame>
         </div>
       </section>

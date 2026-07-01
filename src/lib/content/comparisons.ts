@@ -272,8 +272,8 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: "zednova-vs-traditional-agency",
-    title: "ZedNova Studios vs Traditional Agency",
-    h1: "ZedNova Studios vs Traditional Agency",
+    title: "ZedNova Studio vs Traditional Agency",
+    h1: "ZedNova Studio vs Traditional Agency",
     description:
       "Traditional agencies charge for overhead, layers, and meetings. ZedNova is senior-led, async, and ships the same work for less. Here is the honest comparison.",
     intro:
@@ -294,7 +294,7 @@ export const comparisons: Comparison[] = [
       ],
     },
     right: {
-      name: "ZedNova Studios",
+      name: "ZedNova Studio",
       tagline: "Senior-led, async, ships.",
       strengths: [
         "You work with the person doing the work",

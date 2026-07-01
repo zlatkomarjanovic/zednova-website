@@ -6,16 +6,16 @@ import { breadcrumbJsonLd } from "@/lib/seo";
 import { privacyPolicyDocument } from "@/lib/content/legal";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | ZedNova Studios",
+  title: "Privacy Policy | ZedNova Studio",
   description:
-    "How ZedNova Studios collects, uses, and protects personal information on zednova.studio, including contact forms, cookies, and analytics.",
+    "How ZedNova Studio collects, uses, and protects personal information on zednova.studio, including contact forms, cookies, and analytics.",
   alternates: { canonical: "/legal/privacy-policy" },
   openGraph: {
     type: "website",
     url: "/legal/privacy-policy",
-    title: "Privacy Policy | ZedNova Studios",
+    title: "Privacy Policy | ZedNova Studio",
     description:
-      "Privacy Policy for ZedNova Studios — data collection, cookies, contact forms, and your rights.",
+      "Privacy Policy for ZedNova Studio — data collection, cookies, contact forms, and your rights.",
   },
   robots: { index: true, follow: true },
 };

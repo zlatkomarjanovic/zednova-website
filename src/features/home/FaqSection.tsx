@@ -10,11 +10,26 @@ import { InsightsHomePostsSection } from "@/features/insights/InsightsHomePostsS
 import { SectionLabel } from "@/ui/SectionLabel";
 import type { FaqItem } from "@/lib/content/faq";
 import type { Post } from "@/lib/types";
+import type { ArticleFaq } from "@/lib/types";
 import { groupFaqsByCategory } from "@/lib/content/faq";
 import { cn } from "@/lib/utils";
 
 const HOMEPAGE_INSIGHTS_DESCRIPTION =
   "Practical notes on AI search, websites, Shopify, CRM automations, and software for clinics, ecommerce brands, and service businesses. The same guides we link from each article.";
+
+type FaqSectionItem = Pick<FaqItem, "question" | "answer" | "category"> & {
+  id?: string;
+};
+
+function normalizeFaqItems(faqs: FaqSectionItem[]): FaqItem[] {
+  return faqs.map((item, index) => ({
+    id: item.id ?? `faq-${index}`,
+    question: item.question,
+    answer: item.answer,
+    category: item.category,
+    order: index + 1,
+  }));
+}
 
 function FaqAccordionItem({
   item,
@@ -99,19 +114,25 @@ export function FaqSection({
   groupByCategory = false,
   filterable = false,
   embedded = false,
+  showBlueprintCrosses = true,
+  label = "FAQ",
   heading = "Answers before you reach out",
   description = "Websites, Shopify, automations, migrations, AI tools, pricing, and support. The essentials before you reach out.",
 }: {
-  faqs: FaqItem[];
+  faqs: FaqSectionItem[] | ArticleFaq[];
   recentPosts?: Post[];
   groupByCategory?: boolean;
   filterable?: boolean;
   /** Renders inside a parent blueprint frame (e.g. insights page) — no extra side borders or gap. */
   embedded?: boolean;
+  /** Plus markers on the guide-line corners. Off on service detail pages. */
+  showBlueprintCrosses?: boolean;
+  label?: string;
   heading?: string;
   description?: string;
 }) {
-  const groups = groupByCategory ? groupFaqsByCategory(faqs) : [{ category: "", items: faqs }];
+  const normalizedFaqs = normalizeFaqItems(faqs);
+  const groups = groupByCategory ? groupFaqsByCategory(normalizedFaqs) : [{ category: "", items: normalizedFaqs }];
   const categories = groups.map((group) => group.category).filter(Boolean);
   const defaultCategory = categories.includes("General")
     ? "General"
@@ -121,7 +142,7 @@ export function FaqSection({
     ? groups.filter((group) => group.category === activeCategory)
     : groups;
   const [openId, setOpenId] = useState(
-    () => visibleGroups[0]?.items[0]?.id ?? faqs[0]?.id ?? "",
+    () => visibleGroups[0]?.items[0]?.id ?? normalizedFaqs[0]?.id ?? "",
   );
 
   const handleCategoryChange = (category: string) => {
@@ -130,7 +151,7 @@ export function FaqSection({
     setOpenId(nextGroup?.items[0]?.id ?? "");
   };
 
-  if (faqs.length === 0) return null;
+  if (normalizedFaqs.length === 0) return null;
 
   const faqContent = (
     <>
@@ -142,7 +163,7 @@ export function FaqSection({
       >
         <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
           <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel withRule={false}>FAQ</SectionLabel>
+            <SectionLabel withRule={false}>{label}</SectionLabel>
             <h2 className="mt-6 max-w-[25rem] zn-h2 font-sans font-normal">
               {heading}
             </h2>
@@ -190,8 +211,12 @@ export function FaqSection({
 
       {recentPosts && recentPosts.length > 0 ? (
         <div className="relative border-t border-zn-border">
-          <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
-          <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+          {showBlueprintCrosses ? (
+            <>
+              <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+              <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+            </>
+          ) : null}
 
           <InsightsHomePostsSection
             posts={recentPosts}
@@ -234,8 +259,12 @@ export function FaqSection({
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-0 right-0 z-[2] w-px bg-zn-border"
         />
-        <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
-        <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+        {showBlueprintCrosses ? (
+          <>
+            <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+            <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+          </>
+        ) : null}
         <div className="relative z-[3]">{faqContent}</div>
       </div>
     );
@@ -252,12 +281,16 @@ export function FaqSection({
 
       <div className="zn-container-guides relative">
         <div className="relative border-x border-zn-border">
-          <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
-          <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+          {showBlueprintCrosses ? (
+            <>
+              <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
+              <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
+            </>
+          ) : null}
 
           {faqContent}
 
-          {!recentPosts?.length ? (
+          {showBlueprintCrosses && !recentPosts?.length ? (
             <>
               <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
               <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />

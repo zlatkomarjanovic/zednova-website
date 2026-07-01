@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/resources",
-    title: "Resources — ZedNova Studios",
+    title: "Resources — ZedNova Studio",
     description:
       "Free and paid resources from ZedNova — guides, PDFs, templates, freebies, lead magnets, and software products.",
   },

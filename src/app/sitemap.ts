@@ -7,6 +7,11 @@ import {
   getAllCaseStudies,
   getAllMigrations,
 } from "@/lib/queries";
+import {
+  getAllParentServiceParams,
+  getServicePublicPath,
+  parentServicePath,
+} from "@/lib/content/service-routes";
 import { comparisons } from "@/lib/content/comparisons";
 import { alternatives } from "@/lib/content/alternatives";
 import { SITE_ORIGIN } from "@/lib/site-url";
@@ -65,11 +70,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const serviceRoutes: MetadataRoute.Sitemap = services
       .filter((s) => !s.seo?.seoNoIndex && !s.seo?.seoHideFromLists)
       .map((s) => ({
-        url: `${SITE_ORIGIN}/services/${s.slug}`,
+        url: `${SITE_ORIGIN}${getServicePublicPath(s.slug)}`,
         lastModified: now,
         changeFrequency: "monthly" as const,
         priority: 0.8,
       }));
+
+    const parentServiceRoutes: MetadataRoute.Sitemap = getAllParentServiceParams().map(
+      ({ slug }) => ({
+        url: `${SITE_ORIGIN}${parentServicePath(slug)}`,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.85,
+      }),
+    );
 
     const industryRoutes: MetadataRoute.Sitemap = industries.map((slug) => ({
       url: `${SITE_ORIGIN}/industries/${slug}`,
@@ -120,6 +134,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [
       ...staticRoutes,
       ...postRoutes,
+      ...parentServiceRoutes,
       ...serviceRoutes,
       ...industryRoutes,
       ...caseStudyRoutes,

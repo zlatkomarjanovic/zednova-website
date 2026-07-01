@@ -243,13 +243,13 @@ const skincareBrands: IndustryOverride = {
     { label: "Shopify Development", href: "/services/ai-lead-site" },
     { label: "Klaviyo & CRM Flows", href: "/services/crm-pipeline-automation" },
     { label: "Cart & Ops Automation", href: "/services/ops-automation" },
-    { label: "Revenue Dashboard", href: "/services/reporting-dashboards" },
+    { label: "Revenue Dashboard", href: "/services/custom-in-house-software-for-smbs" },
   ],
   exampleProject:
     "A skincare DTC brand rebuilt product pages around a three-step routine, added quiz-led landing pages, and launched cart recovery plus post-purchase replenishment flows.",
   commonUseCase:
     "A shopper completes a skin quiz, lands on a personalized routine page, subscribes to refills, and receives usage tips that drive a second SKU purchase.",
-  relatedServices: ["ai-lead-site", "crm-pipeline-automation", "ops-automation", "reporting-dashboards"],
+  relatedServices: ["ai-lead-site", "crm-pipeline-automation", "ops-automation", "custom-in-house-software-for-smbs"],
   relatedCaseStudies: ["dental-recall-reputation"],
   relatedInsights: ["shopify-conversion-fixes-that-actually-move-revenue"],
 };

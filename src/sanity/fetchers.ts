@@ -46,7 +46,7 @@ import {
   PRODUCTS_QUERY,
   SERVICE_BY_SLUG_QUERY,
   SERVICE_MEGA_MENU_CARDS_QUERY,
-  SERVICE_NAV_ITEMS_QUERY,
+  SUB_SERVICES_QUERY,
   SERVICES_QUERY,
   SITE_SETTINGS_QUERY,
   TESTIMONIALS_QUERY,
@@ -88,16 +88,20 @@ export async function fetchServiceBySlugFromSanity(
   const doc = await sanityFetch<Parameters<typeof mapService>[0] | null>({
     query: SERVICE_BY_SLUG_QUERY,
     params: { slug },
+    revalidate: 0,
   });
   return doc ? mapService(doc) : null;
 }
 
-export async function fetchServiceNavGroupsFromSanity(): Promise<NavMenuGroup[]> {
+export async function fetchSubServicesFromSanity(): Promise<NavMenuGroup[]> {
   const items = await sanityFetch<
-    (NavMenuItem & { navGroup: string; order: number })[]
-  >({ query: SERVICE_NAV_ITEMS_QUERY });
+    (NavMenuItem & { navGroup: string; order: number; image?: string })[]
+  >({ query: SUB_SERVICES_QUERY });
   return groupServiceNavItems(items);
 }
+
+/** @deprecated Use fetchSubServicesFromSanity */
+export const fetchServiceNavGroupsFromSanity = fetchSubServicesFromSanity;
 
 export async function fetchServiceMegaMenuCardsFromSanity(): Promise<
   ServiceMegaMenuCard[]

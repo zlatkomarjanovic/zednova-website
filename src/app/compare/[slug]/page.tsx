@@ -186,7 +186,7 @@ export default async function ComparisonPage({
 
       <EntitySummary
         fields={[
-          { label: "Company", value: "ZedNova Studios" },
+          { label: "Company", value: "ZedNova Studio" },
           { label: "Comparison", value: comparison.h1 },
           {
             label: "Left option",

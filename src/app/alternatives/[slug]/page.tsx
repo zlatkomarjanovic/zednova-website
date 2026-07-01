@@ -193,7 +193,7 @@ export default async function AlternativeGuidePage({
 
       <EntitySummary
         fields={[
-          { label: "Company", value: "ZedNova Studios" },
+          { label: "Company", value: "ZedNova Studio" },
           { label: "Guide", value: guide.h1 },
           { label: "Source platform", value: guide.sourcePlatform },
           { label: "Audience", value: guide.audience },

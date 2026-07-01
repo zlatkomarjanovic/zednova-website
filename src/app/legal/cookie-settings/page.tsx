@@ -11,14 +11,14 @@ import { breadcrumbJsonLd } from "@/lib/seo";
 import { cookiePolicyIntro } from "@/lib/content/legal";
 
 export const metadata: Metadata = {
-  title: "Cookie Settings | ZedNova Studios",
+  title: "Cookie Settings | ZedNova Studio",
   description:
     "Manage cookie preferences for zednova.studio — control analytics and optional cookies. Your choices are saved on this device.",
   alternates: { canonical: "/legal/cookie-settings" },
   openGraph: {
     type: "website",
     url: "/legal/cookie-settings",
-    title: "Cookie Settings | ZedNova Studios",
+    title: "Cookie Settings | ZedNova Studio",
     description:
       "Update analytics and optional cookie preferences for zednova.studio.",
   },

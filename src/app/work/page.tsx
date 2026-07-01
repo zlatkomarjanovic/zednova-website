@@ -20,12 +20,12 @@ import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Work — Website, Software & Automation Case Studies | ZedNova",
   description:
-    "Selected projects from ZedNova Studios — marketing websites, Shopify stores, SaaS, custom software, CRM automations, and AI tools with brand, design, and development.",
+    "Selected projects from ZedNova Studio — marketing websites, Shopify stores, SaaS, custom software, CRM automations, and AI tools with brand, design, and development.",
   alternates: { canonical: "/work" },
   openGraph: {
     type: "website",
     url: "/work",
-    title: "Work — ZedNova Studios",
+    title: "Work — ZedNova Studio",
     description:
       "Marketing websites, Shopify stores, custom software, CRM automations, and AI tools.",
   },
@@ -58,9 +58,9 @@ export default async function WorkPage() {
         data={[
           collectionPageJsonLd({
             path: "/work",
-            name: "Work — ZedNova Studios Case Studies",
+            name: "Work — ZedNova Studio Case Studies",
             description:
-              "Selected website, ecommerce, custom software, automation, and AI tool builds by ZedNova Studios.",
+              "Selected website, ecommerce, custom software, automation, and AI tool builds by ZedNova Studio.",
           }),
           breadcrumbJsonLd(crumbs),
         ]}

@@ -8,10 +8,12 @@ export const services: Service[] = [
     group: "Lead-Gen Websites & AI Search",
     category: "Lead-Gen Websites",
     icon: "lead-site",
+    heroEyebrow: "Lead-Gen Websites",
+    focusKeyword: "lead gen websites",
     shortDescription:
       "A fast, clear website that explains your offer, ranks on Google, gets cited by AI search, and turns visitors into calls, forms, and bookings.",
     whatItIs:
-      "A high-converting website on Next.js or Webflow, built so Google, ChatGPT, and Perplexity can find and cite your business. Schema markup, AI-search-ready copy, Core Web Vitals performance, and a structure that turns traffic into booked calls. MVP launches with your core offer pages and lead capture live — then we iterate on content, case studies, and conversion paths based on real traffic data.",
+      "A high-converting website on Next.js or Webflow, built so Google, ChatGPT, and Perplexity can find and cite your business. Schema markup, AI-search-ready copy, Core Web Vitals performance, and a structure that turns traffic into booked calls. MVP launches with your core offer pages and lead capture live, then we iterate on content, case studies, and conversion paths based on real traffic data.",
     deliverables: [
       "Funnel mapping workshop (one primary conversion goal)",
       "Custom homepage & offer page design in Figma",
@@ -33,15 +35,166 @@ export const services: Service[] = [
       "Teams on WordPress or Webflow ready to move to a faster Next.js stack",
     ],
     processSteps: [
-      { step: 1, title: "Map the funnel", description: "We define the one action every page should drive and design backward from it." },
-      { step: 2, title: "Design the system", description: "Custom design built around your offer, not a template you fight against." },
-      { step: 3, title: "Build for speed", description: "Next.js or Webflow, tuned for Core Web Vitals and schema from the first commit." },
-      { step: 4, title: "Wire the capture", description: "Forms connect to your CRM with instant notification so no lead waits." },
+      {
+        step: 1,
+        title: "Map the funnel",
+        description:
+          "We run a working session to define the single action every page should drive (call, form, or booking), then map the page hierarchy and lead capture flow backward from that goal.",
+        icon: "discovery",
+        deliverables: [
+          "Conversion goal workshop",
+          "Page hierarchy & URL map",
+          "Lead capture flow diagram",
+          "Competitor & keyword snapshot",
+        ],
+      },
+      {
+        step: 2,
+        title: "Design the system",
+        description:
+          "We design in Figma around your offer and buyer journey, not a template. Hero, proof, offer clarity, and one primary CTA per page before a single line of code is written.",
+        icon: "design",
+        deliverables: [
+          "Homepage & core offer page designs",
+          "Mobile-first layout specs",
+          "Copy framework for hero, services, FAQ",
+          "Design review & revision round",
+        ],
+      },
+      {
+        step: 3,
+        title: "Build for speed & AI search",
+        description:
+          "We build on Next.js or Webflow with Core Web Vitals, schema markup, llms.txt, and direct-answer blocks from the first commit, so Google and AI engines can find and cite your business on launch day.",
+        icon: "build",
+        deliverables: [
+          "Production-ready Next.js or Webflow build",
+          "Schema markup (Organization, Service, FAQ)",
+          "llms.txt & AI-citation page structure",
+          "Core Web Vitals pass on launch pages",
+          "GA4 + conversion event tracking",
+        ],
+      },
+      {
+        step: 4,
+        title: "Wire the capture & launch",
+        description:
+          "Forms connect to your CRM with instant notification. We run a staging review, cut over to production, and stay on for 30 days to fix anything that breaks and iterate on what the data shows.",
+        icon: "launch",
+        deliverables: [
+          "CRM-connected forms with instant lead alerts",
+          "Staging review & client sign-off",
+          "Production cutover",
+          "30-day post-launch fixes & iteration sprint",
+          "Phase-2 roadmap (blog, case studies, programmatic SEO)",
+        ],
+      },
     ],
     results: [
       "Sub-2-second load on mobile, the make-or-break for paid traffic",
       "Every lead in your CRM within seconds of submitting",
       "Pages structured to be cited in Google AI Overviews, ChatGPT, and Perplexity",
+    ],
+    problems: [],
+    subServices: [
+      {
+        title: "AI-Cited Lead Gen Site",
+        description:
+          "A fast Next.js or Webflow site structured with schema, llms.txt, and direct-answer blocks so ChatGPT and Perplexity can cite your business.",
+        icon: "lead-site",
+        span: "2x1",
+      },
+      {
+        title: "Website Redesign",
+        description:
+          "Rebuild around your offer and buyer journey, not a template. Hero, proof, offer clarity, and one primary CTA per page.",
+        icon: "design",
+      },
+      {
+        title: "Landing & Offer Pages",
+        description:
+          "Focused pages for consults, promotions, and lead capture. Each with a single conversion goal and CRM-connected forms.",
+        icon: "build",
+      },
+      {
+        title: "Service & Local SEO Pages",
+        description:
+          "Location and service-line pages that rank for the terms buyers search, with schema markup and internal linking built in.",
+        icon: "seo",
+      },
+      {
+        title: "SEO & AEO Content",
+        description:
+          "Blog posts, FAQ blocks, and direct-answer content structured to rank on Google and get cited in AI Overviews.",
+        icon: "seo",
+        span: "1x2",
+      },
+      {
+        title: "Schema, FAQ & llms.txt Setup",
+        description:
+          "Technical setup so Google and AI tools parse your offer: Organization, Service, FAQ schema, and llms.txt on every launch.",
+        icon: "build",
+      },
+      {
+        title: "Performance Cleanup",
+        description:
+          "Fix slow loads, Core Web Vitals failures, and broken conversion paths on existing sites before or after a redesign.",
+        icon: "launch",
+        span: "2x1",
+      },
+    ],
+    values: [
+      { title: "Speed over decoration", description: "We ship the page that loads in under two seconds, not the one that wins a design award and bounces visitors." },
+      { title: "One goal per page", description: "Every page drives one action. We design backward from the conversion, not forward from a template." },
+      { title: "Citation-ready structure", description: "Schema, llms.txt, and direct-answer blocks ship on day one so AI engines can actually find you." },
+      { title: "Measure what books calls", description: "We track form fills, calls, and booked appointments, not vanity traffic." },
+    ],
+    testimonials: [
+      {
+        quote: "Our new site loads instantly and finally shows up in ChatGPT answers. We're booking consults from it every week.",
+        author: "Dr. Lena Park",
+        role: "Owner, Park Dental Wellness",
+        rating: 5,
+      },
+      {
+        quote: "The redesign paid for itself in 30 days. Leads land in our CRM instantly instead of sitting in an inbox.",
+        author: "Marcus Webb",
+        role: "Founder, Webb HVAC",
+        rating: 5,
+      },
+    ],
+    relatedServices: ["crm-pipeline-automation", "seo-aeo-content", "ai-receptionist"],
+    faqs: [
+      {
+        question: "How long does a lead-gen website take to launch?",
+        answer:
+          "Most projects launch in 7–10 business days for an MVP with core offer pages, lead capture, and CRM connection live. Larger sites with multiple service lines or programmatic SEO pages typically take 2–4 weeks.",
+      },
+      {
+        question: "Do you build on Next.js or Webflow?",
+        answer:
+          "Both. We recommend Next.js + Sanity when you want maximum speed, AI-search structure, and a content system that scales. Webflow works well for simpler sites or teams already on that stack.",
+      },
+      {
+        question: "Will my site show up in ChatGPT and Google AI Overviews?",
+        answer:
+          "We structure every page with schema markup, direct-answer blocks, FAQ schema, and llms.txt so AI engines can parse and cite your business. Rankings and citations depend on your market, but the technical foundation is built in from day one.",
+      },
+      {
+        question: "What happens to my leads after someone fills out a form?",
+        answer:
+          "Every form submission creates a CRM contact instantly and sends a mobile alert to your team. We wire HubSpot, GoHighLevel, or Salesforce depending on what you already use.",
+      },
+      {
+        question: "Can you redesign my existing site without losing SEO?",
+        answer:
+          "Yes. We map every existing URL, set up 301 redirects, preserve schema and content equity, and launch on a faster stack without dropping rankings.",
+      },
+      {
+        question: "What's included in the starting price?",
+        answer:
+          "Funnel mapping, custom design, MVP build on Next.js or Webflow, schema & AI-search setup, CRM-connected forms, GA4 tracking, staging review, production launch, and 30 days of post-launch fixes.",
+      },
     ],
     pricingSignal: "From $3,500 setup · Optional support from $349/mo",
     timeline: "Typical launch: 7–10 business days",
@@ -56,10 +209,12 @@ export const services: Service[] = [
     group: "AI Receptionist & Booking Automation",
     category: "AI Receptionist",
     icon: "receptionist",
+    heroEyebrow: "AI Receptionist",
+    focusKeyword: "ai receptionist",
     shortDescription:
       "AI voice and chat assistants that answer common questions, capture lead details, book appointments, text back missed calls, and hand off to a person when needed.",
     whatItIs:
-      "A 24/7 AI voice or chat system that answers inbound inquiries, qualifies leads, books appointments, and sends instant text-back to missed calls before they call your competitor. Built on Vapi, Retell, or Twilio with CRM logging, call summaries, and human escalation rules. MVP goes live with your top call scenarios handled — then we tune scripts, add services, and expand hours based on real call logs.",
+      "A 24/7 AI voice or chat system that answers inbound inquiries, qualifies leads, books appointments, and sends instant text-back to missed calls before they call your competitor. Built on Vapi, Retell, or Twilio with CRM logging, call summaries, and human escalation rules. MVP goes live with your top call scenarios handled, then we tune scripts, add services, and expand hours based on real call logs.",
     deliverables: [
       "Call & chat intake script workshop",
       "AI voice or chat agent for top 5 call types",
@@ -80,10 +235,10 @@ export const services: Service[] = [
       "Legal, real estate, and professional services where the first callback wins",
     ],
     processSteps: [
-      { step: 1, title: "Script the intake", description: "We map the questions that qualify a lead and the answers that book the job." },
-      { step: 2, title: "Build the agent", description: "Voice or chat agent configured to your services, hours, and tone." },
-      { step: 3, title: "Wire missed-call text-back", description: "Every unanswered call triggers an instant SMS within seconds." },
-      { step: 4, title: "Set escalation rules", description: "High-value or complex calls route to a human, the rest book themselves." },
+      { step: 1, title: "Script the intake", description: "We map the questions that qualify a lead and the answers that book the job.", icon: "script", deliverables: ["Call scenario workshop", "Qualification question script", "Booking flow diagram", "Tone and escalation guidelines"] },
+      { step: 2, title: "Build the agent", description: "Voice or chat agent configured to your services, hours, and tone.", icon: "agent", deliverables: ["AI voice or chat agent for top call types", "Calendar integration", "CRM contact creation", "Test call suite"] },
+      { step: 3, title: "Wire missed-call text-back", description: "Every unanswered call triggers an instant SMS within seconds.", icon: "wire", deliverables: ["Missed-call SMS within 60 seconds", "After-hours behavior rules", "Owner notification on high-intent leads", "Message templates for approval"] },
+      { step: 4, title: "Set escalation rules", description: "High-value or complex calls route to a human, the rest book themselves.", icon: "escalate", deliverables: ["Human escalation triggers", "Call summary logged to CRM", "48-hour post-launch script tuning", "Performance review checklist"] },
     ],
     results: [
       "Missed calls answered by SMS in under 60 seconds",
@@ -103,6 +258,8 @@ export const services: Service[] = [
     group: "CRM & Follow-Up Automation",
     category: "CRM & Follow-Up",
     icon: "crm",
+    heroEyebrow: "CRM & Follow-Up",
+    focusKeyword: "crm follow-up automation",
     shortDescription:
       "Every form, call, booking request, and message gets captured, assigned, followed up with, and tracked until it becomes a booked call or customer.",
     whatItIs:
@@ -127,10 +284,10 @@ export const services: Service[] = [
       "Teams whose follow-up is inconsistent or manual",
     ],
     processSteps: [
-      { step: 1, title: "Audit the pipeline", description: "We map how a lead actually moves from first touch to closed deal." },
-      { step: 2, title: "Architect the stages", description: "Clear stages with entry and exit criteria, no ambiguity about what's next." },
-      { step: 3, title: "Automate the busywork", description: "Tasks, follow-ups, and reminders fire automatically as deals progress." },
-      { step: 4, title: "Train the team", description: "We document the workflow and train your team so adoption sticks." },
+      { step: 1, title: "Audit the pipeline", description: "We map how a lead actually moves from first touch to closed deal.", icon: "audit", deliverables: ["Pipeline audit workshop", "Lead source inventory", "Current workflow map", "Gap analysis report"] },
+      { step: 2, title: "Architect the stages", description: "Clear stages with entry and exit criteria, no ambiguity about what's next.", icon: "architect", deliverables: ["Deal stage definitions", "Entry and exit criteria per stage", "Ownership and routing rules", "Pipeline dashboard wireframe"] },
+      { step: 3, title: "Automate the busywork", description: "Tasks, follow-ups, and reminders fire automatically as deals progress.", icon: "automate", deliverables: ["Form-to-CRM connection", "Email and SMS follow-up sequences", "Missed-lead re-engagement flows", "Owner notification automations"] },
+      { step: 4, title: "Train the team", description: "We document the workflow and train your team so adoption sticks.", icon: "train", deliverables: ["Workflow documentation", "Team training session", "30-day adoption check-in", "Workflow tweak sprint"] },
     ],
     results: [
       "Every lead captured, assigned, and followed up with automatically",
@@ -328,28 +485,30 @@ export const services: Service[] = [
     order: 14,
   },
   {
-    slug: "reporting-dashboards",
-    number: "—",
-    title: "Reporting Dashboards",
-    group: "Custom Portals & Dashboards",
-    category: "Portals & Dashboards",
+    slug: "custom-in-house-software-for-smbs",
+    number: "04",
+    title: "Custom In-House Software for SMBs",
+    group: "Custom In-House Software for SMBs",
+    category: "Custom In-House Software",
     icon: "dashboards",
-    shortDescription: "One live view of your whole business. No more tab-switching.",
+    heroEyebrow: "Custom In-House Software",
+    focusKeyword: "custom in-house software for SMBs",
+    shortDescription: "Portals, dashboards, and internal tools built for teams outgrowing spreadsheets.",
     whatItIs:
-      "One live view of your business: CRM pipeline, ad spend and ROAS, website traffic, revenue, and operational KPIs, pulled from your existing tools into a single dashboard. No more tab-switching.",
+      "Custom client portals, staff dashboards, booking systems, and internal workflow tools built for SMB teams that have outgrown spreadsheets and email threads. We connect your existing stack, design views your team actually uses, and ship software you own.",
     deliverables: [
-      "KPI workshop — pick the 6–8 numbers that matter",
-      "Source system audit (CRM, ads, analytics, billing)",
-      "Data pipeline for MVP metrics (daily refresh)",
-      "Executive dashboard (Looker Studio or custom Next.js)",
-      "Pipeline & revenue views for sales leadership",
-      "Marketing spend & ROAS view (if ads running)",
-      "Mobile-friendly dashboard link for owners",
-      "Threshold alerts on key metric drops",
-      "Data quality checks & missing-data flags",
-      "Dashboard walkthrough recording",
-      "Phase-2 metrics added after MVP validation",
-      "Optional monthly metric additions on retainer",
+      "Discovery workshop to map workflows and data sources",
+      "Source system audit (CRM, billing, scheduling, analytics)",
+      "Role-based access and permissions model",
+      "Client or patient portal with secure login",
+      "Staff dashboard with live KPIs and task views",
+      "Booking system with confirmations and CRM logging",
+      "Document upload and approval flows",
+      "Reporting dashboard pulled from your existing tools",
+      "Mobile-friendly access for owners and field teams",
+      "Admin panel for records, orders, and team workflows",
+      "Handoff documentation and team training",
+      "Optional monthly improvements on retainer",
     ],
     idealClients: [
       "Owners pulling numbers from five tools to see one picture",
@@ -357,10 +516,10 @@ export const services: Service[] = [
       "Operators who want one screen that tells the truth",
     ],
     processSteps: [
-      { step: 1, title: "Audit the sources", description: "We inventory every tool that holds a number you care about." },
-      { step: 2, title: "Build the pipeline", description: "Data flows automatically from each source into one place." },
-      { step: 3, title: "Design the view", description: "The metrics that drive decisions, front and center, nothing else." },
-      { step: 4, title: "Refresh and alert", description: "Daily refresh plus alerts when a number crosses a threshold." },
+      { step: 1, title: "Audit the sources", description: "We inventory every tool that holds a number you care about.", icon: "audit", deliverables: ["KPI workshop", "Source system audit", "Data quality review", "MVP metric shortlist"] },
+      { step: 2, title: "Build the pipeline", description: "Data flows automatically from each source into one place.", icon: "pipeline", deliverables: ["Data pipeline for MVP metrics", "Daily refresh schedule", "Error handling and alerts", "Source connection documentation"] },
+      { step: 3, title: "Design the view", description: "The metrics that drive decisions, front and center, nothing else.", icon: "dashboard", deliverables: ["Executive dashboard design", "Mobile-friendly owner view", "Role-based access setup", "Dashboard walkthrough recording"] },
+      { step: 4, title: "Refresh and alert", description: "Daily refresh plus alerts when a number crosses a threshold.", icon: "refresh", deliverables: ["Threshold alerts on key metrics", "Missing-data flags", "Phase-2 metrics roadmap", "Handoff and training session"] },
     ],
     results: [
       "One screen for pipeline, spend, traffic, and revenue",
@@ -371,7 +530,7 @@ export const services: Service[] = [
     timeline: "MVP in 2–3 business days · iterate & maintain after launch",
     image:
       "https://images.unsplash.com/photo-1543286386-713bdd548da4?q=80&w=1600&auto=format&fit=crop",
-    order: 15,
+    order: 4,
   },
   {
     slug: "review-reputation",
@@ -426,10 +585,12 @@ export const services: Service[] = [
     group: "Monthly Support & Improvements",
     category: "Monthly Support",
     icon: "retainer",
+    heroEyebrow: "Monthly Support",
+    focusKeyword: "monthly website support",
     shortDescription:
       "Monthly support for the website, CRM automations, AI receptionist, dashboards, forms, integrations, and reporting after launch.",
     whatItIs:
-      "A monthly partnership after launch. We maintain, iterate, and expand your website, CRM automations, AI receptionist, dashboards, and integrations — adding new automations, improving agents, A/B testing sequences, and staying ahead of what's breaking or underperforming.",
+      "A monthly partnership after launch. We maintain, iterate, and expand your website, CRM automations, AI receptionist, dashboards, and integrations, adding new automations, improving agents, A/B testing sequences, and staying ahead of what's breaking or underperforming.",
     deliverables: [
       "Monthly strategy call (priorities & backlog)",
       "Unlimited small fixes on live automations (<2hr each)",
@@ -450,10 +611,10 @@ export const services: Service[] = [
       "Teams who'd rather expand the stack than babysit it",
     ],
     processSteps: [
-      { step: 1, title: "Monthly strategy", description: "We meet to prioritize what moves the number this month." },
-      { step: 2, title: "Ship one build", description: "At least one new automation or agent improvement every month." },
-      { step: 3, title: "Fix and tune", description: "Unlimited small fixes and A/B tests on what's already live." },
-      { step: 4, title: "Report and repeat", description: "Performance reporting so you always know what the stack returns." },
+      { step: 1, title: "Monthly strategy", description: "We meet to prioritize what moves the number this month.", icon: "strategy", deliverables: ["Monthly strategy call", "Prioritized backlog", "90-day improvement roadmap", "Success metrics agreed"] },
+      { step: 2, title: "Ship one build", description: "At least one new automation or agent improvement every month.", icon: "ship", deliverables: ["One shipped improvement", "Release notes", "Before and after metric snapshot", "Documentation update"] },
+      { step: 3, title: "Fix and tune", description: "Unlimited small fixes and A/B tests on what's already live.", icon: "tune", deliverables: ["Break/fix within 24-hour SLA", "Small fixes under 2 hours each", "A/B test on one live asset", "Monitoring alert review"] },
+      { step: 4, title: "Report and repeat", description: "Performance reporting so you always know what the stack returns.", icon: "report", deliverables: ["Monthly performance report", "Workflow health summary", "Next month build recommendation", "Stack audit notes"] },
     ],
     results: [
       "A stack that improves every month instead of decaying",
@@ -464,6 +625,53 @@ export const services: Service[] = [
     timeline: "Monthly partnership after launch",
     image:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop",
+    order: 6,
+  },
+  {
+    slug: "platform-migrations",
+    number: "06",
+    title: "Platform Migrations",
+    group: "Platform Migrations",
+    category: "Platform Migrations",
+    icon: "migration",
+    heroEyebrow: "Platform Migrations",
+    focusKeyword: "platform migrations",
+    shortDescription:
+      "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity without losing SEO or content.",
+    whatItIs:
+      "We migrate your site from a legacy CMS to Next.js + Sanity without losing SEO equity, redirects, or content. URL structure preserved, redirects in place, content restructured for the new stack, and a launch plan that keeps Google rankings stable.",
+    deliverables: [
+      "Current site audit & redirect map",
+      "Content inventory and restructuring plan",
+      "Next.js + Sanity build (core pages)",
+      "URL redirect strategy (301s preserved)",
+      "Schema markup carried over or upgraded",
+      "llms.txt & AI-citation structure",
+      "Staging review against current site",
+      "Production cutover with zero downtime",
+      "Post-launch SEO ranking check",
+      "30-day post-migration fixes sprint",
+    ],
+    idealClients: [
+      "Teams stuck on a slow CMS that caps their SEO",
+      "Businesses outgrowing Webflow or WordPress",
+      "Companies that need a faster, more flexible stack",
+    ],
+    processSteps: [
+      { step: 1, title: "Audit the current site", description: "We inventory URLs, content, redirects, and SEO equity before anything moves.", icon: "audit", deliverables: ["URL and content inventory", "SEO equity audit", "Redirect requirement list", "Migration risk report"] },
+      { step: 2, title: "Map the redirects", description: "Every URL gets a destination so no ranking or backlink is lost.", icon: "architect", deliverables: ["301 redirect map", "Legacy URL mapping", "Content restructuring plan", "Stakeholder sign-off"] },
+      { step: 3, title: "Rebuild on Next.js", description: "Core pages rebuilt on a faster stack with Sanity for content.", icon: "build", deliverables: ["Next.js + Sanity core pages", "Schema markup migration", "llms.txt and AI structure", "Staging environment for review"] },
+      { step: 4, title: "Cutover safely", description: "Production switch with zero downtime and a ranking check after launch.", icon: "launch", deliverables: ["Zero-downtime cutover plan", "Production launch", "Post-launch ranking check", "30-day fix sprint"] },
+    ],
+    results: [
+      "No rankings or backlinks lost in the move",
+      "A faster, more flexible stack your team can actually edit",
+      "Content structured for AI citation from day one",
+    ],
+    pricingSignal: "From $3,500 setup · Scope depends on page count",
+    timeline: "Typical migration: 2–4 weeks",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop",
     order: 5,
   },
 ];

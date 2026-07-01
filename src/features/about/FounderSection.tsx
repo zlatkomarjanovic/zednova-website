@@ -80,7 +80,7 @@ export async function FounderSection() {
                 <figure className="relative aspect-[4/5] w-full overflow-hidden rounded-[10px] border border-zn-border-dk bg-zn-dark-2">
                   <Image
                     src={founder.avatar ?? FOUNDER_IMAGE}
-                    alt={`${founder.name}, founder of ZedNova Studios`}
+                    alt={`${founder.name}, founder of ZedNova Studio`}
                     fill
                     unoptimized
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -100,7 +100,7 @@ export async function FounderSection() {
                   className="mt-6 font-sans text-4xl font-normal text-zn-inv lg:text-5xl"
                 />
                 <p className="mt-2 text-sm text-zn-inv-2">
-                  Founder, ZedNova Studios{" "}
+                  Founder, ZedNova Studio{" "}
                   <span className="text-zn-inv-2/80">(Zed is short for Zlatko, my full name)</span>
                 </p>
                 <div className="mt-6 space-y-4 leading-relaxed text-zn-inv-2">

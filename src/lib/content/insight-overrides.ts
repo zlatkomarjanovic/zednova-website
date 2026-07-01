@@ -189,7 +189,7 @@ const shopifyOverride: InsightOverride = {
     { type: "h2", text: "Fix 7: Funnel metric tracking" },
     {
       type: "p",
-      text: "Track add-to-cart, begin checkout, and purchase in Shopify Analytics plus server-side events to ad platforms. If you cannot report revenue per session weekly, pausing scale is cheaper than guessing. [Ops and reporting dashboards](/services/reporting-dashboards) help when data lives across Shopify, Klaviyo, and ad accounts.",
+      text: "Track add-to-cart, begin checkout, and purchase in Shopify Analytics plus server-side events to ad platforms. If you cannot report revenue per session weekly, pausing scale is cheaper than guessing. [Ops and reporting dashboards](/services/custom-in-house-software-for-smbs) help when data lives across Shopify, Klaviyo, and ad accounts.",
     },
     {
       type: "quote",

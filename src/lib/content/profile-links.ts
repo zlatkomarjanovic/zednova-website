@@ -13,7 +13,7 @@ export type ProfileLinkDefinition = {
 export const PROFILE_LINK_DEFINITIONS: ProfileLinkDefinition[] = [
   {
     key: "goodfirms",
-    label: "ZedNova Studios on GoodFirms",
+    label: "ZedNova Studio on GoodFirms",
     logoSrc: "/images/logos/directories/goodfirms.png",
     logoClassName: "h-6 w-6 object-contain",
   },

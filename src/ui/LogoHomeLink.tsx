@@ -33,7 +33,7 @@ export function LogoHomeLink({
   return (
     <Link
       href="/"
-      aria-label="ZedNova Studios home"
+      aria-label="ZedNova Studio home"
       className={className}
       onClick={handleClick}
     >

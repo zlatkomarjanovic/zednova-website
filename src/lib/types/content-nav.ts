@@ -7,6 +7,7 @@ export type NavMenuItem = {
   title: string;
   shortDescription: string;
   href: string;
+  image?: string;
   icon?: {
     src: string;
     alt: string;
@@ -68,7 +69,7 @@ export type Migration = {
 /**
  * Top-level landing pages for mega menu columns.
  * Migrations live under Services → Lead-Gen Websites, not as a top-level item.
- * Custom Software lives under Services → Portals & Dashboards.
+ * Custom Software lives under Services → Custom In-House Software for SMBs.
  */
 export const megaMenuNavLinks = {
   services: { label: "Services", href: "/services" },
@@ -83,10 +84,10 @@ export const megaMenuNavLinks = {
  */
 export const PARENT_SERVICE_SLUGS = [
   "lead-gen-websites",
-  "crm-automation",
-  "ai-receptionist",
-  "portals-dashboards",
-  "platform-migrations",
+  "crm-follow-up-automation",
+  "ai-receptionist-booking",
+  "custom-in-house-software-for-smbs",
+  "migrations",
   "monthly-support",
 ] as const;
 
@@ -97,31 +98,31 @@ export const PARENT_SERVICE_LABELS: Record<
   "lead-gen-websites": {
     label: "Lead-Gen Websites & AI Search",
     shortLabel: "Lead-Gen Websites",
-    href: "/services/ai-lead-site",
+    href: "/services/lead-gen-websites",
   },
-  "crm-automation": {
+  "crm-follow-up-automation": {
     label: "CRM & Follow-Up Automation",
     shortLabel: "CRM & Follow-Up",
-    href: "/services/crm-pipeline-automation",
+    href: "/services/crm-follow-up-automation",
   },
-  "ai-receptionist": {
+  "ai-receptionist-booking": {
     label: "AI Receptionist & Booking Automation",
     shortLabel: "AI Receptionist",
-    href: "/services/ai-receptionist",
+    href: "/services/ai-receptionist-booking",
   },
-  "portals-dashboards": {
-    label: "Custom Portals & Dashboards",
-    shortLabel: "Portals & Dashboards",
-    href: "/custom-software",
+  "custom-in-house-software-for-smbs": {
+    label: "Custom In-House Software for SMBs",
+    shortLabel: "Custom Software",
+    href: "/services/custom-in-house-software-for-smbs",
   },
-  "platform-migrations": {
+  "migrations": {
     label: "Platform Migrations",
-    shortLabel: "Platform Migrations",
-    href: "/migrations",
+    shortLabel: "Migrations",
+    href: "/services/migrations",
   },
   "monthly-support": {
     label: "Monthly Support & Improvements",
     shortLabel: "Monthly Support",
-    href: "/services/ai-systems-retainer",
+    href: "/services/monthly-support",
   },
 };

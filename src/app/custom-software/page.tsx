@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/custom-software",
-    title: "Custom Software — ZedNova Studios",
+    title: "Custom Software — ZedNova Studio",
     description:
       "Web apps, client portals, staff dashboards, booking systems, and admin panels.",
   },

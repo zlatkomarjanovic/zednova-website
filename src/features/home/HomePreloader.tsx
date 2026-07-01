@@ -66,7 +66,7 @@ export function HomePreloader() {
     <motion.div
       role="status"
       aria-live="polite"
-      aria-label="Loading ZedNova Studios"
+      aria-label="Loading ZedNova Studio"
       className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-zn-dark text-zn-inv"
       initial={{ opacity: 1 }}
       animate={{ opacity: exiting ? 0 : 1 }}

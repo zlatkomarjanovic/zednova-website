@@ -18,15 +18,15 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Sitemap — All Pages | ZedNova Studios",
+  title: "Sitemap — All Pages | ZedNova Studio",
   description:
-    "Full human-readable sitemap of ZedNova Studios — services, industries, case studies, custom software, migrations, and insights.",
+    "Full human-readable sitemap of ZedNova Studio — services, industries, case studies, custom software, migrations, and insights.",
   alternates: { canonical: "/sitemap" },
   openGraph: {
     type: "website",
     url: "/sitemap",
-    title: "Sitemap — ZedNova Studios",
-    description: "Full human-readable sitemap of ZedNova Studios.",
+    title: "Sitemap — ZedNova Studio",
+    description: "Full human-readable sitemap of ZedNova Studio.",
   },
   robots: { index: true, follow: true },
 };
@@ -149,7 +149,7 @@ export default async function SitemapPage() {
         data={[
           collectionPageJsonLd({
             path: "/sitemap",
-            name: "Sitemap — ZedNova Studios",
+            name: "Sitemap — ZedNova Studio",
             description:
               "Human-readable sitemap listing all services, industries, case studies, custom software, migrations, and insights.",
           }),
@@ -169,7 +169,7 @@ export default async function SitemapPage() {
                 </Reveal>
                 <TextReveal
                   as="h1"
-                  text="Every page on ZedNova Studios, in one place."
+                  text="Every page on ZedNova Studio, in one place."
                   className="mt-6 max-w-4xl zn-h1 font-sans font-normal text-zn-text"
                 />
                 <Reveal delay={0.1}>

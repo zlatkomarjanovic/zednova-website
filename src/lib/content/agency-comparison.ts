@@ -27,7 +27,7 @@ export const agencyComparison = {
     category: "Category",
     agencies: "Traditional agencies",
     otherAi: "Other AI agencies",
-    zednova: "ZedNova Studios",
+    zednova: "ZedNova Studio",
   },
   sections: [
     {

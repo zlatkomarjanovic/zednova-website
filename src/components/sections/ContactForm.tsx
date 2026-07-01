@@ -255,7 +255,7 @@ export function ContactForm({
       </div>
 
       <p className="mt-4 max-w-xl text-xs leading-relaxed text-zn-text-3">
-        By submitting this form, you agree that ZedNova Studios may contact you about
+        By submitting this form, you agree that ZedNova Studio may contact you about
         your inquiry. We do not sell your information. See our{" "}
         <a href="/legal/privacy-policy" className="text-zn-text underline-offset-2 hover:underline">
           privacy policy

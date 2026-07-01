@@ -35,7 +35,7 @@ export const serviceMegaMenuCard = defineType({
           { title: "Lead-Gen Websites & AI Search", value: "lead-gen-websites" },
           { title: "CRM & Follow-Up Automation", value: "crm-automation" },
           { title: "AI Receptionist & Booking Automation", value: "ai-receptionist" },
-          { title: "Custom Portals & Dashboards", value: "portals-dashboards" },
+          { title: "Custom In-House Software for SMBs", value: "portals-dashboards" },
           { title: "Platform Migrations", value: "platform-migrations" },
           { title: "Monthly Support & Improvements", value: "monthly-support" },
         ],

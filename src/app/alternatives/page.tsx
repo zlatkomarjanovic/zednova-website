@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/alternatives",
-    title: "Alternatives — ZedNova Studios",
+    title: "Alternatives — ZedNova Studio",
     description: "Platform alternative guides for clinics, ecommerce, and service businesses.",
   },
   robots: { index: true, follow: true },
@@ -36,7 +36,7 @@ export default function AlternativesIndexPage() {
         data={[
           collectionPageJsonLd({
             path: "/alternatives",
-            name: "Alternatives — ZedNova Studios",
+            name: "Alternatives — ZedNova Studio",
             description:
               "Platform alternative guides for clinics, ecommerce, and service businesses.",
           }),

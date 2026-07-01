@@ -62,7 +62,7 @@ const SERVICE_LABELS: Record<string, string> = {
   "review-reputation": "Review & Reputation",
   "ops-automation": "Ops Automation",
   "seo-aeo-content": "SEO & AEO Content",
-  "reporting-dashboards": "Reporting Dashboards",
+  "custom-in-house-software-for-smbs": "Custom In-House Software",
   "outbound-lead-gen": "Outbound Lead Gen",
 };
 
@@ -97,7 +97,7 @@ export function recommendServices(
     return [
       rec("ai-lead-site", "Shopify development, product pages, and conversion-focused storefronts."),
       rec("crm-pipeline-automation", "Klaviyo flows, cart recovery, and post-purchase retention."),
-      rec("reporting-dashboards", "Revenue and funnel visibility so you know what to fix next."),
+      rec("custom-in-house-software-for-smbs", "Client portals and internal tools so your team stops living in spreadsheets."),
     ];
   }
 

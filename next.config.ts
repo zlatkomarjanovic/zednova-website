@@ -1,5 +1,54 @@
 import type { NextConfig } from "next";
 
+/** Flat /services/:slug → new parent service pages (kept for legacy SEO). */
+const SERVICE_NESTED_REDIRECTS = [
+  {
+    source: "/services/ai-lead-site",
+    destination: "/services/lead-gen-websites",
+    permanent: true,
+  },
+  {
+    source: "/services/seo-aeo-content",
+    destination: "/services/lead-gen-websites",
+    permanent: true,
+  },
+  {
+    source: "/services/crm-pipeline-automation",
+    destination: "/services/crm-follow-up-automation",
+    permanent: true,
+  },
+  {
+    source: "/services/review-reputation",
+    destination: "/services/crm-follow-up-automation",
+    permanent: true,
+  },
+  {
+    source: "/services/reporting-dashboards",
+    destination: "/services/custom-in-house-software-for-smbs",
+    permanent: true,
+  },
+  {
+    source: "/services/portals-and-dashboards",
+    destination: "/services/custom-in-house-software-for-smbs",
+    permanent: true,
+  },
+  {
+    source: "/services/ai-receptionist",
+    destination: "/services/ai-receptionist-booking",
+    permanent: true,
+  },
+  {
+    source: "/services/ai-systems-retainer",
+    destination: "/services/monthly-support",
+    permanent: true,
+  },
+  {
+    source: "/services/platform-migrations",
+    destination: "/services/migrations",
+    permanent: true,
+  },
+] as const;
+
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowSVG: true,
@@ -50,6 +99,7 @@ const nextConfig: NextConfig = {
       { source: "/industries/wellness-clinics", destination: "/industries/wellness-practices", permanent: true },
       { source: "/industries/supplement-brands", destination: "/industries/supplement-style-wellness-brands", permanent: true },
       { source: "/industries/dtc-brands", destination: "/industries/small-dtc-brands", permanent: true },
+      ...SERVICE_NESTED_REDIRECTS,
     ];
   },
 };

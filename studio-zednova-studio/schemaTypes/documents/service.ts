@@ -1,17 +1,19 @@
 import { defineField, defineType } from "sanity";
 
-const serviceGroups = [
-  { title: "Lead-Gen Websites & AI Search", value: "Lead-Gen Websites & AI Search" },
-  { title: "CRM & Follow-Up Automation", value: "CRM & Follow-Up Automation" },
-  { title: "AI Receptionist & Booking Automation", value: "AI Receptionist & Booking Automation" },
-  { title: "Custom Portals & Dashboards", value: "Custom Portals & Dashboards" },
-  { title: "Platform Migrations", value: "Platform Migrations" },
-  { title: "Monthly Support & Improvements", value: "Monthly Support & Improvements" },
-  { title: "Websites (legacy)", value: "Websites" },
-  { title: "Automation (legacy)", value: "Automation" },
-  { title: "AI Tools (legacy)", value: "AI Tools" },
-  { title: "Ecommerce (legacy)", value: "Ecommerce" },
-];
+const serviceGroupValues = [
+  "Lead-Gen Websites & AI Search",
+  "CRM & Follow-Up Automation",
+  "AI Receptionist & Booking Automation",
+  "Custom In-House Software for SMBs",
+  "Platform Migrations",
+  "Monthly Support & Improvements",
+  "Websites",
+  "Automation",
+  "AI Tools",
+  "Ecommerce",
+] as const;
+
+const serviceGroups = serviceGroupValues.map((value) => ({ title: value, value }));
 
 export const service = defineType({
   name: "service",
@@ -37,26 +39,27 @@ export const service = defineType({
     defineField({
       name: "group",
       type: "string",
+      title: "Group",
       group: "content",
-      options: { list: serviceGroups },
-      validation: (r) => r.required(),
+      options: { list: serviceGroups, layout: "dropdown" },
+      validation: (r) => r.required().custom((value) => {
+        if (!value) return true;
+        return serviceGroupValues.includes(value as (typeof serviceGroupValues)[number])
+          ? true
+          : `Use one of the parent service groups (${serviceGroupValues.slice(0, 6).join(", ")}, …)`;
+      }),
     }),
     defineField({ name: "category", type: "string", title: "Category tag", group: "content" }),
     defineField({ name: "icon", type: "string", title: "Icon key", group: "content" }),
     defineField({
       name: "parentService",
-      type: "string",
+      type: "reference",
       title: "Parent service",
       group: "content",
+      to: [{ type: "serviceMegaMenuCard" }],
       options: {
-        list: [
-          { title: "Lead-Gen Websites & AI Search", value: "lead-gen-websites" },
-          { title: "CRM & Follow-Up Automation", value: "crm-automation" },
-          { title: "AI Receptionist & Booking Automation", value: "ai-receptionist" },
-          { title: "Custom Portals & Dashboards", value: "portals-dashboards" },
-          { title: "Platform Migrations", value: "platform-migrations" },
-          { title: "Monthly Support & Improvements", value: "monthly-support" },
-        ],
+        disableNew: true,
+        filter: "isLegacy != true",
       },
     }),
     defineField({
@@ -126,6 +129,20 @@ export const service = defineType({
     defineField({ name: "heroHeadline", type: "string", group: "content" }),
     defineField({ name: "heroSubhead", type: "text", rows: 3, group: "content" }),
     defineField({
+      name: "heroEyebrow",
+      type: "string",
+      title: "Hero eyebrow (focus keyword)",
+      group: "content",
+      description: "Short focus-keyword label shown above the H1 on the service detail page.",
+    }),
+    defineField({
+      name: "focusKeyword",
+      type: "string",
+      title: "Focus keyword",
+      group: "seo",
+      description: "Primary SEO keyword for this service page.",
+    }),
+    defineField({
       name: "coverImage",
       type: "image",
       group: "content",
@@ -146,6 +163,44 @@ export const service = defineType({
       title: "What's included",
       group: "deliverables",
       of: [{ type: "featureBullet" }],
+    }),
+    defineField({
+      name: "problemsHeadline",
+      type: "string",
+      title: "Problems section headline",
+      group: "deliverables",
+      description: "Headline above the 6-reasons grid, e.g. “6 reasons your site is losing deals right now”.",
+    }),
+    defineField({
+      name: "problems",
+      type: "array",
+      title: "Problems this service solves (6 cards)",
+      group: "deliverables",
+      description: "Six business-outcome problems shown as the '6 reasons' grid on the service page.",
+      of: [{ type: "painPoint" }],
+    }),
+    defineField({
+      name: "subServices",
+      type: "array",
+      title: "Sub-services (bento grid)",
+      group: "deliverables",
+      description: "Sub-service cards shown in the bento grid on the service detail page.",
+      of: [{ type: "subServiceCard" }],
+    }),
+    defineField({
+      name: "values",
+      type: "array",
+      title: "Agency values",
+      group: "process",
+      description: "Values showcased on the service detail page.",
+      of: [{ type: "valueItem" }],
+    }),
+    defineField({
+      name: "testimonials",
+      type: "array",
+      title: "Testimonials",
+      group: "relationships",
+      of: [{ type: "testimonialItem" }],
     }),
     defineField({
       name: "deliverables",
@@ -205,9 +260,29 @@ export const service = defineType({
       of: [{ type: "string" }],
     }),
     defineField({
+      name: "faqEyebrow",
+      type: "string",
+      title: "FAQ eyebrow (left column)",
+      group: "process",
+      description: "Small label above the FAQ headline, e.g. “FAQ”.",
+    }),
+    defineField({
+      name: "faqHeadline",
+      type: "string",
+      title: "FAQ headline",
+      group: "process",
+    }),
+    defineField({
+      name: "faqSubtext",
+      type: "text",
+      title: "FAQ subtext",
+      rows: 3,
+      group: "process",
+    }),
+    defineField({
       name: "faqs",
       type: "array",
-      title: "FAQ",
+      title: "FAQ items (right column)",
       group: "process",
       of: [{ type: "articleFaq" }],
     }),

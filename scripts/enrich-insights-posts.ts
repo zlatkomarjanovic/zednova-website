@@ -374,7 +374,7 @@ async function main() {
     const coverImage = imageField(
       assetId,
       post.title,
-      `Cover illustration for “${post.title}” — ${post.category} insight by ZedNova Studios.`,
+      `Cover illustration for “${post.title}” — ${post.category} insight by ZedNova Studio.`,
     );
 
     await client

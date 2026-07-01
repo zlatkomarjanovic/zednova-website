@@ -17,16 +17,16 @@ import {
 } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "Contact ZedNova Studios — Start a Website, Software, or Automation Project",
+  title: "Contact ZedNova Studio — Start a Website, Software, or Automation Project",
   description:
     "Tell ZedNova what you need. Websites, custom software, CRM automations, and AI tools for clinics, ecommerce brands, and service businesses. Reply within 24 hours.",
   alternates: { canonical: "/contact" },
   openGraph: {
     type: "website",
     url: "/contact",
-    title: "Contact ZedNova Studios",
+    title: "Contact ZedNova Studio",
     description:
-      "Start a website, custom software, automation, or AI tool project with ZedNova Studios.",
+      "Start a website, custom software, automation, or AI tool project with ZedNova Studio.",
   },
   robots: { index: true, follow: true },
 };

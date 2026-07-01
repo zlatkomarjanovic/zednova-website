@@ -16,21 +16,21 @@ export type LegalDocument = {
 
 const LAST_UPDATED = "June 25, 2026";
 const CONTACT_EMAIL = "hello@zednova.com";
-const LEGAL_ENTITY = "ZedNova Studios LLC";
+const LEGAL_ENTITY = "ZedNova Studio LLC";
 
 export const privacyPolicyDocument: LegalDocument = {
   slug: "privacy-policy",
   shortTitle: "Privacy Policy",
   title: "Privacy Policy",
   intro:
-    "This Privacy Policy explains how ZedNova Studios collects, uses, and protects personal information when you visit zednova.studio, contact us, or use our services.",
+    "This Privacy Policy explains how ZedNova Studio collects, uses, and protects personal information when you visit zednova.studio, contact us, or use our services.",
   lastUpdated: LAST_UPDATED,
   sections: [
     {
       id: "who-we-are",
       title: "Who we are",
       paragraphs: [
-        `${LEGAL_ENTITY} ("ZedNova Studios," "we," "us") operates the website at zednova.studio and provides website, software, automation, and AI-related services to businesses.`,
+        `${LEGAL_ENTITY} ("ZedNova Studio," "we," "us") operates the website at zednova.studio and provides website, software, automation, and AI-related services to businesses.`,
         `Privacy questions can be sent to ${CONTACT_EMAIL}.`,
       ],
     },
@@ -152,7 +152,7 @@ export const termsDocument: LegalDocument = {
       id: "content",
       title: "Site content",
       paragraphs: [
-        "Text, visuals, logos, case studies, and other materials on this site are owned by ZedNova Studios or used with permission. You may view and share links to pages for personal or business evaluation. You may not copy, republish, or commercially exploit site content without written permission.",
+        "Text, visuals, logos, case studies, and other materials on this site are owned by ZedNova Studio or used with permission. You may view and share links to pages for personal or business evaluation. You may not copy, republish, or commercially exploit site content without written permission.",
       ],
     },
     {
@@ -180,7 +180,7 @@ export const termsDocument: LegalDocument = {
       id: "limitation",
       title: "Limitation of liability",
       paragraphs: [
-        "To the fullest extent permitted by law, ZedNova Studios will not be liable for indirect, incidental, special, consequential, or punitive damages arising from your use of the public website. Our total liability for website-related claims is limited to one hundred U.S. dollars (USD $100) unless a higher amount is required by law.",
+        "To the fullest extent permitted by law, ZedNova Studio will not be liable for indirect, incidental, special, consequential, or punitive damages arising from your use of the public website. Our total liability for website-related claims is limited to one hundred U.S. dollars (USD $100) unless a higher amount is required by law.",
       ],
     },
     {

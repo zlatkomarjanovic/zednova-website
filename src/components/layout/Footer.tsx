@@ -7,6 +7,7 @@ import { FooterProfileLinks } from "@/components/layout/FooterProfileLinks";
 import { FooterNavLink } from "@/components/layout/FooterNavLink";
 import type { HomepageIndustry } from "@/lib/content/homepage-industries";
 import { featuredHomepageIndustries as staticFeaturedHomepageIndustries } from "@/lib/content/homepage-industries";
+import { getServicePublicPath } from "@/lib/content/service-routes";
 import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -20,11 +21,11 @@ const COMPANY_LINKS = [
 ] as const;
 
 const SECONDARY_TECH_LINKS = [
-  { label: "Platform Migrations", href: "/migrations" },
-  { label: "Sanity CMS", href: "/services/ai-lead-site" },
-  { label: "Next.js Websites", href: "/services/ai-lead-site" },
-  { label: "Automation Integrations", href: "/services/crm-pipeline-automation" },
-  { label: "AI Search / AEO", href: "/services/seo-aeo-content" },
+  { label: "Platform Migrations", href: "/services/migrations" },
+  { label: "Sanity CMS", href: getServicePublicPath("ai-lead-site") },
+  { label: "Next.js Websites", href: getServicePublicPath("ai-lead-site") },
+  { label: "Automation Integrations", href: getServicePublicPath("crm-pipeline-automation") },
+  { label: "AI Search / AEO", href: getServicePublicPath("seo-aeo-content") },
 ] as const;
 
 const LEGACY_LINKS = [
@@ -139,7 +140,7 @@ export function Footer({
               <FooterNavLink href="/industries" label="All industries" />
             </FooterCol>
 
-            <FooterCol title="Portals & Dashboards">
+            <FooterCol title="Custom Software">
               {customSoftwareNavItems.slice(0, 6).map((item) => (
                 <FooterNavLink
                   key={item.href + item.title}
@@ -183,7 +184,7 @@ export function Footer({
         </div>
 
         <div className="zn-container-inset flex flex-col gap-4 py-10 pb-12 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between lg:py-12 lg:pb-14">
-          <p>© {year} ZedNova Studios. Texas LLC. All rights reserved.</p>
+          <p>© {year} ZedNova Studio. Texas LLC. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link
               href="/legal/privacy-policy"

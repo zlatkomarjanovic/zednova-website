@@ -16,12 +16,12 @@ import {
 export const metadata: Metadata = {
   title: "Service Areas — Remote Delivery for US Businesses | ZedNova",
   description:
-    "ZedNova Studios works remotely with US-based clinics, ecommerce brands, professional services firms, and service businesses. Async delivery with clear milestones and direct builder communication.",
+    "ZedNova Studio works remotely with US-based clinics, ecommerce brands, professional services firms, and service businesses. Async delivery with clear milestones and direct builder communication.",
   alternates: { canonical: "/service-areas" },
   openGraph: {
     type: "website",
     url: "/service-areas",
-    title: "Service Areas — ZedNova Studios",
+    title: "Service Areas — ZedNova Studio",
     description:
       "Remote delivery for US clinics, ecommerce brands, professional services, and service businesses.",
   },
@@ -32,7 +32,7 @@ const REGIONS = [
   {
     name: "United States",
     description:
-      "Primary market. ZedNova Studios LLC is a Texas-based company serving clients across all 50 states with remote, async delivery.",
+      "Primary market. ZedNova Studio LLC is a Texas-based company serving clients across all 50 states with remote, async delivery.",
   },
   {
     name: "Texas",
@@ -73,14 +73,14 @@ export default function ServiceAreasPage() {
         data={[
           collectionPageJsonLd({
             path: "/service-areas",
-            name: "Service Areas — ZedNova Studios",
+            name: "Service Areas — ZedNova Studio",
             description:
               "Remote delivery for US-based clinics, ecommerce brands, professional services, and service businesses.",
           }),
           breadcrumbJsonLd(crumbs),
           organizationJsonLd({
             description:
-              "ZedNova Studios works remotely with US-based clinics, ecommerce brands, professional services firms, and service businesses.",
+              "ZedNova Studio works remotely with US-based clinics, ecommerce brands, professional services firms, and service businesses.",
           }),
         ]}
       />
@@ -102,7 +102,7 @@ export default function ServiceAreasPage() {
                 />
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
-                    ZedNova Studios works remotely with US-based clinics,
+                    ZedNova Studio works remotely with US-based clinics,
                     ecommerce brands, professional services firms, and service
                     businesses. Projects are delivered async with clear
                     milestones, recorded walkthroughs, and direct builder
@@ -158,8 +158,8 @@ export default function ServiceAreasPage() {
               No account managers — you talk to the person doing the work.
             </li>
             <li className="text-sm leading-relaxed text-zn-text-2">
-              <strong className="text-zn-text">US entity.</strong> ZedNova
-              Studios LLC, Texas. Real accountability, real partner.
+              <strong className="text-zn-text">US entity.</strong> ZedNova Studio
+              LLC, Texas. Real accountability, real partner.
             </li>
           </ul>
         </div>

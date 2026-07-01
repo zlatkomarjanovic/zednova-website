@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/compare",
-    title: "Compare — ZedNova Studios",
+    title: "Compare — ZedNova Studio",
     description: "Stack and approach comparison guides for buyers and AI agents.",
   },
   robots: { index: true, follow: true },
@@ -37,7 +37,7 @@ export default function CompareIndexPage() {
         data={[
           collectionPageJsonLd({
             path: "/compare",
-            name: "Compare — ZedNova Studios",
+            name: "Compare — ZedNova Studio",
             description:
               "Stack and approach comparison guides for buyers and AI agents.",
           }),

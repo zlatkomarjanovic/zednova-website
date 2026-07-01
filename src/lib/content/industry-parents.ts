@@ -114,7 +114,7 @@ export const industryParents: IndustryParent[] = [
     popularServices: [
       { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
       { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
-      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
+      { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
       { label: "Custom Software", href: "/custom-software" },
     ],
     exampleProject:
@@ -150,7 +150,7 @@ export const industryParents: IndustryParent[] = [
       { label: "Shopify Development", href: "/services/ai-lead-site" },
       { label: "Klaviyo Email Flows", href: "/services/crm-pipeline-automation" },
       { label: "Cart Abandonment Automation", href: "/services/crm-pipeline-automation" },
-      { label: "Ecommerce Dashboard", href: "/services/reporting-dashboards" },
+      { label: "Ecommerce Dashboard", href: "/services/custom-in-house-software-for-smbs" },
     ],
     exampleProject:
       "A Shopify rebuild with stronger product pages, cart recovery emails, post-purchase education, and a revenue dashboard.",
@@ -184,7 +184,7 @@ export const industryParents: IndustryParent[] = [
     popularServices: [
       { label: "Next.js Development", href: "/services/ai-lead-site" },
       { label: "Custom AI Agents", href: "/services/ai-receptionist" },
-      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
+      { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
       { label: "Platform Migrations", href: "/migrations" },
     ],
     exampleProject:
@@ -220,7 +220,7 @@ export const industryParents: IndustryParent[] = [
       { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
       { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
       { label: "Client Portal", href: "/custom-software" },
-      { label: "Reporting Dashboards", href: "/services/reporting-dashboards" },
+      { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
     ],
     exampleProject:
       "A property site with listing search, location landing pages, lead forms, and automated follow-up for every inquiry.",

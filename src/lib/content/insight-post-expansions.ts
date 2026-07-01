@@ -832,7 +832,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Share the dashboard with whoever owns media spend. When checkout completion drops while sessions rise, the answer is almost never more audience — it is funnel repair. [Reporting dashboards](/services/reporting-dashboards) help when Shopify, Klaviyo, and ad data live in separate tabs.",
+        text: "Share the dashboard with whoever owns media spend. When checkout completion drops while sessions rise, the answer is almost never more audience — it is funnel repair. [Reporting dashboards](/services/custom-in-house-software-for-smbs) help when Shopify, Klaviyo, and ad data live in separate tabs.",
       },
       {
         type: "h2",

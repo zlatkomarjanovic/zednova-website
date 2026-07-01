@@ -11,6 +11,7 @@ import {
   getPlatformTestimonials,
   getPortfolioProjects,
   getServiceNavGroups,
+  getServiceMegaMenuCards,
   getSiteSettings,
 } from "@/lib/queries";
 import { homepageFaqs } from "@/lib/content/faq";
@@ -74,7 +75,7 @@ const PILLARS = [
 ];
 
 export default async function HomePage() {
-  const [featuredCases, allCases, services, customSoftware, migrations, serviceNavGroups, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
+  const [featuredCases, allCases, services, customSoftware, migrations, serviceNavGroups, serviceMegaMenuCards, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllCaseStudies(),
@@ -82,6 +83,7 @@ export default async function HomePage() {
       getAllCustomSoftware(),
       getAllMigrations(),
       getServiceNavGroups(),
+      getServiceMegaMenuCards(),
       getPlatformTestimonials(),
       getSiteSettings(),
       getHomepageIndustries(),
@@ -280,6 +282,7 @@ export default async function HomePage() {
         <div className="zn-container-guides relative">
           <ServicesTabShowcase
             serviceNavGroups={serviceNavGroups}
+            serviceMegaMenuCards={serviceMegaMenuCards}
             services={services}
             customSoftware={customSoftware}
             migrations={migrations}

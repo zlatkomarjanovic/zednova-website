@@ -66,6 +66,25 @@ const INLINE_ARTICLE_FAQS_FIELD = /* groq */ `
   }
 `;
 
+const SERVICE_PROBLEMS_FIELD = /* groq */ `
+  "problems": problems[]{
+    title,
+    subheading,
+    description,
+    "icon": icon.asset->url
+  }
+`;
+
+const SERVICE_PROCESS_STEPS_FIELD = /* groq */ `
+  "processSteps": processSteps[]{
+    step,
+    title,
+    description,
+    deliverables,
+    "icon": icon.asset->url
+  }
+`;
+
 export const POST_LIST_FIELDS = /* groq */ `{
   _id,
   title,
@@ -311,11 +330,26 @@ export const SERVICES_QUERY = /* groq */ `
     whatItIs,
     heroHeadline,
     heroSubhead,
+    heroEyebrow,
     deliverables,
     whatsIncluded,
     idealClients,
-    processSteps,
+    ${SERVICE_PROCESS_STEPS_FIELD},
+    problemsHeadline,
+    ${SERVICE_PROBLEMS_FIELD},
+    subServices,
+    values,
+    "testimonials": testimonials[]{
+      quote,
+      author,
+      role,
+      "avatar": avatar.asset->url,
+      rating
+    },
     results,
+    faqEyebrow,
+    faqHeadline,
+    faqSubtext,
     ${INLINE_ARTICLE_FAQS_FIELD},
     pricingSignal,
     pricingTiers,
@@ -345,11 +379,26 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
     whatItIs,
     heroHeadline,
     heroSubhead,
+    heroEyebrow,
     deliverables,
     whatsIncluded,
     idealClients,
-    processSteps,
+    ${SERVICE_PROCESS_STEPS_FIELD},
+    problemsHeadline,
+    ${SERVICE_PROBLEMS_FIELD},
+    subServices,
+    values,
+    "testimonials": testimonials[]{
+      quote,
+      author,
+      role,
+      "avatar": avatar.asset->url,
+      rating
+    },
     results,
+    faqEyebrow,
+    faqHeadline,
+    faqSubtext,
     ${INLINE_ARTICLE_FAQS_FIELD},
     pricingSignal,
     pricingTiers,
@@ -367,13 +416,14 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
   }
 `;
 
-export const SERVICE_NAV_ITEMS_QUERY = /* groq */ `
-  *[_type == "serviceNavItem"] | order(order asc) {
+export const SUB_SERVICES_QUERY = /* groq */ `
+  *[_type in ["subService", "serviceNavItem"]] | order(order asc) {
     title,
     shortDescription,
     href,
     navGroup,
-    order
+    order,
+    "image": image.asset->url
   }
 `;
 
