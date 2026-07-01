@@ -26,7 +26,7 @@ export const industryParents: IndustryParent[] = [
     shortDescription:
       "We build clinic websites, booking flows, patient intake, AI receptionists, CRM automation, and follow-up systems for healthcare and wellness businesses.",
     industryOverview:
-      "Healthcare is one of the strongest long-term markets for websites, SEO, booking automation, CRM workflows, and AI-assisted operations — especially for smaller clinics still behind on digital.",
+      "Healthcare is one of the strongest long-term markets for websites, SEO, booking automation, CRM workflows, and AI-assisted operations, especially for smaller clinics still behind on digital.",
     painPoints: [
       {
         title: "Calls go unanswered during patient hours",
@@ -42,10 +42,10 @@ export const industryParents: IndustryParent[] = [
       },
     ],
     popularServices: [
-      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
-      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
-      { label: "AI Receptionist", href: "/services/ai-receptionist" },
-      { label: "Review Automation", href: "/services/review-reputation" },
+      { label: "Lead-Gen Website", href: "/services/lead-gen-websites" },
+      { label: "CRM Automation", href: "/services/crm-follow-up-automation" },
+      { label: "AI Receptionist", href: "/services/ai-receptionist-booking" },
+      { label: "Review Automation", href: "/services/crm-follow-up-automation" },
     ],
     exampleProject:
       "A clinic website with online booking, digital intake, SMS reminders, AI phone coverage, and automated review requests.",
@@ -70,17 +70,17 @@ export const industryParents: IndustryParent[] = [
     shortDescription:
       "We build landing pages, booking flows, client portals, payment systems, onboarding forms, and automations for fitness and coaching businesses.",
     industryOverview:
-      "Fitness and coaching businesses need fast landing pages, reliable booking, and lightweight client systems — without enterprise software complexity.",
+      "Fitness and coaching businesses need fast landing pages, reliable booking, and lightweight client systems, without enterprise software complexity.",
     painPoints: [
       { title: "Leads live in DMs", description: "Inquiries get lost and booking happens through back-and-forth messages." },
       { title: "Onboarding is manual", description: "New clients repeat the same intake steps every time." },
       { title: "No client portal or progress tracking", description: "Check-ins, programs, and payments are scattered across tools." },
     ],
     popularServices: [
-      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
+      { label: "Lead-Gen Website", href: "/services/lead-gen-websites" },
       { label: "Client Portal", href: "/custom-software" },
-      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
-      { label: "Booking Automation", href: "/services/crm-pipeline-automation" },
+      { label: "CRM Automation", href: "/services/crm-follow-up-automation" },
+      { label: "Booking Automation", href: "/services/crm-follow-up-automation" },
     ],
     exampleProject:
       "A coach site with program landing pages, Stripe checkout, client onboarding forms, and automated check-in reminders.",
@@ -105,15 +105,15 @@ export const industryParents: IndustryParent[] = [
     shortDescription:
       "We build authority websites, case studies, lead capture, CRM automation, proposal workflows, and dashboards for professional services firms.",
     industryOverview:
-      "Professional services firms win on trust and speed — they need polished websites, clear positioning, and automated lead handling to convert inbound interest.",
+      "Professional services firms win on trust and speed, they need polished websites, clear positioning, and automated lead handling to convert inbound interest.",
     painPoints: [
       { title: "Website undersells expertise", description: "Prospects cannot quickly understand services, proof, or next steps." },
       { title: "Lead follow-up is inconsistent", description: "Inquiries sit in inboxes until someone manually responds." },
       { title: "Proposals and onboarding are slow", description: "Every new client requires repetitive manual setup." },
     ],
     popularServices: [
-      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
-      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
+      { label: "Lead-Gen Website", href: "/services/lead-gen-websites" },
+      { label: "CRM Automation", href: "/services/crm-follow-up-automation" },
       { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
       { label: "Custom Software", href: "/custom-software" },
     ],
@@ -140,16 +140,16 @@ export const industryParents: IndustryParent[] = [
     shortDescription:
       "We build Shopify stores, product pages, landing pages, Klaviyo flows, cart recovery, and analytics dashboards for ecommerce and DTC brands.",
     industryOverview:
-      "Ecommerce and DTC brands need more than a theme — they need conversion-focused product pages, retention email, automation, and clear analytics to grow profitably.",
+      "Ecommerce and DTC brands need more than a theme, they need conversion-focused product pages, retention email, automation, and clear analytics to grow profitably.",
     painPoints: [
       { title: "High CAC, flat repeat rate", description: "Each new customer costs more while second orders stay low." },
       { title: "Abandoned carts without recovery", description: "Shoppers leave and no structured sequence brings them back." },
       { title: "Product pages fail to explain the offer", description: "Traffic arrives but the page does not close the sale fast enough." },
     ],
     popularServices: [
-      { label: "Shopify Development", href: "/services/ai-lead-site" },
-      { label: "Klaviyo Email Flows", href: "/services/crm-pipeline-automation" },
-      { label: "Cart Abandonment Automation", href: "/services/crm-pipeline-automation" },
+      { label: "Shopify Development", href: "/services/lead-gen-websites" },
+      { label: "Klaviyo Email Flows", href: "/services/crm-follow-up-automation" },
+      { label: "Cart Abandonment Automation", href: "/services/crm-follow-up-automation" },
       { label: "Ecommerce Dashboard", href: "/services/custom-in-house-software-for-smbs" },
     ],
     exampleProject:
@@ -175,17 +175,17 @@ export const industryParents: IndustryParent[] = [
     shortDescription:
       "We build Next.js marketing sites, product pages, documentation layouts, dashboards, and AI-assisted workflows for B2B SaaS and technology companies.",
     industryOverview:
-      "B2B SaaS and technology companies need credible, fast marketing sites and product storytelling — plus lightweight dashboards and internal tools as they scale.",
+      "B2B SaaS and technology companies need credible, fast marketing sites and product storytelling, plus lightweight dashboards and internal tools as they scale.",
     painPoints: [
       { title: "Marketing site lags the product", description: "The product is strong but the website does not explain it clearly." },
       { title: "No unified lead or demo flow", description: "Inbound interest is handled manually across tools." },
       { title: "Internal reporting is fragmented", description: "Teams patch together spreadsheets instead of a simple dashboard." },
     ],
     popularServices: [
-      { label: "Next.js Development", href: "/services/ai-lead-site" },
-      { label: "Custom AI Agents", href: "/services/ai-receptionist" },
+      { label: "Next.js Development", href: "/services/lead-gen-websites" },
+      { label: "Custom AI Agents", href: "/services/ai-receptionist-booking" },
       { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
-      { label: "Platform Migrations", href: "/migrations" },
+      { label: "Platform Migrations", href: "/services/migrations" },
     ],
     exampleProject:
       "A SaaS marketing site on Next.js with product pages, demo booking, and a lightweight admin dashboard for leads.",
@@ -210,15 +210,15 @@ export const industryParents: IndustryParent[] = [
     shortDescription:
       "We build listing pages, location pages, lead capture, client portals, dashboards, and CRM automation for real estate and property companies.",
     industryOverview:
-      "Real estate and property businesses need strong listing presentation, fast lead capture, and automated follow-up — plus portals and dashboards for clients and internal teams.",
+      "Real estate and property businesses need strong listing presentation, fast lead capture, and automated follow-up, plus portals and dashboards for clients and internal teams.",
     painPoints: [
       { title: "Leads come from too many channels", description: "Inquiries from portals, calls, and forms are not tracked in one place." },
       { title: "Listing pages under-convert", description: "Properties look generic and do not capture interest quickly." },
       { title: "Follow-up depends on agents", description: "Speed-to-lead varies and hot inquiries go cold." },
     ],
     popularServices: [
-      { label: "Lead-Gen Website", href: "/services/ai-lead-site" },
-      { label: "CRM Automation", href: "/services/crm-pipeline-automation" },
+      { label: "Lead-Gen Website", href: "/services/lead-gen-websites" },
+      { label: "CRM Automation", href: "/services/crm-follow-up-automation" },
       { label: "Client Portal", href: "/custom-software" },
       { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
     ],

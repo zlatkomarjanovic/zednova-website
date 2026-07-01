@@ -9,7 +9,7 @@ import { migrations as staticMigrations } from "@/lib/content/migrations";
 import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
 import { industryParents } from "@/lib/content/industry-parents";
 import { industries } from "@/lib/content/industry-subs";
-import { applyIndustryDetailOverride } from "@/lib/content/industry-detail-overrides";
+import { mergeIndustryParentWithStaticFallback } from "@/lib/content/industry-detail-fallbacks";
 import { caseStudies as staticCaseStudies } from "@/lib/content/case-studies";
 import { portfolioProjects as staticPortfolioProjects } from "@/lib/content/portfolio-projects";
 import { SERVICE_PORTFOLIO_HIGHLIGHTS } from "@/lib/content/service-portfolio-highlights";
@@ -122,9 +122,10 @@ async function fromSanity<T>(
 /* ----------------------------- Services ----------------------------- */
 
 export async function getAllServices(): Promise<Service[]> {
-  return fromSanity("service", fetchAllServicesFromSanity, () =>
+  const services = await fromSanity("service", fetchAllServicesFromSanity, () =>
     [...staticServices].sort(byOrder),
   );
+  return services.map(mergeServiceWithStaticFallback);
 }
 
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
@@ -509,7 +510,9 @@ export async function labelForIndustry(value: string): Promise<string> {
 }
 
 export async function getIndustryParents(): Promise<IndustryParent[]> {
-  const staticSorted = [...industryParents].sort(byOrder);
+  const staticSorted = [...industryParents]
+    .sort(byOrder)
+    .map(mergeIndustryParentWithStaticFallback);
   if (!isSanityConfigured()) return staticSorted;
   try {
     const has = await sanityHasContent("industryParent");
@@ -517,7 +520,9 @@ export async function getIndustryParents(): Promise<IndustryParent[]> {
     const fromCms = await fetchIndustryParentsFromSanity();
     const cmsBySlug = new Map(fromCms.map((parent) => [parent.slug, parent]));
     return staticSorted.map((parent) =>
-      mergeIndustryRecord(parent, cmsBySlug.get(parent.slug)),
+      mergeIndustryParentWithStaticFallback(
+        mergeIndustryRecord(parent, cmsBySlug.get(parent.slug)),
+      ),
     );
   } catch {
     return staticSorted;
@@ -565,15 +570,22 @@ export async function getIndustryParentBySlug(
   slug: string,
 ): Promise<IndustryParent | null> {
   const staticParent = industryParents.find((p) => p.slug === slug) ?? null;
-  if (!isSanityConfigured()) return staticParent;
+  if (!isSanityConfigured()) {
+    return staticParent ? mergeIndustryParentWithStaticFallback(staticParent) : null;
+  }
   try {
     const has = await sanityHasContent("industryParent");
-    if (!has) return staticParent;
+    if (!has) {
+      return staticParent ? mergeIndustryParentWithStaticFallback(staticParent) : null;
+    }
     const cms = await fetchIndustryParentBySlugFromSanity(slug);
-    if (!staticParent) return cms;
-    return mergeIndustryRecord(staticParent, cms);
+    if (!staticParent && !cms) return null;
+    if (!staticParent) return mergeIndustryParentWithStaticFallback(cms!);
+    return mergeIndustryParentWithStaticFallback(
+      mergeIndustryRecord(staticParent, cms),
+    );
   } catch {
-    return staticParent;
+    return staticParent ? mergeIndustryParentWithStaticFallback(staticParent) : null;
   }
 }
 
@@ -581,20 +593,15 @@ export async function getIndustryBySlug(
   slug: string,
 ): Promise<Industry | null> {
   const staticIndustry = industries.find((i) => i.slug === slug) ?? null;
-  if (!isSanityConfigured()) {
-    return staticIndustry ? applyIndustryDetailOverride(staticIndustry) : null;
-  }
+  if (!isSanityConfigured()) return staticIndustry;
   try {
     const has = await sanityHasContent("industry");
-    if (!has) {
-      return staticIndustry ? applyIndustryDetailOverride(staticIndustry) : null;
-    }
+    if (!has) return staticIndustry;
     const cms = await fetchIndustryBySlugFromSanity(slug);
-    if (!staticIndustry) return cms ? applyIndustryDetailOverride(cms) : cms;
-    const merged = mergeIndustryRecord(staticIndustry, cms);
-    return applyIndustryDetailOverride(merged);
+    if (!staticIndustry) return cms;
+    return mergeIndustryRecord(staticIndustry, cms);
   } catch {
-    return staticIndustry ? applyIndustryDetailOverride(staticIndustry) : null;
+    return staticIndustry;
   }
 }
 

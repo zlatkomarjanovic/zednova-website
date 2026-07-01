@@ -37,7 +37,7 @@ export default async function IndustriesPage() {
 
   const segments = industryGroups.flatMap((group) =>
     group.industries.map((industry) => ({
-      href: `/industries/${industry.slug}`,
+      href: `/industries/${group.parent.slug}`,
       title: industry.title,
       description: industry.hook,
       icon: industry.icon,

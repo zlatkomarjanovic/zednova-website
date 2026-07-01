@@ -8,6 +8,8 @@ type BlueprintColumnFrameProps = {
   bottomInset?: boolean;
   showTopCrosses?: boolean;
   showBottomCrosses?: boolean;
+  /** Bottom horizontal guide rail — off when the next section supplies its own top border. */
+  showBottomRail?: boolean;
 };
 
 /**
@@ -20,6 +22,7 @@ export function BlueprintColumnFrame({
   bottomInset = true,
   showTopCrosses = true,
   showBottomCrosses = true,
+  showBottomRail = true,
 }: BlueprintColumnFrameProps) {
   return (
     <div
@@ -35,7 +38,9 @@ export function BlueprintColumnFrame({
       >
         <div className="absolute inset-y-0 left-0 w-px bg-zn-border" />
         <div className="absolute inset-y-0 right-0 w-px bg-zn-border" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-zn-border" />
+        {showBottomRail ? (
+          <div className="absolute inset-x-0 bottom-0 h-px bg-zn-border" />
+        ) : null}
       </div>
 
       {showTopCrosses ? (

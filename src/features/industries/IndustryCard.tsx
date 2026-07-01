@@ -12,7 +12,7 @@ export function IndustryCard({
 }) {
   return (
     <Link
-      href={`/industries/${industry.slug}`}
+      href={`/industries/${industry.parentSlug}`}
       className={cn(
         "group flex flex-col gap-4 rounded-[2px] border border-zn-border bg-zn-bg p-7 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-zn-text hover:bg-zn-bg-2",
         className,

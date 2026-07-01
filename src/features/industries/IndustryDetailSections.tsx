@@ -24,7 +24,7 @@ export function IndustrySpecialtiesGrid({
   }
 
   const items: TableGridItem[] = industries.map((industry) => ({
-    href: `/industries/${industry.slug}`,
+    href: `/industries/${industry.parentSlug}`,
     title: industry.title,
     description: industry.hook,
     icon: industry.icon,

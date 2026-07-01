@@ -525,6 +525,8 @@ export const testimonialItem = defineType({
   },
 });
 
+import { industryPageObjects } from "./industryPage";
+
 export const objectTypes = [
   seoFields,
   painPoint,
@@ -543,5 +545,6 @@ export const objectTypes = [
   subServiceCard,
   valueItem,
   testimonialItem,
+  ...industryPageObjects,
   ...extendedObjectTypes,
 ];

@@ -3,6 +3,17 @@
  * content layer can be swapped for live GROQ queries without touching pages.
  */
 
+import type {
+  IndustryBuildCard,
+  IndustryGlanceItem,
+  IndustryProblemItem,
+  IndustryProjectStack,
+  IndustryRelatedServiceCard,
+  IndustrySegmentCard,
+  IndustrySystemStep,
+  IndustryTrustStat,
+} from "@/lib/types/industry-page";
+
 export type ServiceGroup =
   | "Lead-Gen Websites & AI Search"
   | "CRM & Follow-Up Automation"
@@ -243,12 +254,90 @@ export type IndustryParent = {
   commonUseCase: string;
   icon: string;
   image?: string;
+  imageAlt?: string;
   order: number;
   relatedServices?: string[];
   relatedCaseStudies?: string[];
   relatedInsights?: string[];
   tags?: string[];
   seo?: SeoFields;
+  /** Parent landing page — editable in CMS; static fallbacks in industry-detail-fallbacks.ts */
+  heroEyebrow?: string;
+  heroSubhead?: string;
+  problemsHeadline?: string;
+  problems?: PainPoint[];
+  aiPressuresHeadline?: string;
+  aiPressuresSubtext?: string;
+  aiPressures?: PainPoint[];
+  subIndustriesEyebrow?: string;
+  subIndustriesHeadline?: string;
+  subIndustriesSubtext?: string;
+  featuredSubIndustrySlugs?: string[];
+  workEyebrow?: string;
+  workHeadline?: string;
+  servicesEyebrow?: string;
+  servicesHeadline?: string;
+  faqEyebrow?: string;
+  faqHeadline?: string;
+  faqSubtext?: string;
+  ctaHeading?: string;
+  ctaSub?: string;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  showLogoCarousel?: boolean;
+  logoCarouselLabel?: string;
+  glanceEyebrow?: string;
+  glanceHeading?: string;
+  glanceSubheading?: string;
+  glanceItems?: IndustryGlanceItem[];
+  problemsEyebrow?: string;
+  problemsHeading?: string;
+  problemsSubheading?: string;
+  problemsCtaLabel?: string;
+  problemsCtaHref?: string;
+  problemItems?: IndustryProblemItem[];
+  systemEyebrow?: string;
+  systemHeading?: string;
+  systemSubheading?: string;
+  systemSteps?: IndustrySystemStep[];
+  buildsEyebrow?: string;
+  buildsHeading?: string;
+  buildsSubheading?: string;
+  buildCards?: IndustryBuildCard[];
+  segmentsEyebrow?: string;
+  segmentsHeading?: string;
+  segmentsSubheading?: string;
+  segmentCards?: IndustrySegmentCard[];
+  stacksEyebrow?: string;
+  stacksHeading?: string;
+  stacksSubheading?: string;
+  stacksCtaLabel?: string;
+  stacksCtaHref?: string;
+  projectStacks?: IndustryProjectStack[];
+  proofEyebrow?: string;
+  proofHeading?: string;
+  proofSubheading?: string;
+  testimonialFilterTags?: string[];
+  servicesSubheading?: string;
+  servicesForThisIndustrySlugs?: string[];
+  relatedServiceCards?: IndustryRelatedServiceCard[];
+  processEyebrow?: string;
+  processHeading?: string;
+  processSubheading?: string;
+  processSteps?: ProcessStep[];
+  insightsEyebrow?: string;
+  insightsHeading?: string;
+  insightsSubheading?: string;
+  insightFilterTags?: string[];
+  ctaEyebrow?: string;
+  ctaPrimaryLabel?: string;
+  ctaPrimaryHref?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryHref?: string;
+  ctaMicrocopy?: string;
+  trustStats?: IndustryTrustStat[];
 };
 
 export type Industry = {
@@ -269,6 +358,7 @@ export type Industry = {
   commonUseCase: string;
   icon: string;
   image?: string;
+  imageAlt?: string;
   order: number;
   relatedServices?: string[];
   relatedCaseStudies?: string[];

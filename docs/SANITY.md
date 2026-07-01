@@ -52,6 +52,26 @@ npm run build           # Production build
 | `migration` | Migrations pages, mega menu, footer |
 | `industryParent` / `industry` | Industry pages, nav, homepage carousel, contact form |
 
+### Industry parent landing pages
+
+Only **6 parent** industry URLs are public (`/industries/<parent-slug>`). The 49 `industry` segment documents are children — no dedicated routes; sub URLs 301 to the parent.
+
+Parent landing copy is editable on `industryParent`:
+
+- Hero: `heroEyebrow`, `heroHeadline`, `heroSubhead`
+- Problems: `problemsHeadline`, `problems[]` (painPoint)
+- AI pressures: `aiPressuresHeadline`, `aiPressuresSubtext`, `aiPressures[]`
+- Sections: `subIndustries*`, `work*`, `services*`, `faq*`, `ctaHeading`, `ctaSub`
+- Optional: `featuredSubIndustries[]` (references to `industry` docs for ordered sub-grid)
+
+Static fallbacks live in `src/lib/content/industry-detail-fallbacks.ts`. Re-seed with `npm run seed:sanity` after editing fallbacks.
+
+Regenerate sub→parent redirects after changing `industry-subs.ts`:
+
+```bash
+npm run generate:industry-redirects
+```
+
 Query layer: `src/lib/queries.ts` → `src/sanity/fetchers.ts` + GROQ in `src/sanity/queries.ts`.
 
 ## Re-seed after editing static source

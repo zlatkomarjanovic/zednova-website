@@ -28,6 +28,13 @@ import type {
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";
 import type { PortfolioProject } from "@/lib/types";
+import type {
+  IndustryBuildCard,
+  IndustryGlanceItem,
+  IndustrySystemStep,
+  IndustryTrustStat,
+} from "@/lib/types/industry-page";
+import { getParentSlugForServiceSlug, getServicePublicPath } from "@/lib/content/service-routes";
 import type { FaqItem, SiteSettings } from "@/lib/types";
 import { portableTextToArticleBlocks } from "@/sanity/portable-text-to-blocks";
 import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
@@ -259,6 +266,26 @@ type SanityIndustryFields = {
   painPoints?: { title: string; description: string }[];
   commonProblems?: { title: string; description: string }[];
   segmentSpecificProblems?: { title: string; description: string }[];
+  problems?: { title: string; description: string }[];
+  aiPressuresHeadline?: string;
+  aiPressuresSubtext?: string;
+  aiPressures?: { title: string; description: string }[];
+  heroEyebrow?: string;
+  heroSubhead?: string;
+  problemsHeadline?: string;
+  subIndustriesEyebrow?: string;
+  subIndustriesHeadline?: string;
+  subIndustriesSubtext?: string;
+  featuredSubIndustrySlugs?: string[];
+  workEyebrow?: string;
+  workHeadline?: string;
+  servicesEyebrow?: string;
+  servicesHeadline?: string;
+  faqEyebrow?: string;
+  faqHeadline?: string;
+  faqSubtext?: string;
+  ctaHeading?: string;
+  ctaSub?: string;
   popularServices?: { label: string; href: string }[];
   recommendedServiceLinks?: { label: string; href: string }[];
   faqs?: SanityFaq[];
@@ -267,6 +294,7 @@ type SanityIndustryFields = {
   commonUseCase?: string;
   icon?: string;
   image?: string;
+  imageAlt?: string;
   order: number;
   showInMainNav?: boolean;
   navOrder?: number;
@@ -275,7 +303,77 @@ type SanityIndustryFields = {
   relatedInsights?: string[];
   tags?: string[];
   seo?: Record<string, unknown>;
+  primaryCtaLabel?: string;
+  primaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  showLogoCarousel?: boolean;
+  logoCarouselLabel?: string;
+  glanceEyebrow?: string;
+  glanceHeading?: string;
+  glanceSubheading?: string;
+  glanceItems?: IndustryGlanceItem[];
+  problemsEyebrow?: string;
+  problemsSubheading?: string;
+  problemsCtaLabel?: string;
+  problemsCtaHref?: string;
+  problemItems?: { title: string; description: string }[];
+  systemEyebrow?: string;
+  systemHeading?: string;
+  systemSubheading?: string;
+  systemSteps?: IndustrySystemStep[];
+  buildsEyebrow?: string;
+  buildsHeading?: string;
+  buildsSubheading?: string;
+  buildCards?: IndustryBuildCard[];
+  segmentsEyebrow?: string;
+  segmentsHeading?: string;
+  segmentsSubheading?: string;
+  servicesSubheading?: string;
+  servicesForThisIndustrySlugs?: string[];
+  processEyebrow?: string;
+  processHeading?: string;
+  processSubheading?: string;
+  processSteps?: {
+    step: number;
+    title: string;
+    description: string;
+    deliverables?: string[];
+    icon?: string;
+  }[];
+  insightsEyebrow?: string;
+  insightsHeading?: string;
+  insightsSubheading?: string;
+  insightFilterTags?: string[];
+  proofEyebrow?: string;
+  proofHeading?: string;
+  proofSubheading?: string;
+  testimonialFilterTags?: string[];
+  ctaEyebrow?: string;
+  ctaPrimaryLabel?: string;
+  ctaPrimaryHref?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryHref?: string;
+  ctaMicrocopy?: string;
+  trustStats?: IndustryTrustStat[];
 };
+
+function resolveServiceHref(href: string): string {
+  const match = href.match(/^\/services\/([^/?#]+)/);
+  if (!match) return href;
+  const slug = match[1];
+  return getParentSlugForServiceSlug(slug) ? getServicePublicPath(slug) : href;
+}
+
+function mapIndustryLandingProblems(doc: {
+  problems?: { title: string; description: string }[];
+  painPoints?: { title: string; description: string }[];
+  segmentSpecificProblems?: { title: string; description: string }[];
+  commonProblems?: { title: string; description: string }[];
+}): { title: string; description: string }[] {
+  if (doc.problems?.length) return doc.problems;
+  return mapIndustryPainPoints(doc);
+}
 
 function mapIndustryPainPoints(doc: {
   painPoints?: { title: string; description: string }[];
@@ -337,12 +435,92 @@ export function mapIndustryParent(doc: SanityIndustryFields): IndustryParent {
     commonUseCase: doc.commonUseCase ?? "",
     icon: doc.icon ?? "",
     image: doc.image,
+    imageAlt: doc.imageAlt,
     order: doc.order,
     relatedServices: doc.relatedServices,
     relatedCaseStudies: doc.relatedCaseStudies,
     relatedInsights: doc.relatedInsights,
     tags: doc.tags ?? [],
     seo: mapSeo(doc.seo),
+    heroEyebrow: doc.heroEyebrow,
+    heroSubhead: doc.heroSubhead,
+    problemsHeadline: doc.problemsHeadline,
+    problems: mapIndustryLandingProblems(doc),
+    aiPressuresHeadline: doc.aiPressuresHeadline,
+    aiPressuresSubtext: doc.aiPressuresSubtext,
+    aiPressures: doc.aiPressures ?? [],
+    subIndustriesEyebrow: doc.subIndustriesEyebrow,
+    subIndustriesHeadline: doc.subIndustriesHeadline,
+    subIndustriesSubtext: doc.subIndustriesSubtext,
+    featuredSubIndustrySlugs: doc.featuredSubIndustrySlugs,
+    workEyebrow: doc.workEyebrow,
+    workHeadline: doc.workHeadline,
+    servicesEyebrow: doc.servicesEyebrow,
+    servicesHeadline: doc.servicesHeadline,
+    faqEyebrow: doc.faqEyebrow,
+    faqHeadline: doc.faqHeadline,
+    faqSubtext: doc.faqSubtext,
+    ctaHeading: doc.ctaHeading,
+    ctaSub: doc.ctaSub,
+    primaryCtaLabel: doc.primaryCtaLabel,
+    primaryCtaHref: doc.primaryCtaHref,
+    secondaryCtaLabel: doc.secondaryCtaLabel,
+    secondaryCtaHref: doc.secondaryCtaHref,
+    showLogoCarousel: doc.showLogoCarousel,
+    logoCarouselLabel: doc.logoCarouselLabel,
+    glanceEyebrow: doc.glanceEyebrow,
+    glanceHeading: doc.glanceHeading,
+    glanceSubheading: doc.glanceSubheading,
+    glanceItems: doc.glanceItems,
+    problemsEyebrow: doc.problemsEyebrow,
+    problemsSubheading: doc.problemsSubheading,
+    problemsCtaLabel: doc.problemsCtaLabel,
+    problemsCtaHref: doc.problemsCtaHref,
+    problemItems: doc.problemItems?.map((item) => ({
+      title: item.title,
+      body: item.description,
+    })),
+    systemEyebrow: doc.systemEyebrow,
+    systemHeading: doc.systemHeading,
+    systemSubheading: doc.systemSubheading,
+    systemSteps: doc.systemSteps,
+    buildsEyebrow: doc.buildsEyebrow,
+    buildsHeading: doc.buildsHeading,
+    buildsSubheading: doc.buildsSubheading,
+    buildCards: doc.buildCards?.map((card) => ({
+      ...card,
+      serviceHref: card.serviceHref ? resolveServiceHref(card.serviceHref) : undefined,
+    })),
+    segmentsEyebrow: doc.segmentsEyebrow,
+    segmentsHeading: doc.segmentsHeading,
+    segmentsSubheading: doc.segmentsSubheading,
+    servicesSubheading: doc.servicesSubheading,
+    servicesForThisIndustrySlugs: doc.servicesForThisIndustrySlugs,
+    processEyebrow: doc.processEyebrow,
+    processHeading: doc.processHeading,
+    processSubheading: doc.processSubheading,
+    processSteps: (doc.processSteps ?? []).map((step) => ({
+      step: step.step,
+      title: step.title,
+      description: step.description,
+      deliverables: step.deliverables,
+      icon: step.icon,
+    })),
+    insightsEyebrow: doc.insightsEyebrow,
+    insightsHeading: doc.insightsHeading,
+    insightsSubheading: doc.insightsSubheading,
+    insightFilterTags: doc.insightFilterTags,
+    proofEyebrow: doc.proofEyebrow,
+    proofHeading: doc.proofHeading,
+    proofSubheading: doc.proofSubheading,
+    testimonialFilterTags: doc.testimonialFilterTags,
+    ctaEyebrow: doc.ctaEyebrow,
+    ctaPrimaryLabel: doc.ctaPrimaryLabel,
+    ctaPrimaryHref: doc.ctaPrimaryHref,
+    ctaSecondaryLabel: doc.ctaSecondaryLabel,
+    ctaSecondaryHref: doc.ctaSecondaryHref,
+    ctaMicrocopy: doc.ctaMicrocopy,
+    trustStats: doc.trustStats,
   };
 }
 
@@ -365,6 +543,7 @@ export function mapIndustry(doc: SanityIndustry): Industry {
     commonUseCase: doc.commonUseCase ?? "",
     icon: doc.icon ?? "",
     image: doc.image,
+    imageAlt: doc.imageAlt,
     order: doc.order,
     relatedServices: doc.relatedServices,
     relatedCaseStudies: doc.relatedCaseStudies,

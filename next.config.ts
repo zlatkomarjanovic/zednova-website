@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { INDUSTRY_SUB_REDIRECTS } from "./src/lib/content/industry-sub-redirects";
+
 /** Flat /services/:slug → new parent service pages (kept for legacy SEO). */
 const SERVICE_NESTED_REDIRECTS = [
   {
@@ -86,20 +88,21 @@ const nextConfig: NextConfig = {
       { source: "/industries/software-companies", destination: "/industries/b2b-saas-technology", permanent: true },
       { source: "/industries/tech-startups", destination: "/industries/b2b-saas-technology", permanent: true },
       { source: "/industries/home-services", destination: "/industries/professional-services", permanent: true },
-      { source: "/industries/dental-healthcare", destination: "/industries/dental-clinics", permanent: true },
-      { source: "/industries/legal", destination: "/industries/law-firms", permanent: true },
+      { source: "/industries/dental-healthcare", destination: "/industries/healthcare-wellness", permanent: true },
+      { source: "/industries/legal", destination: "/industries/professional-services", permanent: true },
       { source: "/industries/real-estate", destination: "/industries/real-estate-property", permanent: true },
       { source: "/industries/saas-startups", destination: "/industries/b2b-saas-technology", permanent: true },
       { source: "/industries/financial-insurance", destination: "/industries/professional-services", permanent: true },
-      { source: "/industries/wellness-med-spas", destination: "/industries/medspas", permanent: true },
+      { source: "/industries/wellness-med-spas", destination: "/industries/healthcare-wellness", permanent: true },
       { source: "/industries/construction", destination: "/industries/professional-services", permanent: true },
-      { source: "/industries/fitness-coaches-personal-trainers", destination: "/industries/fitness-coaches", permanent: true },
-      { source: "/industries/gyms-fitness-studios", destination: "/industries/gyms", permanent: true },
-      { source: "/industries/med-spas", destination: "/industries/medspas", permanent: true },
-      { source: "/industries/wellness-clinics", destination: "/industries/wellness-practices", permanent: true },
-      { source: "/industries/supplement-brands", destination: "/industries/supplement-style-wellness-brands", permanent: true },
-      { source: "/industries/dtc-brands", destination: "/industries/small-dtc-brands", permanent: true },
+      { source: "/industries/fitness-coaches-personal-trainers", destination: "/industries/fitness-coaching-performance", permanent: true },
+      { source: "/industries/gyms-fitness-studios", destination: "/industries/fitness-coaching-performance", permanent: true },
+      { source: "/industries/med-spas", destination: "/industries/healthcare-wellness", permanent: true },
+      { source: "/industries/wellness-clinics", destination: "/industries/healthcare-wellness", permanent: true },
+      { source: "/industries/supplement-brands", destination: "/industries/ecommerce-dtc", permanent: true },
+      { source: "/industries/dtc-brands", destination: "/industries/ecommerce-dtc", permanent: true },
       ...SERVICE_NESTED_REDIRECTS,
+      ...INDUSTRY_SUB_REDIRECTS,
     ];
   },
 };

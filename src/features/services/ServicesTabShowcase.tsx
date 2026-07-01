@@ -59,6 +59,8 @@ type ServicesTabShowcaseProps = {
   customSoftware: CustomSoftware[];
   migrations: Migration[];
   className?: string;
+  /** When set, only show tabs for these parent service groups (e.g. industry-linked services). */
+  visibleGroups?: PrimaryServiceGroup[];
 };
 
 function resolveParentImage(
@@ -264,6 +266,7 @@ export function ServicesTabShowcase({
   customSoftware,
   migrations,
   className,
+  visibleGroups,
 }: ServicesTabShowcaseProps) {
   const resolvedNavGroups = useMemo(() => {
     const hasPrimaryItems = PRIMARY_SERVICE_GROUPS.some((group) =>
@@ -284,8 +287,9 @@ export function ServicesTabShowcase({
         migrations,
         serviceMegaMenuCards,
       );
-    }).filter((panel) => panel.subServices.length > 0);
-  }, [customSoftware, migrations, resolvedNavGroups, serviceMegaMenuCards, services]);
+    }).filter((panel) => panel.subServices.length > 0)
+      .filter((panel) => !visibleGroups?.length || visibleGroups.includes(panel.filter));
+  }, [customSoftware, migrations, resolvedNavGroups, serviceMegaMenuCards, services, visibleGroups]);
 
   const defaultFilter: PrimaryServiceGroup = panels.some(
     (panel) => panel.filter === "Lead-Gen Websites & AI Search",

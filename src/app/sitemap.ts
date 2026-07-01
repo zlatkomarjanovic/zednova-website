@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
 import {
   getAllCustomSoftwareSlugs,
-  getAllIndustrySlugs,
   getAllPosts,
   getAllServices,
   getAllCaseStudies,
   getAllMigrations,
 } from "@/lib/queries";
+import { getAllParentIndustrySlugs } from "@/lib/content/industry-routes";
 import {
   getAllParentServiceParams,
   getServicePublicPath,
@@ -47,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       await Promise.all([
         getAllPosts(),
         getAllServices(),
-        getAllIndustrySlugs(),
+        getAllParentIndustrySlugs(),
         getAllCaseStudies(),
         getAllMigrations(),
         getAllCustomSoftwareSlugs(),
@@ -89,7 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE_ORIGIN}/industries/${slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
-      priority: 0.7,
+      priority: 0.85,
     }));
 
     const caseStudyRoutes: MetadataRoute.Sitemap = caseStudies

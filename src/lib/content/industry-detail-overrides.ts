@@ -1,3 +1,8 @@
+/**
+ * @deprecated Sub-industry detail pages were removed. Parent landing copy lives in
+ * industry-detail-fallbacks.ts and Sanity industryParent documents. Do not import
+ * in runtime code.
+ */
 import type { Industry } from "@/lib/types";
 
 type IndustryOverride = Partial<
@@ -22,13 +27,13 @@ type IndustryOverride = Partial<
 const dentalClinics: IndustryOverride = {
   heroHeadline: "Websites, recall automation, and review systems for dental groups",
   shortDescription:
-    "We help dental practices capture new-patient calls, automate hygiene recall, and grow Google reviews — without adding front-desk headcount.",
+    "We help dental practices capture new-patient calls, automate hygiene recall, and grow Google reviews, without adding front-desk headcount.",
   whoItIsFor:
     "Multi-chair dental groups and single-location practices with busy front desks, long recall lists, and thin Google presence compared to nearby competitors.",
   whatWeBuild:
     "Dental websites with online booking, digital intake, hygiene recall sequences, missed-call text-back, AI phone coverage, and automated Google review requests.",
   problemSolved:
-    "New-patient calls go to voicemail during peak hours, recalls slip, and reviews only happen when someone remembers to ask — so chairs stay empty and local search lags.",
+    "New-patient calls go to voicemail during peak hours, recalls slip, and reviews only happen when someone remembers to ask, so chairs stay empty and local search lags.",
   painPoints: [
     {
       title: "New-patient calls lost during peak hours",
@@ -68,7 +73,7 @@ const dentalClinics: IndustryOverride = {
     {
       question: "Can you integrate with our existing PMS or CRM?",
       answer:
-        "Yes. We typically connect booking, intake, and follow-up through your CRM or automation layer — HubSpot, GoHighLevel, or similar — without replacing your clinical software.",
+        "Yes. We typically connect booking, intake, and follow-up through your CRM or automation layer, HubSpot, GoHighLevel, or similar, without replacing your clinical software.",
     },
     {
       question: "How fast can recall automation go live?",
@@ -87,7 +92,7 @@ const medspas: IndustryOverride = {
   whatWeBuild:
     "Treatment pages, consult booking, CRM nurture sequences, rebooking emails, SMS reminders, AI receptionist for overflow, and review automation after visits.",
   problemSolved:
-    "Leads come from Instagram DMs, Google, and referrals — but response is slow, rebooking is manual, and reviews are inconsistent.",
+    "Leads come from Instagram DMs, Google, and referrals, but response is slow, rebooking is manual, and reviews are inconsistent.",
   painPoints: [
     {
       title: "Consult requests sit in DMs and voicemail",
@@ -102,7 +107,7 @@ const medspas: IndustryOverride = {
     {
       title: "Treatment pages do not convert traffic",
       description:
-        "Generic site copy fails to explain packages, pricing signals, and what to expect — so ad spend leaks.",
+        "Generic site copy fails to explain packages, pricing signals, and what to expect, so ad spend leaks.",
     },
     {
       title: "Reviews are sporadic",
@@ -117,7 +122,7 @@ const medspas: IndustryOverride = {
     { label: "Review Automation", href: "/services/review-reputation" },
   ],
   exampleProject:
-    "A med spa rebuilt treatment pages, wired consult booking into CRM, and added rebooking plus review sequences — cutting response time from hours to minutes.",
+    "A med spa rebuilt treatment pages, wired consult booking into CRM, and added rebooking plus review sequences, cutting response time from hours to minutes.",
   commonUseCase:
     "A prospect finds a Botox landing page on Google, books a consult online, gets SMS reminders, and receives a rebooking offer two weeks after their first visit.",
   relatedServices: ["ai-lead-site", "crm-pipeline-automation", "review-reputation", "ai-receptionist"],
@@ -139,7 +144,7 @@ const aestheticClinics: IndustryOverride = {
     {
       title: "Procedure pages fail to qualify buyers",
       description:
-        "Traffic arrives from ads and search but pages do not answer cost signals, recovery, or candidacy — so consults stay low quality.",
+        "Traffic arrives from ads and search but pages do not answer cost signals, recovery, or candidacy, so consults stay low quality.",
     },
     {
       title: "Consult follow-up is inconsistent",
@@ -180,7 +185,7 @@ const skincareClinics: IndustryOverride = {
     {
       title: "Treatment menus confuse new patients",
       description:
-        "Too many services listed without guidance on what to book first — so prospects bounce to a clearer competitor.",
+        "Too many services listed without guidance on what to book first, so prospects bounce to a clearer competitor.",
     },
     {
       title: "Membership renewals are manual",
@@ -221,12 +226,12 @@ const skincareBrands: IndustryOverride = {
     {
       title: "Routine story does not convert cold traffic",
       description:
-        "Shoppers need guidance on order of use and results timeline — generic product grids fail to close.",
+        "Shoppers need guidance on order of use and results timeline, generic product grids fail to close.",
     },
     {
       title: "Subscriptions churn silently",
       description:
-        "No win-back or education flow when a subscriber pauses or skips — LTV stays flat.",
+        "No win-back or education flow when a subscriber pauses or skips, LTV stays flat.",
     },
     {
       title: "Cart abandonment without recovery",

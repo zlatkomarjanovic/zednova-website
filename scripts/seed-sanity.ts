@@ -19,6 +19,11 @@ import { caseStudies } from "../src/lib/content/case-studies";
 import { portfolioProjects } from "../src/lib/content/portfolio-projects";
 import { faqs } from "../src/lib/content/faq";
 import { industryParents } from "../src/lib/content/industry-parents";
+import { getIndustryLandingCopy } from "../src/lib/content/industry-detail-fallbacks";
+import {
+  SERVICE_SLUG_BY_PARENT,
+  isParentServiceSlug,
+} from "../src/lib/content/service-routes";
 import { customSoftwareItems } from "../src/lib/content/custom-software-items";
 import {
   customSoftwareGroups,
@@ -372,7 +377,132 @@ for (const migration of migrations) {
 
 /* ----------------------------- Industries ----------------------------- */
 
+const INDUSTRY_BENTO_SPANS = ["2x1", "1x1", "1x1", "1x2", "1x1", "1x1"] as const;
+
+function serviceRefsFromPopularLinks(links: { href: string }[]) {
+  const seen = new Set<string>();
+
+  return links
+    .map((link) => {
+      const match = link.href.match(/\/services\/([^/?#]+)/);
+      if (!match) return null;
+      const pathSlug = match[1];
+      const serviceSlug = isParentServiceSlug(pathSlug)
+        ? SERVICE_SLUG_BY_PARENT[pathSlug]
+        : pathSlug;
+      if (seen.has(serviceSlug)) return null;
+      seen.add(serviceSlug);
+      return { _type: "reference" as const, _ref: `service-${serviceSlug}` };
+    })
+    .filter((ref): ref is { _type: "reference"; _ref: string } => Boolean(ref));
+}
+
+function buildIndustryGlanceItems(parent: (typeof industryParents)[number]) {
+  return [
+    {
+      title: "Who we build for",
+      subtitle: "Your ideal client",
+      body: parent.whoItIsFor,
+      iconKey: "glance-audience",
+    },
+    {
+      title: "What we build",
+      subtitle: "What we ship",
+      body: parent.whatWeBuild,
+      iconKey: "glance-build",
+    },
+    {
+      title: "Example outcome",
+      subtitle: "Typical result",
+      body: parent.exampleProject,
+      iconKey: "glance-outcome",
+    },
+  ].filter((item) => item.body?.trim().length);
+}
+
+function buildIndustrySystemSteps(title: string) {
+  const noun = title.toLowerCase();
+  return [
+    {
+      label: "01",
+      title: "Visitor lands",
+      body: `Prospects find you on Google, ads, or referrals. Your ${noun} page must explain the offer fast.`,
+    },
+    {
+      label: "02",
+      title: "Inquiry captured",
+      body: "Forms, calls, chat, and DMs route into one place instead of scattered inboxes.",
+    },
+    {
+      label: "03",
+      title: "Lead routed",
+      body: "CRM assigns an owner, alerts the team, and triggers the right next step automatically.",
+    },
+    {
+      label: "04",
+      title: "Follow-up triggered",
+      body: "Email, SMS, or AI receptionist responds in minutes, not hours or the next business day.",
+    },
+    {
+      label: "05",
+      title: "Booking or checkout",
+      body: "Appointments, consults, orders, or contracts move forward with fewer manual handoffs.",
+    },
+    {
+      label: "06",
+      title: "Reporting updated",
+      body: "Pipeline, revenue, and source data show up in a dashboard your team actually checks.",
+    },
+    {
+      label: "07",
+      title: "Retention loop",
+      body: "Reviews, rebooking, replenishment, or nurture sequences run without someone remembering each time.",
+    },
+  ];
+}
+
+function buildIndustryProcessSteps() {
+  return [
+    {
+      step: 1,
+      title: "Map the current journey",
+      description:
+        "We audit how inquiries enter, get handled, and convert: calls, forms, DMs, booking, and follow-up.",
+    },
+    {
+      step: 2,
+      title: "Find the highest-leverage bottleneck",
+      description:
+        "We prioritize the fix that stops the most leaks: response time, intake, routing, or repeat revenue.",
+    },
+    {
+      step: 3,
+      title: "Build and connect the system",
+      description:
+        "We ship the website, automations, and dashboards wired to your CRM, calendar, and payment tools.",
+    },
+    {
+      step: 4,
+      title: "Launch, measure, and improve",
+      description:
+        "We go live, track what converts, and iterate without another full rebuild every quarter.",
+    },
+  ];
+}
+
+function buildIndustryBuildCards(parent: (typeof industryParents)[number]) {
+  return parent.popularServices.map((service, index) => ({
+    title: service.label,
+    subtitle: "Deliverable",
+    body: parent.whatWeBuild,
+    bestFor: parent.whoItIsFor.split(".")[0] ?? parent.whoItIsFor,
+    serviceHref: service.href,
+    span: INDUSTRY_BENTO_SPANS[index % INDUSTRY_BENTO_SPANS.length],
+  }));
+}
+
 for (const parent of industryParents) {
+  const landing = getIndustryLandingCopy(parent.slug);
   add({
     _id: `industryParent-${parent.slug}`,
     _type: "industryParent",
@@ -382,7 +512,7 @@ for (const parent of industryParents) {
     whoItIsFor: parent.whoItIsFor,
     whatWeBuild: parent.whatWeBuild,
     problemSolved: parent.problemSolved,
-    heroHeadline: parent.heroHeadline,
+    heroHeadline: landing?.heroHeadline ?? parent.heroHeadline,
     hook: parent.hook,
     shortDescription: parent.shortDescription,
     industryOverview: parent.industryOverview,
@@ -392,6 +522,56 @@ for (const parent of industryParents) {
     commonUseCase: parent.commonUseCase,
     icon: parent.icon,
     order: parent.order,
+    heroEyebrow: landing?.heroEyebrow,
+    heroSubhead: landing?.heroSubhead,
+    problemsHeadline: landing?.problemsHeadline,
+    problems: landing?.problems,
+    aiPressuresHeadline: landing?.aiPressuresHeadline,
+    aiPressuresSubtext: landing?.aiPressuresSubtext,
+    aiPressures: landing?.aiPressures,
+    subIndustriesEyebrow: landing?.subIndustriesEyebrow,
+    subIndustriesHeadline: landing?.subIndustriesHeadline,
+    subIndustriesSubtext: landing?.subIndustriesSubtext,
+    workEyebrow: landing?.workEyebrow,
+    workHeadline: landing?.workHeadline,
+    servicesEyebrow: landing?.servicesEyebrow,
+    servicesHeadline: landing?.servicesHeadline,
+    faqEyebrow: landing?.faqEyebrow,
+    faqHeadline: landing?.faqHeadline,
+    faqSubtext: landing?.faqSubtext,
+    faqs: landing?.faqs,
+    ctaHeading: landing?.ctaHeading,
+    ctaSub: landing?.ctaSub,
+    showLogoCarousel: true,
+    logoCarouselLabel: "Trusted by teams across the US",
+    glanceEyebrow: "At a glance",
+    glanceHeading: "Built for your market, not a generic agency template",
+    glanceItems: buildIndustryGlanceItems(parent),
+    problemsEyebrow: "Diagnosis",
+    problemsSubheading: landing?.aiPressuresSubtext,
+    problemItems: landing?.problems,
+    systemEyebrow: "Connected system",
+    systemHeading: landing?.systemHeadline,
+    systemSubheading: landing?.systemSubtext,
+    systemSteps: buildIndustrySystemSteps(parent.title),
+    buildsEyebrow: "Deliverables",
+    buildsHeading: "What we build for this industry",
+    buildsSubheading: parent.whatWeBuild,
+    buildCards: buildIndustryBuildCards(parent),
+    segmentsEyebrow: landing?.subIndustriesEyebrow,
+    segmentsHeading: landing?.subIndustriesHeadline,
+    segmentsSubheading: landing?.subIndustriesSubtext,
+    processEyebrow: "Process",
+    processHeading: "How we work with your team",
+    processSteps: buildIndustryProcessSteps(),
+    servicesSubheading:
+      "Pick the parent service that matches your bottleneck. We wire it to your industry workflows.",
+    servicesForThisIndustry: serviceRefsFromPopularLinks(parent.popularServices),
+    proofEyebrow: "Proof",
+    proofHeading: "What clients say",
+    proofSubheading: "Real reviews from real projects",
+    insightsEyebrow: "Insights",
+    insightsHeading: "Related articles",
     showInMainNav: true,
     navOrder: parent.order,
     navTitle: parent.title,

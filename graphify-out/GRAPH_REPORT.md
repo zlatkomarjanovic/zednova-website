@@ -1,16 +1,16 @@
 # Graph Report - zednova-website  (2026-07-01)
 
 ## Corpus Check
-- 302 files · ~390,945 words
+- 323 files · ~402,378 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1758 nodes · 4780 edges · 103 communities (91 shown, 12 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 98 edges (avg confidence: 0.8)
+- 1882 nodes · 5375 edges · 109 communities (97 shown, 12 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 108 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `29a5846d`
+- Built from commit: `508cce6b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -92,6 +92,7 @@
 - [[_COMMUNITY_Community 76|Community 76]]
 - [[_COMMUNITY_Community 77|Community 77]]
 - [[_COMMUNITY_Community 78|Community 78]]
+- [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
 - [[_COMMUNITY_Community 81|Community 81]]
 - [[_COMMUNITY_Community 82|Community 82]]
@@ -101,36 +102,41 @@
 - [[_COMMUNITY_Community 87|Community 87]]
 - [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
 - [[_COMMUNITY_Community 91|Community 91]]
 - [[_COMMUNITY_Community 92|Community 92]]
 - [[_COMMUNITY_Community 93|Community 93]]
 - [[_COMMUNITY_Community 94|Community 94]]
+- [[_COMMUNITY_Community 95|Community 95]]
 - [[_COMMUNITY_Community 96|Community 96]]
 - [[_COMMUNITY_Community 97|Community 97]]
 - [[_COMMUNITY_Community 98|Community 98]]
 - [[_COMMUNITY_Community 99|Community 99]]
+- [[_COMMUNITY_Community 100|Community 100]]
 - [[_COMMUNITY_Community 101|Community 101]]
 - [[_COMMUNITY_Community 102|Community 102]]
 - [[_COMMUNITY_Community 103|Community 103]]
 - [[_COMMUNITY_Community 104|Community 104]]
-- [[_COMMUNITY_Community 106|Community 106]]
+- [[_COMMUNITY_Community 105|Community 105]]
 - [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 112|Community 112]]
+- [[_COMMUNITY_Community 113|Community 113]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `cn()` - 163 edges
-2. `SectionLabel()` - 47 edges
-3. `breadcrumbJsonLd()` - 45 edges
-4. `Reveal()` - 42 edges
-5. `getAllPosts()` - 42 edges
-6. `Button()` - 37 edges
-7. `TextReveal()` - 36 edges
-8. `scripts` - 33 edges
-9. `BlueprintCross()` - 33 edges
-10. `BlueprintGrid()` - 31 edges
+1. `cn()` - 175 edges
+2. `SectionLabel()` - 59 edges
+3. `Reveal()` - 50 edges
+4. `breadcrumbJsonLd()` - 49 edges
+5. `TextReveal()` - 47 edges
+6. `getAllPosts()` - 46 edges
+7. `Button()` - 43 edges
+8. `BlueprintGrid()` - 38 edges
+9. `BlueprintCross()` - 38 edges
+10. `scripts` - 34 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `main()` --calls--> `getAllMigrations()`  [INFERRED]
-  scripts/verify-nav-data-flow.ts → src/lib/queries.ts
+- `main()` --calls--> `getAllPosts()`  [EXTRACTED]
+  scripts/patch-cover-captions.ts → src/lib/queries.ts
 - `buildPostEnrichment()` --calls--> `getInsightOverride()`  [EXTRACTED]
   scripts/enrich-insights-posts.ts → src/lib/content/insight-overrides.ts
 - `buildPostEnrichment()` --calls--> `bodyCharCount()`  [EXTRACTED]
@@ -143,7 +149,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (103 total, 12 thin omitted)
+## Communities (109 total, 12 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.16
@@ -154,20 +160,20 @@ Cohesion: 0.12
 Nodes (17): AI_RECEPTIONIST_PROBLEMS, CRM_SERVICE_PROBLEMS, DASHBOARDS_SERVICE_PROBLEMS, LEAD_GEN_SERVICE_PROBLEMS, MIGRATIONS_SERVICE_PROBLEMS, RETAINER_SERVICE_PROBLEMS, SERVICE_PROBLEM_ICONS, SERVICE_PROBLEMS_BY_SLUG (+9 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.30
-Nodes (12): post, serviceGroups, serviceGroupValues, richTextMembers, flatConsultationCtaFields, flatOpenGraphFields, flatPrimaryCtaFields, flatQuickAnswerFields (+4 more)
+Cohesion: 0.26
+Nodes (14): product, productStatuses, productTypes, serviceGroups, serviceGroupValues, richTextMembers, flatConsultationCtaFields, flatOpenGraphFields (+6 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.13
-Nodes (13): caseStudy, customSoftware, faq, insightCategory, migration, portfolioProject, service, serviceMegaMenuCard (+5 more)
+Nodes (14): caseStudy, customSoftware, faq, insightCategory, migration, portfolioProject, post, service (+6 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.10
 Nodes (20): dependencies, class-variance-authority, clsx, framer-motion, gsap, @gsap/react, @hookform/resolvers, lenis (+12 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.05
-Nodes (35): AGENCY_VALUES, ecommerceNavServices, products, caseStudyTestimonials, PLATFORM_PROFILES, platformTestimonials, rawPlatformTestimonials, testimonials (+27 more)
+Cohesion: 0.11
+Nodes (18): AGENCY_VALUES, ArticleRelatedLinks(), AeoAnswerBlock, CaseResult, CaseStudyScreenshot, CtaBlock, CtaFields, OpenGraphFields (+10 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.10
@@ -185,29 +191,33 @@ Nodes (16): AI_SUMMARY_PROMPT, aiSummaryFabModels, AiSummaryModel, AiSummaryProm
 Cohesion: 0.50
 Nodes (3): Deploy on Vercel, Getting Started, Learn More
 
+### Community 14 - "Community 14"
+Cohesion: 0.50
+Nodes (3): INDUSTRY_SUB_REDIRECTS, nextConfig, SERVICE_NESTED_REDIRECTS
+
 ### Community 17 - "Community 17"
-Cohesion: 0.10
-Nodes (36): AlternativesIndexPage(), metadata, CompareIndexPage(), metadata, Comparison, comparisons, cookiePolicyIntro, LegalDocument (+28 more)
+Cohesion: 0.09
+Nodes (41): AlternativesIndexPage(), metadata, CompareIndexPage(), AlternativeGuide, alternatives, cookiePolicyIntro, CookieSettingsPage(), metadata (+33 more)
 
 ### Community 18 - "Community 18"
 Cohesion: 0.06
-Nodes (33): scripts, audit:cms-images, build, dev, download:logos, download:portfolio, enrich:insights-posts, fix:insights-data (+25 more)
+Nodes (34): scripts, audit:cms-images, build, dev, download:logos, download:portfolio, enrich:insights-posts, fix:insights-data (+26 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.28
-Nodes (6): assetCache, client, getOrUploadIconAsset(), ICON_MAP, main(), navIconField()
+Cohesion: 0.18
+Nodes (9): customSoftwareBySlug, customSoftwareItems, DEFAULT_PROCESS, assetCache, client, getOrUploadIconAsset(), ICON_MAP, main() (+1 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.05
-Nodes (70): AUTHOR_SLUG_ALIASES, resolveAuthorSlugs(), FeatureBullet, SeoFields, fetchAllCaseStudiesFromSanity(), fetchAllFaqsFromSanity(), fetchAllInsightCategoriesFromSanity(), fetchAllMigrationsFromSanity() (+62 more)
+Cohesion: 0.24
+Nodes (10): DEFAULT_FAQ_SECTION_COPY, enrichProcessSteps(), getServiceProblemsHeadline(), mergeServiceWithStaticFallback(), ServiceFaqSectionCopy, ServiceSectionCopy, subServicesFromNavGroup(), getServiceFaqs() (+2 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.25
 Nodes (5): defs, envPath, local, outPath, rows
 
 ### Community 22 - "Community 22"
-Cohesion: 0.27
-Nodes (7): client, ensureServiceDocumentId(), iconAssetCache, main(), mapProcessStepsForSanity(), PARENT_SLUGS, stepsForSlug()
+Cohesion: 0.17
+Nodes (12): processIconDataUri(), resolveProcessStepIcon(), SERVICE_PROCESS_ICONS, ServiceProcessIconKey, ProcessStep, client, ensureServiceDocumentId(), iconAssetCache (+4 more)
 
 ### Community 23 - "Community 23"
 Cohesion: 0.29
@@ -218,20 +228,20 @@ Cohesion: 0.33
 Nodes (5): ASSETS, baseUrl, __dirname, outDir, root
 
 ### Community 26 - "Community 26"
-Cohesion: 0.08
-Nodes (30): caseStudies, customSoftwareBySlug, customSoftwareItems, DEFAULT_PROCESS, portfolioProjects, team, applyTestimonialImageFallback(), CATEGORY_ORDER (+22 more)
+Cohesion: 0.13
+Nodes (22): BENTO_SPANS, buildsFromPopular(), DEFAULT_PROCESS, DEFAULT_TRUST_STATS, defaultGlance(), defaultSystemSteps(), GLANCE_ICON_DEFAULTS, mapProcessSteps() (+14 more)
 
 ### Community 27 - "Community 27"
-Cohesion: 0.09
-Nodes (22): articleBlock, articleFaq, caseResult, caseStudyScreenshot, ctaFields, featureBullet, mediaAsset, migrationPlatformIcon (+14 more)
+Cohesion: 0.07
+Nodes (29): articleBlock, articleFaq, caseResult, caseStudyScreenshot, ctaFields, featureBullet, mediaAsset, migrationPlatformIcon (+21 more)
 
 ### Community 28 - "Community 28"
 Cohesion: 0.08
-Nodes (23): NavMenuGroup, TechStackShowcase(), FeaturedInsightLink(), formatInsightDate(), IndustryMegaMenuGrid(), InsightsMegaMenuGrid(), LatestInsightLink(), MegaMenu() (+15 more)
+Nodes (24): NavMenuItem, TechStackShowcase(), FeaturedInsightLink(), formatInsightDate(), IndustryMegaMenuGrid(), InsightsMegaMenuGrid(), LatestInsightLink(), MegaMenu() (+16 more)
 
 ### Community 29 - "Community 29"
-Cohesion: 0.20
-Nodes (8): FAQ_SECTION_COPY, getServiceFaqs(), serviceFaqsBySlug, client, main(), mapFaqsForSanity(), SanityService, servicesBySlug
+Cohesion: 0.23
+Nodes (9): SECTION_COPY, SERVICE_SUB_SERVICES_BY_SLUG, SubServiceCard, client, ensureServiceDocumentId(), main(), mapSubServicesForSanity(), migrateServiceSlug() (+1 more)
 
 ### Community 30 - "Community 30"
 Cohesion: 0.18
@@ -239,51 +249,51 @@ Nodes (10): compilerOptions, jsx, lib, module, moduleResolution, noEmit, skipLib
 
 ### Community 31 - "Community 31"
 Cohesion: 0.05
-Nodes (49): AnalyticsEvent, AnalyticsEventProps, TrackProps, OutboundLinkTracker(), analyticsAllowed(), trackConversion(), trackLinkClick(), CustomCursor() (+41 more)
+Nodes (49): AnalyticsEvent, AnalyticsEventProps, TrackProps, OutboundLinkTracker(), analyticsAllowed(), trackConversion(), trackLinkClick(), rec() (+41 more)
 
 ### Community 32 - "Community 32"
 Cohesion: 0.22
 Nodes (9): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+1 more)
 
 ### Community 33 - "Community 33"
-Cohesion: 0.12
-Nodes (17): applyInsightOverride(), fiveMinuteOverride, InsightOverride, OVERRIDES, remainingInsightOverrides, shopifyOverride, INSIGHT_POST_EXPANSIONS, InsightExpansion (+9 more)
+Cohesion: 0.15
+Nodes (12): fiveMinuteOverride, InsightOverride, OVERRIDES, remainingInsightOverrides, shopifyOverride, INSIGHT_POST_EXPANSIONS, InsightExpansion, mergeInsightExpansion() (+4 more)
 
 ### Community 34 - "Community 34"
-Cohesion: 0.09
-Nodes (30): enrichMigration(), getAllCustomSoftware(), getAllCustomSoftwareSlugs(), getAuthor(), getCaseStudyBySlug(), getCustomSoftwareBySlug(), getIndustryParents(), getMigrationBySlug() (+22 more)
+Cohesion: 0.29
+Nodes (9): BenefitItem, BenefitsGrid(), buildCmsImageUrl(), CMS_IMAGE_WIDTHS, CmsImagePreset, cmsImageSrc(), shouldUseCdnDelivery(), CmsImageProps (+1 more)
 
 ### Community 35 - "Community 35"
-Cohesion: 0.13
-Nodes (24): subServicesFromNavGroup(), buildServiceNavGroups(), CANONICAL_NESTED_PATH_BY_SERVICE_SLUG, getLegacyServiceRedirect(), getParentGroup(), getParentServiceLabel(), getParentServiceTagline(), getServicePublicPath() (+16 more)
+Cohesion: 0.12
+Nodes (28): resolveHref(), CANONICAL_NESTED_PATH_BY_SERVICE_SLUG, getLegacyServiceRedirect(), getParentGroup(), getParentServiceLabel(), getParentServiceTagline(), getParentSlugForServiceSlug(), getServicePublicPath() (+20 more)
 
 ### Community 36 - "Community 36"
-Cohesion: 0.07
-Nodes (19): customSoftwareGroups, industryNavItems, posts, allTags, caseStudiesByService, CATEGORY_ICONS, categoryTitles, client (+11 more)
+Cohesion: 0.05
+Nodes (20): posts, client, main(), allTags, caseStudiesByService, CATEGORY_ICONS, categoryTitles, client (+12 more)
 
 ### Community 37 - "Community 37"
 Cohesion: 0.17
 Nodes (11): client, isDirectRun, main(), mapArticleBlocksForSanity(), mapFaqsForSanity(), needsArticleBlockFix(), needsFaqFix(), normalizeInlineFaqs() (+3 more)
 
 ### Community 38 - "Community 38"
-Cohesion: 0.13
-Nodes (29): Reveal(), RevealProps, Stagger(), StaggerProps, TextReveal(), TextRevealProps, CustomSoftwarePage(), metadata (+21 more)
+Cohesion: 0.09
+Nodes (34): ABOUT_STATS, FOUNDER_BIO, metadata, REMOTE_POINTS, REMOTE_STEPS, VALUES, Stagger(), TextReveal() (+26 more)
 
 ### Community 39 - "Community 39"
 Cohesion: 0.40
 Nodes (4): schemaTypes, GROUPED_TYPES, SINGLETONS, structure()
 
 ### Community 40 - "Community 40"
-Cohesion: 0.15
-Nodes (12): CMS collections (live on frontend), Commands, CORS (if fetch fails from browser), Environment variables, Next steps, Next steps (Phase 2), Re-seed after editing static source, Repo layout (+4 more)
+Cohesion: 0.14
+Nodes (13): CMS collections (live on frontend), Commands, CORS (if fetch fails from browser), Environment variables, Industry parent landing pages, Next steps, Next steps (Phase 2), Re-seed after editing static source (+5 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.09
-Nodes (18): FOUNDER_BIO, FounderSection(), ABOUT_STATS, AboutPage(), FOUNDER_BIO, metadata, REMOTE_POINTS, REMOTE_STEPS (+10 more)
+Cohesion: 0.11
+Nodes (16): FOUNDER_BIO, FounderSection(), AboutPage(), Reveal(), RevealProps, StaggerProps, metadata, STEPS (+8 more)
 
 ### Community 43 - "Community 43"
-Cohesion: 0.24
-Nodes (9): DEFAULT_FAQ_SECTION_COPY, enrichProcessSteps(), ServiceFaqSectionCopy, ServiceSectionCopy, processIconDataUri(), resolveProcessStepIcon(), SERVICE_PROCESS_ICONS, ServiceProcessIconKey (+1 more)
+Cohesion: 0.05
+Nodes (71): Author, InsightCategory, ServiceGroup, SiteSettings, Testimonial, fetchAllCaseStudiesFromSanity(), fetchAllCustomSoftwareFromSanity(), fetchAllFaqsFromSanity() (+63 more)
 
 ### Community 44 - "Community 44"
 Cohesion: 0.25
@@ -294,12 +304,12 @@ Cohesion: 0.14
 Nodes (13): aeoAnswerBlock, bulletItem, calloutBlock, codeBlock, contentSection, ctaBlock, deliverableItem, extendedObjectTypes (+5 more)
 
 ### Community 46 - "Community 46"
-Cohesion: 0.29
-Nodes (6): industry, industryCategories, industryFields, industryGroups, industryParent, sharedIndustryFields
+Cohesion: 0.25
+Nodes (7): industry, industryCategories, industryFields, industryGroups, industryParent, parentLandingFields, sharedIndustryFields
 
 ### Community 47 - "Community 47"
-Cohesion: 0.06
-Nodes (30): aestheticClinics, applyIndustryDetailOverride(), dentalClinics, IndustryOverride, medspas, overrides, skincareBrands, skincareClinics (+22 more)
+Cohesion: 0.09
+Nodes (24): aestheticClinics, dentalClinics, IndustryOverride, medspas, overrides, skincareBrands, skincareClinics, CustomSoftwareGroupSection (+16 more)
 
 ### Community 48 - "Community 48"
 Cohesion: 0.17
@@ -307,47 +317,47 @@ Nodes (11): aiSummaryField, faqReferencesField, featuredField, llmSnippetField, 
 
 ### Community 49 - "Community 49"
 Cohesion: 0.06
-Nodes (48): ArticleTakeaways(), uniqueFaqs(), uniqueTakeaways(), ensureArticleCta(), ensureDirectAnswer(), joinWordRange(), words(), normalizeInsightPost() (+40 more)
+Nodes (51): ContactPage(), caseStudies, ecommerceNavServices, homepageIndustries, portfolioProjects, products, InsightsPage(), applyTestimonialImageFallback() (+43 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.08
-Nodes (27): megaMenuNavLinks, NavMenuItem, Accordion(), DIRECT_LINKS, LINKS_AFTER_INDUSTRIES, LINKS_BEFORE_ABOUT, MENU_EASE, MobileMenu() (+19 more)
+Cohesion: 0.06
+Nodes (31): LenisProvider(), megaMenuNavLinks, NavMenuGroup, Accordion(), DIRECT_LINKS, LINKS_AFTER_INDUSTRIES, LINKS_BEFORE_ABOUT, MENU_EASE (+23 more)
 
 ### Community 51 - "Community 51"
 Cohesion: 0.18
 Nodes (10): aeoGroup, contentGroup, conversionGroup, editorialGroup, ogGroup, relationshipsGroup, schemaGroup, seoGroup (+2 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.09
-Nodes (25): FaqAccordionItem(), HeroWorkGallery(), HeroWorkGalleryProps, PortfolioHoverMedia(), PortfolioHoverMediaProps, REVEAL_SPRING, PortfolioImage(), ProjectShowcaseLogo() (+17 more)
+Cohesion: 0.10
+Nodes (25): FaqAccordionItem(), HeroWorkGallery(), HeroWorkGalleryProps, PortfolioHoverMedia(), PortfolioHoverMediaProps, REVEAL_SPRING, PortfolioImage(), PricingCardsSection() (+17 more)
 
 ### Community 53 - "Community 53"
-Cohesion: 0.13
-Nodes (17): ArticleJsonLdInput, articlePageGraphJsonLd(), articleTocJsonLd(), HomepageGraphCaseStudy, HomepageGraphComparison, HomepageGraphIndustry, HomepageGraphInput, HomepageGraphPillar (+9 more)
+Cohesion: 0.12
+Nodes (28): aboutPageJsonLd(), ArticleJsonLdInput, articlePageGraphJsonLd(), articleTocJsonLd(), caseStudyJsonLd(), contactPageJsonLd(), estimateWordCount(), HomepageGraphCaseStudy (+20 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.29
-Nodes (6): BlueprintGrid(), BlueprintGridProps, groupFaqsByCategory(), FaqSection(), FaqSectionItem, normalizeFaqItems()
+Cohesion: 0.16
+Nodes (12): ecommerceSegments, fitnessSegments, healthcareSegments, parentServices(), professionalSegments, realEstateSegments, saasSegments, segment() (+4 more)
 
 ### Community 55 - "Community 55"
 Cohesion: 0.33
 Nodes (5): name, overrides, uuid, private, version
 
 ### Community 56 - "Community 56"
-Cohesion: 0.17
-Nodes (11): CustomSoftwareGroupSection, legacyEcommerceNavGroup, PRIMARY_SERVICE_TAB_LABELS, PrimaryServiceGroup, ServiceMegaMenuCard, PRIMARY_SERVICE_GROUPS, PRIMARY_SERVICE_TAB_LABELS, PRIMARY_SERVICE_TAGLINES (+3 more)
+Cohesion: 0.11
+Nodes (26): BlueprintGrid(), BlueprintGridProps, assertLogoTickerDirection(), LOGO_TICKER_SCROLL_DIRECTION, LogoTickerScrollDirection, hasSectionContent(), applyLogoTickerScroll(), LogoTicker() (+18 more)
 
 ### Community 57 - "Community 57"
-Cohesion: 0.32
-Nodes (8): getIndustryTitle(), getPostsBySlugs(), caseStudyJsonLd(), industryJsonLd(), FaqSection(), InternalLinkGrid(), CaseStudyPage(), CaseStudyCards()
+Cohesion: 0.11
+Nodes (21): ArticleInlineCta(), ArticleQuickAnswer(), ArticleAudienceLine(), ArticleShare(), ArticleMobileToc(), ArticleSidebar(), ArticleSidebarProps, SidebarAccordionSection() (+13 more)
 
 ### Community 58 - "Community 58"
-Cohesion: 0.20
-Nodes (13): BenefitItem, BenefitsGrid(), ArticleCoverProps, AuthorAvatar(), SIZE, buildCmsImageUrl(), CMS_IMAGE_WIDTHS, CmsImagePreset (+5 more)
+Cohesion: 0.18
+Nodes (6): agencyComparison, ComparisonRow, ComparisonSection, AgencyComparisonSection(), ComparisonIconCell(), ComparisonTableRow()
 
 ### Community 59 - "Community 59"
-Cohesion: 0.14
-Nodes (9): featuredHomepageIndustries, homepageIndustries, HomepageIndustry, moreHomepageIndustries, COMPANY_LINKS, CUSTOM_SOFTWARE_FOOTER, Footer(), LEGACY_LINKS (+1 more)
+Cohesion: 0.09
+Nodes (15): serviceMegaMenuCards, COMPANY_LINKS, CUSTOM_SOFTWARE_FOOTER, Footer(), LEGACY_LINKS, SECONDARY_TECH_LINKS, mapIconRows(), MigrationIconRow (+7 more)
 
 ### Community 60 - "Community 60"
 Cohesion: 0.23
@@ -355,167 +365,187 @@ Nodes (11): assetCache, buildIconGallery(), client, getOrUploadPlatformAsset(), 
 
 ### Community 61 - "Community 61"
 Cohesion: 0.07
-Nodes (24): buildParentShowcase(), CATEGORY_LABELS, CATEGORY_ORDER, enrichNavItem(), FILTER_LABELS, FILTER_ORDER, FilterKey, PANEL_EASE (+16 more)
+Nodes (23): buildParentShowcase(), CATEGORY_LABELS, CATEGORY_ORDER, enrichNavItem(), FILTER_LABELS, FILTER_ORDER, FilterKey, PANEL_EASE (+15 more)
 
 ### Community 62 - "Community 62"
-Cohesion: 0.32
-Nodes (5): computeTargetX(), HeroLineWave(), HeroLineWaveProps, hoverStrength(), smoothstep()
+Cohesion: 0.17
+Nodes (10): computeTargetX(), HeroLineWave(), HeroLineWaveProps, hoverStrength(), smoothstep(), EASE, HERO_BUILD_ITEMS, HeroRotatingHeadline() (+2 more)
 
 ### Community 63 - "Community 63"
-Cohesion: 0.16
-Nodes (15): migrations, customSoftwareNavItems, PRIMARY_SERVICE_GROUPS, PRIMARY_SERVICE_TAGLINES, serviceNavGroups, getParentSlugForServiceSlug(), getServiceGroups(), getServiceMegaMenuCards() (+7 more)
+Cohesion: 0.18
+Nodes (20): applyIndustryDetailOverride(), filterFeaturedSubIndustries(), loadIndustryDetailContext(), isIndustryParentRecord(), isIndustrySegment(), isNonEmptyCmsValue(), mergeIndustryRecord(), getCaseStudiesByIndustry() (+12 more)
 
 ### Community 64 - "Community 64"
 Cohesion: 0.16
 Nodes (18): extendedTagsForPost(), AUDIENCE_BY_CATEGORY, buildPostEnrichment(), client, coverCache, difficultyFor(), ensureTagDocuments(), ENTITIES_BY_SLUG (+10 more)
 
 ### Community 66 - "Community 66"
-Cohesion: 0.05
-Nodes (49): ContactPage(), metadata, STEPS, POST(), CONTACT_INDUSTRY_OPTIONS, CONTACT_SERVICE_OPTIONS, ContactPrefill, findIndustryLabel() (+41 more)
+Cohesion: 0.27
+Nodes (7): CONTACT_INDUSTRY_OPTIONS, CONTACT_SERVICE_OPTIONS, ContactPrefill, BUDGET_OPTIONS, ContactInput, contactSchema, ContactForm()
 
 ### Community 67 - "Community 67"
-Cohesion: 0.14
-Nodes (18): ArticleContinueReading(), buildIntro(), ContinueReadingCard(), InsightsContinueReadingBlock(), ArticleCover(), ArticleTags(), InsightsArticleGrid(), InsightsGridPost (+10 more)
+Cohesion: 0.09
+Nodes (26): brandWordmark, HomePreloader(), ArticleCard(), ArticleCardShowcaseBody(), formatDate(), ArticleContinueReading(), buildIntro(), ContinueReadingCard() (+18 more)
 
 ### Community 68 - "Community 68"
-Cohesion: 0.23
-Nodes (16): isIndustryParentRecord(), isIndustrySegment(), isNonEmptyCmsValue(), mergeIndustryRecord(), getCaseStudiesByIndustry(), getIndustryBySlug(), getIndustryPageData(), getIndustryParentBySlug() (+8 more)
+Cohesion: 0.33
+Nodes (3): services, client, PARENT_SLUGS
 
 ### Community 69 - "Community 69"
-Cohesion: 0.23
-Nodes (9): defaultProfileLinks, siteSettings, client, deepPatch(), main(), patchString(), SanityDoc, shouldSkipString() (+1 more)
+Cohesion: 0.25
+Nodes (6): FAQ_SECTION_COPY, client, main(), mapFaqsForSanity(), SanityService, servicesBySlug
 
 ### Community 70 - "Community 70"
 Cohesion: 0.19
-Nodes (13): getInsightOverride(), bodyCharCount(), expandPostBody(), expansionSections(), EXTENDED_POST_TAGS, paragraphFromTakeaways(), mapCalloutVariant(), PortableTextBlock (+5 more)
+Nodes (14): getInsightOverride(), bodyCharCount(), expandPostBody(), expansionSections(), EXTENDED_POST_TAGS, paragraphFromTakeaways(), ArticleBlock, mapCalloutVariant() (+6 more)
 
 ### Community 71 - "Community 71"
-Cohesion: 0.20
-Nodes (8): PRODUCT_SURFACES, STATUS_LABEL, STATUS_STYLE, ButtonAsButton, ButtonAsLink, CommonProps, Size, Variant
+Cohesion: 0.06
+Nodes (31): groupFaqsByCategory(), FaqSection(), FaqSectionItem, normalizeFaqItems(), TestimonialCarousel(), IndustrySubIndustriesSection(), InsightsHomePostsSection(), getNavbarOffsetPx() (+23 more)
 
 ### Community 72 - "Community 72"
-Cohesion: 0.50
-Nodes (3): product, productStatuses, productTypes
+Cohesion: 0.12
+Nodes (18): customSoftwareGroups, CustomSoftwareGroupSection, customSoftwareNavItems, legacyEcommerceNavGroup, PRIMARY_SERVICE_GROUPS, PRIMARY_SERVICE_TAB_LABELS, PRIMARY_SERVICE_TAGLINES, PrimaryServiceGroup (+10 more)
 
 ### Community 73 - "Community 73"
-Cohesion: 0.18
-Nodes (6): agencyComparison, ComparisonRow, ComparisonSection, AgencyComparisonSection(), ComparisonIconCell(), ComparisonTableRow()
+Cohesion: 0.21
+Nodes (6): buildLlmsFullTxt(), buildLlmsTxt(), LlmsFullInput, Migration, SITE_ORIGIN, GET()
 
 ### Community 74 - "Community 74"
-Cohesion: 0.12
-Nodes (27): RootLayout(), HomePage(), IndustriesPage(), getAllCaseStudies(), getAllIndustries(), getAllIndustrySlugs(), getAllMigrations(), getFeaturedCaseStudies() (+19 more)
+Cohesion: 0.09
+Nodes (33): CustomCursor(), PageTransition(), geistMono, instrumentSerif, metadata, RootLayout(), sitemap(), STATIC_ROUTES (+25 more)
 
 ### Community 75 - "Community 75"
-Cohesion: 0.24
-Nodes (9): byKey(), CRMAutomationAnimation(), edge(), flowKeyframes, FOCUS, LINKS, NodeDef, NODES (+1 more)
+Cohesion: 0.14
+Nodes (15): AIChatbotAnimation(), AnimationBackdrop(), BrowserChrome(), CollabCursor(), byKey(), CRMAutomationAnimation(), edge(), flowKeyframes (+7 more)
 
 ### Community 76 - "Community 76"
-Cohesion: 0.33
-Nodes (3): serviceMegaMenuCards, client, LEGACY_HREFS
+Cohesion: 0.22
+Nodes (10): LegalDocument, LegalSection, privacyPolicyDocument, termsDocument, LegalPageContent(), LegalPageContentProps, metadata, PrivacyPolicyPage() (+2 more)
 
 ### Community 78 - "Community 78"
 Cohesion: 0.43
 Nodes (5): iconSvg(), main(), MARK_PATHS, root, writePng()
+
+### Community 79 - "Community 79"
+Cohesion: 0.24
+Nodes (4): CountUp(), CountUpProps, StatsRow(), BlueprintGridCrosses()
 
 ### Community 80 - "Community 80"
 Cohesion: 0.43
 Nodes (4): author, optionalEmail(), optionalUrl(), optionalUrlList()
 
 ### Community 81 - "Community 81"
-Cohesion: 0.29
-Nodes (6): AIChatbotAnimation(), AnimationBackdrop(), BrowserChrome(), CollabCursor(), CARDS, WebsiteBuilderAnimation()
+Cohesion: 0.23
+Nodes (9): defaultProfileLinks, siteSettings, client, deepPatch(), main(), patchString(), SanityDoc, shouldSkipString() (+1 more)
 
 ### Community 82 - "Community 82"
-Cohesion: 0.24
-Nodes (4): CountUp(), CountUpProps, StatsRow(), BlueprintGridCrosses()
+Cohesion: 0.42
+Nodes (7): POST(), findIndustryLabel(), findProductLabel(), findServiceLabel(), labelForIndustry(), labelForService(), resolveContactPrefill()
 
 ### Community 83 - "Community 83"
-Cohesion: 0.48
-Nodes (6): sitemap(), STATIC_ROUTES, getAllNestedServiceParams(), getAllParentServiceParams(), getAllServices(), generateStaticParams()
+Cohesion: 0.28
+Nodes (6): SERVICE_PORTFOLIO_HIGHLIGHTS, SERVICE_SLUG_BY_PARENT, getServiceBySlug(), fetchServiceBySlugFromSanity(), client, main()
 
 ### Community 84 - "Community 84"
-Cohesion: 0.43
-Nodes (5): buildLlmsFullTxt(), buildLlmsTxt(), LlmsFullInput, Migration, GET()
+Cohesion: 0.36
+Nodes (7): getIndustryLandingCopy(), IndustryLandingCopy, LANDING_COPY, mergeIndustryLandingCopy(), mergeIndustryLandingFaqs(), mergeIndustryParentWithStaticFallback(), PainPoint
 
 ### Community 86 - "Community 86"
-Cohesion: 0.26
-Nodes (8): brandWordmark, ArticleCard(), ArticleCardShowcaseBody(), formatDate(), Logo(), LogoVariant, Z_MARK_PATHS, ZMark()
+Cohesion: 0.33
+Nodes (4): migrations, FeatureBullet, SeoFields, CustomSoftware
 
 ### Community 88 - "Community 88"
-Cohesion: 0.23
-Nodes (9): SECTION_COPY, SERVICE_SUB_SERVICES_BY_SLUG, SubServiceCard, client, ensureServiceDocumentId(), main(), mapSubServicesForSanity(), migrateServiceSlug() (+1 more)
+Cohesion: 0.32
+Nodes (15): absoluteUrl(), assertDirectAnswer(), assertMetadataBasics(), bodyHasGenericFiller(), bodyHasInternalLinks(), buildGraphForPost(), collectEmptyValues(), countMajorSections() (+7 more)
 
 ### Community 89 - "Community 89"
-Cohesion: 0.32
-Nodes (3): FooterNavLink(), HoverFlip(), useMobileTouchUi()
+Cohesion: 0.33
+Nodes (5): PRODUCT_SURFACES, ProductCard(), STATUS_LABEL, STATUS_STYLE, ProductStatus
 
-### Community 91 - "Community 91"
-Cohesion: 0.24
-Nodes (7): mergeServiceWithStaticFallback(), SERVICE_PORTFOLIO_HIGHLIGHTS, SERVICE_SLUG_BY_PARENT, getServiceBySlug(), fetchServiceBySlugFromSanity(), client, main()
-
-### Community 92 - "Community 92"
-Cohesion: 0.15
-Nodes (26): getServiceFaqSectionCopy(), getServiceProblemsHeadline(), getServiceSectionCopy(), getServiceQuickAnswer(), SERVICE_QUICK_ANSWERS, ServiceQuickAnswer, ProcessSteps(), Step (+18 more)
-
-### Community 93 - "Community 93"
-Cohesion: 0.10
-Nodes (20): sub(), ArticleInlineCta(), ArticleQuickAnswer(), ArticleAudienceLine(), ArticleBody(), ArticleShare(), ArticleMobileToc(), ArticleSidebar() (+12 more)
-
-### Community 94 - "Community 94"
+### Community 90 - "Community 90"
 Cohesion: 0.36
 Nodes (6): PROFILE_LINK_DEFINITIONS, ProfileLinkDefinition, ProfileLinkKey, FooterProfileLinks(), ProfileLinkItem(), ProfileLinks
 
-### Community 96 - "Community 96"
+### Community 91 - "Community 91"
+Cohesion: 0.18
+Nodes (6): featuredHomepageIndustries, HomepageIndustry, moreHomepageIndustries, IndustryNavShowcaseGrid(), SLIDE_EASE, usePerSlideSize()
+
+### Community 92 - "Community 92"
+Cohesion: 0.12
+Nodes (20): getServiceFaqSectionCopy(), getServiceSectionCopy(), getServiceQuickAnswer(), SERVICE_QUICK_ANSWERS, ServiceQuickAnswer, ProcessSteps(), Step, getIndustryTitle() (+12 more)
+
+### Community 93 - "Community 93"
 Cohesion: 0.33
-Nodes (5): HOMEPAGE_PRICING_BADGES, HOMEPAGE_PRICING_SLUGS, HomepagePricingPackage, homepagePricingPackages, HomepagePricingSlug
+Nodes (5): sub(), ArticleBody(), parseInlineLinks(), staticInsightCategories(), slugify()
+
+### Community 95 - "Community 95"
+Cohesion: 0.32
+Nodes (3): FooterNavLink(), HoverFlip(), useMobileTouchUi()
+
+### Community 96 - "Community 96"
+Cohesion: 0.10
+Nodes (39): HomePage(), metadata, PILLARS, ClientLogo, clientLogos, HOMEPAGE_PILLARS, HOMEPAGE_PRICING_BADGES, HOMEPAGE_PRICING_SLUGS (+31 more)
 
 ### Community 97 - "Community 97"
-Cohesion: 0.28
-Nodes (3): initials(), TestimonialAvatar(), TestimonialCarousel()
+Cohesion: 0.25
+Nodes (5): caseStudyTestimonials, PLATFORM_PROFILES, platformTestimonials, rawPlatformTestimonials, testimonials
 
 ### Community 98 - "Community 98"
 Cohesion: 0.40
 Nodes (3): client, DOC_TYPES, Row
 
 ### Community 99 - "Community 99"
-Cohesion: 0.13
-Nodes (14): AlternativeGuide, alternatives, getInsightsByMigration(), faqPageJsonLd(), migrationPlatformLabel(), AlternativeGuidePage(), FALLBACK_BENEFITS, FALLBACK_STEPS (+6 more)
+Cohesion: 0.28
+Nodes (8): checkHtml(), checkRobots(), DUPLICATE_LABEL_PATTERNS, LIVE, main(), PAGES, SPLIT_PATTERNS, STATIC_PAGES
+
+### Community 100 - "Community 100"
+Cohesion: 0.40
+Nodes (4): industries, lines, CaseStudyCard(), industryTitle()
 
 ### Community 101 - "Community 101"
-Cohesion: 0.29
-Nodes (7): ClientLogo, clientLogos, assertLogoTickerDirection(), LOGO_TICKER_SCROLL_DIRECTION, LogoTickerScrollDirection, applyLogoTickerScroll(), LogoTicker()
+Cohesion: 0.40
+Nodes (4): sanityClient, sanityFetch(), sanityFetchOptions, hasSanityReadToken()
 
 ### Community 103 - "Community 103"
-Cohesion: 0.33
-Nodes (3): services, client, PARENT_SLUGS
+Cohesion: 0.30
+Nodes (9): applyInsightOverride(), ArticleTakeaways(), uniqueFaqs(), uniqueTakeaways(), ensureArticleCta(), ensureDirectAnswer(), joinWordRange(), words() (+1 more)
 
 ### Community 104 - "Community 104"
-Cohesion: 0.40
-Nodes (4): EASE, HERO_BUILD_ITEMS, HeroRotatingHeadline(), LONGEST_PHRASE
+Cohesion: 0.24
+Nodes (7): CANONICAL_INDUSTRY_PARENT_SLUGS, industryParents, getParentSlugForSubIndustry(), isParentIndustrySlug(), ParentIndustrySlug, SUB_INDUSTRY_TO_PARENT, generateMetadata()
 
-### Community 106 - "Community 106"
-Cohesion: 0.18
-Nodes (11): metadata, PILLARS, FAQ_CATEGORY_ORDER, FaqItem, faqs, homepageFaqs, TechStackGroup, techStackGroups (+3 more)
+### Community 105 - "Community 105"
+Cohesion: 0.60
+Nodes (3): ArticleFaq(), ArticleFaqAccordion(), ArticleFaq
+
+### Community 112 - "Community 112"
+Cohesion: 0.50
+Nodes (4): AUTHOR_SLUG_ALIASES, resolveAuthorSlugs(), fetchAuthorBySlugFromSanity(), mapAuthor()
+
+### Community 113 - "Community 113"
+Cohesion: 0.33
+Nodes (5): FAQ_CATEGORY_ORDER, FaqItem, faqs, homepageFaqs, FaqItem
 
 ## Knowledge Gaps
-- **564 isolated node(s):** `version`, `configurations`, `allow`, `eslintConfig`, `SERVICE_NESTED_REDIRECTS` (+559 more)
+- **592 isolated node(s):** `version`, `configurations`, `allow`, `eslintConfig`, `SERVICE_NESTED_REDIRECTS` (+587 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Community 52` to `Community 9`, `Community 17`, `Community 28`, `Community 31`, `Community 33`, `Community 38`, `Community 41`, `Community 47`, `Community 50`, `Community 54`, `Community 58`, `Community 59`, `Community 61`, `Community 62`, `Community 63`, `Community 66`, `Community 67`, `Community 71`, `Community 73`, `Community 75`, `Community 81`, `Community 82`, `Community 86`, `Community 89`, `Community 92`, `Community 93`, `Community 94`, `Community 97`, `Community 106`?**
-  _High betweenness centrality (0.072) - this node is a cross-community bridge._
-- **Why does `getAllPosts()` connect `Community 49` to `Community 64`, `Community 99`, `Community 68`, `Community 38`, `Community 106`, `Community 74`, `Community 17`, `Community 83`, `Community 57`, `Community 26`, `Community 92`, `Community 93`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **Why does `main()` connect `Community 49` to `Community 26`?**
+- **Why does `cn()` connect `Community 52` to `Community 9`, `Community 17`, `Community 28`, `Community 31`, `Community 34`, `Community 38`, `Community 41`, `Community 47`, `Community 50`, `Community 56`, `Community 57`, `Community 58`, `Community 59`, `Community 61`, `Community 62`, `Community 66`, `Community 67`, `Community 71`, `Community 72`, `Community 75`, `Community 79`, `Community 89`, `Community 90`, `Community 91`, `Community 92`, `Community 95`, `Community 100`, `Community 105`?**
+  _High betweenness centrality (0.065) - this node is a cross-community bridge._
+- **Why does `services` connect `Community 68` to `Community 64`, `Community 1`, `Community 36`, `Community 69`, `Community 44`, `Community 49`, `Community 82`, `Community 20`, `Community 22`, `Community 29`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `getAllPosts()` connect `Community 49` to `Community 96`, `Community 64`, `Community 99`, `Community 36`, `Community 71`, `Community 41`, `Community 74`, `Community 17`, `Community 88`, `Community 57`, `Community 92`, `Community 63`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Are the 8 inferred relationships involving `breadcrumbJsonLd()` (e.g. with `AlternativeGuidePage()` and `ArticlePage()`) actually correct?**
   _`breadcrumbJsonLd()` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 5 inferred relationships involving `getAllPosts()` (e.g. with `main()` and `ArticlePage()`) actually correct?**
-  _`getAllPosts()` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `version`, `configurations`, `allow` to the rest of the system?**
-  _564 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _592 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.11904761904761904 - nodes in this community are weakly interconnected._
+- **Should `Community 4` be split into smaller, more focused modules?**
+  _Cohesion score 0.12631578947368421 - nodes in this community are weakly interconnected._
