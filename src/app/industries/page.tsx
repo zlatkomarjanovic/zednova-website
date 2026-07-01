@@ -68,7 +68,7 @@ export default async function IndustriesPage() {
         className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
       >
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-b border-zn-border">
+          <div className="relative overflow-hidden border-x border-b border-zn-border">
             <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
             <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 

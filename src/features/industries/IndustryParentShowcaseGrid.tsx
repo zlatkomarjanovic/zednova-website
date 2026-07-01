@@ -36,10 +36,11 @@ const BENTO_LAST_IN_ROW = new Set([1, 3, 5]);
 
 function showcaseCellBorderClass(index: number) {
   return cn(
-    "border-b border-zn-border",
-    index % 2 === 0 && "md:border-r",
+    index < 4 && "border-b border-zn-border",
+    index === 4 && "border-b border-zn-border md:border-b-0",
+    index % 2 === 0 && "md:border-r md:border-zn-border",
     index % 2 === 1 && "md:border-r-0",
-    !BENTO_LAST_IN_ROW.has(index) && "lg:border-r",
+    !BENTO_LAST_IN_ROW.has(index) && "lg:border-r lg:border-zn-border",
     BENTO_LAST_IN_ROW.has(index) && "lg:border-r-0",
   );
 }
@@ -58,7 +59,7 @@ export function IndustryParentShowcaseGrid({
 }) {
   return (
     <Stagger
-      className="grid auto-rows-fr grid-cols-1 border-t border-zn-border md:grid-cols-2 lg:grid-cols-6"
+      className="grid auto-rows-fr grid-cols-1 md:grid-cols-2 lg:grid-cols-6"
       stagger={0.06}
     >
       {parents.map((parent, index) => {
