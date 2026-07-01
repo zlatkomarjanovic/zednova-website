@@ -240,7 +240,9 @@ export function resolveIndustryPageContent(
     process: {
       eyebrow: parent.processEyebrow ?? "Process",
       heading: parent.processHeading ?? "How we work with your team",
-      subheading: parent.processSubheading,
+      subheading:
+        parent.processSubheading ??
+        "A senior-led path from discovery through launch — clear milestones, no hand-offs to juniors, and no surprise rebuilds every quarter.",
       steps: processSteps,
     },
     insights: {

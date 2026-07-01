@@ -26,6 +26,7 @@ export function ServicePageCTA({
   guideShowBottomRail = true,
   guideShowBottomCrosses = true,
   guideShowTopCrosses = true,
+  embedded = false,
 }: {
   heading?: string;
   sub?: string;
@@ -39,25 +40,23 @@ export function ServicePageCTA({
   guideShowBottomRail?: boolean;
   guideShowBottomCrosses?: boolean;
   guideShowTopCrosses?: boolean;
+  /** Render inside a parent BlueprintColumnFrame (no outer section/guides). */
+  embedded?: boolean;
 }) {
-  return (
-    <section data-theme="light" className="relative bg-zn-bg" aria-label="Get started">
-      <BlueprintGrid />
+  const content = (
+    <div className="relative">
+      <div
+        className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-zn-border lg:block"
+        aria-hidden="true"
+      />
 
-      <div className="zn-container-guides relative">
-        <BlueprintColumnFrame
-          bottomInset={guideBottomInset}
-          showBottomRail={guideShowBottomRail}
-          showBottomCrosses={guideShowBottomCrosses}
-          showTopCrosses={guideShowTopCrosses}
-        >
-          <div className="relative">
-            <div
-              className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-zn-border lg:block"
-              aria-hidden="true"
-            />
-
-            <div className="zn-container-inset grid gap-12 py-[clamp(5rem,10vw,8rem)] lg:grid-cols-2 lg:gap-0 lg:py-[clamp(6rem,11vw,9rem)]">
+      <div
+        className={
+          embedded
+            ? "zn-container-inset grid gap-12 border-b border-zn-border py-[clamp(3.5rem,7vw,5.5rem)] lg:grid-cols-2 lg:gap-0 lg:py-[clamp(4rem,8vw,6rem)]"
+            : "zn-container-inset grid gap-12 py-[clamp(5rem,10vw,8rem)] lg:grid-cols-2 lg:gap-0 lg:py-[clamp(6rem,11vw,9rem)]"
+        }
+      >
             <div className="flex flex-col justify-end lg:pr-14 xl:pr-20">
               <Reveal>
                 <SectionLabel withRule={false}>{eyebrow}</SectionLabel>
@@ -116,8 +115,26 @@ export function ServicePageCTA({
                 </ul>
               </Reveal>
             </div>
-            </div>
-          </div>
+      </div>
+    </div>
+  );
+
+  if (embedded) {
+    return content;
+  }
+
+  return (
+    <section data-theme="light" className="relative bg-zn-bg" aria-label="Get started">
+      <BlueprintGrid />
+
+      <div className="zn-container-guides relative">
+        <BlueprintColumnFrame
+          bottomInset={guideBottomInset}
+          showBottomRail={guideShowBottomRail}
+          showBottomCrosses={guideShowBottomCrosses}
+          showTopCrosses={guideShowTopCrosses}
+        >
+          {content}
         </BlueprintColumnFrame>
       </div>
     </section>

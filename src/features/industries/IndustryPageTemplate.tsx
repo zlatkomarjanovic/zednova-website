@@ -183,23 +183,21 @@ export function IndustryPageTemplate({
         </section>
       ) : null}
 
-      <ServicePageCTA
-        eyebrow={page.cta.eyebrow}
-        heading={page.cta.heading}
-        sub={page.cta.subheading}
-        ctaLabel={page.cta.primaryCta.label}
-        ctaHref={page.cta.primaryCta.href}
-        secondaryLabel={page.cta.secondaryCta.label}
-        secondaryHref={page.cta.secondaryCta.href}
-        guideBottomInset={showFaq}
-        guideShowBottomRail
-        guideShowBottomCrosses={!showFaq}
-      />
-
       {showFaq ? (
-        <section data-theme="light" className="relative bg-zn-bg">
+        <section data-theme="light" className="relative bg-zn-bg" aria-label="Get started">
+          <BlueprintGrid />
           <div className="zn-container-guides relative">
-            <BlueprintColumnFrame showTopCrosses={false}>
+            <BlueprintColumnFrame showBottomCrosses bottomInset={false}>
+              <ServicePageCTA
+                embedded
+                eyebrow={page.cta.eyebrow}
+                heading={page.cta.heading}
+                sub={page.cta.subheading}
+                ctaLabel={page.cta.primaryCta.label}
+                ctaHref={page.cta.primaryCta.href}
+                secondaryLabel={page.cta.secondaryCta.label}
+                secondaryHref={page.cta.secondaryCta.href}
+              />
               <FaqSection
                 frameless
                 faqs={faqs}
@@ -211,7 +209,20 @@ export function IndustryPageTemplate({
             </BlueprintColumnFrame>
           </div>
         </section>
-      ) : null}
+      ) : (
+        <ServicePageCTA
+          eyebrow={page.cta.eyebrow}
+          heading={page.cta.heading}
+          sub={page.cta.subheading}
+          ctaLabel={page.cta.primaryCta.label}
+          ctaHref={page.cta.primaryCta.href}
+          secondaryLabel={page.cta.secondaryCta.label}
+          secondaryHref={page.cta.secondaryCta.href}
+          guideBottomInset
+          guideShowBottomRail
+          guideShowBottomCrosses
+        />
+      )}
     </>
   );
 }

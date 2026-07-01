@@ -45,6 +45,9 @@ const client = createClient({
   useCdn: false,
 });
 
+const PROCESS_SUBHEADING =
+  "A senior-led path from discovery through launch — clear milestones, no hand-offs to juniors, and no surprise rebuilds every quarter.";
+
 async function main() {
   console.log("Patching industry FAQs in Sanity…");
 
@@ -52,7 +55,10 @@ async function main() {
     const faqs = INDUSTRY_FAQ_FALLBACKS[slug];
     await client
       .patch(`industryParent-${slug}`)
-      .set({ faqs })
+      .set({
+        faqs,
+        processSubheading: PROCESS_SUBHEADING,
+      })
       .commit();
     console.log(`  ${slug} → ${faqs.length} FAQs`);
   }

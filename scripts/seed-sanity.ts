@@ -566,6 +566,8 @@ for (const parent of industryParents) {
     segmentsSubheading: landing?.subIndustriesSubtext,
     processEyebrow: "Process",
     processHeading: "How we work with your team",
+    processSubheading:
+      "A senior-led path from discovery through launch — clear milestones, no hand-offs to juniors, and no surprise rebuilds every quarter.",
     processSteps: buildIndustryProcessSteps(),
     servicesSubheading:
       "Pick the parent service that matches your bottleneck. We wire it to your industry workflows.",
