@@ -10,6 +10,7 @@ import type {
   IndustryTrustStat,
 } from "@/lib/types/industry-page";
 import { mergeIndustryLandingCopy } from "@/lib/content/industry-detail-fallbacks";
+import { assignIndustryBuildSpans } from "@/lib/content/industry-build-layout";
 import { getServicePublicPath, getParentSlugForServiceSlug } from "@/lib/content/service-routes";
 
 const GLANCE_ICON_DEFAULTS = [
@@ -105,13 +106,13 @@ function defaultGlance(parent: IndustryParent): IndustryGlanceItem[] {
 }
 
 function buildsFromPopular(parent: IndustryParent): IndustryBuildCard[] {
+  const spans = assignIndustryBuildSpans(parent.popularServices.length);
   return parent.popularServices.map((service, index) => ({
     title: service.label,
-    subtitle: "Deliverable",
     body: parent.whatWeBuild,
     bestFor: parent.whoItIsFor.split(".")[0] ?? parent.whoItIsFor,
     serviceHref: resolveHref(service.href),
-    span: BENTO_SPANS[index % BENTO_SPANS.length],
+    span: spans[index] ?? BENTO_SPANS[index % BENTO_SPANS.length],
   }));
 }
 
@@ -161,7 +162,15 @@ export function resolveIndustryPageContent(
     : defaultSystemSteps(parent);
 
   const buildCards = parent.buildCards?.length
-    ? parent.buildCards
+    ? parent.buildCards.map((card, index) => {
+        const spans = assignIndustryBuildSpans(parent.buildCards!.length);
+        const { subtitle, ...rest } = card;
+        return {
+          ...rest,
+          ...(subtitle && !/^deliverables?$/i.test(subtitle.trim()) ? { subtitle } : {}),
+          span: spans[index] ?? card.span ?? "1x1",
+        };
+      })
     : buildsFromPopular(parent);
 
   const segmentCards = parent.segmentCards?.length

@@ -5,7 +5,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
-import { IndustriesPageGrids } from "@/features/industries/IndustriesPageGrids";
+import { IndustryParentShowcaseGrid } from "@/features/industries/IndustryParentShowcaseGrid";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
@@ -29,21 +29,20 @@ export const metadata: Metadata = {
 export default async function IndustriesPage() {
   const industryGroups = await getIndustryGroups();
 
-  const parents = industryGroups.map((group) => ({
+  const parentCards = industryGroups.map((group) => ({
     slug: group.parent.slug,
     href: `/industries/${group.parent.slug}`,
     title: group.parent.title,
+    description: group.parent.shortDescription,
+    hook: group.parent.hook || undefined,
+    icon: group.parent.icon || undefined,
+    specialtyCount: group.industries.length,
+    topSpecialties: group.industries.slice(0, 3).map((i) => i.title),
   }));
 
-  const segments = industryGroups.flatMap((group) =>
-    group.industries.map((industry) => ({
-      href: `/industries/${group.parent.slug}`,
-      title: industry.title,
-      description: industry.hook,
-      icon: industry.icon,
-      parentSlug: group.parent.slug,
-      parentTitle: group.parent.title,
-    })),
+  const totalSpecialties = industryGroups.reduce(
+    (sum, group) => sum + group.industries.length,
+    0,
   );
 
   const crumbs = [
@@ -73,10 +72,11 @@ export default async function IndustriesPage() {
             <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
             <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
+            {/* Hero */}
             <div className="relative border-b border-zn-border">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
-              <div className="zn-container-inset pb-14 pt-36 lg:pb-16 lg:pt-44">
+              <div className="zn-container-inset pb-16 pt-36 lg:pb-20 lg:pt-44">
                 <Breadcrumbs items={crumbs} className="mb-8" />
                 <Reveal>
                   <SectionLabel withRule={false}>Who we serve</SectionLabel>
@@ -88,9 +88,9 @@ export default async function IndustriesPage() {
                 />
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
-                    Six parent industries and the specialties we build for under
-                    each — websites, Shopify stores, booking flows, and CRM
-                    automation.
+                    Six verticals, {totalSpecialties} specialties. Every build
+                    starts from how your industry actually wins clients — not a
+                    generic agency template.
                   </p>
                 </Reveal>
                 <Reveal delay={0.15}>
@@ -106,7 +106,7 @@ export default async function IndustriesPage() {
               </div>
             </div>
 
-            <IndustriesPageGrids parents={parents} segments={segments} />
+            <IndustryParentShowcaseGrid parents={parentCards} />
 
             <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
             <BlueprintCross anchor="right" className="bottom-0 z-10 translate-y-1/2" />

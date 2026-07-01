@@ -2,12 +2,19 @@
 
 import type { IndustryPageContent } from "@/lib/types/industry-page";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
-import { Reveal, Stagger } from "@/components/animations/Reveal";
+import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { SectionLabel } from "@/ui/SectionLabel";
 import { cn } from "@/lib/utils";
 import { hasSectionContent } from "@/lib/content/resolve-industry-page";
 
+/**
+ * Connected system — alternating center-rail timeline.
+ *
+ * Desktop rows use a [1fr_4rem_1fr] grid so the rail, node badge, and
+ * connector line are positioned in a dedicated middle column and always
+ * align, regardless of card height. Mobile collapses to a left rail.
+ */
 export function IndustryTimelineStickySection({
   section,
 }: {
@@ -15,11 +22,14 @@ export function IndustryTimelineStickySection({
 }) {
   if (!hasSectionContent(section.steps) || !section.heading) return null;
 
+  const total = section.steps.length;
+
   return (
     <section data-theme="light" className="relative bg-zn-bg-2/30">
       <BlueprintGrid />
       <div className="zn-container-guides relative">
         <div className="relative border-x border-b border-zn-border bg-zn-bg">
+          {/* Header */}
           <div className="zn-container-inset py-[clamp(3rem,6vw,5rem)] pb-10">
             <div className="mx-auto max-w-3xl text-center">
               <Reveal>
@@ -42,83 +52,115 @@ export function IndustryTimelineStickySection({
             </div>
           </div>
 
-          <div className="relative border-t border-zn-border px-6 pb-[clamp(3rem,6vw,5rem)] pt-4 sm:px-8 lg:px-12">
-            {/* Center rail — desktop only */}
-            <div
-              className="pointer-events-none absolute bottom-16 left-1/2 top-4 hidden w-px -translate-x-1/2 bg-zn-border lg:block"
-              aria-hidden="true"
-            />
+          {/* Timeline */}
+          <div className="border-t border-zn-border px-6 py-[clamp(2.5rem,5vw,4rem)] sm:px-8 lg:px-12">
+            <div className="mx-auto max-w-5xl">
+              {/* ---------- Desktop: alternating center rail ---------- */}
+              <div className="hidden lg:block">
+                {section.steps.map((step, index) => {
+                  const stepLabel = step.label || String(index + 1).padStart(2, "0");
+                  const cardOnLeft = index % 2 === 0;
+                  const isFirst = index === 0;
+                  const isLast = index === total - 1;
 
-            <Stagger className="relative mx-auto max-w-4xl space-y-0" stagger={0.05}>
-              {section.steps.map((step, index) => {
-                const stepLabel = step.label || String(index + 1).padStart(2, "0");
-                const alignRight = index % 2 === 1;
-                const isLast = index === section.steps.length - 1;
-
-                return (
-                  <article
-                    key={step.title}
-                    className={cn(
-                      "relative grid grid-cols-1 gap-6 py-8 lg:grid-cols-2 lg:gap-12 lg:py-10",
-                      alignRight && "lg:[&>div:first-child]:order-2 lg:[&>div:last-child]:order-1",
-                    )}
-                  >
-                    {/* Spacer column for zigzag */}
-                    <div className="hidden lg:block" aria-hidden="true" />
-
-                    <div
-                      className={cn(
-                        "relative lg:max-w-md",
-                        alignRight ? "lg:ml-auto lg:text-right" : "lg:mr-auto lg:text-left",
-                      )}
+                  const card = (
+                    <Reveal
+                      delay={0.05}
+                      className={cn("py-6", cardOnLeft ? "pr-0" : "pl-0")}
                     >
-                      {/* Node on center rail */}
-                      <span
-                        className={cn(
-                          "absolute top-2 z-10 hidden size-3 rounded-full border-2 border-zn-bg bg-zn-text lg:block",
-                          "left-1/2 -translate-x-1/2",
-                        )}
-                        style={{ [alignRight ? "marginLeft" : "marginLeft"]: 0 }}
-                        aria-hidden="true"
-                      />
-
                       <div
                         className={cn(
-                          "rounded-[2px] border border-zn-border bg-white p-6 md:p-7",
-                          alignRight ? "lg:ml-8" : "lg:mr-8",
+                          "group relative rounded-[2px] border border-zn-border bg-white p-6 transition-shadow duration-300 hover:shadow-[0_2px_24px_rgba(0,0,0,0.06)] md:p-7",
                         )}
                       >
-                        <div
+                        {/* Connector from card to rail */}
+                        <span
                           className={cn(
-                            "flex items-start gap-4",
-                            alignRight && "lg:flex-row-reverse lg:text-right",
+                            "absolute top-1/2 h-px w-8 -translate-y-1/2 bg-zn-border",
+                            cardOnLeft ? "left-full" : "right-full",
                           )}
-                        >
-                          <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-[2px] border border-zn-border bg-zn-bg font-mono text-xs tabular-nums text-zn-text">
-                            {stepLabel}
-                          </span>
-                          <div className="min-w-0">
-                            <h3 className="font-sans text-lg font-normal tracking-tight text-zn-text">
-                              {step.title}
-                            </h3>
-                            <p className="mt-3 text-sm leading-relaxed text-zn-text-2 md:text-[0.9375rem]">
-                              {step.body}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {!isLast ? (
-                        <div
-                          className="mx-auto mt-6 h-8 w-px bg-zn-border lg:hidden"
                           aria-hidden="true"
                         />
-                      ) : null}
+                        <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-zn-text-3">
+                          Stage {stepLabel}
+                        </p>
+                        <h3 className="mt-2 font-sans text-lg font-normal tracking-tight text-zn-text md:text-xl">
+                          {step.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-relaxed text-zn-text-2 md:text-[0.9375rem]">
+                          {step.body}
+                        </p>
+                      </div>
+                    </Reveal>
+                  );
+
+                  return (
+                    <div
+                      key={step.title}
+                      className="grid grid-cols-[1fr_4rem_1fr] items-center"
+                    >
+                      {/* Left cell */}
+                      <div>{cardOnLeft ? card : null}</div>
+
+                      {/* Rail cell — line + numbered node */}
+                      <div className="relative flex h-full min-h-[9rem] items-center justify-center self-stretch">
+                        <span
+                          className={cn(
+                            "absolute left-1/2 w-px -translate-x-1/2 bg-zn-border",
+                            isFirst ? "top-1/2" : "top-0",
+                            isLast ? "bottom-1/2" : "bottom-0",
+                          )}
+                          aria-hidden="true"
+                        />
+                        <span className="relative z-10 inline-flex size-10 items-center justify-center rounded-full border border-zn-border bg-zn-bg font-mono text-xs tabular-nums text-zn-text shadow-[0_0_0_6px_var(--color-zn-bg,white)]">
+                          {stepLabel}
+                        </span>
+                      </div>
+
+                      {/* Right cell */}
+                      <div>{!cardOnLeft ? card : null}</div>
                     </div>
-                  </article>
-                );
-              })}
-            </Stagger>
+                  );
+                })}
+              </div>
+
+              {/* ---------- Mobile: left rail ---------- */}
+              <div className="lg:hidden">
+                {section.steps.map((step, index) => {
+                  const stepLabel = step.label || String(index + 1).padStart(2, "0");
+                  const isFirst = index === 0;
+                  const isLast = index === total - 1;
+
+                  return (
+                    <div key={step.title} className="grid grid-cols-[3.5rem_1fr]">
+                      <div className="relative flex justify-center">
+                        <span
+                          className={cn(
+                            "absolute left-1/2 w-px -translate-x-1/2 bg-zn-border",
+                            isFirst ? "top-7" : "top-0",
+                            isLast ? "bottom-[calc(100%-3.5rem)]" : "bottom-0",
+                          )}
+                          aria-hidden="true"
+                        />
+                        <span className="relative z-10 mt-4 inline-flex size-9 items-center justify-center rounded-full border border-zn-border bg-zn-bg font-mono text-[11px] tabular-nums text-zn-text">
+                          {stepLabel}
+                        </span>
+                      </div>
+                      <div className="pb-8 pt-4">
+                        <div className="rounded-[2px] border border-zn-border bg-white p-5">
+                          <h3 className="font-sans text-base font-normal tracking-tight text-zn-text">
+                            {step.title}
+                          </h3>
+                          <p className="mt-2.5 text-sm leading-relaxed text-zn-text-2">
+                            {step.body}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </div>

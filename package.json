@@ -34,7 +34,8 @@
     "qa:insights-all": "node scripts/qa-insights-all.mjs",
     "verify:live-seo": "npx tsx scripts/qa-insights-crawl.ts --live",
     "enrich:insights-posts": "npx tsx scripts/enrich-insights-posts.ts",
-    "audit:cms-images": "npx tsx scripts/audit-cms-images.ts"
+    "audit:cms-images": "npx tsx scripts/audit-cms-images.ts",
+    "seed:industry-images": "npx tsx scripts/seed-industry-images.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

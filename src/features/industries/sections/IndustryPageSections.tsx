@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 
 import type { IndustryGlanceItem, IndustryPageContent } from "@/lib/types/industry-page";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
@@ -34,6 +35,10 @@ function GlanceIcon({ item }: { item: IndustryGlanceItem }) {
 
 type Crumb = { label: string; href?: string };
 
+/* ------------------------------------------------------------------ */
+/* Hero — centered headline + risk-reversal microcopy + trust stat bar */
+/* ------------------------------------------------------------------ */
+
 export function IndustryHeroSection({
   page,
   crumbs,
@@ -42,6 +47,7 @@ export function IndustryHeroSection({
   crumbs: Crumb[];
 }) {
   const { hero } = page;
+  const trustStats = page.cta.trustStats ?? [];
 
   return (
     <section data-theme="light" className="relative bg-zn-bg">
@@ -67,6 +73,7 @@ export function IndustryHeroSection({
                 {hero.subheading}
               </p>
             </Reveal>
+
             <Reveal delay={0.12}>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button href={hero.primaryCta.href} withArrow>
@@ -77,23 +84,48 @@ export function IndustryHeroSection({
                 </Button>
               </div>
             </Reveal>
+            <Reveal delay={0.16}>
+              <p className="mx-auto mt-6 flex items-center justify-center gap-2 font-mono text-[11px] uppercase tracking-[0.1em] text-zn-text-3">
+                <ShieldCheck className="size-3.5" aria-hidden="true" />
+                Senior-led. No retainers required. Reply within one business day.
+              </p>
+            </Reveal>
           </div>
 
           {hero.image ? (
-            <Reveal delay={0.16}>
-              <div className="zn-container-inset pb-12 lg:pb-14">
-                <div className="relative mx-auto aspect-[21/9] max-w-5xl overflow-hidden rounded-[2px] border border-zn-border bg-zn-bg-2">
-                  <CmsImage
-                    src={hero.image}
-                    alt={hero.imageAlt ?? page.title}
-                    fill
-                    sizes="(min-width: 1024px) 80vw, 100vw"
-                    className="object-cover"
-                    priority
-                  />
+            <div className="relative aspect-[21/9] w-full overflow-hidden border-t border-zn-border bg-zn-bg-2">
+              <CmsImage
+                src={hero.image}
+                alt={hero.imageAlt ?? page.title}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                priority
+                preset="hero"
+              />
+            </div>
+          ) : null}
+
+          {trustStats.length > 0 ? (
+            <div className="grid grid-cols-1 border-t border-zn-border sm:grid-cols-3">
+              {trustStats.slice(0, 3).map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className={cn(
+                    "flex flex-col items-center gap-1 px-6 py-6 text-center",
+                    "border-b border-zn-border sm:border-b-0",
+                    index < 2 && "sm:border-r sm:border-zn-border",
+                  )}
+                >
+                  <span className="font-sans text-xl font-normal tracking-tight text-zn-text md:text-2xl">
+                    {stat.value}
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-zn-text-3">
+                    {stat.label}
+                  </span>
                 </div>
-              </div>
-            </Reveal>
+              ))}
+            </div>
           ) : null}
 
           <BlueprintCross anchor="left" className="bottom-0 z-10 translate-y-1/2" />
@@ -103,6 +135,10 @@ export function IndustryHeroSection({
     </section>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* At a glance — spec-sheet cards: icon plate, corner index, accent rule */
+/* ------------------------------------------------------------------ */
 
 export function IndustryAtGlanceSection({
   section,
@@ -131,27 +167,33 @@ export function IndustryAtGlanceSection({
               ) : null}
             </div>
           </div>
+
           <Stagger className="grid grid-cols-1 border-t border-zn-border lg:grid-cols-3" stagger={0.06}>
             {section.items.map((item, index) => (
               <article
                 key={item.title}
                 className={cn(
-                  "flex min-h-[16rem] flex-col px-8 py-10 sm:px-10 lg:px-12 lg:py-12",
-                  index % 2 === 0 ? "bg-zn-bg" : "bg-zn-bg-2",
+                  "relative flex min-h-[16rem] flex-col px-8 py-10 sm:px-10 lg:px-12 lg:py-12",
                   "border-b border-zn-border lg:border-b-0",
                   index < 2 && "lg:border-r lg:border-zn-border",
                 )}
               >
-                <GlanceIcon item={item} />
-                <h3 className="mt-6 font-sans text-lg font-normal tracking-tight text-zn-text">
-                  {item.title}
-                </h3>
+                <div className="flex items-start justify-between gap-4">
+                  <GlanceIcon item={item} />
+                  <span className="font-mono text-[11px] tabular-nums text-zn-text-3">
+                    {String(index + 1).padStart(2, "0")} / {String(section.items.length).padStart(2, "0")}
+                  </span>
+                </div>
+
                 {item.subtitle ? (
-                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-zn-text-3">
+                  <p className="mt-7 font-mono text-[10px] uppercase tracking-[0.14em] text-zn-text-3">
                     {item.subtitle}
                   </p>
                 ) : null}
-                <p className="mt-5 flex-1 text-base leading-relaxed text-zn-text-2">{item.body}</p>
+                <h3 className="mt-2 font-sans text-xl font-normal tracking-tight text-zn-text">
+                  {item.title}
+                </h3>
+                <p className="mt-4 flex-1 text-base leading-relaxed text-zn-text-2">{item.body}</p>
               </article>
             ))}
           </Stagger>
@@ -161,6 +203,10 @@ export function IndustryAtGlanceSection({
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Problems — leak report: sticky intro + numbered rows                */
+/* ------------------------------------------------------------------ */
+
 export function IndustryProblemSection({
   section,
 }: {
@@ -168,12 +214,14 @@ export function IndustryProblemSection({
 }) {
   if (!hasSectionContent(section.items) || !section.heading) return null;
 
+  const count = section.items.length;
+
   return (
     <section data-theme="light" className="relative bg-zn-bg">
       <div className="zn-container-guides relative">
         <div className="relative border-x border-b border-zn-border">
           <div className="grid lg:grid-cols-2">
-            <div className="zn-container-inset border-b border-zn-border py-[clamp(3rem,6vw,5rem)] lg:border-b-0 lg:py-[clamp(4rem,8vw,6rem)]">
+            <div className="zn-container-inset border-b border-zn-border py-[clamp(3rem,6vw,5rem)] lg:sticky lg:top-28 lg:self-start lg:border-b-0 lg:py-[clamp(4rem,8vw,6rem)]">
               {section.eyebrow ? (
                 <SectionLabel withRule={false}>{section.eyebrow}</SectionLabel>
               ) : null}
@@ -183,11 +231,18 @@ export function IndustryProblemSection({
                 className="mt-6 zn-h2 font-sans font-normal text-zn-text"
               />
               {section.subheading ? (
-                <p className="mt-5 text-base leading-relaxed text-zn-text-2">{section.subheading}</p>
+                <p className="mt-5 max-w-md text-base leading-relaxed text-zn-text-2">
+                  {section.subheading}
+                </p>
               ) : null}
+
+              <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.1em] text-zn-text-3">
+                {count} revenue leaks we routinely find
+              </p>
+
               {section.cta ? (
-                <div className="mt-8">
-                  <Button href={section.cta.href} variant="link" withArrow>
+                <div className="mt-10">
+                  <Button href={section.cta.href} withArrow>
                     {section.cta.label}
                   </Button>
                 </div>
@@ -197,7 +252,10 @@ export function IndustryProblemSection({
             <div className="border-t border-zn-border lg:border-l lg:border-t-0">
               <Stagger className="divide-y divide-zn-border" stagger={0.05}>
                 {section.items.map((problem, index) => (
-                  <article key={problem.title} className="flex gap-6 px-8 py-8 sm:px-10 lg:px-12 lg:py-10">
+                  <article
+                    key={problem.title}
+                    className="relative flex gap-6 px-8 py-8 sm:px-10 lg:px-12 lg:py-10"
+                  >
                     <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-[2px] border border-zn-border bg-white font-mono text-xs tabular-nums text-zn-text">
                       {String(index + 1).padStart(2, "0")}
                     </span>
@@ -219,6 +277,10 @@ export function IndustryProblemSection({
     </section>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Segments — compact directory tiles with hover arrows                */
+/* ------------------------------------------------------------------ */
 
 export function IndustrySegmentsSection({
   section,
@@ -254,6 +316,7 @@ export function IndustrySegmentsSection({
               ) : null}
             </div>
           </div>
+
           <Stagger
             className="grid grid-cols-1 border-t border-zn-border sm:grid-cols-2 lg:grid-cols-6"
             stagger={0.04}
@@ -261,12 +324,18 @@ export function IndustrySegmentsSection({
             {section.cards.map((segment, index) => {
               const inner = (
                 <>
-                  <h3 className="font-sans text-base font-normal tracking-tight text-zn-text">
-                    {segment.title}
-                  </h3>
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-sans text-base font-normal tracking-tight text-zn-text">
+                      {segment.title}
+                    </h3>
+                    <ArrowUpRight
+                      className="mt-0.5 size-4 shrink-0 text-zn-text-3 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-zn-text motion-reduce:transition-none"
+                      aria-hidden="true"
+                    />
+                  </div>
                   <p className="mt-2 text-sm leading-relaxed text-zn-text-2">{segment.body}</p>
                   {segment.commonBuild ? (
-                    <p className="mt-4 text-xs text-zn-text-3">
+                    <p className="mt-auto pt-4 text-xs leading-relaxed text-zn-text-3">
                       <span className="font-medium text-zn-text-2">Common build:</span>{" "}
                       {segment.commonBuild}
                     </p>
@@ -275,12 +344,16 @@ export function IndustrySegmentsSection({
               );
 
               const cellClass = cn(
-                "flex flex-col border-b border-r border-zn-border px-6 py-8 sm:px-8",
+                "group flex flex-col border-b border-r border-zn-border px-6 py-8 sm:px-8",
                 segmentSpanClass(index),
               );
 
               return segment.href ? (
-                <Link key={segment.title} href={segment.href} className={cn(cellClass, "transition-colors hover:bg-zn-bg-2")}>
+                <Link
+                  key={segment.title}
+                  href={segment.href}
+                  className={cn(cellClass, "transition-colors hover:bg-zn-bg-2")}
+                >
                   {inner}
                 </Link>
               ) : (

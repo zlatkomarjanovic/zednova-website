@@ -12,6 +12,10 @@ import { BlueprintCross } from "@/ui/BlueprintCross";
 import { CmsImage } from "@/ui/CmsImage";
 import { Icon } from "@/ui/Icon";
 import { cn } from "@/lib/utils";
+import {
+  assignIndustryBuildSpans,
+  isDeliverableTag,
+} from "@/lib/content/industry-build-layout";
 import { hasSectionContent } from "@/lib/content/resolve-industry-page";
 
 const SPAN_CLASS: Record<NonNullable<IndustryBuildCard["span"]>, string> = {
@@ -61,21 +65,29 @@ function cellBorderClass(layout: CellLayout) {
 function BuildCard({
   card,
   layout,
+  index,
 }: {
   card: IndustryBuildCard;
   layout: CellLayout;
+  index: number;
 }) {
   const isFeatured = layout.isWide;
 
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden bg-zn-dark",
+        "group relative flex h-full flex-col overflow-hidden bg-zn-dark transition-colors duration-500 hover:bg-[#1c1c1a]",
         "px-8 py-10 sm:px-10 sm:py-12 lg:px-12 lg:py-14",
         cellBorderClass(layout),
         SPAN_CLASS[card.span ?? "1x1"],
       )}
     >
+      <span
+        className="pointer-events-none absolute right-6 top-6 font-mono text-[11px] tabular-nums text-zn-inv-2/40"
+        aria-hidden="true"
+      >
+        {String(index + 1).padStart(2, "0")}
+      </span>
       {card.image ? (
         <div className="relative -mx-8 -mt-10 mb-8 aspect-[16/9] overflow-hidden sm:-mx-10 sm:-mt-12 md:aspect-auto md:h-48 lg:h-56">
           <CmsImage
@@ -96,7 +108,7 @@ function BuildCard({
           </div>
         ) : null}
 
-        {card.subtitle ? (
+        {card.subtitle && !isDeliverableTag(card.subtitle) ? (
           <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-zn-inv-2">
             {card.subtitle}
           </p>
@@ -106,7 +118,7 @@ function BuildCard({
           className={cn(
             "max-w-md font-sans font-normal leading-[1.12] tracking-[-0.02em] text-zn-inv",
             isFeatured ? "text-[1.45rem] lg:text-[1.65rem]" : "text-[1.35rem] lg:text-[1.5rem]",
-            card.subtitle && "mt-2",
+            card.subtitle && !isDeliverableTag(card.subtitle) && "mt-2",
           )}
         >
           {card.title}
@@ -143,7 +155,12 @@ export function IndustryBuildBentoSection({
 }) {
   if (!hasSectionContent(section.cards) || !section.heading) return null;
 
-  const layouts = layoutBuildCells(section.cards);
+  const spans = assignIndustryBuildSpans(section.cards.length);
+  const cards = section.cards.map((card, index) => ({
+    ...card,
+    span: spans[index] ?? card.span ?? "1x1",
+  }));
+  const layouts = layoutBuildCells(cards);
 
   return (
     <section
@@ -176,11 +193,11 @@ export function IndustryBuildBentoSection({
           </div>
 
           <Stagger
-            className="grid auto-rows-fr grid-cols-1 border-t border-zn-border-dk md:grid-cols-2"
+            className="grid auto-rows-fr grid-cols-1 border-t border-zn-border-dk pb-[12mm] md:grid-cols-2"
             stagger={0.05}
           >
-            {section.cards.map((card, index) => (
-              <BuildCard key={card.title} card={card} layout={layouts[index]!} />
+            {cards.map((card, index) => (
+              <BuildCard key={card.title} card={card} layout={layouts[index]!} index={index} />
             ))}
           </Stagger>
         </div>

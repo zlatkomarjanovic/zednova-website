@@ -31,6 +31,7 @@ import {
   serviceMegaMenuCards,
   serviceNavGroups,
 } from "../src/lib/content/nav-menu";
+import { assignIndustryBuildSpans } from "../src/lib/content/industry-build-layout";
 import {
   buildPostEnrichment,
 } from "./enrich-insights-posts";
@@ -491,13 +492,13 @@ function buildIndustryProcessSteps() {
 }
 
 function buildIndustryBuildCards(parent: (typeof industryParents)[number]) {
+  const spans = assignIndustryBuildSpans(parent.popularServices.length);
   return parent.popularServices.map((service, index) => ({
     title: service.label,
-    subtitle: "Deliverable",
     body: parent.whatWeBuild,
     bestFor: parent.whoItIsFor.split(".")[0] ?? parent.whoItIsFor,
     serviceHref: service.href,
-    span: INDUSTRY_BENTO_SPANS[index % INDUSTRY_BENTO_SPANS.length],
+    span: spans[index] ?? INDUSTRY_BENTO_SPANS[index % INDUSTRY_BENTO_SPANS.length],
   }));
 }
 

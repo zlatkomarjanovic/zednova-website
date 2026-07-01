@@ -190,6 +190,7 @@ export async function fetchIndustryParentBySlugFromSanity(
     {
       query: INDUSTRY_PARENT_BY_SLUG_QUERY,
       params: { slug },
+      revalidate: 0,
     },
   );
   return doc ? mapIndustryParent(doc) : null;

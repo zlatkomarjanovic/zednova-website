@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1782928819.8545072,
-    "ast_hash": "09a20e712b20294877603e4a0e0f628e",
+    "mtime": 1782938891.6759741,
+    "ast_hash": "c075acb40fe1361d775852fc2252c910",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "src/app/industries/page.tsx": {
-    "mtime": 1782928509.9014046,
-    "ast_hash": "af38d2073af230e6db650bfab5d4c5b0",
+    "mtime": 1782937865.8692794,
+    "ast_hash": "52a2e2351b1d39be151aaf57f6ad554c",
     "semantic_hash": ""
   },
   "src/app/insights/[slug]/page.tsx": {
@@ -507,11 +507,6 @@
   "src/features/home/TestimonialCarousel.tsx": {
     "mtime": 1782402669.7629137,
     "ast_hash": "de64283ae25233a131f64d0cb116aad3",
-    "semantic_hash": ""
-  },
-  "src/features/industries/IndustriesPageGrids.tsx": {
-    "mtime": 1782395387.5713384,
-    "ast_hash": "d9a98592e27a42dc1780d80e4734ff36",
     "semantic_hash": ""
   },
   "src/features/industries/IndustryCard.tsx": {
@@ -915,8 +910,8 @@
     "semantic_hash": ""
   },
   "scripts/seed-sanity.ts": {
-    "mtime": 1782931628.7154899,
-    "ast_hash": "2cb3ba47977e62393030ab19ff76f3ce",
+    "mtime": 1782938875.75994,
+    "ast_hash": "b2d144b7859410cb77f1c462c1e21f41",
     "semantic_hash": ""
   },
   "src/lib/types/content-nav.ts": {
@@ -1810,8 +1805,8 @@
     "semantic_hash": ""
   },
   "src/lib/content/industry-detail-fallbacks.ts": {
-    "mtime": 1782931648.3417776,
-    "ast_hash": "94a8e17007156974211dafe979ce3532",
+    "mtime": 1782934310.4345345,
+    "ast_hash": "4990064393a0e2ae7b81559171c8433a",
     "semantic_hash": ""
   },
   "src/lib/content/industry-routes.ts": {
@@ -1840,13 +1835,13 @@
     "semantic_hash": ""
   },
   "src/features/industries/sections/IndustryBuildBentoSection.tsx": {
-    "mtime": 1782931181.2930374,
-    "ast_hash": "7d2e275ab53599a8481bbb7d7ddcdfac",
+    "mtime": 1782938847.797374,
+    "ast_hash": "9e56c4abbd1b34918db6aa9fd9a6eba5",
     "semantic_hash": ""
   },
   "src/features/industries/sections/IndustryPageSections.tsx": {
-    "mtime": 1782931567.9477656,
-    "ast_hash": "1ffc076f2a1d2b505fade00de20b732e",
+    "mtime": 1782937930.6874063,
+    "ast_hash": "efb6d613c5a7199a2bf8dfdbcbe85df1",
     "semantic_hash": ""
   },
   "src/features/industries/sections/IndustryProcessSection.tsx": {
@@ -1860,13 +1855,13 @@
     "semantic_hash": ""
   },
   "src/features/industries/sections/IndustryTimelineStickySection.tsx": {
-    "mtime": 1782931177.2077205,
-    "ast_hash": "a5126bf56976a61efc51ad36e3a5d366",
+    "mtime": 1782936483.007825,
+    "ast_hash": "4a6203fb8421a6219ce9e6013e4f9e95",
     "semantic_hash": ""
   },
   "src/lib/content/resolve-industry-page.ts": {
-    "mtime": 1782931560.5684793,
-    "ast_hash": "e9c50781dc0d3ed232aa5444a2690177",
+    "mtime": 1782938876.800847,
+    "ast_hash": "1b94262495afd9d093f515ca418b8476",
     "semantic_hash": ""
   },
   "src/lib/types/industry-page.ts": {
@@ -1892,6 +1887,21 @@
   "public/icons/industry/glance-outcome.svg": {
     "mtime": 1782931004.2100513,
     "ast_hash": "711f57cce2afc308f058700d29a17f0b",
+    "semantic_hash": ""
+  },
+  "src/features/industries/IndustryParentShowcaseGrid.tsx": {
+    "mtime": 1782937725.5304327,
+    "ast_hash": "03799f21ddeb7bdae73e315f21095085",
+    "semantic_hash": ""
+  },
+  "scripts/seed-industry-images.ts": {
+    "mtime": 1782938924.7854908,
+    "ast_hash": "81c2c0387a1c3454670a9b309410c333",
+    "semantic_hash": ""
+  },
+  "src/lib/content/industry-build-layout.ts": {
+    "mtime": 1782938834.7781506,
+    "ast_hash": "2f2804a997dfc61b60517ca9a26023dd",
     "semantic_hash": ""
   }
 }
