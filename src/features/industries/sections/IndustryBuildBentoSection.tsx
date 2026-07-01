@@ -193,7 +193,7 @@ export function IndustryBuildBentoSection({
           </div>
 
           <Stagger
-            className="grid auto-rows-fr grid-cols-1 border-t border-zn-border-dk pb-[12mm] md:grid-cols-2"
+            className="grid auto-rows-fr grid-cols-1 border-t border-zn-border-dk pb-28 md:grid-cols-2"
             stagger={0.05}
           >
             {cards.map((card, index) => (
