@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -58,86 +58,70 @@ const LINKS_AFTER_INDUSTRIES = [
 ];
 
 const MENU_EASE = [0.22, 1, 0.36, 1] as const;
+const MENU_EASE_CSS = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 const NAV_HIGHLIGHT_LIGHT_FILL = "var(--color-zn-bg-3)";
 const NAV_HIGHLIGHT_LIGHT_FILL_OPACITY = 0.75;
 const NAV_HIGHLIGHT_DARK_FILL = "var(--color-zn-dark-2)";
 const NAV_HIGHLIGHT_DARK_FILL_OPACITY = 0.9;
 
-const panelSlide = {
-  initial: (direction: number) => ({
-    x: direction === 0 ? "0%" : direction > 0 ? "100%" : "-100%",
-    opacity: direction === 0 ? 1 : 0,
-  }),
+const panelFade = {
+  initial: { opacity: 0, y: -10 },
   animate: {
-    x: "0%",
     opacity: 1,
-    transition: { duration: 0.48, ease: MENU_EASE },
+    y: 0,
+    transition: { duration: 0.38, ease: MENU_EASE },
   },
-  exit: (direction: number) => ({
-    x: direction > 0 ? "-100%" : direction < 0 ? "100%" : "0%",
+  exit: {
     opacity: 0,
-    transition: { duration: 0.44, ease: MENU_EASE },
-  }),
+    y: -8,
+    transition: { duration: 0.28, ease: MENU_EASE },
+  },
 };
 
-function MegaMenuShell({
-  openMenu,
+function MegaMenuPanel({
+  menu,
   slideDirection,
-  shellHeight,
-  onHeightChange,
   children,
 }: {
-  openMenu: MegaMenuType;
+  menu: MegaMenuType;
   slideDirection: number;
-  shellHeight: number;
-  onHeightChange: (height: number) => void;
   children: React.ReactNode;
 }) {
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  const measure = useCallback(() => {
-    const el = panelRef.current;
-    if (!el) return;
-    onHeightChange(el.offsetHeight);
-  }, [onHeightChange]);
-
-  useLayoutEffect(() => {
-    measure();
-    const el = panelRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    const raf = requestAnimationFrame(() => {
-      requestAnimationFrame(measure);
-    });
-    return () => {
-      cancelAnimationFrame(raf);
-      ro.disconnect();
-    };
-  }, [openMenu, measure]);
+  const panelVariants = {
+    initial: {
+      opacity: 0,
+      x: slideDirection === 0 ? 0 : slideDirection > 0 ? 48 : -48,
+      y: slideDirection === 0 ? -8 : 0,
+    },
+    animate: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: { duration: 0.38, ease: MENU_EASE },
+    },
+    exit: {
+      opacity: 0,
+      x: slideDirection === 0 ? 0 : slideDirection > 0 ? -48 : 48,
+      y: slideDirection === 0 ? -6 : 0,
+      transition: { duration: 0.28, ease: MENU_EASE },
+    },
+  };
 
   return (
-    <div
-      className="relative w-full overflow-hidden"
-      style={{ height: shellHeight > 0 ? shellHeight : undefined }}
-    >
-      <AnimatePresence initial={false} custom={slideDirection}>
-        <motion.div
-          key={openMenu}
-          ref={panelRef}
-          custom={slideDirection}
-          variants={panelSlide}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          className="absolute inset-x-0 top-0 w-full will-change-transform"
-          onAnimationComplete={measure}
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
-    </div>
+    <AnimatePresence initial={false} mode="popLayout" custom={slideDirection}>
+      <motion.div
+        key={menu}
+        custom={slideDirection}
+        variants={panelVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        className="w-full will-change-[transform,opacity]"
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -151,15 +135,46 @@ export function Navbar({
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<MegaMenuType | null>(null);
+  const [renderMenu, setRenderMenu] = useState<MegaMenuType | null>(null);
+  const [megaExpanded, setMegaExpanded] = useState(false);
+  const [megaPanelVisible, setMegaPanelVisible] = useState(false);
   const [slideDirection, setSlideDirection] = useState(0);
-  const [panelHeight, setPanelHeight] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const expandRaf = useRef<number | null>(null);
   const navBarRef = useRef<HTMLDivElement>(null);
   const navHighlight = useRubberHoverHighlight<HTMLElement>({
     bendScale: 0.45,
     cornerRadius: 4,
   });
+
+  const clearExpandRaf = useCallback(() => {
+    if (expandRaf.current !== null) {
+      cancelAnimationFrame(expandRaf.current);
+      expandRaf.current = null;
+    }
+  }, []);
+
+  const beginMegaExpand = useCallback(() => {
+    clearExpandRaf();
+    setMegaExpanded(false);
+    expandRaf.current = requestAnimationFrame(() => {
+      expandRaf.current = requestAnimationFrame(() => {
+        setMegaExpanded(true);
+        expandRaf.current = null;
+      });
+    });
+  }, [clearExpandRaf]);
+
+  const finishMegaPanelClose = useCallback(() => {
+    setRenderMenu(null);
+    setMegaPanelVisible(false);
+    setSlideDirection(0);
+  }, []);
+
+  useEffect(() => {
+    return () => clearExpandRaf();
+  }, [clearExpandRaf]);
 
   useEffect(() => {
     let last = window.scrollY;
@@ -168,9 +183,9 @@ export function Navbar({
       setScrolled(y > 8);
       if (openMenu || mobileOpen) {
         setHidden(false);
-      } else if (y > 100 && y > last + 4) {
+      } else if (y > 100 && y > last + 10) {
         setHidden(true);
-      } else if (y < last - 4) {
+      } else if (y < last - 10) {
         setHidden(false);
       }
       last = y;
@@ -180,9 +195,12 @@ export function Navbar({
   }, [openMenu, mobileOpen]);
 
   useEffect(() => {
+    clearExpandRaf();
     setOpenMenu(null);
+    setRenderMenu(null);
+    setMegaExpanded(false);
+    setMegaPanelVisible(false);
     setSlideDirection(0);
-    setPanelHeight(0);
     setMobileOpen(false);
 
     let raf = 0;
@@ -209,30 +227,32 @@ export function Navbar({
       window.removeEventListener(NAVBAR_SCROLL_EVENT, updateTheme);
       window.removeEventListener("resize", updateTheme);
     };
-  }, [pathname]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setSlideDirection(0);
-        setOpenMenu(null);
-        setMobileOpen(false);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [pathname, clearExpandRaf]);
 
   const closePanel = useCallback(() => {
     setSlideDirection(0);
     setOpenMenu(null);
+    setMegaExpanded(false);
   }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (openMenu) closePanel();
+      if (mobileOpen) setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openMenu, mobileOpen, closePanel]);
 
   useEffect(() => {
     if (!mobileOpen) return;
     setHidden(false);
     setSlideDirection(0);
+    setMegaExpanded(false);
     setOpenMenu(null);
+    setRenderMenu(null);
+    setMegaPanelVisible(false);
   }, [mobileOpen]);
 
   useEffect(() => {
@@ -251,15 +271,15 @@ export function Navbar({
     setMobileOpen((open) => {
       if (!open) {
         setSlideDirection(0);
-        setOpenMenu(null);
+        closePanel();
       }
       return !open;
     });
-  }, []);
+  }, [closePanel]);
 
   const scheduleClose = useCallback(() => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(closePanel, 140);
+    closeTimer.current = setTimeout(closePanel, 220);
   }, [closePanel]);
 
   const cancelClose = useCallback(() => {
@@ -268,7 +288,9 @@ export function Navbar({
 
   const openPanel = (menu: MegaMenuType) => {
     cancelClose();
-    if (openMenu) {
+    const wasOpen = openMenu !== null;
+
+    if (wasOpen && openMenu) {
       const currentIndex = MENU_ORDER.indexOf(openMenu);
       const nextIndex = MENU_ORDER.indexOf(menu);
       if (nextIndex > currentIndex) setSlideDirection(1);
@@ -277,8 +299,14 @@ export function Navbar({
     } else {
       setSlideDirection(0);
     }
-    setPanelHeight(0);
+
+    setRenderMenu(menu);
     setOpenMenu(menu);
+    setMegaPanelVisible(true);
+
+    if (!wasOpen) {
+      beginMegaExpand();
+    }
   };
 
   const togglePanel = (menu: MegaMenuType) => {
@@ -290,22 +318,33 @@ export function Navbar({
     openPanel(menu);
   };
 
+  const handleMegaTransitionEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
+    if (event.propertyName !== "grid-template-rows") return;
+    if (!megaExpanded && !openMenu) {
+      finishMegaPanelClose();
+    }
+  };
+
   const isDark = mobileOpen ? true : theme === "dark";
 
   return (
     <>
-      <header
+      <motion.header
         onMouseLeave={scheduleClose}
+        animate={{ y: hidden && !mobileOpen ? -100 : 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 flex flex-col border-b transition-[transform,background-color,border-color,height] duration-500 ease-out",
-          (openMenu || mobileOpen) && "z-[80]",
-          mobileOpen && "max-lg:h-dvh max-lg:bg-zn-dark max-lg:text-zn-inv max-lg:border-zn-border-dk",
-          hidden && !mobileOpen ? "-translate-y-full" : "translate-y-0",
+          "fixed inset-x-0 top-0 z-50 flex flex-col border-b max-lg:overflow-hidden will-change-transform",
+          (openMenu || megaPanelVisible || mobileOpen) && "z-[80]",
+          mobileOpen
+            ? "max-lg:max-h-[100dvh] max-lg:bg-zn-dark max-lg:text-zn-inv max-lg:border-zn-border-dk"
+            : "max-lg:max-h-[calc(4.5rem+env(safe-area-inset-top,0px))]",
+          "transition-[background-color,border-color,max-height] duration-[400ms] ease-out",
           isDark
             ? "border-zn-border-dk/60 text-zn-inv"
             : "border-zn-border/60 text-zn-text",
           !mobileOpen &&
-            (openMenu
+            (megaPanelVisible
               ? isDark
                 ? "bg-zn-dark"
                 : "bg-zn-bg"
@@ -412,10 +451,10 @@ export function Navbar({
           {mobileOpen && (
             <motion.div
               key="mobile-panel"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.32, ease: MENU_EASE }}
+              variants={panelFade}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               className="flex min-h-0 flex-1 flex-col lg:hidden"
             >
               <MobileNavPanel
@@ -428,42 +467,31 @@ export function Navbar({
           )}
         </AnimatePresence>
 
-        <AnimatePresence
-          initial={false}
-          onExitComplete={() => {
-            setSlideDirection(0);
-            setPanelHeight(0);
-          }}
-        >
-          {openMenu && !mobileOpen && (
-            <motion.div
-              key="mega-shell"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: panelHeight, opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.44, ease: MENU_EASE }}
-              className="overflow-hidden"
-              onMouseEnter={cancelClose}
-            >
-              <MegaMenuShell
-                openMenu={openMenu}
-                slideDirection={slideDirection}
-                shellHeight={panelHeight}
-                onHeightChange={setPanelHeight}
-              >
+        {renderMenu && !mobileOpen && (
+          <div
+            onTransitionEnd={handleMegaTransitionEnd}
+            onMouseEnter={cancelClose}
+            className={cn(
+              "hidden grid overflow-hidden transition-[grid-template-rows,opacity] duration-500 lg:grid",
+              megaExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+            )}
+            style={{ transitionTimingFunction: MENU_EASE_CSS }}
+          >
+            <div className="min-h-0 overflow-hidden">
+              <MegaMenuPanel menu={renderMenu} slideDirection={slideDirection}>
                 <MegaMenu
-                  type={openMenu}
+                  type={renderMenu}
                   industryNavItems={industryNavItems}
                   serviceMegaMenuCards={serviceMegaMenuCards}
                   insightsNavPosts={insightsNavPosts}
                   theme={isDark ? "dark" : "light"}
                   onNavigate={closePanel}
                 />
-              </MegaMenuShell>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+              </MegaMenuPanel>
+            </div>
+          </div>
+        )}
+      </motion.header>
     </>
   );
 }
@@ -504,7 +532,7 @@ function MegaTrigger({
       >
         <ChevronDown
           className={cn(
-            "size-3.5 transition-transform duration-200",
+            "size-3.5 transition-transform duration-300 ease-out",
             isOpen && "rotate-180",
           )}
         />

@@ -582,7 +582,7 @@ export function MegaMenu({
 }: MegaMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const highlight = useRubberHoverHighlight();
-  useBlueprintReveal(panelRef, "mount");
+  useBlueprintReveal(panelRef, "none");
 
   const isDark = theme === "dark";
   const borderClass = isDark ? "border-zn-border-dk" : "border-zn-border";
