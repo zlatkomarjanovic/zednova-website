@@ -1141,7 +1141,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   try {
     const has = await sanityHasContent("siteSettings");
     if (!has) return staticSiteSettings;
-    return (await fetchSiteSettingsFromSanity()) ?? staticSiteSettings;
+    return { ...((await fetchSiteSettingsFromSanity()) ?? staticSiteSettings), contactEmail: staticSiteSettings.contactEmail };
   } catch {
     return staticSiteSettings;
   }

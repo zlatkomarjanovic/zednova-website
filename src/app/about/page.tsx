@@ -12,6 +12,7 @@ import { FounderSection } from "@/features/about/FounderSection";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { EntitySummary } from "@/ui/EntitySummary";
+import { CONTACT_EMAIL } from "@/lib/content/site";
 import { aboutPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { team } from "@/lib/content/team";
 
@@ -257,7 +258,7 @@ export default function AboutPage() {
         heading="Ready to start your next website, software, or automation project?"
         sub="Tell us what you need and we will scope it clearly. Whether you need a new website, Shopify store, internal dashboard, booking flow, CRM automation, AI chatbot, client portal, or migration to a better stack, we can help you figure out the right build."
         ctaLabel="Tell us what you need"
-        note="Or email us at hello@zednova.com. We usually reply within 24 hours."
+        note={`Or email us at ${CONTACT_EMAIL}. We usually reply within 24 hours.`}
       />
     </>
   );

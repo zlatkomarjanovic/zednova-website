@@ -77,7 +77,7 @@ export default async function ContactPage({
               eyebrow="Contact"
               eyebrowWithRule={false}
               title="Tell us what you need"
-              description="Book a 30-minute call below, or send the form and we will reply within 24 hours."
+              description={`Book a 30-minute call below, send the form, or email ${settings.contactEmail}. We reply within 24 hours.`}
             />
           </div>
 

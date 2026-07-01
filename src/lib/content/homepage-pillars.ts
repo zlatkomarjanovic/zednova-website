@@ -14,4 +14,4 @@ export const HOMEPAGE_PILLARS = [
     title: "We add AI where it saves time",
     body: "AI voice and chat assistants that answer calls, qualify leads, book appointments, and text back missed calls before they call your competitor.",
   },
-] as const;
+] ;

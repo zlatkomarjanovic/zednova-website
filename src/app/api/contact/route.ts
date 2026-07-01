@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
+import { CONTACT_EMAIL } from "@/lib/content/site";
 import { labelForIndustry, labelForService } from "@/lib/queries";
 import { getSiteSettings } from "@/lib/queries";
 import { contactSchema } from "@/lib/validation";
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
     if (error) {
       console.error("[contact] Resend error:", error);
       return NextResponse.json(
-        { error: "Could not send your message. Email hello@zednova.com directly." },
+        { error: `Could not send your message. Email ${CONTACT_EMAIL} directly.` },
         { status: 500 },
       );
     }

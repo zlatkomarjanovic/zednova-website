@@ -2,6 +2,7 @@
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
+import { CONTACT_EMAIL } from "@/lib/content/site";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
 
@@ -77,10 +78,10 @@ export function ServicePageCTA({
                 <p className="text-sm leading-relaxed text-zn-text-3">
                   Or email{" "}
                   <a
-                    href="mailto:hello@zednova.com"
+                    href={`mailto:${CONTACT_EMAIL}`}
                     className="text-zn-text underline decoration-zn-border underline-offset-4 transition-colors hover:decoration-zn-text"
                   >
-                    hello@zednova.com
+                    {CONTACT_EMAIL}
                   </a>
                   . We reply within 24 hours.
                 </p>

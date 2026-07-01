@@ -15,7 +15,7 @@ export type LegalDocument = {
 };
 
 const LAST_UPDATED = "June 25, 2026";
-const CONTACT_EMAIL = "hello@zednova.com";
+import { CONTACT_EMAIL } from "@/lib/content/site";
 const LEGAL_ENTITY = "ZedNova Studio LLC";
 
 export const privacyPolicyDocument: LegalDocument = {

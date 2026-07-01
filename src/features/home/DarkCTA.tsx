@@ -4,14 +4,17 @@ import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { Button } from "@/ui/Button";
 import { CalBookingEmbed } from "@/features/home/CalBookingEmbed";
+import { CONTACT_EMAIL } from "@/lib/content/site";
 import { cn } from "@/lib/utils";
+
+const DEFAULT_NOTE = `Or email us at ${CONTACT_EMAIL}. We reply within 24 hours.`;
 
 export function DarkCTA({
   heading = "Ready to start your next website or automation project?",
   sub = "Tell us what you need and we will scope it out on the first call. Whether it is a new site, a Shopify store, a booking flow, or a migration, we have done it before.",
   ctaLabel = "Tell us what you need",
   ctaHref = "/contact",
-  note = "Or email us at hello@zednova.com. We reply within 24 hours.",
+  note = DEFAULT_NOTE,
   bookingEmbed = false,
 }: {
   heading?: string;

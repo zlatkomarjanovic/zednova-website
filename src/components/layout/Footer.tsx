@@ -82,6 +82,12 @@ export function Footer({
             </div>
             <div className="flex flex-col gap-4 lg:items-end lg:text-right">
               <p className="text-sm text-zn-inv-2">CST (Texas) · We work async</p>
+              <a
+                href={`mailto:${settings.contactEmail}`}
+                className="text-sm text-zn-inv underline-offset-4 transition-opacity hover:text-zn-inv-2 hover:underline"
+              >
+                {settings.contactEmail}
+              </a>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 lg:justify-end">
                 <FooterProfileLinks profileLinks={settings.profileLinks} />
                 <span

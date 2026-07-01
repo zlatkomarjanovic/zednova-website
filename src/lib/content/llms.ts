@@ -2,7 +2,7 @@ import { SITE_ORIGIN } from "@/lib/site-url";
 import type { CaseStudy, Post, Service } from "@/lib/types";
 import type { Migration } from "@/lib/content/migrations";
 
-const CONTACT_EMAIL = "hello@zednova.com";
+import { CONTACT_EMAIL } from "@/lib/content/site";
 
 /** Short machine-readable index for /llms.txt */
 export function buildLlmsTxt(): string {
