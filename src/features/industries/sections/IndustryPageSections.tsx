@@ -57,7 +57,7 @@ export function IndustryHeroSection({
           <BlueprintCross anchor="left" className="top-0 z-10 -translate-y-1/2" />
           <BlueprintCross anchor="right" className="top-0 z-10 -translate-y-1/2" />
 
-          <div className="zn-container-inset pb-10 pt-24 text-center lg:pb-12 lg:pt-28">
+          <div className="zn-container-inset pb-16 pt-36 text-center lg:pb-20 lg:pt-44">
             <Reveal>
               <div className="flex justify-center">
                 <Breadcrumbs items={crumbs} />
