@@ -46,6 +46,7 @@ export function IndustryServicesShowcase({
   customSoftware,
   migrations,
   linkedServiceSlugs = [],
+  inSageFlow = false,
 }: {
   section: IndustryPageContent["services"];
   serviceNavGroups: NavMenuGroup[];
@@ -54,6 +55,8 @@ export function IndustryServicesShowcase({
   customSoftware: CustomSoftware[];
   migrations: Migration[];
   linkedServiceSlugs?: string[];
+  /** When true, background/grain come from a parent sage wrapper (e.g. process below). */
+  inSageFlow?: boolean;
 }) {
   const visibleGroups = useMemo(
     () => (linkedServiceSlugs.length > 0 ? resolveGroupsForServiceSlugs(linkedServiceSlugs) : undefined),
@@ -62,12 +65,8 @@ export function IndustryServicesShowcase({
 
   if (!section.heading) return null;
 
-  return (
-    <section
-      data-theme="light"
-      className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage-mid via-zn-sage-mid to-zn-sage"
-    >
-      <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
+  const content = (
+    <>
       <BlueprintGrid />
       <div className="zn-container relative">
         <div className="max-w-2xl">
@@ -98,6 +97,24 @@ export function IndustryServicesShowcase({
           visibleGroups={visibleGroups}
         />
       </div>
+    </>
+  );
+
+  if (inSageFlow) {
+    return (
+      <div className="relative zn-section pb-0">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <section
+      data-theme="light"
+      className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage-mid via-zn-sage-mid to-zn-sage"
+    >
+      <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
+      {content}
     </section>
   );
 }

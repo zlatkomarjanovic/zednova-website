@@ -161,16 +161,27 @@ export function IndustryPageTemplate({
         </section>
       ) : null}
 
-      <IndustryServicesShowcase
-        section={page.services}
-        serviceNavGroups={serviceNavGroups}
-        serviceMegaMenuCards={serviceMegaMenuCards}
-        services={services}
-        customSoftware={customSoftware}
-        migrations={migrations}
-        linkedServiceSlugs={linkedServiceSlugs}
-      />
-      <IndustryProcessSection section={page.process} industrySlug={page.slug} />
+      <section
+        data-theme="light"
+        className="relative bg-gradient-to-b from-zn-sage-mid via-zn-sage to-zn-bg"
+      >
+        <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
+        <IndustryServicesShowcase
+          section={page.services}
+          serviceNavGroups={serviceNavGroups}
+          serviceMegaMenuCards={serviceMegaMenuCards}
+          services={services}
+          customSoftware={customSoftware}
+          migrations={migrations}
+          linkedServiceSlugs={linkedServiceSlugs}
+          inSageFlow
+        />
+        <IndustryProcessSection
+          section={page.process}
+          industrySlug={page.slug}
+          inSageFlow
+        />
+      </section>
 
       {hasInsights || showFaq ? (
         <section data-theme="light" className="relative bg-zn-bg" aria-label="Get started">

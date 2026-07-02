@@ -13,19 +13,22 @@ import { hasSectionContent } from "@/lib/content/resolve-industry-page";
 export function IndustryProcessSection({
   section,
   industrySlug,
+  inSageFlow = false,
 }: {
   section: IndustryPageContent["process"];
   industrySlug: string;
+  /** When true, background/grain come from a parent sage wrapper (e.g. services above). */
+  inSageFlow?: boolean;
 }) {
   if (!hasSectionContent(section.steps) || !section.heading) return null;
 
-  return (
-    <section data-theme="light" className="relative bg-zn-bg">
+  const content = (
+    <>
       <BlueprintGrid />
       <div className="zn-container-guides relative">
         <div className="relative border-x border-b border-zn-border">
-          <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
-            <aside className="zn-container-inset border-b border-zn-border py-[clamp(3rem,6vw,5rem)] lg:sticky lg:top-28 lg:self-start lg:border-b-0 lg:py-[clamp(4rem,7vw,6rem)]">
+          <div className="grid lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-start">
+            <aside className="zn-container-inset border-b border-zn-border py-[clamp(3rem,6vw,5rem)] lg:sticky lg:top-28 lg:z-10 lg:self-start lg:border-b-0 lg:py-[clamp(4rem,7vw,6rem)]">
               <Reveal>
                 {section.eyebrow ? (
                   <SectionLabel withRule={false}>{section.eyebrow}</SectionLabel>
@@ -57,7 +60,7 @@ export function IndustryProcessSection({
                 {section.steps.map((step) => (
                   <article
                     key={`${step.step}-${step.title}`}
-                    className="border-l border-zn-border bg-zn-bg px-8 py-12 md:px-10 md:py-14 lg:px-12 lg:py-16"
+                    className="border-l border-zn-border bg-transparent px-8 py-12 md:px-10 md:py-14 lg:px-12 lg:py-16"
                   >
                     {step.icon ? (
                       <div className="mb-6 flex size-11 items-center justify-center rounded-[4px] border border-zn-border bg-zn-bg-2">
@@ -108,6 +111,24 @@ export function IndustryProcessSection({
           </div>
         </div>
       </div>
+    </>
+  );
+
+  if (inSageFlow) {
+    return (
+      <div className="relative pb-[clamp(4rem,8vw,8rem)]">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <section
+      data-theme="light"
+      className="relative bg-gradient-to-b from-zn-sage via-zn-sage-mid to-zn-bg"
+    >
+      <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
+      {content}
     </section>
   );
 }

@@ -161,7 +161,7 @@ export function FaqSection({
       <div
         className={cn(
           "zn-container-inset",
-          embedded ? "py-[12rem]" : "py-10 lg:py-12",
+          embedded || frameless ? "py-[12rem]" : "py-10 lg:py-12",
         )}
       >
         <div className="grid min-w-0 grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
