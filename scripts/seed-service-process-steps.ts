@@ -18,7 +18,7 @@ const PARENT_SLUGS = [
   "crm-pipeline-automation",
   "ai-receptionist",
   "custom-in-house-software-for-smbs",
-  "platform-migrations",
+  "seo-aeo-content",
   "ai-systems-retainer",
 ] as const;
 

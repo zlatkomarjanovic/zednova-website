@@ -353,6 +353,7 @@ export const services: Service[] = [
     group: "SEO & AI Search Content",
     category: "SEO & AI Search",
     icon: "seo",
+    heroEyebrow: "SEO & AI Search",
     shortDescription: "Rank on Google and get cited in AI answers.",
     whatItIs:
       "We build the content and technical infrastructure to rank on Google and appear in AI-generated answers across ChatGPT, Perplexity, and Google AI Overviews. Schema markup, llms.txt, programmatic pages, and content that earns citations.",
@@ -376,10 +377,54 @@ export const services: Service[] = [
       "Teams publishing content that never ranks or converts",
     ],
     processSteps: [
-      { step: 1, title: "Audit the foundation", description: "We fix the technical issues quietly capping your rankings." },
-      { step: 2, title: "Structure for answers", description: "Schema and llms.txt make your content legible to AI engines." },
-      { step: 3, title: "Research and brief", description: "We target terms with intent and brief content that earns citations." },
-      { step: 4, title: "Publish and compound", description: "Monthly articles that build authority instead of one-off posts." },
+      {
+        step: 1,
+        title: "Audit the foundation",
+        description: "We fix the technical issues quietly capping your rankings.",
+        icon: "audit",
+        deliverables: [
+          "Technical SEO crawl",
+          "Core Web Vitals review",
+          "Priority fix list",
+          "Search Console baseline",
+        ],
+      },
+      {
+        step: 2,
+        title: "Structure for answers",
+        description: "Schema and llms.txt make your content legible to AI engines.",
+        icon: "architect",
+        deliverables: [
+          "Schema markup plan",
+          "llms.txt & robots.txt tune",
+          "FAQ and direct-answer blocks",
+          "Internal linking map",
+        ],
+      },
+      {
+        step: 3,
+        title: "Research and brief",
+        description: "We target terms with intent and brief content that earns citations.",
+        icon: "discovery",
+        deliverables: [
+          "Keyword map (10–20 terms)",
+          "Search intent notes",
+          "5 MVP content briefs",
+          "Topic cluster outline",
+        ],
+      },
+      {
+        step: 4,
+        title: "Publish and compound",
+        description: "Monthly articles that build authority instead of one-off posts.",
+        icon: "ship",
+        deliverables: [
+          "2 publish-ready MVP articles",
+          "Monthly content calendar",
+          "Ranking & citation dashboard",
+          "Phase-2 expansion roadmap",
+        ],
+      },
     ],
     results: [
       "Rankings for terms your buyers actually search",

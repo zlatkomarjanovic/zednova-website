@@ -1,8 +1,15 @@
 import type { ProcessStep, Service } from "@/lib/types";
 
+import { SERVICE_SLUG_BY_PARENT } from "./service-routes";
 import { services as staticServices } from "./services";
 import { getServiceFaqs } from "./service-faqs";
 import { resolveProcessStepIcon } from "./service-process-icons";
+
+const PARENT_CMS_SLUGS = new Set<string>(Object.values(SERVICE_SLUG_BY_PARENT));
+
+function isParentCmsService(service: Service): boolean {
+  return PARENT_CMS_SLUGS.has(service.slug);
+}
 
 export type ServiceSectionCopy = {
   problemsHeadline: string;
@@ -49,6 +56,12 @@ export const FAQ_SECTION_COPY: Record<string, ServiceFaqSectionCopy> = {
     headline: "Platform migration questions, answered",
     subtext:
       "Redirect maps, SEO preservation, downtime, and how we cut over without losing rankings.",
+  },
+  "seo-aeo-content": {
+    eyebrow: "FAQ",
+    headline: "SEO & AI search questions, answered",
+    subtext:
+      "Technical SEO, schema, llms.txt, content systems, and how we structure pages for Google and AI citations.",
   },
   "ai-systems-retainer": {
     eyebrow: "FAQ",
@@ -116,6 +129,16 @@ export const SECTION_COPY: Record<string, ServiceSectionCopy> = {
     processSubtext:
       "Audit, redirect map, rebuild on Next.js + Sanity, then cut over with zero downtime and a post-launch ranking check.",
   },
+  "seo-aeo-content": {
+    problemsHeadline: "These are the reasons your content is not ranking or getting cited",
+    subServicesEyebrow: "SEO & AI Search Capabilities",
+    subServicesHeadline: "Audit. Structure. Publish.",
+    subServicesSubtext:
+      "Technical SEO fixes, schema and llms.txt setup, and content built to rank on Google and appear in AI answers.",
+    processHeadline: "How we build SEO & AI search systems",
+    processSubtext:
+      "Audit the foundation, structure pages for answers, research intent, then publish content that compounds month over month.",
+  },
   "ai-systems-retainer": {
     problemsHeadline: "These are the reasons your stack is not improving every month",
     subServicesEyebrow: "Monthly Support Capabilities",
@@ -131,8 +154,10 @@ export const SECTION_COPY: Record<string, ServiceSectionCopy> = {
 function enrichProcessSteps(
   cmsSteps: ProcessStep[],
   fallbackSteps: ProcessStep[],
+  cmsOnly: boolean,
 ): ProcessStep[] {
   if (cmsSteps.length === 0) {
+    if (cmsOnly) return [];
     return fallbackSteps.map((step) => ({
       ...step,
       icon: resolveProcessStepIcon(step.icon),
@@ -146,13 +171,15 @@ function enrichProcessSteps(
 
     return {
       ...step,
-      title: step.title || match.title,
-      description: step.description || match.description,
+      title: step.title || (cmsOnly ? "" : match.title),
+      description: step.description || (cmsOnly ? "" : match.description),
       icon: resolveProcessStepIcon(step.icon ?? match.icon),
       deliverables:
         step.deliverables && step.deliverables.length > 0
           ? step.deliverables
-          : match.deliverables,
+          : cmsOnly
+            ? []
+            : match.deliverables,
     };
   });
 }
@@ -161,6 +188,31 @@ function enrichProcessSteps(
 export function mergeServiceWithStaticFallback(service: Service): Service {
   const fallback = staticServices.find((entry) => entry.slug === service.slug);
   if (!fallback) return service;
+
+  if (isParentCmsService(service)) {
+    return {
+      ...service,
+      image: service.image || fallback.image,
+      problems: service.problems?.length ? service.problems : [],
+      subServices: service.subServices?.length ? service.subServices : [],
+      values: [],
+      testimonials: service.testimonials?.length ? service.testimonials : [],
+      faqs: service.faqs?.length ? service.faqs : [],
+      processSteps: enrichProcessSteps(
+        service.processSteps ?? [],
+        fallback.processSteps ?? [],
+        true,
+      ),
+      deliverables: service.deliverables?.length ? service.deliverables : [],
+      idealClients: service.idealClients?.length ? service.idealClients : [],
+      results: service.results?.length ? service.results : [],
+      relatedServices: service.relatedServices?.length ? service.relatedServices : [],
+      relatedCaseStudies: service.relatedCaseStudies?.length
+        ? service.relatedCaseStudies
+        : [],
+      relatedInsights: service.relatedInsights?.length ? service.relatedInsights : [],
+    };
+  }
 
   const subServices =
     service.subServices && service.subServices.length > 0
@@ -202,6 +254,7 @@ export function mergeServiceWithStaticFallback(service: Service): Service {
     processSteps: enrichProcessSteps(
       service.processSteps ?? [],
       fallback.processSteps ?? [],
+      false,
     ),
     relatedServices:
       service.relatedServices && service.relatedServices.length > 0

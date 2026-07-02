@@ -35,18 +35,45 @@ export async function generateMetadata({
   const { slug } = await params;
 
   if (isParentServiceSlug(slug)) {
-    const label = getParentServiceLabel(slug);
-    const description = getParentServiceTagline(slug);
+    const serviceSlug = getServiceSlugForParent(slug);
+    const service = await getServiceBySlug(serviceSlug);
+    if (!service) return {};
+
+    const title =
+      service.seo?.seoTitle ?? service.heroHeadline ?? service.title;
+    const description =
+      service.seo?.seoDescription ??
+      service.shortDescription ??
+      service.whatItIs;
+    const ogImage = service.seo?.ogImage ?? service.image;
+    const canonical = parentServicePath(slug);
+    const noIndex = service.seo?.seoNoIndex ?? false;
+
     return {
-      title: `${label} | ZedNova Studio`,
+      title: `${title} | ZedNova Studio`,
       description,
-      alternates: { canonical: `/services/${slug}` },
+      keywords: service.seo?.keywords,
+      alternates: { canonical: service.seo?.seoCanonical ?? canonical },
       openGraph: {
         type: "website",
-        url: `/services/${slug}`,
-        title: `${label} | ZedNova Studio`,
+        url: canonical,
+        title: `${title} | ZedNova Studio`,
         description,
+        images: ogImage ? [{ url: ogImage, alt: service.title }] : undefined,
       },
+      twitter: {
+        card: (service.seo?.twitterCard ?? "summary_large_image") as
+          | "summary"
+          | "summary_large_image"
+          | "player"
+          | "app",
+        title: service.seo?.twitterTitle ?? title,
+        description: service.seo?.twitterDescription ?? description,
+        images: service.seo?.twitterImage ? [service.seo.twitterImage] : undefined,
+      },
+      robots: noIndex
+        ? { index: false, follow: false }
+        : { index: true, follow: true },
     };
   }
 

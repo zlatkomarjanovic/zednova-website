@@ -25,7 +25,7 @@
     "seed:service-sub-services": "npx tsx scripts/seed-service-sub-services.ts",
     "sync:mega-menu-cards": "npx tsx scripts/sync-mega-menu-cards.ts",
     "patch:brand-name": "npx tsx scripts/patch-brand-name.ts",
-    "seed:parent-services": "npm run sync:parent-service-metadata && npm run sync:mega-menu-cards && npm run seed:service-sub-services && npm run seed:service-problems && npm run seed:service-process-steps && npm run seed:service-faqs",
+    "seed:parent-services": "npx tsx scripts/seed-parent-services.ts",
     "sync:parent-service-metadata": "npx tsx scripts/sync-parent-service-metadata.ts",
     "verify:parent-services": "npx tsx scripts/verify-parent-services.ts",
     "migrate:sub-services": "npx tsx scripts/migrate-sub-services.ts",
