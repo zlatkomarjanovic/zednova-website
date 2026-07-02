@@ -312,11 +312,57 @@ export const RETAINER_SERVICE_PROBLEMS: ServiceProblemSeed[] = [
   },
 ];
 
+/** Default 6 reasons for SEO & AI search content — seeded to Sanity. */
+export const SEO_AEO_SERVICE_PROBLEMS: ServiceProblemSeed[] = [
+  {
+    iconKey: "slow-mobile",
+    title: "Technical debt caps your rankings",
+    subheading: "Crawl errors and slow pages hold every article back",
+    description:
+      "Broken canonicals, failing Core Web Vitals, and index bloat quietly cap how high any page can rank, no matter how good the content is.",
+  },
+  {
+    iconKey: "ai-invisible",
+    title: "AI answers never mention you",
+    subheading: "ChatGPT and Perplexity cite structured competitors",
+    description:
+      "Answer engines quote pages with direct answers, FAQ schema, and clear entities. Essay-style content without a thesis gets skipped entirely.",
+  },
+  {
+    iconKey: "no-schema",
+    title: "No schema or llms.txt in place",
+    subheading: "Machines cannot classify what you publish",
+    description:
+      "Without Article, FAQ, and Organization markup plus an llms.txt entry, crawlers treat your content as generic text and cite whoever structured theirs correctly.",
+  },
+  {
+    iconKey: "no-next-step",
+    title: "Content targets no real intent",
+    subheading: "Posts chase volume instead of buyers",
+    description:
+      "Publishing without a keyword and intent map produces traffic that never converts, or no traffic at all. Every brief should map to a term a buyer actually searches.",
+  },
+  {
+    iconKey: "forms-inbox",
+    title: "Pages rank but never convert",
+    subheading: "No answer blocks, CTAs, or internal links",
+    description:
+      "Ranking content without direct-answer blocks, topic clusters, and a conversion path earns impressions that never become calls or form fills.",
+  },
+  {
+    iconKey: "no-measurement",
+    title: "No ranking or citation tracking",
+    subheading: "You cannot see what content earns",
+    description:
+      "Without a dashboard tracking rankings, citations, and assisted conversions, content spend feels like a cost center and gets cut before it compounds.",
+  },
+];
+
 export const SERVICE_PROBLEMS_BY_SLUG: Record<string, ServiceProblemSeed[]> = {
   "ai-lead-site": LEAD_GEN_SERVICE_PROBLEMS,
   "crm-pipeline-automation": CRM_SERVICE_PROBLEMS,
   "ai-receptionist": AI_RECEPTIONIST_PROBLEMS,
   "custom-in-house-software-for-smbs": DASHBOARDS_SERVICE_PROBLEMS,
-  "platform-migrations": MIGRATIONS_SERVICE_PROBLEMS,
+  "seo-aeo-content": SEO_AEO_SERVICE_PROBLEMS,
   "ai-systems-retainer": RETAINER_SERVICE_PROBLEMS,
 };

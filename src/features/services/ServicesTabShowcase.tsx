@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
@@ -11,14 +11,9 @@ import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
 import type { Migration, NavMenuGroup, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { CustomSoftware } from "@/lib/types/custom-software";
 import type { Service } from "@/lib/types";
-import {
-  PRIMARY_SERVICE_GROUPS,
-  PRIMARY_SERVICE_TAB_LABELS,
-  PRIMARY_SERVICE_TAGLINES,
-  serviceNavGroups as staticServiceNavGroups,
-  type PrimaryServiceGroup,
-} from "@/lib/content/nav-menu";
-import { getParentSlug, parentServicePath } from "@/lib/content/service-routes";
+import { serviceNavGroups as staticServiceNavGroups } from "@/lib/content/nav-menu";
+import { isPrimaryNavService } from "@/lib/content/service-mega-menu";
+import { getServicePublicPath } from "@/lib/content/service-routes";
 import { cn } from "@/lib/utils";
 
 const SERVICE_IMAGE_CLASS: Record<string, string> = {
@@ -34,12 +29,9 @@ const panelVariants = {
   exit: { opacity: 0, y: -10 },
 };
 
-const PARENT_PRIMARY_HREF: Record<PrimaryServiceGroup, string> = Object.fromEntries(
-  PRIMARY_SERVICE_GROUPS.map((group) => [group, parentServicePath(getParentSlug(group))]),
-) as Record<PrimaryServiceGroup, string>;
-
 type ParentShowcase = {
-  filter: PrimaryServiceGroup;
+  slug: string;
+  group: string;
   tabLabel: string;
   headline: string;
   description: string;
@@ -60,85 +52,66 @@ type ServicesTabShowcaseProps = {
   migrations: Migration[];
   className?: string;
   /** When set, only show tabs for these parent service groups (e.g. industry-linked services). */
-  visibleGroups?: PrimaryServiceGroup[];
+  visibleGroups?: string[];
 };
 
-function resolveParentImage(
-  group: PrimaryServiceGroup,
-  services: Service[],
+/** Build one showcase panel per primary Service document published in Sanity. */
+function buildServiceShowcase(
+  service: Service,
+  navGroups: NavMenuGroup[],
   customSoftware: CustomSoftware[],
-  migrations: Migration[],
-): { image?: string; imageClassName?: string; platformIcons?: Migration["platformIcons"] } {
-  const groupService = services.find((entry) => entry.group === group && entry.image);
-  if (groupService?.image) {
-    return {
-      image: groupService.image,
-      imageClassName: SERVICE_IMAGE_CLASS[groupService.slug],
-    };
-  }
-
-  if (group === "Custom In-House Software for SMBs") {
-    const cs = customSoftware.find((entry) => entry.image);
-    if (cs?.image) return { image: cs.image };
-  }
-
-  return {};
-}
-
-function resolveParentMeta(
-  group: PrimaryServiceGroup,
-  href: string,
-  services: Service[],
-  megaMenuCards: ServiceMegaMenuCard[],
-): { label: string; value: string }[] {
-  const card = megaMenuCards.find((entry) => entry.href === href);
-  const service = services.find((entry) => entry.group === group);
-
-  return [
-    {
-      label: "Starting at",
-      value: card?.startingPrice ?? service?.pricingSignal ?? "Scoped after discovery",
-    },
-    {
-      label: "Timeline",
-      value: service?.timeline ?? "Typical launch in 1–3 weeks",
-    },
-    {
-      label: "Best for",
-      value: service?.idealClients[0] ?? "Small businesses ready to fix lead leaks",
-    },
-  ];
-}
-
-function buildParentShowcase(
-  group: PrimaryServiceGroup,
-  items: NavMenuGroup["items"],
-  services: Service[],
-  customSoftware: CustomSoftware[],
-  migrations: Migration[],
-  megaMenuCards: ServiceMegaMenuCard[],
 ): ParentShowcase {
-  const tabLabel = PRIMARY_SERVICE_TAB_LABELS[group];
-  const href = PARENT_PRIMARY_HREF[group];
-  const card = megaMenuCards.find((entry) => entry.href === href);
-  const visual = resolveParentImage(group, services, customSoftware, migrations);
+  const href = getServicePublicPath(service.slug);
+  const tabLabel = service.category || service.title;
+
+  const navGroup = navGroups.find((entry) => entry.group === service.group);
+  const subServices =
+    navGroup && navGroup.items.length > 0
+      ? navGroup.items.map((item) => ({
+          title: item.title,
+          href: item.href,
+          shortDescription: item.shortDescription,
+        }))
+      : (service.subServices ?? []).map((item) => ({
+          title: item.title,
+          href,
+          shortDescription: item.description ?? "",
+        }));
+
+  const image =
+    service.image ||
+    (service.group === "Custom In-House Software for SMBs"
+      ? customSoftware.find((entry) => entry.image)?.image
+      : undefined);
 
   return {
-    filter: group,
+    slug: service.slug,
+    group: service.group,
     tabLabel,
     headline: tabLabel,
-    description: card?.shortDescription ?? PRIMARY_SERVICE_TAGLINES[group],
+    description: service.shortDescription,
     href,
-    ctaLabel: group === "Custom In-House Software for SMBs" ? "View custom software" : "See this service",
-    image: visual.image,
-    imageClassName: visual.imageClassName,
-    platformIcons: visual.platformIcons,
-    subServices: items.map((item) => ({
-      title: item.title,
-      href: item.href,
-      shortDescription: item.shortDescription,
-    })),
-    meta: resolveParentMeta(group, href, services, megaMenuCards),
+    ctaLabel:
+      service.group === "Custom In-House Software for SMBs"
+        ? "View custom software"
+        : "See this service",
+    image,
+    imageClassName: SERVICE_IMAGE_CLASS[service.slug],
+    subServices,
+    meta: [
+      {
+        label: "Starting at",
+        value: service.pricingSignal || "Scoped after discovery",
+      },
+      {
+        label: "Timeline",
+        value: service.timeline || "Typical launch in 1–3 weeks",
+      },
+      {
+        label: "Best for",
+        value: service.idealClients[0] ?? "Small businesses ready to fix lead leaks",
+      },
+    ],
   };
 }
 
@@ -251,55 +224,34 @@ function ParentShowcasePanel({ panel }: { panel: ParentShowcase }) {
 
 export function ServicesTabShowcase({
   serviceNavGroups,
-  serviceMegaMenuCards,
   services,
   customSoftware,
-  migrations,
   className,
   visibleGroups,
 }: ServicesTabShowcaseProps) {
   const resolvedNavGroups = useMemo(() => {
-    const hasPrimaryItems = PRIMARY_SERVICE_GROUPS.some((group) =>
-      serviceNavGroups.some((entry) => entry.group === group && entry.items.length > 0),
-    );
-    return hasPrimaryItems ? serviceNavGroups : staticServiceNavGroups;
+    const hasItems = serviceNavGroups.some((entry) => entry.items.length > 0);
+    return hasItems ? serviceNavGroups : staticServiceNavGroups;
   }, [serviceNavGroups]);
 
   const panels = useMemo(() => {
-    return PRIMARY_SERVICE_GROUPS.map((group) => {
-      const navGroup = resolvedNavGroups.find((entry) => entry.group === group);
-      const items = navGroup?.items ?? [];
-      return buildParentShowcase(
-        group,
-        items,
-        services,
-        customSoftware,
-        migrations,
-        serviceMegaMenuCards,
-      );
-    }).filter((panel) => panel.subServices.length > 0)
-      .filter((panel) => !visibleGroups?.length || visibleGroups.includes(panel.filter));
-  }, [customSoftware, migrations, resolvedNavGroups, serviceMegaMenuCards, services, visibleGroups]);
+    return services
+      .filter(isPrimaryNavService)
+      .sort((a, b) => a.order - b.order)
+      .map((service) => buildServiceShowcase(service, resolvedNavGroups, customSoftware))
+      .filter((panel) => panel.subServices.length > 0)
+      .filter((panel) => !visibleGroups?.length || visibleGroups.includes(panel.group));
+  }, [customSoftware, resolvedNavGroups, services, visibleGroups]);
 
-  const defaultFilter: PrimaryServiceGroup = panels.some(
-    (panel) => panel.filter === "Lead-Gen Websites & AI Search",
-  )
-    ? "Lead-Gen Websites & AI Search"
-    : (panels[0]?.filter ?? "Lead-Gen Websites & AI Search");
+  const [activeFilter, setActiveFilter] = useState<string>("");
 
-  const [activeFilter, setActiveFilter] = useState<PrimaryServiceGroup>(defaultFilter);
-
+  // Falls back to the first panel when the selected tab no longer exists
+  // (e.g. the industry filter changed the visible set).
   const activePanel =
-    panels.find((panel) => panel.filter === activeFilter) ?? panels[0];
+    panels.find((panel) => panel.slug === activeFilter) ?? panels[0];
 
-  useEffect(() => {
-    if (!panels.some((panel) => panel.filter === activeFilter)) {
-      setActiveFilter(defaultFilter);
-    }
-  }, [activeFilter, defaultFilter, panels]);
-
-  const selectFilter = useCallback((filter: PrimaryServiceGroup) => {
-    setActiveFilter(filter);
+  const selectFilter = useCallback((slug: string) => {
+    setActiveFilter(slug);
   }, []);
 
   if (!activePanel) {
@@ -318,14 +270,14 @@ export function ServicesTabShowcase({
       <div className="border-t border-zn-border" />
 
       <div className="flex flex-wrap items-center gap-3 border-b border-zn-border px-6 py-4 md:px-8">
-        {panels.map(({ filter }) => {
-          const isActive = filter === activeFilter;
+        {panels.map(({ slug, tabLabel }) => {
+          const isActive = slug === activePanel?.slug;
 
           return (
             <button
-              key={filter}
+              key={slug}
               type="button"
-              onClick={() => selectFilter(filter)}
+              onClick={() => selectFilter(slug)}
               aria-current={isActive ? "true" : undefined}
               className={cn(
                 "rounded-full border px-4 py-2 font-sans text-sm transition-colors",
@@ -334,7 +286,7 @@ export function ServicesTabShowcase({
                   : "border-zn-border bg-white text-zn-text-2 hover:border-zn-text hover:text-zn-text",
               )}
             >
-              {PRIMARY_SERVICE_TAB_LABELS[filter]}
+              {tabLabel}
             </button>
           );
         })}
@@ -343,7 +295,7 @@ export function ServicesTabShowcase({
       <div className="overflow-hidden border-b border-zn-border pt-8 pb-8">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={activePanel.filter}
+            key={activePanel.slug}
             variants={panelVariants}
             initial="enter"
             animate="center"

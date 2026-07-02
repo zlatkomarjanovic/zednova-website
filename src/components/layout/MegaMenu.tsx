@@ -13,11 +13,10 @@ import {
   RubberHoverHighlightLayer,
   useRubberHoverHighlight,
 } from "@/ui/HoverHighlight";
-import type { NavMenuItem, ServiceMegaMenuCard, Migration } from "@/lib/types/content-nav";
+import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { InsightsNavPosts } from "@/lib/queries";
 import type { Post } from "@/lib/types";
 import { ArticleCover } from "@/features/insights/ArticleCover";
-import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
 import { NavMenuIcon } from "@/ui/NavMenuIcon";
 import { cn } from "@/lib/utils";
 
@@ -67,47 +66,6 @@ function ColumnCrosses({
         className="bottom-0 translate-y-1/2"
       />
     </>
-  );
-}
-
-function MigrationNavMenuItemLink({
-  item,
-  titleClass,
-  bodyClass,
-  theme,
-  onNavigate,
-  highlight,
-}: {
-  item: Migration;
-  titleClass: string;
-  bodyClass: string;
-  theme: "light" | "dark";
-  onNavigate: () => void;
-  highlight: ReturnType<typeof useRubberHoverHighlight>;
-}) {
-  return (
-    <Link
-      href={`/migrations/${item.slug}`}
-      onClick={onNavigate}
-      data-hover-cell
-      onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-      className="relative z-[1] block px-6 py-3.5"
-    >
-      {item.platformIcons && (
-        <MigrationPlatformPill
-          from={item.platformIcons.from}
-          to={item.platformIcons.to}
-          theme={theme}
-          className="mb-2.5"
-        />
-      )}
-      <span className={cn("block", MEGA_MENU_TITLE_CLASS, titleClass)}>
-        {item.title}
-      </span>
-      <span className={cn("block", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
-        {item.shortDescription}
-      </span>
-    </Link>
   );
 }
 
@@ -318,75 +276,6 @@ function IndustryMegaMenuGrid({
             highlight={highlight}
             interactive={false}
             className="flex h-full w-full flex-col px-6 py-5 md:py-6"
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function NavItemGrid({
-  items,
-  columns,
-  rows,
-  theme,
-  borderClass,
-  titleClass,
-  bodyClass,
-  onNavigate,
-  highlight,
-  cellClassName,
-}: {
-  items: NavMenuItem[];
-  columns: number;
-  rows: number;
-  theme: "light" | "dark";
-  borderClass: string;
-  titleClass: string;
-  bodyClass: string;
-  onNavigate: () => void;
-  highlight: ReturnType<typeof useRubberHoverHighlight>;
-  cellClassName?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        "relative grid grid-cols-1 lg:items-stretch",
-        columns === 5 && "lg:grid-cols-5",
-        columns === 4 && "lg:grid-cols-4",
-        columns === 3 && "lg:grid-cols-3",
-        rows === 3 && "lg:grid-rows-3",
-        rows === 2 && "lg:grid-rows-2",
-        rows === 1 && "lg:grid-rows-1",
-      )}
-    >
-      {items.map((item, index) => (
-        <div
-          key={`nav-${index}-${item.href}`}
-          data-hover-cell
-          onMouseEnter={(e) => highlight.snapTo(e.currentTarget)}
-          className={cn(
-            cellClassName ?? "relative flex min-h-[9rem] h-full lg:min-h-[8.75rem]",
-            index % columns !== 0 && cn("lg:border-l", borderClass),
-            index > 0 && cn("border-t lg:border-t-0", borderClass),
-            index >= columns && cn("lg:border-t", borderClass),
-          )}
-        >
-          {index % columns !== 0 && (
-            <ColumnCrosses theme={theme} showTop={index < columns} />
-          )}
-          <NavMenuItemLink
-            href={item.href}
-            title={item.title}
-            shortDescription={item.shortDescription}
-            icon={item.icon}
-            theme={theme}
-            titleClass={titleClass}
-            bodyClass={bodyClass}
-            onNavigate={onNavigate}
-            highlight={highlight}
-            interactive={false}
-            className="flex h-full w-full flex-col"
           />
         </div>
       ))}

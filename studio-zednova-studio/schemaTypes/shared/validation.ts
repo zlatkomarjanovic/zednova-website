@@ -1,8 +1,10 @@
-import type { Rule } from "sanity";
+type CustomRule<Value, R> = {
+  custom(fn: (value: Value | undefined) => true | string): R;
+};
 
 /** Allow blank optional URLs; validate http/https when present. */
-export function optionalUrl(rule: Rule) {
-  return rule.custom((value: string | undefined) => {
+export function optionalUrl<R>(rule: CustomRule<string, R>): R {
+  return rule.custom((value) => {
     if (!value || !String(value).trim()) return true;
     try {
       const url = new URL(value);
@@ -14,16 +16,16 @@ export function optionalUrl(rule: Rule) {
 }
 
 /** Allow blank optional emails; validate format when present. */
-export function optionalEmail(rule: Rule) {
-  return rule.custom((value: string | undefined) => {
+export function optionalEmail<R>(rule: CustomRule<string, R>): R {
+  return rule.custom((value) => {
     if (!value || !String(value).trim()) return true;
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "Must be a valid email address";
   });
 }
 
 /** Validate profile/social URL lists; ignore empty rows. */
-export function optionalUrlList(rule: Rule) {
-  return rule.custom((values: string[] | undefined) => {
+export function optionalUrlList<R>(rule: CustomRule<string[], R>): R {
+  return rule.custom((values) => {
     if (!values?.length) return true;
     for (const value of values) {
       if (!value || !String(value).trim()) {

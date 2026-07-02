@@ -16,6 +16,16 @@ export const tag = defineType({
       options: { source: "title", maxLength: 96 },
       validation: (r) => r.required(),
     }),
+    defineField({
+      name: "description",
+      type: "text",
+      rows: 2,
+    }),
+    defineField({
+      name: "seo",
+      type: "seoFields",
+      title: "SEO",
+    }),
   ],
   preview: { select: { title: "title" } },
 });

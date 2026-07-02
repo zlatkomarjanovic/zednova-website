@@ -115,6 +115,33 @@ export const serviceFaqsBySlug: Record<string, ArticleFaq[]> = {
         "A KPI workshop, source audit, pipeline for 6–8 core metrics, one executive dashboard, mobile-friendly access, and threshold alerts on key drops.",
     },
   ],
+  "seo-aeo-content": [
+    {
+      question: "How long until we see SEO results?",
+      answer:
+        "Technical fixes often move rankings within weeks. New content typically takes 2–4 months to rank and compound. AI citations can appear faster once schema and llms.txt are in place, because answer engines re-crawl structured pages frequently.",
+    },
+    {
+      question: "What is AEO and why does it matter?",
+      answer:
+        "Answer Engine Optimization structures your content so ChatGPT, Perplexity, and Google AI Overviews can quote your business directly. As more buyers ask AI instead of searching, being cited in answers becomes as valuable as ranking on page one.",
+    },
+    {
+      question: "Do you write the content or do we?",
+      answer:
+        "We do both. The MVP includes two publish-ready articles and five briefs. Ongoing plans include monthly articles written, structured, and published by us, with your review before anything goes live.",
+    },
+    {
+      question: "Will this work on our existing website?",
+      answer:
+        "Yes. We audit your current stack first. Schema, llms.txt, and content structure work on Next.js, Webflow, WordPress, and Shopify. If the platform itself is capping performance, we flag it with evidence before proposing anything bigger.",
+    },
+    {
+      question: "How do you measure success?",
+      answer:
+        "A shared dashboard tracks rankings for the target keyword map, AI citations, organic traffic, and the leads or bookings that traffic produces. You see what each article earns, not just impressions.",
+    },
+  ],
   "platform-migrations": [
     {
       question: "Which platforms do you migrate from?",

@@ -163,6 +163,10 @@ export type Service = {
   tags?: string[];
   image: string;
   order: number;
+  isFeatured?: boolean;
+  showOnHomepage?: boolean;
+  showInPrimaryServices?: boolean;
+  isLegacy?: boolean;
   heroEyebrow?: string;
   problemsHeadline?: string;
   problems?: PainPoint[];

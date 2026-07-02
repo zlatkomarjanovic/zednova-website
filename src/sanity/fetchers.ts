@@ -5,8 +5,6 @@
 import { sanityFetch } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/env";
 import {
-  buildCustomSoftwareGroups,
-  groupServiceNavItems,
   mapAuthor,
   mapCaseStudy,
   mapFaq,
@@ -14,10 +12,6 @@ import {
   mapIndustryNavItem,
   mapIndustryParent,
   mapInsightCategory,
-  mapMegaMenuCard,
-  mapMigration,
-  mapCustomSoftware,
-  mapCustomSoftwareNavItem,
   mapPortfolioProject,
   mapPost,
   mapProduct,
@@ -29,8 +23,6 @@ import {
   AUTHOR_BY_SLUG_QUERY,
   CASE_STUDIES_QUERY,
   CASE_STUDY_BY_SLUG_QUERY,
-  CUSTOM_SOFTWARE_BY_SLUG_QUERY,
-  CUSTOM_SOFTWARE_QUERY,
   FAQS_QUERY,
   INDUSTRIES_QUERY,
   INDUSTRY_BY_SLUG_QUERY,
@@ -38,26 +30,16 @@ import {
   INDUSTRY_PARENT_BY_SLUG_QUERY,
   INDUSTRY_PARENTS_QUERY,
   INSIGHT_CATEGORIES_QUERY,
-  MIGRATION_BY_SLUG_QUERY,
-  MIGRATIONS_QUERY,
   PORTFOLIO_PROJECTS_QUERY,
   POST_BY_SLUG_QUERY,
   POSTS_QUERY,
   PRODUCTS_QUERY,
   SERVICE_BY_SLUG_QUERY,
-  SERVICE_MEGA_MENU_CARDS_QUERY,
-  SUB_SERVICES_QUERY,
   SERVICES_QUERY,
   SITE_SETTINGS_QUERY,
   TESTIMONIALS_QUERY,
 } from "@/sanity/queries";
-import type {
-  CustomSoftwareGroupSection,
-  Migration,
-  NavMenuGroup,
-  NavMenuItem,
-  ServiceMegaMenuCard,
-} from "@/lib/types/content-nav";
+import type { NavMenuItem } from "@/lib/types/content-nav";
 import type { Author, CaseStudy, Industry, IndustryParent, PortfolioProject, Post, Product, Service, SiteSettings, Testimonial } from "@/lib/types";
 import type { FaqItem } from "@/lib/content/faq";
 
@@ -91,82 +73,6 @@ export async function fetchServiceBySlugFromSanity(
     revalidate: 0,
   });
   return doc ? mapService(doc) : null;
-}
-
-export async function fetchSubServicesFromSanity(): Promise<NavMenuGroup[]> {
-  const items = await sanityFetch<
-    (NavMenuItem & { navGroup: string; order: number; image?: string })[]
-  >({ query: SUB_SERVICES_QUERY });
-  return groupServiceNavItems(items);
-}
-
-/** @deprecated Use fetchSubServicesFromSanity */
-export const fetchServiceNavGroupsFromSanity = fetchSubServicesFromSanity;
-
-export async function fetchServiceMegaMenuCardsFromSanity(): Promise<
-  ServiceMegaMenuCard[]
-> {
-  const docs = await sanityFetch<
-    (ServiceMegaMenuCard & { order: number })[]
-  >({ query: SERVICE_MEGA_MENU_CARDS_QUERY });
-  return docs.map(mapMegaMenuCard);
-}
-
-export async function fetchCustomSoftwareNavFromSanity(): Promise<NavMenuItem[]> {
-  const docs = await sanityFetch<
-    (Parameters<typeof mapCustomSoftwareNavItem>[0] & {
-      showInNav?: boolean;
-      order: number;
-    })[]
-  >({ query: CUSTOM_SOFTWARE_QUERY });
-  return docs
-    .filter((d) => d.showInNav !== false)
-    .map(mapCustomSoftwareNavItem);
-}
-
-export async function fetchCustomSoftwareBySlugFromSanity(
-  slug: string,
-): Promise<import("@/lib/types/custom-software").CustomSoftware | null> {
-  const doc = await sanityFetch<Parameters<typeof mapCustomSoftware>[0] | null>({
-    query: CUSTOM_SOFTWARE_BY_SLUG_QUERY,
-    params: { slug },
-  });
-  return doc ? mapCustomSoftware(doc) : null;
-}
-
-export async function fetchAllCustomSoftwareFromSanity(): Promise<
-  import("@/lib/types/custom-software").CustomSoftware[]
-> {
-  const docs = await sanityFetch<Parameters<typeof mapCustomSoftware>[0][]>({
-    query: CUSTOM_SOFTWARE_QUERY,
-  });
-  return docs.filter((doc) => doc.slug).map(mapCustomSoftware);
-}
-
-export async function fetchCustomSoftwareGroupsFromSanity(): Promise<
-  CustomSoftwareGroupSection[]
-> {
-  const docs = await sanityFetch<
-    Parameters<typeof buildCustomSoftwareGroups>[0]
-  >({ query: CUSTOM_SOFTWARE_QUERY });
-  return buildCustomSoftwareGroups(docs.filter((d) => d.sectionId));
-}
-
-export async function fetchAllMigrationsFromSanity(): Promise<Migration[]> {
-  const docs = await sanityFetch<Parameters<typeof mapMigration>[0][]>({
-    query: MIGRATIONS_QUERY,
-  });
-  return docs.map(mapMigration);
-}
-
-export async function fetchMigrationBySlugFromSanity(
-  slug: string,
-): Promise<Migration | null> {
-  const doc = await sanityFetch<Parameters<typeof mapMigration>[0] | null>({
-    query: MIGRATION_BY_SLUG_QUERY,
-    params: { slug },
-  });
-  return doc ? mapMigration(doc) : null;
 }
 
 export async function fetchIndustryParentsFromSanity(): Promise<IndustryParent[]> {

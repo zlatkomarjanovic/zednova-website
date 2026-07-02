@@ -363,6 +363,10 @@ export const SERVICES_QUERY = /* groq */ `
     "tags": tags[]->title,
     "image": coverImage.asset->url,
     order,
+    isFeatured,
+    showOnHomepage,
+    showInPrimaryServices,
+    isLegacy,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -412,174 +416,10 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
     "tags": tags[]->title,
     "image": coverImage.asset->url,
     order,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
-  }
-`;
-
-export const SUB_SERVICES_QUERY = /* groq */ `
-  *[_type in ["subService", "serviceNavItem"]] | order(order asc) {
-    title,
-    shortDescription,
-    href,
-    navGroup,
-    order,
-    "image": image.asset->url
-  }
-`;
-
-export const SERVICE_MEGA_MENU_CARDS_QUERY = /* groq */ `
-  *[_type == "serviceMegaMenuCard" && isLegacy != true] | order(order asc) {
-    title,
-    shortDescription,
-    includes,
-    href,
-    startingPrice,
     isFeatured,
+    showOnHomepage,
+    showInPrimaryServices,
     isLegacy,
-    parentService,
-    order
-  }
-`;
-
-export const CUSTOM_SOFTWARE_BY_SLUG_QUERY = /* groq */ `
-  *[_type == "customSoftware" && slug.current == $slug][0] {
-    "slug": slug.current,
-    title,
-    shortDescription,
-    whatItIs,
-    problemSolved,
-    targetAudience,
-    keyFeatures,
-    whatsIncluded,
-    deliverables,
-    technologies,
-    integrations,
-    process,
-    timeline,
-    startingPrice,
-    softwareType,
-    ${INLINE_ARTICLE_FAQS_FIELD},
-    "faqReferences": faqReferences[]->${FAQ_REF_PROJECTION},
-    order,
-    "relatedServices": relatedServices[]->slug.current,
-    "relatedIndustries": relatedIndustries[]->slug.current,
-    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
-    "relatedPortfolioProjects": relatedPortfolioProjects[]->slug.current,
-    "relatedInsights": relatedInsights[]->slug.current,
-    "image": coverImage.asset->url,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
-  }
-`;
-
-export const CUSTOM_SOFTWARE_QUERY = /* groq */ `
-  *[_type == "customSoftware"] | order(order asc) {
-    "slug": coalesce(slug.current, ""),
-    title,
-    shortDescription,
-    whatItIs,
-    whatsIncluded,
-    deliverables,
-    ${INLINE_ARTICLE_FAQS_FIELD},
-    href,
-    order,
-    sectionId,
-    sectionLabel,
-    sectionHeadline,
-    sectionDescription,
-    sectionOrder,
-    showInNav,
-    "navIcon": navIcon{
-      "url": image.asset->url,
-      "alt": coalesce(alt, title)
-    },
-    "relatedServices": relatedServices[]->slug.current,
-    "relatedIndustries": relatedIndustries[]->slug.current,
-    "relatedInsights": relatedInsights[]->slug.current,
-    "image": coverImage.asset->url,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
-  }
-`;
-
-/** Migration platform icon galleries (supports legacy single fromIcon + raw image arrays). */
-const MIGRATION_PLATFORM_ICONS_PROJECTION = /* groq */ `
-  "fromIcons": coalesce(
-    fromIcons[]{
-      "url": image.asset->url,
-      "alt": alt
-    },
-    select(
-      defined(fromIcon.asset->url) => [{"url": fromIcon.asset->url, "alt": coalesce(fromIcon.alt, "")}],
-      []
-    )
-  ),
-  "toIcons": coalesce(
-    toIcons[]{
-      "url": coalesce(image.asset->url, asset->url),
-      "alt": coalesce(alt, "")
-    },
-    []
-  ),
-  "sourcePlatform": coalesce(
-    sourcePlatform,
-    array::join(fromIcons[].alt, " + "),
-    fromIcon.alt,
-    fromPlatform
-  ),
-  "targetPlatform": coalesce(
-    targetPlatform,
-    array::join(toIcons[].alt, " + "),
-    toPlatform
-  )
-`;
-
-export const MIGRATIONS_QUERY = /* groq */ `
-  *[_type == "migration" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
-    "slug": slug.current,
-    title,
-    shortDescription,
-    description,
-    heroHeadline,
-    heroSubhead,
-    ${MIGRATION_PLATFORM_ICONS_PROJECTION},
-    whatsIncluded,
-    deliverables,
-    processSteps,
-    ${INLINE_ARTICLE_FAQS_FIELD},
-    timeline,
-    pricingSignal,
-    "relatedServices": relatedServices[]->slug.current,
-    "relatedIndustries": relatedIndustries[]->slug.current,
-    "relatedInsights": relatedInsights[]->slug.current,
-    "relatedMigrations": relatedMigrations[]->slug.current,
-    "tags": tags[]->title,
-    order,
-    "image": coverImage.asset->url,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
-  }
-`;
-
-export const MIGRATION_BY_SLUG_QUERY = /* groq */ `
-  *[_type == "migration" && slug.current == $slug][0] {
-    "slug": slug.current,
-    title,
-    shortDescription,
-    description,
-    heroHeadline,
-    heroSubhead,
-    ${MIGRATION_PLATFORM_ICONS_PROJECTION},
-    whatsIncluded,
-    deliverables,
-    processSteps,
-    ${INLINE_ARTICLE_FAQS_FIELD},
-    timeline,
-    pricingSignal,
-    "relatedServices": relatedServices[]->slug.current,
-    "relatedIndustries": relatedIndustries[]->slug.current,
-    "relatedInsights": relatedInsights[]->slug.current,
-    "relatedMigrations": relatedMigrations[]->slug.current,
-    "tags": tags[]->title,
-    order,
-    "image": coverImage.asset->url,
     "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;
@@ -713,15 +553,7 @@ export const INDUSTRY_PARENTS_QUERY = /* groq */ `
   *[
     _type == "industryParent" &&
     defined(slug.current) &&
-    coalesce(seo.seoHideFromLists, false) == false &&
-    slug.current in [
-      "healthcare-wellness",
-      "ecommerce-dtc",
-      "fitness-coaching-performance",
-      "professional-services",
-      "b2b-saas-technology",
-      "real-estate-property"
-    ]
+    coalesce(seo.seoHideFromLists, false) == false
   ] | order(order asc) ${INDUSTRY_FIELDS_PROJECTION}
 `;
 
@@ -729,15 +561,8 @@ export const INDUSTRIES_QUERY = /* groq */ `
   *[
     _type == "industry" &&
     defined(slug.current) &&
-    coalesce(seo.seoHideFromLists, false) == false &&
-    parent->slug.current in [
-      "healthcare-wellness",
-      "ecommerce-dtc",
-      "fitness-coaching-performance",
-      "professional-services",
-      "b2b-saas-technology",
-      "real-estate-property"
-    ]
+    defined(parent->slug.current) &&
+    coalesce(seo.seoHideFromLists, false) == false
   ] | order(order asc) {
     ...${INDUSTRY_FIELDS_PROJECTION},
     "parentSlug": parent->slug.current
@@ -758,17 +583,9 @@ export const INDUSTRY_BY_SLUG_QUERY = /* groq */ `
 export const INDUSTRY_NAV_QUERY = /* groq */ `
   *[
     _type == "industryParent" &&
-    showInMainNav == true &&
-    defined(slug.current) &&
-    slug.current in [
-      "healthcare-wellness",
-      "ecommerce-dtc",
-      "fitness-coaching-performance",
-      "professional-services",
-      "b2b-saas-technology",
-      "real-estate-property"
-    ]
-  ] | order(navOrder asc) {
+    coalesce(showInMainNav, true) == true &&
+    defined(slug.current)
+  ] | order(coalesce(navOrder, order, 999) asc) {
     "title": coalesce(navTitle, title),
     "shortDescription": coalesce(navShortDescription, shortDescription),
     "slug": slug.current,

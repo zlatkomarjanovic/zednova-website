@@ -35,14 +35,13 @@ export function HeroRotatingHeadline() {
     if (reduceMotion) return;
     setEnhanced(true);
 
-    let timeoutId: ReturnType<typeof setTimeout>;
     let intervalId: ReturnType<typeof setInterval>;
 
     const advance = () => {
       setIndex((i) => (i + 1) % HERO_BUILD_ITEMS.length);
     };
 
-    timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       advance();
       intervalId = setInterval(advance, LOOP_MS);
     }, FIRST_CYCLE_MS);

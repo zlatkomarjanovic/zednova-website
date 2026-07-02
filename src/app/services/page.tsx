@@ -8,17 +8,11 @@ import {
 
   getParentSlugForServiceSlug,
 
-  parentServicePath,
+  getServicePublicPath,
 
 } from "@/lib/content/service-routes";
 
-import {
-
-  PRIMARY_SERVICE_GROUPS,
-
-  PRIMARY_SERVICE_TAB_LABELS,
-
-} from "@/lib/content/service-groups";
+import { isPrimaryNavService } from "@/lib/content/service-mega-menu";
 
 import { homepageFaqs } from "@/lib/content/faq";
 
@@ -100,35 +94,22 @@ type ServiceCard = ServicesPageCard;
 
 
 
+/** Cards mirror the Service documents published in Sanity, ordered by `order`. */
 function pickPrimaryServices(services: Service[]): ServiceCard[] {
 
-  const cards: ServiceCard[] = [];
+  return services
 
+    .filter(isPrimaryNavService)
 
+    .sort((a, b) => a.order - b.order)
 
-  for (const group of PRIMARY_SERVICE_GROUPS) {
-
-    const service = services.find(
-
-      (s) => s.group === group && getParentSlugForServiceSlug(s.slug) != null,
-
-    );
-
-    if (!service) continue;
-
-
-
-    const parentSlug = getParentSlugForServiceSlug(service.slug)!;
-
-
-
-    cards.push({
+    .map((service) => ({
 
       slug: service.slug,
 
-      parentSlug,
+      parentSlug: getParentSlugForServiceSlug(service.slug) ?? service.slug,
 
-      label: PRIMARY_SERVICE_TAB_LABELS[group],
+      label: service.category || service.title,
 
       title: service.heroHeadline ?? service.title,
 
@@ -142,15 +123,9 @@ function pickPrimaryServices(services: Service[]): ServiceCard[] {
 
       icon: service.icon,
 
-      href: parentServicePath(parentSlug),
+      href: getServicePublicPath(service.slug),
 
-    });
-
-  }
-
-
-
-  return cards;
+    }));
 
 }
 

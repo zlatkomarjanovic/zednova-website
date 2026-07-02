@@ -8,7 +8,7 @@ import { FooterNavLink } from "@/components/layout/FooterNavLink";
 import type { HomepageIndustry } from "@/lib/content/homepage-industries";
 import { featuredHomepageIndustries as staticFeaturedHomepageIndustries } from "@/lib/content/homepage-industries";
 import { getServicePublicPath } from "@/lib/content/service-routes";
-import type { Migration, NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -34,14 +34,12 @@ const LEGACY_LINKS = [
 ] as const;
 
 export function Footer({
-  migrations,
   settings,
   serviceMegaMenuCards,
   customSoftwareNavItems,
   featuredHomepageIndustries = staticFeaturedHomepageIndustries,
   className,
 }: {
-  migrations: Migration[];
   settings: SiteSettings;
   serviceMegaMenuCards: ServiceMegaMenuCard[];
   customSoftwareNavItems: NavMenuItem[];
@@ -49,7 +47,6 @@ export function Footer({
   className?: string;
 }) {
   const year = new Date().getFullYear();
-  const primaryServiceLinks = serviceMegaMenuCards.filter((c) => c.isFeatured !== false);
 
   return (
     <footer data-theme="dark" className={cn("relative bg-zn-dark text-zn-inv", className)}>
@@ -74,14 +71,14 @@ export function Footer({
             <div className="max-w-md space-y-5">
               <LogoHomeLink variant="light" />
               <p className="text-sm leading-relaxed text-zn-inv-2">
-                We build lead-gen websites, CRM follow-up automation, AI receptionists,
-                and custom portals for small businesses that want more booked calls and
-                less manual admin. 120+ projects. 10+ years. Senior-led delivery.
+                {settings.siteDescription}
               </p>
               <FooterAiSummaryLinks />
             </div>
             <div className="flex flex-col gap-4 lg:items-end lg:text-right">
-              <p className="text-sm text-zn-inv-2">CST (Texas) · We work async</p>
+              <p className="text-sm text-zn-inv-2">
+                {settings.officeHours ?? "CST (Texas) · We work async"}
+              </p>
               <a
                 href={`mailto:${settings.contactEmail}`}
                 className="text-sm text-zn-inv underline-offset-4 transition-opacity hover:text-zn-inv-2 hover:underline"

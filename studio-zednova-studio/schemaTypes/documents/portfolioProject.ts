@@ -38,7 +38,13 @@ export const portfolioProject = defineType({
       ],
     }),
     defineField({ name: "imageAlt", type: "string", title: "Image alt override", group: "content" }),
-    defineField({ name: "videoUrl", type: "url", title: "Video URL", group: "content" }),
+    defineField({
+      name: "videoUrl",
+      type: "string",
+      title: "Video URL",
+      description: "Absolute URL or site-relative path (e.g. /assets/portfolio/videos/demo.mp4).",
+      group: "content",
+    }),
     defineField({ name: "accent", type: "string", group: "content", initialValue: "#1c1917" }),
     defineField({
       name: "category",
@@ -48,7 +54,7 @@ export const portfolioProject = defineType({
         list: ["Websites", "SaaS", "Real estate", "Nonprofit", "Ecommerce", "Healthcare", "Automation"],
       },
     }),
-    defineField({ name: "year", type: "string", group: "content" }),
+    defineField({ name: "year", type: "number", group: "content" }),
     defineField({
       name: "servicesUsed",
       type: "array",

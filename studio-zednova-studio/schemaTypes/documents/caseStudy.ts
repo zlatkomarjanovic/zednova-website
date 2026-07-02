@@ -36,12 +36,18 @@ export const caseStudy = defineType({
     defineField({ name: "timeline", type: "string", group: "content" }),
     defineField({ name: "resultHeadline", type: "string", group: "content" }),
     defineField({ name: "challenge", type: "text", rows: 5, group: "content" }),
-    defineField({ name: "solution", type: "text", rows: 5, group: "content" }),
+    defineField({
+      name: "solution",
+      type: "array",
+      title: "Solution (paragraphs)",
+      group: "content",
+      of: [{ type: "text", rows: 3 }],
+    }),
     defineField({
       name: "results",
       type: "array",
       group: "content",
-      of: [{ type: "string" }],
+      of: [{ type: "stat" }],
     }),
     defineField({
       name: "techStack",

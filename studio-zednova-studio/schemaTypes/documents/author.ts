@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { optionalUrl } from "../shared/validation";
+import { optionalEmail, optionalUrl } from "../shared/validation";
 
 export const author = defineType({
   name: "author",
@@ -37,11 +37,13 @@ export const author = defineType({
     defineField({
       name: "bio",
       type: "array",
-      of: [{ type: "block" }],
-      title: "Bio",
+      of: [{ type: "text", rows: 3 }],
+      title: "Bio (paragraphs)",
     }),
+    defineField({ name: "email", type: "string", validation: optionalEmail }),
     defineField({ name: "linkedin", type: "url", validation: optionalUrl }),
     defineField({ name: "twitter", type: "url", validation: optionalUrl }),
+    defineField({ name: "github", type: "url", validation: optionalUrl }),
     defineField({ name: "upwork", type: "url", validation: optionalUrl }),
     defineField({ name: "website", type: "url", validation: optionalUrl }),
   ],

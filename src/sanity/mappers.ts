@@ -20,13 +20,7 @@ import type {
 } from "@/lib/types";
 import { uniqueFaqs, uniqueTakeaways } from "@/lib/insights/dedupe-aeo";
 import { defaultProfileLinks } from "@/lib/content/profile-links";
-import type { Migration } from "@/lib/types/content-nav";
-import type {
-  CustomSoftwareGroupSection,
-  NavMenuGroup,
-  NavMenuItem,
-  ServiceMegaMenuCard,
-} from "@/lib/types/content-nav";
+import type { NavMenuItem } from "@/lib/types/content-nav";
 import type { PortfolioProject } from "@/lib/types";
 import type {
   IndustryBuildCard,
@@ -37,7 +31,6 @@ import type {
 import { getParentSlugForServiceSlug, getServicePublicPath } from "@/lib/content/service-routes";
 import type { FaqItem, SiteSettings } from "@/lib/types";
 import { portableTextToArticleBlocks } from "@/sanity/portable-text-to-blocks";
-import { resolveMigrationPlatformIcons } from "@/lib/migrations/platform-icons";
 
 type SanityFeatureBullet = { title: string; description?: string; icon?: string };
 type SanityPriceTier = {
@@ -172,6 +165,10 @@ type SanityService = {
   tags?: string[];
   image?: string;
   order: number;
+  isFeatured?: boolean;
+  showOnHomepage?: boolean;
+  showInPrimaryServices?: boolean;
+  isLegacy?: boolean;
   heroEyebrow?: string;
   problemsHeadline?: string;
   problems?: { title: string; subheading?: string; description?: string; icon?: string }[];
@@ -226,6 +223,10 @@ export function mapService(doc: SanityService): Service {
     tags: doc.tags ?? [],
     image: doc.image ?? "",
     order: doc.order,
+    isFeatured: doc.isFeatured,
+    showOnHomepage: doc.showOnHomepage,
+    showInPrimaryServices: doc.showInPrimaryServices,
+    isLegacy: doc.isLegacy,
     heroEyebrow: doc.heroEyebrow,
     problemsHeadline: doc.problemsHeadline,
     problems: (doc.problems ?? []).map((p) => ({
@@ -551,255 +552,6 @@ export function mapIndustry(doc: SanityIndustry): Industry {
     tags: doc.tags ?? [],
     seo: mapSeo(doc.seo),
   };
-}
-
-export function mapMigration(doc: {
-  slug: string;
-  title: string;
-  shortDescription: string;
-  description: string;
-  heroHeadline?: string;
-  heroSubhead?: string;
-  sourcePlatform?: string;
-  targetPlatform?: string;
-  whatsIncluded?: SanityFeatureBullet[];
-  deliverables?: string[];
-  processSteps?: { step: number; title: string; description: string }[];
-  faqs?: SanityFaq[];
-  timeline?: string;
-  pricingSignal?: string;
-  image?: string;
-  fromIcons?: { url?: string; alt?: string }[];
-  toIcons?: { url?: string; alt?: string }[];
-  relatedServices?: string[];
-  relatedIndustries?: string[];
-  relatedInsights?: string[];
-  relatedMigrations?: string[];
-  tags?: string[];
-  order: number;
-  seo?: Record<string, unknown>;
-}): Migration {
-  const mapped = {
-    slug: doc.slug,
-    title: doc.title,
-    shortDescription: doc.shortDescription,
-    description: doc.description,
-    heroHeadline: doc.heroHeadline,
-    heroSubhead: doc.heroSubhead,
-    sourcePlatform: doc.sourcePlatform,
-    targetPlatform: doc.targetPlatform,
-    whatsIncluded: mapFeatureBullets(doc.whatsIncluded),
-    deliverables: doc.deliverables ?? [],
-    processSteps: doc.processSteps ?? [],
-    faqs: mapFaqs(doc.faqs),
-    timeline: doc.timeline,
-    pricingSignal: doc.pricingSignal,
-    image: doc.image,
-    fromIcons: doc.fromIcons,
-    toIcons: doc.toIcons,
-    relatedServices: doc.relatedServices,
-    relatedIndustries: doc.relatedIndustries,
-    relatedInsights: doc.relatedInsights,
-    relatedMigrations: doc.relatedMigrations,
-    tags: doc.tags ?? [],
-    order: doc.order,
-    seo: mapSeo(doc.seo),
-  };
-
-  return {
-    ...mapped,
-    platformIcons: resolveMigrationPlatformIcons(mapped) ?? undefined,
-  };
-}
-
-export function mapCustomSoftware(doc: {
-  slug: string;
-  title: string;
-  shortDescription: string;
-  whatItIs?: string;
-  problemSolved?: string;
-  targetAudience?: string[];
-  keyFeatures?: { title: string; description?: string }[];
-  whatsIncluded?: { title: string; description?: string }[];
-  deliverables?: string[];
-  technologies?: string[];
-  integrations?: string[];
-  process?: { step: number; title: string; description: string }[];
-  timeline?: string;
-  startingPrice?: number;
-  softwareType?: string;
-  faqs?: SanityFaq[];
-  faqReferences?: SanityFaq[];
-  relatedServices?: string[];
-  relatedIndustries?: string[];
-  relatedCaseStudies?: string[];
-  relatedPortfolioProjects?: string[];
-  relatedInsights?: string[];
-  order: number;
-  image?: string;
-  seo?: Record<string, unknown>;
-}): import("@/lib/types/custom-software").CustomSoftware {
-  const mapBullets = (items?: { title: string; description?: string }[]) =>
-    items?.map((item) => ({
-      title: item.title,
-      description: item.description,
-    }));
-
-  return {
-    slug: doc.slug,
-    title: doc.title,
-    shortDescription: doc.shortDescription,
-    whatItIs: doc.whatItIs ?? doc.shortDescription,
-    problemSolved: doc.problemSolved,
-    targetAudience: doc.targetAudience,
-    keyFeatures: mapBullets(doc.keyFeatures),
-    whatsIncluded: mapBullets(doc.whatsIncluded),
-    deliverables: doc.deliverables,
-    technologies: doc.technologies,
-    integrations: doc.integrations,
-    processSteps: doc.process,
-    timeline: doc.timeline,
-    startingPrice: doc.startingPrice,
-    softwareType: doc.softwareType,
-    faqs: mergePostFaqs(doc.faqs, doc.faqReferences),
-    relatedServices: doc.relatedServices,
-    relatedIndustries: doc.relatedIndustries,
-    relatedCaseStudies: doc.relatedCaseStudies,
-    relatedPortfolioProjects: doc.relatedPortfolioProjects,
-    relatedInsights: doc.relatedInsights,
-    order: doc.order,
-    image: doc.image,
-    seo: mapSeo(doc.seo),
-  };
-}
-
-export function mapCustomSoftwareNavItem(doc: {
-  slug?: string;
-  title: string;
-  shortDescription: string;
-  href?: string;
-  navIcon?: { url?: string; alt?: string };
-}): NavMenuItem {
-  const href =
-    doc.slug && doc.slug.length > 0
-      ? `/custom-software/${doc.slug}`
-      : (doc.href ?? "/custom-software");
-
-  return {
-    title: doc.title,
-    shortDescription: doc.shortDescription,
-    href,
-    icon: doc.navIcon?.url
-      ? {
-          src: doc.navIcon.url,
-          alt: doc.navIcon.alt ?? doc.title,
-        }
-      : undefined,
-  };
-}
-
-export function mapMegaMenuCard(doc: {
-  title: string;
-  shortDescription: string;
-  includes: string;
-  href: string;
-  startingPrice?: string;
-  isFeatured?: boolean;
-  isLegacy?: boolean;
-}): ServiceMegaMenuCard {
-  return {
-    title: doc.title,
-    shortDescription: doc.shortDescription,
-    includes: doc.includes,
-    href: doc.href,
-    startingPrice: doc.startingPrice,
-    isFeatured: doc.isFeatured,
-    isLegacy: doc.isLegacy,
-  };
-}
-
-export function groupServiceNavItems(
-  items: (NavMenuItem & { navGroup: string; order: number; image?: string })[],
-): NavMenuGroup[] {
-  const groups = new Map<string, NavMenuItem[]>();
-  const primaryGroupOrder = [
-    "Lead-Gen Websites & AI Search",
-    "CRM & Follow-Up Automation",
-    "AI Receptionist & Booking Automation",
-    "Custom In-House Software for SMBs",
-    "SEO & AI Search Content",
-    "Monthly Support & Improvements",
-  ];
-
-  /** Map legacy Sanity navGroup values onto current parent groups. */
-  const navGroupAliases: Record<string, string> = {
-    Websites: "Lead-Gen Websites & AI Search",
-    Automation: "CRM & Follow-Up Automation",
-    "AI Tools": "AI Receptionist & Booking Automation",
-    "Custom Software": "Custom In-House Software for SMBs",
-    "Website Migrations": "SEO & AI Search Content",
-  };
-
-  for (const item of [...items].sort((a, b) => a.order - b.order)) {
-    const groupKey = navGroupAliases[item.navGroup] ?? item.navGroup;
-    const list = groups.get(groupKey) ?? [];
-    list.push({
-      title: item.title,
-      shortDescription: item.shortDescription,
-      href: item.href,
-      ...(item.image ? { image: item.image } : {}),
-    });
-    groups.set(groupKey, list);
-  }
-
-  const orderedPrimary = primaryGroupOrder
-    .filter((g) => groups.has(g))
-    .map((group) => ({ group, items: groups.get(group)! }));
-
-  const legacy = [...groups.keys()]
-    .filter((g) => !primaryGroupOrder.includes(g))
-    .map((group) => ({ group, items: groups.get(group)! }));
-
-  return [...orderedPrimary, ...legacy];
-}
-
-export function buildCustomSoftwareGroups(
-  items: {
-    slug?: string;
-    title: string;
-    shortDescription: string;
-    href?: string;
-    order: number;
-    sectionId?: string;
-    sectionLabel?: string;
-    sectionHeadline?: string;
-    sectionDescription?: string;
-    sectionOrder?: number;
-  }[],
-): CustomSoftwareGroupSection[] {
-  const sectionMap = new Map<string, CustomSoftwareGroupSection>();
-
-  for (const item of [...items].sort((a, b) => a.order - b.order)) {
-    const sectionId = item.sectionId ?? "other";
-    if (!sectionMap.has(sectionId)) {
-      sectionMap.set(sectionId, {
-        id: sectionId,
-        label: item.sectionLabel ?? sectionId,
-        headline: item.sectionHeadline ?? "",
-        description: item.sectionDescription ?? "",
-        items: [],
-      });
-    }
-    sectionMap.get(sectionId)!.items.push(mapCustomSoftwareNavItem(item));
-  }
-
-  return [...sectionMap.values()].sort((a, b) => {
-    const orderA =
-      items.find((i) => i.sectionId === a.id)?.sectionOrder ?? 999;
-    const orderB =
-      items.find((i) => i.sectionId === b.id)?.sectionOrder ?? 999;
-    return orderA - orderB;
-  });
 }
 
 function mapOpenGraph(og?: Record<string, unknown>) {

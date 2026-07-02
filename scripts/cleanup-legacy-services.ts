@@ -143,7 +143,7 @@ async function repointReferences(fromId: string, toId: string) {
 }
 
 async function deleteDoc(docId: string) {
-  let refs = await countReferences(docId);
+  const refs = await countReferences(docId);
   if (refs > 0) {
     const draftRefs = await client.fetch<number>(
       `count(*[_id in path("drafts.**") && references("${docId}")])`,

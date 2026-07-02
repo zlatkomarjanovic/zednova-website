@@ -6,11 +6,7 @@ import { caseStudy } from "./documents/caseStudy";
 import { portfolioProject } from "./documents/portfolioProject";
 import { product } from "./documents/product";
 import { testimonial } from "./documents/testimonial";
-import { migration } from "./documents/migration";
 import { siteSettings } from "./documents/siteSettings";
-import { customSoftware } from "./documents/customSoftware";
-import { subService } from "./documents/subService";
-import { serviceMegaMenuCard } from "./documents/serviceMegaMenuCard";
 import { insightCategory } from "./documents/insightCategory";
 import { tag } from "./documents/tag";
 import { author } from "./documents/author";
@@ -24,15 +20,11 @@ export const schemaTypes = [
   author,
   faq,
   service,
-  subService,
-  serviceMegaMenuCard,
-  customSoftware,
   industryParent,
   industry,
   caseStudy,
   portfolioProject,
   product,
   testimonial,
-  migration,
   siteSettings,
 ];

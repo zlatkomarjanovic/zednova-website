@@ -5,13 +5,8 @@ const serviceGroupValues = [
   "CRM & Follow-Up Automation",
   "AI Receptionist & Booking Automation",
   "Custom In-House Software for SMBs",
-  "Platform Migrations",
   "SEO & AI Search Content",
   "Monthly Support & Improvements",
-  "Websites",
-  "Automation",
-  "AI Tools",
-  "Ecommerce",
 ] as const;
 
 const serviceGroups = serviceGroupValues.map((value) => ({ title: value, value }));
@@ -47,22 +42,11 @@ export const service = defineType({
         if (!value) return true;
         return serviceGroupValues.includes(value as (typeof serviceGroupValues)[number])
           ? true
-          : `Use one of the parent service groups (${serviceGroupValues.slice(0, 6).join(", ")}, …)`;
+          : `Use one of the parent service groups (${serviceGroupValues.join(", ")})`;
       }),
     }),
     defineField({ name: "category", type: "string", title: "Category tag", group: "content" }),
     defineField({ name: "icon", type: "string", title: "Icon key", group: "content" }),
-    defineField({
-      name: "parentService",
-      type: "reference",
-      title: "Parent service",
-      group: "content",
-      to: [{ type: "serviceMegaMenuCard" }],
-      options: {
-        disableNew: true,
-        filter: "isLegacy != true",
-      },
-    }),
     defineField({
       name: "isFeatured",
       type: "boolean",
@@ -314,13 +298,6 @@ export const service = defineType({
       title: "Related insights",
       group: "relationships",
       of: [{ type: "reference", to: [{ type: "post" }] }],
-    }),
-    defineField({
-      name: "relatedMigrations",
-      type: "array",
-      title: "Related migrations",
-      group: "relationships",
-      of: [{ type: "reference", to: [{ type: "migration" }] }],
     }),
     defineField({
       name: "tags",

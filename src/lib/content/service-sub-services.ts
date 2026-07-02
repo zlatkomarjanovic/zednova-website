@@ -183,6 +183,46 @@ export const SERVICE_SUB_SERVICES_BY_SLUG: Record<string, SubServiceCard[]> = {
       span: "2x1",
     },
   ],
+  "seo-aeo-content": [
+    {
+      title: "Technical SEO Audit",
+      description:
+        "Fix crawl, index, and Core Web Vitals issues quietly capping your rankings before any content ships.",
+      icon: "seo",
+      span: "2x1",
+    },
+    {
+      title: "Schema & FAQ Markup",
+      description:
+        "Article, FAQ, and Organization structured data so Google and AI engines understand every page.",
+      icon: "build",
+    },
+    {
+      title: "llms.txt & AI Crawlers",
+      description:
+        "Make your site legible to ChatGPT, Perplexity, and Google AI Overviews with AI-crawler configuration.",
+      icon: "agents",
+    },
+    {
+      title: "Keyword & Intent Map",
+      description:
+        "Target 10–20 terms with real buyer intent, mapped to briefs instead of vanity traffic.",
+      icon: "discovery",
+    },
+    {
+      title: "Answer-First Content",
+      description:
+        "Articles structured with direct answers, FAQ blocks, and citations that rank and get quoted in AI answers.",
+      icon: "design",
+    },
+    {
+      title: "Topic Clusters & Tracking",
+      description:
+        "Internal linking, a monthly content calendar, and a ranking and citation dashboard that compounds over time.",
+      icon: "dashboards",
+      span: "2x1",
+    },
+  ],
   "platform-migrations": [
     {
       title: "Webflow to Next.js",

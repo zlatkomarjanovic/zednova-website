@@ -13,6 +13,9 @@ export const sanityClient = createClient({
   apiVersion: sanityApiVersion,
   useCdn: !hasSanityReadToken(),
   token: process.env.SANITY_API_READ_TOKEN,
+  // Only published documents may ever reach the public site; without this,
+  // an authenticated client can silently return draft content.
+  perspective: "published",
   stega: {
     studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL,
   },

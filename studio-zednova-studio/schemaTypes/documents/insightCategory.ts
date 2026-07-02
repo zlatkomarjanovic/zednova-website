@@ -43,9 +43,53 @@ export const insightCategory = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "longDescription",
+      type: "array",
+      title: "Long description",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "coverImageUrl",
+      type: "url",
+      title: "Cover image URL",
+    }),
+    defineField({
+      name: "searchTags",
+      type: "array",
+      title: "Search tags",
+      of: [{ type: "string" }],
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "faqs",
+      type: "array",
+      title: "FAQs",
+      of: [{ type: "reference", to: [{ type: "faq" }] }],
+    }),
+    defineField({
+      name: "relatedServices",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "service" }] }],
+    }),
+    defineField({
+      name: "relatedIndustries",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] }],
+    }),
+    defineField({
       name: "seo",
       type: "seoFields",
       title: "SEO",
+    }),
+    defineField({
+      name: "openGraph",
+      type: "openGraphFields",
+      title: "Open Graph",
+    }),
+    defineField({
+      name: "schemaMarkup",
+      type: "schemaMarkupFields",
+      title: "Schema markup",
     }),
   ],
   orderings: [{ title: "Order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],

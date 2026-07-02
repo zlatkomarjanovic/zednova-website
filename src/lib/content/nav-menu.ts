@@ -5,12 +5,6 @@ import type {
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";
 import { industryParents } from "@/lib/content/industry-parents";
-import {
-  PRIMARY_SERVICE_GROUPS,
-  PRIMARY_SERVICE_TAB_LABELS,
-  PRIMARY_SERVICE_TAGLINES,
-  type PrimaryServiceGroup,
-} from "@/lib/content/service-groups";
 import { buildServiceNavGroups, getServicePublicPath, parentServicePath, getParentSlug } from "@/lib/content/service-routes";
 
 export type {

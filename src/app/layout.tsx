@@ -16,7 +16,7 @@ import { JsonLd } from "@/ui/JsonLd";
 import { sitewideSchemaGraph } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import { team } from "@/lib/content/team";
-import { getAllMigrations, getCustomSoftwareNavItems, getFeaturedHomepageIndustries, getIndustryNavItems, getInsightsNavPosts, getServiceMegaMenuCards, getSiteSettings } from "@/lib/queries";
+import { getCustomSoftwareNavItems, getFeaturedHomepageIndustries, getIndustryNavItems, getInsightsNavPosts, getServiceMegaMenuCards, getSiteSettings } from "@/lib/queries";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -119,9 +119,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [migrations, settings, industryNavItems, customSoftwareNavItems, serviceMegaMenuCards, featuredHomepageIndustries, insightsNavPosts] =
+  const [settings, industryNavItems, customSoftwareNavItems, serviceMegaMenuCards, featuredHomepageIndustries, insightsNavPosts] =
     await Promise.all([
-      getAllMigrations(),
       getSiteSettings(),
       getIndustryNavItems(),
       getCustomSoftwareNavItems(),
@@ -194,7 +193,6 @@ export default async function RootLayout({
               </main>
             </PageTransition>
             <Footer
-              migrations={migrations}
               settings={settings}
               serviceMegaMenuCards={serviceMegaMenuCards}
               customSoftwareNavItems={customSoftwareNavItems}

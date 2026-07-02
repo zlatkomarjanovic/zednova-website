@@ -281,7 +281,6 @@ export const richTextMembers = [
                 { type: "industryParent" },
                 { type: "caseStudy" },
                 { type: "product" },
-                { type: "migration" },
               ],
             }),
           ],

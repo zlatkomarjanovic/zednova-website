@@ -4,10 +4,6 @@ const SINGLETONS = ["siteSettings"];
 
 const GROUPED_TYPES = [
   "service",
-  "subService",
-  "serviceMegaMenuCard",
-  "customSoftware",
-  "migration",
   "industryParent",
   "industry",
   "portfolioProject",
@@ -36,17 +32,7 @@ export const structure: StructureResolver = (S) =>
 
       S.listItem()
         .title("Services")
-        .child(
-          S.list()
-            .title("Services")
-            .items([
-              S.documentTypeListItem("service"),
-              S.documentTypeListItem("subService").title("Sub services"),
-              S.documentTypeListItem("serviceMegaMenuCard"),
-              S.documentTypeListItem("customSoftware"),
-              S.documentTypeListItem("migration"),
-            ]),
-        ),
+        .child(S.documentTypeList("service")),
 
       S.listItem()
         .title("Industries")

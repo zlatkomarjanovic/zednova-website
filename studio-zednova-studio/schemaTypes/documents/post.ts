@@ -274,20 +274,6 @@ export const post = defineType({
       of: [{ type: "reference", to: [{ type: "industry" }, { type: "industryParent" }] }],
     }),
     defineField({
-      name: "relatedMigrations",
-      type: "array",
-      title: "Related migrations",
-      group: "relationships",
-      of: [{ type: "reference", to: [{ type: "migration" }] }],
-    }),
-    defineField({
-      name: "relatedCustomSoftware",
-      type: "array",
-      title: "Related custom software",
-      group: "relationships",
-      of: [{ type: "reference", to: [{ type: "customSoftware" }] }],
-    }),
-    defineField({
       name: "relatedProducts",
       type: "array",
       title: "Related products",

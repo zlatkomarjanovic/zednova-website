@@ -188,7 +188,7 @@ export const flatSecondaryCtaFields = [
   }),
 ];
 
-/** Flat consultation CTA fields (services, migrations). */
+/** Flat consultation CTA fields (services). */
 export const flatConsultationCtaFields = [
   defineField({
     name: "consultationCtaTitle",

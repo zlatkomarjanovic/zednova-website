@@ -53,13 +53,14 @@ export const product = defineType({
       name: "features",
       type: "array",
       group: "content",
-      of: [{ type: "string" }],
+      of: [{ type: "featureBullet" }],
     }),
     defineField({
       name: "featureList",
       type: "array",
+      title: "Feature list (short bullets)",
       group: "content",
-      of: [{ type: "featureBullet" }],
+      of: [{ type: "string" }],
     }),
     defineField({
       name: "status",

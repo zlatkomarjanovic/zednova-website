@@ -29,7 +29,6 @@ import { customSoftwareItems, customSoftwareBySlug } from "@/lib/content/custom-
 import {
   customSoftwareGroups as staticCustomSoftwareGroups,
   customSoftwareNavItems as staticCustomSoftwareNavItems,
-  PRIMARY_SERVICE_GROUPS,
   serviceNavGroups as staticServiceNavGroups,
 } from "@/lib/content/nav-menu";
 import { buildMegaMenuCardsFromServices } from "@/lib/content/service-mega-menu";
@@ -44,14 +43,12 @@ import type {
 import type {
   CaseStudy,
   Industry,
-  IndustryCategory,
   IndustryParent,
   Post,
   Product,
   PortfolioProject,
   Author,
   Service,
-  ServiceGroup,
   SiteSettings,
   TeamMember,
   Testimonial,
@@ -60,17 +57,11 @@ import type {
 import { slugify } from "@/lib/utils";
 import {
   fetchAllIndustriesFromSanity,
-  fetchAllMigrationsFromSanity,
   fetchAllServicesFromSanity,
-  fetchCustomSoftwareGroupsFromSanity,
-  fetchCustomSoftwareNavFromSanity,
-  fetchCustomSoftwareBySlugFromSanity,
-  fetchAllCustomSoftwareFromSanity,
   fetchIndustryBySlugFromSanity,
   fetchIndustryNavItemsFromSanity,
   fetchIndustryParentBySlugFromSanity,
   fetchIndustryParentsFromSanity,
-  fetchMigrationBySlugFromSanity,
   fetchAllPostsFromSanity,
   fetchAllInsightCategoriesFromSanity,
   fetchAllCaseStudiesFromSanity,
@@ -83,7 +74,6 @@ import {
   fetchSiteSettingsFromSanity,
   fetchTestimonialsFromSanity,
   fetchServiceBySlugFromSanity,
-  fetchSubServicesFromSanity,
   sanityHasContent,
 } from "@/sanity/fetchers";
 import { isSanityConfigured } from "@/sanity/env";
@@ -181,24 +171,6 @@ export async function getPostsBySlugs(slugs: string[]): Promise<Post[]> {
     .filter((p): p is Post => Boolean(p));
 }
 
-export async function getServiceGroups(): Promise<
-  { group: ServiceGroup; services: Service[] }[]
-> {
-  const allServices = await getAllServices();
-  const groups: ServiceGroup[] = [
-    "Lead-Gen Websites & AI Search",
-    "CRM & Follow-Up Automation",
-    "AI Receptionist & Booking Automation",
-    "Custom In-House Software for SMBs",
-    "SEO & AI Search Content",
-    "Monthly Support & Improvements",
-  ];
-  return groups.map((group) => ({
-    group,
-    services: [...allServices].sort(byOrder).filter((s) => s.group === group),
-  }));
-}
-
 export async function getServiceNavGroups(): Promise<NavMenuGroup[]> {
   // Sub-service pages were removed; parent-group nav is code-defined so hrefs stay current.
   return staticServiceNavGroups;
@@ -209,71 +181,16 @@ export async function getServiceMegaMenuCards(): Promise<ServiceMegaMenuCard[]> 
   return buildMegaMenuCardsFromServices(services);
 }
 
-/* ----------------------------- Custom software ----------------------------- */
+/* ----------------------------- Custom software (code-defined) ----------------------------- */
 
 export async function getCustomSoftwareNavItems(): Promise<NavMenuItem[]> {
-  return fromSanity("customSoftware", fetchCustomSoftwareNavFromSanity, () =>
-    staticCustomSoftwareNavItems,
-  );
+  return staticCustomSoftwareNavItems;
 }
 
 export async function getCustomSoftwareGroups(): Promise<
   CustomSoftwareGroupSection[]
 > {
-  return fromSanity(
-    "customSoftware",
-    fetchCustomSoftwareGroupsFromSanity,
-    () => staticCustomSoftwareGroups,
-  );
-}
-
-const staticCustomSoftwareItems: CustomSoftware[] = customSoftwareItems;
-
-function mergeCustomSoftware(
-  staticItem: CustomSoftware | null,
-  cms: CustomSoftware | null,
-): CustomSoftware | null {
-  if (!staticItem && !cms) return null;
-  if (!cms) return staticItem;
-  if (!staticItem) return cms;
-  return {
-    ...staticItem,
-    ...cms,
-    slug: cms.slug || staticItem.slug,
-    title: cms.title || staticItem.title,
-    shortDescription: cms.shortDescription || staticItem.shortDescription,
-    whatItIs: cms.whatItIs || staticItem.whatItIs,
-    problemSolved: cms.problemSolved || staticItem.problemSolved,
-    targetAudience: cms.targetAudience?.length
-      ? cms.targetAudience
-      : staticItem.targetAudience,
-    keyFeatures: cms.keyFeatures?.length ? cms.keyFeatures : staticItem.keyFeatures,
-    whatsIncluded: cms.whatsIncluded?.length ? cms.whatsIncluded : staticItem.whatsIncluded,
-    deliverables: cms.deliverables?.length ? cms.deliverables : staticItem.deliverables,
-    technologies: cms.technologies?.length ? cms.technologies : staticItem.technologies,
-    integrations: cms.integrations?.length ? cms.integrations : staticItem.integrations,
-    processSteps: cms.processSteps?.length ? cms.processSteps : staticItem.processSteps,
-    timeline: cms.timeline || staticItem.timeline,
-    startingPrice: cms.startingPrice ?? staticItem.startingPrice,
-    faqs: cms.faqs?.length ? cms.faqs : staticItem.faqs,
-    relatedServices: cms.relatedServices?.length
-      ? cms.relatedServices
-      : staticItem.relatedServices,
-    relatedIndustries: cms.relatedIndustries?.length
-      ? cms.relatedIndustries
-      : staticItem.relatedIndustries,
-    relatedCaseStudies: cms.relatedCaseStudies?.length
-      ? cms.relatedCaseStudies
-      : staticItem.relatedCaseStudies,
-    relatedPortfolioProjects: cms.relatedPortfolioProjects?.length
-      ? cms.relatedPortfolioProjects
-      : staticItem.relatedPortfolioProjects,
-    relatedInsights: cms.relatedInsights?.length
-      ? cms.relatedInsights
-      : staticItem.relatedInsights,
-    image: cms.image || staticItem.image,
-    seo: cms.seo ?? staticItem.seo,
-  };
+  return staticCustomSoftwareGroups;
 }
 
 export async function getAllCustomSoftwareSlugs(): Promise<string[]> {
@@ -282,41 +199,13 @@ export async function getAllCustomSoftwareSlugs(): Promise<string[]> {
 }
 
 export async function getAllCustomSoftware(): Promise<CustomSoftware[]> {
-  const staticItems = staticCustomSoftwareItems;
-  if (!isSanityConfigured()) return [...staticItems].sort(byOrder);
-
-  try {
-    const has = await sanityHasContent("customSoftware");
-    if (!has) return [...staticItems].sort(byOrder);
-
-    const cmsItems = await fetchAllCustomSoftwareFromSanity();
-    const merged = new Map<string, CustomSoftware>();
-
-    for (const item of staticItems) merged.set(item.slug, item);
-    for (const cms of cmsItems) {
-      const existing = merged.get(cms.slug);
-      merged.set(cms.slug, existing ? mergeCustomSoftware(existing, cms)! : cms);
-    }
-
-    return [...merged.values()].sort(byOrder);
-  } catch {
-    return [...staticItems].sort(byOrder);
-  }
+  return [...customSoftwareItems].sort(byOrder);
 }
 
 export async function getCustomSoftwareBySlug(
   slug: string,
 ): Promise<CustomSoftware | null> {
-  const staticItem = customSoftwareBySlug.get(slug) ?? null;
-  if (!isSanityConfigured()) return staticItem;
-  try {
-    const has = await sanityHasContent("customSoftware");
-    if (!has) return staticItem;
-    const cms = await fetchCustomSoftwareBySlugFromSanity(slug);
-    return mergeCustomSoftware(staticItem, cms);
-  } catch {
-    return staticItem;
-  }
+  return customSoftwareBySlug.get(slug) ?? null;
 }
 
 export async function getCustomSoftwareRelatedPortfolioProjects(
@@ -365,34 +254,17 @@ export async function getCustomSoftwareRelatedPortfolioProjects(
   return ordered.slice(0, limit);
 }
 
-/* ----------------------------- Migrations ----------------------------- */
+/* ----------------------------- Migrations (code-defined) ----------------------------- */
 
 export async function getAllMigrations(): Promise<Migration[]> {
-  const items = await fromSanity("migration", fetchAllMigrationsFromSanity, () =>
-    [...staticMigrations].sort(byOrder),
-  );
-  return items.map(enrichMigration);
+  return [...staticMigrations].sort(byOrder).map(enrichMigration);
 }
 
 export async function getMigrationBySlug(
   slug: string,
 ): Promise<Migration | null> {
-  if (!isSanityConfigured()) {
-    const item = staticMigrations.find((m) => m.slug === slug) ?? null;
-    return item ? enrichMigration(item) : null;
-  }
-  try {
-    const has = await sanityHasContent("migration");
-    if (!has) {
-      const item = staticMigrations.find((m) => m.slug === slug) ?? null;
-      return item ? enrichMigration(item) : null;
-    }
-    const item = (await fetchMigrationBySlugFromSanity(slug)) ?? null;
-    return item ? enrichMigration(item) : null;
-  } catch {
-    const item = staticMigrations.find((m) => m.slug === slug) ?? null;
-    return item ? enrichMigration(item) : null;
-  }
+  const item = staticMigrations.find((m) => m.slug === slug) ?? null;
+  return item ? enrichMigration(item) : null;
 }
 
 /* ----------------------------- Industries ----------------------------- */
@@ -410,22 +282,9 @@ export async function getIndustryNavItems(): Promise<NavMenuItem[]> {
     const has = await sanityHasContent("industryParent");
     if (!has) return staticParentNavItems;
 
+    // CMS is authoritative: whatever industry parents exist in Sanity define the menu.
     const fromCms = await fetchIndustryNavItemsFromSanity();
-    const cmsBySlug = new Map(
-      fromCms.map((item) => [
-        item.href.replace(/^\/industries\//, ""),
-        item,
-      ]),
-    );
-
-    return industryParents.map((parent) => {
-      const cms = cmsBySlug.get(parent.slug);
-      return {
-        title: cms?.title ?? parent.title,
-        shortDescription: cms?.shortDescription ?? parent.shortDescription,
-        href: `/industries/${parent.slug}`,
-      };
-    });
+    return fromCms.length > 0 ? fromCms : staticParentNavItems;
   } catch {
     return staticParentNavItems;
   }
@@ -437,12 +296,6 @@ export async function getHomepageIndustries(): Promise<HomepageIndustry[]> {
     getIndustryParents(),
     getAllIndustries(),
   ]);
-
-  const featuredSlugs = new Set(
-    staticHomepageIndustries
-      .filter((item) => item.featured)
-      .map((item) => item.href.replace(/^\/industries\//, "")),
-  );
 
   return navItems.map((item) => {
     const slug = item.href.replace(/^\/industries\//, "");
@@ -461,7 +314,7 @@ export async function getHomepageIndustries(): Promise<HomepageIndustry[]> {
       popularServices: segment
         ? segment.popularServices.map((link) => link.label).slice(0, 4)
         : (staticMatch?.popularServices ?? []),
-      featured: featuredSlugs.has(slug),
+      featured: true,
     };
   });
 }
@@ -516,13 +369,20 @@ export async function getIndustryParents(): Promise<IndustryParent[]> {
   try {
     const has = await sanityHasContent("industryParent");
     if (!has) return staticSorted;
+
+    // CMS is authoritative: every published industryParent is listed; static
+    // content only enriches fields the CMS document leaves empty.
     const fromCms = await fetchIndustryParentsFromSanity();
-    const cmsBySlug = new Map(fromCms.map((parent) => [parent.slug, parent]));
-    return staticSorted.map((parent) =>
-      mergeIndustryParentWithStaticFallback(
-        mergeIndustryRecord(parent, cmsBySlug.get(parent.slug)),
-      ),
-    );
+    if (fromCms.length === 0) return staticSorted;
+    const staticBySlug = new Map(industryParents.map((parent) => [parent.slug, parent]));
+    return [...fromCms]
+      .sort(byOrder)
+      .map((cms) => {
+        const staticMatch = staticBySlug.get(cms.slug);
+        return mergeIndustryParentWithStaticFallback(
+          staticMatch ? mergeIndustryRecord(staticMatch, cms) : cms,
+        );
+      });
   } catch {
     return staticSorted;
   }
@@ -537,15 +397,17 @@ export async function getAllIndustries(): Promise<Industry[]> {
   try {
     const has = await sanityHasContent("industry");
     if (!has) return staticSorted;
+
+    // CMS is authoritative for which industry segments exist.
     const fromCms = await fetchAllIndustriesFromSanity();
-    const cmsBySlug = new Map(
-      fromCms
-        .filter((industry) => parentSlugs.has(industry.parentSlug))
-        .map((industry) => [industry.slug, industry]),
-    );
-    return staticSorted.map((industry) =>
-      mergeIndustryRecord(industry, cmsBySlug.get(industry.slug)),
-    );
+    if (fromCms.length === 0) return staticSorted;
+    const staticBySlug = new Map(industries.map((industry) => [industry.slug, industry]));
+    return [...fromCms]
+      .sort(byOrder)
+      .map((cms) => {
+        const staticMatch = staticBySlug.get(cms.slug);
+        return staticMatch ? mergeIndustryRecord(staticMatch, cms) : cms;
+      });
   } catch {
     return staticSorted;
   }
@@ -1147,7 +1009,12 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   try {
     const has = await sanityHasContent("siteSettings");
     if (!has) return staticSiteSettings;
-    return { ...((await fetchSiteSettingsFromSanity()) ?? staticSiteSettings), contactEmail: staticSiteSettings.contactEmail };
+    const cms = await fetchSiteSettingsFromSanity();
+    if (!cms) return staticSiteSettings;
+    return {
+      ...cms,
+      contactEmail: cms.contactEmail || staticSiteSettings.contactEmail,
+    };
   } catch {
     return staticSiteSettings;
   }
