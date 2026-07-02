@@ -19,6 +19,7 @@ export type ServiceGroup =
   | "CRM & Follow-Up Automation"
   | "AI Receptionist & Booking Automation"
   | "Custom In-House Software for SMBs"
+  | "SEO & AI Search Content"
   | "Platform Migrations"
   | "Monthly Support & Improvements"
   | "Websites"

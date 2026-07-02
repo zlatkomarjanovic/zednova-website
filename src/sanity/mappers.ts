@@ -727,7 +727,7 @@ export function groupServiceNavItems(
     "CRM & Follow-Up Automation",
     "AI Receptionist & Booking Automation",
     "Custom In-House Software for SMBs",
-    "Platform Migrations",
+    "SEO & AI Search Content",
     "Monthly Support & Improvements",
   ];
 
@@ -737,7 +737,7 @@ export function groupServiceNavItems(
     Automation: "CRM & Follow-Up Automation",
     "AI Tools": "AI Receptionist & Booking Automation",
     "Custom Software": "Custom In-House Software for SMBs",
-    "Website Migrations": "Platform Migrations",
+    "Website Migrations": "SEO & AI Search Content",
   };
 
   for (const item of [...items].sort((a, b) => a.order - b.order)) {

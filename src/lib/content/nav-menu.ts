@@ -75,12 +75,12 @@ export const serviceMegaMenuCards: ServiceMegaMenuCard[] = [
     isFeatured: true,
   },
   {
-    title: "Platform Migrations",
+    title: "SEO & AI Search",
     shortDescription:
-      "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity without losing SEO or content.",
-    includes: "Webflow, WordPress, Framer, Wix, Squarespace",
-    href: parentServicePath(getParentSlug("Platform Migrations")),
-    startingPrice: "From $3,500",
+      "Rank on Google and get cited in AI answers with schema, llms.txt, and content built for search intent.",
+    includes: "Technical SEO, schema markup, llms.txt, content systems",
+    href: parentServicePath(getParentSlug("SEO & AI Search Content")),
+    startingPrice: "From $2,500",
     isFeatured: true,
   },
   {

@@ -10,8 +10,8 @@ const SERVICE_NESTED_REDIRECTS = [
     permanent: true,
   },
   {
-    source: "/services/seo-aeo-content",
-    destination: "/services/lead-gen-websites",
+    source: "/services/platform-migrations",
+    destination: "/services/seo-aeo-content",
     permanent: true,
   },
   {
@@ -45,8 +45,8 @@ const SERVICE_NESTED_REDIRECTS = [
     permanent: true,
   },
   {
-    source: "/services/platform-migrations",
-    destination: "/services/migrations",
+    source: "/services/migrations",
+    destination: "/services/seo-aeo-content",
     permanent: true,
   },
 ] as const;

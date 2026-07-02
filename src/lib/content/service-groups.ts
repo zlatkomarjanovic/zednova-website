@@ -4,7 +4,7 @@ export const PRIMARY_SERVICE_GROUPS = [
   "CRM & Follow-Up Automation",
   "AI Receptionist & Booking Automation",
   "Custom In-House Software for SMBs",
-  "Platform Migrations",
+  "SEO & AI Search Content",
   "Monthly Support & Improvements",
 ] as const;
 
@@ -15,7 +15,7 @@ export const PRIMARY_SERVICE_TAB_LABELS: Record<PrimaryServiceGroup, string> = {
   "CRM & Follow-Up Automation": "CRM & Follow-Up",
   "AI Receptionist & Booking Automation": "AI Receptionist",
   "Custom In-House Software for SMBs": "Custom In-House Software",
-  "Platform Migrations": "Platform Migrations",
+  "SEO & AI Search Content": "SEO & AI Search",
   "Monthly Support & Improvements": "Monthly Support",
 };
 
@@ -28,8 +28,8 @@ export const PRIMARY_SERVICE_TAGLINES: Record<PrimaryServiceGroup, string> = {
     "AI voice and chat assistants that answer calls, qualify leads, book appointments, and text back missed calls.",
   "Custom In-House Software for SMBs":
     "Client portals, internal tools, booking systems, and dashboards built for SMB teams outgrowing spreadsheets.",
-  "Platform Migrations":
-    "Move from Webflow, WordPress, Framer, Wix, or Squarespace to Next.js + Sanity without losing SEO or content.",
+  "SEO & AI Search Content":
+    "Rank on Google and get cited in AI answers with schema, llms.txt, and content built for search intent.",
   "Monthly Support & Improvements":
     "Monthly help for your website, CRM automations, AI receptionist, dashboards, forms, and integrations.",
 };

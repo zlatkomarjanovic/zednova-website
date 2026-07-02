@@ -6,6 +6,7 @@ const serviceGroupValues = [
   "AI Receptionist & Booking Automation",
   "Custom In-House Software for SMBs",
   "Platform Migrations",
+  "SEO & AI Search Content",
   "Monthly Support & Improvements",
   "Websites",
   "Automation",

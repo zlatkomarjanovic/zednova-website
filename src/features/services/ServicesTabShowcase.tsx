@@ -82,16 +82,6 @@ function resolveParentImage(
     if (cs?.image) return { image: cs.image };
   }
 
-  if (group === "Platform Migrations") {
-    const migration = migrations.find((entry) => entry.image ?? entry.coverImage?.url);
-    if (migration) {
-      return {
-        image: migration.image ?? migration.coverImage?.url,
-        platformIcons: migration.platformIcons,
-      };
-    }
-  }
-
   return {};
 }
 

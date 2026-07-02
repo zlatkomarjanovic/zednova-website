@@ -30,9 +30,9 @@ import {
   customSoftwareGroups as staticCustomSoftwareGroups,
   customSoftwareNavItems as staticCustomSoftwareNavItems,
   PRIMARY_SERVICE_GROUPS,
-  serviceMegaMenuCards as staticServiceMegaMenuCards,
   serviceNavGroups as staticServiceNavGroups,
 } from "@/lib/content/nav-menu";
+import { buildMegaMenuCardsFromServices } from "@/lib/content/service-mega-menu";
 import type { CustomSoftware } from "@/lib/types/custom-software";
 import type {
   CustomSoftwareGroupSection,
@@ -83,7 +83,6 @@ import {
   fetchSiteSettingsFromSanity,
   fetchTestimonialsFromSanity,
   fetchServiceBySlugFromSanity,
-  fetchServiceMegaMenuCardsFromSanity,
   fetchSubServicesFromSanity,
   sanityHasContent,
 } from "@/sanity/fetchers";
@@ -191,7 +190,7 @@ export async function getServiceGroups(): Promise<
     "CRM & Follow-Up Automation",
     "AI Receptionist & Booking Automation",
     "Custom In-House Software for SMBs",
-    "Platform Migrations",
+    "SEO & AI Search Content",
     "Monthly Support & Improvements",
   ];
   return groups.map((group) => ({
@@ -206,30 +205,8 @@ export async function getServiceNavGroups(): Promise<NavMenuGroup[]> {
 }
 
 export async function getServiceMegaMenuCards(): Promise<ServiceMegaMenuCard[]> {
-  const cards = await fromSanity(
-    "serviceMegaMenuCard",
-    fetchServiceMegaMenuCardsFromSanity,
-    () => staticServiceMegaMenuCards,
-  );
-
-  // Code-defined cards always win for href/title/copy so nav stays correct even if CMS is stale.
-  return cards
-    .map((card, index) => {
-      const source = staticServiceMegaMenuCards[index];
-      if (!source) return card;
-      return {
-        ...card,
-        title: source.title,
-        shortDescription: source.shortDescription,
-        includes: source.includes,
-        href: source.href,
-        startingPrice: source.startingPrice ?? card.startingPrice,
-        isFeatured: source.isFeatured ?? card.isFeatured,
-        isLegacy: source.isLegacy ?? card.isLegacy,
-      };
-    })
-    .filter((card) => card.isLegacy !== true)
-    .slice(0, staticServiceMegaMenuCards.length);
+  const services = await getAllServices();
+  return buildMegaMenuCardsFromServices(services);
 }
 
 /* ----------------------------- Custom software ----------------------------- */

@@ -23,7 +23,7 @@ export const PARENT_SLUG_BY_GROUP: Record<PrimaryServiceGroup, string> = {
   "CRM & Follow-Up Automation": "crm-follow-up-automation",
   "AI Receptionist & Booking Automation": "ai-receptionist-booking",
   "Custom In-House Software for SMBs": "custom-in-house-software-for-smbs",
-  "Platform Migrations": "migrations",
+  "SEO & AI Search Content": "seo-aeo-content",
   "Monthly Support & Improvements": "monthly-support",
 };
 
@@ -43,7 +43,7 @@ export const SERVICE_SLUG_BY_PARENT: Record<ParentServiceSlug, string> = {
   "crm-follow-up-automation": "crm-pipeline-automation",
   "ai-receptionist-booking": "ai-receptionist",
   "custom-in-house-software-for-smbs": "custom-in-house-software-for-smbs",
-  "migrations": "platform-migrations",
+  "seo-aeo-content": "seo-aeo-content",
   "monthly-support": "ai-systems-retainer",
 };
 
@@ -151,13 +151,13 @@ const PARENT_SUB_NAV: Record<PrimaryServiceGroup, { title: string; shortDescript
     { title: "Reporting Dashboard", shortDescription: "One live view of pipeline, revenue, and operations." },
     { title: "Internal Workflow Tools", shortDescription: "Custom apps that replace manual handoffs between teams." },
   ],
-  "Platform Migrations": [
-    { title: "Webflow to Next.js", shortDescription: "Move off Webflow to a faster, more flexible Next.js stack." },
-    { title: "WordPress to Next.js + Sanity", shortDescription: "Migrate WordPress content and SEO equity without losing rankings." },
-    { title: "Framer to Next.js", shortDescription: "Outgrow Framer's limits with a proper Next.js + Sanity setup." },
-    { title: "Wix to Next.js", shortDescription: "Leave Wix for a stack you actually own and can scale." },
-    { title: "Squarespace to Next.js", shortDescription: "Migrate Squarespace sites to a faster, editable Next.js build." },
-    { title: "Headless Shopify", shortDescription: "Custom Next.js storefront with Shopify checkout." },
+  "SEO & AI Search Content": [
+    { title: "Technical SEO Audit", shortDescription: "Fix crawl, index, and Core Web Vitals issues capping rankings." },
+    { title: "Schema & FAQ Markup", shortDescription: "Structured data so Google and AI tools understand your pages." },
+    { title: "llms.txt & AI Crawlers", shortDescription: "Make your site legible to ChatGPT, Perplexity, and AI Overviews." },
+    { title: "Keyword & Intent Map", shortDescription: "Target terms with real buyer intent, not vanity traffic." },
+    { title: "Answer-First Content", shortDescription: "Pages structured to rank and get cited in AI answers." },
+    { title: "Topic Cluster Planning", shortDescription: "Internal linking and content calendar that compounds over time." },
   ],
   "Monthly Support & Improvements": [
     { title: "Website Support", shortDescription: "Updates, fixes, and new pages after launch." },

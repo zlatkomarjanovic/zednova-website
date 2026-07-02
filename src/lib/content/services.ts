@@ -350,8 +350,8 @@ export const services: Service[] = [
     slug: "seo-aeo-content",
     number: "—",
     title: "SEO & AI Search Content",
-    group: "Lead-Gen Websites & AI Search",
-    category: "Lead-Gen Websites",
+    group: "SEO & AI Search Content",
+    category: "SEO & AI Search",
     icon: "seo",
     shortDescription: "Rank on Google and get cited in AI answers.",
     whatItIs:

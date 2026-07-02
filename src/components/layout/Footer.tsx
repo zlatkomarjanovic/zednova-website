@@ -21,7 +21,7 @@ const COMPANY_LINKS = [
 ] as const;
 
 const SECONDARY_TECH_LINKS = [
-  { label: "Platform Migrations", href: "/services/migrations" },
+  { label: "SEO & AI Search", href: "/services/seo-aeo-content" },
   { label: "Sanity CMS", href: getServicePublicPath("ai-lead-site") },
   { label: "Next.js Websites", href: getServicePublicPath("ai-lead-site") },
   { label: "Automation Integrations", href: getServicePublicPath("crm-pipeline-automation") },
