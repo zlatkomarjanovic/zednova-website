@@ -298,6 +298,9 @@ export default async function ArticlePage({
                     toc={toc}
                     showToc={showToc}
                     hasFaq={hasFaq}
+                    author={author}
+                    shareUrl={url}
+                    shareTitle={post.title}
                   />
 
                   <article className="min-w-0 flex-1 lg:max-w-[720px]">

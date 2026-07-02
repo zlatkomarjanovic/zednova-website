@@ -5,6 +5,8 @@ import { Minus, Plus } from "lucide-react";
 
 import type { Post } from "@/lib/types";
 import { cn, slugify } from "@/lib/utils";
+import { ArticleSidebarCta } from "@/features/insights/ArticleSidebarCta";
+import { ArticleSidebarShare } from "@/features/insights/ArticleSidebarShare";
 
 type TocHeading = { type: "h2"; text: string };
 
@@ -13,6 +15,9 @@ type ArticleSidebarProps = {
   toc: TocHeading[];
   showToc: boolean;
   hasFaq: boolean;
+  author?: { name: string; avatar?: string } | null;
+  shareUrl: string;
+  shareTitle: string;
 };
 
 function SidebarAccordionSection({
@@ -45,30 +50,34 @@ function SidebarAccordionSection({
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
-        <div className="overflow-hidden">{children}</div>
+        <div className="min-h-0 overflow-hidden">{children}</div>
       </div>
     </section>
   );
 }
 
-/** Sticky sidebar — collapsible TOC + related questions. */
+/** Sticky sidebar — collapsible TOC + CTA + share + related questions. */
 export function ArticleSidebar({
   post,
   toc,
   showToc,
   hasFaq,
+  author,
+  shareUrl,
+  shareTitle,
 }: ArticleSidebarProps) {
   const questions = post.searchQuestions?.slice(0, 3) ?? [];
   const hasQuestions = questions.length > 0;
 
-  if (!showToc && !hasQuestions) return null;
-
   return (
-    <aside className="hidden w-52 shrink-0 lg:block xl:w-56">
+    <aside className="hidden w-56 shrink-0 lg:block xl:w-60">
       <div className="sticky top-28 space-y-5">
         {showToc && (
           <SidebarAccordionSection title="On this page" defaultOpen>
-            <nav aria-label="Table of contents">
+            <nav
+              aria-label="Table of contents"
+              className="max-h-[280px] overflow-y-auto overscroll-y-contain pr-1 [scrollbar-width:thin]"
+            >
               <ul className="grid gap-3.5 border-l border-zn-border">
                 {toc.map((heading) => (
                   <li key={heading.text}>
@@ -95,6 +104,8 @@ export function ArticleSidebar({
           </SidebarAccordionSection>
         )}
 
+        <ArticleSidebarCta author={author} />
+
         {hasQuestions && (
           <SidebarAccordionSection title="Related questions" defaultOpen={false}>
             <ul className="grid gap-4 text-[0.8125rem] leading-relaxed text-zn-text-2">
@@ -104,6 +115,8 @@ export function ArticleSidebar({
             </ul>
           </SidebarAccordionSection>
         )}
+
+        <ArticleSidebarShare url={shareUrl} title={shareTitle} />
 
         {/* On-page signals for crawlers — not shown visually */}
         <div className="sr-only">
