@@ -36,7 +36,10 @@
     "enrich:insights-posts": "npx tsx scripts/enrich-insights-posts.ts",
     "audit:cms-images": "npx tsx scripts/audit-cms-images.ts",
     "seed:industry-images": "npx tsx scripts/seed-industry-images.ts",
-    "seed:industry-faqs": "npx tsx scripts/seed-industry-faqs.ts"
+    "seed:industry-faqs": "npx tsx scripts/seed-industry-faqs.ts",
+    "fix:industry-categories": "npx tsx scripts/fix-industry-categories.ts",
+    "audit:industry-categories": "npx tsx scripts/audit-industry-categories.ts",
+    "cleanup:duplicate-industries": "npx tsx scripts/cleanup-duplicate-industries.ts --apply"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

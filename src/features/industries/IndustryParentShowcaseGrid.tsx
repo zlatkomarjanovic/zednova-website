@@ -59,7 +59,7 @@ export function IndustryParentShowcaseGrid({
 }) {
   return (
     <Stagger
-      className="grid auto-rows-fr grid-cols-1 border-b border-zn-border md:grid-cols-2 lg:grid-cols-6"
+      className="grid auto-rows-fr grid-cols-1 md:grid-cols-2 lg:grid-cols-6"
       stagger={0.06}
     >
       {parents.map((parent, index) => {

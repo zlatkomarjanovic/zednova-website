@@ -69,6 +69,17 @@ export function IndustryPageTemplate({
 
   const faqs = page.faq.items;
   const showFaq = hasSectionContent(faqs) && Boolean(page.faq.heading);
+  const hasInsights =
+    hasSectionContent(relatedPosts) && Boolean(page.insights.heading);
+  const ctaProps = {
+    eyebrow: page.cta.eyebrow,
+    heading: page.cta.heading,
+    sub: page.cta.subheading,
+    ctaLabel: page.cta.primaryCta.label,
+    ctaHref: page.cta.primaryCta.href,
+    secondaryLabel: page.cta.secondaryCta.label,
+    secondaryHref: page.cta.secondaryCta.href,
+  };
 
   return (
     <>
@@ -161,63 +172,50 @@ export function IndustryPageTemplate({
       />
       <IndustryProcessSection section={page.process} industrySlug={page.slug} />
 
-      {hasSectionContent(relatedPosts) && page.insights.heading ? (
-        <section data-theme="light" className="relative bg-zn-bg">
-          <div className="zn-container-guides relative">
-            <div className="relative border-x border-b border-zn-border">
-              <InsightsHomePostsSection
-                posts={relatedPosts}
-                label={page.insights.eyebrow ?? "Insights"}
-                heading={page.insights.heading}
-                headingId="industry-resources-heading"
-                description={page.insights.subheading ?? ""}
-                insetClassName="py-[clamp(3rem,6vw,5rem)] pb-6 md:pb-8"
-                action={
-                  <Button href="/insights" variant="link" withArrow>
-                    All insights
-                  </Button>
-                }
-              />
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {showFaq ? (
+      {hasInsights || showFaq ? (
         <section data-theme="light" className="relative bg-zn-bg" aria-label="Get started">
           <BlueprintGrid />
           <div className="zn-container-guides relative">
-            <BlueprintColumnFrame showBottomCrosses bottomInset={false}>
-              <ServicePageCTA
-                embedded
-                eyebrow={page.cta.eyebrow}
-                heading={page.cta.heading}
-                sub={page.cta.subheading}
-                ctaLabel={page.cta.primaryCta.label}
-                ctaHref={page.cta.primaryCta.href}
-                secondaryLabel={page.cta.secondaryCta.label}
-                secondaryHref={page.cta.secondaryCta.href}
-              />
-              <FaqSection
-                frameless
-                faqs={faqs}
-                showBlueprintCrosses={false}
-                label={page.faq.eyebrow ?? "FAQ"}
-                heading={page.faq.heading}
-                description={page.faq.subheading ?? ""}
-              />
+            <BlueprintColumnFrame
+              showTopCrosses={false}
+              showBottomCrosses
+              bottomInset={false}
+              showBottomRail={false}
+            >
+              {hasInsights ? (
+                <div className="border-b border-zn-border">
+                  <InsightsHomePostsSection
+                    posts={relatedPosts}
+                    label={page.insights.eyebrow ?? "Insights"}
+                    heading={page.insights.heading}
+                    headingId="industry-resources-heading"
+                    description={page.insights.subheading ?? ""}
+                    insetClassName="py-[clamp(3rem,6vw,5rem)] pb-6 md:pb-8"
+                    action={
+                      <Button href="/insights" variant="link" withArrow>
+                        All insights
+                      </Button>
+                    }
+                  />
+                </div>
+              ) : null}
+              <ServicePageCTA embedded {...ctaProps} />
+              {showFaq ? (
+                <FaqSection
+                  frameless
+                  faqs={faqs}
+                  showBlueprintCrosses={false}
+                  label={page.faq.eyebrow ?? "FAQ"}
+                  heading={page.faq.heading}
+                  description={page.faq.subheading ?? ""}
+                />
+              ) : null}
             </BlueprintColumnFrame>
           </div>
         </section>
       ) : (
         <ServicePageCTA
-          eyebrow={page.cta.eyebrow}
-          heading={page.cta.heading}
-          sub={page.cta.subheading}
-          ctaLabel={page.cta.primaryCta.label}
-          ctaHref={page.cta.primaryCta.href}
-          secondaryLabel={page.cta.secondaryCta.label}
-          secondaryHref={page.cta.secondaryCta.href}
+          {...ctaProps}
           guideBottomInset
           guideShowBottomRail
           guideShowBottomCrosses

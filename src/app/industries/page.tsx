@@ -66,7 +66,7 @@ export default async function IndustriesPage() {
       />
       <section data-theme="light" className="relative bg-zn-bg">
         <div className="zn-container-guides relative">
-          <BlueprintColumnFrame showBottomRail={false} showBottomCrosses={false}>
+          <BlueprintColumnFrame showBottomCrosses={false}>
             {/* Hero */}
             <div className="relative border-b border-zn-border">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
