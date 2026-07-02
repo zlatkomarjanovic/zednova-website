@@ -104,8 +104,6 @@ export function ArticleSidebar({
           </SidebarAccordionSection>
         )}
 
-        <ArticleSidebarCta author={author} />
-
         {hasQuestions && (
           <SidebarAccordionSection title="Related questions" defaultOpen={false}>
             <ul className="grid gap-4 text-[0.8125rem] leading-relaxed text-zn-text-2">
@@ -115,6 +113,8 @@ export function ArticleSidebar({
             </ul>
           </SidebarAccordionSection>
         )}
+
+        <ArticleSidebarCta author={author} />
 
         <ArticleSidebarShare url={shareUrl} title={shareTitle} />
 
