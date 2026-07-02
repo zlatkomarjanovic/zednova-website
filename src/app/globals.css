@@ -389,6 +389,41 @@
   }
 }
 
+/* Minimal scrollbars — transparent track, thin thumb, no arrow buttons. */
+.zn-scrollbar-minimal {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-zn-text) 24%, transparent) transparent;
+  scrollbar-gutter: stable;
+}
+
+.zn-scrollbar-minimal::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.zn-scrollbar-minimal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.zn-scrollbar-minimal::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--color-zn-text) 22%, transparent);
+  border-radius: 9999px;
+}
+
+.zn-scrollbar-minimal::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--color-zn-text) 38%, transparent);
+}
+
+.zn-scrollbar-minimal::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.zn-scrollbar-minimal::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /* ---------------- Reduced motion ---------------- */
 @media (prefers-reduced-motion: reduce) {
   *,

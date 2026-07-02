@@ -32,12 +32,15 @@ function SidebarAccordionSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <section className="border-b border-zn-border pb-5 last:border-b-0 last:pb-0">
+    <section className="border-b border-zn-border py-[1.2rem] last:border-b-0">
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
         aria-expanded={open}
-        className="mb-4 flex w-full items-center justify-between gap-3 text-left"
+        className={cn(
+          "flex w-full items-center justify-between gap-3 text-left",
+          open && "mb-3",
+        )}
       >
         <span className="zn-label text-zn-text-3">{title}</span>
         <span className="shrink-0 text-zn-text-3" aria-hidden="true">
@@ -71,12 +74,12 @@ export function ArticleSidebar({
 
   return (
     <aside className="hidden w-56 shrink-0 lg:block xl:w-60">
-      <div className="sticky top-28 space-y-5">
+      <div className="sticky top-28">
         {showToc && (
           <SidebarAccordionSection title="On this page" defaultOpen>
             <nav
               aria-label="Table of contents"
-              className="max-h-[280px] overflow-y-auto overscroll-y-contain pr-1 [scrollbar-width:thin]"
+              className="zn-scrollbar-minimal max-h-[280px] overflow-y-auto overscroll-y-contain pr-0.5"
             >
               <ul className="grid gap-3.5 border-l border-zn-border">
                 {toc.map((heading) => (
@@ -106,7 +109,7 @@ export function ArticleSidebar({
 
         {hasQuestions && (
           <SidebarAccordionSection title="Related questions" defaultOpen={false}>
-            <ul className="grid gap-4 text-[0.8125rem] leading-relaxed text-zn-text-2">
+            <ul className="grid gap-3.5 text-[0.8125rem] leading-snug text-zn-text-2">
               {questions.map((question) => (
                 <li key={question}>{question}</li>
               ))}
@@ -114,7 +117,7 @@ export function ArticleSidebar({
           </SidebarAccordionSection>
         )}
 
-        <ArticleSidebarCta author={author} />
+        <ArticleSidebarCta author={author} className="mt-[1.2rem]" />
 
         <ArticleSidebarShare url={shareUrl} title={shareTitle} />
 

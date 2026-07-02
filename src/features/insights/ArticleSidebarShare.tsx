@@ -12,7 +12,7 @@ export function ArticleSidebarShare({
   return (
     <section
       aria-label="Share this article"
-      className="border-t border-zn-border pt-5"
+      className="border-t border-zn-border pt-[1.2rem]"
     >
       <ArticleShare url={url} title={title} className="flex-wrap gap-2" />
     </section>
