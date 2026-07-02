@@ -186,7 +186,7 @@ export default async function ArticlePage({
         })}
       />
 
-      {/* Article — continuous guides frame */}
+      {/* Article, continuous guides frame */}
       <section
         data-theme="light"
         className="relative bg-zn-bg"
@@ -264,7 +264,7 @@ export default async function ArticlePage({
               </div>
             </div>
 
-            {/* Cover image — within guides width */}
+            {/* Cover image, within guides width */}
             <figure className="relative border-b border-zn-border">
               <BlueprintCross anchor="left" className="top-full z-10 -translate-y-1/2" />
               <BlueprintCross anchor="right" className="top-full z-10 -translate-y-1/2" />
@@ -289,7 +289,7 @@ export default async function ArticlePage({
               )}
             </figure>
 
-            {/* Body — sidebar + article column */}
+            {/* Body, sidebar + article column */}
             <div className="relative border-b border-zn-border">
               <div className="zn-container-inset py-14 lg:py-16">
                 <div className="mx-auto flex max-w-5xl gap-12 xl:gap-16">
@@ -478,7 +478,7 @@ export default async function ArticlePage({
 
       <DarkCTA
         heading="Want a website that ranks, converts, and gets cited by AI?"
-        sub="We design and build Next.js sites, Shopify stores, and automations for clinics, ecommerce brands, and small businesses across the United States. Tell us what you need — we reply within 24 hours."
+        sub="We design and build Next.js sites, Shopify stores, and automations for clinics, ecommerce brands, and small businesses across the United States. Tell us what you need, we reply within 24 hours."
         ctaLabel="Tell us what you need"
       />
     </>

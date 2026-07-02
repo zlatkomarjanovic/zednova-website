@@ -1,7 +1,6 @@
 import { buildLlmsFullTxt } from "@/lib/content/llms";
 import {
   getAllCaseStudies,
-  getAllCustomSoftwareSlugs,
   getAllIndustrySlugs,
   getAllMigrations,
   getAllPosts,
@@ -11,11 +10,10 @@ import {
 export const dynamic = "force-static";
 
 export async function GET() {
-  const [services, industrySlugs, customSoftwareSlugs, migrations, caseStudies, posts] =
+  const [services, industrySlugs, migrations, caseStudies, posts] =
     await Promise.all([
       getAllServices(),
       getAllIndustrySlugs(),
-      getAllCustomSoftwareSlugs(),
       getAllMigrations(),
       getAllCaseStudies(),
       getAllPosts(),
@@ -24,7 +22,6 @@ export async function GET() {
   const body = buildLlmsFullTxt({
     services,
     industrySlugs,
-    customSoftwareSlugs,
     migrations,
     caseStudies,
     posts,

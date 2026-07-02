@@ -1,4 +1,4 @@
-/** Parent service groups — same order as mega menu cards and /services page. */
+/** Parent service groups, same order as mega menu cards and /services page. */
 export const PRIMARY_SERVICE_GROUPS = [
   "Lead-Gen Websites & AI Search",
   "CRM & Follow-Up Automation",

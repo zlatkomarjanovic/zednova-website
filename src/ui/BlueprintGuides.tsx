@@ -8,7 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { cn } from "@/lib/utils";
 
-/** Shared dark blueprint stroke — matches testimonial grid borders. */
+/** Shared dark blueprint stroke, matches testimonial grid borders. */
 export const blueprintDarkLineClass = "bg-zn-border-dk";
 
 export type BlueprintReveal = "immediate" | "scroll" | "mount" | "none";

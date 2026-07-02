@@ -6,7 +6,7 @@ export function registerLenis(instance: Lenis | null) {
   lenisInstance = instance;
 }
 
-/** Smooth scroll to top — uses Lenis when available. */
+/** Smooth scroll to top, uses Lenis when available. */
 export function scrollToTop(options?: { immediate?: boolean }) {
   const immediate = options?.immediate ?? false;
 

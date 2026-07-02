@@ -30,7 +30,7 @@ export const alternatives: AlternativeGuide[] = [
     sourcePlatform: "Squarespace",
     audience: "Dental, med spa, wellness, and specialty clinics",
     intro:
-      "Squarespace wins on speed to launch. Clinics hit the ceiling when intake, recall, and reputation need to connect — not sit in separate plugins and spreadsheets.",
+      "Squarespace wins on speed to launch. Clinics hit the ceiling when intake, recall, and reputation need to connect, not sit in separate plugins and spreadsheets.",
     alternatives: [
       {
         name: "Next.js + Sanity",
@@ -62,7 +62,7 @@ export const alternatives: AlternativeGuide[] = [
       },
       {
         name: "GoHighLevel",
-        tagline: "Best when CRM, SMS, and booking are the product — not the brochure site.",
+        tagline: "Best when CRM, SMS, and booking are the product, not the brochure site.",
         pros: [
           "Built-in pipelines, calendars, and SMS",
           "Fast to wire missed-call text-back and recall",
@@ -90,7 +90,7 @@ export const alternatives: AlternativeGuide[] = [
       },
     ],
     verdict:
-      "Pick Next.js + Sanity when growth depends on Google and AI search plus a credible brand site. Pick GoHighLevel when the bottleneck is follow-up, not design. Squarespace is fine for a single-location launch — not for a clinic scaling locations and recall.",
+      "Pick Next.js + Sanity when growth depends on Google and AI search plus a credible brand site. Pick GoHighLevel when the bottleneck is follow-up, not design. Squarespace is fine for a single-location launch, not for a clinic scaling locations and recall.",
     related: [
       { label: "Squarespace → Next.js migration", href: "/migrations/squarespace-to-nextjs-sanity" },
       { label: "CRM automation for clinics", href: "/insights/crm-automation-for-clinics-without-extra-hires" },
@@ -108,11 +108,11 @@ export const alternatives: AlternativeGuide[] = [
     sourcePlatform: "Webflow",
     audience: "DTC and ecommerce brands",
     intro:
-      "Webflow is excellent for brand storytelling. Revenue scales on Shopify's checkout, apps, and retention stack — not on CMS page limits.",
+      "Webflow is excellent for brand storytelling. Revenue scales on Shopify's checkout, apps, and retention stack, not on CMS page limits.",
     alternatives: [
       {
         name: "Shopify",
-        tagline: "Default for DTC — checkout, apps, and Klaviyo integrations.",
+        tagline: "Default for DTC, checkout, apps, and Klaviyo integrations.",
         pros: ["Best-in-class checkout and payment stack", "Klaviyo, reviews, and subscription apps", "Ops team already knows the admin"],
         cons: ["Theme limits vs fully custom storefront", "Speed depends on app discipline"],
         href: "/industries/ecommerce-dtc",
@@ -151,7 +151,7 @@ export const alternatives: AlternativeGuide[] = [
     sourcePlatform: "WordPress",
     audience: "Dental, medical, and wellness practices on WordPress",
     intro:
-      "WordPress is flexible until it isn't — security patches, plugin conflicts, and slow mobile templates cost more than teams expect.",
+      "WordPress is flexible until it isn't, security patches, plugin conflicts, and slow mobile templates cost more than teams expect.",
     alternatives: [
       {
         name: "Next.js + Sanity",
@@ -193,7 +193,7 @@ export const alternatives: AlternativeGuide[] = [
     sourcePlatform: "Wix",
     audience: "HVAC, legal, home services, and professional services",
     intro:
-      "Wix optimizes for getting online fast. Service businesses win on response time, proof, and systems — not drag-and-drop alone.",
+      "Wix optimizes for getting online fast. Service businesses win on response time, proof, and systems, not drag-and-drop alone.",
     alternatives: [
       {
         name: "Next.js + Sanity",
@@ -218,7 +218,7 @@ export const alternatives: AlternativeGuide[] = [
       },
     ],
     verdict:
-      "Upgrade from Wix when you are spending on ads or hiring for growth. The site should be the front end of a sales system — not a digital business card.",
+      "Upgrade from Wix when you are spending on ads or hiring for growth. The site should be the front end of a sales system, not a digital business card.",
     related: [
       { label: "Wix → Next.js migration", href: "/migrations/wix-to-nextjs-sanity" },
       { label: "Revenue leak audit", href: "/insights/five-minute-revenue-leak-audit" },

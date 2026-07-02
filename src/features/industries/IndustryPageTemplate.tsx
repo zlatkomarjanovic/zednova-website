@@ -1,7 +1,5 @@
 import type { IndustryPageContent } from "@/lib/types/industry-page";
 import type { PortfolioProject, Post, Testimonial } from "@/lib/types";
-import type { CustomSoftware } from "@/lib/types/custom-software";
-import type { Migration, NavMenuGroup, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { Service } from "@/lib/types";
 import { breadcrumbJsonLd, faqPageJsonLd, industryJsonLd } from "@/lib/seo";
 import { hasSectionContent } from "@/lib/content/resolve-industry-page";
@@ -34,11 +32,7 @@ export type IndustryPageTemplateContext = {
   relatedWork: PortfolioProject[];
   relatedPosts: Post[];
   platformTestimonials: Testimonial[];
-  serviceNavGroups: NavMenuGroup[];
-  serviceMegaMenuCards: ServiceMegaMenuCard[];
   services: Service[];
-  customSoftware: CustomSoftware[];
-  migrations: Migration[];
   linkedServiceSlugs: string[];
 };
 
@@ -53,11 +47,7 @@ export function IndustryPageTemplate({
     relatedWork,
     relatedPosts,
     platformTestimonials,
-    serviceNavGroups,
-    serviceMegaMenuCards,
     services,
-    customSoftware,
-    migrations,
     linkedServiceSlugs,
   } = context;
 
@@ -168,11 +158,7 @@ export function IndustryPageTemplate({
         <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
         <IndustryServicesShowcase
           section={page.services}
-          serviceNavGroups={serviceNavGroups}
-          serviceMegaMenuCards={serviceMegaMenuCards}
           services={services}
-          customSoftware={customSoftware}
-          migrations={migrations}
           linkedServiceSlugs={linkedServiceSlugs}
           inSageFlow
         />

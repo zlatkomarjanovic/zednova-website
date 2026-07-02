@@ -153,7 +153,7 @@ export default async function ServicesPage() {
 
             path: "/services",
 
-            name: "Services — ZedNova Studio",
+            name: "Services, ZedNova Studio",
 
             description:
 
@@ -227,7 +227,7 @@ export default async function ServicesPage() {
 
                   <p className="mt-6 max-w-2xl zn-prose">
 
-                    Each service targets a specific part of the funnel — the website,
+                    Each service targets a specific part of the funnel, the website,
 
                     the follow-up, the receptionist, the portals, the migration, and
 

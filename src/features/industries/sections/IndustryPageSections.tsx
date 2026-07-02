@@ -36,7 +36,7 @@ function GlanceIcon({ item }: { item: IndustryGlanceItem }) {
 type Crumb = { label: string; href?: string };
 
 /* ------------------------------------------------------------------ */
-/* Hero — centered headline + risk-reversal microcopy + trust stat bar */
+/* Hero, centered headline + risk-reversal microcopy + trust stat bar */
 /* ------------------------------------------------------------------ */
 
 export function IndustryHeroSection({
@@ -137,7 +137,7 @@ export function IndustryHeroSection({
 }
 
 /* ------------------------------------------------------------------ */
-/* At a glance — spec-sheet cards: icon plate, corner index, accent rule */
+/* At a glance, spec-sheet cards: icon plate, corner index, accent rule */
 /* ------------------------------------------------------------------ */
 
 export function IndustryAtGlanceSection({
@@ -204,7 +204,7 @@ export function IndustryAtGlanceSection({
 }
 
 /* ------------------------------------------------------------------ */
-/* Problems — leak report: sticky intro + numbered rows                */
+/* Problems, leak report: sticky intro + numbered rows                */
 /* ------------------------------------------------------------------ */
 
 export function IndustryProblemSection({
@@ -279,7 +279,7 @@ export function IndustryProblemSection({
 }
 
 /* ------------------------------------------------------------------ */
-/* Segments — compact directory tiles with hover arrows                */
+/* Segments, compact directory tiles with hover arrows                */
 /* ------------------------------------------------------------------ */
 
 export function IndustrySegmentsSection({

@@ -5,7 +5,7 @@ function faqKey(faq: ArticleFaq): string {
   return faq.question.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-/** Return unique FAQs — first occurrence wins. */
+/** Return unique FAQs, first occurrence wins. */
 export function uniqueFaqs(faqs: ArticleFaq[] | undefined): ArticleFaq[] {
   if (!faqs?.length) return [];
   const seen = new Set<string>();
@@ -17,7 +17,7 @@ export function uniqueFaqs(faqs: ArticleFaq[] | undefined): ArticleFaq[] {
   });
 }
 
-/** Return unique takeaways — case-insensitive trim match. */
+/** Return unique takeaways, case-insensitive trim match. */
 export function uniqueTakeaways(items: string[] | undefined): string[] {
   if (!items?.length) return [];
   const seen = new Set<string>();

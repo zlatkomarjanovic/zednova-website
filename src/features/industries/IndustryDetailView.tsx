@@ -1,19 +1,13 @@
 import {
   getAllPosts,
   getAllServices,
-  getAllCustomSoftware,
-  getAllMigrations,
   getPlatformTestimonials,
   getIndustryRelatedPortfolioProjects,
   getIndustryPageData,
   getPostsBySlugs,
-  getServiceMegaMenuCards,
-  getServiceNavGroups,
 } from "@/lib/queries";
 import type { Industry, IndustryParent } from "@/lib/types";
 import type { PortfolioProject, Post, Testimonial } from "@/lib/types";
-import type { CustomSoftware } from "@/lib/types/custom-software";
-import type { Migration, NavMenuGroup, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { Service } from "@/lib/types";
 import { resolveIndustryPageContent } from "@/lib/content/resolve-industry-page";
 import { IndustryPageTemplate } from "@/features/industries/IndustryPageTemplate";
@@ -23,35 +17,18 @@ export type IndustryDetailContext = {
   relatedPosts: Post[];
   platformTestimonials: Testimonial[];
   subIndustries: Industry[];
-  serviceNavGroups: NavMenuGroup[];
-  serviceMegaMenuCards: ServiceMegaMenuCard[];
   services: Service[];
-  customSoftware: CustomSoftware[];
-  migrations: Migration[];
   linkedServiceSlugs: string[];
 };
 
 export async function loadIndustryDetailContext(
   parent: IndustryParent,
 ): Promise<IndustryDetailContext> {
-  const [
-    relatedWork,
-    platformTestimonials,
-    page,
-    serviceNavGroups,
-    serviceMegaMenuCards,
-    services,
-    customSoftware,
-    migrations,
-  ] = await Promise.all([
+  const [relatedWork, platformTestimonials, page, services] = await Promise.all([
     getIndustryRelatedPortfolioProjects(parent),
     getPlatformTestimonials(),
     getIndustryPageData(parent.slug),
-    getServiceNavGroups(),
-    getServiceMegaMenuCards(),
     getAllServices(),
-    getAllCustomSoftware(),
-    getAllMigrations(),
   ]);
 
   const relatedPosts = parent.relatedInsights?.length
@@ -66,11 +43,7 @@ export async function loadIndustryDetailContext(
       page?.subIndustries ?? [],
       parent.featuredSubIndustrySlugs,
     ),
-    serviceNavGroups,
-    serviceMegaMenuCards,
     services,
-    customSoftware,
-    migrations,
     linkedServiceSlugs: parent.servicesForThisIndustrySlugs ?? [],
   };
 }
@@ -102,11 +75,7 @@ export function IndustryDetailView({
         relatedWork: context.relatedWork,
         relatedPosts: context.relatedPosts,
         platformTestimonials: context.platformTestimonials,
-        serviceNavGroups: context.serviceNavGroups,
-        serviceMegaMenuCards: context.serviceMegaMenuCards,
         services: context.services,
-        customSoftware: context.customSoftware,
-        migrations: context.migrations,
         linkedServiceSlugs: context.linkedServiceSlugs,
       }}
     />

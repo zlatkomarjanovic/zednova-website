@@ -13,7 +13,7 @@ import {
 import { SITE_ORIGIN, absoluteUrl } from "@/lib/site-url";
 import { slugify } from "@/lib/utils";
 
-/** Shared schema @id constants — must match sitewideSchemaGraph in layout. */
+/** Shared schema @id constants, must match sitewideSchemaGraph in layout. */
 export const SCHEMA_ORG_ID = `${SITE_ORIGIN}/#organization`;
 export const SCHEMA_WEBSITE_ID = `${SITE_ORIGIN}/#website`;
 
@@ -32,7 +32,7 @@ type ArticleJsonLdInput = {
   author: TeamMember | null;
 };
 
-/** schema.org/Article or BlogPosting — main article structured data. */
+/** schema.org/Article or BlogPosting, main article structured data. */
 export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
   const url = articleUrl(post.slug);
   const imageUrl = post.seo?.ogImage ?? post.ogImage ?? post.image;
@@ -157,7 +157,7 @@ export function articleJsonLd({ post, author }: ArticleJsonLdInput) {
   };
 }
 
-/** Article page @graph — BlogPosting + linked Person entity for E-E-A-T. */
+/** Article page @graph, BlogPosting + linked Person entity for E-E-A-T. */
 export function articlePageGraphJsonLd({
   post,
   author,
@@ -191,7 +191,7 @@ export function articlePageGraphJsonLd({
   };
 }
 
-/** schema.org/ItemList — table of contents for long articles. */
+/** schema.org/ItemList, table of contents for long articles. */
 export function articleTocJsonLd(
   post: Post,
   url: string,
@@ -219,19 +219,19 @@ export function articleTocJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: `Table of contents — ${post.title}`,
+    name: `Table of contents, ${post.title}`,
     itemListElement: items,
   };
 }
 
-/** schema.org/ItemList — related / continue-reading articles on an insight page. */
+/** schema.org/ItemList, related / continue-reading articles on an insight page. */
 export function relatedArticlesJsonLd(related: Post[], currentTitle: string) {
   if (!related.length) return null;
 
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: `Continue reading — ${currentTitle}`,
+    name: `Continue reading, ${currentTitle}`,
     itemListElement: related.map((post, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -257,7 +257,7 @@ export function relatedArticlesJsonLd(related: Post[], currentTitle: string) {
   };
 }
 
-/** Unified @graph for insight article pages — article-specific nodes only. */
+/** Unified @graph for insight article pages, article-specific nodes only. */
 export function insightPageGraphJsonLd(input: {
   post: Post;
   author: TeamMember | null;
@@ -420,7 +420,7 @@ export function insightPageGraphJsonLd(input: {
   });
 }
 
-/** schema.org/BreadcrumbList — for the breadcrumb trail. */
+/** schema.org/BreadcrumbList, for the breadcrumb trail. */
 export function breadcrumbJsonLd(crumbs: { label: string; href?: string }[]) {
   return {
     "@context": "https://schema.org",
@@ -434,7 +434,7 @@ export function breadcrumbJsonLd(crumbs: { label: string; href?: string }[]) {
   };
 }
 
-/** schema.org/FAQPage — for the inline article FAQ (AEO). */
+/** schema.org/FAQPage, for the inline article FAQ (AEO). */
 export function faqPageJsonLd(faqs: ArticleFaq[]) {
   return {
     "@context": "https://schema.org",
@@ -450,7 +450,7 @@ export function faqPageJsonLd(faqs: ArticleFaq[]) {
   };
 }
 
-/** schema.org/Organization — site-wide. */
+/** schema.org/Organization, site-wide. */
 export function organizationJsonLd(org?: {
   name?: string;
   legalName?: string;
@@ -485,7 +485,7 @@ export function organizationJsonLd(org?: {
   };
 }
 
-/** schema.org/WebSite — site-wide search/discovery. */
+/** schema.org/WebSite, site-wide search/discovery. */
 export function websiteJsonLd(siteName = "ZedNova Studio") {
   return {
     "@context": "https://schema.org",
@@ -498,7 +498,7 @@ export function websiteJsonLd(siteName = "ZedNova Studio") {
   };
 }
 
-/** schema.org/Service — for service detail pages. */
+/** schema.org/Service, for service detail pages. */
 export function serviceJsonLd(service: {
   slug: string;
   title: string;
@@ -532,7 +532,7 @@ export function serviceJsonLd(service: {
   };
 }
 
-/** schema.org/Service — generic variant for any path (migrations, custom software). */
+/** schema.org/Service, generic variant for any path (migrations, custom software). */
 export function serviceAtJsonLd(input: {
   path: string;
   title: string;
@@ -573,29 +573,6 @@ export function serviceAtJsonLd(input: {
             availability: "https://schema.org/InStock",
           }
         : undefined,
-  };
-}
-
-/** schema.org/WebPage for the /start service chooser. */
-export function startPageJsonLd() {
-  const url = `${SITE_ORIGIN}/start`;
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": url,
-    url,
-    name: "Find the Right Service",
-    description:
-      "Interactive guide to choose the best ZedNova Studio service for your goal and industry.",
-    inLanguage: "en-US",
-    isPartOf: {
-      "@type": "WebSite",
-      "@id": SCHEMA_WEBSITE_ID,
-    },
-    publisher: {
-      "@type": "Organization",
-      "@id": SCHEMA_ORG_ID,
-    },
   };
 }
 
@@ -702,7 +679,7 @@ export function caseStudyJsonLd(c: {
   };
 }
 
-/** Crude word-count estimate from the block model — used for article wordCount. */
+/** Crude word-count estimate from the block model, used for article wordCount. */
 function estimateWordCount(post: Post): number {
   return post.body.reduce((sum, block) => {
     if (block.type === "ul") return sum + block.items.join(" ").split(/\s+/).length;
@@ -711,7 +688,7 @@ function estimateWordCount(post: Post): number {
   }, 0);
 }
 
-/** schema.org/Person — founder profile linked to Organization. */
+/** schema.org/Person, founder profile linked to Organization. */
 export function personJsonLd(person: {
   slug: string;
   name: string;
@@ -743,7 +720,7 @@ export function contactPageJsonLd(email: string) {
     url: `${SITE_ORIGIN}/contact`,
     name: "Contact ZedNova Studio",
     description:
-      "Tell ZedNova what you need — websites, custom software, automations, and AI tools for service businesses.",
+      "Tell ZedNova what you need, websites, custom software, automations, and AI tools for service businesses.",
     mainEntity: {
       "@type": "Organization",
       "@id": `${SITE_ORIGIN}/#organization`,
@@ -821,7 +798,6 @@ export type HomepageGraphInput = {
   featuredCases?: HomepageGraphCaseStudy[];
   stats?: { value: string; label: string }[];
   services?: { slug: string; title: string; shortDescription: string }[];
-  customSoftware?: { slug: string; title: string; shortDescription?: string }[];
   migrations?: { slug: string; title: string; shortDescription?: string }[];
   techStackGroups?: { category: string; description: string; tools: string[] }[];
   industries?: HomepageGraphIndustry[];
@@ -864,7 +840,7 @@ function parseUsdPrice(value?: string): string | undefined {
   return match?.[1];
 }
 
-/** Unified @graph for the homepage — mirrors visible sections for AEO / rich results. */
+/** Unified @graph for the homepage, mirrors visible sections for AEO / rich results. */
 export function homepageGraphJsonLd(input: HomepageGraphInput) {
   const graph: object[] = [];
   const homepageId = `${SITE_ORIGIN}/#homepage`;
@@ -898,11 +874,6 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
       name: service.title,
       description: service.shortDescription,
       url: `${SITE_ORIGIN}/services/${service.slug}`,
-    })),
-    ...(input.customSoftware ?? []).map((item) => ({
-      name: item.title,
-      description: item.shortDescription,
-      url: `${SITE_ORIGIN}/custom-software/${item.slug}`,
     })),
     ...(input.migrations ?? []).map((item) => ({
       name: item.title,
@@ -1166,7 +1137,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
   });
 }
 
-/** schema.org/AboutPage — for the about route. */
+/** schema.org/AboutPage, for the about route. */
 export function aboutPageJsonLd(founder?: {
   slug: string;
   name: string;
@@ -1193,7 +1164,7 @@ export function aboutPageJsonLd(founder?: {
   };
 }
 
-/** schema.org/CollectionPage — for index/listing routes. */
+/** schema.org/CollectionPage, for index/listing routes. */
 export function collectionPageJsonLd(input: {
   slug?: string;
   path: string;

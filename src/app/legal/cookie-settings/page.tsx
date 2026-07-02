@@ -13,7 +13,7 @@ import { cookiePolicyIntro } from "@/lib/content/legal";
 export const metadata: Metadata = {
   title: "Cookie Settings | ZedNova Studio",
   description:
-    "Manage cookie preferences for zednova.studio — control analytics and optional cookies. Your choices are saved on this device.",
+    "Manage cookie preferences for zednova.studio, control analytics and optional cookies. Your choices are saved on this device.",
   alternates: { canonical: "/legal/cookie-settings" },
   openGraph: {
     type: "website",

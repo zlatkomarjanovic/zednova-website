@@ -61,7 +61,7 @@ export async function generateMetadata({
 }
 
 const FALLBACK_BENEFITS = [
-  "Keep your URLs and SEO — 301 redirects on every old path",
+  "Keep your URLs and SEO, 301 redirects on every old path",
   "Content lives in Sanity so your team edits without a developer",
   "Sub-2-second load times on mobile, the make-or-break for ranking",
   "No plugins to maintain, no security patches, no theme lock-in",

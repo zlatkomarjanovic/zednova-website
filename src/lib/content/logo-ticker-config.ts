@@ -1,5 +1,5 @@
 /**
- * LOGO TICKER SCROLL DIRECTION — LOCKED. DO NOT CHANGE.
+ * LOGO TICKER SCROLL DIRECTION, LOCKED. DO NOT CHANGE.
  *
  * Product decision (confirmed by owner): logos move **left → right** on screen.
  * The track animates from `-loopWidth` to `0`.
@@ -12,7 +12,7 @@ export const LOGO_TICKER_SCROLL_DIRECTION = "ltr" as const;
 
 export type LogoTickerScrollDirection = typeof LOGO_TICKER_SCROLL_DIRECTION;
 
-/** @internal Used only by LogoTicker — direction is locked to LTR. */
+/** @internal Used only by LogoTicker, direction is locked to LTR. */
 export function assertLogoTickerDirection(
   direction: string,
 ): asserts direction is LogoTickerScrollDirection {

@@ -64,7 +64,7 @@ type RubberHoverOptions = {
   bendScale?: number;
   settleMs?: number;
   cornerRadius?: number;
-  /** When false, cells are tracked via mouseEnter only — skips elementFromPoint on move. */
+  /** When false, cells are tracked via mouseEnter only, skips elementFromPoint on move. */
   detectCellOnMove?: boolean;
 };
 

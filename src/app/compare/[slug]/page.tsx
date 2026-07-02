@@ -207,7 +207,7 @@ export default async function ComparisonPage({
 
       <DarkCTA
         heading="Still not sure which stack fits?"
-        sub="Tell us what you are building and what you already have. We will give you an honest recommendation — even if it is not us."
+        sub="Tell us what you are building and what you already have. We will give you an honest recommendation, even if it is not us."
         ctaLabel="Ask us"
       />
 

@@ -105,7 +105,7 @@ export function ServiceDetailView({
         ]}
       />
 
-      {/* Hero — eyebrow, H1, 1:1 image at 50% width, subtext, CTA */}
+      {/* Hero, eyebrow, H1, 1:1 image at 50% width, subtext, CTA */}
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
@@ -203,7 +203,7 @@ export function ServiceDetailView({
         </section>
       )}
 
-      {/* Sub-services bento — dark full-bleed grid */}
+      {/* Sub-services bento, dark full-bleed grid */}
       {subServices.length > 0 && (
         <ServiceSubServicesSection
           subServices={subServices}
@@ -213,12 +213,12 @@ export function ServiceDetailView({
         />
       )}
 
-      {/* Values — dark unified grid matching sub-services */}
+      {/* Values, dark unified grid matching sub-services */}
       {values.length > 0 && (
         <ServiceValuesSection values={values} />
       )}
 
-      {/* Process — sticky intro + unified step grid (shared borders, no floating cards) */}
+      {/* Process, sticky intro + unified step grid (shared borders, no floating cards) */}
       {processSteps.length > 0 && (
         <section data-theme="light" className="relative bg-zn-bg">
           <BlueprintGrid />
@@ -304,7 +304,7 @@ export function ServiceDetailView({
         </section>
       )}
 
-      {/* Testimonials — same carousel as homepage */}
+      {/* Testimonials, same carousel as homepage */}
       {platformTestimonials.length > 0 && (
         <section
           data-theme="dark"
@@ -338,7 +338,7 @@ export function ServiceDetailView({
         </section>
       )}
 
-      {/* Resources — 3 most recent blog posts (same as homepage) */}
+      {/* Resources, 3 most recent blog posts (same as homepage) */}
       {recentPosts.length > 0 && (
         <section data-theme="light" className="relative bg-zn-bg">
           <div className="zn-container-guides relative">

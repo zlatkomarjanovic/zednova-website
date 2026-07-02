@@ -1,8 +1,8 @@
 export type ComparisonRow = {
   category: string;
-  /** Desktop copy — traditional agencies column */
+  /** Desktop copy, traditional agencies column */
   agencies: string;
-  /** Desktop copy — ZedNova column */
+  /** Desktop copy, ZedNova column */
   zednova: string;
   zednovaPill: string;
   /** Mobile check/X matrix */

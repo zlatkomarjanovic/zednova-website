@@ -1,6 +1,6 @@
 import { Tag } from "@/ui/Tag";
 
-/** Tags block — shown below the article body, never on the hero image. */
+/** Tags block, shown below the article body, never on the hero image. */
 export function ArticleTags({ tags }: { tags: string[] }) {
   if (!tags.length) return null;
 

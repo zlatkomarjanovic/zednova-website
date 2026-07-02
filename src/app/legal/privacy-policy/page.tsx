@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     url: "/legal/privacy-policy",
     title: "Privacy Policy | ZedNova Studio",
     description:
-      "Privacy Policy for ZedNova Studio — data collection, cookies, contact forms, and your rights.",
+      "Privacy Policy for ZedNova Studio, data collection, cookies, contact forms, and your rights.",
   },
   robots: { index: true, follow: true },
 };

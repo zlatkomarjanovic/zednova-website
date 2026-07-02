@@ -127,7 +127,7 @@ const shopifyOverride: InsightOverride = {
   ],
   sources: [
     {
-      title: "Checkout usability — cart abandonment benchmarks",
+      title: "Checkout usability, cart abandonment benchmarks",
       url: "https://baymard.com/lists/cart-abandonment-rate",
       publisher: "Baymard Institute",
       note: "Checkout friction and abandonment benchmarks cited for Fix 4.",
@@ -139,13 +139,13 @@ const shopifyOverride: InsightOverride = {
       note: "Mobile LCP guidance cited for Fix 3.",
     },
     {
-      title: "Shopify Help — Optimize checkout",
+      title: "Shopify Help, Optimize checkout",
       url: "https://help.shopify.com/en/manual/checkout-settings",
       publisher: "Shopify",
       note: "Guest checkout and checkout settings for Fix 4.",
     },
     {
-      title: "Klaviyo — Ecommerce benchmark report",
+      title: "Klaviyo, Ecommerce benchmark report",
       url: "https://www.klaviyo.com/marketing-resources/ecommerce-benchmarks",
       publisher: "Klaviyo",
       note: "Flow performance benchmarks for Fixes 5–6.",
@@ -159,12 +159,12 @@ const shopifyOverride: InsightOverride = {
     { type: "h2", text: "Fix 1: Product page clarity" },
     {
       type: "p",
-      text: "If a shopper cannot state your offer in five seconds, paid traffic will not save the store. One primary CTA, a scannable benefit block, and a single conversion path beat another homepage redesign. We apply the same [conversion-focused product page structure](/industries/ecommerce-dtc) we use on Shopify builds — one page, one action.",
+      text: "If a shopper cannot state your offer in five seconds, paid traffic will not save the store. One primary CTA, a scannable benefit block, and a single conversion path beat another homepage redesign. We apply the same [conversion-focused product page structure](/industries/ecommerce-dtc) we use on Shopify builds, one page, one action.",
     },
     { type: "h2", text: "Fix 2: Social proof near the CTA" },
     {
       type: "p",
-      text: "Reviews, star ratings, UGC, and trust badges belong beside the add-to-cart button — not three screens below it. Shoppers decide at the CTA moment; proof there reduces hesitation on cold traffic. Tools like Judge.me, Okendo, or Loox integrate cleanly with Shopify product templates.",
+      text: "Reviews, star ratings, UGC, and trust badges belong beside the add-to-cart button, not three screens below it. Shoppers decide at the CTA moment; proof there reduces hesitation on cold traffic. Tools like Judge.me, Okendo, or Loox integrate cleanly with Shopify product templates.",
     },
     { type: "h2", text: "Fix 3: Mobile speed" },
     {
@@ -174,7 +174,7 @@ const shopifyOverride: InsightOverride = {
     { type: "h2", text: "Fix 4: Checkout simplification" },
     {
       type: "p",
-      text: "Forced account creation, surprise shipping costs, and long forms kill cold traffic checkout. Enable guest checkout, show shipping thresholds early, and strip optional fields. Baymard’s checkout research ranks unexpected costs as a top abandonment driver — fix that before scaling [outbound or paid campaigns](/services/outbound-lead-gen).",
+      text: "Forced account creation, surprise shipping costs, and long forms kill cold traffic checkout. Enable guest checkout, show shipping thresholds early, and strip optional fields. Baymard’s checkout research ranks unexpected costs as a top abandonment driver, fix that before scaling [outbound or paid campaigns](/services/outbound-lead-gen).",
     },
     { type: "h2", text: "Fix 5: Cart recovery flow" },
     {
@@ -193,7 +193,7 @@ const shopifyOverride: InsightOverride = {
     },
     {
       type: "quote",
-      text: "The cheapest revenue in ecommerce is the shopper who already wanted to buy — and got stuck, distracted, or never heard from you again.",
+      text: "The cheapest revenue in ecommerce is the shopper who already wanted to buy, and got stuck, distracted, or never heard from you again.",
     },
     {
       type: "h2",
@@ -216,21 +216,21 @@ const fiveMinuteOverride: InsightOverride = {
   quickAnswer: {
     question: "How do I find revenue leaks in my business?",
     shortAnswer:
-      "Run a five-minute revenue leak audit: call your business during and after hours, submit your contact form and time the reply, review your last twenty estimates for follow-up gaps, check CRM response times, and confirm every lead gets an automated first touch. Slow follow-up—not weak marketing—usually causes the leak.",
+      "Run a five-minute revenue leak audit: call your business during and after hours, submit your contact form and time the reply, review your last twenty estimates for follow-up gaps, check CRM response times, and confirm every lead gets an automated first touch. Slow follow-up, not weak marketing, usually causes the leak.",
   },
   takeaways: [
     "Most businesses lose more revenue to slow follow-up than to any marketing problem.",
-    "Call your own business during and after hours — every voicemail is a lost lead.",
-    "Submit your own contact form and time the reply — over 5 minutes and you are losing leads daily.",
+    "Call your own business during and after hours, every voicemail is a lost lead.",
+    "Submit your own contact form and time the reply, over 5 minutes and you are losing leads daily.",
     "Check your last 20 estimates: how many got a second follow-up?",
-    "The fix is rarely more leads — it is a system that catches the ones you already have.",
+    "The fix is rarely more leads, it is a system that catches the ones you already have.",
   ],
   faqs: [
     {
       id: "faq-revenue-leak",
       question: "What is a revenue leak?",
       answer:
-        "A revenue leak is money you already paid to earn but never collect — usually because a lead raised their hand and no one responded fast enough, or no system chased them. It is rarely a marketing problem. It is a follow-up gap.",
+        "A revenue leak is money you already paid to earn but never collect, usually because a lead raised their hand and no one responded fast enough, or no system chased them. It is rarely a marketing problem. It is a follow-up gap.",
     },
     {
       id: "faq-ideal-response-time",
@@ -255,7 +255,7 @@ const fiveMinuteOverride: InsightOverride = {
   body: [
     {
       type: "p",
-      text: "Before you spend another dollar on ads, run this five-minute audit. It usually finds money you already paid for and never collected — most often in [lead response and CRM gaps](/services/crm-pipeline-automation), not in your marketing creative.",
+      text: "Before you spend another dollar on ads, run this five-minute audit. It usually finds money you already paid for and never collected, most often in [lead response and CRM gaps](/services/crm-pipeline-automation), not in your marketing creative.",
     },
     { type: "h2", text: "Audit 1: Call your own business" },
     {
@@ -279,12 +279,12 @@ const fiveMinuteOverride: InsightOverride = {
     { type: "h2", text: "Audit 4: Check CRM response times" },
     {
       type: "p",
-      text: "Pull the last two weeks of inbound leads from your CRM or inbox. Note average first-response time by channel — phone, form, chat, and social. Gaps here predict which channel leaks the most revenue.",
+      text: "Pull the last two weeks of inbound leads from your CRM or inbox. Note average first-response time by channel, phone, form, chat, and social. Gaps here predict which channel leaks the most revenue.",
     },
     { type: "h2", text: "Audit 5: Confirm automated first touch" },
     {
       type: "p",
-      text: "Every inbound lead should get an immediate acknowledgment — even when your team is busy. If that requires manual effort today, an [AI receptionist or intake flow](/services/ai-receptionist) closes the gap without adding headcount.",
+      text: "Every inbound lead should get an immediate acknowledgment, even when your team is busy. If that requires manual effort today, an [AI receptionist or intake flow](/services/ai-receptionist) closes the gap without adding headcount.",
     },
     {
       type: "quote",

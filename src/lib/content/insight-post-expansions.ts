@@ -12,7 +12,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
   "ai-overviews-are-the-new-seo": {
     takeaways: [
       "Citation-ready pages pair a direct answer block with FAQ schema and primary-source links.",
-      "Track AI referral traffic separately from organic — citation wins show up in new channels first.",
+      "Track AI referral traffic separately from organic, citation wins show up in new channels first.",
       "Refresh llms.txt and entity markup whenever you launch a service or migration page.",
     ],
     faqs: [
@@ -20,7 +20,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-aeo-content-length",
         question: "How long should AEO content be to get cited?",
         answer:
-          "Length matters less than structure. A 1,200-word page with a 50-word direct answer, FAQ schema, numbered claims, and primary sources outperforms a 3,000-word article that buries the conclusion. Answer engines lift concise, verifiable blocks — not word count.",
+          "Length matters less than structure. A 1,200-word page with a 50-word direct answer, FAQ schema, numbered claims, and primary sources outperforms a 3,000-word article that buries the conclusion. Answer engines lift concise, verifiable blocks, not word count.",
       },
       {
         id: "faq-perplexity-vs-google-aeo",
@@ -74,7 +74,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
     ],
     sources: [
       {
-        title: "Perplexity — How answers are sourced",
+        title: "Perplexity, How answers are sourced",
         url: "https://www.perplexity.ai/hub/faq/how-does-perplexity-work",
         publisher: "Perplexity",
         note: "Citation and retrieval behavior for answer engines.",
@@ -95,7 +95,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Every service, industry, migration, and insight page should open with a machine-liftable answer — not a brand story. Name the audience problem, the fix you recommend, and the metric that proves it worked. When Google AI Overviews or ChatGPT synthesize a response, they reach for blocks that read like definitions, not introductions. Pair the answer block with H2 sections that mirror the questions people ask in sales calls.",
+        text: "Every service, industry, migration, and insight page should open with a machine-liftable answer, not a brand story. Name the audience problem, the fix you recommend, and the metric that proves it worked. When Google AI Overviews or ChatGPT synthesize a response, they reach for blocks that read like definitions, not introductions. Pair the answer block with H2 sections that mirror the questions people ask in sales calls.",
       },
       {
         type: "h2",
@@ -105,14 +105,14 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         type: "ul",
         items: [
           "Number frameworks (Step 1, Fix 1, Audit 1) so models can cite specific steps.",
-          "Use exact percentages and timeframes — vague advice rarely gets quoted.",
+          "Use exact percentages and timeframes, vague advice rarely gets quoted.",
           "Link primary sources beside bold claims; citation engines trust pages that cite others.",
           "Keep FAQ answers under 120 words with a complete thought, not a teaser.",
         ],
       },
       {
         type: "p",
-        text: "Across ZedNova AEO engagements, clients who publish answer-first pages with FAQ schema see roughly 2.4x more AI Overview citations within ninety days compared to their pre-migration baseline — even when traditional organic rankings stay flat. Citation traffic arrives through new referrers; if you only watch Google Search Console position charts, you will miss the win.",
+        text: "Across ZedNova AEO engagements, clients who publish answer-first pages with FAQ schema see roughly 2.4x more AI Overview citations within ninety days compared to their pre-migration baseline, even when traditional organic rankings stay flat. Citation traffic arrives through new referrers; if you only watch Google Search Console position charts, you will miss the win.",
       },
       {
         type: "h2",
@@ -120,7 +120,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Schema markup gets you considered; external mentions get you chosen. Publish specific frameworks on your domain, then earn mentions from partners, directories, and industry associations. Models weight corroboration — a claim that appears on your site and two independent pages is far more quotable than a lone blog post. This is why we wire author Person schema to real bios and link [migration case studies](/migrations/webflow-to-nextjs-sanity) that third parties can reference.",
+        text: "Schema markup gets you considered; external mentions get you chosen. Publish specific frameworks on your domain, then earn mentions from partners, directories, and industry associations. Models weight corroboration, a claim that appears on your site and two independent pages is far more quotable than a lone blog post. This is why we wire author Person schema to real bios and link [migration case studies](/migrations/webflow-to-nextjs-sanity) that third parties can reference.",
       },
       {
         type: "quote",
@@ -146,7 +146,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Citation traffic often lands on educational insights before service pages. Tag UTM parameters on AI referrers and build a simple dashboard: sessions by source, assisted form fills, and closed deals where the first touch was an AI engine. Without that loop, leadership treats AEO as branding while it behaves like top-of-funnel demand gen. Connect insight pages to [conversion paths](/services/ai-lead-site) with one CTA per article — usually a diagnostic call or audit — so citations can be valued in dollars.",
+        text: "Citation traffic often lands on educational insights before service pages. Tag UTM parameters on AI referrers and build a simple dashboard: sessions by source, assisted form fills, and closed deals where the first touch was an AI engine. Without that loop, leadership treats AEO as branding while it behaves like top-of-funnel demand gen. Connect insight pages to [conversion paths](/services/ai-lead-site) with one CTA per article, usually a diagnostic call or audit, so citations can be valued in dollars.",
       },
       {
         type: "h2",
@@ -154,7 +154,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Comparison guides, numbered frameworks, migration checklists, and FAQ-heavy service pages outperform generic thought leadership for citations. Models quote pages that resolve a specific question with verifiable steps. Rewrite legacy blog posts into answer-first formats rather than publishing net-new volume — one restructured page often beats five new thin posts.",
+        text: "Comparison guides, numbered frameworks, migration checklists, and FAQ-heavy service pages outperform generic thought leadership for citations. Models quote pages that resolve a specific question with verifiable steps. Rewrite legacy blog posts into answer-first formats rather than publishing net-new volume, one restructured page often beats five new thin posts.",
       },
       {
         type: "p",
@@ -166,11 +166,11 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Service firms often assume AI search only matters for national SaaS brands. Local queries — how to choose a vendor, what a fair price range is, how long a migration takes — now surface synthesized answers with three citations. Your service pages need the same answer-first structure as insights: direct answer, FAQ schema, proof, and a single CTA to [book a diagnostic](/contact). Combine with Google Business Profile consistency so entity signals match your site.",
+        text: "Service firms often assume AI search only matters for national SaaS brands. Local queries, how to choose a vendor, what a fair price range is, how long a migration takes, now surface synthesized answers with three citations. Your service pages need the same answer-first structure as insights: direct answer, FAQ schema, proof, and a single CTA to [book a diagnostic](/contact). Combine with Google Business Profile consistency so entity signals match your site.",
       },
       {
         type: "p",
-        text: "Build a citation library: export your top-performing FAQs and frameworks into a spreadsheet, note which appear in AI Overviews monthly, and refresh losers with tighter claims and new sources. AEO is editorial maintenance — not a one-time schema install.",
+        text: "Build a citation library: export your top-performing FAQs and frameworks into a spreadsheet, note which appear in AI Overviews monthly, and refresh losers with tighter claims and new sources. AEO is editorial maintenance, not a one-time schema install.",
       },
       {
         type: "h2",
@@ -178,15 +178,15 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Start with money pages — core services, top industries, and the five insights that already rank. Add direct answer blocks and FAQ schema before touching long-tail blog archives. Batch in weekly sprints: five URLs per week with redirect-safe slug changes only when necessary. Measure AI referrals per URL so effort follows revenue, not vanity topics.",
+        text: "Start with money pages, core services, top industries, and the five insights that already rank. Add direct answer blocks and FAQ schema before touching long-tail blog archives. Batch in weekly sprints: five URLs per week with redirect-safe slug changes only when necessary. Measure AI referrals per URL so effort follows revenue, not vanity topics.",
       },
       {
         type: "p",
-        text: "Train writers to lead with the conclusion, cite a primary source per major claim, and end with one CTA. Legacy posts may need rewrite, not patch — inserting schema on vague copy does not earn citations. Partner with dev once on JSON-LD templates; marketing owns the words inside them forever after.",
+        text: "Train writers to lead with the conclusion, cite a primary source per major claim, and end with one CTA. Legacy posts may need rewrite, not patch, inserting schema on vague copy does not earn citations. Partner with dev once on JSON-LD templates; marketing owns the words inside them forever after.",
       },
       {
         type: "p",
-        text: "Document which competitors appear in AI Overviews for your target queries. If they cite numbered steps and you publish narrative essays, match their structure before increasing content volume. Citation is competitive — answer engines do not owe your brand a slot because you posted more often.",
+        text: "Document which competitors appear in AI Overviews for your target queries. If they cite numbered steps and you publish narrative essays, match their structure before increasing content volume. Citation is competitive, answer engines do not owe your brand a slot because you posted more often.",
       },
     ],
   },
@@ -194,7 +194,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
   "five-minute-revenue-leak-audit": {
     takeaways: [
       "Score each audit step 1–5; anything below 3 gets a fix ticket this week, not next quarter.",
-      "After-hours coverage is a revenue line item — route overflow to SMS or an AI intake path.",
+      "After-hours coverage is a revenue line item, route overflow to SMS or an AI intake path.",
       "Review CRM first-response time weekly; it predicts close rate better than lead volume.",
     ],
     faqs: [
@@ -208,7 +208,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-revenue-leak-crm",
         question: "What CRM setup stops revenue leaks fastest?",
         answer:
-          "Instant lead routing to a mobile notification, auto-acknowledgment email or SMS within sixty seconds, and a two-touch follow-up sequence for estimates that go quiet. HubSpot, GoHighLevel, and Pipedrive all work — the wiring matters more than the logo.",
+          "Instant lead routing to a mobile notification, auto-acknowledgment email or SMS within sixty seconds, and a two-touch follow-up sequence for estimates that go quiet. HubSpot, GoHighLevel, and Pipedrive all work, the wiring matters more than the logo.",
       },
       {
         id: "faq-revenue-leak-after-hours",
@@ -261,7 +261,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "The five-minute audit is not a thought exercise — it is a scored framework. Rate each step from 1 (broken) to 5 (systematized). Any score below 3 becomes a fix ticket this week. Most owners discover the leak sits between the moment a prospect raises their hand and the moment a human responds with a clear next step. That gap is almost never fixed by more ads; it is fixed by [CRM and pipeline automation](/services/crm-pipeline-automation) wired to every form, call, and chat entry point.",
+        text: "The five-minute audit is not a thought exercise, it is a scored framework. Rate each step from 1 (broken) to 5 (systematized). Any score below 3 becomes a fix ticket this week. Most owners discover the leak sits between the moment a prospect raises their hand and the moment a human responds with a clear next step. That gap is almost never fixed by more ads; it is fixed by [CRM and pipeline automation](/services/crm-pipeline-automation) wired to every form, call, and chat entry point.",
       },
       {
         type: "h2",
@@ -270,16 +270,16 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       {
         type: "ul",
         items: [
-          "Call test: answered in three rings, live or routed — not voicemail.",
+          "Call test: answered in three rings, live or routed, not voicemail.",
           "Form test: auto-acknowledgment under sixty seconds plus human follow-up under five minutes.",
           "Estimate review: at least two automated touches on open quotes.",
           "CRM audit: median first-response time visible and under five minutes.",
-          "After-hours: SMS, booking link, or AI intake — not silence until morning.",
+          "After-hours: SMS, booking link, or AI intake, not silence until morning.",
         ],
       },
       {
         type: "p",
-        text: "ZedNova clients average forty percent faster lead response after CRM automation goes live — typically within the first two weeks, before any new traffic arrives. Speed-to-lead is the highest-ROI fix in service businesses because you are monetizing leads you already paid to acquire. If your audit surfaced slow form replies or missing estimate follow-ups, that is where to start.",
+        text: "ZedNova clients average forty percent faster lead response after CRM automation goes live, typically within the first two weeks, before any new traffic arrives. Speed-to-lead is the highest-ROI fix in service businesses because you are monetizing leads you already paid to acquire. If your audit surfaced slow form replies or missing estimate follow-ups, that is where to start.",
       },
       {
         type: "h2",
@@ -287,7 +287,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Document what happens today: which channel gets answered fastest, which rep owns follow-up, and where leads die. Then wire one automation per finding — instant CRM create on form submit, missed-call text-back, estimate sequence. An [AI receptionist](/services/ai-receptionist) handles overflow without adding headcount when phones spike during campaigns. Measure median response time weekly; it predicts close rate better than raw lead volume.",
+        text: "Document what happens today: which channel gets answered fastest, which rep owns follow-up, and where leads die. Then wire one automation per finding, instant CRM create on form submit, missed-call text-back, estimate sequence. An [AI receptionist](/services/ai-receptionist) handles overflow without adding headcount when phones spike during campaigns. Measure median response time weekly; it predicts close rate better than raw lead volume.",
       },
       {
         type: "quote",
@@ -307,7 +307,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Assign one owner for speed-to-lead metrics — not a committee. Fifteen minutes every Monday: median response time, count of leads untouched over four hours, and estimates with zero follow-up. Share the score with anyone who touches sales or front desk. Visibility alone often cuts response time because nobody wants to be the bottleneck on the dashboard.",
+        text: "Assign one owner for speed-to-lead metrics, not a committee. Fifteen minutes every Monday: median response time, count of leads untouched over four hours, and estimates with zero follow-up. Share the score with anyone who touches sales or front desk. Visibility alone often cuts response time because nobody wants to be the bottleneck on the dashboard.",
       },
       {
         type: "h2",
@@ -333,11 +333,11 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Multiply monthly inbound leads by your average job value by the percentage that went cold from slow follow-up. Example: forty leads, five thousand dollar average, thirty percent lost to latency equals sixty thousand dollars per month in recoverable pipeline — before spending another dollar on ads. The audit is five minutes; the math convinces stakeholders to approve CRM budget.",
+        text: "Multiply monthly inbound leads by your average job value by the percentage that went cold from slow follow-up. Example: forty leads, five thousand dollar average, thirty percent lost to latency equals sixty thousand dollars per month in recoverable pipeline, before spending another dollar on ads. The audit is five minutes; the math convinces stakeholders to approve CRM budget.",
       },
       {
         type: "p",
-        text: "Track the metric monthly after fixes deploy. Most teams see response time drop within two weeks when notifications and auto-replies go live — proof that the leak was operational, not market demand.",
+        text: "Track the metric monthly after fixes deploy. Most teams see response time drop within two weeks when notifications and auto-replies go live, proof that the leak was operational, not market demand.",
       },
       {
         type: "h2",
@@ -345,7 +345,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Week one: form and call routing to CRM with mobile notify. Week two: auto-acknowledgment email or SMS and estimate follow-up sequence. Week three: after-hours text-back or AI intake. Week four: dashboard review with sales. Do not wait for perfect CRM hygiene — ship routing first, clean data second.",
+        text: "Week one: form and call routing to CRM with mobile notify. Week two: auto-acknowledgment email or SMS and estimate follow-up sequence. Week three: after-hours text-back or AI intake. Week four: dashboard review with sales. Do not wait for perfect CRM hygiene, ship routing first, clean data second.",
       },
       {
         type: "p",
@@ -361,14 +361,14 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "If response time fails because volume exceeds two full-time coordinators, automation and an [AI receptionist](/services/ai-receptionist) usually cost less than another salary plus benefits. Run the audit quarterly — leaks reopen when teams grow without updating routing rules.",
+        text: "If response time fails because volume exceeds two full-time coordinators, automation and an [AI receptionist](/services/ai-receptionist) usually cost less than another salary plus benefits. Run the audit quarterly, leaks reopen when teams grow without updating routing rules.",
       },
     ],
   },
 
   "why-your-website-is-losing-clients": {
     takeaways: [
-      "Map one primary CTA per template — hero, service, and blog layouts each get a single action.",
+      "Map one primary CTA per template, hero, service, and blog layouts each get a single action.",
       "Run PageSpeed on the exact landing URL your ads send traffic to, not just the homepage.",
       "Form submissions should create a CRM task and send a mobile alert within seconds.",
     ],
@@ -377,7 +377,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-multiple-ctas",
         question: "Can a page have more than one CTA?",
         answer:
-          "You can have secondary links in the footer or nav, but the hero and mid-page conversion zone should drive one action. Multiple equal-weight buttons split attention and drop conversion. Pick call, book, or form — not all three above the fold.",
+          "You can have secondary links in the footer or nav, but the hero and mid-page conversion zone should drive one action. Multiple equal-weight buttons split attention and drop conversion. Pick call, book, or form, not all three above the fold.",
       },
       {
         id: "faq-form-abandonment",
@@ -444,7 +444,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Service pages should drive book or call — not book, call, download a PDF, and read six case studies first. Blog posts can educate, but the conversion zone still needs one next step. Map templates in a spreadsheet: homepage, service, industry, contact. If any row lists more than one equal-weight CTA, you found the leak.",
+        text: "Service pages should drive book or call, not book, call, download a PDF, and read six case studies first. Blog posts can educate, but the conversion zone still needs one next step. Map templates in a spreadsheet: homepage, service, industry, contact. If any row lists more than one equal-weight CTA, you found the leak.",
       },
       {
         type: "h2",
@@ -456,7 +456,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Sites we rebuild around a single conversion path average thirty-one percent higher form completion within sixty days — not because the copy got cleverer, but because there is one obvious action and the page loads before patience runs out.",
+        text: "Sites we rebuild around a single conversion path average thirty-one percent higher form completion within sixty days, not because the copy got cleverer, but because there is one obvious action and the page loads before patience runs out.",
       },
       {
         type: "quote",
@@ -468,7 +468,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Connect every form, click-to-call event, and chat widget to [CRM automation](/services/crm-pipeline-automation). The moment someone submits, a human should get a mobile alert and the prospect should receive an immediate acknowledgment. Seconds matter in competitive local and B2B markets. Build the system, then iterate creative — not the reverse.",
+        text: "Connect every form, click-to-call event, and chat widget to [CRM automation](/services/crm-pipeline-automation). The moment someone submits, a human should get a mobile alert and the prospect should receive an immediate acknowledgment. Seconds matter in competitive local and B2B markets. Build the system, then iterate creative, not the reverse.",
       },
       {
         type: "h2",
@@ -476,7 +476,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Place reviews, client logos, or response-time promises beside the primary CTA — not only on a separate testimonials page. Visitors decide at the button; proof there reduces hesitation on cold traffic. Schema markup for reviews helps search; visual proof helps humans who arrived from ads.",
+        text: "Place reviews, client logos, or response-time promises beside the primary CTA, not only on a separate testimonials page. Visitors decide at the button; proof there reduces hesitation on cold traffic. Schema markup for reviews helps search; visual proof helps humans who arrived from ads.",
       },
       {
         type: "h2",
@@ -484,7 +484,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Segment conversion rate by channel in analytics. Organic visitors may tolerate slower pages; paid social will not. If Google Ads converts at half the rate of email, inspect the landing URL — headline mismatch, slow LCP, or five competing CTAs. Fix the worst channel first instead of averaging metrics into a meaningless sitewide rate.",
+        text: "Segment conversion rate by channel in analytics. Organic visitors may tolerate slower pages; paid social will not. If Google Ads converts at half the rate of email, inspect the landing URL, headline mismatch, slow LCP, or five competing CTAs. Fix the worst channel first instead of averaging metrics into a meaningless sitewide rate.",
       },
       {
         type: "ul",
@@ -501,7 +501,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Even perfect systems fail when the offer is vague. State who you serve, what outcome you deliver, and what happens after someone clicks — in plain language above the fold. Service businesses hide behind jargon; buyers bounce to the competitor who names the problem directly. Rewrite headlines for clarity before debating button color.",
+        text: "Even perfect systems fail when the offer is vague. State who you serve, what outcome you deliver, and what happens after someone clicks, in plain language above the fold. Service businesses hide behind jargon; buyers bounce to the competitor who names the problem directly. Rewrite headlines for clarity before debating button color.",
       },
       {
         type: "p",
@@ -521,7 +521,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Weekly: sessions, form starts, submissions, speed-to-lead. Monthly: compare by channel and landing URL. Quarterly: replay the five-second test and PageSpeed on ad URLs. Conversion is a maintenance discipline — sites do not fail once; they drift until nobody owns the metric.",
+        text: "Weekly: sessions, form starts, submissions, speed-to-lead. Monthly: compare by channel and landing URL. Quarterly: replay the five-second test and PageSpeed on ad URLs. Conversion is a maintenance discipline, sites do not fail once; they drift until nobody owns the metric.",
       },
       {
         type: "h2",
@@ -529,7 +529,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "First wire CRM and auto-reply. Second cut mobile LCP on ad URLs. Third collapse to one CTA per template. Fourth refresh offer clarity. Redesign visuals last. That order protects cash flow while you improve — most owners do the opposite and wonder why the new homepage did not pay back.",
+        text: "First wire CRM and auto-reply. Second cut mobile LCP on ad URLs. Third collapse to one CTA per template. Fourth refresh offer clarity. Redesign visuals last. That order protects cash flow while you improve, most owners do the opposite and wonder why the new homepage did not pay back.",
       },
       {
         type: "p",
@@ -541,20 +541,20 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Move case study stats, review counts, and certification badges adjacent to the main button — not buried on a separate testimonials page. Service buyers decide in seconds; proof at the decision point beats a beautiful brand story three scrolls down. ZedNova rebuilds typically lift form submissions eighteen to twenty-eight percent from layout and proof placement alone before new traffic arrives.",
+        text: "Move case study stats, review counts, and certification badges adjacent to the main button, not buried on a separate testimonials page. Service buyers decide in seconds; proof at the decision point beats a beautiful brand story three scrolls down. ZedNova rebuilds typically lift form submissions eighteen to twenty-eight percent from layout and proof placement alone before new traffic arrives.",
       },
       {
         type: "p",
-        text: "Pair every service page with one proof line above the fold — years in business, jobs completed, or average response time — so paid and organic visitors trust you before they read paragraphs. Trust signals are conversion copy, not footer decoration.",
+        text: "Pair every service page with one proof line above the fold, years in business, jobs completed, or average response time, so paid and organic visitors trust you before they read paragraphs. Trust signals are conversion copy, not footer decoration.",
       },
     ],
   },
 
   "when-to-rebuild-vs-migrate": {
     takeaways: [
-      "If you would not send this year's ad budget to the homepage, treat the project as a rebuild — not a migration.",
+      "If you would not send this year's ad budget to the homepage, treat the project as a rebuild, not a migration.",
       "Migration preserves SEO equity when redirect maps and content models are planned before launch.",
-      "Scope integrations (CRM, booking, analytics) in week one — they decide timeline more than page count.",
+      "Scope integrations (CRM, booking, analytics) in week one, they decide timeline more than page count.",
     ],
     faqs: [
       {
@@ -573,7 +573,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-partial-migration",
         question: "Can I migrate part of the site and rebuild the rest?",
         answer:
-          "Yes — common pattern: migrate insights, services, and industries to Sanity while rebuilding homepage and pricing for new positioning. Phase launches reduce risk and let marketing keep publishing during the transition.",
+          "Yes, common pattern: migrate insights, services, and industries to Sanity while rebuilding homepage and pricing for new positioning. Phase launches reduce risk and let marketing keep publishing during the transition.",
       },
     ],
     implementationTable: [
@@ -620,7 +620,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Teams debate platforms for months when the decision is operational: does the current site still match how you sell, and does the CMS let marketing move at campaign speed? The Rebuild vs Migrate Scorecard weights five signals — ad-readiness, CMS friction, platform pain, SEO risk, and integration load. Score each 1–5. Totals below 18 suggest migration; below 12 suggest rebuild. We use this on every [Webflow to Next.js + Sanity](/migrations/webflow-to-nextjs-sanity) and [WordPress migration](/migrations/wordpress-to-nextjs-sanity) scoping call.",
+        text: "Teams debate platforms for months when the decision is operational: does the current site still match how you sell, and does the CMS let marketing move at campaign speed? The Rebuild vs Migrate Scorecard weights five signals, ad-readiness, CMS friction, platform pain, SEO risk, and integration load. Score each 1–5. Totals below 18 suggest migration; below 12 suggest rebuild. We use this on every [Webflow to Next.js + Sanity](/migrations/webflow-to-nextjs-sanity) and [WordPress migration](/migrations/wordpress-to-nextjs-sanity) scoping call.",
       },
       {
         type: "h2",
@@ -628,7 +628,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Migrate when positioning is stable, URLs can map cleanly, and the pain is tooling — not strategy. You keep SEO equity, move editors into Sanity, and gain performance headroom on Next.js. Marketing teams on migrated stacks typically publish forty-eight percent faster because they are not waiting on Webflow CMS limits or WordPress plugin conflicts.",
+        text: "Migrate when positioning is stable, URLs can map cleanly, and the pain is tooling, not strategy. You keep SEO equity, move editors into Sanity, and gain performance headroom on Next.js. Marketing teams on migrated stacks typically publish forty-eight percent faster because they are not waiting on Webflow CMS limits or WordPress plugin conflicts.",
       },
       {
         type: "h2",
@@ -637,7 +637,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       {
         type: "ul",
         items: [
-          "Homepage fails the ad-budget test — you would not send paid traffic there.",
+          "Homepage fails the ad-budget test, you would not send paid traffic there.",
           "No single conversion path across service pages.",
           "Positioning shifted but copy still describes the old offer.",
           "Integrations require custom software, not just a marketing site.",
@@ -645,7 +645,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Rebuilds cost more but fix funnel and copy together. Pair with an [AI-cited content architecture](/services/ai-lead-site) so the new site earns citations from day one — not just ranks after a six-month lag.",
+        text: "Rebuilds cost more but fix funnel and copy together. Pair with an [AI-cited content architecture](/services/ai-lead-site) so the new site earns citations from day one, not just ranks after a six-month lag.",
       },
       {
         type: "quote",
@@ -657,7 +657,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Run staging crawls, verify schema on templates, and train editors on Sanity before DNS flips. Phase launches — insights and services first, homepage last — when rebuild and migration overlap. Document every integration webhook before developers start; CRM and booking surprises cause more delays than page builds.",
+        text: "Run staging crawls, verify schema on templates, and train editors on Sanity before DNS flips. Phase launches, insights and services first, homepage last, when rebuild and migration overlap. Document every integration webhook before developers start; CRM and booking surprises cause more delays than page builds.",
       },
       {
         type: "h2",
@@ -665,7 +665,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Migrations for marketing sites with structured content typically land in six to ten weeks including redirect QA and editor training. Rebuilds with new positioning add four to eight weeks for copy and funnel architecture. Page count matters less than integration count — a twenty-page site with HubSpot, Cal.com, and custom calculators behaves like a fifty-page site in scoping.",
+        text: "Migrations for marketing sites with structured content typically land in six to ten weeks including redirect QA and editor training. Rebuilds with new positioning add four to eight weeks for copy and funnel architecture. Page count matters less than integration count, a twenty-page site with HubSpot, Cal.com, and custom calculators behaves like a fifty-page site in scoping.",
       },
       {
         type: "h2",
@@ -678,7 +678,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
           "Score ad-readiness of homepage and top service URLs.",
           "Document CMS pain from marketing in the last ninety days.",
           "Confirm SEO constraints: URLs that must not change, rankings to protect.",
-          "Agree on success metrics ninety days post-launch — not just go-live date.",
+          "Agree on success metrics ninety days post-launch, not just go-live date.",
         ],
       },
       {
@@ -691,7 +691,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "WordPress migrations usually target plugin security and speed. Webflow migrations target CMS limits and integration flexibility. Framer migrations target teams outgrowing animated marketing sites that need structured content and CRM wiring. The destination is often the same — Next.js and Sanity — but the content audit differs. WordPress requires plugin inventory; Webflow requires collection mapping; Framer requires separating motion-heavy pages from templates that should become reusable modules.",
+        text: "WordPress migrations usually target plugin security and speed. Webflow migrations target CMS limits and integration flexibility. Framer migrations target teams outgrowing animated marketing sites that need structured content and CRM wiring. The destination is often the same, Next.js and Sanity, but the content audit differs. WordPress requires plugin inventory; Webflow requires collection mapping; Framer requires separating motion-heavy pages from templates that should become reusable modules.",
       },
       {
         type: "p",
@@ -703,7 +703,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Request two scopes in the same proposal: migration preserving URLs and content models, and rebuild with new funnel architecture. Compare timeline, risk, and ninety-day KPIs — not just launch cost. Rebuilds that fix positioning often pay back faster on paid ads even when migration looks cheaper on paper.",
+        text: "Request two scopes in the same proposal: migration preserving URLs and content models, and rebuild with new funnel architecture. Compare timeline, risk, and ninety-day KPIs, not just launch cost. Rebuilds that fix positioning often pay back faster on paid ads even when migration looks cheaper on paper.",
       },
       {
         type: "p",
@@ -715,7 +715,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Involve finance in the migration vs rebuild comparison. Hidden costs — plugin licenses, Webflow seats, contractor hours for workarounds — belong in the same spreadsheet as agency build quotes. Decisions get clearer when TCO is honest.",
+        text: "Involve finance in the migration vs rebuild comparison. Hidden costs, plugin licenses, Webflow seats, contractor hours for workarounds, belong in the same spreadsheet as agency build quotes. Decisions get clearer when TCO is honest.",
       },
       {
         type: "h2",
@@ -723,7 +723,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Before launch, export every indexed URL, map 301 redirects, preserve title and H1 intent, and submit the new sitemap. ZedNova migration clients typically retain ninety-five percent or more of organic traffic within sixty days when redirect QA is treated as a launch gate — not a post-launch cleanup task.",
+        text: "Before launch, export every indexed URL, map 301 redirects, preserve title and H1 intent, and submit the new sitemap. ZedNova migration clients typically retain ninety-five percent or more of organic traffic within sixty days when redirect QA is treated as a launch gate, not a post-launch cleanup task.",
       },
       {
         type: "p",
@@ -738,7 +738,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
 
   "shopify-conversion-fixes-that-actually-move-revenue": {
     takeaways: [
-      "Segment Klaviyo flows by first-time vs returning buyers — messaging should differ.",
+      "Segment Klaviyo flows by first-time vs returning buyers, messaging should differ.",
       "Track revenue per session by traffic source before increasing Meta or TikTok spend.",
       "Run weekly SKU-level reports on the five products that receive the most ad spend.",
     ],
@@ -747,7 +747,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-shopify-mobile-checkout",
         question: "How do I improve Shopify mobile checkout conversion?",
         answer:
-          "Enable guest checkout, show shipping thresholds early, reduce form fields, and test Shop Pay where available. Mobile checkout drop-off often comes from surprise costs and account walls — not from lack of traffic.",
+          "Enable guest checkout, show shipping thresholds early, reduce form fields, and test Shop Pay where available. Mobile checkout drop-off often comes from surprise costs and account walls, not from lack of traffic.",
       },
       {
         id: "faq-shopify-klaviyo-setup",
@@ -780,13 +780,13 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         items: [
           "Browse abandonment within 24 hours for high-intent collection viewers.",
           "Cart series at 1h, 24h, and 72h with dynamic product blocks.",
-          "Post-purchase upsell limited to one relevant SKU — not a catalog dump.",
+          "Post-purchase upsell limited to one relevant SKU, not a catalog dump.",
           "Win-back at 60–90 days for one-time buyers with replenishment potential.",
         ],
       },
       {
         type: "p",
-        text: "ZedNova Shopify clients see eighteen to thirty-five percent checkout lift within the first sixty days after product page clarity, checkout simplification, and Klaviyo recovery flows ship together — without increasing ad spend. The lift comes from converting and recovering traffic already on site.",
+        text: "ZedNova Shopify clients see eighteen to thirty-five percent checkout lift within the first sixty days after product page clarity, checkout simplification, and Klaviyo recovery flows ship together, without increasing ad spend. The lift comes from converting and recovering traffic already on site.",
       },
       {
         type: "h2",
@@ -794,7 +794,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Report add-to-cart rate, checkout completion, and revenue per session weekly by source. If Meta traffic converts at half the rate of email, the problem is landing experience — not audience. Pair Shopify Analytics with server-side tracking via Elevar or Stape before budget increases. [SEO and collection content](/services/seo-aeo-content) compounds when the store converts what it earns.",
+        text: "Report add-to-cart rate, checkout completion, and revenue per session weekly by source. If Meta traffic converts at half the rate of email, the problem is landing experience, not audience. Pair Shopify Analytics with server-side tracking via Elevar or Stape before budget increases. [SEO and collection content](/services/seo-aeo-content) compounds when the store converts what it earns.",
       },
       {
         type: "quote",
@@ -806,7 +806,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "When app bloat, template limits, or international expansion block speed tests, a [headless Shopify migration](/migrations/shopify-to-headless-shopify) preserves checkout while unlocking performance on product storytelling pages. That path is for stores already maxing the seven fixes — not for stores that have not enabled guest checkout yet.",
+        text: "When app bloat, template limits, or international expansion block speed tests, a [headless Shopify migration](/migrations/shopify-to-headless-shopify) preserves checkout while unlocking performance on product storytelling pages. That path is for stores already maxing the seven fixes, not for stores that have not enabled guest checkout yet.",
       },
       {
         type: "h2",
@@ -814,7 +814,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Do not A/B test button colors while checkout forces account creation. Fix structural leaks first — clarity, proof, speed, recovery — then test hero creative and offer framing. Stores that skip the sequence burn test budget on traffic that never had a fair chance to convert.",
+        text: "Do not A/B test button colors while checkout forces account creation. Fix structural leaks first, clarity, proof, speed, recovery, then test hero creative and offer framing. Stores that skip the sequence burn test budget on traffic that never had a fair chance to convert.",
       },
       {
         type: "h2",
@@ -832,7 +832,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Share the dashboard with whoever owns media spend. When checkout completion drops while sessions rise, the answer is almost never more audience — it is funnel repair. [Reporting dashboards](/services/custom-in-house-software-for-smbs) help when Shopify, Klaviyo, and ad data live in separate tabs.",
+        text: "Share the dashboard with whoever owns media spend. When checkout completion drops while sessions rise, the answer is almost never more audience, it is funnel repair. [Reporting dashboards](/services/custom-in-house-software-for-smbs) help when Shopify, Klaviyo, and ad data live in separate tabs.",
       },
       {
         type: "h2",
@@ -840,7 +840,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Stores expanding SKUs or markets hit theme limits faster — multi-currency display, complex bundles, and localized landing pages stress default Shopify templates. Headless or hybrid approaches become rational when the seven fixes are done but merchandising still cannot move at campaign speed. Fix baseline conversion before adding architectural complexity.",
+        text: "Stores expanding SKUs or markets hit theme limits faster, multi-currency display, complex bundles, and localized landing pages stress default Shopify templates. Headless or hybrid approaches become rational when the seven fixes are done but merchandising still cannot move at campaign speed. Fix baseline conversion before adding architectural complexity.",
       },
       {
         type: "h2",
@@ -848,18 +848,18 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Post-purchase experience drives repeat rate — which lowers blended CAC on paid campaigns. Review request timing, replenishment reminders, and win-back windows alongside acquisition metrics. A store that converts cold traffic but never emails buyers leaves the cheapest revenue on the table.",
+        text: "Post-purchase experience drives repeat rate, which lowers blended CAC on paid campaigns. Review request timing, replenishment reminders, and win-back windows alongside acquisition metrics. A store that converts cold traffic but never emails buyers leaves the cheapest revenue on the table.",
       },
       {
         type: "p",
-        text: "Seasonal peaks expose funnel weak points — Black Friday traffic magnifies slow mobile PDPs and broken cart flows. Fix baseline conversion in quiet months so peak spend is not donating margin to cart abandonment.",
+        text: "Seasonal peaks expose funnel weak points, Black Friday traffic magnifies slow mobile PDPs and broken cart flows. Fix baseline conversion in quiet months so peak spend is not donating margin to cart abandonment.",
       },
     ],
   },
 
   "crm-automation-for-clinics-without-extra-hires": {
     takeaways: [
-      "Send intake links in the booking confirmation — not at check-in when the waiting room is busy.",
+      "Send intake links in the booking confirmation, not at check-in when the waiting room is busy.",
       "Tag every booking with source (Google, referral, recall) so marketing spend maps to chairs filled.",
       "Review no-show rate every Monday; it is the fastest signal that reminders need tuning.",
     ],
@@ -868,7 +868,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-clinic-no-shows",
         question: "How much can SMS reminders reduce clinic no-shows?",
         answer:
-          "Clinics typically see fifteen to thirty percent reduction when reminders fire at 48h and 2h before appointment with easy confirm/reschedule links. No-shows are a scheduling systems problem — not a staffing problem.",
+          "Clinics typically see fifteen to thirty percent reduction when reminders fire at 48h and 2h before appointment with easy confirm/reschedule links. No-shows are a scheduling systems problem, not a staffing problem.",
       },
       {
         id: "faq-clinic-hipaa-crm",
@@ -939,7 +939,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Front-desk teams cannot scale linearly with marketing spend. The Clinic Intake Automation Stack wires booking, intake, reminders, recall, and reviews so inquiries never wait for a free moment between patients. We deploy this on [healthcare and wellness](/industries/healthcare-wellness) engagements with [CRM pipeline automation](/services/crm-pipeline-automation) at the center — not another disconnected app.",
+        text: "Front-desk teams cannot scale linearly with marketing spend. The Clinic Intake Automation Stack wires booking, intake, reminders, recall, and reviews so inquiries never wait for a free moment between patients. We deploy this on [healthcare and wellness](/industries/healthcare-wellness) engagements with [CRM pipeline automation](/services/crm-pipeline-automation) at the center, not another disconnected app.",
       },
       {
         type: "h2",
@@ -947,7 +947,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Self-serve scheduling should capture service type, location, insurance flags, and marketing source before anyone calls back. Google Business Profile booking links and site widgets must land in the same pipeline. When staff open a record, they see context — not a blank name and phone number.",
+        text: "Self-serve scheduling should capture service type, location, insurance flags, and marketing source before anyone calls back. Google Business Profile booking links and site widgets must land in the same pipeline. When staff open a record, they see context, not a blank name and phone number.",
       },
       {
         type: "h2",
@@ -959,7 +959,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Clinics we automate typically cut no-shows twenty-two percent within sixty days after SMS reminders and online rescheduling go live — equivalent to adding chair time without extending hours.",
+        text: "Clinics we automate typically cut no-shows twenty-two percent within sixty days after SMS reminders and online rescheduling go live, equivalent to adding chair time without extending hours.",
       },
       {
         type: "quote",
@@ -971,7 +971,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Pair automation with an [AI receptionist](/services/ai-receptionist) for after-hours and peak overflow. Missed-call text-back captures the caller who would not leave voicemail. Measure booking rate, no-show rate, and median response time weekly — those three metrics tell you if the stack is working.",
+        text: "Pair automation with an [AI receptionist](/services/ai-receptionist) for after-hours and peak overflow. Missed-call text-back captures the caller who would not leave voicemail. Measure booking rate, no-show rate, and median response time weekly, those three metrics tell you if the stack is working.",
       },
       {
         type: "h2",
@@ -979,7 +979,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Clinics with more than one location need source tagging and routing rules in the CRM — not a single shared inbox. Booking widgets should geolocate or ask location first so leads land with the correct calendar and staff notification. Marketing reports by location; operations sees the same pipeline.",
+        text: "Clinics with more than one location need source tagging and routing rules in the CRM, not a single shared inbox. Booking widgets should geolocate or ask location first so leads land with the correct calendar and staff notification. Marketing reports by location; operations sees the same pipeline.",
       },
       {
         type: "h2",
@@ -987,7 +987,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Run a thirty-minute monthly review: ad spend by location, booking rate by source, no-show trend, review velocity. When marketing scales campaigns but booking rate flatlines, the leak is intake — not creative. Automation makes that visible instead of hiding it in voicemail.",
+        text: "Run a thirty-minute monthly review: ad spend by location, booking rate by source, no-show trend, review velocity. When marketing scales campaigns but booking rate flatlines, the leak is intake, not creative. Automation makes that visible instead of hiding it in voicemail.",
       },
       {
         type: "ul",
@@ -1008,7 +1008,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Start with reminders and online booking before AI phone — quick wins build trust. Expand to [review automation](/services/review-reputation) and overflow reception once the basics hold for thirty days without workaround spreadsheets.",
+        text: "Start with reminders and online booking before AI phone, quick wins build trust. Expand to [review automation](/services/review-reputation) and overflow reception once the basics hold for thirty days without workaround spreadsheets.",
       },
       {
         type: "h2",
@@ -1016,7 +1016,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Dental practices lean on hygiene recall and insurance FAQ; med spas on consultation booking and package upsells; physical therapy on referral intake and authorization flags. The automation stack is the same — booking, intake, reminders, reviews — but sequence timing and SMS copy differ. Map patient journeys before configuring workflows.",
+        text: "Dental practices lean on hygiene recall and insurance FAQ; med spas on consultation booking and package upsells; physical therapy on referral intake and authorization flags. The automation stack is the same, booking, intake, reminders, reviews, but sequence timing and SMS copy differ. Map patient journeys before configuring workflows.",
       },
       {
         type: "p",
@@ -1032,7 +1032,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Use HIPAA-eligible SMS and CRM vendors when messages might include appointment details tied to identifiable patients. Marketing broadcasts differ from clinical communication — keep them separate. Document opt-in at booking and offer clear opt-out on reminders. Compliance is not a reason to skip automation; it is a reason to configure templates and vendors correctly the first time.",
+        text: "Use HIPAA-eligible SMS and CRM vendors when messages might include appointment details tied to identifiable patients. Marketing broadcasts differ from clinical communication, keep them separate. Document opt-in at booking and offer clear opt-out on reminders. Compliance is not a reason to skip automation; it is a reason to configure templates and vendors correctly the first time.",
       },
       {
         type: "p",
@@ -1044,26 +1044,26 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Train front desk on the CRM inbox in thirty-minute sessions — show how automation reduces phone tag, not how it replaces jobs. When staff see fewer angry callback voicemails, adoption sticks. ZedNova clinic rollouts target live automation within three weeks because we wire booking and reminders before advanced AI features.",
+        text: "Train front desk on the CRM inbox in thirty-minute sessions, show how automation reduces phone tag, not how it replaces jobs. When staff see fewer angry callback voicemails, adoption sticks. ZedNova clinic rollouts target live automation within three weeks because we wire booking and reminders before advanced AI features.",
       },
       {
         type: "p",
-        text: "Publish a one-page playbook: who owns the CRM inbox, response SLAs, and escalation to clinical staff. Automation fails when ownership is ambiguous — not when software is missing features.",
+        text: "Publish a one-page playbook: who owns the CRM inbox, response SLAs, and escalation to clinical staff. Automation fails when ownership is ambiguous, not when software is missing features.",
       },
       {
         type: "p",
-        text: "Re-measure no-show and response metrics thirty and sixty days after go-live. Clinics that hold gains through two review cycles rarely revert to manual-only scheduling — the ROI becomes obvious to clinical and front-desk leads alike.",
+        text: "Re-measure no-show and response metrics thirty and sixty days after go-live. Clinics that hold gains through two review cycles rarely revert to manual-only scheduling, the ROI becomes obvious to clinical and front-desk leads alike.",
       },
       {
         type: "p",
-        text: "Start with one location and one service line before rolling automation to every chair — prove the workflow, then expand templates.",
+        text: "Start with one location and one service line before rolling automation to every chair, prove the workflow, then expand templates.",
       },
     ],
   },
 
   "sanity-cms-for-marketing-teams-who-hate-developer-tickets": {
     takeaways: [
-      "Define required SEO and AEO fields in Studio — optional fields become optional forever.",
+      "Define required SEO and AEO fields in Studio, optional fields become optional forever.",
       "Use references for related services and migrations instead of pasted URLs that rot.",
       "Train editors on preview URLs in week one; adoption fails when publish feels scary.",
     ],
@@ -1078,7 +1078,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-sanity-vs-contentful",
         question: "Why Sanity over Contentful for marketing sites?",
         answer:
-          "Sanity Studio is highly customizable for editorial workflows, real-time preview with Next.js is mature, and portable text handles structured AEO blocks well. Contentful excels at multi-brand enterprise — Sanity wins for fast marketing teams on Next.js.",
+          "Sanity Studio is highly customizable for editorial workflows, real-time preview with Next.js is mature, and portable text handles structured AEO blocks well. Contentful excels at multi-brand enterprise, Sanity wins for fast marketing teams on Next.js.",
       },
       {
         id: "faq-sanity-governance",
@@ -1096,7 +1096,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
         id: "faq-sanity-roi",
         question: "What ROI should marketing expect from Sanity?",
         answer:
-          "Measure developer tickets for copy changes before and after. Teams that cut ticket volume fifty percent or more while increasing publish frequency usually recoup Sanity setup within two quarters — especially when paid campaigns need fresh landing pages weekly.",
+          "Measure developer tickets for copy changes before and after. Teams that cut ticket volume fifty percent or more while increasing publish frequency usually recoup Sanity setup within two quarters, especially when paid campaigns need fresh landing pages weekly.",
       },
     ],
     implementationTable: [
@@ -1143,7 +1143,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Marketing teams do not hate CMS tools — they hate waiting on developers for copy changes. The Sanity Editorial Velocity Model separates what editors own (words, SEO, references, media) from what engineering owns (layout, performance, integrations). We implement this on every [Webflow to Next.js + Sanity migration](/migrations/webflow-to-nextjs-sanity) so campaigns ship at the speed of the calendar, not the sprint board.",
+        text: "Marketing teams do not hate CMS tools, they hate waiting on developers for copy changes. The Sanity Editorial Velocity Model separates what editors own (words, SEO, references, media) from what engineering owns (layout, performance, integrations). We implement this on every [Webflow to Next.js + Sanity migration](/migrations/webflow-to-nextjs-sanity) so campaigns ship at the speed of the calendar, not the sprint board.",
       },
       {
         type: "h2",
@@ -1151,7 +1151,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Services, industries, migrations, and insights are collections — not duplicate Webflow pages. One service update propagates to nav, listing grids, and related modules. Editors publish once; GROQ queries assemble pages. That is how [AI-ready marketing sites](/services/ai-lead-site) stay consistent when AEO fields are required on every insight.",
+        text: "Services, industries, migrations, and insights are collections, not duplicate Webflow pages. One service update propagates to nav, listing grids, and related modules. Editors publish once; GROQ queries assemble pages. That is how [AI-ready marketing sites](/services/ai-lead-site) stay consistent when AEO fields are required on every insight.",
       },
       {
         type: "h2",
@@ -1163,12 +1163,12 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
           "Wire preview URLs before inviting editors into Studio.",
           "Show mobile and desktop breakpoints in review links.",
           "Restrict layout-breaking fields; expose structured copy blocks.",
-          "Document a ten-minute publish ritual — draft, preview, publish.",
+          "Document a ten-minute publish ritual, draft, preview, publish.",
         ],
       },
       {
         type: "p",
-        text: "Marketing teams on Sanity stacks we deploy publish roughly three times faster than their prior Webflow or WordPress workflow — measured from draft start to live URL — because preview removes the staging guesswork that used to require a developer deploy.",
+        text: "Marketing teams on Sanity stacks we deploy publish roughly three times faster than their prior Webflow or WordPress workflow, measured from draft start to live URL, because preview removes the staging guesswork that used to require a developer deploy.",
       },
       {
         type: "quote",
@@ -1188,7 +1188,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Marketing editors own copy, SEO fields, FAQs, and references. Developers own schema changes, new block types, and performance. Splitting ownership prevents editors from breaking layout and prevents developers from becoming copywriters. Document the boundary in a one-page Studio guide with screenshots — not a forty-page manual nobody reads.",
+        text: "Marketing editors own copy, SEO fields, FAQs, and references. Developers own schema changes, new block types, and performance. Splitting ownership prevents editors from breaking layout and prevents developers from becoming copywriters. Document the boundary in a one-page Studio guide with screenshots, not a forty-page manual nobody reads.",
       },
       {
         type: "h2",
@@ -1196,14 +1196,14 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Some teams keep the visual front end temporarily while moving content to Sanity — uncommon, but useful when campaign calendar cannot pause. Most service firms migrate front end and CMS together on Next.js so preview and performance stay aligned. Evaluate [Webflow CMS to Sanity](/migrations/webflow-cms-to-sanity) when Designer pages are fine but collections are the bottleneck.",
+        text: "Some teams keep the visual front end temporarily while moving content to Sanity, uncommon, but useful when campaign calendar cannot pause. Most service firms migrate front end and CMS together on Next.js so preview and performance stay aligned. Evaluate [Webflow CMS to Sanity](/migrations/webflow-cms-to-sanity) when Designer pages are fine but collections are the bottleneck.",
       },
       {
         type: "ul",
         items: [
           "Inventory duplicate pages that should become one collection entry.",
           "List fields marketing needs on every insight (AEO, OG, related links).",
-          "Schedule editor training before launch week — not after.",
+          "Schedule editor training before launch week, not after.",
           "Define rollback plan if DNS cutover hits unexpected 404s.",
         ],
       },
@@ -1213,7 +1213,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Portable text lets you define block types — callouts, quotes, implementation tables, inline FAQs — that render consistently on Next.js. Editors assemble articles from approved blocks instead of pasting Word docs that break layout. New block types require developer time once; every publish after that is self-serve.",
+        text: "Portable text lets you define block types, callouts, quotes, implementation tables, inline FAQs, that render consistently on Next.js. Editors assemble articles from approved blocks instead of pasting Word docs that break layout. New block types require developer time once; every publish after that is self-serve.",
       },
       {
         type: "p",
@@ -1225,7 +1225,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Track median hours from draft to publish, count of developer tickets for copy, and pages published per month. Sanity wins when those metrics improve without SEO incidents. If publish speed rises but broken links or missing meta spike, tighten validation — not permissions.",
+        text: "Track median hours from draft to publish, count of developer tickets for copy, and pages published per month. Sanity wins when those metrics improve without SEO incidents. If publish speed rises but broken links or missing meta spike, tighten validation, not permissions.",
       },
       {
         type: "p",
@@ -1237,7 +1237,7 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Compare publish velocity before and after migration in the first ninety days. If tickets to dev drop but output stays flat, training — not tooling — is the blocker. Schedule office hours until editors trust preview.",
+        text: "Compare publish velocity before and after migration in the first ninety days. If tickets to dev drop but output stays flat, training, not tooling, is the blocker. Schedule office hours until editors trust preview.",
       },
       {
         type: "h2",
@@ -1245,19 +1245,19 @@ export const INSIGHT_POST_EXPANSIONS: Record<string, InsightExpansion> = {
       },
       {
         type: "p",
-        text: "Model quickAnswer, FAQ arrays, implementation tables, and relatedLinks as first-class fields — not optional sidebar notes. When editors publish a service or insight, schema and visible AEO blocks stay in sync. ZedNova Studio setups ship with required AEO groups so AI-ready pages are the default, not a special project.",
+        text: "Model quickAnswer, FAQ arrays, implementation tables, and relatedLinks as first-class fields, not optional sidebar notes. When editors publish a service or insight, schema and visible AEO blocks stay in sync. ZedNova Studio setups ship with required AEO groups so AI-ready pages are the default, not a special project.",
       },
       {
         type: "p",
-        text: "Run a monthly content ops review: pages published, schema errors in Search Console, and broken internal links from reference fields. Sanity rewards teams that treat content like product — with owners, metrics, and iteration.",
+        text: "Run a monthly content ops review: pages published, schema errors in Search Console, and broken internal links from reference fields. Sanity rewards teams that treat content like product, with owners, metrics, and iteration.",
       },
       {
         type: "p",
-        text: "When marketing publishes without developer tickets for three consecutive sprints, redirect the saved budget toward insight articles and compare pages — that is where AEO compounding actually happens.",
+        text: "When marketing publishes without developer tickets for three consecutive sprints, redirect the saved budget toward insight articles and compare pages, that is where AEO compounding actually happens.",
       },
       {
         type: "p",
-        text: "Treat Studio schema changes like API changes: version, document, and train editors now when new AEO fields ship — especially before campaign season.",
+        text: "Treat Studio schema changes like API changes: version, document, and train editors now when new AEO fields ship, especially before campaign season.",
       },
     ],
   },

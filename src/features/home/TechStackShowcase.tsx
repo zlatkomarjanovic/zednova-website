@@ -15,7 +15,7 @@ export function TechStackShowcase({
   groups,
   heading = "The tools we wire together for you",
   description =
-    "The platforms we build on, connect, and deploy — including the industry tools our healthcare, ecommerce, coaching, SaaS, and real estate clients already use.",
+    "The platforms we build on, connect, and deploy, including the industry tools our healthcare, ecommerce, coaching, SaaS, and real estate clients already use.",
 }: TechStackShowcaseProps) {
   return (
     <div className="zn-container relative min-w-0">

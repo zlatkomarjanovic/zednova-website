@@ -5,7 +5,7 @@ import { getInsightOverride } from "./insight-overrides";
 /** Minimum article body length (characters) for insights posts. */
 export const MIN_POST_BODY_CHARS = 6000;
 
-/** 20 tags per post — merged with existing tags in Sanity enrichment. */
+/** 20 tags per post, merged with existing tags in Sanity enrichment. */
 export const EXTENDED_POST_TAGS: Record<string, string[]> = {
   "ai-overviews-are-the-new-seo": [
     "AI Overviews",

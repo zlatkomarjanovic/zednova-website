@@ -37,13 +37,13 @@ export const techStackGroups: TechStackGroup[] = [
   {
     category: "CMS",
     description:
-      "Content systems your team can edit without a developer — structured content for websites and apps.",
+      "Content systems your team can edit without a developer, structured content for websites and apps.",
     tools: ["Sanity", "Payload CMS", "Webflow", "Framer"],
   },
   {
     category: "Automation",
     description:
-      "Workflows that run without you watching — CRM, booking, email, SMS, and custom integrations.",
+      "Workflows that run without you watching, CRM, booking, email, SMS, and custom integrations.",
     tools: ["n8n", "Make", "Zapier", "Python", "Cal.com", "Custom automations"],
   },
   {

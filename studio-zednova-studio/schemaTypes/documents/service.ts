@@ -165,14 +165,6 @@ export const service = defineType({
       of: [{ type: "painPoint" }],
     }),
     defineField({
-      name: "subServices",
-      type: "array",
-      title: "Sub-services (bento grid)",
-      group: "deliverables",
-      description: "Sub-service cards shown in the bento grid on the service detail page.",
-      of: [{ type: "subServiceCard" }],
-    }),
-    defineField({
       name: "values",
       type: "array",
       title: "Agency values",

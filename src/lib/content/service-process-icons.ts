@@ -1,4 +1,4 @@
-/** Inline SVG icons for service process steps — uploaded to Sanity via seed script. */
+/** Inline SVG icons for service process steps, uploaded to Sanity via seed script. */
 export const SERVICE_PROCESS_ICONS = {
   discovery: {
     alt: "Discovery",

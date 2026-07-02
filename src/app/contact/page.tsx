@@ -17,7 +17,7 @@ import {
 } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "Contact ZedNova Studio — Start a Website, Software, or Automation Project",
+  title: "Contact ZedNova Studio, Start a Website, Software, or Automation Project",
   description:
     "Tell ZedNova what you need. Websites, custom software, CRM automations, and AI tools for clinics, ecommerce brands, and service businesses. Reply within 24 hours.",
   alternates: { canonical: "/contact" },

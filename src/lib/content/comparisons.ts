@@ -25,7 +25,7 @@ export type Comparison = {
 export const comparisons: Comparison[] = [
   {
     slug: "webflow-vs-nextjs-sanity",
-    title: "Webflow vs Next.js + Sanity — Which Stack Should You Build On?",
+    title: "Webflow vs Next.js + Sanity, Which Stack Should You Build On?",
     h1: "Webflow vs Next.js + Sanity",
     description:
       "Webflow is fast to launch but locks you into its platform. Next.js + Sanity gives you full control, better performance, and room to grow into apps, automation, and AI tools. Here is when to pick which.",
@@ -54,7 +54,7 @@ export const comparisons: Comparison[] = [
         "Full control over performance, schema, and integrations",
         "Structured content reusable across apps, emails, and AI",
         "Scales into web apps, portals, dashboards, and automations",
-        "No platform lock-in — you own the code and content",
+        "No platform lock-in, you own the code and content",
       ],
       weaknesses: [
         "Requires a developer to build and maintain",
@@ -67,16 +67,16 @@ export const comparisons: Comparison[] = [
     whenLeft:
       "Best when the site is the product and a designer-led workflow matters more than custom integrations.",
     whenRight:
-      "Best when the website is one part of a larger system — CRM, booking, portals, automation, or AI.",
+      "Best when the website is one part of a larger system, CRM, booking, portals, automation, or AI.",
     related: [
       { label: "Webflow → Next.js migration", href: "/migrations/webflow-to-nextjs-sanity" },
-      { label: "Custom software", href: "/custom-software" },
+      { label: "Custom software", href: "/services/custom-in-house-software-for-smbs" },
       { label: "Services", href: "/services" },
     ],
   },
   {
     slug: "wordpress-vs-nextjs-sanity",
-    title: "WordPress vs Next.js + Sanity — Migration Guide",
+    title: "WordPress vs Next.js + Sanity, Migration Guide",
     h1: "WordPress vs Next.js + Sanity",
     description:
       "WordPress is familiar and plugin-rich but slow, security-heavy, and hard to extend into modern apps. Next.js + Sanity is faster, more secure, and gives you structured content for apps and AI. Here is when to migrate.",
@@ -121,12 +121,12 @@ export const comparisons: Comparison[] = [
     related: [
       { label: "WordPress → Next.js migration", href: "/migrations/wordpress-to-nextjs-sanity" },
       { label: "Migrations overview", href: "/migrations" },
-      { label: "Custom software", href: "/custom-software" },
+      { label: "Custom software", href: "/services/custom-in-house-software-for-smbs" },
     ],
   },
   {
     slug: "framer-vs-nextjs",
-    title: "Framer vs Next.js — Which Should You Build On?",
+    title: "Framer vs Next.js, Which Should You Build On?",
     h1: "Framer vs Next.js",
     description:
       "Framer is great for design-led marketing pages. Next.js gives you full control and a path to apps, automation, and AI. Here is how to choose.",
@@ -168,7 +168,7 @@ export const comparisons: Comparison[] = [
       "Best when the website is the first piece of a larger system.",
     related: [
       { label: "Framer → Next.js migration", href: "/migrations/framer-to-nextjs-sanity" },
-      { label: "Custom software", href: "/custom-software" },
+      { label: "Custom software", href: "/services/custom-in-house-software-for-smbs" },
       { label: "Services", href: "/services" },
     ],
   },
@@ -228,7 +228,7 @@ export const comparisons: Comparison[] = [
     description:
       "A generic chatbot answers FAQs. An AI receptionist answers calls, texts back missed calls, books appointments, and routes to a human. Here is the difference.",
     intro:
-      "Chatbots have been around for years. AI receptionists are a different category — they handle voice, SMS, booking, and CRM together.",
+      "Chatbots have been around for years. AI receptionists are a different category, they handle voice, SMS, booking, and CRM together.",
     left: {
       name: "Generic chatbot",
       tagline: "Text-based FAQ bot on your site.",
@@ -277,7 +277,7 @@ export const comparisons: Comparison[] = [
     description:
       "Traditional agencies charge for overhead, layers, and meetings. ZedNova is senior-led, async, and ships the same work for less. Here is the honest comparison.",
     intro:
-      "Agencies are not bad — they are expensive. The question is whether you need the layers or just the work.",
+      "Agencies are not bad, they are expensive. The question is whether you need the layers or just the work.",
     left: {
       name: "Traditional agency",
       tagline: "Layers, overhead, meetings.",
@@ -298,14 +298,14 @@ export const comparisons: Comparison[] = [
       tagline: "Senior-led, async, ships.",
       strengths: [
         "You work with the person doing the work",
-        "Async delivery — fewer meetings, more output",
+        "Async delivery, fewer meetings, more output",
         "Texas LLC, real accountability",
         "120+ projects, 10+ years shipping",
         "AI-cited, schema-ready builds out of the box",
       ],
       weaknesses: [
         "Not built for enterprise procurement",
-        "Smaller team — not for huge concurrent rollouts",
+        "Smaller team, not for huge concurrent rollouts",
       ],
     },
     verdict:
@@ -359,7 +359,7 @@ export const comparisons: Comparison[] = [
       ],
     },
     verdict:
-      "Pick GoHighLevel when the business lives on phone, SMS, and booking — clinics, trades, med spas. Pick HubSpot when marketing ops, content, and B2B pipeline reporting are the core job.",
+      "Pick GoHighLevel when the business lives on phone, SMS, and booking, clinics, trades, med spas. Pick HubSpot when marketing ops, content, and B2B pipeline reporting are the core job.",
     whenLeft:
       "Best for high call volume, multi-location service businesses, and teams that want CRM + SMS + calendar in one login.",
     whenRight:
@@ -372,7 +372,7 @@ export const comparisons: Comparison[] = [
   },
   {
     slug: "wordpress-vs-sanity",
-    title: "WordPress vs Sanity CMS — Which Content Stack for 2026?",
+    title: "WordPress vs Sanity CMS, Which Content Stack for 2026?",
     h1: "WordPress vs Sanity",
     description:
       "WordPress powers the web with plugins; Sanity powers structured content for Next.js sites. Compare editor experience, performance, security, and AEO readiness for marketing teams.",
@@ -403,7 +403,7 @@ export const comparisons: Comparison[] = [
         "No plugin security surface on the public site",
       ],
       weaknesses: [
-        "Requires Next.js (or similar) frontend — not a standalone site builder",
+        "Requires Next.js (or similar) frontend, not a standalone site builder",
         "Higher upfront content modeling and dev setup",
         "Editors learn Studio instead of Gutenberg",
       ],

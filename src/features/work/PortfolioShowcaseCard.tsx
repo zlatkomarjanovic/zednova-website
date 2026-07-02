@@ -11,7 +11,7 @@ type PortfolioShowcaseCardProps = {
   className?: string;
 };
 
-/** Our Work grid — project info by default, mockup image on hover. */
+/** Our Work grid, project info by default, mockup image on hover. */
 export function PortfolioShowcaseCard({ project, className }: PortfolioShowcaseCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [hovering, setHovering] = useState(false);

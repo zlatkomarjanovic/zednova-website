@@ -3,7 +3,7 @@ import { ArticleFaqAccordion } from "@/features/insights/ArticleFaqAccordion";
 
 /**
  * Inline FAQ section for article pages. FAQPage JSON-LD is injected at the page
- * level — keep Q&A text identical to the accordion content.
+ * level, keep Q&A text identical to the accordion content.
  */
 export function ArticleFaq({
   faqs,

@@ -3,8 +3,6 @@
 import { useMemo } from "react";
 
 import type { IndustryPageContent } from "@/lib/types/industry-page";
-import type { CustomSoftware } from "@/lib/types/custom-software";
-import type { Migration, NavMenuGroup, ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { Service } from "@/lib/types";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
@@ -14,7 +12,7 @@ import { ServicesTabShowcase } from "@/features/services/ServicesTabShowcase";
 import {
   PRIMARY_SERVICE_GROUPS,
   type PrimaryServiceGroup,
-} from "@/lib/content/nav-menu";
+} from "@/lib/content/service-groups";
 import {
   getParentSlugForServiceSlug,
   getParentGroup,
@@ -40,20 +38,12 @@ function resolveGroupsForServiceSlugs(slugs: string[]): PrimaryServiceGroup[] {
 
 export function IndustryServicesShowcase({
   section,
-  serviceNavGroups,
-  serviceMegaMenuCards,
   services,
-  customSoftware,
-  migrations,
   linkedServiceSlugs = [],
   inSageFlow = false,
 }: {
   section: IndustryPageContent["services"];
-  serviceNavGroups: NavMenuGroup[];
-  serviceMegaMenuCards: ServiceMegaMenuCard[];
   services: Service[];
-  customSoftware: CustomSoftware[];
-  migrations: Migration[];
   linkedServiceSlugs?: string[];
   /** When true, background/grain come from a parent sage wrapper (e.g. process below). */
   inSageFlow?: boolean;
@@ -88,14 +78,7 @@ export function IndustryServicesShowcase({
         </div>
       </div>
       <div className="zn-container-guides relative">
-        <ServicesTabShowcase
-          serviceNavGroups={serviceNavGroups}
-          serviceMegaMenuCards={serviceMegaMenuCards}
-          services={services}
-          customSoftware={customSoftware}
-          migrations={migrations}
-          visibleGroups={visibleGroups}
-        />
+        <ServicesTabShowcase services={services} visibleGroups={visibleGroups} />
       </div>
     </>
   );

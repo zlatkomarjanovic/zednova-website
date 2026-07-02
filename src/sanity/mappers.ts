@@ -617,7 +617,6 @@ export function mapPost(doc: {
   relatedServices?: string[];
   relatedIndustries?: string[];
   relatedMigrations?: string[];
-  relatedCustomSoftware?: string[];
   relatedProducts?: string[];
   relatedCaseStudies?: string[];
   relatedPortfolioProjects?: string[];
@@ -687,7 +686,6 @@ export function mapPost(doc: {
     relatedServices: doc.relatedServices,
     relatedIndustries: doc.relatedIndustries,
     relatedMigrations: doc.relatedMigrations,
-    relatedCustomSoftware: doc.relatedCustomSoftware,
     relatedProducts: doc.relatedProducts,
     relatedCaseStudies: doc.relatedCaseStudies,
     relatedPortfolioProjects: doc.relatedPortfolioProjects,

@@ -1,5 +1,5 @@
 /**
- * Content queries — Sanity CMS with static fallback when CMS is empty or unavailable.
+ * Content queries, Sanity CMS with static fallback when CMS is empty or unavailable.
  */
 import { services as staticServices } from "@/lib/content/services";
 import {
@@ -25,18 +25,9 @@ import {
   isIndustrySegment,
   mergeIndustryRecord,
 } from "@/lib/industry-content";
-import { customSoftwareItems, customSoftwareBySlug } from "@/lib/content/custom-software-items";
-import {
-  customSoftwareGroups as staticCustomSoftwareGroups,
-  customSoftwareNavItems as staticCustomSoftwareNavItems,
-  serviceNavGroups as staticServiceNavGroups,
-} from "@/lib/content/nav-menu";
 import { buildMegaMenuCardsFromServices } from "@/lib/content/service-mega-menu";
-import type { CustomSoftware } from "@/lib/types/custom-software";
 import type {
-  CustomSoftwareGroupSection,
   Migration,
-  NavMenuGroup,
   NavMenuItem,
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";
@@ -171,87 +162,9 @@ export async function getPostsBySlugs(slugs: string[]): Promise<Post[]> {
     .filter((p): p is Post => Boolean(p));
 }
 
-export async function getServiceNavGroups(): Promise<NavMenuGroup[]> {
-  // Sub-service pages were removed; parent-group nav is code-defined so hrefs stay current.
-  return staticServiceNavGroups;
-}
-
 export async function getServiceMegaMenuCards(): Promise<ServiceMegaMenuCard[]> {
   const services = await getAllServices();
   return buildMegaMenuCardsFromServices(services);
-}
-
-/* ----------------------------- Custom software (code-defined) ----------------------------- */
-
-export async function getCustomSoftwareNavItems(): Promise<NavMenuItem[]> {
-  return staticCustomSoftwareNavItems;
-}
-
-export async function getCustomSoftwareGroups(): Promise<
-  CustomSoftwareGroupSection[]
-> {
-  return staticCustomSoftwareGroups;
-}
-
-export async function getAllCustomSoftwareSlugs(): Promise<string[]> {
-  const items = await getAllCustomSoftware();
-  return items.map((item) => item.slug);
-}
-
-export async function getAllCustomSoftware(): Promise<CustomSoftware[]> {
-  return [...customSoftwareItems].sort(byOrder);
-}
-
-export async function getCustomSoftwareBySlug(
-  slug: string,
-): Promise<CustomSoftware | null> {
-  return customSoftwareBySlug.get(slug) ?? null;
-}
-
-export async function getCustomSoftwareRelatedPortfolioProjects(
-  item: Pick<
-    CustomSoftware,
-    "slug" | "relatedCaseStudies" | "relatedPortfolioProjects" | "relatedServices"
-  >,
-  limit = 4,
-): Promise<PortfolioProject[]> {
-  const allPortfolio = await getPortfolioProjects();
-  const ordered: PortfolioProject[] = [];
-  const seen = new Set<string>();
-
-  const push = (projects: PortfolioProject[]) => {
-    for (const project of projects) {
-      if (seen.has(project.slug)) continue;
-      seen.add(project.slug);
-      ordered.push(project);
-    }
-  };
-
-  if (item.relatedPortfolioProjects?.length) {
-    const slugs = new Set(item.relatedPortfolioProjects);
-    push(allPortfolio.filter((project) => slugs.has(project.slug)));
-  }
-
-  if (item.relatedCaseStudies?.length) {
-    const caseSlugs = new Set(item.relatedCaseStudies);
-    push(
-      allPortfolio.filter((project) =>
-        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
-      ),
-    );
-  }
-
-  push(allPortfolio.filter((project) => project.servicesUsed?.includes(item.slug)));
-
-  if (ordered.length === 0 && item.relatedServices?.length) {
-    push(
-      allPortfolio.filter((project) =>
-        project.servicesUsed?.some((slug) => item.relatedServices!.includes(slug)),
-      ),
-    );
-  }
-
-  return ordered.slice(0, limit);
 }
 
 /* ----------------------------- Migrations (code-defined) ----------------------------- */
@@ -923,8 +836,6 @@ export async function getRelatedInsights(
         score += p.relatedMigrations.filter((s) => current.relatedMigrations!.includes(s)).length;
       if (p.relatedCaseStudies && current.relatedCaseStudies)
         score += p.relatedCaseStudies.filter((s) => current.relatedCaseStudies!.includes(s)).length * 2;
-      if (p.relatedCustomSoftware && current.relatedCustomSoftware)
-        score += p.relatedCustomSoftware.filter((s) => current.relatedCustomSoftware!.includes(s)).length * 2;
       if (p.relatedProducts && current.relatedProducts)
         score += p.relatedProducts.filter((s) => current.relatedProducts!.includes(s)).length;
       if (p.relatedPortfolioProjects && current.relatedPortfolioProjects)
@@ -1028,9 +939,7 @@ export async function getAllFaqs() {
 }
 
 export type {
-  CustomSoftwareGroupSection,
   Migration,
-  NavMenuGroup,
   NavMenuItem,
   ServiceMegaMenuCard,
 } from "@/lib/types/content-nav";

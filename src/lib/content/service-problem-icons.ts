@@ -1,4 +1,4 @@
-/** Inline SVG icons for service problem cards — uploaded to Sanity via seed script. */
+/** Inline SVG icons for service problem cards, uploaded to Sanity via seed script. */
 export const SERVICE_PROBLEM_ICONS = {
   "slow-mobile": {
     alt: "Slow mobile performance",
@@ -41,7 +41,7 @@ export type ServiceProblemSeed = {
   iconKey: ServiceProblemIconKey;
 };
 
-/** Default 6 reasons for lead-gen websites — seeded to Sanity. */
+/** Default 6 reasons for lead-gen websites, seeded to Sanity. */
 export const LEAD_GEN_SERVICE_PROBLEMS: ServiceProblemSeed[] = [
   {
     iconKey: "slow-mobile",
@@ -312,7 +312,7 @@ export const RETAINER_SERVICE_PROBLEMS: ServiceProblemSeed[] = [
   },
 ];
 
-/** Default 6 reasons for SEO & AI search content — seeded to Sanity. */
+/** Default 6 reasons for SEO & AI search content, seeded to Sanity. */
 export const SEO_AEO_SERVICE_PROBLEMS: ServiceProblemSeed[] = [
   {
     iconKey: "slow-mobile",

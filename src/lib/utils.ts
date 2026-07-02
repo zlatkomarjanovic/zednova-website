@@ -18,7 +18,7 @@ export function prefersReducedMotion(): boolean {
 }
 
 /**
- * Detects a coarse / no-hover pointer (touch devices) — used to disable the
+ * Detects a coarse / no-hover pointer (touch devices), used to disable the
  * custom cursor and magnetic effects on mobile.
  */
 export function isTouchDevice(): boolean {

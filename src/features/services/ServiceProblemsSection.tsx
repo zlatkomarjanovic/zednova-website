@@ -11,11 +11,11 @@ function problemCellSurface(index: number) {
   return (row + col) % 2 === 0 ? "bg-zn-bg-2" : "bg-zn-bg";
 }
 
-/** Internal dividers only — no outer left/right lines (container guides handle edges). */
+/** Internal dividers only, no outer left/right lines (container guides handle edges). */
 function problemCellBorderClass(index: number) {
   return cn(
     "border-b border-zn-border",
-    // 1 column — side borders off; horizontal dividers only
+    // 1 column, side borders off; horizontal dividers only
     "border-l-0 border-r-0",
     // 2 columns
     index % 2 === 0 && "sm:border-r sm:border-l-0",

@@ -6,7 +6,7 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import type { Post } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-/** Homepage insights block — same full-bleed grid as /insights, no hero featured layout. */
+/** Homepage insights block, same full-bleed grid as /insights, no hero featured layout. */
 export function InsightsHomePostsSection({
   posts,
   label = "Insights",

@@ -34,6 +34,7 @@ const MOBILE_NAV_SUB = "text-xs leading-snug";
 
 const PLAIN_LINKS = [
   { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 

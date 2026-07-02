@@ -15,12 +15,12 @@ import { getAllFaqs, getAllInsightCategories, getAllPosts, getFeaturedPost } fro
 export const metadata: Metadata = {
   title: "Insights on AI Search, Websites & Automations | ZedNova",
   description:
-    "Practical notes on AI search, websites, automations, CRM workflows, and software for service businesses — from ZedNova Studio.",
+    "Practical notes on AI search, websites, automations, CRM workflows, and software for service businesses, from ZedNova Studio.",
   alternates: { canonical: "/insights" },
   openGraph: {
     type: "website",
     url: "/insights",
-    title: "Insights — ZedNova Studio",
+    title: "Insights, ZedNova Studio",
     description:
       "Practical notes on AI search, websites, automations, CRM workflows, and software.",
   },

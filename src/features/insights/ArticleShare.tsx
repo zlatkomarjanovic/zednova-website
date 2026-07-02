@@ -49,7 +49,7 @@ export function ArticleShare({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      /* clipboard unavailable — no-op */
+      /* clipboard unavailable, no-op */
     }
   }
 

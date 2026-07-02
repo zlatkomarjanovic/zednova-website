@@ -1,6 +1,6 @@
 import type { ArticleFaq } from "@/lib/types";
 
-/** Default FAQ items per parent service — seeded to Sanity and used as fallback when CMS list is empty. */
+/** Default FAQ items per parent service, seeded to Sanity and used as fallback when CMS list is empty. */
 export const serviceFaqsBySlug: Record<string, ArticleFaq[]> = {
   "ai-lead-site": [
     {

@@ -14,14 +14,14 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Service Areas — Remote Delivery for US Businesses | ZedNova",
+  title: "Service Areas, Remote Delivery for US Businesses | ZedNova",
   description:
     "ZedNova Studio works remotely with US-based clinics, ecommerce brands, professional services firms, and service businesses. Async delivery with clear milestones and direct builder communication.",
   alternates: { canonical: "/service-areas" },
   openGraph: {
     type: "website",
     url: "/service-areas",
-    title: "Service Areas — ZedNova Studio",
+    title: "Service Areas, ZedNova Studio",
     description:
       "Remote delivery for US clinics, ecommerce brands, professional services, and service businesses.",
   },
@@ -73,7 +73,7 @@ export default function ServiceAreasPage() {
         data={[
           collectionPageJsonLd({
             path: "/service-areas",
-            name: "Service Areas — ZedNova Studio",
+            name: "Service Areas, ZedNova Studio",
             description:
               "Remote delivery for US-based clinics, ecommerce brands, professional services, and service businesses.",
           }),
@@ -155,7 +155,7 @@ export default function ServiceAreasPage() {
             </li>
             <li className="text-sm leading-relaxed text-zn-text-2">
               <strong className="text-zn-text">Direct builder contact.</strong>{" "}
-              No account managers — you talk to the person doing the work.
+              No account managers, you talk to the person doing the work.
             </li>
             <li className="text-sm leading-relaxed text-zn-text-2">
               <strong className="text-zn-text">US entity.</strong> ZedNova Studio

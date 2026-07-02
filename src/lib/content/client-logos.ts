@@ -1,7 +1,7 @@
 export type ClientLogo = {
   src: string;
   alt: string;
-  /** White/light logo assets meant for dark backgrounds — render as gray on light sections. */
+  /** White/light logo assets meant for dark backgrounds, render as gray on light sections. */
   lightVariant?: boolean;
 };
 

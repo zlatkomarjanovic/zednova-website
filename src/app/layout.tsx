@@ -16,7 +16,7 @@ import { JsonLd } from "@/ui/JsonLd";
 import { sitewideSchemaGraph } from "@/lib/seo";
 import { SITE_ORIGIN } from "@/lib/site-url";
 import { team } from "@/lib/content/team";
-import { getCustomSoftwareNavItems, getFeaturedHomepageIndustries, getIndustryNavItems, getInsightsNavPosts, getServiceMegaMenuCards, getSiteSettings } from "@/lib/queries";
+import { getFeaturedHomepageIndustries, getIndustryNavItems, getInsightsNavPosts, getServiceMegaMenuCards, getSiteSettings } from "@/lib/queries";
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
@@ -35,7 +35,7 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "ZedNova Studio — Websites, Shopify & Automations",
+    default: "ZedNova Studio | Websites, Shopify & Automations",
     template: "%s | ZedNova Studio",
   },
   description:
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "ZedNova Studio",
-    title: "ZedNova Studio — Websites, Shopify & Automations",
+    title: "ZedNova Studio | Websites, Shopify & Automations",
     description:
       "Next.js websites, Shopify development, CRM automations, AI chatbots, and migrations for clinics, ecommerce brands, and small businesses.",
     url: "/",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     creator: "@thezlatkom",
-    title: "ZedNova Studio — Websites, Shopify & Automations",
+    title: "ZedNova Studio | Websites, Shopify & Automations",
     description:
       "Next.js websites, Shopify stores, booking flows, CRM automations, and AI chatbots for clinics, ecommerce, and small business.",
     images: [
@@ -119,11 +119,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [settings, industryNavItems, customSoftwareNavItems, serviceMegaMenuCards, featuredHomepageIndustries, insightsNavPosts] =
+  const [settings, industryNavItems, serviceMegaMenuCards, featuredHomepageIndustries, insightsNavPosts] =
     await Promise.all([
       getSiteSettings(),
       getIndustryNavItems(),
-      getCustomSoftwareNavItems(),
       getServiceMegaMenuCards(),
       getFeaturedHomepageIndustries(),
       getInsightsNavPosts(),
@@ -195,7 +194,6 @@ export default async function RootLayout({
             <Footer
               settings={settings}
               serviceMegaMenuCards={serviceMegaMenuCards}
-              customSoftwareNavItems={customSoftwareNavItems}
               featuredHomepageIndustries={featuredHomepageIndustries}
             />
             <AiSummaryFab />

@@ -11,14 +11,14 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Platform Alternatives — Squarespace, Wix, WordPress & More | ZedNova",
+  title: "Platform Alternatives, Squarespace, Wix, WordPress & More | ZedNova",
   description:
     "Decision-stage guides: alternatives to Squarespace for clinics, Webflow for ecommerce, WordPress for clinics, Wix for service businesses, and Framer for startups.",
   alternates: { canonical: "/alternatives" },
   openGraph: {
     type: "website",
     url: "/alternatives",
-    title: "Alternatives — ZedNova Studio",
+    title: "Alternatives, ZedNova Studio",
     description: "Platform alternative guides for clinics, ecommerce, and service businesses.",
   },
   robots: { index: true, follow: true },
@@ -36,7 +36,7 @@ export default function AlternativesIndexPage() {
         data={[
           collectionPageJsonLd({
             path: "/alternatives",
-            name: "Alternatives — ZedNova Studio",
+            name: "Alternatives, ZedNova Studio",
             description:
               "Platform alternative guides for clinics, ecommerce, and service businesses.",
           }),
@@ -62,7 +62,7 @@ export default function AlternativesIndexPage() {
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
                     Honest alternatives when Squarespace, Webflow, WordPress, Wix, or Framer
-                    stops matching how you sell — structured for buyers and AI answer engines.
+                    stops matching how you sell, structured for buyers and AI answer engines.
                   </p>
                 </Reveal>
               </div>

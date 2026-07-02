@@ -7,42 +7,25 @@ import { FooterProfileLinks } from "@/components/layout/FooterProfileLinks";
 import { FooterNavLink } from "@/components/layout/FooterNavLink";
 import type { HomepageIndustry } from "@/lib/content/homepage-industries";
 import { featuredHomepageIndustries as staticFeaturedHomepageIndustries } from "@/lib/content/homepage-industries";
-import { getServicePublicPath } from "@/lib/content/service-routes";
-import type { NavMenuItem, ServiceMegaMenuCard } from "@/lib/types/content-nav";
+import type { ServiceMegaMenuCard } from "@/lib/types/content-nav";
 import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const COMPANY_LINKS = [
-  { label: "Get started", href: "/start" },
-  { label: "Insights", href: "/insights" },
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
+  { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
-] as const;
-
-const SECONDARY_TECH_LINKS = [
-  { label: "SEO & AI Search", href: "/services/seo-aeo-content" },
-  { label: "Sanity CMS", href: getServicePublicPath("ai-lead-site") },
-  { label: "Next.js Websites", href: getServicePublicPath("ai-lead-site") },
-  { label: "Automation Integrations", href: getServicePublicPath("crm-pipeline-automation") },
-  { label: "AI Search / AEO", href: getServicePublicPath("seo-aeo-content") },
-] as const;
-
-const LEGACY_LINKS = [
-  { label: "Shopify", href: "/industries/ecommerce-dtc" },
-  { label: "Ecommerce", href: "/industries/ecommerce-dtc" },
 ] as const;
 
 export function Footer({
   settings,
   serviceMegaMenuCards,
-  customSoftwareNavItems,
   featuredHomepageIndustries = staticFeaturedHomepageIndustries,
   className,
 }: {
   settings: SiteSettings;
   serviceMegaMenuCards: ServiceMegaMenuCard[];
-  customSoftwareNavItems: NavMenuItem[];
   featuredHomepageIndustries?: HomepageIndustry[];
   className?: string;
 }) {
@@ -124,7 +107,7 @@ export function Footer({
           />
         </div>
 
-        <div className="zn-container-inset grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-3 lg:py-14 xl:grid-cols-5 xl:gap-8">
+        <div className="zn-container-inset grid gap-10 py-12 md:grid-cols-3 lg:py-14 xl:gap-8">
             <FooterCol title="Services">
               {serviceMegaMenuCards.map((item) => (
                 <FooterNavLink key={item.href + item.title} href={item.href} label={item.title} />
@@ -141,29 +124,6 @@ export function Footer({
                 />
               ))}
               <FooterNavLink href="/industries" label="All industries" />
-            </FooterCol>
-
-            <FooterCol title="Custom Software">
-              {customSoftwareNavItems.slice(0, 6).map((item) => (
-                <FooterNavLink
-                  key={item.href + item.title}
-                  href={item.href}
-                  label={item.title}
-                />
-              ))}
-              <FooterNavLink
-                href="/custom-software"
-                label="All custom software"
-              />
-            </FooterCol>
-
-            <FooterCol title="Technical">
-              {SECONDARY_TECH_LINKS.map((link) => (
-                <FooterNavLink key={link.label} href={link.href} label={link.label} />
-              ))}
-              {LEGACY_LINKS.map((link) => (
-                <FooterNavLink key={link.label} href={link.href} label={link.label} />
-              ))}
             </FooterCol>
 
             <FooterCol title="Company">

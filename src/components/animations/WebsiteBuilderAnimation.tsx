@@ -14,7 +14,7 @@ const CARDS = [
 
 /**
  * Decorative loop: a marketing site assembled piece by piece inside a browser
- * window — nav, hero, feature row, a feature-card grid, footer — while two
+ * window, nav, hero, feature row, a feature-card grid, footer, while two
  * collaborator cursors move around clicking buttons and cards into place.
  * Pure CSS keyframes (no JS timers) so it never desyncs or drops frames.
  */

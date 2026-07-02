@@ -302,7 +302,7 @@ export const services: Service[] = [
   },
   {
     slug: "outbound-lead-gen",
-    number: "—",
+    number: ", ",
     title: "Outbound Lead Gen Automation",
     group: "CRM & Follow-Up Automation",
     category: "CRM & Follow-Up",
@@ -348,7 +348,7 @@ export const services: Service[] = [
   },
   {
     slug: "seo-aeo-content",
-    number: "—",
+    number: ", ",
     title: "SEO & AI Search Content",
     group: "SEO & AI Search Content",
     category: "SEO & AI Search",
@@ -439,7 +439,7 @@ export const services: Service[] = [
   },
   {
     slug: "ops-automation",
-    number: "—",
+    number: ", ",
     title: "Internal Ops Automation",
     group: "CRM & Follow-Up Automation",
     category: "CRM & Follow-Up",
@@ -485,7 +485,7 @@ export const services: Service[] = [
   },
   {
     slug: "custom-ai-agents",
-    number: "—",
+    number: ", ",
     title: "Custom AI Agents",
     group: "AI Receptionist & Booking Automation",
     category: "AI Receptionist",
@@ -579,7 +579,7 @@ export const services: Service[] = [
   },
   {
     slug: "review-reputation",
-    number: "—",
+    number: ", ",
     title: "Review & Reputation Automation",
     group: "CRM & Follow-Up Automation",
     category: "CRM & Follow-Up",

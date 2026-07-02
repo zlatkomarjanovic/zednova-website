@@ -8,7 +8,7 @@ type ProjectShowcaseLogoProps = {
   className?: string;
 };
 
-/** Client logo in showcase cards — same muted grey treatment as the logo ticker. */
+/** Client logo in showcase cards, same muted grey treatment as the logo ticker. */
 export function ProjectShowcaseLogo({ src, alt, className }: ProjectShowcaseLogoProps) {
   return (
     <Image

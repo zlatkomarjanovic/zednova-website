@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import {
-  getAllCustomSoftwareSlugs,
   getAllPosts,
   getAllServices,
   getAllCaseStudies,
@@ -20,13 +19,11 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${SITE_ORIGIN}/`, changeFrequency: "weekly", priority: 1 },
   { url: `${SITE_ORIGIN}/services`, changeFrequency: "weekly", priority: 0.9 },
   { url: `${SITE_ORIGIN}/industries`, changeFrequency: "weekly", priority: 0.9 },
-  { url: `${SITE_ORIGIN}/custom-software`, changeFrequency: "weekly", priority: 0.9 },
   { url: `${SITE_ORIGIN}/migrations`, changeFrequency: "weekly", priority: 0.9 },
   { url: `${SITE_ORIGIN}/work`, changeFrequency: "weekly", priority: 0.8 },
   { url: `${SITE_ORIGIN}/insights`, changeFrequency: "daily", priority: 0.8 },
   { url: `${SITE_ORIGIN}/about`, changeFrequency: "monthly", priority: 0.6 },
   { url: `${SITE_ORIGIN}/contact`, changeFrequency: "monthly", priority: 0.6 },
-  { url: `${SITE_ORIGIN}/start`, changeFrequency: "monthly", priority: 0.8 },
   { url: `${SITE_ORIGIN}/legal/privacy-policy`, changeFrequency: "yearly", priority: 0.3 },
   { url: `${SITE_ORIGIN}/legal/terms`, changeFrequency: "yearly", priority: 0.3 },
   { url: `${SITE_ORIGIN}/legal/cookie-settings`, changeFrequency: "monthly", priority: 0.3 },
@@ -43,14 +40,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   try {
-    const [posts, services, industries, caseStudies, migrations, customSoftwareSlugs] =
+    const [posts, services, industries, caseStudies, migrations] =
       await Promise.all([
         getAllPosts(),
         getAllServices(),
         getAllParentIndustrySlugs(),
         getAllCaseStudies(),
         getAllMigrations(),
-        getAllCustomSoftwareSlugs(),
       ]);
 
     const staticRoutes = STATIC_ROUTES.map((route) => ({
@@ -110,13 +106,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       }));
 
-    const customSoftwareRoutes: MetadataRoute.Sitemap = customSoftwareSlugs.map((slug) => ({
-      url: `${SITE_ORIGIN}/custom-software/${slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    }));
-
     const comparisonRoutes: MetadataRoute.Sitemap = comparisons.map((c) => ({
       url: `${SITE_ORIGIN}/compare/${c.slug}`,
       lastModified: now,
@@ -139,7 +128,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...industryRoutes,
       ...caseStudyRoutes,
       ...migrationRoutes,
-      ...customSoftwareRoutes,
       ...comparisonRoutes,
       ...alternativeRoutes,
     ];

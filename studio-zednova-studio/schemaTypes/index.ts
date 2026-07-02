@@ -1,6 +1,7 @@
 import { objectTypes } from "./objects";
 import { post } from "./documents/post";
 import { service } from "./documents/service";
+import { subService } from "./documents/subService";
 import { industry, industryParent } from "./documents/industry";
 import { caseStudy } from "./documents/caseStudy";
 import { portfolioProject } from "./documents/portfolioProject";
@@ -20,6 +21,7 @@ export const schemaTypes = [
   author,
   faq,
   service,
+  subService,
   industryParent,
   industry,
   caseStudy,

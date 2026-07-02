@@ -121,7 +121,7 @@ export default async function ServiceSegmentPage({
 }) {
   const { slug } = await params;
 
-  // /services/<parent-slug> — load the service document that powers this parent.
+  // /services/<parent-slug>, load the service document that powers this parent.
   if (isParentServiceSlug(slug)) {
     const serviceSlug = getServiceSlugForParent(slug);
     const service = await getServiceBySlug(serviceSlug);
@@ -146,7 +146,7 @@ export default async function ServiceSegmentPage({
     );
   }
 
-  // Legacy flat slug (e.g. /services/ai-lead-site) — redirect to parent page.
+  // Legacy flat slug (e.g. /services/ai-lead-site), redirect to parent page.
   const parentSlug = getParentSlugForServiceSlug(slug);
   if (parentSlug) {
     const service = await getServiceBySlug(slug);
@@ -170,7 +170,7 @@ export default async function ServiceSegmentPage({
     );
   }
 
-  // Any other service slug — render directly (secondary services).
+  // Any other service slug, render directly (secondary services).
   const service = await getServiceBySlug(slug);
   if (!service) notFound();
 

@@ -9,7 +9,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     },
     takeaways: [
       "Search is shifting from ranking in ten blue links to being cited by one synthesized answer.",
-      "Answer engines reward clean structure, clear claims, and machine-readable markup — not keyword density.",
+      "Answer engines reward clean structure, clear claims, and machine-readable markup, not keyword density.",
       "Add schema markup, publish an llms.txt file, and lead every article with the conclusion.",
       "Earn citations with specific, numbered claims models can lift verbatim.",
     ],
@@ -36,7 +36,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
         id: "faq-how-to-get-cited",
         question: "How do I get my business cited in AI Overviews?",
         answer:
-          "Lead with a clear answer, add schema markup so engines understand each page, publish an llms.txt file, and write specific numbered claims models can lift verbatim. Then earn external mentions — citation is part trust signal.",
+          "Lead with a clear answer, add schema markup so engines understand each page, publish an llms.txt file, and write specific numbered claims models can lift verbatim. Then earn external mentions, citation is part trust signal.",
       },
     ],
     searchQuestions: [
@@ -50,7 +50,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     ],
     sources: [
       {
-        title: "Google Search — AI Overviews",
+        title: "Google Search, AI Overviews",
         url: "https://developers.google.com/search/docs/appearance/ai-overviews",
         publisher: "Google",
         note: "How Google surfaces synthesized answers and citations.",
@@ -60,7 +60,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     body: [
       {
         type: "p",
-        text: "For twenty years, SEO meant ranking in ten blue links. AI Overviews, ChatGPT, and Perplexity now answer the query directly — and most users never scroll to a traditional result. Your goal is to be cited, not merely ranked.",
+        text: "For twenty years, SEO meant ranking in ten blue links. AI Overviews, ChatGPT, and Perplexity now answer the query directly, and most users never scroll to a traditional result. Your goal is to be cited, not merely ranked.",
       },
       { type: "h2", text: "Step 1: Add schema markup" },
       {
@@ -70,7 +70,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
       { type: "h2", text: "Step 2: Publish llms.txt" },
       {
         type: "p",
-        text: "An llms.txt file lists the pages you want models to prioritize — services, industries, migrations, and insights. It is the machine-readable map for ChatGPT, Perplexity, and other crawlers that skip traditional sitemaps.",
+        text: "An llms.txt file lists the pages you want models to prioritize, services, industries, migrations, and insights. It is the machine-readable map for ChatGPT, Perplexity, and other crawlers that skip traditional sitemaps.",
       },
       { type: "h2", text: "Step 3: Lead with the answer" },
       {
@@ -96,10 +96,10 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
         "Websites lose clients when every page asks for five actions at once, mobile load exceeds three seconds, or leads submit a form and nobody follows up within minutes. Fix one primary CTA per page, cut LCP below three seconds, and connect every form to a CRM that notifies a human instantly.",
     },
     takeaways: [
-      "When a site doesn't convert, owners blame the design — but the design is rarely the problem.",
+      "When a site doesn't convert, owners blame the design, but the design is rarely the problem.",
       "Every page should drive a single action. Five choices means people choose none.",
       "If your site takes 4 seconds to load on mobile, paid traffic is gone before it sees a word.",
-      "A beautiful site with no capture system is a leak — leads must hit your CRM in seconds.",
+      "A beautiful site with no capture system is a leak, leads must hit your CRM in seconds.",
     ],
     faqs: [
       {
@@ -118,7 +118,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
         id: "faq-capture-system",
         question: "What is a website capture system?",
         answer:
-          "A capture system connects every form, call button, and chat to your CRM the instant a lead submits — and notifies a human to respond. It turns a brochure website into the front end of a sales system.",
+          "A capture system connects every form, call button, and chat to your CRM the instant a lead submits, and notifies a human to respond. It turns a brochure website into the front end of a sales system.",
       },
     ],
     searchQuestions: [
@@ -135,7 +135,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     body: [
       {
         type: "p",
-        text: "When a site does not convert, owners usually blame the design. They redesign, the numbers do not move, and they conclude the web does not work. The design was rarely the problem — the conversion system was missing.",
+        text: "When a site does not convert, owners usually blame the design. They redesign, the numbers do not move, and they conclude the web does not work. The design was rarely the problem, the conversion system was missing.",
       },
       { type: "h2", text: "Reason 1: No single action per page" },
       {
@@ -145,7 +145,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
       { type: "h2", text: "Reason 2: Mobile speed kills paid traffic" },
       {
         type: "p",
-        text: "If your site takes four seconds to load on a phone, a large share of paid traffic leaves before reading a word. Target LCP under three seconds on mobile before you increase ad spend — speed is the first conversion step, not a technical nicety.",
+        text: "If your site takes four seconds to load on a phone, a large share of paid traffic leaves before reading a word. Target LCP under three seconds on mobile before you increase ad spend, speed is the first conversion step, not a technical nicety.",
       },
       { type: "h2", text: "Reason 3: No capture or follow-up system" },
       {
@@ -163,10 +163,10 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     quickAnswer: {
       question: "Should I rebuild or migrate my website?",
       shortAnswer:
-        "Migrate when your offer and brand are solid but the platform slows you down — WordPress plugin chaos, Webflow limits, or slow hosting. Rebuild when positioning changed, there is no single conversion path, or you would not send paid traffic to the current site. Match the scope to what is actually broken.",
+        "Migrate when your offer and brand are solid but the platform slows you down, WordPress plugin chaos, Webflow limits, or slow hosting. Rebuild when positioning changed, there is no single conversion path, or you would not send paid traffic to the current site. Match the scope to what is actually broken.",
     },
     takeaways: [
-      "A full rebuild is not always the answer — the real problem may be content, speed, or CMS friction.",
+      "A full rebuild is not always the answer, the real problem may be content, speed, or CMS friction.",
       "Migrate when the brand and offer are solid but the platform fights you (WordPress plugins, Webflow limits).",
       "Rebuild when positioning changed or the site has no single conversion path.",
       "The right question is whether the current site still matches how you sell today.",
@@ -176,7 +176,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
         id: "faq-when-to-migrate",
         question: "When should I migrate my website instead of rebuild?",
         answer:
-          "Migrate when the offer is clear, the brand is solid, and the pain is the platform — slow hosting, WordPress plugin chaos, or Webflow limits. A migration to Next.js and Sanity often delivers 80% of the value at half the cost of a rebuild.",
+          "Migrate when the offer is clear, the brand is solid, and the pain is the platform, slow hosting, WordPress plugin chaos, or Webflow limits. A migration to Next.js and Sanity often delivers 80% of the value at half the cost of a rebuild.",
       },
       {
         id: "faq-when-to-rebuild",
@@ -206,7 +206,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     body: [
       {
         type: "p",
-        text: "Teams often jump to a full rebuild when the real problem is content structure, speed, or a CMS that fights them daily. The right call depends on what is broken — platform, positioning, or conversion path.",
+        text: "Teams often jump to a full rebuild when the real problem is content structure, speed, or a CMS that fights them daily. The right call depends on what is broken, platform, positioning, or conversion path.",
       },
       { type: "h2", text: "Migrate when the bones are fine" },
       {
@@ -243,7 +243,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     quickAnswer: {
       question: "How do clinics automate CRM without hiring staff?",
       shortAnswer:
-        "Clinics automate CRM by wiring online booking, digital intake, SMS reminders, and post-visit review requests into one pipeline — so no inquiry waits for front-desk availability. HubSpot or GoHighLevel plus an AI receptionist for overflow handles intake without adding headcount.",
+        "Clinics automate CRM by wiring online booking, digital intake, SMS reminders, and post-visit review requests into one pipeline, so no inquiry waits for front-desk availability. HubSpot or GoHighLevel plus an AI receptionist for overflow handles intake without adding headcount.",
     },
     takeaways: [
       "Missed calls and slow follow-up are scheduling problems, not staffing problems.",
@@ -273,7 +273,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     body: [
       {
         type: "p",
-        text: "Every clinic owner knows the pattern: phones ring during patient hours, voicemails stack up, and new inquiries book with whoever answers first — often a competitor. The fix is not another front-desk hire. It is [CRM and intake automation](/services/crm-pipeline-automation).",
+        text: "Every clinic owner knows the pattern: phones ring during patient hours, voicemails stack up, and new inquiries book with whoever answers first, often a competitor. The fix is not another front-desk hire. It is [CRM and intake automation](/services/crm-pipeline-automation).",
       },
       { type: "h2", text: "Automate online booking" },
       {
@@ -283,7 +283,7 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
       { type: "h2", text: "Digitize intake before the visit" },
       {
         type: "p",
-        text: "Send intake links after booking confirmation. Data should land in the CRM — not a PDF inbox — so clinicians walk in with history, insurance flags, and consent already captured.",
+        text: "Send intake links after booking confirmation. Data should land in the CRM, not a PDF inbox, so clinicians walk in with history, insurance flags, and consent already captured.",
       },
       { type: "h2", text: "Run SMS reminders and recall" },
       {
@@ -306,11 +306,11 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     quickAnswer: {
       question: "Why should marketing teams use Sanity CMS?",
       shortAnswer:
-        "Sanity lets marketing teams edit structured content — services, industries, insights, and landing pages — without opening developer tickets. Collections, references, preview URLs, and guardrailed fields keep SEO and layout intact while editors publish copy changes in minutes instead of waiting on React deploys.",
+        "Sanity lets marketing teams edit structured content, services, industries, insights, and landing pages, without opening developer tickets. Collections, references, preview URLs, and guardrailed fields keep SEO and layout intact while editors publish copy changes in minutes instead of waiting on React deploys.",
     },
     takeaways: [
       "Separate page copy from layout components so editors change words, not React files.",
-      "Use collections for services, industries, and insights — not one-off hardcoded pages.",
+      "Use collections for services, industries, and insights, not one-off hardcoded pages.",
       "Preview URLs let marketing review before publish without staging gymnastics.",
       "Structured content beats a WYSIWYG free-for-all when you care about SEO and consistency.",
     ],
@@ -335,12 +335,12 @@ export const remainingInsightOverrides: Record<string, InsightOverride> = {
     body: [
       {
         type: "p",
-        text: "The goal is not a CMS your developers love. It is a CMS your marketing team actually uses — without breaking layout, SEO, or performance. Sanity on Next.js is how we ship [marketing sites that scale](/services/ai-lead-site) without a ticket queue for every headline.",
+        text: "The goal is not a CMS your developers love. It is a CMS your marketing team actually uses, without breaking layout, SEO, or performance. Sanity on Next.js is how we ship [marketing sites that scale](/services/ai-lead-site) without a ticket queue for every headline.",
       },
       { type: "h2", text: "Use collections, not page blobs" },
       {
         type: "p",
-        text: "Services, industries, migrations, and insights each get their own collection. Editors update entries once; the site pulls them into nav, listing pages, and detail templates automatically — no duplicate copy across Webflow pages.",
+        text: "Services, industries, migrations, and insights each get their own collection. Editors update entries once; the site pulls them into nav, listing pages, and detail templates automatically, no duplicate copy across Webflow pages.",
       },
       { type: "h2", text: "Separate copy from layout" },
       {

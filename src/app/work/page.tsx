@@ -13,14 +13,14 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Work — Website, Software & Automation Case Studies | ZedNova",
+  title: "Work, Website, Software & Automation Case Studies | ZedNova",
   description:
-    "Selected projects from ZedNova Studio — marketing websites, Shopify stores, SaaS, custom software, CRM automations, and AI tools with brand, design, and development.",
+    "Selected projects from ZedNova Studio, marketing websites, Shopify stores, SaaS, custom software, CRM automations, and AI tools with brand, design, and development.",
   alternates: { canonical: "/work" },
   openGraph: {
     type: "website",
     url: "/work",
-    title: "Work — ZedNova Studio",
+    title: "Work, ZedNova Studio",
     description:
       "Marketing websites, Shopify stores, custom software, CRM automations, and AI tools.",
   },
@@ -46,7 +46,7 @@ export default async function WorkPage() {
         data={[
           collectionPageJsonLd({
             path: "/work",
-            name: "Work — ZedNova Studio Case Studies",
+            name: "Work, ZedNova Studio Case Studies",
             description:
               "Selected website, ecommerce, custom software, automation, and AI tool builds by ZedNova Studio.",
           }),
@@ -88,7 +88,7 @@ export default async function WorkPage() {
 
                   <p className="mt-6 max-w-2xl zn-prose">
 
-                    A selection of recent builds — brand, design, and development
+                    A selection of recent builds, brand, design, and development
 
                     for teams that needed a site that converts and scales.
 

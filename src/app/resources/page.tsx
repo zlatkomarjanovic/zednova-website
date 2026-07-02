@@ -14,14 +14,14 @@ import type { Product, ProductType } from "@/lib/types";
 export const metadata: Metadata = {
   title: "Resources",
   description:
-    "Free and paid resources from ZedNova — guides, PDFs, templates, freebies, lead magnets, and software products we build for designers, developers, and operators who build fast.",
+    "Free and paid resources from ZedNova, guides, PDFs, templates, freebies, lead magnets, and software products we build for designers, developers, and operators who build fast.",
   alternates: { canonical: "/resources" },
   openGraph: {
     type: "website",
     url: "/resources",
-    title: "Resources — ZedNova Studio",
+    title: "Resources, ZedNova Studio",
     description:
-      "Free and paid resources from ZedNova — guides, PDFs, templates, freebies, lead magnets, and software products.",
+      "Free and paid resources from ZedNova, guides, PDFs, templates, freebies, lead magnets, and software products.",
   },
 };
 

@@ -78,7 +78,7 @@ export const industryParents: IndustryParent[] = [
     ],
     popularServices: [
       { label: "Lead-Gen Website", href: "/services/lead-gen-websites" },
-      { label: "Client Portal", href: "/custom-software" },
+      { label: "Client Portal", href: "/services/custom-in-house-software-for-smbs" },
       { label: "CRM Automation", href: "/services/crm-follow-up-automation" },
       { label: "Booking Automation", href: "/services/crm-follow-up-automation" },
     ],
@@ -115,7 +115,7 @@ export const industryParents: IndustryParent[] = [
       { label: "Lead-Gen Website", href: "/services/lead-gen-websites" },
       { label: "CRM Automation", href: "/services/crm-follow-up-automation" },
       { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
-      { label: "Custom Software", href: "/custom-software" },
+      { label: "Custom Software", href: "/services/custom-in-house-software-for-smbs" },
     ],
     exampleProject:
       "A consulting site with service pages, case studies, lead scoring, and automated proposal follow-up sequences.",
@@ -219,7 +219,7 @@ export const industryParents: IndustryParent[] = [
     popularServices: [
       { label: "Lead-Gen Website", href: "/services/lead-gen-websites" },
       { label: "CRM Automation", href: "/services/crm-follow-up-automation" },
-      { label: "Client Portal", href: "/custom-software" },
+      { label: "Client Portal", href: "/services/custom-in-house-software-for-smbs" },
       { label: "Reporting Dashboards", href: "/services/custom-in-house-software-for-smbs" },
     ],
     exampleProject:

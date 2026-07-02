@@ -12,16 +12,16 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Tech Stack — Next.js, Sanity, n8n, AI & Automation | ZedNova",
+  title: "Tech Stack, Next.js, Sanity, n8n, AI & Automation | ZedNova",
   description:
-    "The tools ZedNova Studio builds with — Next.js, React, TypeScript, Sanity, Supabase, n8n, Make, Vapi, Twilio, Claude, GPT-5, Stripe, and more. Frontend, backend, CMS, automation, AI, CRM, and analytics.",
+    "The tools ZedNova Studio builds with, Next.js, React, TypeScript, Sanity, Supabase, n8n, Make, Vapi, Twilio, Claude, GPT-5, Stripe, and more. Frontend, backend, CMS, automation, AI, CRM, and analytics.",
   alternates: { canonical: "/stack" },
   openGraph: {
     type: "website",
     url: "/stack",
-    title: "Tech Stack — ZedNova Studio",
+    title: "Tech Stack, ZedNova Studio",
     description:
-      "Next.js, Sanity, n8n, Vapi, Twilio, Claude, Stripe, and more — the tools we wire together.",
+      "Next.js, Sanity, n8n, Vapi, Twilio, Claude, Stripe, and more, the tools we wire together.",
   },
   robots: { index: true, follow: true },
 };
@@ -38,9 +38,9 @@ export default function StackPage() {
         data={[
           collectionPageJsonLd({
             path: "/stack",
-            name: "Tech Stack — ZedNova Studio",
+            name: "Tech Stack, ZedNova Studio",
             description:
-              "The tools ZedNova Studio builds with — frontend, backend, CMS, automation, AI, CRM, communication, analytics, and payments.",
+              "The tools ZedNova Studio builds with, frontend, backend, CMS, automation, AI, CRM, communication, analytics, and payments.",
           }),
           breadcrumbJsonLd(crumbs),
         ]}
@@ -64,8 +64,7 @@ export default function StackPage() {
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
                     The platforms we build on, connect, and deploy. We pick the
-                    right stack for the project, not the most familiar one —
-                    frontend, backend, CMS, automation, AI, CRM, communication,
+                    right stack for the project, not the most familiar one, frontend, backend, CMS, automation, AI, CRM, communication,
                     analytics, and payments.
                   </p>
                 </Reveal>

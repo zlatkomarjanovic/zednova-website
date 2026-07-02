@@ -258,7 +258,7 @@ export const processStep = defineType({
       rows: 2,
       title: "Subtext",
       hidden: true,
-      description: "Deprecated — no longer shown on the service page.",
+      description: "Deprecated, no longer shown on the service page.",
     }),
   ],
 });
@@ -438,32 +438,6 @@ export const mediaAsset = defineType({
 
 import { extendedObjectTypes } from "./extended";
 
-export const subServiceCard = defineType({
-  name: "subServiceCard",
-  title: "Sub-service (bento card)",
-  type: "object",
-  fields: [
-    defineField({ name: "title", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "description", type: "text", rows: 2 }),
-    defineField({
-      name: "icon",
-      type: "string",
-      title: "Icon key",
-      description: "Optional icon key resolved by the front-end icon map.",
-    }),
-    defineField({
-      name: "span",
-      type: "string",
-      title: "Bento span",
-      options: { list: ["1x1", "2x1", "1x2", "2x2"], layout: "radio" },
-      initialValue: "1x1",
-    }),
-  ],
-  preview: {
-    select: { title: "title", subtitle: "description" },
-  },
-});
-
 export const valueItem = defineType({
   name: "valueItem",
   title: "Agency value",
@@ -515,7 +489,6 @@ export const objectTypes = [
   featureBullet,
   priceTier,
   mediaAsset,
-  subServiceCard,
   valueItem,
   testimonialItem,
   ...industryPageObjects,

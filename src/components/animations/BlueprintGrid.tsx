@@ -8,7 +8,7 @@ type BlueprintGridProps = {
   immediate?: boolean;
 };
 
-/** Section blueprint guides — opacity reveal on scroll (or immediately in hero). */
+/** Section blueprint guides, opacity reveal on scroll (or immediately in hero). */
 export function BlueprintGrid({ className, immediate = false }: BlueprintGridProps) {
   return (
     <BlueprintGuides

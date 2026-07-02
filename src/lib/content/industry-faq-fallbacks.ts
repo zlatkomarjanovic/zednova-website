@@ -67,7 +67,7 @@ export const INDUSTRY_FAQ_FALLBACKS: Record<ParentIndustrySlug, ArticleFaq[]> = 
         "Yes. Custom portals for programs, check-ins, and resources are part of our custom software and lead-gen work.",
     },
     {
-      question: "We sell multiple programs — one site or many pages?",
+      question: "We sell multiple programs, one site or many pages?",
       answer:
         "Usually one brand site with dedicated landing pages per offer, each with its own checkout or booking path and tracking.",
     },

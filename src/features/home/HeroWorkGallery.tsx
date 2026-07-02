@@ -42,7 +42,7 @@ function ProjectSlide({
         className="aspect-[16/10] w-full rounded-[10px]"
       />
       <p className="mt-2.5 w-full font-mono text-[10px] uppercase leading-relaxed tracking-[0.14em] text-zn-text-2">
-        {ariaHidden ? "" : `${project.client} — ${project.title}`}
+        {ariaHidden ? "" : `${project.client}, ${project.title}`}
       </p>
     </a>
   );
@@ -50,7 +50,7 @@ function ProjectSlide({
 
 /**
  * Horizontal project strip clipped to the guide column. Each slide is ~⅔ of the
- * guide width (~2× prior size) — one dominant + next entering.
+ * guide width (~2× prior size), one dominant + next entering.
  */
 export function HeroWorkGallery({
   projects,

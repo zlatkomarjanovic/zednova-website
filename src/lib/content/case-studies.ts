@@ -80,7 +80,7 @@ export const caseStudies: CaseStudy[] = [
       {
         title: "Measure and tune weekly",
         description:
-          "Tracked reviews, no-shows, and recovered calls — adjusted timing and messaging in week two.",
+          "Tracked reviews, no-shows, and recovered calls, adjusted timing and messaging in week two.",
       },
     ],
     timelinePhases: [

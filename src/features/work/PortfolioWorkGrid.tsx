@@ -7,7 +7,7 @@ type PortfolioWorkGridProps = {
   className?: string;
 };
 
-/** Our Work section — info cards that reveal mockup images on hover. */
+/** Our Work section, info cards that reveal mockup images on hover. */
 export function PortfolioWorkGrid({ projects, className }: PortfolioWorkGridProps) {
   return (
     <div className={cn("mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2", className)}>

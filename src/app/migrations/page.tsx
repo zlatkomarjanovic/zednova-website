@@ -20,7 +20,7 @@ import { DarkCTA } from "@/features/home/DarkCTA";
 
 export const metadata: Metadata = {
 
-  title: "Migrations — Move to Next.js & Sanity | ZedNova Studio",
+  title: "Migrations, Move to Next.js & Sanity | ZedNova Studio",
 
   description:
     "Platform migrations from WordPress, Webflow, Wix, Framer, and Shopify to Next.js and Sanity. Preserve SEO, URLs, and content with a clean redirect map.",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/migrations",
-    title: "Migrations — ZedNova Studio",
+    title: "Migrations, ZedNova Studio",
     description:
       "Move from WordPress, Webflow, Wix, Framer, or Shopify to Next.js and Sanity.",
   },
@@ -117,7 +117,7 @@ export default async function MigrationsPage() {
 
                     Framer, Wix, Squarespace, and Shopify to faster, more
 
-                    flexible stacks — without losing URLs, SEO, or content.
+                    flexible stacks, without losing URLs, SEO, or content.
 
                   </p>
 

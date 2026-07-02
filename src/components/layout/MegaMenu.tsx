@@ -34,7 +34,7 @@ const HIGHLIGHT_LIGHT_FILL_OPACITY = 0.7;
 const HIGHLIGHT_DARK_FILL = "var(--color-zn-dark-2)";
 const HIGHLIGHT_DARK_FILL_OPACITY = 0.9;
 
-/** Shared mega menu typography — Services, Industries, and Insights use the same scale. */
+/** Shared mega menu typography, Services, Industries, and Insights use the same scale. */
 const MEGA_MENU_TITLE_CLASS =
   "text-[0.95rem] font-normal leading-snug md:text-base";
 const MEGA_MENU_BODY_CLASS =
@@ -122,23 +122,28 @@ function NavMenuItemLink({
 
 function ServiceMegaCard({
   card,
+  theme,
   titleClass,
   bodyClass,
-  labelClass,
   onNavigate,
   highlight,
   interactive = true,
   className,
 }: {
   card: ServiceMegaMenuCard;
+  theme: "light" | "dark";
   titleClass: string;
   bodyClass: string;
-  labelClass: string;
   onNavigate: () => void;
   highlight: ReturnType<typeof useRubberHoverHighlight>;
   interactive?: boolean;
   className?: string;
 }) {
+  const chipClass =
+    theme === "dark"
+      ? "border-zn-border-dk text-zn-inv-2"
+      : "border-zn-border text-zn-text-2";
+
   return (
     <Link
       href={card.href}
@@ -168,9 +173,21 @@ function ServiceMegaCard({
       <span className={cn("block", MEGA_MENU_BODY_GAP, MEGA_MENU_BODY_CLASS, bodyClass)}>
         {card.shortDescription}
       </span>
-      <span className={cn("zn-label mt-auto block pt-5", MEGA_MENU_LABEL_CLASS, labelClass)}>
-        Includes: {card.includes}
-      </span>
+      {card.includes.length > 0 && (
+        <span className="mt-auto flex flex-wrap gap-1.5 pt-5" aria-label="Includes">
+          {card.includes.map((item) => (
+            <span
+              key={item}
+              className={cn(
+                "inline-flex max-w-full items-center rounded-full border px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.08em] leading-none",
+                chipClass,
+              )}
+            >
+              <span className="truncate">{item}</span>
+            </span>
+          ))}
+        </span>
+      )}
     </Link>
   );
 }
@@ -181,7 +198,6 @@ function ServiceMegaMenuGrid({
   borderClass,
   titleClass,
   bodyClass,
-  labelClass,
   onNavigate,
   highlight,
 }: {
@@ -190,7 +206,6 @@ function ServiceMegaMenuGrid({
   borderClass: string;
   titleClass: string;
   bodyClass: string;
-  labelClass: string;
   onNavigate: () => void;
   highlight: ReturnType<typeof useRubberHoverHighlight>;
 }) {
@@ -215,9 +230,9 @@ function ServiceMegaMenuGrid({
           )}
           <ServiceMegaCard
             card={card}
+            theme={theme}
             titleClass={titleClass}
             bodyClass={bodyClass}
-            labelClass={labelClass}
             onNavigate={onNavigate}
             highlight={highlight}
             interactive={false}
@@ -547,7 +562,6 @@ export function MegaMenu({
               borderClass={borderClass}
               titleClass={titleClass}
               bodyClass={bodyClass}
-              labelClass={labelClass}
               onNavigate={onNavigate}
               highlight={highlight}
             />

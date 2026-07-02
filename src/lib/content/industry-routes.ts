@@ -1,5 +1,5 @@
 /**
- * Industry URL registry — mirrors service-routes.ts.
+ * Industry URL registry, mirrors service-routes.ts.
  *
  * Six parent industry landing pages at /industries/<parent-slug>.
  * Sub-industry documents exist in CMS/static data but do not have public pages;

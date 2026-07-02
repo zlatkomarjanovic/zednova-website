@@ -15,7 +15,7 @@ export const contactSchema = z.object({
   service: z.string().min(1, "Select what you're looking for"),
   industry: z.string().min(1, "Select your industry"),
   budget: z.string().min(1, "Select a budget range"),
-  message: z.string().min(50, "Tell us a bit more — at least 50 characters"),
+  message: z.string().min(50, "Tell us a bit more, at least 50 characters"),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

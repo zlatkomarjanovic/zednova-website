@@ -1,6 +1,6 @@
 import type { Post } from "@/lib/types";
 
-/** One-line audience signal — visible on page, matches audience schema. */
+/** One-line audience signal, visible on page, matches audience schema. */
 export function ArticleAudienceLine({ post }: { post: Post }) {
   if (!post.targetAudience?.length) return null;
 

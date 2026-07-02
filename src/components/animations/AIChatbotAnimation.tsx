@@ -4,15 +4,15 @@ import { AnimationBackdrop } from "@/components/animations/AnimationBackdrop";
 
 /**
  * Decorative loop: a glowing, gently hovering AI orb sits idle, a cursor
- * flies in and clicks it, and the orb sinks straight down — same x
- * position throughout, only its height changes — to dock like a chat
+ * flies in and clicks it, and the orb sinks straight down, same x
+ * position throughout, only its height changes, to dock like a chat
  * launcher. A panel then opens centered above the dock and grows upward
  * from its own bottom edge. Inside, a real back-and-forth plays out: the
  * assistant opens with a question, a simulated reply gets typed and sent,
  * the assistant answers, and a confirmation card pops in as the action
  * that reply triggered. The orb's position, click-bump, float and glow
  * each live on their own layer so none of the transforms fight each
- * other, and the icon itself never rotates — only a moving highlight
+ * other, and the icon itself never rotates, only a moving highlight
  * fakes the 3D shading, so it never warps.
  */
 export function AIChatbotAnimation({ className }: { className?: string }) {
@@ -31,7 +31,7 @@ export function AIChatbotAnimation({ className }: { className?: string }) {
             {/* layer 3: continuous hover bob, independent of the narrative timeline */}
             <div className="zn-ai-orb-bob relative flex size-16 items-center justify-center">
               <span className="zn-ai-orb-halo absolute -inset-2 rounded-full" aria-hidden="true" />
-              {/* layer 4: the sphere itself — never rotated, so the icon never warps */}
+              {/* layer 4: the sphere itself, never rotated, so the icon never warps */}
               <div className="zn-ai-orb-sphere relative flex size-16 items-center justify-center rounded-full">
                 <span className="zn-ai-orb-shine absolute size-6 rounded-full" aria-hidden="true" />
                 <Sparkles className="relative z-10 size-7 text-white" strokeWidth={1.75} />
@@ -62,7 +62,7 @@ export function AIChatbotAnimation({ className }: { className?: string }) {
           </div>
 
           <div className="flex flex-col gap-1.5 px-2.5 py-2.5">
-            {/* Turn 1 — assistant opens */}
+            {/* Turn 1, assistant opens */}
             <div className="relative flex h-[19px] w-full items-center">
               <div className="zn-ai-turn1-typing absolute left-0 flex items-center gap-0.5 rounded-[6px] bg-zn-bg-3 px-2 py-1.5">
                 <span className="zn-ai-dot size-1 rounded-full bg-zn-text/50" />
@@ -75,7 +75,7 @@ export function AIChatbotAnimation({ className }: { className?: string }) {
               </div>
             </div>
 
-            {/* Turn 2 — simulated user reply */}
+            {/* Turn 2, simulated user reply */}
             <div className="relative flex h-[19px] w-full items-center justify-end">
               <div className="zn-ai-turn2-typing absolute right-0 flex items-center gap-0.5 rounded-[6px] bg-zn-text/15 px-2 py-1.5">
                 <span className="zn-ai-dot size-1 rounded-full bg-zn-text/55" />
@@ -87,7 +87,7 @@ export function AIChatbotAnimation({ className }: { className?: string }) {
               </div>
             </div>
 
-            {/* Turn 3 — assistant confirms */}
+            {/* Turn 3, assistant confirms */}
             <div className="relative flex h-[19px] w-full items-center">
               <div className="zn-ai-turn3-typing absolute left-0 flex items-center gap-0.5 rounded-[6px] bg-zn-bg-3 px-2 py-1.5">
                 <span className="zn-ai-dot size-1 rounded-full bg-zn-text/50" />
@@ -96,7 +96,7 @@ export function AIChatbotAnimation({ className }: { className?: string }) {
               </div>
               <div className="zn-ai-turn3-msg absolute left-0 flex max-w-[94%] items-start gap-1 rounded-[6px] bg-zn-bg-3 px-2 py-1.5 text-[8px] leading-tight text-zn-text/80">
                 <Sparkles className="mt-px size-2 shrink-0 text-zn-text/35" strokeWidth={2} />
-                Got it — you&rsquo;re booked for Friday at 2:00 PM.
+                Got it, you&rsquo;re booked for Friday at 2:00 PM.
               </div>
             </div>
 

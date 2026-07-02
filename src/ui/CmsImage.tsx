@@ -10,7 +10,7 @@ import {
 type CmsImageProps = Omit<ImageProps, "src" | "alt"> & {
   src: string;
   alt: string;
-  /** Target CDN width preset — defaults to showcase (1920px). */
+  /** Target CDN width preset, defaults to showcase (1920px). */
   preset?: CmsImagePreset;
   /** Override preset width when layout needs a specific max. */
   maxWidth?: number;

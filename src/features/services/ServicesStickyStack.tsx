@@ -16,7 +16,7 @@ import type { ServicesPageCard } from "@/features/services/ServicesPageShowcase"
 
 /** Scroll runway between cards so the next one can slide over the stack. */
 const CARD_SCROLL_GAP_VH = 40;
-/** Minimal release room before the CTA — no decorative crosses in this gap. */
+/** Minimal release room before the CTA, no decorative crosses in this gap. */
 const STACK_RELEASE_VH = 12;
 
 const STICKY_CARD_MIN_H_CLASS =

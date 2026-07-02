@@ -50,7 +50,7 @@ export function Logo({
   );
 }
 
-/** ZedNova filled mark — spaced-out SVG, theme-aware via currentColor. */
+/** ZedNova filled mark, spaced-out SVG, theme-aware via currentColor. */
 export function ZMark({
   className,
   variant = "dark",

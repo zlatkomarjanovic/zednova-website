@@ -13,7 +13,7 @@ type LogoHomeLinkProps = {
   onNavigate?: () => void;
 };
 
-/** Logo link — navigates home or scrolls to the hero when already on `/`. */
+/** Logo link, navigates home or scrolls to the hero when already on `/`. */
 export function LogoHomeLink({
   variant = "dark",
   className,

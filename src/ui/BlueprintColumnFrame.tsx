@@ -4,17 +4,17 @@ import { BlueprintCross } from "@/ui/BlueprintCross";
 type BlueprintColumnFrameProps = {
   children: React.ReactNode;
   className?: string;
-  /** Space below content, inside the frame — side rails run through this area. */
+  /** Space below content, inside the frame, side rails run through this area. */
   bottomInset?: boolean;
   showTopCrosses?: boolean;
   showBottomCrosses?: boolean;
-  /** Bottom horizontal guide rail — off when the next section supplies its own top border. */
+  /** Bottom horizontal guide rail, off when the next section supplies its own top border. */
   showBottomRail?: boolean;
 };
 
 /**
  * Guide-column frame using explicit 1px rail elements instead of CSS borders.
- * Side rails and bottom rail are independent layers — both always render.
+ * Side rails and bottom rail are independent layers, both always render.
  */
 export function BlueprintColumnFrame({
   children,

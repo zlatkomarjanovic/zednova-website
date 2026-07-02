@@ -43,7 +43,7 @@ export function buildLlmsTxt(): string {
 ## Core pages
 - Home: ${SITE_ORIGIN}/
 - Services: ${SITE_ORIGIN}/services
-- Custom Software: ${SITE_ORIGIN}/custom-software
+- Custom Software: ${SITE_ORIGIN}/services/custom-in-house-software-for-smbs
 - Migrations: ${SITE_ORIGIN}/migrations
 - Industries: ${SITE_ORIGIN}/industries
 - Work / case studies: ${SITE_ORIGIN}/work
@@ -64,9 +64,7 @@ export function buildLlmsTxt(): string {
 - CRM & Pipeline Automation: ${SITE_ORIGIN}/services/crm-pipeline-automation
 - Outbound Lead Gen: ${SITE_ORIGIN}/services/outbound-lead-gen
 - AI Systems Retainer: ${SITE_ORIGIN}/services/ai-systems-retainer
-- Custom Web App Development: ${SITE_ORIGIN}/custom-software/custom-web-app-development
-- Client Portal Development: ${SITE_ORIGIN}/custom-software/client-portal-development
-- Patient Portal Development: ${SITE_ORIGIN}/custom-software/patient-portal-development
+- Custom In-House Software (web apps, portals, dashboards): ${SITE_ORIGIN}/services/custom-in-house-software-for-smbs
 
 ## Main migrations
 - Webflow → Next.js & Sanity: ${SITE_ORIGIN}/migrations/webflow-to-nextjs-sanity
@@ -106,7 +104,6 @@ Website: ${SITE_ORIGIN}/
 type LlmsFullInput = {
   services: Service[];
   industrySlugs: string[];
-  customSoftwareSlugs: string[];
   migrations: Migration[];
   caseStudies: CaseStudy[];
   posts: Post[];
@@ -114,8 +111,7 @@ type LlmsFullInput = {
 
 /** Expanded markdown index for /llms-full.txt */
 export function buildLlmsFullTxt(input: LlmsFullInput): string {
-  const { services, industrySlugs, customSoftwareSlugs, migrations, caseStudies, posts } =
-    input;
+  const { services, industrySlugs, migrations, caseStudies, posts } = input;
 
   const lines: string[] = [
     buildLlmsTxt().trim(),
@@ -140,11 +136,6 @@ export function buildLlmsFullTxt(input: LlmsFullInput): string {
       `- Ideal for: ${service.idealClients.slice(0, 3).join("; ")}`,
       `- Deliverables: ${service.deliverables.slice(0, 6).join("; ")}`,
     );
-  }
-
-  lines.push("", "## Custom software");
-  for (const slug of customSoftwareSlugs) {
-    lines.push(`- ${SITE_ORIGIN}/custom-software/${slug}`);
   }
 
   lines.push("", "## Migrations (detailed)");

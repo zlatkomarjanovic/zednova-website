@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-/** Local portfolio mockups — serve at native resolution without optimizer recompression. */
+/** Local portfolio mockups, serve at native resolution without optimizer recompression. */
 export function PortfolioImage({
   src,
   alt,

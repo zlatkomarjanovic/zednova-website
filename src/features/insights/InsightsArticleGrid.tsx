@@ -20,7 +20,7 @@ export type InsightsGridPost = Pick<
   | "imageAlt"
 >;
 
-/** Full-bleed insights article grid — matches /insights listing cards. */
+/** Full-bleed insights article grid, matches /insights listing cards. */
 export function InsightsArticleGrid({
   posts,
   borderTop = false,

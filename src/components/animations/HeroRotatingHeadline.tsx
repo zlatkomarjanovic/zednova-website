@@ -14,7 +14,7 @@ const HERO_BUILD_ITEMS = [
   "missed-call text-back",
 ] as const;
 
-/** Crawlable headline — always in DOM as normal visible text. */
+/** Crawlable headline, always in DOM as normal visible text. */
 export const HERO_CRAWLABLE_H1 =
   "We build lead-gen websites, CRM automations, and AI receptionists for small businesses that want more booked calls and less manual follow-up.";
 
@@ -64,10 +64,10 @@ export function HeroRotatingHeadline() {
 
   return (
     <div className={H1_WRAP_CLASS}>
-      {/* Crawlable plain text — always present in DOM */}
+      {/* Crawlable plain text, always present in DOM */}
       <h1 className="sr-only">{HERO_CRAWLABLE_H1}</h1>
 
-      {/* Visual headline for humans — hidden from assistive tech / semantic H1 above */}
+      {/* Visual headline for humans, hidden from assistive tech / semantic H1 above */}
       <p aria-hidden="true" className={HEADING_CLASS}>
         <span className="block whitespace-nowrap max-lg:text-[clamp(1.75rem,7.5vw,2.5rem)]">
           We build{" "}

@@ -10,8 +10,7 @@ export function isPrimaryNavService(service: Service): boolean {
 
 /**
  * Build nav/footer mega menu cards from the Service documents in Sanity.
- * Whatever is published (and not hidden via flags) shows up, ordered by `order` —
- * adding, deleting, or reordering services in the CMS updates every surface.
+ * Whatever is published (and not hidden via flags) shows up, ordered by `order`, * adding, deleting, or reordering services in the CMS updates every surface.
  */
 export function buildMegaMenuCardsFromServices(services: Service[]): ServiceMegaMenuCard[] {
   return services
@@ -20,7 +19,7 @@ export function buildMegaMenuCardsFromServices(services: Service[]): ServiceMega
     .map((service) => ({
       title: service.category || service.title,
       shortDescription: service.shortDescription,
-      includes: service.deliverables?.slice(0, 4).join(", ") ?? "",
+      includes: service.deliverables?.slice(0, 3) ?? [],
       href: getServicePublicPath(service.slug),
       startingPrice: service.pricingSignal || undefined,
       isFeatured: service.isFeatured ?? true,

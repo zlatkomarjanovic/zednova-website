@@ -1,32 +1,36 @@
 import type { Metadata } from "next";
+
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
-import { Reveal, Stagger } from "@/components/animations/Reveal";
+import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
 import { SectionLabel } from "@/ui/SectionLabel";
-import { TemplateSection } from "@/ui/TemplateSection";
 import { StatsRow } from "@/features/home/StatsRow";
 import { ProcessSteps } from "@/features/home/ProcessSteps";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { FounderSection } from "@/features/about/FounderSection";
+import { LogoTicker } from "@/features/home/LogoTicker";
+import { ServiceValuesSection } from "@/features/services/ServiceValuesSection";
+import { AGENCY_VALUES } from "@/lib/content/agency-values";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { EntitySummary } from "@/ui/EntitySummary";
 import { CONTACT_EMAIL } from "@/lib/content/site";
 import { aboutPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { team } from "@/lib/content/team";
+import { getSiteSettings } from "@/lib/queries";
 
 export const metadata: Metadata = {
-  title: "About ZedNova Studio — Senior-Led Software & Website Studio",
+  title: "About ZedNova Studio | Senior-Led Software & Website Studio",
   description:
-    "ZedNova Studio is a software and product studio led by Zlatko Marjanovic, building websites, ecommerce, custom software, automations, and AI tools for US and global businesses.",
+    "ZedNova Studio is a software and product studio led by Zlatko Marjanovic, building websites, custom software, automations, and AI tools for US and global businesses.",
   alternates: { canonical: "/about" },
   openGraph: {
     type: "website",
     url: "/about",
     title: "About ZedNova Studio",
     description:
-      "Senior-led software and product studio building websites, ecommerce, custom software, automations, and AI tools.",
+      "Senior-led software and product studio building websites, custom software, automations, and AI tools.",
     images: [
       {
         url: "/api/og?title=About%20ZedNova%20Studio&description=Senior-led%20software%20studio%20for%20websites%2C%20automations%2C%20and%20AI%20tools.",
@@ -40,38 +44,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About ZedNova Studio",
     description:
-      "Senior-led software and product studio building websites, ecommerce, custom software, automations, and AI tools.",
+      "Senior-led software and product studio building websites, custom software, automations, and AI tools.",
   },
   robots: { index: true, follow: true },
 };
 
-const ABOUT_STATS = [
-  { value: "120+", label: "Projects completed" },
-  { value: "10+", label: "Years shipping websites, products, and software" },
-  { value: "Senior", label: "Team-led delivery from strategy to launch" },
-  { value: "$0", label: "Wasted on agency overhead" },
-];
-
-const VALUES = [
-  {
-    name: "Practical work over agency theater",
-    body: "You do not need endless strategy decks or weekly calls that go nowhere. You need a website, tool, or workflow that solves a real business problem and works in production.",
-  },
-  {
-    name: "Systems over manual work",
-    body: "Most businesses lose time because follow-up, updates, reminders, and data entry depend on people remembering to do them. We build systems that reduce that manual work.",
-  },
-  {
-    name: "Ownership, always",
-    body: "You should not feel trapped after launch. We document the build, explain how it works, and hand over what your team needs to run it confidently.",
-  },
-  {
-    name: "Speed without mess",
-    body: "Fast delivery only matters if the work stays clean. We use AI internally to move faster, but every project still gets structure, testing, and a reliable finish.",
-  },
-];
-
-const REMOTE_STEPS = [
+const HOW_WE_WORK_STEPS = [
   {
     step: 1,
     title: "Lower overhead, better use of budget",
@@ -98,12 +76,14 @@ const REMOTE_STEPS = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await getSiteSettings();
   const founder = team[0];
   const crumbs = [
     { label: "Home", href: "/" },
     { label: "About" },
   ];
+
   return (
     <>
       <JsonLd
@@ -125,6 +105,7 @@ export default function AboutPage() {
           breadcrumbJsonLd(crumbs),
         ]}
       />
+
       {/* Hero */}
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
@@ -142,16 +123,17 @@ export default function AboutPage() {
               />
               <Reveal delay={0.08}>
                 <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zn-text-2">
-                  ZedNova Studio is a software and product studio led by Zlatko Marjanovic,
-                  also known as Zed M. The studio builds websites, ecommerce stores, custom
-                  software, automations, and AI tools for US and global businesses. ZedNova
-                  Studio LLC is a Texas-based company with 10+ years of delivery and 120+
-                  completed projects.
+                  ZedNova Studio is a software and product studio led by Zlatko
+                  Marjanovic, also known as Zed M. We build lead-gen websites, CRM
+                  automations, AI receptionists, custom in-house software, and the
+                  systems that connect them, for US and global businesses. ZedNova
+                  Studio LLC is a Texas-based company with 10+ years of delivery
+                  and 120+ completed projects.
                 </p>
               </Reveal>
               <Reveal delay={0.14}>
                 <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <Button href="/contact" withArrow>
+                  <Button href="/contact" withArrow analyticsLocation="about-hero">
                     Work with ZedNova
                   </Button>
                   <Button href="/work" variant="link" withArrow>
@@ -164,63 +146,61 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section data-theme="light" className="relative bg-zn-bg">
+      <LogoTicker />
+
+      {/* Stats, same sage hand-off as the homepage */}
+      <section
+        data-theme="light"
+        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-bg to-zn-sage-mid"
+      >
+        <BlueprintGrid />
         <div className="zn-container-guides relative">
-          <div className="relative border-x border-b border-zn-border">
-            <StatsRow stats={ABOUT_STATS} className="border-0" />
+          <div className="border-t border-zn-border">
+            <p className="zn-container-inset py-4 text-center zn-label text-zn-text-3">
+              120+ projects. 10+ years shipping products. $0 wasted on agency overhead.
+            </p>
+          </div>
+          <StatsRow stats={settings.stats} />
+        </div>
+      </section>
+
+      {/* How we work, sage wash into the dark values section */}
+      <section
+        data-theme="light"
+        className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage-mid via-zn-sage-mid to-zn-sage"
+      >
+        <div className="zn-sage-grain absolute inset-0" aria-hidden="true" />
+        <BlueprintGrid />
+        <div className="zn-container relative">
+          <div className="max-w-2xl">
+            <Reveal>
+              <SectionLabel withRule={false}>How we work</SectionLabel>
+            </Reveal>
+            <TextReveal
+              as="h2"
+              text="Why a remote, senior-led studio works better"
+              className="mt-6 zn-h2 font-sans font-normal"
+            />
+            <Reveal delay={0.08}>
+              <p className="zn-prose mt-5 max-w-lg">
+                Lower overhead, async delivery, senior-led execution, and a US
+                entity, without the agency layers in between.
+              </p>
+            </Reveal>
+          </div>
+          <div className="mt-12">
+            <ProcessSteps steps={HOW_WE_WORK_STEPS} />
           </div>
         </div>
       </section>
 
-      {/* Values */}
-      <TemplateSection>
-        <Reveal>
-          <SectionLabel withRule={false}>What we believe</SectionLabel>
-        </Reveal>
-        <TextReveal
-          as="h2"
-          text="Practical work, real systems, clean delivery"
-          className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
-        />
-        <Stagger className="mt-12 grid gap-6 md:grid-cols-2" stagger={0.05}>
-          {VALUES.map((value, i) => (
-            <div
-              key={value.name}
-              className="rounded-[2px] border border-zn-border bg-zn-bg-2 p-7"
-            >
-              <span className="font-mono text-sm text-zn-text-3">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-4 font-sans text-lg font-normal tracking-tight text-zn-text">
-                {value.name}
-              </h3>
-              <p className="zn-prose mt-3">{value.body}</p>
-            </div>
-          ))}
-        </Stagger>
-      </TemplateSection>
-
-      {/* Remote advantage */}
-      <TemplateSection className="bg-zn-bg-2/40">
-        <Reveal>
-          <SectionLabel withRule={false}>The remote advantage</SectionLabel>
-        </Reveal>
-        <TextReveal
-          as="h2"
-          text="Why a remote studio works better for modern businesses"
-          className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
-        />
-        <Reveal delay={0.08}>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zn-text-2">
-            Lower overhead, async delivery, senior-led execution, and a US entity — without the
-            agency layers in between.
-          </p>
-        </Reveal>
-        <div className="mt-12">
-          <ProcessSteps steps={REMOTE_STEPS} />
-        </div>
-      </TemplateSection>
+      {/* Values, same dark grid used on every service detail page */}
+      <ServiceValuesSection
+        values={AGENCY_VALUES}
+        eyebrow="What we believe"
+        headline="Values we bring to every engagement"
+        subtext="The same principles that shape every service we ship. Speed, outcomes, and one team accountable for the full stack."
+      />
 
       <FounderSection />
 
@@ -231,8 +211,7 @@ export default function AboutPage() {
           { label: "Experience", value: "10+ years, 120+ projects shipped" },
           {
             label: "Platforms",
-            value:
-              "Upwork, Fiverr, Contra, LinkedIn, Google",
+            value: "Upwork, Fiverr, Contra, LinkedIn, Google",
           },
           {
             label: "Specialties",
@@ -256,7 +235,7 @@ export default function AboutPage() {
 
       <DarkCTA
         heading="Ready to start your next website, software, or automation project?"
-        sub="Tell us what you need and we will scope it clearly. Whether you need a new website, Shopify store, internal dashboard, booking flow, CRM automation, AI chatbot, client portal, or migration to a better stack, we can help you figure out the right build."
+        sub="Tell us what you need and we will scope it clearly. Whether you need a new website, internal dashboard, booking flow, CRM automation, AI receptionist, or client portal, we can help you figure out the right build."
         ctaLabel="Tell us what you need"
         note={`Or email us at ${CONTACT_EMAIL}. We usually reply within 24 hours.`}
       />

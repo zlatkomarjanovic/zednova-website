@@ -266,7 +266,7 @@ export type IndustryParent = {
   relatedInsights?: string[];
   tags?: string[];
   seo?: SeoFields;
-  /** Parent landing page — editable in CMS; static fallbacks in industry-detail-fallbacks.ts */
+  /** Parent landing page, editable in CMS; static fallbacks in industry-detail-fallbacks.ts */
   heroEyebrow?: string;
   heroSubhead?: string;
   problemsHeadline?: string;
@@ -530,7 +530,6 @@ export type Post = {
   relatedMigrations?: string[];
   /** Curated related resource links (override or CMS). */
   relatedLinks?: ResourceLink[];
-  relatedCustomSoftware?: string[];
   relatedProducts?: string[];
   relatedCaseStudies?: string[];
   relatedPortfolioProjects?: string[];

@@ -1,4 +1,4 @@
-/** Sanity project configuration — shared by Next.js and scripts. */
+/** Sanity project configuration, shared by Next.js and scripts. */
 
 export const sanityProjectId =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "umo6y27o";

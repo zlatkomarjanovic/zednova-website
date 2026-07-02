@@ -27,7 +27,7 @@ const sharedIndustryFields = [
     name: "category",
     type: "string",
     group: "content",
-    description: "Parent industry group — must match one of the six public industry landing pages.",
+    description: "Parent industry group, must match one of the six public industry landing pages.",
     options: { list: industryCategories, layout: "dropdown" },
     validation: (r) => r.required(),
   }),

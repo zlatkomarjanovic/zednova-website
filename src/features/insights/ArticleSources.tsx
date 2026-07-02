@@ -23,7 +23,7 @@ export function ArticleSources({ sources }: { sources: SourceReference[] }) {
               {source.title}
             </a>
             {source.publisher ? (
-              <span className="text-zn-text-3"> — {source.publisher}</span>
+              <span className="text-zn-text-3">, {source.publisher}</span>
             ) : null}
             {source.note ? (
               <p className="mt-1 text-xs text-zn-text-3">{source.note}</p>

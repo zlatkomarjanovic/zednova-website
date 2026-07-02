@@ -95,7 +95,7 @@ function GridCell({
   );
 }
 
-/** Flex rows — partial last rows stretch cells; crosses only at real dividers. */
+/** Flex rows, partial last rows stretch cells; crosses only at real dividers. */
 export function BlueprintTableGrid({
   items,
   columns = 3,

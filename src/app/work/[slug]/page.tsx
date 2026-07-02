@@ -115,7 +115,7 @@ export default async function CaseStudyPage({
     <>
       <JsonLd data={[caseStudyJsonLd(caseStudy), breadcrumbJsonLd(crumbs)]} />
 
-      {/* Hero — dark with treated image */}
+      {/* Hero, dark with treated image */}
       <section data-theme="dark" className="relative overflow-hidden bg-zn-dark text-zn-inv">
         <MediaImage
           src={caseStudy.image}
@@ -174,7 +174,7 @@ export default async function CaseStudyPage({
                           {i < servicesUsed.length - 1 ? ", " : ""}
                         </span>
                       ))
-                    : "—"}
+                    : ", "}
                 </dd>
               </div>
             </dl>
@@ -182,7 +182,7 @@ export default async function CaseStudyPage({
         </div>
       </section>
 
-      {/* Challenge — guides framing */}
+      {/* Challenge, guides framing */}
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
@@ -431,7 +431,7 @@ export default async function CaseStudyPage({
             value:
               servicesUsed.length > 0
                 ? servicesUsed.map((s) => s.title).join(", ")
-                : "—",
+                : ", ",
           },
           {
             label: "Stack",
@@ -449,7 +449,7 @@ export default async function CaseStudyPage({
           { label: "See services", href: "/services" },
           { label: "See industries", href: "/industries" },
         ]}
-        intro={`${caseStudy.client} — ${caseStudy.resultHeadline}.`}
+        intro={`${caseStudy.client}, ${caseStudy.resultHeadline}.`}
       />
 
       <DarkCTA

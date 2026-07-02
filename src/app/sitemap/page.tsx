@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   getAllCaseStudies,
-  getCustomSoftwareGroups,
   getAllMigrations,
   getAllPosts,
   getAllServices,
   getIndustryGroups,
 } from "@/lib/queries";
+import { getServicePublicPath } from "@/lib/content/service-routes";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
@@ -18,14 +18,14 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Sitemap — All Pages | ZedNova Studio",
+  title: "Sitemap, All Pages | ZedNova Studio",
   description:
-    "Full human-readable sitemap of ZedNova Studio — services, industries, case studies, custom software, migrations, and insights.",
+    "Full human-readable sitemap of ZedNova Studio: services, industries, case studies, migrations, and insights.",
   alternates: { canonical: "/sitemap" },
   openGraph: {
     type: "website",
     url: "/sitemap",
-    title: "Sitemap — ZedNova Studio",
+    title: "Sitemap | ZedNova Studio",
     description: "Full human-readable sitemap of ZedNova Studio.",
   },
   robots: { index: true, follow: true },
@@ -39,14 +39,13 @@ type SitemapGroup = {
 };
 
 export default async function SitemapPage() {
-  const [services, industries, work, posts, migrations, customSoftwareGroups] =
+  const [services, industries, work, posts, migrations] =
     await Promise.all([
       getAllServices(),
       getIndustryGroups(),
       getAllCaseStudies(),
       getAllPosts(),
       getAllMigrations(),
-      getCustomSoftwareGroups(),
     ]);
 
   const crumbs = [
@@ -77,21 +76,9 @@ export default async function SitemapPage() {
         "Website design, Shopify, automation, AI tools, and custom software.",
       items: services.map((s) => ({
         title: s.title,
-        href: `/services/${s.slug}`,
+        href: getServicePublicPath(s.slug),
         description: s.shortDescription,
       })),
-    },
-    {
-      label: "Custom software",
-      href: "/custom-software",
-      description: "Portals, dashboards, booking flows, and internal tools.",
-      items: customSoftwareGroups.flatMap((g) =>
-        g.items.map((item) => ({
-          title: item.title,
-          href: item.href,
-          description: item.shortDescription,
-        })),
-      ),
     },
     {
       label: "Migrations",
@@ -149,9 +136,9 @@ export default async function SitemapPage() {
         data={[
           collectionPageJsonLd({
             path: "/sitemap",
-            name: "Sitemap — ZedNova Studio",
+            name: "Sitemap | ZedNova Studio",
             description:
-              "Human-readable sitemap listing all services, industries, case studies, custom software, migrations, and insights.",
+              "Human-readable sitemap listing all services, industries, case studies, migrations, and insights.",
           }),
           breadcrumbJsonLd(crumbs),
         ]}
@@ -175,7 +162,7 @@ export default async function SitemapPage() {
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
                     A human- and crawler-readable index of services, industries,
-                    case studies, custom software, migrations, and insights.
+                    case studies, migrations, and insights.
                   </p>
                 </Reveal>
               </div>

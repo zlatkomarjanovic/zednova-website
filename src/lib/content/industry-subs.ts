@@ -28,7 +28,7 @@ function segment(
     whoItIsFor: def.hook,
     whatWeBuild: parent?.whatWeBuild ?? "",
     problemSolved: parent?.problemSolved ?? "",
-    heroHeadline: `${def.title} — ${parent?.heroHeadline ?? ""}`.slice(0, 120),
+    heroHeadline: `${def.title}, ${parent?.heroHeadline ?? ""}`.slice(0, 120),
     hook: def.hook,
     shortDescription: def.shortDescription,
     painPoints: parent?.painPoints.slice(0, 2) ?? [],

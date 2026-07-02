@@ -22,19 +22,12 @@ export type NavMenuGroup = {
 export type ServiceMegaMenuCard = {
   title: string;
   shortDescription: string;
-  includes: string;
+  /** Key deliverables rendered as chips in the mega menu. */
+  includes: string[];
   href: string;
   startingPrice?: string;
   isFeatured?: boolean;
   isLegacy?: boolean;
-};
-
-export type CustomSoftwareGroupSection = {
-  id: string;
-  label: string;
-  headline: string;
-  description: string;
-  items: NavMenuItem[];
 };
 
 export type Migration = {
@@ -78,51 +71,3 @@ export const megaMenuNavLinks = {
   insights: { label: "Insights", href: "/insights" },
   contact: { label: "Contact", href: "/contact" },
 } as const;
-
-/**
- * The 6 parent services that drive homepage cards, services page, footer, and nav.
- */
-export const PARENT_SERVICE_SLUGS = [
-  "lead-gen-websites",
-  "crm-follow-up-automation",
-  "ai-receptionist-booking",
-  "custom-in-house-software-for-smbs",
-  "migrations",
-  "monthly-support",
-] as const;
-
-export const PARENT_SERVICE_LABELS: Record<
-  (typeof PARENT_SERVICE_SLUGS)[number],
-  { label: string; shortLabel: string; href: string }
-> = {
-  "lead-gen-websites": {
-    label: "Lead-Gen Websites & AI Search",
-    shortLabel: "Lead-Gen Websites",
-    href: "/services/lead-gen-websites",
-  },
-  "crm-follow-up-automation": {
-    label: "CRM & Follow-Up Automation",
-    shortLabel: "CRM & Follow-Up",
-    href: "/services/crm-follow-up-automation",
-  },
-  "ai-receptionist-booking": {
-    label: "AI Receptionist & Booking Automation",
-    shortLabel: "AI Receptionist",
-    href: "/services/ai-receptionist-booking",
-  },
-  "custom-in-house-software-for-smbs": {
-    label: "Custom In-House Software for SMBs",
-    shortLabel: "Custom Software",
-    href: "/services/custom-in-house-software-for-smbs",
-  },
-  "migrations": {
-    label: "Platform Migrations",
-    shortLabel: "Migrations",
-    href: "/services/migrations",
-  },
-  "monthly-support": {
-    label: "Monthly Support & Improvements",
-    shortLabel: "Monthly Support",
-    href: "/services/monthly-support",
-  },
-};

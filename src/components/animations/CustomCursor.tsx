@@ -6,8 +6,7 @@ const TRAIL_LENGTH = 6;
 const TRAIL_EASE = 0.14;
 
 /**
- * Smooth trailing dot that follows the pointer. The system cursor stays visible —
- * this is a decorative lag layer only.
+ * Smooth trailing dot that follows the pointer. The system cursor stays visible, * this is a decorative lag layer only.
  */
 export function CustomCursor() {
   const dotsRef = useRef<HTMLSpanElement[]>([]);

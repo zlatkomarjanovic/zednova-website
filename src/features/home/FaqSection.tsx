@@ -124,9 +124,9 @@ export function FaqSection({
   recentPosts?: Post[];
   groupByCategory?: boolean;
   filterable?: boolean;
-  /** Renders inside a parent blueprint frame (e.g. insights page) — no extra side borders or gap. */
+  /** Renders inside a parent blueprint frame (e.g. insights page), no extra side borders or gap. */
   embedded?: boolean;
-  /** Renders FAQ content only — parent supplies BlueprintColumnFrame / borders. */
+  /** Renders FAQ content only, parent supplies BlueprintColumnFrame / borders. */
   frameless?: boolean;
   /** Plus markers on the guide-line corners. Off on service detail pages. */
   showBlueprintCrosses?: boolean;

@@ -13,14 +13,14 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Industries — Websites, Automations & AI Tools by Vertical | ZedNova",
+  title: "Industries, Websites, Automations & AI Tools by Vertical | ZedNova",
   description:
     "Websites, Shopify stores, booking automation, and CRM workflows for healthcare, dental, medical, medspas, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
   alternates: { canonical: "/industries" },
   openGraph: {
     type: "website",
     url: "/industries",
-    title: "Industries — ZedNova Studio",
+    title: "Industries, ZedNova Studio",
     description:
       "Websites, automations, and AI tools for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
   },
@@ -57,7 +57,7 @@ export default async function IndustriesPage() {
         data={[
           collectionPageJsonLd({
             path: "/industries",
-            name: "Industries — ZedNova Studio",
+            name: "Industries, ZedNova Studio",
             description:
               "Websites, Shopify stores, booking automation, and CRM workflows for healthcare, ecommerce, fitness, professional services, B2B SaaS, and real estate.",
           }),
@@ -84,7 +84,7 @@ export default async function IndustriesPage() {
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
                     Six verticals, {totalSpecialties} specialties. Every build
-                    starts from how your industry actually wins clients — not a
+                    starts from how your industry actually wins clients, not a
                     generic agency template.
                   </p>
                 </Reveal>

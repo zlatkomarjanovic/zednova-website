@@ -1,14 +1,14 @@
 import type { Service } from "@/lib/types";
 
 /**
- * Legacy ecommerce mega-menu entries — kept for SEO and internal linking only.
+ * Legacy ecommerce mega-menu entries, kept for SEO and internal linking only.
  * Not shown on homepage, primary services, main nav, or footer primary links.
  * Links to existing service and migration pages so URLs stay indexed.
  */
 export const ecommerceNavServices: Service[] = [
   {
     slug: "ai-lead-site",
-    number: "—",
+    number: ", ",
     title: "Shopify Development",
     group: "Ecommerce",
     category: "Ecommerce",
@@ -26,7 +26,7 @@ export const ecommerceNavServices: Service[] = [
   },
   {
     slug: "crm-pipeline-automation",
-    number: "—",
+    number: ", ",
     title: "Klaviyo Email Flows",
     group: "Ecommerce",
     category: "Ecommerce",
@@ -44,7 +44,7 @@ export const ecommerceNavServices: Service[] = [
   },
   {
     slug: "ops-automation",
-    number: "—",
+    number: ", ",
     title: "Cart Abandonment Automation",
     group: "Ecommerce",
     category: "Ecommerce",
@@ -62,7 +62,7 @@ export const ecommerceNavServices: Service[] = [
   },
   {
     slug: "shopify-to-headless-shopify",
-    number: "—",
+    number: ", ",
     title: "Headless Shopify Development",
     group: "Ecommerce",
     category: "Ecommerce",

@@ -6,12 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { BlueprintCross } from "@/ui/BlueprintCross";
+import { Button } from "@/ui/Button";
 import { CmsImage } from "@/ui/CmsImage";
-import { MigrationPlatformPill } from "@/ui/MigrationPlatformPill";
-import type { Migration, NavMenuGroup, ServiceMegaMenuCard } from "@/lib/types/content-nav";
-import type { CustomSoftware } from "@/lib/types/custom-software";
 import type { Service } from "@/lib/types";
-import { serviceNavGroups as staticServiceNavGroups } from "@/lib/content/nav-menu";
 import { isPrimaryNavService } from "@/lib/content/service-mega-menu";
 import { getServicePublicPath } from "@/lib/content/service-routes";
 import { cn } from "@/lib/utils";
@@ -36,53 +33,23 @@ type ParentShowcase = {
   headline: string;
   description: string;
   href: string;
-  ctaLabel: string;
   image?: string;
   imageClassName?: string;
-  platformIcons?: Migration["platformIcons"];
-  subServices: { title: string; href: string; shortDescription: string }[];
+  subServices: { title: string; description: string }[];
   meta: { label: string; value: string }[];
 };
 
 type ServicesTabShowcaseProps = {
-  serviceNavGroups: NavMenuGroup[];
-  serviceMegaMenuCards: ServiceMegaMenuCard[];
   services: Service[];
-  customSoftware: CustomSoftware[];
-  migrations: Migration[];
   className?: string;
   /** When set, only show tabs for these parent service groups (e.g. industry-linked services). */
   visibleGroups?: string[];
 };
 
 /** Build one showcase panel per primary Service document published in Sanity. */
-function buildServiceShowcase(
-  service: Service,
-  navGroups: NavMenuGroup[],
-  customSoftware: CustomSoftware[],
-): ParentShowcase {
+function buildServiceShowcase(service: Service): ParentShowcase {
   const href = getServicePublicPath(service.slug);
   const tabLabel = service.category || service.title;
-
-  const navGroup = navGroups.find((entry) => entry.group === service.group);
-  const subServices =
-    navGroup && navGroup.items.length > 0
-      ? navGroup.items.map((item) => ({
-          title: item.title,
-          href: item.href,
-          shortDescription: item.shortDescription,
-        }))
-      : (service.subServices ?? []).map((item) => ({
-          title: item.title,
-          href,
-          shortDescription: item.description ?? "",
-        }));
-
-  const image =
-    service.image ||
-    (service.group === "Custom In-House Software for SMBs"
-      ? customSoftware.find((entry) => entry.image)?.image
-      : undefined);
 
   return {
     slug: service.slug,
@@ -91,13 +58,12 @@ function buildServiceShowcase(
     headline: tabLabel,
     description: service.shortDescription,
     href,
-    ctaLabel:
-      service.group === "Custom In-House Software for SMBs"
-        ? "View custom software"
-        : "See this service",
-    image,
+    image: service.image || undefined,
     imageClassName: SERVICE_IMAGE_CLASS[service.slug],
-    subServices,
+    subServices: (service.subServices ?? []).map((item) => ({
+      title: item.title,
+      description: item.description ?? "",
+    })),
     meta: [
       {
         label: "Starting at",
@@ -105,7 +71,7 @@ function buildServiceShowcase(
       },
       {
         label: "Timeline",
-        value: service.timeline || "Typical launch in 1–3 weeks",
+        value: service.timeline || "Typical launch in 1-3 weeks",
       },
       {
         label: "Best for",
@@ -121,14 +87,7 @@ function ParentShowcasePanel({ panel }: { panel: ParentShowcase }) {
       <div className="flex h-auto w-full min-h-0 min-w-0 flex-col overflow-hidden rounded-[8px] bg-white p-6 md:h-full md:w-1/2 md:p-8">
         <div className="shrink-0">
           <div className="flex items-start justify-between gap-4">
-            {panel.platformIcons ? (
-              <MigrationPlatformPill
-                from={panel.platformIcons.from}
-                to={panel.platformIcons.to}
-              />
-            ) : (
-              <span className="zn-pill-tag text-zn-text-2">{panel.tabLabel}</span>
-            )}
+            <span className="zn-pill-tag text-zn-text-2">{panel.tabLabel}</span>
             <Link
               href={panel.href}
               aria-label={`Open ${panel.headline}`}
@@ -145,40 +104,52 @@ function ParentShowcasePanel({ panel }: { panel: ParentShowcase }) {
           <p className="zn-prose mt-4 line-clamp-3 text-[0.9rem] leading-relaxed md:text-[0.9375rem]">
             {panel.description}
           </p>
+
+          <Button
+            href={panel.href}
+            variant="primary"
+            size="sm"
+            withArrow
+            analyticsLocation="services-showcase"
+            analyticsKind="service"
+            className="mt-5"
+          >
+            See this service
+          </Button>
         </div>
 
-        {panel.subServices.length > 0 ? (
-          <div className="mt-5 flex min-h-0 flex-1 flex-col">
-            <p className="zn-label shrink-0 text-zn-text-3">What&apos;s included</p>
-            <ul
-              className={cn(
-                "mt-3 flex min-h-0 flex-1 flex-wrap content-start gap-2 overflow-y-auto overscroll-contain",
-                "[scrollbar-width:thin] [scrollbar-color:rgba(0,0,0,0.15)_transparent]",
-              )}
-            >
-              {panel.subServices.map((item) => (
-                <li key={`${item.href}::${item.title}`} className="max-w-full">
-                  <Link
-                    href={item.href}
-                    title={item.shortDescription}
-                    className="group/item inline-flex max-w-full items-center gap-1.5 rounded-full border border-zn-border bg-zn-bg-2/50 px-3 py-1.5 text-[0.8125rem] leading-none text-zn-text transition-[border-color,background-color,color] hover:border-zn-text hover:bg-white hover:text-zn-text"
-                  >
-                    <span className="truncate">{item.title}</span>
-                    <ArrowUpRight
-                      className="size-3 shrink-0 text-zn-text-3 transition-transform group-hover/item:-translate-y-px group-hover/item:translate-x-px group-hover/item:text-zn-text"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <div className="min-h-0 flex-1" aria-hidden="true" />
-        )}
+        <div className="min-h-6 flex-1" aria-hidden="true" />
 
-        <div className="mt-5 shrink-0">
-          <div className="border border-zn-border">
+        <div className="mt-6 shrink-0">
+          {panel.subServices.length > 0 && (
+            <div className="min-w-0">
+              <p className="zn-label text-zn-text-3">What&apos;s included</p>
+              <ul
+                className={cn(
+                  "mt-3 flex max-h-40 flex-wrap content-start gap-2 overflow-y-auto overscroll-contain md:max-h-none md:overflow-visible",
+                  "[scrollbar-width:thin] [scrollbar-color:rgba(0,0,0,0.15)_transparent]",
+                )}
+              >
+                {panel.subServices.map((item) => (
+                  <li key={item.title} className="max-w-full">
+                    <Link
+                      href={panel.href}
+                      title={item.description}
+                      className="group/item inline-flex max-w-full items-center gap-1.5 rounded-full border border-zn-border bg-zn-bg-2/50 px-3 py-1.5 text-[0.8125rem] leading-none text-zn-text transition-[border-color,background-color,color] hover:border-zn-text hover:bg-white hover:text-zn-text"
+                    >
+                      <span className="truncate">{item.title}</span>
+                      <ArrowUpRight
+                        className="size-3 shrink-0 text-zn-text-3 transition-transform group-hover/item:-translate-y-px group-hover/item:translate-x-px group-hover/item:text-zn-text"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className={cn("border border-zn-border", panel.subServices.length > 0 && "mt-6")}>
             <div className="grid grid-cols-1 divide-y divide-zn-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {panel.meta.map((entry) => (
                 <div key={entry.label} className="min-w-0 px-4 py-3.5 md:px-5 md:py-4">
@@ -188,13 +159,6 @@ function ParentShowcasePanel({ panel }: { panel: ParentShowcase }) {
               ))}
             </div>
           </div>
-          <Link
-            href={panel.href}
-            className="mt-5 inline-flex items-center gap-2 font-sans text-sm text-zn-text transition-colors hover:text-zn-text-2"
-          >
-            {panel.ctaLabel}
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
-          </Link>
         </div>
       </div>
 
@@ -223,25 +187,17 @@ function ParentShowcasePanel({ panel }: { panel: ParentShowcase }) {
 }
 
 export function ServicesTabShowcase({
-  serviceNavGroups,
   services,
-  customSoftware,
   className,
   visibleGroups,
 }: ServicesTabShowcaseProps) {
-  const resolvedNavGroups = useMemo(() => {
-    const hasItems = serviceNavGroups.some((entry) => entry.items.length > 0);
-    return hasItems ? serviceNavGroups : staticServiceNavGroups;
-  }, [serviceNavGroups]);
-
   const panels = useMemo(() => {
     return services
       .filter(isPrimaryNavService)
       .sort((a, b) => a.order - b.order)
-      .map((service) => buildServiceShowcase(service, resolvedNavGroups, customSoftware))
-      .filter((panel) => panel.subServices.length > 0)
+      .map(buildServiceShowcase)
       .filter((panel) => !visibleGroups?.length || visibleGroups.includes(panel.group));
-  }, [customSoftware, resolvedNavGroups, services, visibleGroups]);
+  }, [services, visibleGroups]);
 
   const [activeFilter, setActiveFilter] = useState<string>("");
 

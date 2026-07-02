@@ -12,14 +12,14 @@ import { Breadcrumbs } from "@/ui/Breadcrumbs";
 import { collectionPageJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Compare Stacks & Approaches — ZedNova vs Agency, Webflow vs Next.js | ZedNova",
+  title: "Compare Stacks & Approaches, ZedNova vs Agency, Webflow vs Next.js | ZedNova",
   description:
     "Comparison guides: Webflow vs Next.js + Sanity, WordPress vs Next.js, Framer vs Next.js, website-only vs website + CRM automation, generic chatbot vs AI receptionist, and ZedNova vs traditional agency.",
   alternates: { canonical: "/compare" },
   openGraph: {
     type: "website",
     url: "/compare",
-    title: "Compare — ZedNova Studio",
+    title: "Compare, ZedNova Studio",
     description: "Stack and approach comparison guides for buyers and AI agents.",
   },
   robots: { index: true, follow: true },
@@ -37,7 +37,7 @@ export default function CompareIndexPage() {
         data={[
           collectionPageJsonLd({
             path: "/compare",
-            name: "Compare — ZedNova Studio",
+            name: "Compare, ZedNova Studio",
             description:
               "Stack and approach comparison guides for buyers and AI agents.",
           }),
@@ -63,7 +63,7 @@ export default function CompareIndexPage() {
                 <Reveal delay={0.1}>
                   <p className="mt-6 max-w-2xl zn-prose">
                     Buyers and AI agents ask comparison-style questions. These
-                    pages give both a clean, structured answer — when to pick
+                    pages give both a clean, structured answer, when to pick
                     which stack, and when ZedNova is the right fit.
                   </p>
                 </Reveal>

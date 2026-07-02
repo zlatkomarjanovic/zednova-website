@@ -10,7 +10,7 @@ export function normalizeSiteOrigin(raw?: string): string {
   return `https://${trimmed}`;
 }
 
-/** Canonical public site origin — used for sitemap, schema, OG, and llms.txt. */
+/** Canonical public site origin, used for sitemap, schema, OG, and llms.txt. */
 export const SITE_ORIGIN = normalizeSiteOrigin(process.env.NEXT_PUBLIC_SITE_URL);
 
 export function absoluteUrl(path = "/"): string {

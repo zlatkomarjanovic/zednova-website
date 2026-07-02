@@ -75,6 +75,16 @@ const SERVICE_PROBLEMS_FIELD = /* groq */ `
   }
 `;
 
+/** Sub-services live in their own collection and reference the parent service. */
+const SERVICE_SUB_SERVICES_FIELD = /* groq */ `
+  "subServices": *[_type == "subService" && parentService._ref == ^._id] | order(order asc) {
+    title,
+    description,
+    icon,
+    span
+  }
+`;
+
 const SERVICE_PROCESS_STEPS_FIELD = /* groq */ `
   "processSteps": processSteps[]{
     step,
@@ -141,7 +151,6 @@ export const POST_DETAIL_FIELDS = /* groq */ `{
   "relatedServices": relatedServices[]->slug.current,
   "relatedIndustries": relatedIndustries[]->slug.current,
   "relatedMigrations": relatedMigrations[]->slug.current,
-  "relatedCustomSoftware": relatedCustomSoftware[]->slug.current,
   "relatedProducts": relatedProducts[]->slug.current,
   "relatedCaseStudies": relatedCaseStudies[]->slug.current,
   "relatedPortfolioProjects": relatedPortfolioProjects[]->slug.current,
@@ -337,7 +346,7 @@ export const SERVICES_QUERY = /* groq */ `
     ${SERVICE_PROCESS_STEPS_FIELD},
     problemsHeadline,
     ${SERVICE_PROBLEMS_FIELD},
-    subServices,
+    ${SERVICE_SUB_SERVICES_FIELD},
     values,
     "testimonials": testimonials[]{
       quote,
@@ -359,7 +368,6 @@ export const SERVICES_QUERY = /* groq */ `
     "relatedIndustries": relatedIndustries[]->slug.current,
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
-    "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
     "image": coverImage.asset->url,
     order,
@@ -390,7 +398,7 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
     ${SERVICE_PROCESS_STEPS_FIELD},
     problemsHeadline,
     ${SERVICE_PROBLEMS_FIELD},
-    subServices,
+    ${SERVICE_SUB_SERVICES_FIELD},
     values,
     "testimonials": testimonials[]{
       quote,
@@ -412,7 +420,6 @@ export const SERVICE_BY_SLUG_QUERY = /* groq */ `
     "relatedIndustries": relatedIndustries[]->slug.current,
     "relatedCaseStudies": relatedCaseStudies[]->slug.current,
     "relatedInsights": relatedInsights[]->slug.current,
-    "relatedMigrations": relatedMigrations[]->slug.current,
     "tags": tags[]->title,
     "image": coverImage.asset->url,
     order,

@@ -59,7 +59,7 @@ function SidebarAccordionSection({
   );
 }
 
-/** Sticky sidebar — collapsible TOC + CTA + share + related questions. */
+/** Sticky sidebar, collapsible TOC + CTA + share + related questions. */
 export function ArticleSidebar({
   post,
   toc,
@@ -121,7 +121,7 @@ export function ArticleSidebar({
 
         <ArticleSidebarShare url={shareUrl} title={shareTitle} />
 
-        {/* On-page signals for crawlers — not shown visually */}
+        {/* On-page signals for crawlers, not shown visually */}
         <div className="sr-only">
           {post.category && <span>Category: {post.category}</span>}
           {post.contentType && <span>Type: {post.contentType}</span>}

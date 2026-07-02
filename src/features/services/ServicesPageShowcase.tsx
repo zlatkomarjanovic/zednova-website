@@ -24,7 +24,7 @@ export function ServicesPageShowcase({ cards }: { cards: ServicesPageCard[] }) {
         </Reveal>
         <Reveal delay={0.06}>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-zn-text-2 md:text-lg">
-            Six parent offers in a fixed order — website, follow-up, receptionist,
+            Six parent offers in a fixed order, website, follow-up, receptionist,
             custom software, migrations, and monthly support. Each row links to the
             full service page.
           </p>

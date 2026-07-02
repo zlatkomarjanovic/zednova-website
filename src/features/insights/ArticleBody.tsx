@@ -35,9 +35,7 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
               <ul key={i} className="grid gap-3 pl-1">
                 {block.items.map((item, j) => (
                   <li key={j} className="flex gap-3 text-zn-text-2">
-                    <span className="mt-0.5 font-mono text-zn-text-3" aria-hidden="true">
-                      —
-                    </span>
+                    <span className="mt-0.5 font-mono text-zn-text-3" aria-hidden="true">, </span>
                     <span className="leading-relaxed">{item}</span>
                   </li>
                 ))}

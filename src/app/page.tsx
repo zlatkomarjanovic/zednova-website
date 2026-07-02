@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import {
-  getAllCustomSoftware,
   getAllMigrations,
   getAllServices,
   getAllPosts,
@@ -9,8 +8,6 @@ import {
   getHomepageIndustries,
   getPlatformTestimonials,
   getPortfolioProjects,
-  getServiceNavGroups,
-  getServiceMegaMenuCards,
   getSiteSettings,
 } from "@/lib/queries";
 import { homepageFaqs } from "@/lib/content/faq";
@@ -54,14 +51,11 @@ export const metadata: Metadata = {
 
 
 export default async function HomePage() {
-  const [featuredCases, services, customSoftware, migrations, serviceNavGroups, serviceMegaMenuCards, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
+  const [featuredCases, services, migrations, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
     await Promise.all([
       getFeaturedCaseStudies(3),
       getAllServices(),
-      getAllCustomSoftware(),
       getAllMigrations(),
-      getServiceNavGroups(),
-      getServiceMegaMenuCards(),
       getPlatformTestimonials(),
       getSiteSettings(),
       getHomepageIndustries(),
@@ -96,11 +90,6 @@ export default async function HomePage() {
             slug: service.slug,
             title: service.title,
             shortDescription: service.shortDescription,
-          })),
-          customSoftware: customSoftware.map((item) => ({
-            slug: item.slug,
-            title: item.title,
-            shortDescription: item.shortDescription,
           })),
           migrations: migrations.map((item) => ({
             slug: item.slug,
@@ -179,7 +168,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Stats — hand off into sage */}
+      {/* Stats, hand off into sage */}
       <section
         data-theme="light"
         className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-bg to-zn-sage-mid"
@@ -195,7 +184,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Services — sage wash */}
+      {/* Services, sage wash */}
       <section
         data-theme="light"
         className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage-mid via-zn-sage-mid to-zn-sage"
@@ -229,17 +218,11 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="zn-container-guides relative">
-          <ServicesTabShowcase
-            serviceNavGroups={serviceNavGroups}
-            serviceMegaMenuCards={serviceMegaMenuCards}
-            services={services}
-            customSoftware={customSoftware}
-            migrations={migrations}
-          />
+          <ServicesTabShowcase services={services} />
         </div>
       </section>
 
-      {/* Tech stack — continues sage */}
+      {/* Tech stack, continues sage */}
       <section
         data-theme="light"
         className="relative zn-section bg-gradient-to-b from-zn-sage via-zn-sage-mid to-zn-sage"
@@ -249,7 +232,7 @@ export default async function HomePage() {
         <TechStackShowcase groups={techStackGroups} />
       </section>
 
-      {/* Industries — sage fading back to site background */}
+      {/* Industries, sage fading back to site background */}
       <section
         data-theme="light"
         className="relative zn-section overflow-hidden bg-gradient-to-b from-zn-sage to-zn-bg"

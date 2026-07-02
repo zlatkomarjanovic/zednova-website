@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { hasSectionContent } from "@/lib/content/resolve-industry-page";
 
 /**
- * Connected system — alternating center-rail timeline.
+ * Connected system, alternating center-rail timeline.
  *
  * Desktop rows use a [1fr_4rem_1fr] grid so the rail, node badge, and
  * connector line are positioned in a dedicated middle column and always
@@ -102,7 +102,7 @@ export function IndustryTimelineStickySection({
                       {/* Left cell */}
                       <div>{cardOnLeft ? card : null}</div>
 
-                      {/* Rail cell — line + numbered node */}
+                      {/* Rail cell, line + numbered node */}
                       <div className="relative flex h-full min-h-[9rem] items-center justify-center self-stretch">
                         <span
                           className={cn(

@@ -10,14 +10,14 @@ import { ProductCard } from "@/features/home/ProductCard";
 import { DarkCTA } from "@/features/home/DarkCTA";
 
 export const metadata: Metadata = {
-  title: "Products — ZedNova Labs | Software for Builders & Operators",
+  title: "Products, ZedNova Labs | Software for Builders & Operators",
   description:
     "ZedNova Labs. Software and tools we build for designers, developers, and operators who build fast.",
   alternates: { canonical: "/products" },
   openGraph: {
     type: "website",
     url: "/products",
-    title: "ZedNova Labs — Software for builders",
+    title: "ZedNova Labs, Software for builders",
     description:
       "Software and tools we build for designers, developers, and operators.",
   },
@@ -29,7 +29,7 @@ export default async function ProductsPage() {
 
   return (
     <>
-      {/* Hero — guides framing */}
+      {/* Hero, guides framing */}
       <section data-theme="light" className="relative bg-zn-bg">
         <BlueprintGrid immediate />
         <div className="zn-container-guides relative">
@@ -70,7 +70,7 @@ export default async function ProductsPage() {
         </div>
       </section>
 
-      {/* Products grid — guides framing */}
+      {/* Products grid, guides framing */}
       <section
         data-theme="light"
         className="relative bg-zn-bg pb-[clamp(4rem,8vw,7rem)]"
