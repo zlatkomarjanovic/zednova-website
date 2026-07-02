@@ -91,6 +91,28 @@ import { isSanityConfigured } from "@/sanity/env";
 
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
 
+function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  const result: T[] = [];
+  for (const item of items) {
+    if (seen.has(item.slug)) continue;
+    seen.add(item.slug);
+    result.push(item);
+  }
+  return result;
+}
+
+function dedupeContactOptions(
+  options: { value: string; label: string }[],
+): { value: string; label: string }[] {
+  const seen = new Set<string>();
+  return options.filter((option) => {
+    if (seen.has(option.value)) return false;
+    seen.add(option.value);
+    return true;
+  });
+}
+
 function enrichMigration(migration: Migration): Migration {
   return {
     ...migration,
@@ -125,7 +147,7 @@ export async function getAllServices(): Promise<Service[]> {
   const services = await fromSanity("service", fetchAllServicesFromSanity, () =>
     [...staticServices].sort(byOrder),
   );
-  return services.map(mergeServiceWithStaticFallback);
+  return dedupeBySlug(services.map(mergeServiceWithStaticFallback));
 }
 
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
@@ -476,27 +498,27 @@ export async function getContactServiceOptions(): Promise<
   { value: string; label: string }[]
 > {
   const allServices = await getAllServices();
-  return [
+  return dedupeContactOptions([
     ...allServices.map((service) => ({
       value: service.slug,
       label: service.title,
     })),
     { value: "multiple", label: "Multiple services" },
     { value: "not-sure", label: "Not sure yet" },
-  ];
+  ]);
 }
 
 export async function getContactIndustryOptions(): Promise<
   { value: string; label: string }[]
 > {
   const navItems = await getIndustryNavItems();
-  return [
+  return dedupeContactOptions([
     ...navItems.map((item) => ({
       value: item.href.replace(/^\/industries\//, ""),
       label: item.title,
     })),
     { value: "other", label: "Other / not listed" },
-  ];
+  ]);
 }
 
 export async function labelForService(value: string): Promise<string> {

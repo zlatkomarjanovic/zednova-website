@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "src/app/work/page.tsx": {
-    "mtime": 1782913917.069263,
-    "ast_hash": "7ef4de3aa94f26a4bd34afe3de162de0",
+    "mtime": 1782956194.6482553,
+    "ast_hash": "087d1e770bfe6d6abe2ea9123eff0491",
     "semantic_hash": ""
   },
   "src/components/animations/AIChatbotAnimation.tsx": {
@@ -690,8 +690,8 @@
     "semantic_hash": ""
   },
   "src/lib/queries.ts": {
-    "mtime": 1782929084.3893247,
-    "ast_hash": "d67bad93ad4194e9e8ff4ae81463119a",
+    "mtime": 1782956669.8996978,
+    "ast_hash": "1d01cf2cd18000caf583fa717f957ef8",
     "semantic_hash": ""
   },
   "src/lib/seo.ts": {

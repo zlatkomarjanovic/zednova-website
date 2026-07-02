@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  getAllCaseStudies,
-  getIndustryTitle,
-  getPortfolioProjects,
-} from "@/lib/queries";
+import { getPortfolioProjects } from "@/lib/queries";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Button } from "@/ui/Button";
@@ -11,7 +7,6 @@ import { SectionLabel } from "@/ui/SectionLabel";
 import { BlueprintCross } from "@/ui/BlueprintCross";
 import { BlueprintColumnFrame } from "@/ui/BlueprintColumnFrame";
 import { WorkFilterableGrid } from "@/features/work/WorkFilterableGrid";
-import { CaseStudyCard } from "@/features/work/CaseStudyCard";
 import { DarkCTA } from "@/features/home/DarkCTA";
 import { JsonLd } from "@/ui/JsonLd";
 import { Breadcrumbs } from "@/ui/Breadcrumbs";
@@ -36,14 +31,7 @@ export const metadata: Metadata = {
 
 export default async function WorkPage() {
 
-  const [portfolioProjects, caseStudies] = await Promise.all([
-    getPortfolioProjects(),
-    getAllCaseStudies(),
-  ]);
-
-  const caseStudyIndustries = await Promise.all(
-    caseStudies.map((c) => getIndustryTitle(c.industry)),
-  );
+  const portfolioProjects = await getPortfolioProjects();
 
   const crumbs = [
     { label: "Home", href: "/" },
@@ -135,47 +123,6 @@ export default async function WorkPage() {
 
 
             <WorkFilterableGrid projects={portfolioProjects} />
-
-            {caseStudies.length > 0 && (
-              <div className="zn-container-inset border-t border-zn-border py-14 lg:py-16">
-                <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-                  <div>
-                    <Reveal>
-                      <SectionLabel withRule={false}>Case studies</SectionLabel>
-                    </Reveal>
-                    <TextReveal
-                      as="h2"
-                      text="Full-service builds with measurable results"
-                      className="mt-6 max-w-2xl zn-h2 font-sans font-normal text-zn-text"
-                    />
-                    <Reveal delay={0.08}>
-                      <p className="zn-prose mt-5 max-w-xl">
-                        Deep-dive case studies covering the challenge, what we
-                        built, the stack, and the outcomes — for clinics, legal,
-                        real estate, SaaS, and service businesses.
-                      </p>
-                    </Reveal>
-                  </div>
-                  <Reveal delay={0.1}>
-                    <Button href="/contact" variant="link" withArrow>
-                      Start a similar project
-                    </Button>
-                  </Reveal>
-                </div>
-
-                <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-                  {caseStudies.map((caseStudy, index) => (
-                    <Reveal key={caseStudy.slug} delay={0.04 * index}>
-                      <CaseStudyCard
-                        caseStudy={caseStudy}
-                        industryLabel={caseStudyIndustries[index]}
-                        className="h-full"
-                      />
-                    </Reveal>
-                  ))}
-                </div>
-              </div>
-            )}
 
           </BlueprintColumnFrame>
 
