@@ -16,7 +16,7 @@ import {
 import { insightPageGraphJsonLd, articleUrl } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/site-url";
 import { SITE_ORIGIN } from "@/lib/site-url";
-import { ArticleInlineCta, ArticleQuickAnswer } from "@/features/insights/ArticleAeoBlocks";
+import { ArticleQuickAnswer } from "@/features/insights/ArticleAeoBlocks";
 import { ArticleAudienceLine } from "@/features/insights/ArticleAudienceLine";
 import { ArticleRelatedLinks } from "@/features/insights/ArticleRelatedLinks";
 import { ArticleBody } from "@/features/insights/ArticleBody";
@@ -383,7 +383,6 @@ export default async function ArticlePage({
                       </div>
                     )}
 
-                    <ArticleInlineCta post={post} />
                   </article>
                 </div>
               </div>
