@@ -76,9 +76,24 @@ export function articleBlocksToPortableText(blocks: ArticleBlock[]) {
       });
       continue;
     }
-
-    const text = block.text?.trim();
-    if (text) nodes.push(textBlock("normal", text, index));
+    if (block.type === "table") {
+      nodes.push({
+        _type: "tableBlock",
+        _key: sanityKey("table", String(index)),
+        caption: block.caption ?? "",
+        hasHeaderRow: block.hasHeaderRow ?? true,
+        rows: block.rows.map((cells, rowIndex) => ({
+          _type: "tableRow",
+          _key: sanityKey("row", `${index}-${rowIndex}`),
+          cells,
+        })),
+      });
+      continue;
+    }
+    if (block.type === "p") {
+      const text = block.text.trim();
+      if (text) nodes.push(textBlock("normal", text, index));
+    }
   }
 
   return nodes;

@@ -24,6 +24,8 @@ type PortableTextBlock = {
   code?: string;
   question?: string;
   answer?: string;
+  hasHeaderRow?: boolean;
+  rows?: Array<{ cells?: string[] }>;
 };
 
 function spanText(children?: PortableTextChild[]): string {
@@ -90,6 +92,22 @@ export function portableTextToArticleBlocks(
           type: "callout",
           text: node.code,
           calloutVariant: "info",
+        });
+      }
+      continue;
+    }
+
+    if (node._type === "tableBlock") {
+      flushList();
+      const rows = (node.rows ?? [])
+        .map((row) => (row.cells ?? []).map((cell) => cell.trim()))
+        .filter((row) => row.some((cell) => cell.length > 0));
+      if (rows.length > 0) {
+        blocks.push({
+          type: "table",
+          caption: node.caption,
+          hasHeaderRow: node.hasHeaderRow ?? true,
+          rows,
         });
       }
       continue;

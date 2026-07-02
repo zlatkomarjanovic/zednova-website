@@ -12,19 +12,19 @@ export function ArticleImplementationTable({
   return (
     <figure className="my-10 overflow-x-auto">
       <figcaption className="zn-label mb-4 text-zn-text-3">{caption}</figcaption>
-      <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+      <table className="w-full min-w-[640px] border-collapse border border-zn-border text-left text-sm">
         <thead>
           <tr className="border-b border-zn-border bg-zn-bg-2/50">
-            <th scope="col" className="px-4 py-3 font-medium text-zn-text">
+            <th scope="col" className="border-r border-zn-border px-4 py-3 font-medium text-zn-text">
               Fix
             </th>
-            <th scope="col" className="px-4 py-3 font-medium text-zn-text">
+            <th scope="col" className="border-r border-zn-border px-4 py-3 font-medium text-zn-text">
               Problem
             </th>
-            <th scope="col" className="px-4 py-3 font-medium text-zn-text">
+            <th scope="col" className="border-r border-zn-border px-4 py-3 font-medium text-zn-text">
               What to change
             </th>
-            <th scope="col" className="px-4 py-3 font-medium text-zn-text">
+            <th scope="col" className="border-r border-zn-border px-4 py-3 font-medium text-zn-text">
               Metric affected
             </th>
             <th scope="col" className="px-4 py-3 font-medium text-zn-text">
@@ -35,16 +35,16 @@ export function ArticleImplementationTable({
         <tbody>
           {rows.map((row) => (
             <tr key={row.fix} className="border-b border-zn-border align-top">
-              <td className="border-r border-zn-border/50 px-4 py-3 font-medium text-zn-text">
+              <td className="border-r border-zn-border px-4 py-3 font-medium text-zn-text">
                 {row.fix}
               </td>
-              <td className="border-r border-zn-border/50 px-4 py-3 text-zn-text-2">
+              <td className="border-r border-zn-border px-4 py-3 text-zn-text-2">
                 {row.problem}
               </td>
-              <td className="border-r border-zn-border/50 px-4 py-3 text-zn-text-2">
+              <td className="border-r border-zn-border px-4 py-3 text-zn-text-2">
                 {row.change}
               </td>
-              <td className="border-r border-zn-border/50 px-4 py-3 text-zn-text-2">
+              <td className="border-r border-zn-border px-4 py-3 text-zn-text-2">
                 {row.metric}
               </td>
               <td className="px-4 py-3 text-zn-text-2">{row.tool}</td>

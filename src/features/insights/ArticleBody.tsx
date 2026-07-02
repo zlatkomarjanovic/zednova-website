@@ -2,6 +2,7 @@ import type { ArticleBlock } from "@/lib/types";
 import { parseInlineLinks } from "@/lib/insights/parse-inline-links";
 import { slugify } from "@/lib/utils";
 import { CmsImage } from "@/ui/CmsImage";
+import { ArticleRichTextTable } from "@/features/insights/ArticleRichTextTable";
 
 /** Renders the simple block model. Stands in for Sanity Portable Text today. */
 export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
@@ -85,6 +86,15 @@ export function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
                 )}
               </figure>
             ) : null;
+          case "table":
+            return (
+              <ArticleRichTextTable
+                key={i}
+                caption={block.caption}
+                hasHeaderRow={block.hasHeaderRow}
+                rows={block.rows}
+              />
+            );
           default:
             return (
               <p key={i} className="text-lg leading-relaxed text-zn-text-2">

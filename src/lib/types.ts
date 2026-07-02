@@ -444,7 +444,8 @@ export type ArticleBlock =
   | { type: "ul"; items: string[] }
   | { type: "quote"; text: string }
   | { type: "callout"; text: string; calloutVariant?: string }
-  | { type: "image"; image?: string; imageAlt?: string; text?: string };
+  | { type: "image"; image?: string; imageAlt?: string; text?: string }
+  | { type: "table"; caption?: string; hasHeaderRow?: boolean; rows: string[][] };
 
 export type ImplementationRow = {
   fix: string;

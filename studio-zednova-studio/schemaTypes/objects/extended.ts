@@ -185,6 +185,56 @@ export const codeBlock = defineType({
   ],
 });
 
+export const tableBlock = defineType({
+  name: "tableBlock",
+  title: "Table",
+  type: "object",
+  fields: [
+    defineField({ name: "caption", type: "string", title: "Caption" }),
+    defineField({
+      name: "hasHeaderRow",
+      type: "boolean",
+      title: "First row is header",
+      initialValue: true,
+    }),
+    defineField({
+      name: "rows",
+      type: "array",
+      title: "Rows",
+      of: [
+        {
+          type: "object",
+          name: "tableRow",
+          fields: [
+            defineField({
+              name: "cells",
+              type: "array",
+              of: [{ type: "string" }],
+              validation: (r) => r.required().min(1),
+            }),
+          ],
+          preview: {
+            select: { cells: "cells" },
+            prepare({ cells }: { cells?: string[] }) {
+              return { title: (cells ?? []).join(" · ") || "Empty row" };
+            },
+          },
+        },
+      ],
+      validation: (r) => r.required().min(1),
+    }),
+  ],
+  preview: {
+    select: { caption: "caption", rows: "rows" },
+    prepare({ caption, rows }: { caption?: string; rows?: unknown[] }) {
+      return {
+        title: caption || "Table",
+        subtitle: `${rows?.length ?? 0} row(s)`,
+      };
+    },
+  },
+});
+
 export const richTextMembers = [
   defineArrayMember({
     type: "block",
@@ -242,6 +292,7 @@ export const richTextMembers = [
   defineArrayMember({ type: "mediaAsset" }),
   defineArrayMember({ type: "calloutBlock" }),
   defineArrayMember({ type: "codeBlock" }),
+  defineArrayMember({ type: "tableBlock" }),
   defineArrayMember({ type: "inlineFaq" }),
 ];
 
@@ -253,4 +304,5 @@ export const extendedObjectTypes = [
   schemaMarkupFields,
   calloutBlock,
   codeBlock,
+  tableBlock,
 ];

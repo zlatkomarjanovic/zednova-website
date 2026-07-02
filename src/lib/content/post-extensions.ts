@@ -166,6 +166,9 @@ export const EXTENDED_POST_TAGS: Record<string, string[]> = {
 export function bodyCharCount(blocks: ArticleBlock[]): number {
   return blocks.reduce((total, block) => {
     if (block.type === "ul") return total + block.items.join(" ").length;
+    if (block.type === "table") {
+      return total + block.rows.flat().join(" ").length;
+    }
     return total + (block.text?.length ?? 0);
   }, 0);
 }
