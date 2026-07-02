@@ -460,7 +460,7 @@ export async function getIndustryPageData(
 /* ----------------------------- Case studies ----------------------------- */
 
 export async function getAllCaseStudies(): Promise<CaseStudy[]> {
-  return fromSanity("caseStudy", fetchAllCaseStudiesFromSanity, () => staticCaseStudies);
+  return fromSanity("portfolioCaseStudy", fetchAllCaseStudiesFromSanity, () => staticCaseStudies);
 }
 
 export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {
@@ -468,7 +468,7 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null
     return staticCaseStudies.find((c) => c.slug === slug) ?? null;
   }
   try {
-    const has = await sanityHasContent("caseStudy");
+    const has = await sanityHasContent("portfolioCaseStudy");
     if (!has) return staticCaseStudies.find((c) => c.slug === slug) ?? null;
     return (await fetchCaseStudyBySlugFromSanity(slug)) ?? null;
   } catch {
@@ -505,31 +505,17 @@ export async function getServiceRelatedPortfolioProjects(
     }
   };
 
+  if (service.relatedCaseStudies?.length) {
+    const slugs = new Set(service.relatedCaseStudies);
+    push(allPortfolio.filter((project) => slugs.has(project.slug)));
+  }
+
   const highlightSlugs = SERVICE_PORTFOLIO_HIGHLIGHTS[service.slug];
   if (highlightSlugs?.length) {
     push(allPortfolio.filter((project) => highlightSlugs.includes(project.slug)));
   }
 
-  if (service.relatedCaseStudies?.length) {
-    const caseSlugs = new Set(service.relatedCaseStudies);
-    push(
-      allPortfolio.filter((project) =>
-        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
-      ),
-    );
-  }
-
   push(allPortfolio.filter((project) => project.servicesUsed?.includes(service.slug)));
-
-  if (ordered.length === 0) {
-    const relatedCases = await getCaseStudiesByService(service.slug, limit);
-    const caseSlugs = new Set(relatedCases.map((study) => study.slug));
-    push(
-      allPortfolio.filter((project) =>
-        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
-      ),
-    );
-  }
 
   return ordered.slice(0, limit);
 }
@@ -551,12 +537,8 @@ export async function getIndustryRelatedPortfolioProjects(
   };
 
   if (industry.relatedCaseStudies?.length) {
-    const caseSlugs = new Set(industry.relatedCaseStudies);
-    push(
-      allPortfolio.filter((project) =>
-        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
-      ),
-    );
+    const slugs = new Set(industry.relatedCaseStudies);
+    push(allPortfolio.filter((project) => slugs.has(project.slug)));
   }
 
   push(
@@ -564,16 +546,6 @@ export async function getIndustryRelatedPortfolioProjects(
       project.relatedIndustries?.includes(industry.slug),
     ),
   );
-
-  if (ordered.length === 0) {
-    const relatedCases = await getCaseStudiesByIndustry(industry.slug, limit);
-    const caseSlugs = new Set(relatedCases.map((study) => study.slug));
-    push(
-      allPortfolio.filter((project) =>
-        project.relatedCaseStudies?.some((slug) => caseSlugs.has(slug)),
-      ),
-    );
-  }
 
   return ordered.slice(0, limit);
 }
@@ -618,7 +590,7 @@ function withStaticPortfolioMedia(projects: PortfolioProject[]): PortfolioProjec
 
 export async function getPortfolioProjects() {
   const projects = await fromSanity(
-    "portfolioProject",
+    "portfolioCaseStudy",
     fetchPortfolioProjectsFromSanity,
     () => staticPortfolioProjects,
   );

@@ -42,7 +42,7 @@ export const testimonial = defineType({
       name: "relatedCaseStudies",
       type: "array",
       group: "relationships",
-      of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
+      of: [{ type: "reference", to: [{ type: "portfolioCaseStudy" }] }],
     }),
   ],
   preview: { select: { title: "clientName", subtitle: "clientCompany", media: "clientImage" } },

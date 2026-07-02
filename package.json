@@ -20,6 +20,7 @@
     "seed:service-problems": "npx tsx scripts/seed-service-problems.ts",
     "seed:service-process-steps": "npx tsx scripts/seed-service-process-steps.ts",
     "seed:sub-service-collection": "npx tsx scripts/seed-sub-service-collection.ts",
+    "migrate:portfolio-case-studies": "npx tsx scripts/migrate-portfolio-case-studies.ts",
     "patch:brand-name": "npx tsx scripts/patch-brand-name.ts",
     "seed:parent-services": "npx tsx scripts/seed-parent-services.ts",
     "sync:parent-service-metadata": "npx tsx scripts/sync-parent-service-metadata.ts",

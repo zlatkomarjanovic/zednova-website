@@ -7,8 +7,7 @@ const GROUPED_TYPES = [
   "subService",
   "industryParent",
   "industry",
-  "portfolioProject",
-  "caseStudy",
+  "portfolioCaseStudy",
   "testimonial",
   "post",
   "insightCategory",
@@ -59,8 +58,7 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title("Work")
             .items([
-              S.documentTypeListItem("portfolioProject"),
-              S.documentTypeListItem("caseStudy"),
+              S.documentTypeListItem("portfolioCaseStudy").title("Portfolio case studies"),
               S.documentTypeListItem("testimonial"),
             ]),
         ),

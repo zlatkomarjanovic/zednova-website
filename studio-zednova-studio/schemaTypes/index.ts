@@ -3,8 +3,7 @@ import { post } from "./documents/post";
 import { service } from "./documents/service";
 import { subService } from "./documents/subService";
 import { industry, industryParent } from "./documents/industry";
-import { caseStudy } from "./documents/caseStudy";
-import { portfolioProject } from "./documents/portfolioProject";
+import { portfolioCaseStudy } from "./documents/portfolioCaseStudy";
 import { product } from "./documents/product";
 import { testimonial } from "./documents/testimonial";
 import { siteSettings } from "./documents/siteSettings";
@@ -24,8 +23,7 @@ export const schemaTypes = [
   subService,
   industryParent,
   industry,
-  caseStudy,
-  portfolioProject,
+  portfolioCaseStudy,
   product,
   testimonial,
   siteSettings,

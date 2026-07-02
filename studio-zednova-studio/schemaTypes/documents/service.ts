@@ -282,7 +282,7 @@ export const service = defineType({
       type: "array",
       title: "Related case studies",
       group: "relationships",
-      of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
+      of: [{ type: "reference", to: [{ type: "portfolioCaseStudy" }] }],
     }),
     defineField({
       name: "relatedInsights",

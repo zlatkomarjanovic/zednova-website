@@ -279,7 +279,7 @@ export const richTextMembers = [
                 { type: "service" },
                 { type: "industry" },
                 { type: "industryParent" },
-                { type: "caseStudy" },
+                { type: "portfolioCaseStudy" },
                 { type: "product" },
               ],
             }),

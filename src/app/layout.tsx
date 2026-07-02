@@ -35,22 +35,22 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "ZedNova Studio | Websites, Shopify & Automations",
+    default: "ZedNova Studio | Web Development, Software & AI Automations",
     template: "%s | ZedNova Studio",
   },
   description:
-    "We design and build Next.js websites, Shopify stores, booking flows, CRM automations, AI chatbots, and migration projects for clinics, ecommerce brands, and small businesses.",
+    "Full-stack web development, custom software, and AI automations for businesses that want one team from website and product build through CRM workflows, integrations, and AI tools.",
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "ZedNova Studio",
-    title: "ZedNova Studio | Websites, Shopify & Automations",
+    title: "ZedNova Studio | Web Development, Software & AI Automations",
     description:
-      "Next.js websites, Shopify development, CRM automations, AI chatbots, and migrations for clinics, ecommerce brands, and small businesses.",
+      "Full-stack web development, custom software, and AI automations. One team for websites, apps, CRM workflows, and AI tools.",
     url: "/",
     images: [
       {
-        url: "/api/og?title=ZedNova%20Studio&description=Websites%2C%20custom%20software%2C%20automations%2C%20and%20AI%20tools%20for%20service%20businesses.",
+        url: "/api/og?title=ZedNova%20Studio&description=Full-stack%20web%20development%2C%20custom%20software%2C%20and%20AI%20automations.",
         width: 1200,
         height: 630,
         alt: "ZedNova Studio",
@@ -60,11 +60,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     creator: "@thezlatkom",
-    title: "ZedNova Studio | Websites, Shopify & Automations",
+    title: "ZedNova Studio | Web Development, Software & AI Automations",
     description:
-      "Next.js websites, Shopify stores, booking flows, CRM automations, and AI chatbots for clinics, ecommerce, and small business.",
+      "Full-stack web development, custom software, and AI automations for clinics, ecommerce, and growing businesses.",
     images: [
-      "/api/og?title=ZedNova%20Studio&description=Websites%2C%20custom%20software%2C%20automations%2C%20and%20AI%20tools%20for%20service%20businesses.",
+      "/api/og?title=ZedNova%20Studio&description=Full-stack%20web%20development%2C%20custom%20software%2C%20and%20AI%20automations.",
     ],
   },
   robots: { index: true, follow: true },

@@ -283,16 +283,9 @@ export const post = defineType({
     defineField({
       name: "relatedCaseStudies",
       type: "array",
-      title: "Related case studies",
+      title: "Related work",
       group: "relationships",
-      of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
-    }),
-    defineField({
-      name: "relatedPortfolioProjects",
-      type: "array",
-      title: "Related portfolio projects",
-      group: "relationships",
-      of: [{ type: "reference", to: [{ type: "portfolioProject" }] }],
+      of: [{ type: "reference", to: [{ type: "portfolioCaseStudy" }] }],
     }),
     defineField({
       name: "relatedPosts",

@@ -131,7 +131,7 @@ const sharedIndustryFields = [
     name: "relatedCaseStudies",
     type: "array",
     group: "relationships",
-    of: [{ type: "reference", to: [{ type: "caseStudy" }] }],
+    of: [{ type: "reference", to: [{ type: "portfolioCaseStudy" }] }],
   }),
   defineField({
     name: "relatedInsights",

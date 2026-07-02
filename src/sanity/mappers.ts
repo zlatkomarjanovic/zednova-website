@@ -687,8 +687,18 @@ export function mapPost(doc: {
     relatedIndustries: doc.relatedIndustries,
     relatedMigrations: doc.relatedMigrations,
     relatedProducts: doc.relatedProducts,
-    relatedCaseStudies: doc.relatedCaseStudies,
-    relatedPortfolioProjects: doc.relatedPortfolioProjects,
+    relatedCaseStudies: [
+      ...new Set([
+        ...(doc.relatedCaseStudies ?? []),
+        ...(doc.relatedPortfolioProjects ?? []),
+      ]),
+    ],
+    relatedPortfolioProjects: [
+      ...new Set([
+        ...(doc.relatedCaseStudies ?? []),
+        ...(doc.relatedPortfolioProjects ?? []),
+      ]),
+    ],
     relatedPosts: doc.relatedPosts,
     seoTitle: seo?.seoTitle,
     seoDescription: seo?.seoDescription,
@@ -796,6 +806,8 @@ export function mapCaseStudy(doc: {
   timelinePhases?: { label: string; duration: string; description?: string }[];
   screenshots?: { src?: string; alt: string; caption?: string }[];
   imageAlt?: string;
+  summary?: string;
+  relatedIndustries?: string[];
   testimonialId?: string;
   faqs?: SanityFaq[];
   relatedCaseStudies?: string[];
@@ -821,10 +833,10 @@ export function mapCaseStudy(doc: {
     slug: doc.slug,
     title: doc.title,
     client: doc.client,
-    industry: doc.industry,
+    industry: doc.industry ?? doc.relatedIndustries?.[0] ?? "",
     servicesUsed: doc.servicesUsed ?? [],
     timeline: doc.timeline ?? "",
-    resultHeadline: doc.resultHeadline,
+    resultHeadline: doc.resultHeadline ?? doc.summary ?? "",
     challenge: doc.challenge ?? "",
     solution,
     results,
@@ -854,8 +866,9 @@ export function mapPortfolioProject(doc: {
   slug: string;
   title: string;
   client: string;
-  summary: string;
-  href: string;
+  summary?: string;
+  resultHeadline?: string;
+  href?: string;
   image?: string;
   imageAlt?: string;
   video?: string;
@@ -866,7 +879,7 @@ export function mapPortfolioProject(doc: {
   relatedIndustries?: string[];
   relatedCaseStudies?: string[];
   tags?: string[];
-  order: number;
+  order?: number;
   logo?: { src?: string; alt?: string; lightVariant?: boolean };
   seo?: Record<string, unknown>;
 }): PortfolioProject {
@@ -874,8 +887,8 @@ export function mapPortfolioProject(doc: {
     slug: doc.slug,
     title: doc.title,
     client: doc.client,
-    summary: doc.summary,
-    href: doc.href,
+    summary: doc.summary ?? doc.resultHeadline ?? "",
+    href: doc.href?.trim() || `/work/${doc.slug}`,
     image: doc.image ?? "",
     imageAlt: doc.imageAlt ?? doc.title,
     video: doc.video,
@@ -886,7 +899,7 @@ export function mapPortfolioProject(doc: {
     relatedIndustries: doc.relatedIndustries,
     relatedCaseStudies: doc.relatedCaseStudies,
     tags: doc.tags ?? [],
-    order: doc.order,
+    order: doc.order ?? 999,
     logo: doc.logo?.src
       ? {
           src: doc.logo.src,

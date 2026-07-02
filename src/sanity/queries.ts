@@ -267,65 +267,75 @@ export const POST_BY_SLUG_QUERY = /* groq */ `
   *[_type == "post" && slug.current == $slug][0] ${POST_DETAIL_FIELDS}
 `;
 
-export const CASE_STUDIES_QUERY = /* groq */ `
-  *[_type == "caseStudy" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(_createdAt desc) {
-    _id,
-    title,
-    "slug": slug.current,
-    client,
-    "industry": industry->slug.current,
-    "servicesUsed": servicesUsed[]->slug.current,
-    timeline,
-    resultHeadline,
-    challenge,
-    solution,
-    results,
-    techStack,
-    workflow,
-    timelinePhases,
-    "screenshots": screenshots[]{
-      "src": image.asset->url,
-      alt,
-      caption
-    },
-    "imageAlt": coverImage.alt,
-    "testimonialId": testimonial->_id,
-    ${INLINE_ARTICLE_FAQS_FIELD},
-    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
-    "relatedInsights": relatedInsights[]->slug.current,
-    featured,
-    accent,
-    "image": coverImage.asset->url,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
+const PORTFOLIO_CASE_STUDY_FIELDS = /* groq */ `
+  _id,
+  title,
+  "slug": slug.current,
+  client,
+  summary,
+  href,
+  order,
+  category,
+  year,
+  featured,
+  resultHeadline,
+  timeline,
+  challenge,
+  solution,
+  results,
+  techStack,
+  workflow,
+  timelinePhases,
+  "screenshots": screenshots[]{
+    "src": image.asset->url,
+    alt,
+    caption
+  },
+  "image": coverImage.asset->url,
+  "imageAlt": coalesce(imageAlt, coverImage.alt, title),
+  "video": videoUrl,
+  accent,
+  "industry": industry->slug.current,
+  "servicesUsed": servicesUsed[]->slug.current,
+  "relatedIndustries": relatedIndustries[]->slug.current,
+  "relatedCaseStudies": relatedCaseStudies[]->slug.current,
+  "relatedInsights": relatedInsights[]->slug.current,
+  "testimonialId": testimonial->_id,
+  ${INLINE_ARTICLE_FAQS_FIELD},
+  logo {
+    "src": image.asset->url,
+    alt,
+    lightVariant
+  },
+  "seo": coalesce(seo, {})${SEO_PROJECTION}
+`;
+
+export const PORTFOLIO_CASE_STUDIES_LIST_QUERY = /* groq */ `
+  *[_type == "portfolioCaseStudy" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
+    ${PORTFOLIO_CASE_STUDY_FIELDS}
   }
 `;
 
-export const PORTFOLIO_PROJECTS_QUERY = /* groq */ `
-  *[_type == "portfolioProject" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
-    _id,
-    title,
-    "slug": slug.current,
-    client,
-    summary,
-    href,
-    "image": coverImage.asset->url,
-    imageAlt,
-    "video": videoUrl,
-    accent,
-    category,
-    year,
-    "servicesUsed": servicesUsed[]->slug.current,
-    "relatedIndustries": relatedIndustries[]->slug.current,
-    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
-    order,
-    logo {
-      "src": image.asset->url,
-      alt,
-      lightVariant
-    },
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
+export const PORTFOLIO_CASE_STUDIES_DETAIL_QUERY = /* groq */ `
+  *[_type == "portfolioCaseStudy" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false && ((defined(challenge) && challenge != "") || (defined(resultHeadline) && resultHeadline != ""))] | order(order asc) {
+    ${PORTFOLIO_CASE_STUDY_FIELDS}
   }
 `;
+
+export const PORTFOLIO_CASE_STUDY_BY_SLUG_QUERY = /* groq */ `
+  *[_type == "portfolioCaseStudy" && slug.current == $slug][0] {
+    ${PORTFOLIO_CASE_STUDY_FIELDS}
+  }
+`;
+
+/** @deprecated Use PORTFOLIO_CASE_STUDIES_DETAIL_QUERY */
+export const CASE_STUDIES_QUERY = PORTFOLIO_CASE_STUDIES_DETAIL_QUERY;
+
+/** @deprecated Use PORTFOLIO_CASE_STUDIES_LIST_QUERY */
+export const PORTFOLIO_PROJECTS_QUERY = PORTFOLIO_CASE_STUDIES_LIST_QUERY;
+
+/** @deprecated Use PORTFOLIO_CASE_STUDY_BY_SLUG_QUERY */
+export const CASE_STUDY_BY_SLUG_QUERY = PORTFOLIO_CASE_STUDY_BY_SLUG_QUERY;
 
 export const SERVICES_QUERY = /* groq */ `
   *[_type == "service" && defined(slug.current) && coalesce(seo.seoHideFromLists, false) == false] | order(order asc) {
@@ -677,38 +687,5 @@ export const FAQS_QUERY = /* groq */ `
     "scopeMigrations": scopeMigrations[]->slug.current,
     "tags": tags[]->title,
     order
-  }
-`;
-
-export const CASE_STUDY_BY_SLUG_QUERY = /* groq */ `
-  *[_type == "caseStudy" && slug.current == $slug][0] {
-    _id,
-    title,
-    "slug": slug.current,
-    client,
-    "industry": industry->slug.current,
-    "servicesUsed": servicesUsed[]->slug.current,
-    timeline,
-    resultHeadline,
-    challenge,
-    solution,
-    results,
-    techStack,
-    workflow,
-    timelinePhases,
-    "screenshots": screenshots[]{
-      "src": image.asset->url,
-      alt,
-      caption
-    },
-    "imageAlt": coverImage.alt,
-    "testimonialId": testimonial->_id,
-    ${INLINE_ARTICLE_FAQS_FIELD},
-    "relatedCaseStudies": relatedCaseStudies[]->slug.current,
-    "relatedInsights": relatedInsights[]->slug.current,
-    featured,
-    accent,
-    "image": coverImage.asset->url,
-    "seo": coalesce(seo, {})${SEO_PROJECTION}
   }
 `;

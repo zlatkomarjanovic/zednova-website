@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const HERO_BUILD_ITEMS = [
-  "lead-gen websites",
-  "CRM automations",
-  "AI receptionists",
-  "follow-up flows",
-  "booking systems",
+  "web applications",
+  "custom software",
+  "AI automations",
+  "Next.js websites",
+  "CRM workflows",
   "client portals",
-  "dashboards",
-  "missed-call text-back",
+  "booking systems",
+  "internal dashboards",
 ] as const;
 
 /** Crawlable headline, always in DOM as normal visible text. */
 export const HERO_CRAWLABLE_H1 =
-  "We build lead-gen websites, CRM automations, and AI receptionists for small businesses that want more booked calls and less manual follow-up.";
+  "We build full-stack web products, custom software, and AI automations for businesses that want one team from website through CRM workflows and AI tools.";
 
 const LOOP_MS = 3500;
 const FIRST_CYCLE_MS = 5000;

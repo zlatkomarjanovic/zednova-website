@@ -6,7 +6,7 @@ export const CONTACT_EMAIL = "zlatko@zednova.studio";
 export const siteSettings: SiteSettings = {
   siteTitle: "ZedNova Studio",
   siteDescription:
-    "An experienced software and product studio. We design and build Next.js websites, Shopify stores, custom software, CRM automations, and migrations for clinics, ecommerce brands, and growing businesses.",
+    "Full-stack web development, custom software, and AI automations for businesses that want one team from website and product build through CRM workflows, integrations, and AI tools.",
   contactEmail: CONTACT_EMAIL,
   responseTime: "Usually within 24 hours",
   announcementBar: undefined,

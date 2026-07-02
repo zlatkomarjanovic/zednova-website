@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1783010036.5530157,
-    "ast_hash": "0d0fb0dd1580006c9c466dfda4a4753b",
+    "mtime": 1783014580.135299,
+    "ast_hash": "8382e81fbe60e10c37fff424b95608a1",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -575,8 +575,8 @@
     "semantic_hash": ""
   },
   "src/features/work/PortfolioShowcaseCard.tsx": {
-    "mtime": 1783011368.492155,
-    "ast_hash": "40a1222fbe2ed1d368500d1279a5ba60",
+    "mtime": 1783014527.4098568,
+    "ast_hash": "6b04de841c5c670e454913b03828b484",
     "semantic_hash": ""
   },
   "src/features/work/PortfolioWorkGrid.tsx": {
@@ -685,8 +685,8 @@
     "semantic_hash": ""
   },
   "src/lib/queries.ts": {
-    "mtime": 1783011368.5121584,
-    "ast_hash": "53bc33d4da2d6d894a89532bcac12a94",
+    "mtime": 1783014491.1435404,
+    "ast_hash": "8cfbbdc5cd809ffb0b9802c82827b085",
     "semantic_hash": ""
   },
   "src/lib/seo.ts": {
@@ -805,8 +805,8 @@
     "semantic_hash": ""
   },
   "src/sanity/queries.ts": {
-    "mtime": 1783010192.1499598,
-    "ast_hash": "a1f879f8967be080e2a0accec3255bbe",
+    "mtime": 1783014462.6143832,
+    "ast_hash": "c1f1ed185015c524d9c8fde09e395986",
     "semantic_hash": ""
   },
   "studio-zednova-studio/package.json": {
@@ -824,24 +824,14 @@
     "ast_hash": "c871ce10ebe060f85aee0c556de63f95",
     "semantic_hash": ""
   },
-  "studio-zednova-studio/schemaTypes/documents/caseStudy.ts": {
-    "mtime": 1783005230.7409012,
-    "ast_hash": "f7330d39ae85c0491782443b945fb5b5",
-    "semantic_hash": ""
-  },
   "studio-zednova-studio/schemaTypes/documents/industry.ts": {
-    "mtime": 1783011465.9993355,
-    "ast_hash": "969b0eba88b44d420c16a648d371253a",
-    "semantic_hash": ""
-  },
-  "studio-zednova-studio/schemaTypes/documents/portfolioProject.ts": {
-    "mtime": 1783005239.3310728,
-    "ast_hash": "22e7f01002c153872cea410f9cf0bb00",
+    "mtime": 1783014409.5399115,
+    "ast_hash": "0e687a3841b58a074a0529df7cd44f7f",
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/documents/post.ts": {
-    "mtime": 1783004213.8486898,
-    "ast_hash": "2dab681187637b19eb3e86fd0b4c1f3e",
+    "mtime": 1783014421.6250763,
+    "ast_hash": "c272684c4acbcb6d57bd0b52c59e8ef3",
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/documents/product.ts": {
@@ -850,8 +840,8 @@
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/documents/service.ts": {
-    "mtime": 1783007707.1039548,
-    "ast_hash": "30aeeaff16249609ca8f268de900b3df",
+    "mtime": 1783014409.3646455,
+    "ast_hash": "edfe39c3ce648a9ab4a66404d899a214",
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/documents/siteSettings.ts": {
@@ -860,13 +850,13 @@
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/documents/testimonial.ts": {
-    "mtime": 1782756391.6407454,
-    "ast_hash": "5815002cccbfc689776818d35bbf34a5",
+    "mtime": 1783014551.3693526,
+    "ast_hash": "d73172459e92f88b35f53d616985cb18",
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/index.ts": {
-    "mtime": 1783007528.8038223,
-    "ast_hash": "57063e715dbe7617f55e3a76874b9d43",
+    "mtime": 1783014389.110763,
+    "ast_hash": "7063401c5bf2a994df2b6ee99bf9ba64",
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/objects/index.ts": {
@@ -875,8 +865,8 @@
     "semantic_hash": ""
   },
   "studio-zednova-studio/structure.ts": {
-    "mtime": 1783007552.3280249,
-    "ast_hash": "0497ce6a98a749ba68666757684006a9",
+    "mtime": 1783014393.0256283,
+    "ast_hash": "16096a351acf674f116af9b551134e0e",
     "semantic_hash": ""
   },
   "studio-zednova-studio/tsconfig.json": {
@@ -900,8 +890,8 @@
     "semantic_hash": ""
   },
   "src/sanity/mappers.ts": {
-    "mtime": 1783010205.4173088,
-    "ast_hash": "26f71c5ac1e56c9c3dfb01c543965cdb",
+    "mtime": 1783014530.6589599,
+    "ast_hash": "3567f68cbbb360db032d9792e0d4fa49",
     "semantic_hash": ""
   },
   "src/app/resources/page.tsx": {
@@ -940,8 +930,8 @@
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/objects/extended.ts": {
-    "mtime": 1783004210.473805,
-    "ast_hash": "4a67e753143940bfd8b7c64cb15c7c88",
+    "mtime": 1783014410.1201384,
+    "ast_hash": "c34f97c6ff3aa7c93ee4208113738150",
     "semantic_hash": ""
   },
   "studio-zednova-studio/schemaTypes/shared/fields.ts": {
@@ -1902,6 +1892,16 @@
   "studio-zednova-studio/schemaTypes/documents/subService.ts": {
     "mtime": 1783007689.6549053,
     "ast_hash": "ed2428b1446b3b2ca1b552adafc63a23",
+    "semantic_hash": ""
+  },
+  "scripts/migrate-portfolio-case-studies.ts": {
+    "mtime": 1783014820.098299,
+    "ast_hash": "f524bb24d89a3dd49878fd6722d57b4e",
+    "semantic_hash": ""
+  },
+  "studio-zednova-studio/schemaTypes/documents/portfolioCaseStudy.ts": {
+    "mtime": 1783014389.0984826,
+    "ast_hash": "d55a09f65304e89e6cc7f74b0a027773",
     "semantic_hash": ""
   }
 }

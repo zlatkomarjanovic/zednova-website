@@ -858,7 +858,7 @@ export function homepageGraphJsonLd(input: HomepageGraphInput) {
     url: SITE_ORIGIN,
     name: "Websites, Custom Software & AI Tools | ZedNova",
     description:
-      "We build Next.js websites, Shopify stores, custom software, CRM automations, and AI tools for clinics, ecommerce brands, and growing businesses.",
+      "Full-stack web development, custom software, and AI automations for clinics, ecommerce brands, and growing businesses.",
     isPartOf: { "@id": SCHEMA_WEBSITE_ID },
     about: { "@id": SCHEMA_ORG_ID },
     inLanguage: "en-US",

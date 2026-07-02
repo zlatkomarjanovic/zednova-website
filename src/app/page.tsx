@@ -4,7 +4,6 @@ import {
   getAllMigrations,
   getAllServices,
   getAllPosts,
-  getFeaturedCaseStudies,
   getHomepageIndustries,
   getPlatformTestimonials,
   getPortfolioProjects,
@@ -43,17 +42,16 @@ import { HOMEPAGE_PILLARS } from "@/lib/content/homepage-pillars";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Lead-Gen Websites, CRM Automations & AI Receptionists | ZedNova",
+    absolute: "Web Development, Custom Software & AI Automations | ZedNova",
   },
   description:
-    "We build lead-gen websites, CRM follow-up automation, and AI receptionists for small businesses that want more booked calls and less manual admin.",
+    "Full-stack web development, custom software, and AI automations for businesses that want one team from website and product build through CRM workflows, integrations, and AI tools.",
 };
 
 
 export default async function HomePage() {
-  const [featuredCases, services, migrations, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
+  const [services, migrations, platformTestimonials, settings, homepageIndustries, portfolioProjects, allPosts] =
     await Promise.all([
-      getFeaturedCaseStudies(3),
       getAllServices(),
       getAllMigrations(),
       getPlatformTestimonials(),
@@ -80,10 +78,10 @@ export default async function HomePage() {
             href: project.href,
             category: project.category,
           })),
-          featuredCases: featuredCases.map((study) => ({
-            slug: study.slug,
-            title: study.title,
-            excerpt: study.resultHeadline,
+          featuredCases: portfolioProjects.slice(0, 3).map((project) => ({
+            slug: project.slug,
+            title: project.title,
+            excerpt: project.summary,
           })),
           stats: settings.stats,
           services: services.map((service) => ({
@@ -204,9 +202,8 @@ export default async function HomePage() {
               />
               <Reveal delay={0.08}>
                 <p className="zn-prose mt-5 max-w-lg">
-                  Lead-gen websites, CRM follow-up automation, AI receptionists,
-                  custom portals and dashboards, and monthly support for small
-                  businesses that want more booked calls and less manual admin.
+                  Full-stack web development, custom software, and AI automations,
+                  one team from website and product build through CRM workflows and AI tools.
                 </p>
               </Reveal>
             </div>

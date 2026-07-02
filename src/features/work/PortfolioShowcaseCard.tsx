@@ -26,12 +26,15 @@ export function PortfolioShowcaseCard({ project, className }: PortfolioShowcaseC
     });
   };
 
+  const isExternal = /^https?:\/\//i.test(project.href);
+
   return (
     <a
       ref={cardRef}
       href={project.href}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(isExternal
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       onMouseMove={onMouseMove}

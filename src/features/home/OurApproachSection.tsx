@@ -1,4 +1,4 @@
-import { getAllCaseStudies } from "@/lib/queries";
+import { getPortfolioProjects } from "@/lib/queries";
 import { HOMEPAGE_PILLARS } from "@/lib/content/homepage-pillars";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
@@ -16,12 +16,12 @@ const PILLAR_VISUALS = [
 ];
 
 export async function OurApproachSection() {
-  const allCases = await getAllCaseStudies();
+  const portfolio = await getPortfolioProjects();
 
   const benefits = HOMEPAGE_PILLARS.map((pillar, i) => ({
     ...pillar,
-    image: allCases[i % allCases.length]?.image ?? "",
-    accent: allCases[i % allCases.length]?.accent,
+    image: portfolio[i % portfolio.length]?.image ?? "",
+    accent: portfolio[i % portfolio.length]?.accent,
     visual: PILLAR_VISUALS[i],
   }));
 
@@ -34,7 +34,7 @@ export async function OurApproachSection() {
         </Reveal>
         <TextReveal
           as="h2"
-          text="Choose the part of the business that is leaking leads, calls, bookings, or admin time. We build the website, CRM automation, AI receptionist, or dashboard that fixes it."
+          text="Choose the part of the business that needs a better website, internal tool, or automated workflow. We build full-stack web products, custom software, and AI automations that connect the full funnel."
           className="mt-6 max-w-3xl zn-h2 font-sans font-normal"
         />
       </div>
