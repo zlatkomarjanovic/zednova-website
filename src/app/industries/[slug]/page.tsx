@@ -10,7 +10,7 @@ import {
 } from "@/features/industries/IndustryDetailView";
 import { getAllParentIndustrySlugs } from "@/lib/content/industry-routes";
 
-export const revalidate = 60;
+export const revalidate = false;
 
 export async function generateStaticParams() {
   return getAllParentIndustrySlugs().map((slug) => ({ slug }));

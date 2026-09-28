@@ -49,7 +49,7 @@ export async function sanityHasContent(type: string): Promise<boolean> {
     const count = await sanityFetch<number>({
       query: `count(*[_type == $type])`,
       params: { type },
-      revalidate: 60,
+      revalidate: false,
     });
     return count > 0;
   } catch {
@@ -70,7 +70,6 @@ export async function fetchServiceBySlugFromSanity(
   const doc = await sanityFetch<Parameters<typeof mapService>[0] | null>({
     query: SERVICE_BY_SLUG_QUERY,
     params: { slug },
-    revalidate: 0,
   });
   return doc ? mapService(doc) : null;
 }
@@ -96,7 +95,6 @@ export async function fetchIndustryParentBySlugFromSanity(
     {
       query: INDUSTRY_PARENT_BY_SLUG_QUERY,
       params: { slug },
-      revalidate: 0,
     },
   );
   return doc ? mapIndustryParent(doc) : null;

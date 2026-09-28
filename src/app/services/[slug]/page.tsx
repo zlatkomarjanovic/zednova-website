@@ -16,7 +16,7 @@ import {
 } from "@/lib/content/service-routes";
 import { getAllServices, getServiceBySlug } from "@/lib/queries";
 
-export const revalidate = 60;
+export const revalidate = false;
 
 export async function generateStaticParams() {
   const services = await getAllServices();

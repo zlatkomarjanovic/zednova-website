@@ -23,13 +23,13 @@ export const sanityClient = createClient({
 
 /** Default fetch options for published content in App Router. */
 export const sanityFetchOptions = {
-  next: { revalidate: 10 },
+  next: { revalidate: false },
 } as const;
 
 export async function sanityFetch<T>({
   query,
   params = {},
-  revalidate = 10,
+  revalidate = false,
 }: {
   query: string;
   params?: QueryParams;
@@ -40,6 +40,6 @@ export async function sanityFetch<T>({
   }
 
   return sanityClient.fetch<T>(query, params, {
-    next: revalidate === false ? { revalidate: 0 } : { revalidate },
+    next: { revalidate },
   });
 }
