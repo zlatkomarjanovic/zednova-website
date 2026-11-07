@@ -25,10 +25,13 @@ export async function POST(request: Request) {
   }
 
   const data = parsed.data;
-  const serviceLabel = await labelForService(data.service);
-  const industryLabel = await labelForIndustry(data.industry);
+  const [serviceLabel, industryLabel] = await Promise.all([
+    labelForService(data.service), labelForIndustry(data.industry),
+  ]);
 
   const text = [
+    "Formal service request (no payment authorized)",
+    `Submitted: ${new Date().toISOString()}`,
     `Name: ${data.name}`,
     data.company ? `Company: ${data.company}` : null,
     `Email: ${data.email}`,
@@ -48,23 +51,34 @@ export async function POST(request: Request) {
 
   if (apiKey) {
     const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
-      from,
-      to: [settings.contactEmail],
-      replyTo: data.email,
-      subject: `New project inquiry from ${data.name}`,
-      text,
-    });
+    try {
+      const { error } = await resend.emails.send({
+        from,
+        to: [settings.contactEmail],
+        replyTo: data.email,
+        subject: `New project inquiry from ${data.name}`,
+        text,
+      });
 
-    if (error) {
-      console.error("[contact] Resend error:", error);
+      if (error) {
+        console.error("[contact] Email provider rejected delivery");
+        return NextResponse.json(
+          { error: `Could not send your message. Email ${CONTACT_EMAIL} directly.` },
+          { status: 500 },
+        );
+      }
+    } catch {
+      console.error("[contact] Email delivery unavailable");
       return NextResponse.json(
-        { error: `Could not send your message. Email ${CONTACT_EMAIL} directly.` },
-        { status: 500 },
+        { error: `Could not send your request. Email ${CONTACT_EMAIL} directly.` },
+        { status: 503 },
       );
     }
   } else {
-    console.info("[contact] Submission received (RESEND_API_KEY not set):\n", text);
+    return NextResponse.json(
+      { error: `The form is temporarily unavailable. Email ${CONTACT_EMAIL} to submit your service request.` },
+      { status: 503 },
+    );
   }
 
   return NextResponse.json({ ok: true });

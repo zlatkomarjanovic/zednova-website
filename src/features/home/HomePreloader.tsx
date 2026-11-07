@@ -8,14 +8,10 @@ import { ZMark } from "@/ui/Logo";
 import { cn } from "@/lib/utils";
 
 const SESSION_KEY = "zednova-home-preloader-seen";
-const DURATION_MS = 2000;
+const DURATION_MS = 800;
 const FADE_MS = 350;
 
-function shouldShowPreloader(pathname: string) {
-  if (pathname !== "/") return false;
-  if (typeof window === "undefined") return false;
-  return !sessionStorage.getItem(SESSION_KEY);
-}
+let seenThisVisit = false;
 
 export function HomePreloader() {
   const pathname = usePathname();
@@ -23,42 +19,31 @@ export function HomePreloader() {
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    if (!shouldShowPreloader(pathname)) {
-      setVisible(false);
-      setExiting(false);
-      return;
-    }
+    setVisible(false);
+    setExiting(false);
+    if (pathname !== "/" || seenThisVisit) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      sessionStorage.setItem(SESSION_KEY, "1");
-      return;
+    try {
+      if (sessionStorage.getItem(SESSION_KEY)) return;
+    } catch {
+      // Storage may be blocked. The in-memory flag still prevents repeats.
     }
+    seenThisVisit = true;
+    try {
+      sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      // The animation and its dismissal never depend on storage access.
+    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     setVisible(true);
-    setExiting(false);
-    document.body.style.overflow = "hidden";
-
-    const timer = window.setTimeout(() => setExiting(true), DURATION_MS);
-
+    const fadeTimer = window.setTimeout(() => setExiting(true), DURATION_MS);
+    const closeTimer = window.setTimeout(() => setVisible(false), DURATION_MS + FADE_MS);
     return () => {
-      window.clearTimeout(timer);
-      document.body.style.overflow = "";
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(closeTimer);
     };
   }, [pathname]);
-
-  useEffect(() => {
-    if (!exiting) return;
-
-    const timer = window.setTimeout(() => {
-      sessionStorage.setItem(SESSION_KEY, "1");
-      document.body.style.overflow = "";
-      setVisible(false);
-      setExiting(false);
-    }, FADE_MS);
-
-    return () => window.clearTimeout(timer);
-  }, [exiting]);
 
   if (!visible) return null;
 
@@ -67,7 +52,7 @@ export function HomePreloader() {
       role="status"
       aria-live="polite"
       aria-label="Loading ZedNova Studio"
-      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-zn-dark text-zn-inv"
+      className="pointer-events-none fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-zn-dark text-zn-inv"
       initial={{ opacity: 1 }}
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: FADE_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
@@ -86,6 +71,7 @@ export function HomePreloader() {
           />
         </div>
       </div>
+      <button type="button" onClick={() => setVisible(false)} className="pointer-events-auto absolute bottom-8 underline underline-offset-4">Skip introduction</button>
     </motion.div>
   );
 }

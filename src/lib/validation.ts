@@ -8,14 +8,14 @@ export const BUDGET_OPTIONS = [
 ] as const;
 
 export const contactSchema = z.object({
-  name: z.string().min(2, "Please enter your name"),
-  company: z.string().optional(),
-  email: z.string().min(1, "Email is required").email("Enter a valid email"),
-  phone: z.string().optional(),
-  service: z.string().min(1, "Select what you're looking for"),
-  industry: z.string().min(1, "Select your industry"),
-  budget: z.string().min(1, "Select a budget range"),
-  message: z.string().min(50, "Tell us a bit more, at least 50 characters"),
+  name: z.string().trim().max(200).min(2, "Please enter your name"),
+  company: z.string().trim().max(200).optional(),
+  email: z.string().trim().max(254).min(1, "Email is required").email("Enter a valid email"),
+  phone: z.string().trim().max(50).optional(),
+  service: z.string().trim().max(200).min(1, "Select what you're looking for"),
+  industry: z.string().trim().max(200).min(1, "Select your industry"),
+  budget: z.string().refine((value) => BUDGET_OPTIONS.some((option) => option === value), "Select a budget range"),
+  message: z.string().trim().max(10000).min(50, "Tell us a bit more, at least 50 characters"),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

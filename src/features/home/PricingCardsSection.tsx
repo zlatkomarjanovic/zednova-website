@@ -1,3 +1,4 @@
+import { ServicePolicyLinks } from "@/components/legal/ServicePolicyLinks";
 import Link from "next/link";
 import { Check, Plus } from "lucide-react";
 
@@ -51,7 +52,7 @@ export function PricingCardsSection({
   if (packages.length === 0) return null;
 
   return (
-    <section data-theme="light" className="relative zn-section bg-zn-bg">
+    <section id="pricing" data-theme="light" className="relative zn-section bg-zn-bg">
       <BlueprintGrid />
 
       <div className="zn-container relative">
@@ -141,12 +142,14 @@ export function PricingCardsSection({
                       </li>
                     ))}
                   </ul>
+                  <Link href={`/contact?message=${encodeURIComponent("I would like a written proposal for " + pkg.title + ". Please confirm scope, USD pricing, delivery milestones, and any monthly fees.")}`} className="mt-8 block border border-zn-border px-4 py-3 text-center text-sm hover:underline">Request this service</Link>
                 </article>
               ))}
             </Stagger>
           </div>
         </div>
 
+        <div className="zn-container-inset py-8 text-zn-text-2"><ServicePolicyLinks /></div>
         <Reveal delay={0.1}>
           <div className="zn-container-inset flex justify-center border-t border-zn-border py-8">
             <Button href={CAL_BOOKING_URL} size="lg" withArrow>

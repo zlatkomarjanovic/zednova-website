@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BUSINESS_NAME, BUSINESS_ADDRESS } from "@/lib/content/site";
 import { LogoHomeLink } from "@/ui/LogoHomeLink";
 import { BlueprintGuides } from "@/ui/BlueprintGuides";
 import { BlueprintCross } from "@/ui/BlueprintCross";
@@ -56,6 +57,10 @@ export function Footer({
               <p className="text-sm leading-relaxed text-zn-inv-2">
                 {settings.siteDescription}
               </p>
+              <address className="text-sm not-italic leading-relaxed text-zn-inv-2">
+                <strong className="block text-zn-inv">{BUSINESS_NAME}</strong>
+                {BUSINESS_ADDRESS}
+              </address>
               <FooterAiSummaryLinks />
             </div>
             <div className="flex flex-col gap-4 lg:items-end lg:text-right">
@@ -147,7 +152,7 @@ export function Footer({
         </div>
 
         <div className="zn-container-inset flex flex-col gap-4 py-10 pb-12 text-sm text-zn-inv-2 sm:flex-row sm:items-center sm:justify-between lg:py-12 lg:pb-14">
-          <p>© {year} ZedNova Studio. Texas LLC. All rights reserved.</p>
+          <p>© {year} {BUSINESS_NAME}. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link
               href="/legal/privacy-policy"
@@ -156,8 +161,10 @@ export function Footer({
               Privacy Policy
             </Link>
             <Link href="/legal/terms" className="transition-opacity hover:text-zn-inv">
-              Terms
+              Terms and Conditions
             </Link>
+            <Link href="/legal/refund-cancellation" className="hover:text-zn-inv">Refunds and Cancellations</Link>
+            <Link href="/legal/delivery-payment" className="hover:text-zn-inv">Delivery and Payment</Link>
             <Link
               href="/legal/cookie-settings"
               className="transition-opacity hover:text-zn-inv"

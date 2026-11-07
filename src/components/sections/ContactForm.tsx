@@ -1,5 +1,7 @@
 "use client";
 
+import { ServicePolicyLinks } from "@/components/legal/ServicePolicyLinks";
+import { CONTACT_EMAIL } from "@/lib/content/site";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,12 +29,14 @@ export function ContactForm({
   defaults,
   serviceOptions,
   industryOptions,
+  deliveryEnabled,
 }: {
   defaults: ContactPrefill;
+  deliveryEnabled: boolean;
   serviceOptions: { value: string; label: string }[];
   industryOptions: { value: string; label: string }[];
 }) {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "prepared">(
     "idle",
   );
   const [errorMessage, setErrorMessage] = useState("");
@@ -59,6 +63,20 @@ export function ContactForm({
   const messageValue = watch("message");
 
   const onSubmit = handleSubmit(async (data) => {
+    if (!deliveryEnabled) {
+      const service = serviceOptions.find((option) => option.value === data.service)?.label ?? data.service;
+      const industry = industryOptions.find((option) => option.value === data.industry)?.label ?? data.industry;
+      const body = [
+        "Formal service request (no payment authorized)",
+        `Name: ${data.name}`, `Company: ${data.company ?? ""}`,
+        `Email: ${data.email}`, `Phone: ${data.phone ?? ""}`,
+        `Service: ${service}`, `Industry: ${industry}`, `Budget: ${data.budget}`,
+        "", data.message,
+      ].join("\n");
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Service request: " + service)}&body=${encodeURIComponent(body)}`;
+      setStatus("prepared");
+      return;
+    }
     setStatus("submitting");
     setErrorMessage("");
 
@@ -112,6 +130,17 @@ export function ContactForm({
 
   return (
     <form onSubmit={onSubmit} className="px-6 py-10 md:px-10 md:py-12" noValidate>
+      {!deliveryEnabled && (
+        <p className="mb-6 text-sm leading-relaxed text-zn-text-2">
+          Complete this form to prepare a request in your email app, then press Send there.
+          You can also book a consultation alongside this form or email {CONTACT_EMAIL} directly.
+        </p>
+      )}
+      {status === "prepared" && (
+        <p role="status" className="mb-6 text-sm leading-relaxed text-zn-text">
+          Finish sending the request in your email app. If it did not open, email {CONTACT_EMAIL} directly or book a consultation. Nothing has been submitted through this website.
+        </p>
+      )}
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="sm:col-span-1">
           <label htmlFor="contact-name" className={LABEL}>
@@ -237,9 +266,10 @@ export function ContactForm({
       </div>
 
       {status === "error" && errorMessage && (
-        <p className="mt-4 text-sm text-red-600">{errorMessage}</p>
+        <p role="alert" className="mt-4 text-sm text-red-600">{errorMessage}</p>
       )}
 
+      <div className="mt-8 text-zn-text-2"><ServicePolicyLinks /></div>
       <div className="mt-8 flex flex-wrap items-center gap-4">
         <Button type="submit" size="lg" withArrow disabled={status === "submitting"}>
           {status === "submitting" ? (
@@ -248,7 +278,7 @@ export function ContactForm({
               Sending
             </span>
           ) : (
-            "Send message"
+            deliveryEnabled ? "Submit service request" : "Prepare email request"
           )}
         </Button>
         <p className="text-xs text-zn-text-3">We reply within 24 hours.</p>

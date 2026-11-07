@@ -2,6 +2,8 @@ import type { SiteSettings } from "@/lib/types";
 import { defaultProfileLinks } from "@/lib/content/profile-links";
 
 export const CONTACT_EMAIL = "zlatko@zednova.studio";
+export const BUSINESS_NAME = "ZedNova Studio LLC";
+export const BUSINESS_ADDRESS = "5900 Balcones Drive STE 100, Austin, TX 78731, US";
 
 export const siteSettings: SiteSettings = {
   siteTitle: "ZedNova Studio",

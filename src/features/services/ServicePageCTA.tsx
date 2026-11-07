@@ -1,5 +1,6 @@
 "use client";
 
+import { ServicePolicyLinks } from "@/components/legal/ServicePolicyLinks";
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
 import { CONTACT_EMAIL } from "@/lib/content/site";
@@ -72,6 +73,7 @@ export function ServicePageCTA({
             </div>
 
             <div className="flex flex-col justify-center gap-8 border-t border-zn-border pt-12 lg:border-t-0 lg:pl-14 lg:pt-0 xl:pl-20">
+              <div className="text-zn-text-2"><ServicePolicyLinks /></div>
               <Reveal delay={0.12}>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
                   <Button href={ctaHref} size="lg" withArrow className="flex-1">

@@ -1,3 +1,4 @@
+import { ServicePolicyLinks } from "@/components/legal/ServicePolicyLinks";
 import Link from "next/link";
 
 import { Reveal } from "@/components/animations/Reveal";
@@ -49,6 +50,7 @@ export function LegalPageContent({ document }: LegalPageContentProps) {
       <TemplateSection borderBottom={false}>
         <div className="zn-container-inset pb-20 lg:pb-24">
           <div className="mx-auto max-w-3xl space-y-10">
+            <ServicePolicyLinks />
             {document.sections.map((section, index) => (
               <Reveal key={section.id} delay={0.04 * index}>
                 <section id={section.id} className="scroll-mt-28">

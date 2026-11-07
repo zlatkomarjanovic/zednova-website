@@ -14,9 +14,9 @@ export type LegalDocument = {
   sections: LegalSection[];
 };
 
-const LAST_UPDATED = "June 25, 2026";
-import { CONTACT_EMAIL } from "@/lib/content/site";
-const LEGAL_ENTITY = "ZedNova Studio LLC";
+const LAST_UPDATED = "November 7, 2026";
+import { BUSINESS_ADDRESS, BUSINESS_NAME, CONTACT_EMAIL } from "@/lib/content/site";
+const LEGAL_ENTITY = BUSINESS_NAME;
 
 export const privacyPolicyDocument: LegalDocument = {
   slug: "privacy-policy",
@@ -32,6 +32,7 @@ export const privacyPolicyDocument: LegalDocument = {
       paragraphs: [
         `${LEGAL_ENTITY} ("ZedNova Studio," "we," "us") operates the website at zednova.studio and provides website, software, automation, and AI-related services to businesses.`,
         `Privacy questions can be sent to ${CONTACT_EMAIL}.`,
+        `Business address: ${BUSINESS_ADDRESS}.`,
       ],
     },
     {
@@ -126,7 +127,7 @@ export const termsDocument: LegalDocument = {
   shortTitle: "Terms of Service",
   title: "Terms of Service",
   intro:
-    "These Terms of Service govern your use of zednova.studio. By accessing or using the site, you agree to these terms.",
+    "These Terms and Conditions explain how to use zednova.studio, request our services, and review pricing, delivery, cancellation, and payment arrangements before paying.",
   lastUpdated: LAST_UPDATED,
   sections: [
     {
@@ -135,6 +136,17 @@ export const termsDocument: LegalDocument = {
       paragraphs: [
         `The website is operated by ${LEGAL_ENTITY}, a Texas limited liability company. These terms apply to visitors and prospective clients using the public website.`,
         "Separate written agreements govern paid project work, statements of work, and client engagements.",
+        `Our business address is ${BUSINESS_ADDRESS}. Contact us at ${CONTACT_EMAIL}.`,
+      ],
+    },
+    {
+      id: "ordering-and-pricing",
+      title: "Service requests, pricing, and payment",
+      paragraphs: [
+        "Submit the service request form at /contact or book a consultation to request website development, custom software, CRM automation, AI receptionists, SEO content, or ongoing support. An inquiry or consultation creates no obligation to buy and does not authorize a charge.",
+        "All published dollar prices are in US dollars (USD) and are starting prices. Before payment, we provide a written proposal with deliverables, exclusions, total price, applicable taxes, third-party costs, delivery milestones, payment schedule, and any recurring fees. Work starts after written acceptance and any agreed initial payment.",
+        "Monthly services are optional unless expressly included in your accepted proposal. Any renewal date, minimum term, usage limit, and cancellation notice period must be disclosed before you subscribe. Additional work and third-party purchases require your approval.",
+        "Review the Refund and Cancellation Policy at /legal/refund-cancellation and Delivery and Payment Policy at /legal/delivery-payment before accepting a proposal or making a payment. A signed project agreement may specify project details, but cannot remove rights provided by applicable law.",
       ],
     },
     {

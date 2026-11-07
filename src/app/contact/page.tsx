@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BUSINESS_NAME, BUSINESS_ADDRESS } from "@/lib/content/site";
+import { CAL_BOOKING_URL } from "@/lib/booking";
 
 import { BlueprintGrid } from "@/components/animations/BlueprintGrid";
 import { Reveal } from "@/components/animations/Reveal";
@@ -77,7 +79,7 @@ export default async function ContactPage({
               eyebrow="Contact"
               eyebrowWithRule={false}
               title="Tell us what you need"
-              description={`Book a 30-minute call below, send the form, or email ${settings.contactEmail}. We reply within 24 hours.`}
+              description={`Book a 30-minute call below or prepare a service request by email to ${settings.contactEmail}. We reply within 24 hours.`}
             />
           </div>
 
@@ -87,6 +89,7 @@ export default async function ContactPage({
 
             <div className="grid lg:grid-cols-2 lg:divide-x lg:divide-zn-border">
               <ContactForm
+                deliveryEnabled={Boolean(process.env.RESEND_API_KEY)}
                 defaults={defaults}
                 serviceOptions={serviceOptions}
                 industryOptions={industryOptions}
@@ -102,6 +105,9 @@ export default async function ContactPage({
                     30 minutes with ZedNova. Walk through what you need, get a clear scope, and
                     see if we are the right fit.
                   </p>
+                  <a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-sm text-zn-text underline underline-offset-4">
+                    Open booking calendar
+                  </a>
                 </Reveal>
 
                 <Reveal delay={0.08} className="mt-8">
@@ -113,6 +119,7 @@ export default async function ContactPage({
                 </Reveal>
 
                 <div className="mt-8 border-t border-zn-border pt-8">
+                  <address className="mb-6 text-sm not-italic leading-relaxed text-zn-text-2"><strong className="block text-zn-text">{BUSINESS_NAME}</strong>{BUSINESS_ADDRESS}</address>
                   <p className="zn-label">Prefer email?</p>
                   <a
                     href={`mailto:${settings.contactEmail}`}
